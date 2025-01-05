@@ -29,6 +29,7 @@ class SupplierSeeder extends Seeder
             $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
             $supplierID = $prefix . $formattedNumber;
 
+            #bagian ini
             Supplier::create([
                 'id' => $supplierID,
                 'company_name' => $this->faker->company,
