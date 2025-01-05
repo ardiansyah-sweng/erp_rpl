@@ -17,7 +17,7 @@ class SupplierSeeder extends Seeder
     }
 
     /**
-     * Run the database seeds.
+     * Run the database seeds. Coba Seed
      */
     public function run(): void
     {
