@@ -21,7 +21,7 @@ class SupplierSeeder extends Seeder
      */
     public function run(): void
     {
-        $prefix = 'SUP'; #TODO
+        $prefix = 'SUP'; #TODO1
         $numOfSupplier = $this->faker->numberBetween(5, 100);
 
         for ($i=1; $i <= $numOfSupplier; $i++)
