@@ -17,11 +17,11 @@ class SupplierSeeder extends Seeder
     }
 
     /**
-     * Run the database seeds. Coba Seed
+     * Run the database seeds.
      */
     public function run(): void
     {
-        $prefix = 'SUP'; #testing sekali lagi akan lebih baik lagi kembali
+        $prefix = 'SUP';
         $numOfSupplier = $this->faker->numberBetween(5, 100);
 
         for ($i=1; $i <= $numOfSupplier; $i++)
