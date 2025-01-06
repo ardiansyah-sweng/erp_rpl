@@ -33,7 +33,7 @@ class ProductSeeder extends Seeder
             $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
 
             Product::create([
-                'id' => $prefix.$formattedNumber,
+                'product_id' => $prefix.$formattedNumber,
                 'name' => $this->faker->word(),
                 'category_id' => $this->faker->numberBetween(1, $numOfCategory),
                 'description' => $this->faker->sentence(),
