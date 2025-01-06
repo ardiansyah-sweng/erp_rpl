@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class SupplierPic extends Model
 {
     protected $table = 'supplier_pic';
-    protected $fillable = ['id','name','phone_number','email','assigned_date'];
+    protected $fillable = ['supplier_id','name','phone_number','email','assigned_date'];
 
 }

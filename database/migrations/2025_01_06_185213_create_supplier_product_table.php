@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('supplier_supplier_product', function (Blueprint $table) {
-            $table->id();
-            $table->id_suppier();
+        Schema::dropIfExists('supplier_product'); 
+        #TODO tambah kolom nama suplier dan produk sekalian saja agar lebih cepat mendapatkan namanya
+        Schema::create('supplier_product', function (Blueprint $table) {
+            $table->char('supplier_id', 6);
+            $table->char('product_id', 6);
+            $table->primary(['supplier_id', 'product_id']);
+            $table->integer('base_price');
             $table->timestamps();
         });
     }
