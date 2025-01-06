@@ -17,27 +17,30 @@ class SupplierSeeder extends Seeder
     }
 
     /**
-     * Run the database seeds. Coba Seed
+     * Run the database seeds.
      */
     public function run(): void
     {
-        $prefix = 'SUP'; #testing sekali lagi akan lebih baik
+        $prefix = 'SUP';
         $numOfSupplier = $this->faker->numberBetween(5, 100);
 
         for ($i=1; $i <= $numOfSupplier; $i++)
         {
             $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
             $supplierID = $prefix . $formattedNumber;
-
+            $bankAccount = 'Bank '.$this->faker->company.' No. Rek '.$this->faker->bankAccountNumber;
+            
             Supplier::create([
                 'id' => $supplierID,
                 'company_name' => $this->faker->company,
                 'address' => $this->faker->address,
-                'phone_number' => $this->faker->numerify('(###) ###-####')
+                'phone_number' => $this->faker->numerify('(###) ###-####'),
+                'bank_account' => $bankAccount
             ]);
 
             $this->createDummySupplierPIC($supplierID);
         }
+        #TODO
     }
     
     public function createDummySupplierPIC($supplierID)
