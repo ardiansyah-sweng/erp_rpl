@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('company_name', 50);
             $table->string('address', 100);
             $table->string('phone_number', 30);
+            $table->string('bank_account', 100);
             $table->timestamps();
         });
     }
