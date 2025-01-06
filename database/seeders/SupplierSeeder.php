@@ -40,7 +40,6 @@ class SupplierSeeder extends Seeder
 
             $this->createDummySupplierPIC($supplierID);
         }
-        #TODO
     }
     
     public function createDummySupplierPIC($supplierID)
