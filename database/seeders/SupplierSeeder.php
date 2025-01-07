@@ -10,6 +10,7 @@ use Faker\Factory as Faker;
 use App\Models\Supplier;
 use App\Models\SupplierPic;
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\SupplierProduct;
 
 class SupplierSeeder extends Seeder
@@ -27,8 +28,7 @@ class SupplierSeeder extends Seeder
         $prefix = 'SUP';
         $numOfSupplier = $this->faker->numberBetween(5, 100);
 
-        #Isi data produk dulu #TODO remake agar pindahkan ProductSeeder ke sini
-        $this->call(ProductSeeder::class);
+        $this->createProduct();
         $products = Product::pluck('product_id')->shuffle();
         $numOfSupplierProduct = $this->faker->numberBetween(1, $products->count());
         // $columns = Schema::getColumnListing('product');
@@ -77,6 +77,40 @@ class SupplierSeeder extends Seeder
                 'phone_number' => $this->faker->phonenumber,
                 'email' => $this->faker->email,
                 'assigned_date' => $this->faker->date
+            ]);
+        }
+    }
+
+    public function createProduct()
+    {
+        $numOfCategory = $this->faker->numberBetween(5, 100);
+        $numOfProduct = $this->faker->numberBetween(5, 100);
+
+        $this->createCategory($numOfCategory);
+
+        $prefix = 'PRD';
+        $measurement_unit = ['Ons', 'Mg', 'Kg', 'Unit', 'Pcs', 'Sheet', 'Lusin'];
+
+        for ($i=1; $i <= $numOfProduct; $i++)
+        {
+            $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
+
+            Product::create([
+                'product_id' => $prefix.$formattedNumber,
+                'name' => $this->faker->word(),
+                'category_id' => $this->faker->numberBetween(1, $numOfCategory),
+                'description' => $this->faker->sentence(),
+                'measurement_unit' => $this->faker->randomElement($measurement_unit)
+            ]);
+        }
+    }
+
+    public function createCategory($numOfCategory)
+    {
+        for ($i=1; $i <= $numOfCategory; $i++)
+        {
+            Category::create([
+                'category' => $this->faker->word
             ]);
         }
     }
