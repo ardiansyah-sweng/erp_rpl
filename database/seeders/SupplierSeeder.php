@@ -29,11 +29,8 @@ class SupplierSeeder extends Seeder
         $numOfSupplier = $this->faker->numberBetween(5, 100);
 
         $this->createProduct();
-        $products = Product::pluck('product_id')->shuffle();
-        $numOfSupplierProduct = $this->faker->numberBetween(1, $products->count());
-        // $columns = Schema::getColumnListing('product');
-        $shuffledsProductID = $products->take($numOfSupplierProduct);
-        
+
+        $counter = 0;
         for ($i=1; $i <= $numOfSupplier; $i++)
         {
             $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
@@ -48,8 +45,13 @@ class SupplierSeeder extends Seeder
                 'phone_number' => $this->faker->numerify('(###) ###-####'),
                 'bank_account' => $bankAccount
             ]);
-
-            foreach ($shuffledsProductID as $productID)
+            
+            $products = Product::pluck('product_id')->shuffle();
+            $numOfSupplierProduct = $this->faker->numberBetween(1, $products->count());
+            // $columns = Schema::getColumnListing('product');
+            $shuffledsProductID = $products->take($numOfSupplierProduct);
+        
+            foreach ($shuffledsProductID->unique() as $productID)
             {
                 $product = Product::where('product_id', $productID)->first();
 
