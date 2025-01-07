@@ -39,10 +39,11 @@ class SupplierSeeder extends Seeder
             $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
             $supplierID = $prefix . $formattedNumber;
             $bankAccount = 'Bank '.$this->faker->company.' No. Rek '.$this->faker->bankAccountNumber;
-            
+
+            $company_name = $this->faker->company;
             Supplier::create([
                 'supplier_id' => $supplierID,
-                'company_name' => $this->faker->company,
+                'company_name' => $company_name,
                 'address' => $this->faker->address,
                 'phone_number' => $this->faker->numerify('(###) ###-####'),
                 'bank_account' => $bankAccount
@@ -50,9 +51,13 @@ class SupplierSeeder extends Seeder
 
             foreach ($shuffledsProductID as $productID)
             {
+                $product = Product::where('product_id', $productID)->first();
+
                 SupplierProduct::create([
                     'supplier_id' => $supplierID,
+                    'company_name' =>$company_name,
                     'product_id' => $productID,
+                    'product_name' => $product->name,
                     'base_price' => $this->faker->numberBetween(4500, 150000)
                 ]);
             }

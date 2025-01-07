@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('supplier_product'); 
-        #TODO tambah kolom nama suplier dan produk sekalian saja agar lebih cepat mendapatkan namanya
+        Schema::dropIfExists('supplier_product');
+
         Schema::create('supplier_product', function (Blueprint $table) {
             $table->char('supplier_id', 6);
+            $table->string('company_name', 50);
             $table->char('product_id', 6);
+            $table->string('product_name', 50);
             $table->primary(['supplier_id', 'product_id']);
             $table->integer('base_price');
             $table->timestamps();
