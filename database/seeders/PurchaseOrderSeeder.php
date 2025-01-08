@@ -59,8 +59,17 @@ class PurchaseOrderSeeder extends Seeder
                 'supplier_id'=>$supplierID,
                 'total'=>$total
             ]);
+            PurchaseOrder::where('po_number', $po_number)->update(['created_at'=>$this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s')]);
+        }
 
+        #update current_stock product
+        $products = Product::all();
+        foreach ($products as $product)
+        {
+            $stock = PurchaseOrderDetail::where('product_id', $product->product_id)->sum('quantity');
+            Product::where('product_id', $product->product_id)->update(['current_stock'=>$stock]);
         }
 
     }
+    
 }

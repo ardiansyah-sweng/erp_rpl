@@ -103,7 +103,6 @@ class SupplierSeeder extends Seeder
                 'category_id' => $this->faker->numberBetween(1, $numOfCategory),
                 'description' => $this->faker->sentence(),
                 'measurement_unit' => $this->faker->randomElement($measurement_unit),
-                'current_stock' => $this->faker->numberBetween(1, 10000)
             ]);
         }
     }
