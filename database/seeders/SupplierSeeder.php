@@ -91,7 +91,7 @@ class SupplierSeeder extends Seeder
         $this->createCategory($numOfCategory);
 
         $prefix = 'PRD';
-        $measurement_unit = ['Ons', 'Mg', 'Kg', 'Unit', 'Pcs', 'Sheet', 'Lusin'];
+        $measurement_unit = ['Ons', 'Mg', 'Kg', 'Unit', 'Pcs', 'Sheet', 'Lusin', 'Boks', 'Dus'];
 
         for ($i=1; $i <= $numOfProduct; $i++)
         {
@@ -102,7 +102,8 @@ class SupplierSeeder extends Seeder
                 'name' => $this->faker->word(),
                 'category_id' => $this->faker->numberBetween(1, $numOfCategory),
                 'description' => $this->faker->sentence(),
-                'measurement_unit' => $this->faker->randomElement($measurement_unit)
+                'measurement_unit' => $this->faker->randomElement($measurement_unit),
+                'current_stock' => $this->faker->numberBetween(1, 10000)
             ]);
         }
     }

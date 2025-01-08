@@ -35,7 +35,6 @@ class PurchaseOrderSeeder extends Seeder
             $supplierID = Supplier::pluck('supplier_id')->shuffle()[0];
 
             $supplierProduct = SupplierProduct::where('supplier_id', $supplierID)->pluck('product_id')->shuffle();
-
             $products = $supplierProduct->take($this->faker->numberBetween(1, $supplierProduct->count()));
             
             $total = 0;

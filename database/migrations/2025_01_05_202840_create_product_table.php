@@ -17,6 +17,7 @@ return new class extends Migration
             $table->tinyInteger('category_id');
             $table->string('description', 150);
             $table->string('measurement_unit', 10);
+            $table->integer('current_stock')->default(0);
             $table->timestamps();
         });
     }
