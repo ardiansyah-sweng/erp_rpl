@@ -9,6 +9,8 @@ use App\Models\Product;
 use App\Models\SupplierProduct;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
+use App\Models\LogBasePrice;
+use Carbon\Carbon;
 use Faker\Factory as Faker;
 
 class PurchaseOrderSeeder extends Seeder
@@ -28,38 +30,51 @@ class PurchaseOrderSeeder extends Seeder
 
         for ($i=1; $i <= $numOfPurchaseOrder; $i++)
         {
-            
             $formattedNumber = str_pad($i, 4, '0', STR_PAD_LEFT);
             $po_number = $prefix.$formattedNumber;
 
-            $supplierID = Supplier::pluck('supplier_id')->shuffle()[0];
-
-            $supplierProduct = SupplierProduct::where('supplier_id', $supplierID)->pluck('product_id')->shuffle();
-            $products = $supplierProduct->take($this->faker->numberBetween(1, $supplierProduct->count()));
+            $supplierID = Supplier::select('supplier_id')
+                      ->distinct()
+                      ->pluck('supplier_id')
+                      ->shuffle()
+                      ->first();
+            
+            #ambil produk
+            $logBasePrice = LogBasePrice::select('product_id')
+                                                ->distinct()
+                                                ->where('supplier_id', $supplierID);
+            $shuffledProduct = $logBasePrice->pluck('product_id')->shuffle()->take($this->faker->numberBetween(1, $logBasePrice->count()));
             
             $total = 0;
-            foreach ($products as $productID)
+            foreach ($shuffledProduct as $productID)
             {
                 $quantity = $this->faker->numberBetween(1, 500);
-                $product = SupplierProduct::where('product_id', $productID)
-                                            ->where('supplier_id', $supplierID)
-                                            ->first();
-                $amount = $product->base_price * $quantity;
+
+                #ambil acak new_base_price
+                $basePrice = LogBasePrice::where('product_id', $productID)->where('supplier_id', $supplierID);
+                $id = $basePrice->pluck('id')->shuffle()->take(1, $basePrice->count())->first();
+                $product = $basePrice->where('id', $id)->first();
+
+                $amount = $product->new_base_price * $quantity;
                 $total = $total + $amount;
+                $orderDate = Carbon::parse($product->created_at)->addDays(1)->format('Y-m-d H:i:s');
+
                 PurchaseOrderDetail::create([
                     'po_number'=>$po_number,
-                    'product_id'=>$productID,
+                    'product_id'=>$product->product_id,
                     'quantity'=>$quantity,
-                    'amount'=> $amount
+                    'amount'=> $amount,
+                    'created_at'=>$orderDate,
+                    'updated_at'=>$orderDate
                 ]);
             }
-
             PurchaseOrder::create([
                 'po_number'=>$po_number,
                 'supplier_id'=>$supplierID,
-                'total'=>$total
+                'total'=>$total,
+                'created_at'=>$orderDate,
+                'updated_at'=>$orderDate
             ]);
-            PurchaseOrder::where('po_number', $po_number)->update(['created_at'=>$this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s')]);
         }
 
         #update current_stock product
