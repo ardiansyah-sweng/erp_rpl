@@ -10,6 +10,7 @@ use App\Models\SupplierProduct;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
 use App\Models\LogBasePrice;
+use App\Models\GoodsReceiptNote;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
 
@@ -85,6 +86,23 @@ class PurchaseOrderSeeder extends Seeder
             Product::where('product_id', $product->product_id)->update(['current_stock'=>$stock]);
         }
 
+        #Goods Receipt Note
+        $purchaseOrders = PurchaseOrder::all();
+        foreach ($purchaseOrders as $purchaseOrder)
+        {
+            $daysCount = $this->faker->numberBetween(1, 30);
+            $receivedDate = Carbon::parse($purchaseOrder->created_at)->addDays($daysCount)->format('Y-m-d H:i:s');
+
+            #insert goods_receipt_note
+            GoodsReceiptNote::create([
+                'po_number'=>$purchaseOrder->po_number,
+                'created_at'=>$receivedDate,
+                'updated_at'=>$receivedDate
+            ]);
+
+            #update purchase_order_detail
+            PurchaseOrderDetail::where('po_number', $purchaseOrder->po_number)->update(['received_days'=>$daysCount]);
+        }
     }
     
 }

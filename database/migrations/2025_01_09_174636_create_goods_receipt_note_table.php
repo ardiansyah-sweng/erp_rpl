@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchase_order_detail', function (Blueprint $table) {
+        Schema::create('goods_receipt_note', function (Blueprint $table) {
+            $table->id();
             $table->char('po_number', 6);
-            $table->char('product_id', 6);
-            $table->integer('quantity');
-            $table->bigInteger('amount'); #quantity x base_price
-            $table->tinyInteger('received_days')->default(0);
             $table->timestamps();
-
-            $table->primary(['po_number', 'product_id']);
         });
     }
 
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchase_order_detail');
+        Schema::dropIfExists('goods_receipt_note');
     }
 };
