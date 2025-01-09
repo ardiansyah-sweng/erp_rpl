@@ -15,7 +15,7 @@ return new class extends Migration
             $table->char('po_number', 6);
             $table->char('product_id', 6);
             $table->integer('quantity');
-            $table->integer('amount'); #quantity x base_price
+            $table->bigInteger('amount'); #quantity x base_price
             $table->timestamps();
 
             $table->primary(['po_number', 'product_id']);

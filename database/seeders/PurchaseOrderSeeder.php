@@ -40,7 +40,7 @@ class PurchaseOrderSeeder extends Seeder
             $total = 0;
             foreach ($products as $productID)
             {
-                $quantity = $this->faker->numberBetween(1, 10000);
+                $quantity = $this->faker->numberBetween(1, 500);
                 $product = SupplierProduct::where('product_id', $productID)
                                             ->where('supplier_id', $supplierID)
                                             ->first();
