@@ -12,6 +12,7 @@ use App\Models\SupplierPic;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\SupplierProduct;
+use App\Models\LogBasePrice;
 
 class SupplierSeeder extends Seeder
 {
@@ -26,14 +27,11 @@ class SupplierSeeder extends Seeder
     public function run(): void
     {
         $prefix = 'SUP';
-        $numOfSupplier = $this->faker->numberBetween(5, 100);
+        $numOfSupplier = $this->faker->numberBetween(5, 20);
 
         $this->createProduct();
-        $products = Product::pluck('product_id')->shuffle();
-        $numOfSupplierProduct = $this->faker->numberBetween(1, $products->count());
-        // $columns = Schema::getColumnListing('product');
-        $shuffledsProductID = $products->take($numOfSupplierProduct);
-        
+
+        $counter = 0;
         for ($i=1; $i <= $numOfSupplier; $i++)
         {
             $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
@@ -48,19 +46,75 @@ class SupplierSeeder extends Seeder
                 'phone_number' => $this->faker->numerify('(###) ###-####'),
                 'bank_account' => $bankAccount
             ]);
-
-            foreach ($shuffledsProductID as $productID)
+            
+            $products = Product::pluck('product_id')->shuffle();
+            $numOfSupplierProduct = $this->faker->numberBetween(1, $products->count());
+            $shuffledsProductID = $products->take($numOfSupplierProduct);
+        
+            foreach ($shuffledsProductID->unique() as $productID)
             {
                 $product = Product::where('product_id', $productID)->first();
+
+                $created_at = $this->faker->dateTimeBetween('-5 years', 'now')->format('Y-m-d H:i:s');
 
                 SupplierProduct::create([
                     'supplier_id' => $supplierID,
                     'company_name' =>$company_name,
                     'product_id' => $productID,
                     'product_name' => $product->name,
-                    'base_price' => $this->faker->numberBetween(4500, 150000)
+                    'base_price' => $this->faker->numberBetween(4500, 75000),
+                    'created_at'=>$created_at,
+                    'updated_at'=>$created_at
                 ]);
             }
+            
+            # Seeder perubahan harga produk
+            $supplierProducts = SupplierProduct::where('supplier_id', $supplierID)->get();
+            $numOfProductsToUpdate = $this->faker->numberBetween(1, $supplierProducts->count());
+            $updatedProducts = $supplierProducts->pluck('product_id')->shuffle()->take($numOfProductsToUpdate);
+            
+            foreach($updatedProducts as $productID)
+            {
+                $timesToChange = $this->faker->numberBetween(1, 10);
+
+                $product = SupplierProduct::where('product_id', $productID)
+                                            ->where('supplier_id', $supplierID)
+                                            ->first();
+                $basePrice = $product->base_price;
+                $price = $basePrice;
+                $created_at = $product->created_at;
+
+                for ($j=0; $j <= $timesToChange; $j++)
+                {
+                    $price = $price + $this->faker->numberBetween(-1000, 15000);
+
+                    $supplierProduct = SupplierProduct::where('product_id', $productID)
+                                                        ->where('supplier_id', $supplierID);
+                    $supplierProduct->update(['base_price' => $price]);
+
+                    if ($j == 0) {
+                        $newDate = $this->faker->dateTimeBetween($created_at, 'now')->format('Y-m-d H:i:s');
+                    } else {
+                        $newDate = $this->faker->dateTimeBetween($newDate, 'now')->format('Y-m-d H:i:s');
+                    }
+
+                    $supplierProduct->update(['updated_at'=>$newDate]);
+
+                    $lastLogBasePrice = LogBasePrice::where('supplier_id', $supplierID)
+                    ->where('product_id', $productID)
+                    ->orderBy('id', 'desc') // Mengurutkan berdasarkan ID secara descending
+                    ->first(); // Ambil record terakhir (ID terbesar)
+
+                    if ($lastLogBasePrice) {
+                        $lastLogBasePrice->update([
+                            'created_at' => $newDate,
+                            'updated_at' => $newDate
+                        ]);
+                    }
+                }
+
+            }
+            # Akhir seeder
 
             $this->createDummySupplierPIC($supplierID);
         }
@@ -83,13 +137,13 @@ class SupplierSeeder extends Seeder
 
     public function createProduct()
     {
-        $numOfCategory = $this->faker->numberBetween(5, 100);
-        $numOfProduct = $this->faker->numberBetween(5, 100);
+        $numOfCategory = $this->faker->numberBetween(5, 15);
+        $numOfProduct = $this->faker->numberBetween(5, 50);
 
         $this->createCategory($numOfCategory);
 
         $prefix = 'PRD';
-        $measurement_unit = ['Ons', 'Mg', 'Kg', 'Unit', 'Pcs', 'Sheet', 'Lusin'];
+        $measurement_unit = ['Ons', 'Mg', 'Kg', 'Unit', 'Pcs', 'Sheet', 'Lusin', 'Boks', 'Dus'];
 
         for ($i=1; $i <= $numOfProduct; $i++)
         {
@@ -100,7 +154,7 @@ class SupplierSeeder extends Seeder
                 'name' => $this->faker->word(),
                 'category_id' => $this->faker->numberBetween(1, $numOfCategory),
                 'description' => $this->faker->sentence(),
-                'measurement_unit' => $this->faker->randomElement($measurement_unit)
+                'measurement_unit' => $this->faker->randomElement($measurement_unit),
             ]);
         }
     }
