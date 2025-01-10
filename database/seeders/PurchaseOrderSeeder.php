@@ -47,28 +47,45 @@ class PurchaseOrderSeeder extends Seeder
             $shuffledProduct = $logBasePrice->pluck('product_id')->shuffle()->take($this->faker->numberBetween(1, $logBasePrice->count()));
             
             $total = 0;
+
+            #ambil seluruh created_at dari shuffledProduct, lalu urutkan dan ambil paling baru sebagai dasar PO date
+            $ordateDates = [];
             foreach ($shuffledProduct as $productID)
             {
-                $quantity = $this->faker->numberBetween(1, 500);
-
                 #ambil acak new_base_price
                 $basePrice = LogBasePrice::where('product_id', $productID)->where('supplier_id', $supplierID);
                 $id = $basePrice->pluck('id')->shuffle()->take(1, $basePrice->count())->first();
                 $product = $basePrice->where('id', $id)->first();
 
-                $amount = $product->new_base_price * $quantity;
+                $ordateDates[] = [$product->created_at, $product->new_base_price, $product->product_id];
+            }
+
+            usort($ordateDates, function ($a, $b) {
+                return strtotime($b[0]) <=> strtotime($a[0]);
+            });
+
+            $orderDate = Carbon::parse($ordateDates[0][0])->addDay()->format('Y-m-d H:i:s');
+
+            #mengisi purchase_order_detail
+            for ($j=0; $j<count($ordateDates); $j++)
+            {
+                $quantity = $this->faker->numberBetween(1, 500);
+                $basePrice = $ordateDates[$j][1];
+                $product_id = $ordateDates[$j][2];
+
+                $amount = $basePrice * $quantity;
                 $total = $total + $amount;
-                $orderDate = Carbon::parse($product->created_at)->addDays(1)->format('Y-m-d H:i:s');
 
                 PurchaseOrderDetail::create([
                     'po_number'=>$po_number,
-                    'product_id'=>$product->product_id,
+                    'product_id'=>$product_id,
                     'quantity'=>$quantity,
                     'amount'=> $amount,
                     'created_at'=>$orderDate,
                     'updated_at'=>$orderDate
                 ]);
             }
+
             PurchaseOrder::create([
                 'po_number'=>$po_number,
                 'supplier_id'=>$supplierID,
@@ -104,5 +121,4 @@ class PurchaseOrderSeeder extends Seeder
             PurchaseOrderDetail::where('po_number', $purchaseOrder->po_number)->update(['received_days'=>$daysCount]);
         }
     }
-    
 }

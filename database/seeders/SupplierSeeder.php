@@ -55,7 +55,7 @@ class SupplierSeeder extends Seeder
             {
                 $product = Product::where('product_id', $productID)->first();
 
-                $created_at = $this->faker->dateTimeBetween('-5 years', 'now')->format('Y-m-d H:i:s');
+                $created_at = $this->faker->dateTimeBetween('-10 years', '2020-01-01 23:59:59')->format('Y-m-d H:i:s');
 
                 SupplierProduct::create([
                     'supplier_id' => $supplierID,
@@ -93,9 +93,9 @@ class SupplierSeeder extends Seeder
                     $supplierProduct->update(['base_price' => $price]);
 
                     if ($j == 0) {
-                        $newDate = $this->faker->dateTimeBetween($created_at, 'now')->format('Y-m-d H:i:s');
+                        $newDate = (clone $created_at)->modify('+1 day')->format('Y-m-d H:i:s');
                     } else {
-                        $newDate = $this->faker->dateTimeBetween($newDate, 'now')->format('Y-m-d H:i:s');
+                        $newDate = $this->faker->dateTimeBetween($newDate, '2020-01-31 23:59:59')->format('Y-m-d H:i:s');
                     }
 
                     $supplierProduct->update(['updated_at'=>$newDate]);

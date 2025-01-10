@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('description', 150);
             $table->string('measurement_unit', 10);
             $table->integer('current_stock')->default(0);
+            $table->integer('avg_base_price')->default(0);
             $table->timestamps();
         });
     }
