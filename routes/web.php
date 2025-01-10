@@ -7,4 +7,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+#API
 Route::get('/products', [APIProductController::class, 'getProducts']);
