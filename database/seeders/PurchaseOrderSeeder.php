@@ -76,14 +76,20 @@ class PurchaseOrderSeeder extends Seeder
                 $amount = $basePrice * $quantity;
                 $total = $total + $amount;
 
-                PurchaseOrderDetail::create([
-                    'po_number'=>$po_number,
-                    'product_id'=>$product_id,
-                    'quantity'=>$quantity,
-                    'amount'=> $amount,
-                    'created_at'=>$orderDate,
-                    'updated_at'=>$orderDate
+                $purchaseOrderDetail = new PurchaseOrderDetail([
+                    'po_number' => $po_number,
+                    'product_id' => $product_id,
+                    'quantity' => $quantity,
+                    'amount' => $amount,
+                    'updated_at' => $orderDate,
+                    'created_at' => $orderDate,
                 ]);
+            
+                // Explicitly set timestamps
+                $purchaseOrderDetail->timestamps = false;
+            
+                // Save the model
+                $purchaseOrderDetail->save();
             }
 
             PurchaseOrder::create([

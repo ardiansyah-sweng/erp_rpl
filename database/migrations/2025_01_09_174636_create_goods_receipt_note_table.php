@@ -16,6 +16,13 @@ return new class extends Migration
             $table->char('po_number', 6);
             $table->timestamps();
         });
+
+        /**
+         * Buat trigger:
+         * 1. Ambil acak avg_base_price, created_at
+         * 2. Pikirkan bagaimana rentetan pertambahan stok akibat PO
+         * 3. Padahal di antara PO tentu saja ada transaksi yang mengakibatkan berkurangnya stok
+         */
     }
 
     /**

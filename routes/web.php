@@ -9,3 +9,4 @@ Route::get('/', function () {
 
 #API
 Route::get('/products', [APIProductController::class, 'getProducts']);
+Route::get('/prices', [APIProductController::class, 'getAvgBasePrice']);
