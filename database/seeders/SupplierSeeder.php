@@ -13,12 +13,16 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\SupplierProduct;
 use App\Models\LogBasePrice;
+use App\Helpers\DBConstants;
 
 class SupplierSeeder extends Seeder
 {
+    const DATE_FORMAT = 'Y-m-d H:i:s';
+
     public function __construct()
     {
         $this->faker = Faker::create('id_ID');
+        $this->colProduct = config('db_constants.column.product');
     }
 
     /**
@@ -26,6 +30,10 @@ class SupplierSeeder extends Seeder
      */
     public function run(): void
     {
+        $colLogBasePriceSupplier = config('db_constants.column.log_base_price_supplier');
+        $colSupplier = config('db_constants.column.supplier');
+        $colSupplierProduct = config('db_constants.column.supplier_product');
+
         $prefix = 'SUP';
         $numOfSupplier = $this->faker->numberBetween(5, 20);
 
@@ -40,45 +48,44 @@ class SupplierSeeder extends Seeder
 
             $company_name = $this->faker->company;
             Supplier::create([
-                'supplier_id' => $supplierID,
-                'company_name' => $company_name,
-                'address' => $this->faker->address,
-                'phone_number' => $this->faker->numerify('(###) ###-####'),
-                'bank_account' => $bankAccount
+                $colSupplier['supplier_id'] => $supplierID,
+                $colSupplier['company_name'] => $company_name,
+                $colSupplier['address'] => $this->faker->address,
+                $colSupplier['phone_number'] => $this->faker->numerify('(###) ###-####'),
+                $colSupplier['bank_account'] => $bankAccount
             ]);
             
-            $products = Product::pluck('product_id')->shuffle();
+            $products = Product::pluck($this->colProduct['product_id'])->shuffle();
             $numOfSupplierProduct = $this->faker->numberBetween(1, $products->count());
             $shuffledsProductID = $products->take($numOfSupplierProduct);
         
             foreach ($shuffledsProductID->unique() as $productID)
             {
-                $product = Product::where('product_id', $productID)->first();
-
-                $created_at = $this->faker->dateTimeBetween('-10 years', '2020-01-01 23:59:59')->format('Y-m-d H:i:s');
-
+                $created_at = $this->faker->dateTimeBetween('-10 years', '2020-01-01 23:59:59')->format(self::DATE_FORMAT);
+                $product = Product::where($this->colProduct['product_id'], $productID)->get()->first();
+        
                 SupplierProduct::create([
-                    'supplier_id' => $supplierID,
-                    'company_name' =>$company_name,
-                    'product_id' => $productID,
-                    'product_name' => $product->name,
-                    'base_price' => $this->faker->numberBetween(4500, 75000),
-                    'created_at'=>$created_at,
-                    'updated_at'=>$created_at
+                    $colSupplierProduct['supplier_id'] => $supplierID,
+                    $colSupplierProduct['company_name'] =>$company_name,
+                    $colSupplierProduct['product_id'] => $productID,
+                    $colSupplierProduct['product_name'] => $product->name,
+                    $colSupplierProduct['base_price'] => $this->faker->numberBetween(4500, 75000),
+                    $colSupplierProduct['created_at'] =>$created_at,
+                    $colSupplierProduct['updated_at'] =>$created_at
                 ]);
             }
             
             # Seeder perubahan harga produk
-            $supplierProducts = SupplierProduct::where('supplier_id', $supplierID)->get();
+            $supplierProducts = SupplierProduct::where($colSupplierProduct['supplier_id'], $supplierID)->get();
             $numOfProductsToUpdate = $this->faker->numberBetween(1, $supplierProducts->count());
-            $updatedProducts = $supplierProducts->pluck('product_id')->shuffle()->take($numOfProductsToUpdate);
+            $updatedProducts = $supplierProducts->pluck($colSupplierProduct['product_id'])->shuffle()->take($numOfProductsToUpdate);
             
             foreach($updatedProducts as $productID)
             {
                 $timesToChange = $this->faker->numberBetween(1, 10);
 
-                $product = SupplierProduct::where('product_id', $productID)
-                                            ->where('supplier_id', $supplierID)
+                $product = SupplierProduct::where($colSupplierProduct['product_id'], $productID)
+                                            ->where($colSupplierProduct['supplier_id'], $supplierID)
                                             ->first();
                 $basePrice = $product->base_price;
                 $price = $basePrice;
@@ -88,27 +95,30 @@ class SupplierSeeder extends Seeder
                 {
                     $price = $price + $this->faker->numberBetween(-1000, 15000);
 
-                    $supplierProduct = SupplierProduct::where('product_id', $productID)
-                                                        ->where('supplier_id', $supplierID);
-                    $supplierProduct->update(['base_price' => $price]);
-
-                    if ($j == 0) {
-                        $newDate = (clone $created_at)->modify('+1 day')->format('Y-m-d H:i:s');
-                    } else {
-                        $newDate = $this->faker->dateTimeBetween($newDate, '2020-01-31 23:59:59')->format('Y-m-d H:i:s');
+                    $supplierProduct = SupplierProduct::where($colSupplierProduct['product_id'], $productID)
+                                                        ->where($colSupplierProduct['supplier_id'], $supplierID);
+                    $supplierProduct->update([$colSupplierProduct['base_price'] => $price]);
+                    
+                    {
+                        $newDate = (clone $created_at)->modify('+1 day')->format(self::DATE_FORMAT);
                     }
 
-                    $supplierProduct->update(['updated_at'=>$newDate]);
+                    {
+                        $newDate = $this->faker->dateTimeBetween($newDate, '2020-01-31 23:59:59')->format(self::DATE_FORMAT);
+                    }
 
-                    $lastLogBasePrice = LogBasePrice::where('supplier_id', $supplierID)
-                    ->where('product_id', $productID)
-                    ->orderBy('id', 'desc') // Mengurutkan berdasarkan ID secara descending
-                    ->first(); // Ambil record terakhir (ID terbesar)
+                    $supplierProduct->update([$colSupplierProduct['updated_at'] => $newDate]);
 
-                    if ($lastLogBasePrice) {
+                    $lastLogBasePrice = LogBasePrice::where($colLogBasePriceSupplier['supplier_id'], $supplierID)
+                                                        ->where($colLogBasePriceSupplier['product_id'], $productID)
+                                                        ->orderBy($colLogBasePriceSupplier['id'], 'desc') // Mengurutkan berdasarkan ID secara descending
+                                                        ->first(); // Ambil record terakhir (ID terbesar)
+
+                    if ($lastLogBasePrice)
+                    {
                         $lastLogBasePrice->update([
-                            'created_at' => $newDate,
-                            'updated_at' => $newDate
+                            $colLogBasePriceSupplier['created_at'] => $newDate,
+                            $colLogBasePriceSupplier['updated_at'] => $newDate
                         ]);
                     }
                 }
@@ -123,14 +133,16 @@ class SupplierSeeder extends Seeder
     public function createDummySupplierPIC($supplierID)
     {
         $numOfSupplierPic = $this->faker->numberBetween(1, 5);
+        $column = config('db_constants.column.supplier_pic');
 
-        for ($j=0; $j <= $numOfSupplierPic; $j++){
+        for ($j=0; $j <= $numOfSupplierPic; $j++)
+        {
             SupplierPic::create([
-                'supplier_id' => $supplierID,
-                'name' => $this->faker->name,
-                'phone_number' => $this->faker->phonenumber,
-                'email' => $this->faker->email,
-                'assigned_date' => $this->faker->date
+                $column['supplier_id'] => $supplierID,
+                $column['name'] => $this->faker->name,
+                $column['phone_number'] => $this->faker->phonenumber,
+                $column['email'] => $this->faker->email,
+                $column['assigned_date'] => $this->faker->date
             ]);
         }
     }
@@ -150,11 +162,11 @@ class SupplierSeeder extends Seeder
             $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
 
             Product::create([
-                'product_id' => $prefix.$formattedNumber,
-                'name' => $this->faker->word(),
-                'category_id' => $this->faker->numberBetween(1, $numOfCategory),
-                'description' => $this->faker->sentence(),
-                'measurement_unit' => $this->faker->randomElement($measurement_unit),
+                $this->colProduct['product_id'] => $prefix.$formattedNumber,
+                $this->colProduct['name'] => $this->faker->word(),
+                $this->colProduct['category_id'] => $this->faker->numberBetween(1, $numOfCategory),
+                $this->colProduct['description'] => $this->faker->sentence(),
+                $this->colProduct['measurement']  => $this->faker->randomElement($measurement_unit),
             ]);
         }
     }
@@ -164,7 +176,7 @@ class SupplierSeeder extends Seeder
         for ($i=1; $i <= $numOfCategory; $i++)
         {
             Category::create([
-                'category' => $this->faker->word
+                config('db_constants.column.category.category') => $this->faker->word
             ]);
         }
     }

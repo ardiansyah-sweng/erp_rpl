@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product', function (Blueprint $table) {
-            $table->char('product_id', 6)->primary;
-            $table->string('name', 50);
-            $table->tinyInteger('category_id');
-            $table->string('description', 150);
-            $table->string('measurement_unit', 10);
-            $table->integer('current_stock')->default(0);
-            $table->integer('avg_base_price')->default(0);
+        $column = config('db_constants.column.product');
+        Schema::create(config('db_constants.table.product'), function (Blueprint $table) use ($column) {
+            $table->char($column['product_id'], 6)->primary;
+            $table->string($column['name'], 50);
+            $table->tinyInteger($column['category_id']);
+            $table->string($column['description'], 150);
+            $table->string($column['measurement'], 10);
+            $table->integer($column['stock'])->default(0);
+            $table->integer($column['base_price'])->default(0);
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product');
+        Schema::dropIfExists(config('db_constants.table.product'));
     }
 };

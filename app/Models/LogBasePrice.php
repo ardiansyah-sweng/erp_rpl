@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class LogBasePrice extends Model
 {
-    protected $table = 'log_base_price_supplier_product';
-    protected $fillable = ['supplier_id','product_id', 'old_base_price', 'new_base_price', 'created_at', 'updated_at'];
+    protected $table;
+    protected $fillable = [];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        // Tetapkan nama tabel dan kolom
+        $this->table = config('db_constants.table.log_base_price_supplier');
+        $this->fillable = array_values(config('db_constants.column.log_base_price_supplier') ?? []);
+    }
 }
