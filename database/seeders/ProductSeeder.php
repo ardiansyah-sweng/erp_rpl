@@ -1,0 +1,141 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use App\Models\Product;
+use App\Models\Category;
+use Faker\Factory as Faker;
+
+class ProductSeeder extends Seeder
+{
+    public function __construct()
+    {
+        $this->faker = Faker::create('id_ID');
+    }
+
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $column = config('db_constants.column.product');
+
+        Product::insert([
+            
+                [
+                    $column['id'] => 'KAOS', 
+                    $column['name'] => 'Kaos TShirt', 
+                    $column['type'] =>'Finished', 
+                    $column['category'] => 1, 
+                    $column['desc'] => 'Kaos TShirt', 
+                    $column['created'] => now(), 
+                    $column['updated'] => now()
+                ],
+
+                [
+                    $column['id'] => 'TOPI', 
+                    $column['name'] => 'Topi', 
+                    $column['type'] =>'Finished', 
+                    $column['category'] => 2, 
+                    $column['desc'] => 'Topi', 
+                    $column['created'] => now(), 
+                    $column['updated'] => now()
+                ],
+
+                [
+                    $column['id'] => 'TASS', 
+                    $column['name'] => 'Tas', 
+                    $column['type'] =>'Finished', 
+                    $column['category'] => 3, 
+                    $column['desc'] => 'Tas', 
+                    $column['created'] => now(), 
+                    $column['updated'] => now()
+                ],
+
+                [
+                    $column['id'] => 'TBLR', 
+                    $column['name'] => 'Tumbler', 
+                    $column['type'] =>'Finished', 
+                    $column['category'] => 4, 
+                    $column['desc'] => 'Tumbler',                     
+                    $column['created'] => now(), 
+                    $column['updated'] => now()
+                ],
+                
+                [
+                    $column['id'] => 'TNJK', 
+                    $column['name'] => 'Tanjak', 
+                    $column['type'] =>'Finished', 
+                    $column['category'] => 5, 
+                    $column['desc'] => 'Tanjak',                     $column['created'] => now(), 
+                    $column['updated'] => now()
+                ],
+                
+                [$column['id'] => 'MNTR', $column['name'] => 'Miniatur', $column['type'] =>'Finished', $column['category'] => 6, $column['desc'] => 'Miniatur',                     $column['created'] => now(), 
+                $column['updated'] => now()],
+                
+                [$column['id'] => 'CLDR', $column['name'] => 'Calendar', $column['type'] =>'Finished', $column['category'] => 7, $column['desc'] => 'Calendar Nyenyes',                     $column['created'] => now(), 
+                $column['updated'] => now()],
+                
+                [$column['id'] => 'JAMN', $column['name'] => 'Jam', $column['type'] =>'Finished', $column['category'] => 8, $column['desc'] => 'Jam',                     $column['created'] => now(), 
+                $column['updated'] => now()],
+                
+                [$column['id'] => 'KEYS', $column['name'] => 'Gantungan Kunci', $column['type'] =>'Finished', $column['category'] => 9, $column['desc'] => 'Gantungan Kunci',                     $column['created'] => now(), 
+                $column['updated'] => now()],
+                
+                [$column['id'] => 'PINN', $column['name'] => 'Bros PIN', $column['type'] =>'Finished', $column['category'] => 10, $column['desc'] => 'Bros PIN',                     $column['created'] => now(), 
+                $column['updated'] => now()],
+                
+                [$column['id'] => 'DMPT', $column['name'] => 'Dompet', $column['type'] =>'Finished', $column['category'] => 11, $column['desc'] => 'Dompet',                     $column['created'] => now(), 
+                $column['updated'] => now()],
+                
+                [$column['id'] => 'BOLN', $column['name'] => 'Kue Bolen', $column['type'] =>'Finished', $column['category'] => 12, $column['desc'] => 'Kue Bolen',                     $column['created'] => now(), 
+                $column['updated'] => now()],
+
+                [$column['id'] => 'PEMP', $column['name'] => 'Pempek', $column['type'] =>'Finished', $column['category'] => 13, $column['desc'] => 'Pempek Palembang',                     $column['created'] => now(), 
+                $column['updated'] => now()]
+            
+        ]);
+
+        $numOfRMProduct = $this->faker->numberBetween(1, 50);
+        $numOfCategory = $this->faker->numberBetween(1, 20);
+
+        $products = Product::all();
+
+        while ($products && $numOfCategory < $products->count())
+        {
+            $numOfCategory = $this->faker->numberBetween(1, 20);
+        }
+        $this->createCategory($numOfCategory);
+
+        $prefix = 'P';
+        
+        for ($i=1; $i<=$numOfRMProduct; $i++)
+        {
+            $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
+            $productID = $prefix . $formattedNumber;
+            Product::create([
+                $column['id'] => $productID, 
+                $column['name'] => $this->faker->word(),
+                $column['type'] =>'Raw Material', 
+                $column['category'] => $this->faker->numberBetween(1, $numOfCategory), 
+                $column['desc'] => $this->faker->sentence(),
+                $column['created'] => now(),
+                $column['updated'] => now()
+            ]);
+        }
+    }
+
+    public function createCategory($numOfCategory)
+    {
+        for ($i=1; $i <= $numOfCategory; $i++)
+        {
+            Category::create([
+                config('db_constants.column.category.category') => $this->faker->word
+            ]);
+        }
+    }
+
+}

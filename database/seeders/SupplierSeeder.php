@@ -155,7 +155,7 @@ class SupplierSeeder extends Seeder
         $this->createCategory($numOfCategory);
 
         $prefix = 'PRD';
-        $measurement_unit = ['Ons', 'Mg', 'Kg', 'Unit', 'Pcs', 'Sheet', 'Lusin', 'Boks', 'Dus'];
+        $measurement_unit = ['Ons', 'Mg', 'Kg', 'Unit', 'Pcs', 'Sheet', 'Lusin', 'Boks', 'Dus', 'Ml', 'Gr', 'Orang','Resep','Krat', 'Butir'];
 
         for ($i=1; $i <= $numOfProduct; $i++)
         {
