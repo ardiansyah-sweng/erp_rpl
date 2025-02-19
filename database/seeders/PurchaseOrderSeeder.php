@@ -10,6 +10,7 @@ use App\Models\SupplierProduct;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
 use App\Models\LogBasePrice;
+use App\Models\LogStock;
 use App\Models\GoodsReceiptNote;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
@@ -76,13 +77,30 @@ class PurchaseOrderSeeder extends Seeder
                 $amount = $basePrice * $quantity;
                 $total = $total + $amount;
 
-                PurchaseOrderDetail::create([
-                    'po_number'=>$po_number,
+                $currentStock = Product::where('product_id', $product_id)->get()->first();
+
+                $purchaseOrderDetail = new PurchaseOrderDetail([
+                    'po_number' => $po_number,
+                    'product_id' => $product_id,
+                    'quantity' => $quantity,
+                    'amount' => $amount,
+                    'updated_at' => $orderDate,
+                    'created_at' => $orderDate,
+                ]);
+            
+                // Explicitly set timestamps
+                $purchaseOrderDetail->timestamps = false;
+            
+                // Save the model
+                $purchaseOrderDetail->save();
+
+                LogStock::create([
+                    'log_id'=>$po_number,
                     'product_id'=>$product_id,
-                    'quantity'=>$quantity,
-                    'amount'=> $amount,
-                    'created_at'=>$orderDate,
-                    'updated_at'=>$orderDate
+                    'old_stock'=>$currentStock['current_stock'],
+                    'new_stock'=>$quantity + $currentStock['current_stock'],
+                    'created_at'=>$orderDate, #untuk sementara, idealnya ambil di tanggal GRN
+                    'updated_at'=>$orderDate  #untuk sementara, idealnya ambil di tanggal GRN
                 ]);
             }
 
@@ -93,14 +111,6 @@ class PurchaseOrderSeeder extends Seeder
                 'created_at'=>$orderDate,
                 'updated_at'=>$orderDate
             ]);
-        }
-
-        #update current_stock product
-        $products = Product::all();
-        foreach ($products as $product)
-        {
-            $stock = PurchaseOrderDetail::where('product_id', $product->product_id)->sum('quantity');
-            Product::where('product_id', $product->product_id)->update(['current_stock'=>$stock]);
         }
 
         #Goods Receipt Note
