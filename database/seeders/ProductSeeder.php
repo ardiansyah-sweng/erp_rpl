@@ -69,34 +69,91 @@ class ProductSeeder extends Seeder
                     $column['name'] => 'Tanjak', 
                     $column['type'] =>'Finished', 
                     $column['category'] => 5, 
-                    $column['desc'] => 'Tanjak',                     $column['created'] => now(), 
+                    $column['desc'] => 'Tanjak',                     
+                    $column['created'] => now(), 
                     $column['updated'] => now()
                 ],
                 
-                [$column['id'] => 'MNTR', $column['name'] => 'Miniatur', $column['type'] =>'Finished', $column['category'] => 6, $column['desc'] => 'Miniatur',                     $column['created'] => now(), 
-                $column['updated'] => now()],
+                [
+                    $column['id'] => 'MNTR', 
+                    $column['name'] => 'Miniatur', 
+                    $column['type'] =>'Finished', 
+                    $column['category'] => 6, 
+                    $column['desc'] => 'Miniatur',                     
+                    $column['created'] => now(), 
+                    $column['updated'] => now()
+                ],
                 
-                [$column['id'] => 'CLDR', $column['name'] => 'Calendar', $column['type'] =>'Finished', $column['category'] => 7, $column['desc'] => 'Calendar Nyenyes',                     $column['created'] => now(), 
-                $column['updated'] => now()],
+                [
+                    $column['id'] => 'CLDR', 
+                    $column['name'] => 'Calendar', 
+                    $column['type'] =>'Finished', 
+                    $column['category'] => 7, 
+                    $column['desc'] => 'Calendar Nyenyes',                     
+                    $column['created'] => now(), 
+                    $column['updated'] => now()
+                ],
                 
-                [$column['id'] => 'JAMN', $column['name'] => 'Jam', $column['type'] =>'Finished', $column['category'] => 8, $column['desc'] => 'Jam',                     $column['created'] => now(), 
-                $column['updated'] => now()],
+                [
+                    $column['id'] => 'JAMN', 
+                    $column['name'] => 'Jam', 
+                    $column['type'] =>'Finished', 
+                    $column['category'] => 8, 
+                    $column['desc'] => 'Jam',                     
+                    $column['created'] => now(), 
+                    $column['updated'] => now()
                 
-                [$column['id'] => 'KEYS', $column['name'] => 'Gantungan Kunci', $column['type'] =>'Finished', $column['category'] => 9, $column['desc'] => 'Gantungan Kunci',                     $column['created'] => now(), 
-                $column['updated'] => now()],
+                ],
                 
-                [$column['id'] => 'PINN', $column['name'] => 'Bros PIN', $column['type'] =>'Finished', $column['category'] => 10, $column['desc'] => 'Bros PIN',                     $column['created'] => now(), 
-                $column['updated'] => now()],
+                [
+                    $column['id'] => 'KEYS', 
+                    $column['name'] => 'Gantungan Kunci', 
+                    $column['type'] =>'Finished', 
+                    $column['category'] => 9, 
+                    $column['desc'] => 'Gantungan Kunci',                     
+                    $column['created'] => now(), 
+                    $column['updated'] => now()
+                ],
                 
-                [$column['id'] => 'DMPT', $column['name'] => 'Dompet', $column['type'] =>'Finished', $column['category'] => 11, $column['desc'] => 'Dompet',                     $column['created'] => now(), 
-                $column['updated'] => now()],
+                [
+                    $column['id'] => 'PINN', 
+                    $column['name'] => 'Bros PIN', 
+                    $column['type'] =>'Finished', 
+                    $column['category'] => 10, 
+                    $column['desc'] => 'Bros PIN',                     
+                    $column['created'] => now(), 
+                    $column['updated'] => now()
+                ],
                 
-                [$column['id'] => 'BOLN', $column['name'] => 'Kue Bolen', $column['type'] =>'Finished', $column['category'] => 12, $column['desc'] => 'Kue Bolen',                     $column['created'] => now(), 
-                $column['updated'] => now()],
+                [
+                    $column['id'] => 'DMPT', 
+                    $column['name'] => 'Dompet', 
+                    $column['type'] =>'Finished', 
+                    $column['category'] => 11, 
+                    $column['desc'] => 'Dompet',                     
+                    $column['created'] => now(), 
+                    $column['updated'] => now()
+                ],
+                
+                [
+                    $column['id'] => 'BOLN', 
+                    $column['name'] => 'Kue Bolen', 
+                    $column['type'] =>'Finished', 
+                    $column['category'] => 12, 
+                    $column['desc'] => 'Kue Bolen',                     
+                    $column['created'] => now(),
+                    $column['updated'] => now()
+                ],
 
-                [$column['id'] => 'PEMP', $column['name'] => 'Pempek', $column['type'] =>'Finished', $column['category'] => 13, $column['desc'] => 'Pempek Palembang',                     $column['created'] => now(), 
-                $column['updated'] => now()]
-            
+                [
+                    $column['id'] => 'PEMP', 
+                    $column['name'] => 'Pempek', 
+                    $column['type'] =>'Finished', 
+                    $column['category'] => 13, 
+                    $column['desc'] => 'Pempek Palembang',                     
+                    $column['created'] => now(),
+                    $column['updated'] => now()
+                ]
         ]);
 
         $numOfRMProduct = $this->faker->numberBetween(1, 50);
@@ -108,6 +165,7 @@ class ProductSeeder extends Seeder
         {
             $numOfCategory = $this->faker->numberBetween(1, 20);
         }
+        
         $this->createCategory($numOfCategory);
 
         $prefix = 'P';
@@ -137,5 +195,4 @@ class ProductSeeder extends Seeder
             ]);
         }
     }
-
 }
