@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\HasDynamicColumns;
 
-class Product extends Model
+class Item extends Model
 {
-    use HasDynamicColumns;
-
     protected $table;
     protected $fillable = [];
 
@@ -17,7 +14,7 @@ class Product extends Model
         parent::__construct($attributes);
 
         // Tetapkan nama tabel dan kolom
-        $this->table = config('db_constants.table.product');
-        $this->fillable = array_values(config('db_constants.column.product') ?? []);
+        $this->table = config('db_constants.table.item');
+        $this->fillable = array_values(config('db_constants.column.item') ?? []);
     }
 }

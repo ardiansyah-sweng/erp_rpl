@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('supplier_product', function (Blueprint $table) {
             $table->char('supplier_id', 6);
             $table->string('company_name', 50);
-            $table->char('product_id', 6);
+            $table->char('product_id', 50);
             $table->string('product_name', 50);
             $table->primary(['supplier_id', 'product_id']);
             $table->integer('base_price');

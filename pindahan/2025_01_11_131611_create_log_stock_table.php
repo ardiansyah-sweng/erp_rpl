@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('log_stock', function (Blueprint $table) {
             $table->id();
             $table->char('log_id', 6); #po_number atau id_transaksi
-            $table->char('product_id', 6);
+            $table->char('product_id', 50);
             $table->integer('old_stock')->default(0);
             $table->integer('new_stock')->default(0);
             $table->timestamps();

@@ -170,6 +170,7 @@ class ProductSeeder extends Seeder
 
         $prefix = 'P';
         
+        #create raw material products
         for ($i=1; $i<=$numOfRMProduct; $i++)
         {
             $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
