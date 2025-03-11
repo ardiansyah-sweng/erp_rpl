@@ -5,10 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasDynamicColumns;
 
-class SupplierProduct extends Model
+class Branch extends Model
 {
-    // protected $table = 'supplier_product';
-    // protected $fillable = ['id','supplier_id','product_id','base_price'];
     use HasDynamicColumns;
 
     protected $table;
@@ -19,7 +17,7 @@ class SupplierProduct extends Model
         parent::__construct($attributes);
 
         // Tetapkan nama tabel dan kolom
-        $this->table = config('db_constants.table.supplier_product');
-        $this->fillable = array_values(config('db_constants.column.supplier_product') ?? []);
+        $this->table = config('db_constants.table.branch');
+        $this->fillable = array_values(config('db_constants.column.branch') ?? []);
     }
 }

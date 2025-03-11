@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Item;
 use App\Models\Product;
 use App\Enums\Measurement;
 use Faker\Factory as Faker;
@@ -21,8 +22,10 @@ class ItemSeeder extends Seeder
      */
     public function run(): void
     {
-        $column = config('db_constants.column.product');
-        $finishedProduct = Product::take(13)->get();
+        $colProduct = config('db_constants.column.product');
+        $colItem = config('db_constants.column.item');
+
+        $finishedProduct = Product::all();
 
         foreach ($finishedProduct as $data)
         {
@@ -32,9 +35,14 @@ class ItemSeeder extends Seeder
             for ($i=0; $i<=$numOfItemPerProduct; $i++)
             {
                 $suffix = $this->faker->word();
-                $sku = $data->{$column['id']}.'-'.$suffix;
-                $itemName = $data->{$column['name']}.' '.$suffix;
-                echo $sku.' '.$itemName.' '.$mou."\n";
+                $sku = $data->{$colProduct['id']}.'-'.$suffix;
+                $itemName = $data->{$colProduct['name']}.' '.$suffix;
+
+                Item::create([
+                    $colItem['sku'] => $sku,
+                    $colItem['name'] => $itemName,
+                    $colItem['measurement'] => $mou,
+                ]);
             }
         }
     }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('log_base_price_supplier_product', function (Blueprint $table) {
             $table->id();
             $table->char('supplier_id', 6);
-            $table->char('product_id', 6);
+            $table->char('product_id', 50);
             $table->integer('old_base_price');
             $table->integer('new_base_price');
             $table->timestamps();

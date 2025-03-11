@@ -15,7 +15,7 @@ return new class extends Migration
 
         Schema::create('log_avg_base_price', function (Blueprint $table) {
             $table->id();
-            $table->char('product_id', 6);
+            $table->char('product_id', 50);
             $table->integer('then_avg_base_price');
             $table->integer('now_avg_base_price');
             $table->timestamps();

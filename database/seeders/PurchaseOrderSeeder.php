@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Item;
 use App\Models\Supplier;
 use App\Models\Product;
 use App\Models\SupplierProduct;
@@ -27,8 +28,19 @@ class PurchaseOrderSeeder extends Seeder
      */
     public function run(): void
     {
+        #memanggil seluruh item produk berdasarkan SKU
+        $item = new Product();
+        $sku = $item -> getSKURawMaterialItem();
+
+        foreach ($sku as $sku)
+        {
+            #ambil sejumlah supplier secara random untuk tiap item yang dipasok
+            $numOfSupplier = $this->faker->numberBetween(1, Supplier::count());
+            dd($numOfSupplier);
+        }
+
         $prefix = 'PO';
-        $numOfPurchaseOrder = $this->faker->numberBetween(5, 100);
+        $numOfPurchaseOrder = $this->faker->numberBetween(1, 100);
 
         for ($i=1; $i <= $numOfPurchaseOrder; $i++)
         {
@@ -41,7 +53,7 @@ class PurchaseOrderSeeder extends Seeder
                       ->shuffle()
                       ->first();
             
-            #ambil produk
+            #ambil produk dari Log Base Price
             $logBasePrice = LogBasePrice::select('product_id')
                                                 ->distinct()
                                                 ->where('supplier_id', $supplierID);
@@ -64,7 +76,6 @@ class PurchaseOrderSeeder extends Seeder
             usort($ordateDates, function ($a, $b) {
                 return strtotime($b[0]) <=> strtotime($a[0]);
             });
-
             $orderDate = Carbon::parse($ordateDates[0][0])->addDay()->format('Y-m-d H:i:s');
 
             #mengisi purchase_order_detail

@@ -11,6 +11,7 @@ $master = [
 
 return [
     'table' => [
+        'branch'                    => 'branch',
         'category'                  => $master['category'],
         'grn'                       => 'goods_receipt_not',
         'item'                      => 'item',
@@ -26,6 +27,13 @@ return [
         'supplier_product'          => 'supplier_product',
     ],
     'column' => [
+        'branch' => [
+            'id'                    => 'id',
+            'branch_name'           => 'branch_name',
+            'branch_address'        => 'branch_address',
+            'branch_telephone'      => 'branch_telephone',
+            'branch_status'         => 'branch_status',
+        ],
         'category' => [
             'id'                    => $master['id'],           #tinyInteger
             'category'              => $master['category'],     #string[50]
@@ -68,6 +76,7 @@ return [
             'po_number'             => $master['po_number'],
             'supplier_id'           => $master['supplier_id'],
             'total'                 => 'total',
+            'branch_id'             => 'branch_id',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
@@ -81,11 +90,11 @@ return [
             'updated_at'            => 'updated_at'
         ],
         'product' => [
-            'id'                    => 'product_id',    #char[6]
-            'name'                  => 'product_name',  #string[35]
-            'type'                  => 'product_type',  #finished, raw material
-            'category'              => 'product_category',  #tinyInteger
-            'desc'                  => 'product_description',    #string[255]
+            'id'                    => 'product_id',            #char[6]
+            'name'                  => 'product_name',          #string[35]
+            'type'                  => 'product_type',          #finished, raw material
+            'category'              => 'product_category',      #tinyInteger
+            'desc'                  => 'product_description',   #string[255]
             'created'               => $master['created'],
             'updated'               => $master['updated']
         ],
@@ -120,6 +129,7 @@ return [
             'phone_number'          => 'phone_number',
             'email'                 => 'email',
             'assigned_date'         => 'assigned_date',
+            'status'                => 'status',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
