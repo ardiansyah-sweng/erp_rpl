@@ -48,6 +48,7 @@ class SupplierSeeder extends Seeder
         }
 
         #mendapatkan seluruh item random dari product bertipe RM (raw material)
+        #refaktor menggunakan model Product seperti pada PurchaseORderSeeder
         $items = Item::join($this->table['product'], DB::raw('SUBSTRING(' . $this->table['item'] . '.' .    $this->colItem['sku'] . ', 1, 4)'), '=', $this->table['product'] . '.' . $this->colProduct['id'])
                         ->where($this->table['product'] . '.product_type', ProductType::RM)
                         ->select($this->table['item'] . '.' . $this->colItem['sku'])

@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchase_order', function (Blueprint $table) {
-            $table->char('po_number', 6);
-            $table->char('supplier_id', 6);
-            $table->bigInteger('total'); #dinamis dari po detail
-            $table->integer('branch_id');
+        Schema::create('branch', function (Blueprint $table) {
+            $table->id();
+            $table->string('branch_name');
+            $table->string('branch_address');
+            $table->string('branch_telephone');
+            $table->tinyInteger('branch_status');
             $table->timestamps();
-
-            $table->primary(['po_number', 'supplier_id']);
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchase_order');
+        Schema::dropIfExists('branch');
     }
 };
