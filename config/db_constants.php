@@ -21,7 +21,7 @@ return [
         'master_product'            => 'master_product',
         'po'                        => 'purchase_order',
         'po_detail'                 => 'purchase_order_detail',
-        'product'                   => 'product',
+        'products'                   => 'products',
         'supplier'                  => 'supplier',
         'supplier_pic'              => 'supplier_pic',
         'supplier_product'          => 'supplier_product',
@@ -89,7 +89,7 @@ return [
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
-        'product' => [
+        'products' => [
             'id'                    => 'product_id',            #char[6]
             'name'                  => 'product_name',          #string[35]
             'type'                  => 'product_type',          #finished, raw material

@@ -24,7 +24,7 @@ class SupplierSeeder extends Seeder
     public function __construct()
     {
         $this->faker = Faker::create('id_ID');
-        $this->colProduct = config('db_constants.column.product');
+        $this->colProduct = config('db_constants.column.products');
         $this->colItem = config('db_constants.column.item');
         $this->colSupplier = config('db_constants.column.supplier');
         $this->colSupplierProduct = config('db_constants.column.supplier_product');
@@ -49,8 +49,8 @@ class SupplierSeeder extends Seeder
 
         #mendapatkan seluruh item random dari product bertipe RM (raw material)
         #refaktor menggunakan model Product seperti pada PurchaseORderSeeder
-        $items = Item::join($this->table['product'], DB::raw('SUBSTRING(' . $this->table['item'] . '.' .    $this->colItem['sku'] . ', 1, 4)'), '=', $this->table['product'] . '.' . $this->colProduct['id'])
-                        ->where($this->table['product'] . '.product_type', ProductType::RM)
+        $items = Item::join($this->table['products'], DB::raw('SUBSTRING(' . $this->table['item'] . '.' .    $this->colItem['sku'] . ', 1, 4)'), '=', $this->table['products'] . '.' . $this->colProduct['id'])
+                        ->where($this->table['products'] . '.product_type', ProductType::RM)
                         ->select($this->table['item'] . '.' . $this->colItem['sku'])
                         ->pluck($this->colItem['sku']);
         
