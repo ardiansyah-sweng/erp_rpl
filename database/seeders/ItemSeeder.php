@@ -22,7 +22,7 @@ class ItemSeeder extends Seeder
      */
     public function run(): void
     {
-        $colProduct = config('db_constants.column.product');
+        $colProduct = config('db_constants.column.products');
         $colItem = config('db_constants.column.item');
 
         $finishedProduct = Product::all();

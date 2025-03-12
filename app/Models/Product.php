@@ -20,12 +20,12 @@ class Product extends Model
         parent::__construct($attributes);
 
         // Tetapkan nama tabel dan kolom
-        $this->tableProduct = config('db_constants.table.product');
-        $this->fillableProduct = array_values(config('db_constants.column.product') ?? []);
+        $this->tableProduct = config('db_constants.table.products');
+        $this->fillableProduct = array_values(config('db_constants.column.products') ?? []);
 
-        $this->tableItem = config('db_constants.table.item');
-        $this->colItem = config('db_constants.column.item');
-        $this->colProduct = config('db_constants.column.product');
+        // $this->tableItem = config('db_constants.table.item');
+        // $this->colItem = config('db_constants.column.item');
+        // $this->colProduct = config('db_constants.column.products');
     }
 
     public function getSKURawMaterialItem()

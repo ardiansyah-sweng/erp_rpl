@@ -20,7 +20,7 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $column = config('db_constants.column.product');
+        $column = config('db_constants.column.products');
 
         Product::insert([
             
