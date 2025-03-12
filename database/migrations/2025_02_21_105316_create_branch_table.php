@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('branch_name');
             $table->string('branch_address');
             $table->string('branch_telephone');
-            $table->tinyInteger('branch_status');
+            $table->tinyInteger('branch_status')->default(1);
             $table->timestamps();
         });
     }
