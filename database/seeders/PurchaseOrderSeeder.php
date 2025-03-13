@@ -29,15 +29,7 @@ class PurchaseOrderSeeder extends Seeder
     public function run(): void
     {
         #memanggil seluruh item produk berdasarkan SKU
-        $item = new Product();
-        $sku = $item -> getSKURawMaterialItem();
-
-        foreach ($sku as $sku)
-        {
-            #ambil sejumlah supplier secara random untuk tiap item yang dipasok
-            $numOfSupplier = $this->faker->numberBetween(1, Supplier::count());
-            dd($numOfSupplier);
-        }
+        $sku = (new Product()) -> getSKURawMaterialItem();
 
         $prefix = 'PO';
         $numOfPurchaseOrder = $this->faker->numberBetween(1, 100);
@@ -46,6 +38,12 @@ class PurchaseOrderSeeder extends Seeder
         {
             $formattedNumber = str_pad($i, 4, '0', STR_PAD_LEFT);
             $po_number = $prefix.$formattedNumber;
+
+            foreach ($sku as $sku)
+            {
+                #ambil sejumlah supplier secara random untuk tiap item yang dipasok
+                $numOfSupplier = $this->faker->numberBetween(1, Supplier::count());
+            }
 
             $supplierID = Supplier::select('supplier_id')
                       ->distinct()
