@@ -22,18 +22,18 @@ class Product extends Model
         // Tetapkan nama tabel dan kolom
         $this->tableProduct = config('db_constants.table.products');
         $this->fillableProduct = array_values(config('db_constants.column.products') ?? []);
-
-        // $this->tableItem = config('db_constants.table.item');
-        // $this->colItem = config('db_constants.column.item');
-        // $this->colProduct = config('db_constants.column.products');
     }
 
     public function getSKURawMaterialItem()
     {
+        $tableItem = config('db_constants.table.item');
+        $colItem = config('db_constants.column.item');
+        $colProduct = config('db_constants.column.products');
+
         #mendapatkan seluruh item random dari product bertipe RM (raw material)
-        return Item::join($this->tableProduct, DB::raw('SUBSTRING(' . $this->tableItem . '.' .    $this->colItem['sku'] . ', 1, 4)'), '=', $this->tableProduct . '.' . $this->colProduct['id'])
+        return Item::join($this->tableProduct, DB::raw('SUBSTRING(' . $tableItem . '.' . $colItem['sku'] . ', 1, 4)'), '=', $this->tableProduct . '.' . $colProduct['id'])
                         ->where($this->tableProduct . '.product_type', ProductType::RM)
-                        ->select($this->tableItem . '.' . $this->colItem['sku'])
-                        ->pluck($this->colItem['sku']);
+                        ->select($tableItem . '.' . $colItem['sku'])
+                        ->pluck($colItem['sku']);
     }
 }

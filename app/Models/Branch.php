@@ -25,3 +25,4 @@ class Branch extends Model
         return self::where('id', $id)->first();
     }
 }
+ 
