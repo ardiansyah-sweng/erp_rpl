@@ -20,4 +20,8 @@ class Branch extends Model
         $this->table = config('db_constants.table.branch');
         $this->fillable = array_values(config('db_constants.column.branch') ?? []);
     }
+
+    public function getBranchById($id){
+        return self::where('id', $id)->first();
+    }
 }
