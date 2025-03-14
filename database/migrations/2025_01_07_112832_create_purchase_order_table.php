@@ -16,6 +16,7 @@ return new class extends Migration
             $table->char('supplier_id', 6);
             $table->bigInteger('total'); #dinamis dari po detail
             $table->integer('branch_id');
+            $table->date('order_date');
             $table->timestamps();
 
             $table->primary(['po_number', 'supplier_id']);
