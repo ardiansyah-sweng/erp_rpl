@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         $column = config('db_constants.column.item');
+        $tableItem = config('db_constants.table.item');
 
-        Schema::create(config('db_constants.table.item'), function (Blueprint $table) use ($column) {
+        Schema::create($tableItem, function (Blueprint $table) use ($column) {
             $table->id();
             $table->string($column['sku'], 50);
             $table->string($column['name'], 50);
