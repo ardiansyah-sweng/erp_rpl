@@ -7,7 +7,7 @@
     <title>Daftar Purchase Order</title>
     <style>
         .hover-row:hover {
-            background-color: #f3f4f6; /* Tailwind's gray-100 */
+            background-color: #f3f4f6;
             cursor: pointer;
         }
     </style>
