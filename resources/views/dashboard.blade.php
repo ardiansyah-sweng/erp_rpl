@@ -101,7 +101,7 @@
                   <div class="d-flex">
                     <div class="flex-shrink-0">
                       <img
-                        href="{{asset('assets/dist/assets/img/user1-128x128.jpg')}}"
+                        src={{asset("assets/dist/assets/img/user1-128x128.jpg")}}
                         alt="User Avatar"
                         class="img-size-50 rounded-circle me-3"
                       />
@@ -127,7 +127,7 @@
                   <div class="d-flex">
                     <div class="flex-shrink-0">
                       <img
-                        src="../../dist/assets/img/user8-128x128.jpg"
+                        src={{ asset("assets/dist/assets/img/user8-128x128.jpg") }}
                         alt="User Avatar"
                         class="img-size-50 rounded-circle me-3"
                       />
@@ -153,7 +153,7 @@
                   <div class="d-flex">
                     <div class="flex-shrink-0">
                       <img
-                        src="../../dist/assets/img/user3-128x128.jpg"
+                        src={{ asset("assets/dist/assets/img/user3-128x128.jpg") }}
                         alt="User Avatar"
                         class="img-size-50 rounded-circle me-3"
                       />
@@ -218,17 +218,17 @@
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <img
-                  src="../../dist/assets/img/user2-160x160.jpg"
+                  src={{ asset("assets/dist/assets/img/user2-160x160.jpg") }}
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
-                <span class="d-none d-md-inline">Alexander Pierce</span>
+                <span class="d-none d-md-inline">Mimin Gantenk</span>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <!--begin::User Image-->
                 <li class="user-header text-bg-primary">
                   <img
-                    href="{{ asset('assets/dist/assets/img/user2-160x160.jpg') }}"
+                    src={{ asset("assets/dist/assets/img/user2-160x160.jpg") }}
                     class="rounded-circle shadow"
                     alt="User Image"
                   />
@@ -272,7 +272,7 @@
           <a href="dashboard" class="brand-link">
             <!--begin::Brand Image-->
             <img
-              href="{{asset('assets/dist/assets/img/AdminLTELogo.png')}}"
+              src={{asset("assets/dist/assets/img/LogoRPL.jpg")}}
               alt="RPL"
               class="brand-image opacity-75 shadow"
             />
@@ -886,7 +886,7 @@
                         <!-- /.direct-chat-infos -->
                         <img
                           class="direct-chat-img"
-                          src="../../dist/assets/img/user1-128x128.jpg"
+                          src={{ asset("assets/dist/assets/img/user1-128x128.jpg") }}
                           alt="message user image"
                         />
                         <!-- /.direct-chat-img -->
@@ -905,7 +905,7 @@
                         <!-- /.direct-chat-infos -->
                         <img
                           class="direct-chat-img"
-                          src="../../dist/assets/img/user3-128x128.jpg"
+                          src={{ asset("assets/dist/assets/img/user3-128x128.jpg") }}
                           alt="message user image"
                         />
                         <!-- /.direct-chat-img -->
@@ -922,7 +922,7 @@
                         <!-- /.direct-chat-infos -->
                         <img
                           class="direct-chat-img"
-                          src="../../dist/assets/img/user1-128x128.jpg"
+                          src={{ asset("assets/dist/assets/img/user1-128x128.jpg") }}
                           alt="message user image"
                         />
                         <!-- /.direct-chat-img -->
@@ -941,7 +941,7 @@
                         <!-- /.direct-chat-infos -->
                         <img
                           class="direct-chat-img"
-                          src="../../dist/assets/img/user3-128x128.jpg"
+                          src={{ asset("assets/dist/assets/img/user3-128x128.jpg") }}
                           alt="message user image"
                         />
                         <!-- /.direct-chat-img -->
@@ -958,7 +958,7 @@
                           <a href="#">
                             <img
                               class="contacts-list-img"
-                              src="../../dist/assets/img/user1-128x128.jpg"
+                              src={{ asset("assets/dist/assets/img/user1-128x128.jpg") }}
                               alt="User Avatar"
                             />
                             <div class="contacts-list-info">
