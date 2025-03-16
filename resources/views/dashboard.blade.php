@@ -994,7 +994,7 @@
                           <a href="#">
                             <img
                               class="contacts-list-img"
-                              src="../../dist/assets/img/user3-128x128.jpg"
+                              src={{ asset("assets/dist/assets/img/user3-128x128.jpg") }}
                               alt="User Avatar"
                             />
                             <div class="contacts-list-info">
@@ -1012,7 +1012,7 @@
                           <a href="#">
                             <img
                               class="contacts-list-img"
-                              src="../../dist/assets/img/user5-128x128.jpg"
+                              src={{ asset("assets/dist/assets/img/user5-128x128.jpg") }}
                               alt="User Avatar"
                             />
                             <div class="contacts-list-info">
@@ -1030,7 +1030,7 @@
                           <a href="#">
                             <img
                               class="contacts-list-img"
-                              src="../../dist/assets/img/user6-128x128.jpg"
+                              src={{ asset("assets/dist/assets/img/user6-128x128.jpg") }}
                               alt="User Avatar"
                             />
                             <div class="contacts-list-info">
@@ -1048,7 +1048,7 @@
                           <a href="#">
                             <img
                               class="contacts-list-img"
-                              src="../../dist/assets/img/user8-128x128.jpg"
+                              src={{ asset("assets/dist/assets/img/user8-128x128.jpg") }}
                               alt="User Avatar"
                             />
                             <div class="contacts-list-info">
