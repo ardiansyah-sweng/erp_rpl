@@ -24,5 +24,9 @@ class Branch extends Model
     public function getBranchById($id){
         return self::where('id', $id)->first();
     }
+
+    public static function getRandomBranchID(){
+        return self::inRandomOrder()->first()->id;
+    }
 }
  
