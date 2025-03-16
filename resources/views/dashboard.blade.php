@@ -1398,6 +1398,23 @@
       const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
       sparkline3.render();
     </script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- AdminLTE JS -->
+    <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
+
+    <!-- Custom Sidebar Toggle Script -->
+    <script>
+    $(document).ready(function () {
+        $('[data-widget="pushmenu"]').on('click', function (e) {
+            e.preventDefault();
+            $('body').toggleClass('sidebar-collapse');
+        });
+    });
+    </script>
+
     <!--end::Script-->
   </body>
   <!--end::Body-->
