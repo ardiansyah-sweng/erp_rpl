@@ -15,7 +15,7 @@
 <body class="bg-gray-100 p-5">
     <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-lg">
         <div class="flex items-center justify-between mb-6">
-            <h1 class="text-3xl font-bold">Daftar <a class="underline decoration-sky-500">Purchase Order.</a></h1>
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Daftar <a class="underline decoration-gray-800"><span class="text-transparent bg-clip-text bg-gradient-to-tr to-cyan-500 from-blue-600">Purchase Order.</span></a></h1>
             
         </div>
 
