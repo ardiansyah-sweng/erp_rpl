@@ -15,6 +15,7 @@
 <body class="bg-gray-100 p-5">
     <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-lg">
         <div class="flex items-center justify-between mb-6">
+            
             <h1 class="text-3xl font-bold tracking-tight text-gray-900">Daftar <a class="underline decoration-gray-800"><span class="text-transparent bg-clip-text bg-gradient-to-tr to-cyan-500 from-blue-600">Purchase Order.</span></a></h1>
             
         </div>
@@ -46,7 +47,7 @@
                 <tbody class="text-black text-sm font-light">
                     @isset($purchaseOrders)
                         @forelse($purchaseOrders as $po)
-                            <tr class="border-b" onclick="showDetails('{{ $po->po_number }}')">
+                            <tr class="border-b text" onclick="showDetails('{{ $po->po_number }}')">
                                 <td class="py-3 px-6 text-left whitespace-nowrap">{{ $po->po_number }}</td>
                                 <td class="py-3 px-6 text-left">{{ $po->supplier_id }}</td>
                                 <td class="py-3 px-6 text-left">Rp{{ number_format($po->total, 0, ',', '.') }}</td>
