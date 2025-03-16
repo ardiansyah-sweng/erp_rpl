@@ -15,6 +15,8 @@ use App\Models\LogBasePrice;
 use App\Models\LogStock;
 use App\Models\GoodsReceiptNote;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
 class PurchaseOrderSeeder extends Seeder
@@ -98,7 +100,42 @@ class PurchaseOrderSeeder extends Seeder
             ]);
         }
 
-        dd();
+        $res = DB::table('purchase_order as po')
+                        ->join('purchase_order_detail as pod', 'po.po_number', '=', 'pod.po_number')
+                        ->select('po.order_date')
+                        ->pluck('po.order_date');
+
+        foreach ($res as $orderDate)
+        {
+            // // Ubah tanggal mulai ke format timestamp
+            $startTimestamp = strtotime($orderDate);
+            // // Ambil timestamp untuk hari ini
+            $endTimestamp = time();
+            
+            //     // Pastikan startDate tidak lebih besar dari hari ini
+            if ($startTimestamp > $endTimestamp) {
+                throw new Exception("Tanggal mulai tidak boleh lebih besar dari hari ini.");
+            }
+            
+            // Ambil timestamp acak antara startTimestamp dan endTimestamp
+            $randomTimestamp = mt_rand($startTimestamp, $endTimestamp);
+            
+            // Format ke tanggal
+            //print_r(date("Y-m-d", $randomTimestamp));
+
+            // Hitung selisih hari antara startTimestamp dan randomTimestamp
+            $differenceInDays = abs(($randomTimestamp - $startTimestamp) / 86400);
+
+            print_r($startTimestamp.' '.date("Y-m-d", $randomTimestamp).' '.round($differenceInDays));
+            echo "\n";
+            
+            // Contoh penggunaan:
+            // $randomDate = getRandomDate("2023-01-01"); // Ambil tanggal acak dari 1 Januari 2023 sampai hari ini
+            // echo $randomDate;
+            
+        }
+
+        dd('done');
 
         for ($i=1; $i <= $numOfPurchaseOrder; $i++)
         {
