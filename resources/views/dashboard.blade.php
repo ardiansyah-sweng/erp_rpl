@@ -272,7 +272,7 @@
           <a href="dashboard" class="brand-link">
             <!--begin::Brand Image-->
             <img
-              src={{asset("assets/dist/assets/img/LogoRPL.png")}}
+              src={{asset("assets/dist/assets/img/LogoRPL.jpg")}}
               alt="RPL"
               class="brand-image opacity-75 shadow"
             />
