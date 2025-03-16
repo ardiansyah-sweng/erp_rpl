@@ -222,7 +222,7 @@
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
-                <span class="d-none d-md-inline">Alexander Pierce</span>
+                <span class="d-none d-md-inline">Mimin Gantenk</span>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <!--begin::User Image-->
@@ -941,7 +941,7 @@
                         <!-- /.direct-chat-infos -->
                         <img
                           class="direct-chat-img"
-                          src="../../dist/assets/img/user3-128x128.jpg"
+                          src={{ asset("assets/dist/assets/img/user3-128x128.jpg") }}
                           alt="message user image"
                         />
                         <!-- /.direct-chat-img -->
@@ -958,7 +958,7 @@
                           <a href="#">
                             <img
                               class="contacts-list-img"
-                              src="../../dist/assets/img/user1-128x128.jpg"
+                              src={{ asset("assets/dist/assets/img/user1-128x128.jpg") }}
                               alt="User Avatar"
                             />
                             <div class="contacts-list-info">
