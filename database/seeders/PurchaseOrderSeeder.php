@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Branch;
 use App\Models\Item;
 use App\Models\Supplier;
 use App\Models\Product;
@@ -21,6 +22,8 @@ class PurchaseOrderSeeder extends Seeder
     public function __construct()
     {
         $this->faker = Faker::create('id_ID');
+        $this->colPO = config('db_constants.column.po');
+        $this->colPODetail = config('db_constants.column.po_detail');
     }
 
     /**
@@ -36,6 +39,7 @@ class PurchaseOrderSeeder extends Seeder
 
         for ($i=1; $i <= $numOfPurchaseOrder; $i++)
         {
+            $branchID = Branch::getRandomBranchID();
             $formattedNumber = str_pad($i, 4, '0', STR_PAD_LEFT);
             $po_number = $prefix.$formattedNumber;
 
@@ -50,7 +54,7 @@ class PurchaseOrderSeeder extends Seeder
                       ->first();
 
             $orderDate = Carbon::parse($start_date->format('Y-m-d'))->addDays(rand(0, $start_date->diffInDays($end_date)))->format('Y-m-d');
-            print_r($supplierID.' '.$orderDate);
+            print_r($branchID.' '.$supplierID.' '.$orderDate);
             echo "\n";
 
             # 3. Mengambil raw material item secara random untuk diorder
@@ -76,10 +80,22 @@ class PurchaseOrderSeeder extends Seeder
                     $total = $total + $amount;
                     print_r($po_number .' '. $rawMaterial.' '. $quantity.' '.$basePrice['new_base_price'].' '. $amount);
                     echo "\n";
+                    
+                    PurchaseOrderDetail::create([
+                        $this->colPODetail['po_number']=>$po_number,
+                        $this->colPODetail['product_id']=>$rawMaterial,
+                        $this->colPODetail['quantity']=>$quantity,
+                        $this->colPODetail['amount']=>$amount,
+                    ]);
                 }
             }
-            print_r($total);
-            dd();
+            PurchaseOrder::create([
+                $this->colPO['po_number']=>$po_number,
+                $this->colPO['supplier_id']=>$supplierID,
+                $this->colPO['total']=>$total,
+                $this->colPO['branch_id']=>$branchID,
+                $this->colPO['order_date']=>$orderDate
+            ]);
         }
 
         dd();
