@@ -18,5 +18,6 @@ Route::get('/products', [APIProductController::class, 'getProducts']);
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice']);
 Route::get('/branches/{id}', [App\Http\Controllers\BranchController::class, 'getBranchById']);
 
-#Branch
-Route::get('/purchase/orders', [PurchaseOrderController::class, 'getPurchaseOrder']);
+#Branch mengarah ke halaman list.blade.php
+// Route::get('/purchase/orders', [PurchaseOrderController::class, 'getPurchaseOrder']);
+Route::get('/purchase/orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
