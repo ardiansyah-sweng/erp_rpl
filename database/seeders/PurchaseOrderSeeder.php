@@ -80,7 +80,16 @@ class PurchaseOrderSeeder extends Seeder
                 if ($basePrice['new_base_price'] ?? false) {
                     $amount = $basePrice['new_base_price'] * $quantity;
                     $total = $total + $amount;
-                    print_r($po_number .' '. $rawMaterial.' '. $quantity.' '.$basePrice['new_base_price'].' '. $amount);
+
+                    $startTimestamp = strtotime($orderDate);
+                    $endTimestamp = time();
+                    if ($startTimestamp > $endTimestamp) {
+                        throw new Exception("Tanggal mulai tidak boleh lebih besar dari hari ini.");
+                    }
+                    $randomTimestamp = mt_rand($startTimestamp, $endTimestamp);
+                    $receivedDays = abs(($randomTimestamp - $startTimestamp) / 86400);
+
+                    print_r($po_number .' '. $rawMaterial.' '. $quantity.' '.$basePrice['new_base_price'].' '. $amount.' '. round($receivedDays));
                     echo "\n";
                     
                     PurchaseOrderDetail::create([
@@ -88,6 +97,7 @@ class PurchaseOrderSeeder extends Seeder
                         $this->colPODetail['product_id']=>$rawMaterial,
                         $this->colPODetail['quantity']=>$quantity,
                         $this->colPODetail['amount']=>$amount,
+                        $this->colPODetail['received_days']=>round($receivedDays),
                     ]);
                 }
             }
@@ -100,40 +110,40 @@ class PurchaseOrderSeeder extends Seeder
             ]);
         }
 
-        $res = DB::table('purchase_order as po')
-                        ->join('purchase_order_detail as pod', 'po.po_number', '=', 'pod.po_number')
-                        ->select('po.order_date')
-                        ->pluck('po.order_date');
+        // $res = DB::table('purchase_order as po')
+        //                 ->join('purchase_order_detail as pod', 'po.po_number', '=', 'pod.po_number')
+        //                 ->select('po.order_date')
+        //                 ->pluck('po.order_date');
 
-        foreach ($res as $orderDate)
-        {
-            // // Ubah tanggal mulai ke format timestamp
-            $startTimestamp = strtotime($orderDate);
-            // // Ambil timestamp untuk hari ini
-            $endTimestamp = time();
+        // foreach ($res as $orderDate)
+        // {
+        //     // // Ubah tanggal mulai ke format timestamp
+        //     $startTimestamp = strtotime($orderDate);
+        //     // // Ambil timestamp untuk hari ini
+        //     $endTimestamp = time();
             
-            //     // Pastikan startDate tidak lebih besar dari hari ini
-            if ($startTimestamp > $endTimestamp) {
-                throw new Exception("Tanggal mulai tidak boleh lebih besar dari hari ini.");
-            }
+        //     //     // Pastikan startDate tidak lebih besar dari hari ini
+        //     if ($startTimestamp > $endTimestamp) {
+        //         throw new Exception("Tanggal mulai tidak boleh lebih besar dari hari ini.");
+        //     }
             
-            // Ambil timestamp acak antara startTimestamp dan endTimestamp
-            $randomTimestamp = mt_rand($startTimestamp, $endTimestamp);
+        //     // Ambil timestamp acak antara startTimestamp dan endTimestamp
+        //     $randomTimestamp = mt_rand($startTimestamp, $endTimestamp);
             
-            // Format ke tanggal
-            //print_r(date("Y-m-d", $randomTimestamp));
+        //     // Format ke tanggal
+        //     //print_r(date("Y-m-d", $randomTimestamp));
 
-            // Hitung selisih hari antara startTimestamp dan randomTimestamp
-            $differenceInDays = abs(($randomTimestamp - $startTimestamp) / 86400);
+        //     // Hitung selisih hari antara startTimestamp dan randomTimestamp
+        //     $differenceInDays = abs(($randomTimestamp - $startTimestamp) / 86400);
 
-            print_r($startTimestamp.' '.date("Y-m-d", $randomTimestamp).' '.round($differenceInDays));
-            echo "\n";
+        //     print_r($startTimestamp.' '.date("Y-m-d", $randomTimestamp).' '.round($differenceInDays));
+        //     echo "\n";
             
-            // Contoh penggunaan:
-            // $randomDate = getRandomDate("2023-01-01"); // Ambil tanggal acak dari 1 Januari 2023 sampai hari ini
-            // echo $randomDate;
+        //     // Contoh penggunaan:
+        //     // $randomDate = getRandomDate("2023-01-01"); // Ambil tanggal acak dari 1 Januari 2023 sampai hari ini
+        //     // echo $randomDate;
             
-        }
+        // }
 
         dd('done');
 
