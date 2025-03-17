@@ -15,3 +15,4 @@ Route::get('/dashboard', function () {
 Route::get('/products', [APIProductController::class, 'getProducts']);
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice']);
 Route::get('/branches/{id}', [App\Http\Controllers\BranchController::class, 'getBranchById']);
+Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
