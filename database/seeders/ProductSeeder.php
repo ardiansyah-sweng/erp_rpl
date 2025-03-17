@@ -189,11 +189,32 @@ class ProductSeeder extends Seeder
 
     public function createCategory($numOfCategory)
     {
-        for ($i=1; $i <= $numOfCategory; $i++)
+        $colCategory = config('db_constants.column.category');
+
+        $numOfParentCategory = $this->faker->numberBetween(1, $numOfCategory);
+        
+
+        for ($i=1; $i <= $numOfParentCategory; $i++)
         {
             Category::create([
-                config('db_constants.column.category.category') => $this->faker->word
+                $colCategory['category'] => $this->faker->word,
+                $colCategory['parent_id'] => null,
             ]);
+        }
+
+        #ambil id dari parent category
+        $parentCategory = Category::whereNull('parent_id')->get();
+        $parentCategoryID = $parentCategory->pluck('id')->toArray();
+        foreach ($parentCategoryID as $id)
+        {
+            $numOfSubCategory = $this->faker->numberBetween(1, 5);
+            for ($i=1; $i <= $numOfSubCategory; $i++)
+            {
+                Category::create([
+                    $colCategory['category'] => $this->faker->word,
+                    $colCategory['parent_id'] => $id,
+                ]);
+            }
         }
     }
 }
