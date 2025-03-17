@@ -10,6 +10,11 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 });
+Route::get('/PIC_add', function () {
+    return view('supplier/pic/add');
+});
+
+
 
 #API
 Route::get('/products', [APIProductController::class, 'getProducts']);
