@@ -9,7 +9,7 @@ class PurchaseOrderController extends Controller
     public function getPurchaseOrder()
     {
         $purchaseOrders = PurchaseOrder::orderBy('created_at', 'desc')->paginate(10);
-
-        return view('purchase.order.list', compact('purchaseOrders'));
+    
+        return view('purchase_orders.list', compact('purchaseOrders'));
     }
 }
