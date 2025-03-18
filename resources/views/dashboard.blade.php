@@ -324,7 +324,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="PIC_add" class="nav-link">
+                    <a href="/supplier/pic/add" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
                       <p>Tambah PIC supplier</p>
                     </a>
