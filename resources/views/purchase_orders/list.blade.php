@@ -316,26 +316,13 @@
                   <i class="nav-icon bi bi-person-circle"></i>
                   <p>
                     Supplier
-                    <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./widgets/small-box.html" class="nav-link">
+                    <a href="/supplier/pic/add" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Small Box</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./widgets/info-box.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>info Box</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./widgets/cards.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Cards</p>
+                      <p>Tambah PIC supplier</p>
                     </a>
                   </li>
                 </ul>
@@ -390,7 +377,7 @@
                   <div class="card-header"><h3 class="card-title">List Table</h3></div>
                   <!-- /.card-header -->
                   <div class="card-body">
-  <table class="table table-bordered">
+                  <table class="table table-bordered">
     <thead>
       <tr>
         <th style="width: 10px">No</th>
@@ -400,6 +387,7 @@
         <th>Order Date</th>
         <th>Created At</th>
         <th>Updated At</th>
+        <th>Actions</th> <!-- New column for actions -->
       </tr>
     </thead>
     <tbody>
@@ -407,16 +395,21 @@
         @forelse($purchaseOrders as $index => $order)
           <tr class="align-middle">
             <td>{{ $index + 1 }}</td>
-            <td>{{ $order->po_number }}</td>
+            <td><a href="#">{{ $order->po_number }}</a></td> <!-- PO Number as a link -->
             <td>{{ $order->supplier_id }}</td>
             <td>Rp{{ number_format($order->total, 0, ',', '.') }}</td>
             <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d M Y') }}</td>
             <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y H:i') }}</td>
             <td>{{ \Carbon\Carbon::parse($order->updated_at)->format('d M Y H:i') }}</td>
+            <td>
+              <a href="#" class="btn btn-sm btn-primary">Edit</a>
+              <a href="#" class="btn btn-sm btn-danger">Delete</a>
+              <a href="#" class="btn btn-sm btn-info">Detail</a>
+            </td> <!-- New actions column -->
           </tr>
         @empty
           <tr>
-            <td colspan="7" class="py-3 px-6 text-center">Tidak ada data purchase order.</td>
+            <td colspan="8" class="py-3 px-6 text-center">Tidak ada data purchase order.</td> <!-- Updated colspan -->
           </tr>
         @endforelse
       @endisset
