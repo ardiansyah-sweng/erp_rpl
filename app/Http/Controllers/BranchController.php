@@ -2,67 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Branch;
 use Illuminate\Http\Request;
+use App\Models\Branch;
 
 class BranchController extends Controller
 {
-    public function getBranchById($id)
-    {
-        return response()->json([
-            'status' => 'success',
-            'data' => (new Branch)->getBranchById($id)
-        ]);
-    }
-
+    /**
+     * Menambahkan branch baru dengan validasi
+     */
     public function addBranch(Request $request)
     {
-        // Validasi input
-        $request->validate([
-            'branch_name'      => 'required|min:3|unique:branch,branch_name',
-            'branch_address'   => 'required|min:10',
-            'branch_telephone' => 'required|min:10',
-            'branch_status'    => 'required|boolean',
-        ]);
+        // Ambil data dari request
+        $data = $request->only(['branch_name', 'branch_address', 'branch_telephone', 'branch_status']);
 
-        // Tambahkan data branch
-        $branch = (new Branch)->addBranch($request->all());
+        // Panggil fungsi addBranch dari model
+        $result = Branch::addBranch($data);
+
+        // Jika ada error validasi, kembalikan response error
+        if (isset($result['error'])) {
+            return response()->json(['message' => $result['error']], 400);
+        }
 
         return response()->json([
-            'status' => 'success',
             'message' => 'Branch berhasil ditambahkan!',
-            'data' => $branch
-        ]);
+            'branch'  => $result,
+        ], 201);
     }
 
-    public function updateBranch(Request $request, $id)
+    /**
+     * Mendapatkan data branch berdasarkan ID
+     */
+    public function getBranchById($id)
     {
-        // Validasi input
-        $request->validate([
-            'branch_name'      => 'required|min:3|unique:branch,branch_name,' . $id,
-            'branch_address'   => 'required|min:10',
-            'branch_telephone' => 'required|min:10',
-            'branch_status'    => 'required|boolean',
-        ]);
+        $branch = Branch::find($id);
+        if (!$branch) {
+            return response()->json(['message' => 'Branch tidak ditemukan'], 404);
+        }
 
-        // Perbarui data branch
-        $branch = (new Branch)->updateBranch($id, $request->all());
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Branch berhasil diperbarui!',
-            'data' => $branch
-        ]);
-    }
-
-    public function deleteBranch($id)
-    {
-        // Hapus branch berdasarkan ID
-        (new Branch)->deleteBranch($id);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Branch berhasil dihapus!'
-        ]);
+        return response()->json($branch);
     }
 }

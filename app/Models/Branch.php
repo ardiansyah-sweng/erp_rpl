@@ -2,49 +2,40 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\HasDynamicColumns;
 
 class Branch extends Model
 {
-    use HasDynamicColumns;
+    use HasFactory;
 
-    protected $table;
-    protected $fillable = [];
+    protected $table = 'branches';
+    protected $primaryKey = 'id';
+    public $timestamps = true;
 
-    public function __construct(array $attributes = [])
+    protected $fillable = [
+        'branch_name',
+        'branch_address',
+        'branch_telephone',
+        'branch_status',
+    ];
+
+    /**
+     * Fungsi untuk menambahkan branch baru dengan validasi.
+     */
+    public static function addBranch($data)
     {
-        parent::__construct($attributes);
+        // Validasi: Nama branch tidak boleh kosong & harus lebih dari 3 karakter
+        if (empty($data['branch_name']) || strlen($data['branch_name']) < 3) {
+            return ['error' => 'Nama branch harus diisi dan minimal 3 karakter'];
+        }
 
-        // Tetapkan nama tabel dan kolom sesuai dengan konfigurasi
-        $this->table = config('db_constants.table.branch');
-        $this->fillable = array_values(config('db_constants.column.branch') ?? []);
-    }
+        // Cek apakah nama branch sudah ada di database
+        if (self::where('branch_name', $data['branch_name'])->exists()) {
+            return ['error' => 'Nama branch sudah digunakan'];
+        }
 
-    public function getBranchById($id)
-    {
-        return self::where('id', $id)->first();
-    }
-
-    public function addBranch($data)
-    {
+        // Jika lolos validasi, buat branch baru
         return self::create($data);
-    }
-
-    public function updateBranch($id, $data)
-    {
-        $branch = self::findOrFail($id);
-        $branch->update($data);
-        return $branch;
-    }
-
-    public function deleteBranch($id)
-    {
-        return self::where('id', $id)->delete();
-    }
-
-    public static function getRandomBranchID()
-    {
-        return self::inRandomOrder()->first()->id;
     }
 }
