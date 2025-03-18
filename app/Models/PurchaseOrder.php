@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -16,5 +15,10 @@ class PurchaseOrder extends Model
         // Tetapkan nama tabel dan kolom
         $this->table = config('db_constants.table.po');
         $this->fillable = array_values(config('db_constants.column.po') ?? []);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id', 'supplier_id');
     }
 }
