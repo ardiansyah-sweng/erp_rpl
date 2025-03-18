@@ -12,7 +12,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 });
-Route::get('/PIC_add', function () {
+Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
 
