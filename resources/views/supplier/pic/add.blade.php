@@ -324,9 +324,9 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="./widgets/info-box.html" class="nav-link">
+                    <a href="/supplier/pic/add" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>info Box</p>
+                      <p>Tambah PIC supplier</p>
                     </a>
                   </li>
                   <li class="nav-item">
