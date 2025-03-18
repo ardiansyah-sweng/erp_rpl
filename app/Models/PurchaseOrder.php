@@ -21,4 +21,9 @@ class PurchaseOrder extends Model
     {
         return $this->belongsTo(Supplier::class, 'supplier_id', 'supplier_id');
     }
+
+    public static function getAllPurchaseOrders()
+    {
+        return self::with('supplier')->orderBy('created_at', 'desc')->paginate(10);
+    }
 }
