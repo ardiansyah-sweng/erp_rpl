@@ -136,7 +136,8 @@ CREATE TABLE `purchase_order` (
   `total` bigint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`po_number`,`supplier_id`)
+  PRIMARY KEY (`po_number`)
+  FOREIGN KEY (`supplier_id`) REFERENCES `supplier`(`supplier_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

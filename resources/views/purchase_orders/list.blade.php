@@ -382,12 +382,12 @@
       <tr>
         <th style="width: 10px">No</th>
         <th>PO Number</th>
-        <th>Supplier ID</th>
+        <th>Supplier</th>
         <th>Total</th>
         <th>Order Date</th>
         <th>Created At</th>
         <th>Updated At</th>
-        <th>Actions</th> <!-- New column for actions -->
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -395,8 +395,8 @@
         @forelse($purchaseOrders as $index => $order)
           <tr class="align-middle">
             <td>{{ $index + 1 }}</td>
-            <td><a href="#">{{ $order->po_number }}</a></td> <!-- PO Number as a link -->
-            <td>{{ $order->supplier_id }}</td>
+            <td><a href="#">{{ $order->po_number }}</a></td>
+            <td>{{ $order->supplier ? $order->supplier->company_name : 'Supplier not found' }}</td>
             <td>Rp{{ number_format($order->total, 0, ',', '.') }}</td>
             <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d M Y') }}</td>
             <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y H:i') }}</td>
@@ -405,7 +405,7 @@
               <a href="#" class="btn btn-sm btn-primary">Edit</a>
               <a href="#" class="btn btn-sm btn-danger">Delete</a>
               <a href="#" class="btn btn-sm btn-info">Detail</a>
-            </td> <!-- New actions column -->
+            </td>
           </tr>
         @empty
           <tr>
@@ -415,7 +415,7 @@
       @endisset
     </tbody>
   </table>
-</div>
+  </div>
 <!-- /.card-body -->
 <div class="card-footer clearfix">
   {{ $purchaseOrders->links('pagination::bootstrap-4') }}
