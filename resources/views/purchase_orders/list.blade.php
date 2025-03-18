@@ -382,7 +382,7 @@
       <tr>
         <th style="width: 10px">No</th>
         <th>PO Number</th>
-        <th>Supplier ID</th>
+        <th>Supplier</th>
         <th>Total</th>
         <th>Order Date</th>
         <th>Created At</th>
