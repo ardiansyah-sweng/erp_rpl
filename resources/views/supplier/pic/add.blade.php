@@ -383,12 +383,7 @@
                     <form id="picForm">
                         <div class="mb-3">
                             <label for="supplier_id" class="form-label">ID Supplier</label>
-                            <select class="form-control" id="supplier_id" name="supplier_id" required>
-                                <option value="">Pilih Supplier</option>
-                                <option value="SUP001">SUP001</option>
-                                <option value="SUP002">SUP002</option>
-                                <option value="SUP003">SUP003</option>
-                            </select>
+                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
                         </div>
                         <div class="mb-3">
                             <label for="supplier_name" class="form-label">Nama Supplier</label>
@@ -410,13 +405,28 @@
                             <label for="assignment_date" class="form-label">Assignment Date</label>
                             <input type="date" class="form-control" id="assignment_date" name="assignment_date" required>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-check-label" for="status">Status</label>
-                            <input type="checkbox" class="form-check-input" id="status" name="status" value="1">
-                            <label for="status">Aktif</label>
+                        <div>
+                            <div><label for="pic_photo" class="form-label">Upload Foto PIC</label></div>
+                                <div class="d-flex justify">
+                                  <div><img id="photo_preview" src={{asset("assets/dist/assets/img/avatar_default.png")}} alt="Avatar Default" class="mt-2" style="max-width: 100px; max-height: 100px;"></div>
+                                  <div>
+                                    <input type="file" class="form-control" id="pic_photo" name="pic_photo" accept="image/*">
+                                  </div>
+                                </div>
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="previewData()">Add</button>
-                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="mb-3">
+                                    <label class="form-check-label" for="status">Status</label>
+                                    <input type="checkbox" class="form-check-input" id="status" name="status" value="1">
+                                    <label for="status">Aktif</label>
+                                </div>
+                                <div>
+                                  <button type="button" class="btn btn-primary" onclick="previewData()">Add</button>
+                                  <button type="reset" class="btn btn-secondary">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
