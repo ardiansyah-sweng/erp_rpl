@@ -13,7 +13,7 @@ return [
     'table' => [
         'branch'                    => 'branch',
         'category'                  => $master['category'],
-        'grn'                       => 'goods_receipt_not',
+        'grn'                       => 'goods_receipt_note',
         'item'                      => 'item',
         'log_avg_base_price'        => 'log_avg_base_price',
         'log_base_price_supplier'   => 'log_base_price_supplier_product',
@@ -46,6 +46,10 @@ return [
         'grn' => [
             'id'                    => $master['id'],
             'po_number'             => $master['po_number'],
+            'product_id'            => 'product_id',
+            'date'                  => 'delivery_date',
+            'qty'                   => 'delivered_quantity',
+            'comments'              => 'comments',
             'created_at'            => $master['created'],
             'updated_at'            => 'updated_at'
         ],

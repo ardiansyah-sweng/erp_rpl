@@ -6,14 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    public function __construct()
+    {
+        $this->table = config('db_constants.table.grn');
+    }
+
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('goods_receipt_note', function (Blueprint $table) {
+        $col = config('db_constants.column.grn');
+
+        Schema::create($this->table, function (Blueprint $table) use ($col) {
             $table->id();
-            $table->char('po_number', 6);
+            $table->char($col['po_number'], 6);
+            $table->string($col['product_id'], 50)->nullable();
+            $table->date($col['date']); // Tanggal terima barang
+            $table->integer($col['qty']); // Jumlah barang yang diterima
+            $table->string($col['comments'], 255)->nullable();
             $table->timestamps();
         });
 
@@ -30,6 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('goods_receipt_note');
+        Schema::dropIfExists($this->table);
     }
 };
