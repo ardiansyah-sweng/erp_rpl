@@ -19,6 +19,7 @@ return [
         'log_base_price_supplier'   => 'log_base_price_supplier_product',
         'log_stock'                 => 'log_stock',
         'master_product'            => 'master_product',
+        'merk'                      => 'merks',
         'po'                        => 'purchase_order',
         'po_detail'                 => 'purchase_order_detail',
         'products'                   => 'products',
@@ -71,6 +72,13 @@ return [
             'product_id'            => 'product_id',
             'old_stock'             => 'old_stock',
             'new_stock'             => 'new_stock',
+            'created_at'            => 'created_at',
+            'updated_at'            => 'updated_at'
+        ],
+        'merk' => [
+            'id'                    => 'id',
+            'merk'                  => 'merk',
+            'active'                => 'active',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
