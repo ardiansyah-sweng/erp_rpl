@@ -30,6 +30,5 @@ class BranchSeeder extends Seeder
                 $colBranch['branch_telephone'] => $this->faker->phoneNumber()
             ]);
         }
-
     }
 }
