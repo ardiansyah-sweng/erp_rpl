@@ -15,4 +15,3 @@ class BranchController extends Controller
         return view('branch.list', ['branches' => $branches]);
     }
 }
-
