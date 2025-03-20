@@ -332,8 +332,6 @@
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Purchase Orders
-                    <!-- <span class="nav-badge badge text-bg-secondary me-3">6</span>
-                    <i class="nav-arrow bi bi-chevron-right"></i> -->
                   </p>
                 </a>
                 <li class="nav-item">
