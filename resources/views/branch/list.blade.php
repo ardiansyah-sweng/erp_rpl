@@ -399,6 +399,7 @@
                           <th>Aktif</th>
                           <th>Created At</th>
                           <th>Updated At </th>
+                          <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -417,6 +418,11 @@
                            </td>
                             <td>{{ $branch->created_at }}</td>
                             <td>{{ $branch->updated_at }}</td>
+                            <td>
+                              <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                              <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                              <a href="#" class="btn btn-sm btn-info">Detail</a>
+                            </td>
                             </tr>
                             @empty
                             <tr>
