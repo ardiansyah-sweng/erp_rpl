@@ -72,17 +72,20 @@
       <nav class="app-header navbar navbar-expand bg-body">
         <!--begin::Container-->
         <div class="container-fluid">
-          <!--begin::Start Navbar Links-->
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
-                <i class="bi bi-list"></i>
-              </a>
-            </li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
-          </ul>
-          <!--end::Start Navbar Links-->
+          <!--begin::Start Form Links-->
+          <form action="/search" class="flex justify-start items-center gap-2">
+    <label class="relative bg-white border py-2 px-2 rounded-2xl shadow-2xl focus-within:border-gray-300" for="search-bar">
+        <input id="search-bar" placeholder="What You Find?" name="q" class="px-6 py-2 w-full rounded-md outline-none bg-white" required="">
+    </label>
+    <button type="submit" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-700 text-white fill-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-xl transition-all hover:bg-blue-700">
+        <div class="flex items-center transition-all opacity-1">
+            <span class="text-sm font-semibold whitespace-nowrap truncate mx-auto">
+                Search
+            </span>
+        </div>
+    </button>
+</form>
+          <!--end::Start Form Links-->
           <!--begin::End Navbar Links-->
           <ul class="navbar-nav ms-auto">
             <!--begin::Navbar Search-->
@@ -354,19 +357,6 @@
         <div class="app-content-header">
           <!--begin::Container-->
           <div class="container-fluid">
-            <!--begin::Row-->
-            <form action="/search" class="flex justify-start items-center gap-2">
-    <label class="relative bg-white border py-2 px-2 rounded-2xl shadow-2xl focus-within:border-gray-300" for="search-bar">
-        <input id="search-bar" placeholder="What You Find?" name="q" class="px-6 py-2 w-full rounded-md outline-none bg-white" required="">
-    </label>
-    <button type="submit" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-700 text-white fill-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-xl transition-all hover:bg-blue-700">
-        <div class="flex items-center transition-all opacity-1">
-            <span class="text-sm font-semibold whitespace-nowrap truncate mx-auto">
-                Search
-            </span>
-        </div>
-    </button>
-</form>
             <!--end::Row-->
           </div>
           <!--end::Container-->
