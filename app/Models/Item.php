@@ -17,4 +17,8 @@ class Item extends Model
         $this->table = config('db_constants.table.item');
         $this->fillable = array_values(config('db_constants.column.item') ?? []);
     }
+
+    public function getItem(){
+        return self::all();
+    }
 }
