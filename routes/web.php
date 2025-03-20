@@ -29,4 +29,4 @@ Route::get('/branches/{id}', [App\Http\Controllers\BranchController::class, 'get
 
 #Branch
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
-Route::get('/branch/list', [BranchController::class, 'list']);
+Route::get('/branch/list', [BranchController::class, 'list'])->name('branch.list');

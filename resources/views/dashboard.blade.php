@@ -332,6 +332,14 @@
                   </p>
                 </a>                
               </li>
+              <li class="nav-item">
+                <a href="{{ route('branch.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Branch
+                  </p>
+                </a>                
+              </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>

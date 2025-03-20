@@ -345,6 +345,14 @@
                   </p>
                 </a>                
               </li>
+              <li class="nav-item">
+                <a href="{{ route('branch.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Branch
+                  </p>
+                </a>                
+              </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -396,7 +404,13 @@
                             <td>{{ $branch->branch_name }}</td>
                             <td>{{ $branch->branch_address }}</td>
                             <td>{{ $branch->branch_telephone }}</td>
-                            <td>{{ $branch->branch_status }}</td>
+                            <td>
+                                 @if($branch->branch_status == 1)
+                                        <i class="bi bi-check-circle-fill text-success"></i>
+                                @else
+                                        <i class="bi bi-x-circle-fill text-danger"></i>
+                                  @endif
+                           </td>
                             <td>{{ $branch->created_at }}</td>
                             <td>{{ $branch->updated_at }}</td>
                             </tr>
