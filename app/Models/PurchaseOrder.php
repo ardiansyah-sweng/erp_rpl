@@ -24,6 +24,7 @@ class PurchaseOrder extends Model
 
     public static function getAllPurchaseOrders()
     {
-        return self::with('supplier')->orderBy('created_at', 'desc')->paginate(10);
+        // Mengurutkan supplier berdasarkan tanggal pesanan(order_date) secara Descending
+        return self::with('supplier')->orderBy('order_date', 'desc')->paginate(10);
     }
 }
