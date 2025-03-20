@@ -13,12 +13,13 @@ return [
     'table' => [
         'branch'                    => 'branch',
         'category'                  => $master['category'],
-        'grn'                       => 'goods_receipt_not',
+        'grn'                       => 'goods_receipt_note',
         'item'                      => 'item',
         'log_avg_base_price'        => 'log_avg_base_price',
         'log_base_price_supplier'   => 'log_base_price_supplier_product',
         'log_stock'                 => 'log_stock',
         'master_product'            => 'master_product',
+        'merk'                      => 'merks',
         'po'                        => 'purchase_order',
         'po_detail'                 => 'purchase_order_detail',
         'products'                   => 'products',
@@ -45,6 +46,10 @@ return [
         'grn' => [
             'id'                    => $master['id'],
             'po_number'             => $master['po_number'],
+            'product_id'            => 'product_id',
+            'date'                  => 'delivery_date',
+            'qty'                   => 'delivered_quantity',
+            'comments'              => 'comments',
             'created_at'            => $master['created'],
             'updated_at'            => 'updated_at'
         ],
@@ -71,6 +76,13 @@ return [
             'product_id'            => 'product_id',
             'old_stock'             => 'old_stock',
             'new_stock'             => 'new_stock',
+            'created_at'            => 'created_at',
+            'updated_at'            => 'updated_at'
+        ],
+        'merk' => [
+            'id'                    => 'id',
+            'merk'                  => 'merk',
+            'active'                => 'active',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],

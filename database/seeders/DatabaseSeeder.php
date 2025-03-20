@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             SupplierSeeder::class,
             BranchSeeder::class,
             PurchaseOrderSeeder::class,
+            GoodsReceiptNoteSeeder::class,
             // ProductPriceSeeder::class
         ]);
     }
