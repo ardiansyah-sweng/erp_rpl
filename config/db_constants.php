@@ -39,7 +39,7 @@ return [
             'id'                    => $master['id'],           #tinyInteger
             'category'              => $master['category'],     #string[50]
             'parent_id'             => 'parent_id',              #tinyInteger
-            'aktive'                => 'aktive',                 #boolean
+            'active'                => 'active',                 #boolean
             'created_at'            => $master['created'],
             'updated_at'            => $master['updated']
         ],

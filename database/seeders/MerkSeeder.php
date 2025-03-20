@@ -25,7 +25,8 @@ class MerkSeeder extends Seeder
         for ($i=0; $i<=$numOfMerk; $i++)
         {
             Merk::create([
-                $colMerk['merk'] => $this->faker->word()
+                $colMerk['merk'] => $this->faker->word(),
+                $colMerk['active'] => $this->faker->boolean(),
             ]);
         }
     }
