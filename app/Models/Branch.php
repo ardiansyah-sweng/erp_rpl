@@ -28,5 +28,10 @@ class Branch extends Model
     public static function getRandomBranchID(){
         return self::inRandomOrder()->first()->id;
     }
+
+    public static function getAllBranch()
+    {
+        return self::orderBy('created_at', 'desc')->paginate(10);
+    }
 }
  
