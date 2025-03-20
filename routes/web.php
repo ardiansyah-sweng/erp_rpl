@@ -18,6 +18,7 @@ Route::get('/supplier/pic/add', function () {
 
 
 
+
 #API
 Route::get('/products', [APIProductController::class, 'getProducts']);
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice']);
@@ -26,5 +27,7 @@ Route::get('/branches/{id}', [App\Http\Controllers\BranchController::class, 'get
 
 #Branch
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
+Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
+
 
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
