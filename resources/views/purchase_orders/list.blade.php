@@ -372,7 +372,10 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="card mb-4">
-                  <div class="card-header"><h3 class="card-title">List Table</h3></div>
+                  <div class="card-header">
+                    <h3 class="card-title mb-0 me-2">Purchase Orders</h3>
+                  <a href="#" class="btn btn-primary btn-sm">Tambah</a>
+                </div>
                   <!-- /.card-header -->
                   <div class="card-body">
                   <table class="table table-bordered">
