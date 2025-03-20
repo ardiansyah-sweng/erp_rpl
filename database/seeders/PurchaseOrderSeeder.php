@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
+use App\Enums\POStatus;
 
 class PurchaseOrderSeeder extends Seeder
 {
@@ -92,12 +93,14 @@ class PurchaseOrderSeeder extends Seeder
                     ]);
                 }
             }
+
             PurchaseOrder::create([
                 $this->colPO['po_number']=>$po_number,
                 $this->colPO['supplier_id']=>$supplierID,
                 $this->colPO['total']=>$total,
                 $this->colPO['branch_id']=>$branchID,
-                $this->colPO['order_date']=>$orderDate
+                $this->colPO['order_date']=>$orderDate,
+                $this->colPO['status']=>$this->faker->randomElement(POStatus::cases())->value
             ]);
         }
     }
