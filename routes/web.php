@@ -21,7 +21,7 @@ Route::get('/branches/{id}', [App\Http\Controllers\BranchController::class, 'get
 #Branch
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 
-#Form Validasi 
-Route::get('/supplier-pic', function () {
-    return view('supplier-pic');
+#route form dan validate perlu controller untuk melakukan testing layout view
+Route::get('/supplier/pic/detail', function () {
+    return view('supplier.pic.detail');
 });
