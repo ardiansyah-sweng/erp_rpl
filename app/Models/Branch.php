@@ -21,12 +21,23 @@ class Branch extends Model
         $this->fillable = array_values(config('db_constants.column.branch') ?? []);
     }
 
-    public function getBranchById($id){
+    public function getBranchById($id)
+    {
         return self::where('id', $id)->first();
     }
 
-    public static function getRandomBranchID(){
+    public static function getRandomBranchID()
+    {
         return self::inRandomOrder()->first()->id;
     }
+
+    public static function addBranch($name, $address, $telephone, $status = 1)
+    {
+        return self::create([
+            'branch_name' => $name,
+            'branch_address' => $address,
+            'branch_telephone' => $telephone,
+            'branch_status' => $status,
+        ]);
+    }
 }
- 
