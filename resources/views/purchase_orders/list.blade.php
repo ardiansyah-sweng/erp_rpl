@@ -72,20 +72,17 @@
       <nav class="app-header navbar navbar-expand bg-body">
         <!--begin::Container-->
         <div class="container-fluid">
-          <!--begin::Start Form Links-->
-          <form action="/search" class="flex justify-start items-center gap-2">
-    <label class="relative bg-white border py-2 px-2 rounded-2xl shadow-2xl focus-within:border-gray-300" for="search-bar">
-        <input id="search-bar" placeholder="What You Find?" name="q" class="px-6 py-2 w-full rounded-md outline-none bg-white" required="">
-    </label>
-    <button type="submit" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-700 text-white fill-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-xl transition-all hover:bg-blue-700">
-        <div class="flex items-center transition-all opacity-1">
-            <span class="text-sm font-semibold whitespace-nowrap truncate mx-auto">
-                Search
-            </span>
+          <!--begin::Start Search Bar-->
+        
+        <div class="relative p-2 border border-gray-200 rounded-lg w-full max-w-lg">
+          <input type="text" class="rounded-md p-2 w-full" placeholder="Search MCQ | Topic | Course">
+          <button type="submit" class="absolute right-6 top-6">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+          </button>
         </div>
-    </button>
-</form>
-          <!--end::Start Form Links-->
+          <!--begin::End Search Bar-->
           <!--begin::End Navbar Links-->
           <ul class="navbar-nav ms-auto">
             <!--begin::Messages Dropdown Menu-->
