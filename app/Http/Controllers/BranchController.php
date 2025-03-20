@@ -9,7 +9,7 @@ class BranchController extends Controller
     public function getBranchById($id){
         return (new Branch)->getBranchById($id);
     }
-    public function list()
+    public function getBranchAll()
     {
         $branches = Branch::paginate(10);
         return view('branch.list', ['branches' => $branches]);
