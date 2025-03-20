@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GoodsReceiptNote extends Model
+class Merk extends Model
 {
     protected $table;
     protected $fillable = [];
@@ -13,7 +13,8 @@ class GoodsReceiptNote extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_constants.table.grn');
-        $this->fillable = array_values(config('db_constants.column.grn') ?? []);
+        // Tetapkan nama tabel dan kolom
+        $this->table = config('db_constants.table.merk');
+        $this->fillable = array_values(config('db_constants.column.merk') ?? []);
     }
 }

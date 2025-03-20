@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function __construct()
+    {
+        $this->table = config('db_constants.table.merk');
+    }
+
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        $col = config('db_constants.column.merk');
+
+        Schema::create($this->table, function (Blueprint $table) use ($col) {
+            $table->id();
+            $table->string($col['merk']);
+            $table->tinyInteger($col['active'])->default(1);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists($this->table);
+    }
+};
