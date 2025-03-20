@@ -16,6 +16,7 @@ use App\Models\SupplierProduct;
 use App\Models\LogBasePrice;
 use App\Helpers\DBConstants;
 use App\Enums\ProductType;
+use App\Enums\Measurement;
 
 class SupplierSeeder extends Seeder
 {
@@ -177,7 +178,6 @@ class SupplierSeeder extends Seeder
         $this->createCategory($numOfCategory);
 
         $prefix = 'PRD';
-        $measurement_unit = ['Ons', 'Mg', 'Kg', 'Unit', 'Pcs', 'Sheet', 'Lusin', 'Boks', 'Dus', 'Ml', 'Gr', 'Orang','Resep','Krat', 'Butir'];
 
         for ($i=1; $i <= $numOfProduct; $i++)
         {
@@ -188,7 +188,7 @@ class SupplierSeeder extends Seeder
                 $this->colProduct['name'] => $this->faker->word(),
                 $this->colProduct['category_id'] => $this->faker->numberBetween(1, $numOfCategory),
                 $this->colProduct['description'] => $this->faker->sentence(),
-                $this->colProduct['measurement']  => $this->faker->randomElement($measurement_unit),
+                $this->colProduct['measurement']  => $this->faker->randomElement(Measurement::cases())->value,
             ]);
         }
     }
