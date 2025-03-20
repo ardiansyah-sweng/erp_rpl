@@ -396,7 +396,7 @@
           <tr class="align-middle">
             <td>{{ $index + 1 }}</td>
             <td><a href="#">{{ $order->po_number }}</a></td>
-            <td>{{ $order->supplier ? $order->supplier->company_name : 'Supplier not found' }}</td>
+            <td><a href="#">{{ $order->supplier ? $order->supplier->company_name : 'Supplier not found' }}</a></td>
             <td>Rp{{ number_format($order->total, 0, ',', '.') }}</td>
             <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d M Y') }}</td>
             <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y H:i') }}</td>
