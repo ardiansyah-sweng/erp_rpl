@@ -6,20 +6,28 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    public function __construct()
+    {
+        $this->table = config('db_constants.table.po');
+    }
+
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('purchase_order', function (Blueprint $table) {
-            $table->char('po_number', 6);
-            $table->char('supplier_id', 6);
-            $table->bigInteger('total'); #dinamis dari po detail
-            $table->integer('branch_id');
-            $table->date('order_date');
+        $col = config('db_constants.column.po');
+
+        Schema::create($this->table, function (Blueprint $table) use ($col) {
+            $table->char($col['po_number'], 6);
+            $table->char($col['supplier_id'], 6);
+            $table->bigInteger($col['total']); #dinamis dari po detail
+            $table->integer($col['branch_id']);
+            $table->date($col['order_date']);
+            $table->char($col['status'], 20)->default('Draft');
             $table->timestamps();
 
-            $table->primary(['po_number', 'supplier_id']);
+            $table->primary([$col['po_number'], $col['supplier_id']]);
         });
     }
 
@@ -28,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchase_order');
+        Schema::dropIfExists($this->table);
     }
 };
