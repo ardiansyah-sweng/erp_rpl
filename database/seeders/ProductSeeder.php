@@ -167,6 +167,7 @@ class ProductSeeder extends Seeder
         }
         
         $this->createCategory($numOfCategory);
+        $category = Category::where('active', 1)->inRandomOrder()->take(1)->get();
 
         $prefix = 'P';
         
@@ -175,11 +176,13 @@ class ProductSeeder extends Seeder
         {
             $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
             $productID = $prefix . $formattedNumber;
+            $categoryID = $category->pluck('id')->toArray();
+
             Product::create([
-                $column['id'] => $productID, 
+                $column['id'] => $productID,
                 $column['name'] => $this->faker->word(),
-                $column['type'] =>'Raw Material', 
-                $column['category'] => $this->faker->numberBetween(1, $numOfCategory), 
+                $column['type'] =>'Raw Material',
+                $column['category'] => $categoryID[0],
                 $column['desc'] => $this->faker->sentence(),
                 $column['created'] => now(),
                 $column['updated'] => now()
@@ -213,6 +216,7 @@ class ProductSeeder extends Seeder
                 Category::create([
                     $colCategory['category'] => $this->faker->word,
                     $colCategory['parent_id'] => $id,
+                    $colCategory['active'] => $this->faker->boolean()
                 ]);
             }
         }

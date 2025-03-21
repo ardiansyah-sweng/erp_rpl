@@ -6,16 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    public function __construct()
+    {
+        $this->table = config('db_constants.table.merk');
+    }
+
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('category', function (Blueprint $table) {
+        $col = config('db_constants.column.merk');
+
+        Schema::create($this->table, function (Blueprint $table) use ($col) {
             $table->id();
-            $table->string('category', 50);
-            $table->integer('parent_id')->nullable();
-            $table->boolean('active')->default(1);
+            $table->string($col['merk']);
+            $table->tinyInteger($col['active'])->default(1);
             $table->timestamps();
         });
     }
@@ -25,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('category');
+        Schema::dropIfExists($this->table);
     }
 };
