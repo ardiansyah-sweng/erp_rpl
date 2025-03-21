@@ -92,6 +92,7 @@ return [
             'total'                 => 'total',
             'branch_id'             => 'branch_id',
             'order_date'            => 'order_date',
+            'status'                => 'status',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
