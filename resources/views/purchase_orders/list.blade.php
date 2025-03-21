@@ -388,7 +388,8 @@
             <td><a href="#">{{ $order->supplier ? $order->supplier->company_name : 'Supplier not found' }}</a></td>
             <td>Rp{{ number_format($order->total, 0, ',', '.') }}</td>
             <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d M Y') }}</td>
-            <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y H:i') }}</td>
+            <!-- <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y H:i') }}</td> -->
+            <td>{{ $order->status }}</td>
             <td>
               <a href="#" class="btn btn-sm btn-primary">Edit</a>
               <a href="#" class="btn btn-sm btn-danger">Delete</a>
