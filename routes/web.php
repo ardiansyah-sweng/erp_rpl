@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
-use App\Http\Controllers\SupplierPIController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -27,5 +26,3 @@ Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.l
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
 
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
-
-Route::get('/pic/{id}', [SupplierPIController::class, 'getPICDetailByID']);
