@@ -165,7 +165,9 @@ class SupplierSeeder extends Seeder
                 $column['name'] => $this->faker->name,
                 $column['phone_number'] => $this->faker->phonenumber,
                 $column['email'] => $this->faker->email,
-                $column['assigned_date'] => $this->faker->date
+                $column['assigned_date'] => $this->faker->date,
+                $column['active'] => $this->faker->boolean,
+                $column['avatar'] => $this->faker->imageUrl
             ]);
         }
     }
