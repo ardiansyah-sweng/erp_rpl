@@ -406,7 +406,7 @@
                     </tr>
                   </thead>
                   <tbody>
-    <tr class="align-middle">
+                  <tr class="align-middle">
         <td>1.</td>
         <td>KAOS</td>
         <td>Kaos TShirt</td>
@@ -415,6 +415,11 @@
         <td>Kaos TShirt</td>
         <td>2025-03-21 17:38:26</td>
         <td>2025-03-21 17:38:26</td>
+        <td>
+            <a href="#" class="btn btn-sm btn-primary">Edit</a>
+            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            <a href="#" class="btn btn-sm btn-info">Detail</a>
+        </td>
     </tr>
     <tr class="align-middle">
         <td>2.</td>
@@ -425,6 +430,11 @@
         <td>Topi</td>
         <td>2025-03-21 17:38:26</td>
         <td>2025-03-21 17:38:26</td>
+        <td>
+            <a href="#" class="btn btn-sm btn-primary">Edit</a>
+            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            <a href="#" class="btn btn-sm btn-info">Detail</a>
+        </td>
     </tr>
     <tr class="align-middle">
         <td>3.</td>
@@ -435,6 +445,11 @@
         <td>Tas</td>
         <td>2025-03-21 17:38:26</td>
         <td>2025-03-21 17:38:26</td>
+        <td>
+            <a href="#" class="btn btn-sm btn-primary">Edit</a>
+            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            <a href="#" class="btn btn-sm btn-info">Detail</a>
+        </td>
     </tr>
     <tr class="align-middle">
         <td>4.</td>
@@ -445,6 +460,11 @@
         <td>Tumbler</td>
         <td>2025-03-21 17:38:26</td>
         <td>2025-03-21 17:38:26</td>
+        <td>
+            <a href="#" class="btn btn-sm btn-primary">Edit</a>
+            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            <a href="#" class="btn btn-sm btn-info">Detail</a>
+        </td>
     </tr>
     <tr class="align-middle">
         <td>5.</td>
@@ -455,85 +475,42 @@
         <td>Tanjak</td>
         <td>2025-03-21 17:38:26</td>
         <td>2025-03-21 17:38:26</td>
+        <td>
+            <a href="#" class="btn btn-sm btn-primary">Edit</a>
+            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            <a href="#" class="btn btn-sm btn-info">Detail</a>
+        </td>
     </tr>
     <tr class="align-middle">
-        <td>6.</td>
-        <td>MNTR</td>
-        <td>Miniatur</td>
-        <td>Finished</td>
-        <td>6</td>
-        <td>Miniatur</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>2025-03-21 17:38:26</td>
-    </tr>
-    <tr class="align-middle">
-        <td>7.</td>
-        <td>CLDR</td>
-        <td>Calendar</td>
-        <td>Finished</td>
-        <td>7</td>
-        <td>Calendar Nyenyes</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>2025-03-21 17:38:26</td>
-    </tr>
-    <tr class="align-middle">
-        <td>8.</td>
-        <td>JAMN</td>
-        <td>Jam</td>
-        <td>Finished</td>
-        <td>8</td>
-        <td>Jam</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>2025-03-21 17:38:26</td>
-    </tr>
-    <tr class="align-middle">
-        <td>9.</td>
-        <td>KEYS</td>
-        <td>Gantungan Kunci</td>
-        <td>Finished</td>
-        <td>9</td>
-        <td>Gantungan Kunci</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>2025-03-21 17:38:26</td>
-    </tr>
-    <tr class="align-middle">
-        <td>10.</td>
-        <td>PINN</td>
-        <td>Bros PIN</td>
-        <td>Finished</td>
-        <td>10</td>
-        <td>Bros PIN</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>2025-03-21 17:38:26</td>
-    </tr>
-    <tr class="align-middle">
-        <td>11.</td>
-        <td>DMPT</td>
-        <td>Dompet</td>
-        <td>Finished</td>
-        <td>11</td>
-        <td>Dompet</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>2025-03-21 17:38:26</td>
-    </tr>
-    <tr class="align-middle">
-        <td>12.</td>
-        <td>BOLN</td>
-        <td>Kue Bolen</td>
-        <td>Finished</td>
-        <td>12</td>
-        <td>Kue Bolen</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>2025-03-21 17:38:26</td>
-        
-    </tr>
-<!-- <tr> -->
-  <!-- <td>
-<a href="#" class="btn btn-sm btn-primary">Edit</a>
- <a href="#" class="btn btn-sm btn-danger">Delete</a>
- <a href="#" class="btn btn-sm btn-info">Detail</a>
- </td> -->
- <!-- </tr> -->
+          <td>7.</td>
+          <td>CLDR</td>
+          <td>Calendar</td>
+          <td>Finished</td>
+          <td>7</td>
+          <td>Calendar Nyenyes</td>
+          <td>2025-03-21 17:38:26</td>
+          <td>2025-03-21 17:38:26</td>
+          <td>
+            <a href="#" class="btn btn-sm btn-primary">Edit</a>
+            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            <a href="#" class="btn btn-sm btn-info">Detail</a>
+          </td>
+        </tr>
+        <tr class="align-middle">
+          <td>8.</td>
+          <td>JAMN</td>
+          <td>Jam</td>
+          <td>Finished</td>
+          <td>8</td>
+          <td>Jam</td>
+          <td>2025-03-21 17:38:26</td>
+          <td>2025-03-21 17:38:26</td>
+          <td>
+            <a href="#" class="btn btn-sm btn-primary">Edit</a>
+            <a href="#" class="btn btn-sm btn-danger">Delete</a>
+            <a href="#" class="btn btn-sm btn-info">Detail</a>
+          </td>
+        </tr>
                         
 </tbody>
                 </table>
