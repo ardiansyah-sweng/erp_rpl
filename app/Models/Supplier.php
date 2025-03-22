@@ -11,7 +11,7 @@ class Supplier extends Model
 
     public static function deleteSupplier($id)
     {
-        return self::where('supplier_id', $id)->delete();
+        return static::where('supplier_id', $id)->delete();
     }
 
 }
