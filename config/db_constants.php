@@ -145,7 +145,8 @@ return [
             'phone_number'          => 'phone_number',
             'email'                 => 'email',
             'assigned_date'         => 'assigned_date',
-            'status'                => 'status',
+            'active'                => 'active',
+            'avatar'                => 'avatar',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
