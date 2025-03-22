@@ -19,4 +19,10 @@ class APIProductController extends Controller
         $avgBasePrices = LogAVgBasePrice::all();
         return response()->json($avgBasePrices);
     }
+    public function index()
+{
+    $products = Product::all(); // Ambil semua data produk
+    return view('product.list', compact('products')); // Kirim data ke Blade
+}
+
 }
