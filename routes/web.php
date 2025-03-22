@@ -16,8 +16,8 @@ Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
 
-# Product (Perbaikan penautan)
-Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); // Pastikan method-nya sesuai
+# Product 
+Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts']);
