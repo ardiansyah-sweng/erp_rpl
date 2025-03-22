@@ -9,7 +9,7 @@ class ProductController extends Controller
 {
     public function getProductList()
     {
-        $products = Product::getAllProducts();
+        $products = Product::with('category')->paginate(10);
         return view('product.list', compact('products'));
     }
 }
