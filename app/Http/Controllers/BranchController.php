@@ -21,7 +21,7 @@ class BranchController extends Controller
     public function addBranch(Request $request)
     {
         $request->validate([
-            'branch_name' => 'required|string|min:3|unique:branches,branch_name',
+            'branch_name' => 'required|string|min:3|unique:branch,branch_name',
             'branch_address' => 'required|string|min:3',
             'branch_telephone' => 'required|string|min:3'
         ]);

@@ -3,13 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\HasDynamicColumns;
 
 class SupplierPic extends Model
 {
-    use HasDynamicColumns;
-    
-    protected $table = 'supplier_pic';
-    protected $fillable = ['supplier_id','name','phone_number','email','assigned_date'];
+    protected $table;
+    protected $fillable = [];
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        // Tetapkan nama tabel dan kolom
+        $this->table = config('db_constants.table.supplier_pic');
+        $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
+    }
 }

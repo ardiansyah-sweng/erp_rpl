@@ -15,6 +15,9 @@ Route::get('/dashboard', function () {
 Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
+Route::get('/branch/add', function () {
+    return view('branch/add');
+});
 
 # Product (Perbaikan penautan)
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); // Pastikan method-nya sesuai
