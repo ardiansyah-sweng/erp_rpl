@@ -9,7 +9,7 @@ class ProductController extends Controller
 {
     public function getProductList()
     {
-        $products = Product::all(); // Mengambil semua data produk
+        $products = Product::getAllProducts();
         return view('product.list', compact('products'));
     }
 }

@@ -405,115 +405,26 @@
                       <th>Action </th>
                     </tr>
                   </thead>
-                  <tbody>
+                 <tbody>
+                  @foreach ($products as $index => $product)
                   <tr class="align-middle">
-        <td>1.</td>
-        <td>KAOS</td>
-        <td>Kaos TShirt</td>
-        <td>Finished</td>
-        <td>1</td>
-        <td>Kaos TShirt</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>
-            <a href="#" class="btn btn-sm btn-primary">Edit</a>
-            <a href="#" class="btn btn-sm btn-danger">Delete</a>
-            <a href="#" class="btn btn-sm btn-info">Detail</a>
-        </td>
-    </tr>
-    <tr class="align-middle">
-        <td>2.</td>
-        <td>TOPI</td>
-        <td>Topi</td>
-        <td>Finished</td>
-        <td>2</td>
-        <td>Topi</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>
-            <a href="#" class="btn btn-sm btn-primary">Edit</a>
-            <a href="#" class="btn btn-sm btn-danger">Delete</a>
-            <a href="#" class="btn btn-sm btn-info">Detail</a>
-        </td>
-    </tr>
-    <tr class="align-middle">
-        <td>3.</td>
-        <td>TASS</td>
-        <td>Tas</td>
-        <td>Finished</td>
-        <td>3</td>
-        <td>Tas</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>
-            <a href="#" class="btn btn-sm btn-primary">Edit</a>
-            <a href="#" class="btn btn-sm btn-danger">Delete</a>
-            <a href="#" class="btn btn-sm btn-info">Detail</a>
-        </td>
-    </tr>
-    <tr class="align-middle">
-        <td>4.</td>
-        <td>TBLR</td>
-        <td>Tumbler</td>
-        <td>Finished</td>
-        <td>4</td>
-        <td>Tumbler</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>
-            <a href="#" class="btn btn-sm btn-primary">Edit</a>
-            <a href="#" class="btn btn-sm btn-danger">Delete</a>
-            <a href="#" class="btn btn-sm btn-info">Detail</a>
-        </td>
-    </tr>
-    <tr class="align-middle">
-        <td>5.</td>
-        <td>TNJK</td>
-        <td>Tanjak</td>
-        <td>Finished</td>
-        <td>5</td>
-        <td>Tanjak</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>2025-03-21 17:38:26</td>
-        <td>
-            <a href="#" class="btn btn-sm btn-primary">Edit</a>
-            <a href="#" class="btn btn-sm btn-danger">Delete</a>
-            <a href="#" class="btn btn-sm btn-info">Detail</a>
-        </td>
-    </tr>
-    <tr class="align-middle">
-          <td>7.</td>
-          <td>CLDR</td>
-          <td>Calendar</td>
-          <td>Finished</td>
-          <td>7</td>
-          <td>Calendar Nyenyes</td>
-          <td>2025-03-21 17:38:26</td>
-          <td>2025-03-21 17:38:26</td>
-          <td>
-            <a href="#" class="btn btn-sm btn-primary">Edit</a>
-            <a href="#" class="btn btn-sm btn-danger">Delete</a>
-            <a href="#" class="btn btn-sm btn-info">Detail</a>
-          </td>
-        </tr>
-        <tr class="align-middle">
-          <td>8.</td>
-          <td>JAMN</td>
-          <td>Jam</td>
-          <td>Finished</td>
-          <td>8</td>
-          <td>Jam</td>
-          <td>2025-03-21 17:38:26</td>
-          <td>2025-03-21 17:38:26</td>
-          <td>
-            <a href="#" class="btn btn-sm btn-primary">Edit</a>
-            <a href="#" class="btn btn-sm btn-danger">Delete</a>
-            <a href="#" class="btn btn-sm btn-info">Detail</a>
-          </td>
-        </tr>
-                        
-</tbody>
-                </table>
+                      <td>{{ $index + 1 }}</td>
+                      <td>{{ $product->product_id }}</td>
+                      <td>{{ $product->product_name }}</td>
+                      <td>{{ $product->product_type }}</td>
+                      <td>{{ $product->product_category }}</td>
+                      <td>{{ $product->product_description }}</td>
+                      <td>{{ $product->created_at }}</td>
+                      <td>{{ $product->updated_at }}</td>
+                      <td>
+                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                          <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                          <a href="#" class="btn btn-sm btn-info">Detail</a>
+                      </td>
+                  </tr>
+        @endforeach
+    </tbody>
+</table>
               </div>
               <!-- /.card-body -->
               <div class="card-footer clearfix">
