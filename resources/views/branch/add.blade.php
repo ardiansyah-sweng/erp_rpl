@@ -244,7 +244,7 @@
                   <div class="card-header">
                     <h3 class="card-title">Formulir Tambah Cabang</h3>
                   </div>
-                  <form action="" method="POST" id="branchForm">
+                  <form action="{{ route('branch.add') }}" method="POST" id="branchForm">
                     @csrf
                     <div class="card-body">
                       <div class="form-group">
@@ -264,7 +264,7 @@
                       
                       <div class="form-group">
                         <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="branch_status" name="branch_status" value="0">
+                          <input type="checkbox" class="custom-control-input" id="branch_status" name="branch_status" value="1" checked>
                           <label class="custom-control-label" for="branch_status">Aktif</label>
                         </div>
                       </div>
@@ -347,31 +347,6 @@
     });
     </script>
 
-    <script>
-        $(document).ready(function() {
-            $('#branchForm').on('submit', function(e) {
-                e.preventDefault();
-                
-                const formData = {
-                    branch_name: $('#branch_name').val(),
-                    branch_address: $('#branch_address').val(),
-                    branch_telephone: $('#branch_telephone').val(),
-                    branch_status: $('#branch_status').is(':checked') ? '1' : '0'
-                };
-                
-                const ddOutput =
-                    Object.entries(formData).map(([key, value]) => 
-                        '  "' + key + '" => "' + value + '"'
-                    ).join('\n');
-                
-                $('#dd-content').text(ddOutput);
-                $('#debug-output').show();
-                
-                $('html, body').animate({
-                    scrollTop: $('#debug-output').offset().top
-                }, 500);
-            });
-        });
-    </script>
+    
   </body>
 </html>
