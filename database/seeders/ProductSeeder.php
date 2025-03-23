@@ -27,7 +27,7 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'KAOS', 
                     $column['name'] => 'Kaos TShirt', 
-                    $column['type'] =>'Finished', 
+                    $column['type'] =>'FG', 
                     $column['category'] => 1, 
                     $column['desc'] => 'Kaos TShirt', 
                     $column['created'] => now(), 
@@ -37,7 +37,7 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'TOPI', 
                     $column['name'] => 'Topi', 
-                    $column['type'] =>'Finished', 
+                    $column['type'] =>'FG', 
                     $column['category'] => 2, 
                     $column['desc'] => 'Topi', 
                     $column['created'] => now(), 
@@ -47,7 +47,7 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'TASS', 
                     $column['name'] => 'Tas', 
-                    $column['type'] =>'Finished', 
+                    $column['type'] =>'FG', 
                     $column['category'] => 3, 
                     $column['desc'] => 'Tas', 
                     $column['created'] => now(), 
@@ -57,7 +57,7 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'TBLR', 
                     $column['name'] => 'Tumbler', 
-                    $column['type'] =>'Finished', 
+                    $column['type'] =>'FG', 
                     $column['category'] => 4, 
                     $column['desc'] => 'Tumbler',                     
                     $column['created'] => now(), 
@@ -67,7 +67,7 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'TNJK', 
                     $column['name'] => 'Tanjak', 
-                    $column['type'] =>'Finished', 
+                    $column['type'] =>'FG', 
                     $column['category'] => 5, 
                     $column['desc'] => 'Tanjak',                     
                     $column['created'] => now(), 
@@ -77,7 +77,7 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'MNTR', 
                     $column['name'] => 'Miniatur', 
-                    $column['type'] =>'Finished', 
+                    $column['type'] =>'FG', 
                     $column['category'] => 6, 
                     $column['desc'] => 'Miniatur',                     
                     $column['created'] => now(), 
@@ -87,7 +87,7 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'CLDR', 
                     $column['name'] => 'Calendar', 
-                    $column['type'] =>'Finished', 
+                    $column['type'] =>'FG', 
                     $column['category'] => 7, 
                     $column['desc'] => 'Calendar Nyenyes',                     
                     $column['created'] => now(), 
@@ -97,7 +97,7 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'JAMN', 
                     $column['name'] => 'Jam', 
-                    $column['type'] =>'Finished', 
+                    $column['type'] =>'FG', 
                     $column['category'] => 8, 
                     $column['desc'] => 'Jam',                     
                     $column['created'] => now(), 
@@ -108,7 +108,7 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'KEYS', 
                     $column['name'] => 'Gantungan Kunci', 
-                    $column['type'] =>'Finished', 
+                    $column['type'] =>'FG', 
                     $column['category'] => 9, 
                     $column['desc'] => 'Gantungan Kunci',                     
                     $column['created'] => now(), 
@@ -118,7 +118,7 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'PINN', 
                     $column['name'] => 'Bros PIN', 
-                    $column['type'] =>'Finished', 
+                    $column['type'] =>'FG', 
                     $column['category'] => 10, 
                     $column['desc'] => 'Bros PIN',                     
                     $column['created'] => now(), 
@@ -128,7 +128,7 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'DMPT', 
                     $column['name'] => 'Dompet', 
-                    $column['type'] =>'Finished', 
+                    $column['type'] =>'FG', 
                     $column['category'] => 11, 
                     $column['desc'] => 'Dompet',                     
                     $column['created'] => now(), 
@@ -138,7 +138,7 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'BOLN', 
                     $column['name'] => 'Kue Bolen', 
-                    $column['type'] =>'Finished', 
+                    $column['type'] =>'FG', 
                     $column['category'] => 12, 
                     $column['desc'] => 'Kue Bolen',                     
                     $column['created'] => now(),
@@ -148,7 +148,7 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'PEMP', 
                     $column['name'] => 'Pempek', 
-                    $column['type'] =>'Finished', 
+                    $column['type'] =>'FG', 
                     $column['category'] => 13, 
                     $column['desc'] => 'Pempek Palembang',                     
                     $column['created'] => now(),
@@ -181,7 +181,28 @@ class ProductSeeder extends Seeder
             Product::create([
                 $column['id'] => $productID,
                 $column['name'] => $this->faker->word(),
-                $column['type'] =>'Raw Material',
+                $column['type'] =>'RM',
+                $column['category'] => $categoryID[0],
+                $column['desc'] => $this->faker->sentence(),
+                $column['created'] => now(),
+                $column['updated'] => now()
+            ]);
+        }
+
+        $category = Category::where('active', 1)->inRandomOrder()->take(1)->get();
+        $numOFHFGProduct = $numOfRMProduct + $this->faker->numberBetween(1, 6);
+
+        #create half finished goods products
+        for ($i=$numOfRMProduct+1; $i<=$numOFHFGProduct; $i++)
+        {
+            $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
+            $productID = $prefix . $formattedNumber;
+            $categoryID = $category->pluck('id')->toArray();
+
+            Product::create([
+                $column['id'] => $productID,
+                $column['name'] => $this->faker->word(),
+                $column['type'] =>'HFG',
                 $column['category'] => $categoryID[0],
                 $column['desc'] => $this->faker->sentence(),
                 $column['created'] => now(),

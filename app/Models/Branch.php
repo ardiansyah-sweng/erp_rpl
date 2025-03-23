@@ -31,9 +31,17 @@ class Branch extends Model
         return self::inRandomOrder()->first()->id;
     }
 
-    public static function getAllBranch()
+    public static function getAllBranch($search = null)
     {
-        return self::orderBy('created_at', 'asc')->paginate(10);
+        $query = self::query();
+
+        if ($search) {
+            $query->where('branch_name', 'LIKE', "%{$search}%")
+                  ->orWhere('branch_address', 'LIKE', "%{$search}%")
+                  ->orWhere('branch_telephone', 'LIKE', "%{$search}%");
+        }
+
+        return $query->orderBy('created_at', 'asc')->paginate(10);
     }
 
     public static function addBranch($data)

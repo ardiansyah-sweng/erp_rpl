@@ -11,6 +11,8 @@ $master = [
 
 return [
     'table' => [
+        'bom'                       => 'bill_of_material',
+        'bom_detail'                => 'bom_detail',
         'branch'                    => 'branch',
         'category'                  => $master['category'],
         'grn'                       => 'goods_receipt_note',
@@ -28,6 +30,26 @@ return [
         'supplier_product'          => 'supplier_product',
     ],
     'column' => [
+        'bom' => [
+            'id'                    => 'id',
+            'bom_id'                => 'bom_id', #char[7] berformat: BOM-001
+            'name'                  => 'bom_name',  #string[100]. Disebut juga nama resep.
+            'unit'                  => 'measurement_unit', #chat[6]. Satuan dari hasil produksi.
+            'sku'                   => 'sku', #string[50]. Kode item sebagai hasil produksi. #ambil dari tabel item
+            'total'                 => 'total_cost', #integer. HPP resep/bom ini. Dihitung dari biaya di tabel bom_detail.
+            'active'                => 'active', #boolean. Status aktif resep/bom ini.
+            'created_at'            => 'created_at',
+            'updated_at'            => 'updated_at'
+        ],
+        'bom_detail' => [
+            'id'                    => 'id',
+            'bom_id'                => 'bom_id', #integer. FK dari ID resep/bom.
+            'sku'                   => 'sku',   #string[50]. Kode item. #ambil dari tabel item
+            'qty'                   => 'quantity', #integer
+            'cost'                  => 'cost', #integer. Biaya per item per satuan.
+            'created_at'            => 'created_at',
+            'updated_at'            => 'updated_at'
+        ],
         'branch' => [
             'id'                    => 'id',
             'branch_name'           => 'branch_name',
@@ -53,6 +75,22 @@ return [
             'created_at'            => $master['created'],
             'updated_at'            => 'updated_at'
         ],
+
+        'item' => [
+            'id'                    => 'id',
+            'prod_id'               => 'product_id', #char[4]. Diambil dari product_id tabel products.
+            'sku'                   => 'sku',
+            'name'                  => 'item_name',
+            // 'category_id'           => 'category_id',
+            // 'description'           => 'description',
+            'measurement'           => 'measurement_unit',
+            //'stock'                 => 'current_stock',
+            'base_price'            => 'avg_base_price', #raw material from supplier
+            'selling_price'         => 'selling_price', #finished from bill of material
+            'created_at'            => 'created_at',
+            'updated_at'            => 'updated_at'
+        ],
+
         'log_avg_base_price' => [
             'id'                    => 'id',
             'product_id'            => 'product_id',
@@ -113,19 +151,6 @@ return [
             'desc'                  => 'product_description',   #string[255]
             'created'               => $master['created'],
             'updated'               => $master['updated']
-        ],
-        'item' => [
-            'id'                    => 'id',
-            'sku'                   => 'sku',
-            'name'                  => 'item_name',
-            // 'category_id'           => 'category_id',
-            // 'description'           => 'description',
-            'measurement'           => 'measurement_unit',
-            //'stock'                 => 'current_stock',
-            'base_price'            => 'avg_base_price', #raw material from supplier
-            'selling_price'         => 'selling_price', #finished from bill of material
-            'created_at'            => 'created_at',
-            'updated_at'            => 'updated_at'
         ],
         'inventory' => [
             'sku'                   => 'sku'

@@ -22,12 +22,12 @@ class ItemSeeder extends Seeder
      */
     public function run(): void
     {
-        $colProduct = config('db_constants.column.products');
+        $colProd = config('db_constants.column.products');
         $colItem = config('db_constants.column.item');
 
-        $finishedProduct = Product::all();
+        $products = Product::all();
 
-        foreach ($finishedProduct as $data)
+        foreach ($products as $data)
         {
             $numOfItemPerProduct = $this->faker->numberBetween(1, 10);
             $mou = $this->faker->randomElement(Measurement::cases())->value;
@@ -35,10 +35,11 @@ class ItemSeeder extends Seeder
             for ($i=0; $i<=$numOfItemPerProduct; $i++)
             {
                 $suffix = $this->faker->word();
-                $sku = $data->{$colProduct['id']}.'-'.$suffix;
-                $itemName = $data->{$colProduct['name']}.' '.$suffix;
+                $sku = $data->{$colProd['id']}.'-'.$suffix;
+                $itemName = $data->{$colProd['name']}.' '.$suffix;
 
                 Item::create([
+                    $colItem['prod_id'] => $data->{$colProd['id']},
                     $colItem['sku'] => $sku,
                     $colItem['name'] => $itemName,
                     $colItem['measurement'] => $mou,

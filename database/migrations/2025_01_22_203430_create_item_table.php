@@ -16,6 +16,7 @@ return new class extends Migration
 
         Schema::create($tableItem, function (Blueprint $table) use ($column) {
             $table->id();
+            $table->char($column['prod_id'], 4);
             $table->string($column['sku'], 50);
             $table->string($column['name'], 50);
             $table->string($column['measurement'], 6);
