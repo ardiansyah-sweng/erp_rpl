@@ -12,9 +12,10 @@ class BranchController extends Controller
         return (new Branch)->getBranchById($id);
     }
 
-    public function getBranchAll()
+    public function getBranchAll(Request $request)
     {
-        $branches = Branch::getAllBranch();
+        $search = $request->input('search');
+        $branches = Branch::getAllBranch($search);
         return view('branch.list', ['branches' => $branches]);
     }
 
