@@ -26,4 +26,9 @@ class PurchaseOrder extends Model
     {
         return self::with('supplier')->orderBy('created_at', 'desc')->paginate(10);
     }
+
+    public static function getPurchaseOrderByID($id)
+    {
+        return self::with('supplier')->find($id);
+    }
 }

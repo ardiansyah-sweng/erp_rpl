@@ -11,4 +11,10 @@ class PurchaseOrderController extends Controller
         $purchaseOrders = PurchaseOrder::getAllPurchaseOrders();
         return view('purchase_orders.list', compact('purchaseOrders'));
     }
+
+    public function getPurchaseOrderByID($id)
+    {
+        $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($id);
+        return view('purchase_orders.detail', compact('purchaseOrder'));
+    }
 }
