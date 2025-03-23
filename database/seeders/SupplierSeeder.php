@@ -49,39 +49,34 @@ class SupplierSeeder extends Seeder
         }
 
         #mendapatkan seluruh item random dari product bertipe RM (raw material)
-        #refaktor menggunakan model Product seperti pada PurchaseORderSeeder
-        $items = Item::join($this->table['products'], DB::raw('SUBSTRING(' . $this->table['item'] . '.' .    $this->colItem['sku'] . ', 1, 4)'), '=', $this->table['products'] . '.' . $this->colProduct['id'])
-                        ->where($this->table['products'] . '.product_type', ProductType::RM)
-                        ->select($this->table['item'] . '.' . $this->colItem['sku'])
-                        ->pluck($this->colItem['sku']);
+        $rawMaterial = (new Product()) -> getSKURawMaterialItem();
+        $items = $rawMaterial -> get();
         
         #menetapkan supplier untuk setiap item
         foreach ($items as $sku)
         {
+
             #mendapatkan sejumlah supplier secara random untuk tiap item yang dipasok
             $supplier = Supplier::all();
             $numOfSupplier = $this->faker->numberBetween(1, $supplier->count());
             $suppliers = $supplier->pluck($this->colSupplier['supplier_id'])->shuffle()->take($numOfSupplier);
-            $itemName = Item::where($this->colItem['sku'], $sku)->get()->first()->item_name;
+            $itemName = Item::where($this->colItem['sku'], $sku->sku)->get()->first()->item_name;
 
             foreach ($suppliers as $supplierID)
             {
-                $supplierItem =["supplier_id" => $supplierID, "product_id" => $sku];
-
                 $res = SupplierProduct::where($this->colSupplierProduct['supplier_id'], $supplierID)
-                    ->where($this->colSupplierProduct['product_id'], $sku)
+                    ->where($this->colSupplierProduct['product_id'], $sku->sku)
                     ->exists();
-                
                 $created_at = $this->faker->dateTimeBetween('-10 years', '2020-01-01 23:59:59')->format(self::DATE_FORMAT);
                 $companyName = Supplier::where($this->colSupplier['supplier_id'], $supplierID)->get()->first()->company_name;
                 $basePrice = $this->faker->numberBetween(4500, 75000);
-
+                
                 if (!$res)
                 {
                     SupplierProduct::create([
                         $this->colSupplierProduct['supplier_id'] => $supplierID,
                         $this->colSupplierProduct['company_name'] => $companyName,
-                        $this->colSupplierProduct['product_id'] => $sku,
+                        $this->colSupplierProduct['product_id'] => $sku->sku,
                         $this->colSupplierProduct['product_name'] => $itemName,
                         $this->colSupplierProduct['base_price'] => $basePrice,
                         $this->colSupplierProduct['created_at'] => $created_at,
@@ -95,7 +90,7 @@ class SupplierSeeder extends Seeder
                 {
                     $basePrice = $basePrice + $this->faker->numberBetween(-1000, 15000);
 
-                    $supplierProduct = SupplierProduct::where($colSupplierProduct['product_id'], $sku)
+                    $supplierProduct = SupplierProduct::where($colSupplierProduct['product_id'], $sku->sku)
                                                         ->where($colSupplierProduct['supplier_id'], $supplierID);
                     $created_at = $supplierProduct->first()->created_at;
                     $supplierProduct->update([$colSupplierProduct['base_price'] => $basePrice]);
@@ -110,7 +105,7 @@ class SupplierSeeder extends Seeder
 
                     $supplierProduct->update([$colSupplierProduct['updated_at'] => $newDate]);
                     $lastLogBasePrice = LogBasePrice::where($colLogBasePriceSupplier['supplier_id'], $supplierID)
-                                ->where($colLogBasePriceSupplier['product_id'], $sku)
+                                ->where($colLogBasePriceSupplier['product_id'], $sku->sku)
                                 ->orderBy($colLogBasePriceSupplier['id'], 'desc') // Mengurutkan berdasarkan ID secara descending
                                 ->first(); // Ambil record terakhir (ID terbesar)
 
@@ -133,7 +128,6 @@ class SupplierSeeder extends Seeder
         $prefix = 'SUP';
         $numOfSupplier = $this->faker->numberBetween(5, 20);
 
-        $counter = 0;
         for ($i=1; $i <= $numOfSupplier; $i++)
         {
             $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);

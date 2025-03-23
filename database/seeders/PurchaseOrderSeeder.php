@@ -47,7 +47,7 @@ class PurchaseOrderSeeder extends Seeder
             $po_number = $prefix.$formattedNumber;
 
             $start_date = Carbon::parse('2025-01-01');
-            $end_date = Carbon::parse('2025-02-28');
+            $end_date = Carbon::parse('2025-03-15');
                                   
             # 2. Pilih satu supplier secara acak
             $supplierID = Supplier::select('supplier_id')
@@ -63,18 +63,20 @@ class PurchaseOrderSeeder extends Seeder
             # 3. Mengambil raw material item secara random untuk diorder
             $rawMaterial = (new Product()) -> getSKURawMaterialItem();
             $numOfSKU = $this->faker->numberBetween(1, $rawMaterial->count());
-            $shuffledRawMaterial = $rawMaterial -> shuffle();
-            $selectedRawMaterial = $shuffledRawMaterial -> take($numOfSKU) -> unique();
+            $selectedRawMaterial = $rawMaterial -> inRandomOrder()
+                                    ->limit($this->faker->numberBetween(1, $numOfSKU))
+                                    ->get();
 
             # 3. Membaca tiap raw material
             $total = 0;
+
             foreach ($selectedRawMaterial as $rawMaterial) {
                 # 4. Masukkan tiap raw material ke tabel PO Detail
                 $quantity = $this->faker->numberBetween(1, 500);
                 
                 # 5. Mendapatkan base price dari supplier
                 $basePrice = LogBasePrice::where('supplier_id', $supplierID)
-                    ->where('product_id', $rawMaterial)
+                    ->where('product_id', $rawMaterial->sku)
                     ->latest('id')
                     ->first();
                 
@@ -82,17 +84,19 @@ class PurchaseOrderSeeder extends Seeder
                     $amount = $basePrice['new_base_price'] * $quantity;
                     $total = $total + $amount;
 
-                    print_r($po_number .' '. $rawMaterial.' '. $quantity.' '.$basePrice['new_base_price'].' '. $amount);
+                    print_r($po_number .' '. $rawMaterial->sku.' '. $quantity.' '.$basePrice['new_base_price'].' '. $amount);
                     echo "\n";
                     
                     PurchaseOrderDetail::create([
                         $this->colPODetail['po_number']=>$po_number,
-                        $this->colPODetail['product_id']=>$rawMaterial,
+                        $this->colPODetail['product_id']=>$rawMaterial->sku,
                         $this->colPODetail['quantity']=>$quantity,
                         $this->colPODetail['amount']=>$amount
                     ]);
                 }
             }
+            print_r('Total ',$total);
+            echo "\n";
 
             PurchaseOrder::create([
                 $this->colPO['po_number']=>$po_number,
