@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SupplierPic extends Model
+class BOMDetail extends Model
 {
     protected $table;
     protected $fillable = [];
@@ -14,7 +14,7 @@ class SupplierPic extends Model
         parent::__construct($attributes);
 
         // Tetapkan nama tabel dan kolom
-        $this->table = config('db_constants.table.supplier_pic');
-        $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
+        $this->table = config('db_constants.table.bom_detail');
+        $this->fillable = array_values(config('db_constants.column.bom_detail') ?? []);
     }
 }

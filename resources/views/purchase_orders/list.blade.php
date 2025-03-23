@@ -28,6 +28,7 @@
     <!--end::Fonts-->
     <!-- begin:: Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- end:: Tailwind -->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <link
@@ -306,7 +307,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./generate/theme.html" class="nav-link">
+              <a href="{{ route('product.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>

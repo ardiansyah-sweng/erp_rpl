@@ -295,7 +295,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="dashboard" class="nav-link active">
+              <a href="dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -303,11 +303,13 @@
                 </a>
               </li>
               <li class="nav-item">
-              <a href="{{ route('product.list') }}" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
               </li>
+
+              
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-person-circle"></i>
@@ -346,7 +348,7 @@
                 </a>                
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
+              <a href="{{ route('branch.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -369,14 +371,14 @@
             <!--begin::Row-->
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Branch</h3>
-                <a href="{{ route('branch.add') }}" class="btn btn-primary btn-sm">Tambah</a>
+                <h3 class="mb-0 me-2">Produk</h3>
+                <a href="#" class="btn btn-primary btn-sm">Tambah</a>
               </div>
     
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Branch</li>
+                  <li class="breadcrumb-item active" aria-current="page">Produk</li>
                 </ol>
               </div>
             </div>
@@ -386,70 +388,57 @@
         </div>
 
         <div class="card mb-4">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                      <h3 class="card-title">List Table</h3>
-                      <form action="{{ route('branch.list') }}" method="GET" class="d-flex ms-auto">
-                        <!-- Search bar berada di ujung kanan -->
-                        <div class="input-group input-group-sm ms-auto" style="width: 450px;">
-                          <input type="text" name="search" class="form-control" placeholder="Search Branch">
-                          <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
-                              <i class="bi bi-search"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                    <table class="table table-bordered">
-                      <thead class="text-center">
-                        <tr>
-                          <th style="width: 10px">id</th>
-                          <th>Branch Name</th>
-                          <th>Branch Address</th>
-                          <th>Branch Telephone</th>
-                          <th>Aktif</th>
-                          <th>Created At</th>
-                          <th>Updated At </th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                            @forelse($branches as $branch)
-                            <tr>
-                            <td>{{ $branch->id }}</td>
-                            <td>{{ $branch->branch_name }}</td>
-                            <td>{{ $branch->branch_address }}</td>
-                            <td>{{ $branch->branch_telephone }}</td>
-                            <td class="text-center">
-                                 @if($branch->branch_status == 1)
-                                        <i class="bi bi-check-circle-fill text-success"></i>
-                                @else
-                                        <i class="bi bi-x-circle-fill text-danger"></i>
-                                  @endif
-                           </td>
-                            <td>{{ $branch->created_at }}</td>
-                            <td>{{ $branch->updated_at }}</td>
-                            <td>
-                              <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                              <a href="#" class="btn btn-sm btn-info">Detail</a>
-                            </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="7" class="text-center">No data available in table</td>
-                            </tr>
-                            @endforelse
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- /.card-body -->
-                  <div class="card-footer clearfix">
-                  {{ $branches->links('pagination::bootstrap-4') }}
-                  </div>
-        </div>
+              <div class="card-header"><h3 class="card-title">List Table</h3></div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">id</th>
+                      <th>product_id</th>
+                      <th>product_name</th>
+                      <th>product_type</th>
+                      <th>product_category</th>
+                      <th>product_description</th>
+                      <th>Created At</th>
+                      <th>Updated At </th>
+                      <th>Action </th>
+                    </tr>
+                  </thead>
+                 <tbody>
+                  @foreach ($products as $index => $product)
+                  <tr class="align-middle">
+                      <td>{{ $index + 1 }}</td>
+                      <td>{{ $product->product_id }}</td>
+                      <td>{{ $product->product_name }}</td>
+                      <td>{{ $product->product_type }}</td>
+                      <td>{{ $product->product_category }}</td>
+                      <td>{{ $product->product_description }}</td>
+                      <td>{{ $product->created_at }}</td>
+                      <td>{{ $product->updated_at }}</td>
+                      <td>
+                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                          <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                          <a href="#" class="btn btn-sm btn-info">Detail</a>
+                      </td>
+                  </tr>
+        @endforeach
+    </tbody>
+</table>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer clearfix">
+                <ul class="pagination pagination-sm m-0 float-end">
+                  <li class="page-item"><a class="page-link" href="#">«</a></li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">»</a></li>
+                </ul>
+              </div>
+    </div>
+    
+
         
       </main>
       <!--end::App Main-->

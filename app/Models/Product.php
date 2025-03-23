@@ -24,13 +24,19 @@ class Product extends Model
         $this->fillableProduct = array_values(config('db_constants.column.products') ?? []);
     }
 
+
+    public static function getAllProducts()
+    {
+        return DB::table(config('db_constants.table.products'))->get();
+    }
+
+
     public function getSKURawMaterialItem()
     {
         $tableItem = config('db_constants.table.item');
         $colItem = config('db_constants.column.item');
         $colProduct = config('db_constants.column.products');
 
-        #mendapatkan seluruh item random dari product bertipe RM (raw material)
         return Item::join($this->tableProduct, DB::raw('SUBSTRING(' . $tableItem . '.' . $colItem['sku'] . ', 1, 4)'), '=', $this->tableProduct . '.' . $colProduct['id'])
                         ->where($this->tableProduct . '.product_type', ProductType::RM)
                         ->select($tableItem . '.' . $colItem['sku'])

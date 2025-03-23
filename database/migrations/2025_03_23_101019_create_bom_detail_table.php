@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function __construct()
     {
-        $this->table = config('db_constants.table.supplier_pic');
+        $this->table = config('db_constants.table.bom_detail');
     }
 
     /**
@@ -16,16 +16,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $col = config('db_constants.column.supplier_pic');
+        $col = config('db_constants.column.bom_detail');
 
         Schema::create($this->table, function (Blueprint $table) use ($col) {
-            $table->char($col['supplier_id'], 6);
-            $table->string($col['name'], 50);
-            $table->string($col['phone_number'], 30);
-            $table->string($col['email'], 50);
-            $table->boolean($col['active'])->default(1);
-            $table->string($col['avatar'], 100);
-            $table->date($col['assigned_date']);
+            $table->id();
+            $table->char($col['bom_id'], 7);
+            $table->string($col['sku'], 50);
+            $table->integer($col['qty']);
+            $table->integer($col['cost']);
             $table->timestamps();
         });
     }

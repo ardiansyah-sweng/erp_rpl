@@ -12,16 +12,17 @@ class BranchController extends Controller
         return (new Branch)->getBranchById($id);
     }
 
-    public function getBranchAll()
+    public function getBranchAll(Request $request)
     {
-        $branches = Branch::getAllBranch();
+        $search = $request->input('search');
+        $branches = Branch::getAllBranch($search);
         return view('branch.list', ['branches' => $branches]);
     }
 
     public function addBranch(Request $request)
     {
         $request->validate([
-            'branch_name' => 'required|string|min:3|unique:branches,branch_name',
+            'branch_name' => 'required|string|min:3|unique:branch,branch_name',
             'branch_address' => 'required|string|min:3',
             'branch_telephone' => 'required|string|min:3'
         ]);
