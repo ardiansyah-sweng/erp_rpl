@@ -386,11 +386,24 @@
         </div>
 
         <div class="card mb-4">
-                  <div class="card-header"><h3 class="card-title">List Table</h3></div>
+              <div class="card-header d-flex justify-content-between align-items-center">
+                      <h3 class="card-title">List Table</h3>
+                      <form action="{{ route('branch.list') }}" method="GET" class="d-flex ms-auto">
+                        <!-- Search bar berada di ujung kanan -->
+                        <div class="input-group input-group-sm ms-auto" style="width: 450px;">
+                          <input type="text" name="search" class="form-control" placeholder="Search Branch">
+                          <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                              <i class="bi bi-search"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                  </div>
                   <!-- /.card-header -->
                   <div class="card-body">
                     <table class="table table-bordered">
-                      <thead>
+                      <thead class="text-center">
                         <tr>
                           <th style="width: 10px">id</th>
                           <th>Branch Name</th>
@@ -409,7 +422,7 @@
                             <td>{{ $branch->branch_name }}</td>
                             <td>{{ $branch->branch_address }}</td>
                             <td>{{ $branch->branch_telephone }}</td>
-                            <td>
+                            <td class="text-center">
                                  @if($branch->branch_status == 1)
                                         <i class="bi bi-check-circle-fill text-success"></i>
                                 @else
