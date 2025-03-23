@@ -37,9 +37,9 @@ class Product extends Model
         $colItem = config('db_constants.column.item');
         $colProduct = config('db_constants.column.products');
 
-        return Item::join($this->tableProduct, DB::raw('SUBSTRING(' . $tableItem . '.' . $colItem['sku'] . ', 1, 4)'), '=', $this->tableProduct . '.' . $colProduct['id'])
-                        ->where($this->tableProduct . '.product_type', ProductType::RM)
-                        ->select($tableItem . '.' . $colItem['sku'])
-                        ->pluck($colItem['sku']);
+        return Item::join($this->tableProduct, $this->tableProduct.'.'.$colProduct['id'], '=', $tableItem.'.'.$colItem['prod_id'])
+                        ->distinct()
+                        ->where($this->tableProduct.'.'.$colProduct['type'], 'RM')
+                        ->select($tableItem.'.'.$colItem['sku']);
     }
 }
