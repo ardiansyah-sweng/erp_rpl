@@ -9,14 +9,13 @@ use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\LogBasePrice;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\SupplierPic;
 use App\Models\SupplierProduct;
-use App\Models\LogBasePrice;
 use App\Helpers\DBConstants;
 use App\Enums\ProductType;
-use App\Enums\Measurement;
 
 class SupplierSeeder extends Seeder
 {
@@ -162,29 +161,6 @@ class SupplierSeeder extends Seeder
                 $column['assigned_date'] => $this->faker->date,
                 $column['active'] => $this->faker->boolean,
                 $column['avatar'] => $this->faker->imageUrl
-            ]);
-        }
-    }
-
-    public function createProduct()
-    {
-        $numOfCategory = $this->faker->numberBetween(5, 15);
-        $numOfProduct = $this->faker->numberBetween(5, 50);
-
-        $this->createCategory($numOfCategory);
-
-        $prefix = 'PRD';
-
-        for ($i=1; $i <= $numOfProduct; $i++)
-        {
-            $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
-
-            Product::create([
-                $this->colProduct['product_id'] => $prefix.$formattedNumber,
-                $this->colProduct['name'] => $this->faker->word(),
-                $this->colProduct['category_id'] => $this->faker->numberBetween(1, $numOfCategory),
-                $this->colProduct['description'] => $this->faker->sentence(),
-                $this->colProduct['measurement']  => $this->faker->randomElement(Measurement::cases())->value,
             ]);
         }
     }

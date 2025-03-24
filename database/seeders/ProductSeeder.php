@@ -148,9 +148,9 @@ class ProductSeeder extends Seeder
                 [
                     $column['id'] => 'PEMP', 
                     $column['name'] => 'Pempek', 
-                    $column['type'] =>'FG', 
+                    $column['type'] => 'FG', 
                     $column['category'] => 13, 
-                    $column['desc'] => 'Pempek Palembang',                     
+                    $column['desc'] => 'Pempek Palembang',                    
                     $column['created'] => now(),
                     $column['updated'] => now()
                 ]

@@ -15,6 +15,7 @@ return [
         'bom_detail'                => 'bom_detail',
         'branch'                    => 'branch',
         'category'                  => $master['category'],
+        'cu'                        => 'conversion_unit',
         'grn'                       => 'goods_receipt_note',
         'item'                      => 'item',
         'log_avg_base_price'        => 'log_avg_base_price',
@@ -22,12 +23,14 @@ return [
         'log_stock'                 => 'log_stock',
         'master_product'            => 'master_product',
         'merk'                      => 'merks',
+        'mu'                       => 'measurement_unit',
         'po'                        => 'purchase_order',
         'po_detail'                 => 'purchase_order_detail',
         'products'                   => 'products',
         'supplier'                  => 'supplier',
         'supplier_pic'              => 'supplier_pic',
         'supplier_product'          => 'supplier_product',
+        'unit'                      => 'item_unit'
     ],
     'column' => [
         'bom' => [
@@ -65,6 +68,16 @@ return [
             'created_at'            => $master['created'],
             'updated_at'            => $master['updated']
         ],
+
+        'cu' => [
+            'id'                    => $master['id'],
+            'sku'                   => 'sku', #ambil SKU item
+            'muid'                  => 'measurement_unit',
+            'val'                   => 'value',
+            'created'               => $master['created'],
+            'updated'               => $master['updated']
+        ],
+
         'grn' => [
             'id'                    => $master['id'],
             'po_number'             => $master['po_number'],
@@ -117,6 +130,7 @@ return [
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
+
         'merk' => [
             'id'                    => 'id',
             'merk'                  => 'merk',
@@ -124,6 +138,15 @@ return [
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
+
+        'mu' => [
+            'id'                    => 'id',
+            'unit'                  => 'unit_name',
+            'abbr'                  => 'abbreviation',
+            'created'               => 'created_at',
+            'updated'               => 'updated_at'
+        ],
+
         'po' => [
             'po_number'             => $master['po_number'],
             'supplier_id'           => $master['supplier_id'],
@@ -181,6 +204,14 @@ return [
             'product_id'            => 'product_id',
             'product_name'          => 'product_name',
             'base_price'            => 'base_price',
+            'created_at'            => 'created_at',
+            'updated_at'            => 'updated_at'
+        ],
+        'unit' => [
+            'id'                    => 'id',
+            'sku'                   => 'sku',
+            'unit_id'               => 'unit_id',
+            'conversion'            => 'conversion_factor',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ]
