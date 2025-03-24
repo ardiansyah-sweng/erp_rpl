@@ -100,6 +100,9 @@ return [
             //'stock'                 => 'current_stock',
             'base_price'            => 'avg_base_price', #raw material from supplier
             'selling_price'         => 'selling_price', #finished from bill of material
+            'purchase_unit'         => 'purchase_unit',
+            'sell_unit'             => 'sell_unit',
+            'stock_unit'            => 'stock_unit',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
