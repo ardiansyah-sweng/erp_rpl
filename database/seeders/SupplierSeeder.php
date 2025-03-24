@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\DataGeneration\SkripsiDatasetProvider;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
@@ -20,10 +21,19 @@ use App\Enums\ProductType;
 class SupplierSeeder extends Seeder
 {
     const DATE_FORMAT = 'Y-m-d H:i:s';
+    public \Faker\Generator $faker;
+    private array $colProduct;
+    private array $colItem;
+    private array $colSupplier;
+    private array $colSupplierProduct;
+    private array $colLogBasePriceSupplier;
+    private array $table;
 
     public function __construct()
     {
         $this->faker = Faker::create('id_ID');
+        $this->faker->addProvider(new SkripsiDatasetProvider($this->faker));
+
         $this->colProduct = config('db_constants.column.products');
         $this->colItem = config('db_constants.column.item');
         $this->colSupplier = config('db_constants.column.supplier');
@@ -41,7 +51,7 @@ class SupplierSeeder extends Seeder
         $colSupplierProduct = config('db_constants.column.supplier_product');
 
         $this->generateSupplier();
-                    
+
         if (!isset($this->table['item']) || !is_string($this->table['item']))
         {
             throw new \Exception('Invalid table name provided in'. $this->table["item"]);
@@ -50,7 +60,7 @@ class SupplierSeeder extends Seeder
         #mendapatkan seluruh item random dari product bertipe RM (raw material)
         $rawMaterial = (new Product()) -> getSKURawMaterialItem();
         $items = $rawMaterial -> get();
-        
+
         #menetapkan supplier untuk setiap item
         foreach ($items as $sku)
         {
@@ -69,7 +79,7 @@ class SupplierSeeder extends Seeder
                 $created_at = $this->faker->dateTimeBetween('-10 years', '2020-01-01 23:59:59')->format(self::DATE_FORMAT);
                 $companyName = Supplier::where($this->colSupplier['supplier_id'], $supplierID)->get()->first()->company_name;
                 $basePrice = $this->faker->numberBetween(4500, 75000);
-                
+
                 if (!$res)
                 {
                     SupplierProduct::create([
@@ -131,14 +141,16 @@ class SupplierSeeder extends Seeder
         {
             $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
             $supplierID = $prefix . $formattedNumber;
-            $bankAccount = 'Bank '.$this->faker->company.' No. Rek '.$this->faker->bankAccountNumber;
 
-            $company_name = $this->faker->company;
+            $company_name = $this->faker->companySuffixPrefix();
+
+            $bankAccount = 'Bank '.$company_name.' No. Rek '.$this->faker->bankAccountNumber;
+
             Supplier::create([
                 $colSupplier['supplier_id'] => $supplierID,
                 $colSupplier['company_name'] => $company_name,
                 $colSupplier['address'] => $this->faker->address,
-                $colSupplier['phone_number'] => $this->faker->numerify('(###) ###-####'),
+                $colSupplier['phone_number'] => $this->faker->phoneNumber(),
                 $colSupplier['bank_account'] => $bankAccount
             ]);
 
