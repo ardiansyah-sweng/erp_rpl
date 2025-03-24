@@ -2,19 +2,24 @@
 
 namespace Database\Seeders;
 
+use Generator;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\ConversionUnit;
 use App\Models\Item;
 use App\Models\Product;
 use App\Models\MeasurementUnit;
+use App\DataGeneration\SkripsiDatasetProvider;
 use Faker\Factory as Faker;
 
 class ItemSeeder extends Seeder
 {
+    public \Faker\Generator $faker;
+
     public function __construct()
     {
         $this->faker = Faker::create('id_ID');
+        $this->faker->addProvider(new SkripsiDatasetProvider($this->faker));
     }
 
     /**
@@ -77,7 +82,7 @@ class ItemSeeder extends Seeder
                         if ($units[0][0] == strtolower($unit->unit_name))
                         {
                             $sku = Item::where($colItem['sku'], $sku)->first();
-    
+
                             print_r($units[0][0].' '.$unit->unit_name.' ');
                             print_r($units);
                             echo "\n";
