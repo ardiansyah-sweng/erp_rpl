@@ -118,6 +118,7 @@ class BOMSeeder extends Seeder
             ]);
 
             #apakah FG ini menggunakan HFG atau tidak?
+            $subTotal = 0;
             if ($this->faker->boolean())
             {
                 
@@ -146,6 +147,7 @@ class BOMSeeder extends Seeder
                     'quantity' => $qty,
                     'cost' => $cost,
                 ]);
+                $subTotal = $cost;
             }
 
             #insert RM ke BOMDetail
@@ -171,7 +173,7 @@ class BOMSeeder extends Seeder
                 echo "\n";
             }
                 
-            BillOfMaterial::where('bom_id', $nextBOM_ID)->update(['total_cost' => $total]);
+            BillOfMaterial::where('bom_id', $nextBOM_ID)->update(['total_cost' => $total + $subTotal]);
         }
     }
 }
