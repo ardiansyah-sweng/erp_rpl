@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 class BranchController extends Controller
 {
     public function getBranchById($id)
-    {
-        return (new Branch)->getBranchById($id);
+{
+    $branch = Branch::find($id);
+
+    if (!$branch) {
+        return redirect()->route('branch.detail', ['id' => $id])->with('error', 'Branch not found');
     }
+
+    return view('branch.detail', compact('branch'));
+}
 
     public function getBranchAll(Request $request)
     {

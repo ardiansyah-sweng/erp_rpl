@@ -23,14 +23,15 @@ Route::get('/branch/add', function () {
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
 
 # API
-Route::get('/products', [APIProductController::class, 'getProducts']);
-Route::get('/prices', [APIProductController::class, 'getAvgBasePrice']);
-Route::get('/branches/{id}', [BranchController::class, 'getBranchById']);
+Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
+Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('api.prices');
+Route::get('/api/branches/{id}', [BranchController::class, 'getBranchById'])->name('api.branch.detail');
 
 # Branch
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
+Route::get('/branches/{id}', [BranchController::class, 'getBranchById'])->name('branch.detail');
 
 # Items
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
