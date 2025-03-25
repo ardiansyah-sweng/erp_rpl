@@ -8,10 +8,11 @@ use App\Models\Supplier;
 
 class SupplierController extends Controller
 {
-    public function deleteSupplierByID($id){
-    if (Supplier::where('supplier_id', $id)->delete()) {
-        return redirect()->back()->with('success', 'Supplier deleted successfully');
+    public function deleteSupplierByID($id)
+    {
+        if (Supplier::deleteSupplier($id)) {
+            return redirect()->back()->with('success!!', 'Supplier deleted successfully');
         }
-    return redirect()->back()->with('error', 'Supplier not found');
+        return redirect()->back()->with('error!!', 'Supplier not found');
     }
 }
