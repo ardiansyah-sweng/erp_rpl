@@ -86,22 +86,25 @@ class ItemSeeder extends Seeder
                             print_r($units[0][0].' '.$unit->unit_name.' ');
                             print_r($units);
                             echo "\n";
-                            // 'sku'                   => 'sku', #ambil SKU item
-                            // 'muid'                  => 'measurement_unit',
-                            // 'val'                   => 'value',
-                            // 'created'               => $master['created'],
-                            // 'updated'               => $master['updated']
-                            foreach ($units as $uc)
+
+                            foreach ($units as $key => $uc)
                             {
                                 $res = MeasurementUnit::where('unit_name', $uc[0])->first();
                                 print_r($res['id'].' ADA '.$uc[0]);
                                 echo "\n";
                                 print_r('==============');
                                 echo "\n";
+                                
+                                $isBU = 0;
+                                if ($key == 0)
+                                {
+                                    $isBU = 1;
+                                }
                                 ConversionUnit::create([
                                     $colCU['sku'] => $sku->{$colItem['sku']},
                                     $colCU['muid'] => $res['id'],
                                     $colCU['val'] => $uc[1],
+                                    $colCU['isBU'] => $isBU
                                 ]);
                             }
                         }

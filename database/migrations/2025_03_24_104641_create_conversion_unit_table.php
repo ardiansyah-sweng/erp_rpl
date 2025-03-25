@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string($col['sku'], 50);
             $table->integer($col['muid']);
             $table->integer($col['val']);
+            $table->boolean($col['isBU']);
             $table->timestamps();
         });
     }

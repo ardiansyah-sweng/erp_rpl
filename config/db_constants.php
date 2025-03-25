@@ -74,6 +74,7 @@ return [
             'sku'                   => 'sku', #ambil SKU item
             'muid'                  => 'measurement_unit',
             'val'                   => 'value',
+            'isBU'                  => 'is_base_unit',
             'created'               => $master['created'],
             'updated'               => $master['updated']
         ],
