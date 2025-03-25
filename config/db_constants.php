@@ -13,6 +13,7 @@ return [
     'table' => [
         'bom'                       => 'bill_of_material',
         'bom_detail'                => 'bom_detail',
+        'bom_prod'                  => 'bom_production',
         'branch'                    => 'branch',
         'category'                  => $master['category'],
         'cu'                        => 'conversion_unit',
@@ -23,7 +24,7 @@ return [
         'log_stock'                 => 'log_stock',
         'master_product'            => 'master_product',
         'merk'                      => 'merks',
-        'mu'                       => 'measurement_unit',
+        'mu'                        => 'measurement_unit',
         'po'                        => 'purchase_order',
         'po_detail'                 => 'purchase_order_detail',
         'products'                   => 'products',
@@ -53,6 +54,19 @@ return [
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
+
+        'bom_prod' => [
+            'id'                    => 'id',
+            'prod_no'               => 'production_number',
+            'prod_date'             => 'production_date',
+            'bom_id'                => 'bom_id', #char[7]
+            'bom_qty'               => 'bom_quantity',
+            'in_production'         => 'in_production',
+            'desc'                  => 'description',
+            'created'               => 'created_at',
+            'updated'               => 'updated_at'
+        ],
+
         'branch' => [
             'id'                    => 'id',
             'branch_name'           => 'branch_name',
