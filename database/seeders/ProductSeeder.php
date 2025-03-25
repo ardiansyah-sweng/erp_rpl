@@ -26,6 +26,140 @@ class ProductSeeder extends Seeder
     {
         $column = config('db_constants.column.products');
 
+        Product::insert([
+            
+            [
+                $column['id'] => 'KAOS', 
+                $column['name'] => 'Kaos TShirt', 
+                $column['type'] =>'FG', 
+                $column['category'] => 1, 
+                $column['desc'] => 'Kaos TShirt', 
+                $column['created'] => now(), 
+                $column['updated'] => now()
+            ],
+
+            [
+                $column['id'] => 'TOPI', 
+                $column['name'] => 'Topi', 
+                $column['type'] =>'FG', 
+                $column['category'] => 2, 
+                $column['desc'] => 'Topi', 
+                $column['created'] => now(), 
+                $column['updated'] => now()
+            ],
+
+            [
+                $column['id'] => 'TASS', 
+                $column['name'] => 'Tas', 
+                $column['type'] =>'FG', 
+                $column['category'] => 3, 
+                $column['desc'] => 'Tas', 
+                $column['created'] => now(), 
+                $column['updated'] => now()
+            ],
+
+            [
+                $column['id'] => 'TBLR', 
+                $column['name'] => 'Tumbler', 
+                $column['type'] =>'FG', 
+                $column['category'] => 4, 
+                $column['desc'] => 'Tumbler',                     
+                $column['created'] => now(), 
+                $column['updated'] => now()
+            ],
+            
+            [
+                $column['id'] => 'TNJK', 
+                $column['name'] => 'Tanjak', 
+                $column['type'] =>'FG', 
+                $column['category'] => 5, 
+                $column['desc'] => 'Tanjak',                     
+                $column['created'] => now(), 
+                $column['updated'] => now()
+            ],
+            
+            [
+                $column['id'] => 'MNTR', 
+                $column['name'] => 'Miniatur', 
+                $column['type'] =>'FG', 
+                $column['category'] => 6, 
+                $column['desc'] => 'Miniatur',                     
+                $column['created'] => now(), 
+                $column['updated'] => now()
+            ],
+            
+            [
+                $column['id'] => 'CLDR', 
+                $column['name'] => 'Calendar', 
+                $column['type'] =>'FG', 
+                $column['category'] => 7, 
+                $column['desc'] => 'Calendar Nyenyes',                     
+                $column['created'] => now(), 
+                $column['updated'] => now()
+            ],
+            
+            [
+                $column['id'] => 'JAMN', 
+                $column['name'] => 'Jam', 
+                $column['type'] =>'FG', 
+                $column['category'] => 8, 
+                $column['desc'] => 'Jam',                     
+                $column['created'] => now(), 
+                $column['updated'] => now()
+            
+            ],
+            
+            [
+                $column['id'] => 'KEYS', 
+                $column['name'] => 'Gantungan Kunci', 
+                $column['type'] =>'FG', 
+                $column['category'] => 9, 
+                $column['desc'] => 'Gantungan Kunci',                     
+                $column['created'] => now(), 
+                $column['updated'] => now()
+            ],
+            
+            [
+                $column['id'] => 'PINN', 
+                $column['name'] => 'Bros PIN', 
+                $column['type'] =>'FG', 
+                $column['category'] => 10, 
+                $column['desc'] => 'Bros PIN',                     
+                $column['created'] => now(), 
+                $column['updated'] => now()
+            ],
+            
+            [
+                $column['id'] => 'DMPT', 
+                $column['name'] => 'Dompet', 
+                $column['type'] =>'FG', 
+                $column['category'] => 11, 
+                $column['desc'] => 'Dompet',                     
+                $column['created'] => now(), 
+                $column['updated'] => now()
+            ],
+            
+            [
+                $column['id'] => 'BOLN', 
+                $column['name'] => 'Kue Bolen', 
+                $column['type'] =>'FG', 
+                $column['category'] => 12, 
+                $column['desc'] => 'Kue Bolen',                     
+                $column['created'] => now(),
+                $column['updated'] => now()
+            ],
+
+            [
+                $column['id'] => 'PEMP', 
+                $column['name'] => 'Pempek', 
+                $column['type'] =>'FG', 
+                $column['category'] => 13, 
+                $column['desc'] => 'Pempek Palembang',                     
+                $column['created'] => now(),
+                $column['updated'] => now()
+            ]
+    ]);
+
         $numOfRMProduct = $this->faker->numberBetween(1, 50);
         $numOfCategory = $this->faker->numberBetween(1, 20);
 
@@ -90,7 +224,7 @@ class ProductSeeder extends Seeder
         for ($i=1; $i <= $numOfParentCategory; $i++)
         {
             Category::create([
-                $colCategory['category'] => $this->faker->word,
+                $colCategory['category'] => $this->faker->asssproductCategory(),
                 $colCategory['parent_id'] => null,
             ]);
         }
