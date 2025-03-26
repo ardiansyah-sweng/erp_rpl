@@ -31,6 +31,7 @@ Route::get('/branches/{id}', [BranchController::class, 'getBranchById']);
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
+Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
 
 # Items
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
