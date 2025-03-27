@@ -40,9 +40,9 @@ class Product extends Model
         $colItem = config('db_constants.column.item');
         $colProduct = config('db_constants.column.products');
 
-        return Item::join($this->tableProduct, $this->tableProduct.'.'.$colProduct['id'], '=', $tableItem.'.'.$colItem['prod_id'])
+        return Item::join($this->table, $this->table.'.'.$colProduct['id'], '=', $tableItem.'.'.$colItem['prod_id'])
                         ->distinct()
-                        ->where($this->tableProduct.'.'.$colProduct['type'], 'RM')
+                        ->where($this->table.'.'.$colProduct['type'], 'RM')
                         ->select($tableItem.'.'.$colItem['sku']);
     }
 }
