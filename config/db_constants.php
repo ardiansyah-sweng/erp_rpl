@@ -31,7 +31,8 @@ return [
         'supplier'                  => 'supplier',
         'supplier_pic'              => 'supplier_pic',
         'supplier_product'          => 'supplier_product',
-        'unit'                      => 'item_unit'
+        'unit'                      => 'item_unit',
+        'whouse'                    => 'warehouse'
     ],
     'column' => [
         'bom' => [
@@ -202,8 +203,8 @@ return [
             'address'               => 'address',
             'phone_number'          => 'phone_number',
             'bank_account'          => 'bank_account',
-            'created_at'            => 'created_at',
-            'updated_at'            => 'updated_at'
+            'created'            => 'created_at',
+            'updated'            => 'updated_at'
         ],
         'supplier_pic' => [
             'supplier_id'           => $master['supplier_id'],
@@ -216,6 +217,7 @@ return [
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
+
         'supplier_product' => [
             'supplier_id'           => $master['supplier_id'],
             'company_name'          => 'company_name',
@@ -225,6 +227,7 @@ return [
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
+
         'unit' => [
             'id'                    => 'id',
             'sku'                   => 'sku',
@@ -232,6 +235,17 @@ return [
             'conversion'            => 'conversion_factor',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
+        ],
+
+        'whouse' => [
+            'id'                    => 'id',
+            'name'                  => 'warehouse_name',
+            'address'               => 'warehouse_address',
+            'phone'                 => 'warehouse_telephone',
+            'is_active'             => 'is_active',
+            'created'               => 'created_at',
+            'updated'               => 'updated_at'
         ]
+
     ]
 ];
