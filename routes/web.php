@@ -5,6 +5,7 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -34,3 +35,6 @@ Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch
 
 # Items
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
+
+# supplier
+Route::get('/delete_supplier', [SupplierController::class, 'deleteSupplierByID']);
