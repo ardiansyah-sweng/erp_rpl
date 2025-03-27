@@ -203,8 +203,8 @@ return [
             'address'               => 'address',
             'phone_number'          => 'phone_number',
             'bank_account'          => 'bank_account',
-            'created_at'            => 'created_at',
-            'updated_at'            => 'updated_at'
+            'created'            => 'created_at',
+            'updated'            => 'updated_at'
         ],
         'supplier_pic' => [
             'supplier_id'           => $master['supplier_id'],
