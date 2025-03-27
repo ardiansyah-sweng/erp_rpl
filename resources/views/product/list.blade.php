@@ -412,7 +412,7 @@
                       <td>{{ $product->product_id }}</td>
                       <td>{{ $product->product_name }}</td>
                       <td>{{ $product->product_type }}</td>
-                      <td>{{ $product->product_category }}</td>
+                      <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
                       <td>{{ $product->product_description }}</td>
                       <td>{{ $product->created_at }}</td>
                       <td>{{ $product->updated_at }}</td>
@@ -428,15 +428,9 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-end">
-                  <li class="page-item"><a class="page-link" href="#">«</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">»</a></li>
-                </ul>
+                {{ $products->links('pagination::bootstrap-4') }}
               </div>
-    </div>
+            </div>
     
 
         

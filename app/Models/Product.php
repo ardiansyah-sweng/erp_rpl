@@ -6,30 +6,33 @@ use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasDynamicColumns;
 use Illuminate\Support\Facades\DB;
 use App\Models\Item;
+use App\Models\Category; 
 use App\Enums\ProductType;
 
 class Product extends Model
 {
     use HasDynamicColumns;
 
-    protected $tableProduct;
-    protected $fillableProduct = [];
+    protected $table;
+    protected $fillable = [];
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        // Tetapkan nama tabel dan kolom
-        $this->tableProduct = config('db_constants.table.products');
-        $this->fillableProduct = array_values(config('db_constants.column.products') ?? []);
+        $this->table = config('db_constants.table.products');
+        $this->fillable = array_values(config('db_constants.column.products') ?? []);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'product_category', 'id');
+    }
 
     public static function getAllProducts()
     {
-        return DB::table(config('db_constants.table.products'))->get();
+        return self::with('category')->orderBy('created_at', 'desc')->paginate(10);
     }
-
 
     public function getSKURawMaterialItem()
     {
