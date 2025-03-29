@@ -16,13 +16,14 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MerkSeeder::class,
             MeasurementUnitSeeder::class,
+            WarehouseSeeder::class,
             ProductSeeder::class,
             ItemSeeder::class,
             SupplierSeeder::class,
             BranchSeeder::class,
             PurchaseOrderSeeder::class,
             GoodsReceiptNoteSeeder::class,
-            BOMSeeder::class
+            #BOMSeeder::class
             // ProductPriceSeeder::class
         ]);
     }
