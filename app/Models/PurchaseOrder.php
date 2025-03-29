@@ -7,7 +7,6 @@ class PurchaseOrder extends Model
 {
     protected $table;
     protected $fillable = [];
-    protected $primaryKey = 'po_number';
 
     public function __construct(array $attributes = [])
     {
@@ -28,8 +27,8 @@ class PurchaseOrder extends Model
         return self::with('supplier')->orderBy('created_at', 'desc')->paginate(10);
     }
 
-    public static function getPurchaseOrderByID($id)
+    public static function getPurchaseOrderByID($po_number)
     {
-        return self::with('supplier')->find($id);
+        return self::with('supplier')->orderBy('po_number')->paginate(10);
     }
 }
