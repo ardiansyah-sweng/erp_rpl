@@ -11,6 +11,8 @@ class Branch extends Model
 
     protected $table;
     protected $fillable = [];
+    protected $guarded = [];
+
 
     public function __construct(array $attributes = [])
     {
