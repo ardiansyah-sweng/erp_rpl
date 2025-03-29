@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Supplier extends Model
+class Warehouse extends Model
 {
     protected $table;
     protected $fillable = [];
@@ -13,7 +14,7 @@ class Supplier extends Model
         parent::__construct($attributes);
 
         // Tetapkan nama tabel dan kolom
-        $this->table = config('db_constants.table.supplier');
-        $this->fillable = array_values(config('db_constants.column.supplier') ?? []);
+        $this->table = config('db_constants.table.whouse');
+        $this->fillable = array_values(config('db_constants.column.whouse') ?? []);
     }
 }
