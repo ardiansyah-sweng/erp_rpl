@@ -22,6 +22,10 @@ class PurchaseOrder extends Model
         return $this->belongsTo(Supplier::class, 'supplier_id', 'supplier_id');
     }
 
+    public function details(){
+        return $this->hasMany(PurchaseOrderDetail::class, 'po_number', 'po_number');
+    }
+
     public static function getAllPurchaseOrders()
     {
         return self::with('supplier')->orderBy('created_at', 'desc')->paginate(10);
@@ -29,6 +33,7 @@ class PurchaseOrder extends Model
 
     public static function getPurchaseOrderByID($po_number)
     {
-        return self::with('supplier')->orderBy('po_number')->paginate(10);
+        return self::with('supplier', 'details')->orderBy('po_number')->where('po_number', $po_number)->paginate(10);
     }
+
 }

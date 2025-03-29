@@ -18,4 +18,5 @@ class PurchaseOrderController extends Controller
         // return view('purchase_orders.detail', compact('purchaseOrder'));
         return response()->json($purchaseOrder);
     }
+
 }
