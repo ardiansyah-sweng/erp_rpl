@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function __construct()
     {
-        $this->table = config('db_constants.table.supplier_product');
+        $this->table = config('db_constants.table.unit');
     }
 
     /**
@@ -16,17 +16,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $col = config('db_constants.column.supplier_product');
-
-        Schema::dropIfExists('supplier_product');
+        $col = config('db_constants.column.unit');
 
         Schema::create($this->table, function (Blueprint $table) use ($col) {
-            $table->char($col['supplier_id'], 6);
-            $table->string($col['company_name'], 100);
-            $table->char($col['product_id'], 50);
-            $table->string($col['product_name'], 50);
-            $table->primary([$col['supplier_id'], $col['product_id']]);
-            $table->integer($col['base_price']);
+            $table->id();
+            $table->string($col['sku'], 50);
+            $table->string($col['unit_id'], 15);
+            $table->tinyInteger($col['conversion']);
             $table->timestamps();
         });
     }
