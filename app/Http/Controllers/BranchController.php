@@ -7,15 +7,16 @@ use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
-    public function getBranchByID($id)
+    public function getBranchById($id)
     {
-    $branch = Branch::find($id);
+    $branch = (new Branch())->getBranchByID($id);
+
     if (!$branch) {
-        return abort(404, 'Branch not found');
-    }
-    return view('branch.detail', compact('branch'));
+        return abort(404, 'Cabang tidak ditemukan');
     }
 
+    return view('branch.detail', compact('branch'));
+    }
 
     public function getBranchAll(Request $request)
     {
