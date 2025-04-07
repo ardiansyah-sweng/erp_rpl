@@ -5,6 +5,7 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierPICController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -41,3 +42,6 @@ Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchas
 
 # Items
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
+
+# Supplier PIC
+Route::post('/supplier/{supplierID}/add-pic', [SupplierPICController::class, 'addSupplierPIC'])->name('supplier.pic.add');
