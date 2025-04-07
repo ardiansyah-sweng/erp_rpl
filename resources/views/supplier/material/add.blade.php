@@ -4,7 +4,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Dashboard</title>
+    <title>ERP RPL UAD | Tambah PIC Supplier</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -295,7 +295,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="dashboard" class="nav-link active">
+                <a href="/dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -330,9 +330,9 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="./widgets/cards.html" class="nav-link">
+                    <a href="/supplier/material/add" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Cards</p>
+                      <p>Tambah Supplier Item</p>
                     </a>
                   </li>
                 </ul>
@@ -342,54 +342,8 @@
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Purchase Orders
-                    <span class="nav-badge badge text-bg-secondary me-3">6</span>
-                    <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="./layout/unfixed-sidebar.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Default Sidebar</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/fixed-sidebar.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Fixed Sidebar</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/layout-custom-area.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Layout <small>+ Custom Area </small></p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/sidebar-mini.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Sidebar Mini</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/collapsed-sidebar.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Sidebar Mini <small>+ Collapsed</small></p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/logo-switch.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Sidebar Mini <small>+ Logo Switch</small></p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./layout/layout-rtl.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Layout RTL</p>
-                    </a>
-                  </li>
-                </ul>
               </li>
             </ul>
             <!--end::Sidebar Menu-->
@@ -424,58 +378,40 @@
           <!--begin::Container-->
           <div class="container-fluid">
             <!--begin::Row-->
-            <div class="row"> 
-            <!-- <form action="proses_tambah_supplier_item.php" method="POST"> -->
-            <form id="supplierForm">
-              <div class="supplier">
-                <label for="supplier_ID">ID Supplier:</label><br>
-                <input type="text" id="supplier_ID" name="supplier_ID" required>
-              </div>
-
-              <div class="supplier">
-                <label for="supplier_name">Nama Supplier:</label><br>
-                <input type="text" id="supplier_name" name="supplier_name" required>
-              </div>
-
-              <div class="supplier">
-                <label for="SKU">SKU:</label><br>
-                <input type="text" id="SKU" name="SKU" required>
-              </div>
-
-              <div class="supplier">
-                <label for="item_price">Nama item:</label><br>
-                <input type="text" id="item_name" name="item_name" required>
-              </div>
-
-              <div class="supplier">
-                <label for="base_price">Base Price Rp:</label><br>
-                <input type="number" id="base_price" name="base_price" required>
-              </div>
-              <br>
-              <div>
-                <button type="submit">Add</button>
-                <button type="button" onclick="document.getElementById('supplierForm').reset()">Cancel</button>
-              </div>
-            </form>              
-              <!--begin::Col-->
-              <div class="col-lg-3 col-6">
-                
-              </div>
-              <!--end::Col-->
-              <div class="col-lg-3 col-6">
-                
-              </div>
-              <!--end::Col-->
-              <div class="col-lg-3 col-6">
-                <!--begin::Small Box Widget 3-->
-                
-              </div>
-              <!--end::Col-->
-              <div class="col-lg-3 col-6">
-                <!--begin::Small Box Widget 4-->
-                
-              </div>
-              <!--end::Col-->
+            <div class="row">
+                <div class="container">
+                    <form id="picForm">
+                        <div class="mb-3">
+                            <label for="supplier_id" class="form-label">ID Supplier</label>
+                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
+                            <span id="supplierIdError" class="error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="supplier_name" class="form-label">Nama Supplier</label>
+                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="SKU" class="form-label">SKU</label>
+                            <input type="text" class="form-control" id="SKU" name="SKU" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nama_item" class="form-label">Nama Item</label>
+                            <input type="text" class="form-control" id="nama_item" name="name_item" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="base_price" class="form-label">Base Price Rp:</label>
+                            <input type="number" class="form-control" id="base_price" name="base_price" required>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div>
+                                  <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
+                                  <button type="reset" class="btn btn-secondary">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
             <!--end::Row-->
             <!--begin::Row-->
@@ -756,7 +692,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- AdminLTE JS -->
-    <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
+    <script src={{ asset("assets/dist/js/adminlte.js")}}></script>
 
     <!-- Custom Sidebar Toggle Script -->
     <script>
@@ -767,7 +703,6 @@
         });
     });
     </script>
-
     <!--end::Script-->
   </body>
   <!--end::Body-->
