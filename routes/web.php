@@ -4,17 +4,23 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DashboardController;
-
-Route::get('/dashboard', [DashboardController::class, 'index']);
+use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('dashboard');
 });
-Route::get('/dashboard', function () {
-    return view('dashboard');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::get('/branches', function () {
+    return view('branches.index');
+})->name('branches.index');
+
+Route::get('/supplier/pic/add', function () {
+    return view('supplier/pic/add');
 });
 
-#API
-Route::get('/products', [APIProductController::class, 'getProducts']);
-Route::get('/prices', [APIProductController::class, 'getAvgBasePrice']);
-Route::get('/branches/{id}', [App\Http\Controllers\BranchController::class, 'getBranchById']);
+Route::get('/branch/add', function () {
+    return view('branch/add');
+});
