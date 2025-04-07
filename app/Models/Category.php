@@ -17,4 +17,8 @@ class Category extends Model
         $this->table = config('db_constants.table.category');
         $this->fillable = array_values(config('db_constants.column.category') ?? []);
     }
+    public static function countCategory()
+    {
+        return self::count();
+    }
 }
