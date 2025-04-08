@@ -13,7 +13,6 @@ class SupplierPICController extends Controller
         // Validasi input
         $validatedData = $request->validate([
             'supplier_id' => 'required|string|max:6',
-            'supplier_name' => 'required|string|max:50',
             'name' => 'required|string|max:50',
             'email' => 'required|email|max:50',
             'phone_number' => 'required|string|max:30',
@@ -33,6 +32,9 @@ class SupplierPICController extends Controller
 
         // Tambahkan supplier_id dari parameter URL (bisa juga dari input langsung)
         $validatedData['supplier_id'] = $supplierID;
+
+        // Tambahkan supplier_name meskipun tidak divalidasi
+        $validatedData['supplier_name'] = $request->input('supplier_name');
 
         // Simpan ke database
         SupplierPic::addSupplierPIC($supplierID, $validatedData);
