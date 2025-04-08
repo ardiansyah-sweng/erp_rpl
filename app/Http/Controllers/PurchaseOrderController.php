@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
+
+
 
 class PurchaseOrderController extends Controller
 {
@@ -18,5 +21,4 @@ class PurchaseOrderController extends Controller
         // return view('purchase_orders.detail', compact('purchaseOrder'));
         return response()->json($purchaseOrder);
     }
-
 }
