@@ -6,5 +6,10 @@ use Illuminate\Http\Request;
 
 class SupplierPICController extends Controller
 {
-    //
+    public function addSupplierPIC(Request $request, $supplierID)
+    {
+        
+
+        return redire6-ct()->back()->with('success', 'PIC berhasil ditambahkan!');
+    }
 }
