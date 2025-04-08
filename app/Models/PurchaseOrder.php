@@ -31,6 +31,19 @@ class PurchaseOrder extends Model
         // Mengurutkan supplier berdasarkan tanggal pesanan(order_date) secara Descending
         return self::with('supplier')->orderBy('order_date', 'desc')->paginate(10);
     }
+    public static function getPurchaseOrderByKeywords($keywords = null)
+    {
+        $query = self::query();
+
+        if ($keywords) {
+            $query->where('po_number', 'LIKE', "%{$keywords}%")
+                  ->orWhere('supplier_id', 'LIKE', "%{$keywords}%")
+                  ->orWhere('status', 'LIKE', "%{$keywords}%");
+        }
+
+        return $query->orderBy('created_at', 'asc')->paginate(10);
+    }
+
 
     public static function getPurchaseOrderByID($po_number)
     {

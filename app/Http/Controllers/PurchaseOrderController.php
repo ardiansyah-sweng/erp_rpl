@@ -11,6 +11,12 @@ class PurchaseOrderController extends Controller
         $purchaseOrders = PurchaseOrder::getAllPurchaseOrders();
         return view('purchase_orders.list', compact('purchaseOrders'));
     }
+    public function searchPurchaseOrder(Request $request)
+    {
+        $keywords = $request->input('keywords');
+        $purchaseOrders = PurchaseOrder::getPurchaseOrderByKeywords($keywords);
+        return view('purchase_orders.list', ['purchaseOrders' => $purchaseOrders]);
+    }
 
     public function getPurchaseOrderByID($po_number)
     {
