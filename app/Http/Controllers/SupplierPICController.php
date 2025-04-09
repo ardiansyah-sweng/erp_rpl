@@ -10,6 +10,6 @@ class SupplierPICController extends Controller
     {
         
 
-        return redire6-ct()->back()->with('success', 'PIC berhasil ditambahkan!');
+        return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
     }
 }
