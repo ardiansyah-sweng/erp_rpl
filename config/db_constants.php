@@ -207,6 +207,7 @@ return [
             'updated'            => 'updated_at'
         ],
         'supplier_pic' => [
+            'id'                    => 'id',
             'supplier_id'           => $master['supplier_id'],
             'name'                  => 'name',
             'phone_number'          => 'phone_number',
