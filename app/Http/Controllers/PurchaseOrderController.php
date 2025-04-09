@@ -19,4 +19,10 @@ class PurchaseOrderController extends Controller
         return response()->json($purchaseOrder);
     }
 
+    public function add()
+    {
+        return view('purchase_orders.add');
+    }
+
+
 }

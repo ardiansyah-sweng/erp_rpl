@@ -61,6 +61,10 @@
       integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
       crossorigin="anonymous"
     />
+    <!-- Bootstrap Modal Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
   </head>
   <!--end::Head-->
   <!--begin::Body-->
@@ -374,8 +378,80 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                   <div class="d-flex align-items-center">
                     <h2 class="card-title mb-0 me-2">Purchase Orders</h2>
-                    <a href="#" class="btn btn-primary btn-sm">Add</a>
+                    <!-- <a href="{{ route('purchase_orders.add') }}" class="btn btn-primary btn-sm">Add</a> -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPurchaseOrderModal">  Add </button>
                   </div>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="addPurchaseOrderModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="modalTitle">Add Purchase Order</h5>
+                          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button> -->
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div class="form-group">
+                                <label for="branch">Cabang</label>
+                                <input type="text" class="form-control" id="branch" placeholder="Masukkan nama cabang">
+                            </div>
+                            <div class="form-group">
+                                <label for="supplier_id">ID Supplier</label>
+                                <input type="text" class="form-control" id="supplier_id" placeholder="Masukkan ID Supplier">
+                            </div>
+                            <div class="form-group">
+                                <label for="supplier_name">Nama Supplier</label>
+                                <input type="text" class="form-control" id="supplier_name" placeholder="Masukkan Nama Supplier">
+                            </div>
+
+                            <table class="table" id="itemsTable">
+                                <thead>
+                                <tr>
+                                    <th>SKU</th>
+                                    <th>Nama Item</th>
+                                    <th>Qty</th>
+                                    <th>Unit Price</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><input type="text" class="form-control sku"></td>
+                                    <td><input type="text" class="form-control nama-item"></td>
+                                    <td><input type="number" class="form-control qty" value="1"></td>
+                                    <td><input type="number" class="form-control unit-price" value="0"></td>
+                                    <td><input type="number" class="form-control amount" value="0" readonly></td>
+                                    <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <button type="button" id="addRow" class="btn btn-info mb-3">Tambah Barang</button>
+
+                            <div class="form-group">
+                                <label>Sub Total Rp.</label>
+                                <input type="text" class="form-control" id="subtotal" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Tax Rp.</label>
+                                <input type="text" class="form-control" id="tax" readonly>
+                            </div>
+
+                            <!-- <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-danger">Cancel</button> -->
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary">Add</button>
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <!--begin::Start Search Bar-->
                   <div class="relative p-1 border border-gray-200 rounded-lg w-full max-w-lg ms-auto">
                     <input type="text" class="rounded-md p-1 w-full" placeholder="Search Purchase Orders">
@@ -705,6 +781,47 @@
       });
     });
   </script>
+
+  <script>
+      function updateAmount(row) {
+          let qty = parseFloat(row.find(".qty").val()) || 0;
+          let price = parseFloat(row.find(".unit-price").val()) || 0;
+          row.find(".amount").val(qty * price);
+          updateTotal();
+      }
+
+      function updateTotal() {
+          let total = 0;
+          $(".amount").each(function () {
+              total += parseFloat($(this).val()) || 0;
+          });
+          $("#subtotal").val(total.toLocaleString("id-ID"));
+          $("#tax").val(total.toLocaleString("id-ID")); // sementara sama
+      }
+
+      $(document).on("input", ".qty, .unit-price", function () {
+          let row = $(this).closest("tr");
+          updateAmount(row);
+      });
+
+      $("#addRow").click(function () {
+          let newRow = `<tr>
+                  <td><input type="text" class="form-control sku"></td>
+                  <td><input type="text" class="form-control nama-item"></td>
+                  <td><input type="number" class="form-control qty" value="1"></td>
+                  <td><input type="number" class="form-control unit-price" value="0"></td>
+                  <td><input type="number" class="form-control amount" value="0" readonly></td>
+                  <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
+              </tr>`;
+          $("#itemsTable tbody").append(newRow);
+      });
+
+      $(document).on("click", ".remove", function () {
+          $(this).closest("tr").remove();
+          updateTotal();
+      });
+  </script>
+
 
   <!--end::Script-->
 </body>

@@ -25,6 +25,7 @@ Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
 
+
 # Product 
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
 
@@ -41,6 +42,7 @@ Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('br
 
 # PurchaseOrders
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
+Route::get('/purchase_orders/add', [PurchaseOrderController::class, 'addOrder'])->name('purchase_orders.add');
 
 # Items
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
