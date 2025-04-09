@@ -5,6 +5,7 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Controller;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -25,8 +26,8 @@ Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
 
-# Product 
-Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
+# Product
+Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
@@ -44,3 +45,6 @@ Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchas
 
 # Items
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
+
+
+Route::post('/user', [Controller::class, 'store']);
