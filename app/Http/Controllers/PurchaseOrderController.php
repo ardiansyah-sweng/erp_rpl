@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 use App\Models\PurchaseOrder;
 
 class PurchaseOrderController extends Controller
@@ -24,15 +26,42 @@ class PurchaseOrderController extends Controller
     // Menambahkan PO baru
     public function addPurchaseOrder(Request $request)
     {
-        $request->validate([
-            'branch_id' => 'required|exists:branches,id',
-            'supplier_id' => 'required|exists:suppliers,supplier_id',
-            'items' => 'required|array|min:1',
-            'items.*.sku' => 'required|string',
-            'items.*.item_name' => 'required|string',
-            'items.*.qty' => 'required|numeric|min:1',
-            'items.*.unit_price' => 'required|numeric|min:0',
-        ]);
+        $allData = $request->all();
+        
+        // Ambil item detail (0–n-1)
+        $itemDetails = array_slice($allData, 0, -1);
+
+        // Ambil header data (elemen terakhir)
+        $headerData = end($allData);
+        
+        // Validasi item detail
+        foreach ($itemDetails as $index => $item) {
+            Validator::make($item, [
+                'po_number' => 'required|string',
+                'sku'       => 'required|string',
+                'qty'       => 'required|numeric|min:1',
+                'amount'    => 'required|numeric|min:0',
+            ])->validate();
+        }
+
+        // Validasi header
+        Validator::make($headerData, [
+            'po_number'   => 'required|string',
+            'branch_id'   => 'required|integer',
+            'supplier_id' => 'required|string',
+            'total'       => 'required|numeric|min:0',
+            'order_date'  => 'required|date',
+        ])->validate();        
+
+        // $request->validate([
+        //     'branch_id' => 'required|exists:branches,id',
+        //     'supplier_id' => 'required|exists:suppliers,supplier_id',
+        //     'items' => 'required|array|min:1',
+        //     'items.*.sku' => 'required|string',
+        //     'items.*.item_name' => 'required|string',
+        //     'items.*.qty' => 'required|numeric|min:1',
+        //     'items.*.unit_price' => 'required|numeric|min:0',
+        // ]);
 
         try {
             PurchaseOrder::addPurchaseOrder($request->all());

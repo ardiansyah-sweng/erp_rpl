@@ -21,7 +21,7 @@ return new class extends Migration
         Schema::create($this->table, function (Blueprint $table) use ($col) {
             $table->char($col['po_number'], 6);
             $table->char($col['supplier_id'], 6);
-            $table->bigInteger($col['total']); #dinamis dari po detail
+            $table->bigInteger($col['total'])->default(0); #dinamis dari po detail
             $table->integer($col['branch_id']);
             $table->date($col['order_date']);
             $table->char($col['status'], 20)->default('Draft');
