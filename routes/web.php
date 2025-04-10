@@ -5,6 +5,7 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierPICController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -43,6 +44,10 @@ Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('br
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPurchaseOrder'])->name('purchase_orders.search');
 
+
+# supplier pic route nya
+Route::get('/supplier/pic/edit/{id}', [SupplierPICController::class, 'getPICByID']);
+Route::put('/supplier/pic/update/{id}', [SupplierPICController::class, 'update'])->name('supplier.pic.update');
 
 # Items
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
