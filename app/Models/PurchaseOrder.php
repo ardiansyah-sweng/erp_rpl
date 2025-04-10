@@ -48,14 +48,20 @@ class PurchaseOrder extends Model
     {
         //DB::beginTransaction();
 
-        $allData = $data->all();
-        // $headerData = end($allData);
+        // $allData = $data->all();
+        
+        // Ambil item detail (0–n-1)
+        $itemDetails = array_slice($data, 0, -1);
+
+        // Ambil header data (elemen terakhir)
+        $headerData = end($data);
 
         $purchaseOrder = self::create([
-            'po_number' => $allData['po_number'],
-            'branch_id' => $allData['branch_id'],
-            'supplier_id' => $allData['supplier_id'],
-            'order_date' => $allData['order_date'],
+            'po_number' => $headerData['po_number'],
+            'branch_id' => $headerData['branch_id'],
+            'supplier_id' => $headerData['supplier_id'],
+            'order_date' => $headerData['order_date'],
+            'total' => $headerData['total'],
         ]);
 
         // try {
