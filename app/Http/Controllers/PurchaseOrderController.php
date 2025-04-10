@@ -18,11 +18,5 @@ class PurchaseOrderController extends Controller
         // return view('purchase_orders.detail', compact('purchaseOrder'));
         return response()->json($purchaseOrder);
     }
-    public function searchPurchaseOrder()
-    {
-        $keyword = request()->input('keyword');
-        $purchaseOrders = PurchaseOrder::getPurchaseOrderByKeywords($keyword);
-        return view('purchase_orders.list', compact('purchaseOrders', 'keyword'));
-    }
 
 }
