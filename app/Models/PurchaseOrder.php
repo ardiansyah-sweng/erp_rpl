@@ -46,70 +46,39 @@ class PurchaseOrder extends Model
      */
     public static function addPurchaseOrder($data)
     {
-        //DB::beginTransaction();
-
-        // $allData = $data->all();
+        DB::beginTransaction();
         
         // Ambil item detail (0–n-1)
         $itemDetails = array_slice($data, 0, -1);
 
         // Ambil header data (elemen terakhir)
         $headerData = end($data);
-
-        $purchaseOrder = self::create([
-            'po_number' => $headerData['po_number'],
-            'branch_id' => $headerData['branch_id'],
-            'supplier_id' => $headerData['supplier_id'],
-            'order_date' => $headerData['order_date'],
-            'total' => $headerData['total'],
-        ]);
-
-        foreach ($itemDetails as $item) {
-            PurchaseOrderDetail::create([
-                'po_number' => $headerData['po_number'],
-                'product_id' => $item['sku'],
-                'quantity' => $item['qty'],
-                'amount' => $item['amount'],
-            ]);
-        }
         
-        // try {
+        try {
 
-        //     $purchaseOrder = self::create([
-        //         'po_number' => $headerData['po_number'],
-        //         'branch_id' => $headerData['branch_id'],
-        //         'supplier_id' => $headerData['supplier_id'],
-        //         'order_date' => $headerData['order_date'],
-        //     ]);
+            $purchaseOrder = self::create([
+                'po_number' => $headerData['po_number'],
+                'branch_id' => $headerData['branch_id'],
+                'supplier_id' => $headerData['supplier_id'],
+                'order_date' => $headerData['order_date'],
+                'total' => $headerData['total'],
+            ]);
 
-        //     $subtotal = 0;
+            foreach ($itemDetails as $item) {
+                PurchaseOrderDetail::create([
+                    'po_number' => $headerData['po_number'],
+                    'product_id' => $item['sku'],
+                    'quantity' => $item['qty'],
+                    'amount' => $item['amount'],
+                ]);
+            }
 
-        //     foreach ($data['items'] as $item) {
-        //         $amount = $item['qty'] * $item['unit_price'];
-        //         $subtotal += $amount;
+            DB::commit();
+            return $purchaseOrder;
 
-        //         PurchaseOrderDetail::create([
-        //             'po_number' => $poNumber,
-        //             'sku' => $item['sku'],
-        //             'item_name' => $item['item_name'],
-        //             'qty' => $item['qty'],
-        //             'amount' => $amount,
-        //         ]);
-        //     }
-
-        //     $tax = $subtotal * 0.1;
-        //     $purchaseOrder->update([
-        //         'subtotal' => $subtotal,
-        //         'tax' => $tax,
-        //         'total' => $subtotal + $tax,
-        //     ]);
-
-        //     DB::commit();
-        //     return $purchaseOrder;
-
-        // } catch (\Exception $e) {
-        //     DB::rollBack();
-        //     throw $e;
-        // }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }
