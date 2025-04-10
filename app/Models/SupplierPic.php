@@ -18,8 +18,7 @@ class SupplierPic extends Model
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
     }
     public static function getPICByID($id)
-{
-    return self::where('supId', $id)->first(); // ambil 1 baris pertama berdasarkan supId
-}
-
+    {
+        return self::find($id); 
+    }
 }
