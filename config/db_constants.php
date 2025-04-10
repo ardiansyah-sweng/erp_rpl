@@ -179,6 +179,7 @@ return [
         'po_detail' => [
             'po_number'             => $master['po_number'],
             'product_id'            => 'product_id',
+            'base_price'            => 'base_price',
             'quantity'              => 'quantity',
             'amount'                => 'amount',
             'received_days'         => 'received_days',

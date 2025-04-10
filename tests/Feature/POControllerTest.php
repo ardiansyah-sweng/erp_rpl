@@ -34,7 +34,10 @@ class POControllerTest extends TestCase
         $branch = Branch::inRandomOrder()->first();
 
         #refaktor, harus diambil dari SupplierProduct
-        $supplier = Supplier::inRandomOrder()->first();
+        $supplier = SupplierProduct::inRandomOrder()
+                                ->distinct('supplier_id')
+                                ->first();
+        $itemCount = SupplierProduct::where('supplier_id', $supplier->supplier_id)->count();
 
         // Ambil PO Number terakhir
         $lastPO = PurchaseOrder::orderByRaw('CAST(SUBSTRING(po_number, 3) AS UNSIGNED) DESC')->first();
@@ -48,12 +51,6 @@ class POControllerTest extends TestCase
             // Jika belum ada data, mulai dari PO0001
             $newPoNumber = 'PO0001';
         }
-
-        // insert ke tabel PurchaseOrder dulu
-
-
-        // Ambil jumlah item yang dipasok oleh supplier terpilih
-        $itemCount = SupplierProduct::where('supplier_id', $supplier->supplier_id)->count();
 
         $numOfSKU = $this->faker->numberBetween(1, $itemCount);
                                           
@@ -88,6 +85,7 @@ class POControllerTest extends TestCase
                 $postData[] = [
                                 'po_number' => $newPoNumber,
                                 'sku' => $item->product_id,
+                                'base_price' => $basePrice->new_base_price,
                                 'qty' => $quantity,
                                 'amount' => $amount,
                             ];
@@ -102,7 +100,7 @@ class POControllerTest extends TestCase
             'order_date' => $orderDate,
         ];
 
-        // dd($postData);
+        #print_r($postData);
         $response = $this->post('/purchase-orders', $postData); // sesuaikan dengan route aslinya
 
         $response->assertRedirect(); // redirect back on success

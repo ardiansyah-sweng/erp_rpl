@@ -53,16 +53,6 @@ class PurchaseOrderController extends Controller
             'order_date'  => 'required|date',
         ])->validate();        
 
-        // $request->validate([
-        //     'branch_id' => 'required|exists:branches,id',
-        //     'supplier_id' => 'required|exists:suppliers,supplier_id',
-        //     'items' => 'required|array|min:1',
-        //     'items.*.sku' => 'required|string',
-        //     'items.*.item_name' => 'required|string',
-        //     'items.*.qty' => 'required|numeric|min:1',
-        //     'items.*.unit_price' => 'required|numeric|min:0',
-        // ]);
-
         try {
             PurchaseOrder::addPurchaseOrder($request->all());
             return redirect()->back()->with('success', 'Purchase Order berhasil ditambahkan.');
