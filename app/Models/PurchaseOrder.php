@@ -39,7 +39,7 @@ class PurchaseOrder extends Model
             $q->where('po_number', 'LIKE', "%{$keywords}%")
               ->orWhere('status', 'LIKE', "%{$keywords}%")
               ->orWhereHas('supplier', function ($subQuery) use ($keywords) {
-                  $subQuery->where('company_name', 'LIKE', "%{$keywords}%");
+                $subQuery->where('company_name', 'LIKE', "%{$keywords}%");
               });
         });
     }
