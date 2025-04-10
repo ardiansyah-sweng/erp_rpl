@@ -27,7 +27,11 @@ return [
         'mu'                        => 'measurement_unit',
         'po'                        => 'purchase_order',
         'po_detail'                 => 'purchase_order_detail',
+<<<<<<< HEAD
         'products'                   => 'products',
+=======
+        'product'                   => 'products',
+>>>>>>> 98e5a9a (Update Product.php, db_constants.php, and BranchSeeder.php)
         'supplier'                  => 'supplier',
         'supplier_pic'              => 'supplier_pic',
         'supplier_product'          => 'supplier_product',

@@ -16,6 +16,10 @@ class Product extends Model
     protected $table;
     protected $fillable = [];
 
+    protected $tableItem;
+    protected $colItem;
+    protected $colProduct;
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
