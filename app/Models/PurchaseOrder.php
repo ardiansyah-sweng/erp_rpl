@@ -64,6 +64,15 @@ class PurchaseOrder extends Model
             'total' => $headerData['total'],
         ]);
 
+        foreach ($itemDetails as $item) {
+            PurchaseOrderDetail::create([
+                'po_number' => $headerData['po_number'],
+                'product_id' => $item['sku'],
+                'quantity' => $item['qty'],
+                'amount' => $item['amount'],
+            ]);
+        }
+        
         // try {
 
         //     $purchaseOrder = self::create([

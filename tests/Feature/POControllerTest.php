@@ -102,17 +102,21 @@ class POControllerTest extends TestCase
             'order_date' => $orderDate,
         ];
 
-        //dd(end($postData));
+        // dd($postData);
         $response = $this->post('/purchase-orders', $postData); // sesuaikan dengan route aslinya
 
         $response->assertRedirect(); // redirect back on success
         // $response->assertSessionHas('success');
 
         // Periksa bahwa data PO benar-benar masuk ke database
-        //$this->assertDatabaseHas('purchase_order', [
-        //     'supplier_id' => $newPoNumber,
-        //     'branch_id' => $branch->id,
-        // ]);
+        $this->assertDatabaseHas('purchase_order', [
+            'po_number' => $newPoNumber,
+        ]);
+
+        // Periksa bahwa data PO benar-benar masuk ke database
+        $this->assertDatabaseHas('purchase_order_detail', [
+            'po_number' => $newPoNumber,
+        ]);
 
         // $this->assertGreaterThan(0, $itemCount, 'Supplier tidak memiliki produk yang dipasok.');
         // $this->assertNotNull($branch, 'Data Branch tidak ditemukan di database.');
