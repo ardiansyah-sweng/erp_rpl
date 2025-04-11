@@ -295,7 +295,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="dashboard" class="nav-link active">
+              <a href="dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -303,11 +303,13 @@
                 </a>
               </li>
               <li class="nav-item">
-              <a href="{{ route('product.list') }}" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
               </li>
+
+              
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-person-circle"></i>
@@ -346,7 +348,7 @@
                 </a>                
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
+              <a href="{{ route('branch.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -354,11 +356,13 @@
                 </a>                
               </li>
               <li class="nav-item">
-              <a href="{{ route('item.list') }}" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
-                      <p>Item</p>
-                    </a>
-                  </li>
+              <a href="{{ route('branch.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Item
+                  </p>
+                </a>                
+              </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -375,14 +379,14 @@
             <!--begin::Row-->
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Branch</h3>
-                <a href="{{ route('branch.add') }}" class="btn btn-primary btn-sm">Tambah</a>
+                <h3 class="mb-0 me-2">Item</h3>
+                <a href="#" class="btn btn-primary btn-sm">Tambah</a>
               </div>
     
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Branch</li>
+                  <li class="breadcrumb-item active" aria-current="page">Item</li>
                 </ol>
               </div>
             </div>
@@ -392,12 +396,11 @@
         </div>
 
         <div class="card mb-4">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                      <h3 class="card-title">List Table</h3>
-                      <form action="{{ route('branch.list') }}" method="GET" class="d-flex ms-auto">
+              <div class="card-header"><h3 class="card-title">List Table</h3>
+              <form action="{{ route('item.list') }}" method="GET" class="d-flex ms-auto">
                         <!-- Search bar berada di ujung kanan -->
                         <div class="input-group input-group-sm ms-auto" style="width: 450px;">
-                          <input type="text" name="search" class="form-control" placeholder="Search Branch">
+                          <input type="text" name="search" class="form-control" placeholder="Search Item">
                           <div class="input-group-append">
                             <button type="submit" class="btn btn-default">
                               <i class="bi bi-search"></i>
@@ -405,41 +408,53 @@
                           </div>
                         </div>
                       </form>
+            </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+              @if(session('success'))
+              <div class="alert alert-success">
+                  {{ session('success') }}
+              </div>
+              @endif
+
+              @if(session('error'))
+                  <div class="alert alert-danger">
+                      {{ session('error') }}
                   </div>
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                    <table class="table table-bordered">
-                      <thead class="text-center">
-                        <tr>
-                          <th style="width: 10px">id</th>
-                          <th>Branch Name</th>
-                          <th>Branch Address</th>
-                          <th>Branch Telephone</th>
-                          <th>Aktif</th>
-                          <th>Created At</th>
-                          <th>Updated At </th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                            @forelse($branches as $branch)
-                            <tr>
-                            <td>{{ $branch->id }}</td>
-                            <td>{{ $branch->branch_name }}</td>
-                            <td>{{ $branch->branch_address }}</td>
-                            <td>{{ $branch->branch_telephone }}</td>
-                            <td class="text-center">
-                                 @if($branch->branch_status == 1)
-                                        <i class="bi bi-check-circle-fill text-success"></i>
-                                @else
-                                        <i class="bi bi-x-circle-fill text-danger"></i>
-                                  @endif
-                           </td>
-                            <td>{{ $branch->created_at }}</td>
-                            <td>{{ $branch->updated_at }}</td>
+              @endif
+                <table class="table table-bordered">
+                  <thead class="text-center">
+                    <tr>
+                      <th style="width: 10px">id</th>
+                      <th>sku</th>
+                      <th>item_name</th>
+                      <th>measurement_unit</th>
+                      <th>avg_base_price</th>
+                      <th>selling_price</th>
+                      <th>created_at</th>
+                      <th>updated_at</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-center">
+                            @forelse($items as $item)
+                            <tr id="row-{{ $item->id }}">
+                            <td>{{ $item->id }}</td>
+                            <td>{{ $item->sku }}</td>
+                            <td>{{ $item->item_name }}</td>
+                            <td>{{ $item->measurement_unit }}</td>
+                            <td>{{ $item->avg_base_price }}</td>
+                            <td>{{ $item->selling_price }}</td>
+                            <td>{{ $item->created_at }}</td>
+                            <td>{{ $item->updated_at }}</td>
                             <td>
                               <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                              <form action="{{ route('item.delete', $item->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus item ini?')">Delete</button>
+                              </form>
+                            
                               <a href="#" class="btn btn-sm btn-info">Detail</a>
                             </td>
                             </tr>
@@ -449,13 +464,15 @@
                             </tr>
                             @endforelse
                       </tbody>
-                    </table>
-                  </div>
-                  <!-- /.card-body -->
-                  <div class="card-footer clearfix">
-                  {{ $branches->links('pagination::bootstrap-4') }}
-                  </div>
-        </div>
+</table>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer clearfix">
+                {{ $items->links('pagination::bootstrap-4') }}
+              </div>
+            </div>
+    
+
         
       </main>
       <!--end::App Main-->
