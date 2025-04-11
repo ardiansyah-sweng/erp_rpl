@@ -393,14 +393,17 @@
                         <div class="mb-3">
                             <label for="SKU" class="form-label">SKU</label>
                             <input type="text" class="form-control" id="SKU" name="SKU" required>
+                            <span class="error" id="skuError"></span>
                         </div>
                         <div class="mb-3">
                             <label for="nama_item" class="form-label">Nama Item</label>
                             <input type="text" class="form-control" id="nama_item" name="name_item" required>
+                            <span class="error" id="itemNameError"></span>
                         </div>
                         <div class="mb-3">
                             <label for="base_price" class="form-label">Base Price Rp:</label>
                             <input type="number" class="form-control" id="base_price" name="base_price" required>
+                            <span class="error" id="basePriceError"></span>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div>
