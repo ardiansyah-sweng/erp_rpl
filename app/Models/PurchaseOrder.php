@@ -33,6 +33,24 @@ class PurchaseOrder extends Model
         return self::with('supplier')->orderBy('order_date', 'desc')->paginate(10);
     }
 
+    public static function getPurchaseOrderByKeywords($keywords = null)
+    {
+        $query = self::with('supplier');
+
+        if ($keywords) {
+            $query->where(function ($q) use ($keywords) {
+                $q->where('po_number', 'LIKE', "%{$keywords}%")
+                  ->orWhere('status', 'LIKE', "%{$keywords}%")
+                  ->orWhereHas('supplier', function ($subQuery) use ($keywords) {
+                      $subQuery->where('company_name', 'LIKE', "%{$keywords}%");
+                  });
+            });
+        }
+
+        return $query->orderBy('created_at', 'asc')
+                     ->paginate(10);
+    }
+    
     public static function getPurchaseOrderByID($po_number)
     {
         return self::with('supplier', 'details')

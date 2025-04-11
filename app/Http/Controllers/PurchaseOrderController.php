@@ -20,6 +20,12 @@ class PurchaseOrderController extends Controller
         $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($po_number);
         return response()->json($purchaseOrder);
     }
+    public function searchPurchaseOrder()
+    {
+        $keyword = request()->input('keyword');
+        $purchaseOrders = PurchaseOrder::getPurchaseOrderByKeywords($keyword);
+        return view('purchase_orders.list', compact('purchaseOrders', 'keyword'));
+    }
 
     // Menambahkan PO baru
     public function addPurchaseOrder(Request $request)
