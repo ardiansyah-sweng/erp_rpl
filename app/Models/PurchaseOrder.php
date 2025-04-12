@@ -3,17 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseOrder extends Model
 {
-    protected $table;
-    protected $fillable = [];
-
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        // Tetapkan nama tabel dan kolom
+        // Tetapkan nama tabel dan kolom dari konfigurasi
         $this->table = config('db_constants.table.po');
         $this->fillable = array_values(config('db_constants.column.po') ?? []);
     }
@@ -34,32 +32,57 @@ class PurchaseOrder extends Model
         return self::with('supplier')->orderBy('order_date', 'desc')->paginate(10);
     }
 
-    public static function getPurchaseOrderByKeywords($keywords = null)
-    {
-        $query = self::with('supplier');
-
-        if ($keywords) {
-            $query->where(function ($q) use ($keywords) {
-                $q->where('po_number', 'LIKE', "%{$keywords}%")
-                    ->orWhere('status', 'LIKE', "%{$keywords}%")
-                    ->orWhereHas('supplier', function ($subQuery) use ($keywords) {
-                        $subQuery->where('company_name', 'LIKE', "%{$keywords}%");
-                    });
-            });
-        }
-
-        return $query->orderBy('created_at', 'asc')
-            ->paginate(10);
-    }
-
     public static function getPurchaseOrderByID($po_number)
     {
         return self::with('supplier', 'details')->orderBy('po_number')->where('po_number', $po_number)->paginate(10);
     }
 
-    // Fungsi tambahan untuk menghitung jumlah item pada 1 PO
-    public static function countItem($poNumber)
+    /**
+     * Fungsi untuk menambahkan Purchase Order baru
+     */
+    public static function addPurchaseOrder($data)
     {
-        return PurchaseOrderDetail::where('po_number', $poNumber)->count();
+        DB::beginTransaction();
+
+        try {
+            $poNumber = 'PO-' . now()->format('YmdHis');
+
+            $purchaseOrder = self::create([
+                'po_number' => $poNumber,
+                'branch_id' => $data['branch_id'],
+                'supplier_id' => $data['supplier_id'],
+                'order_date' => now(),
+            ]);
+
+            $subtotal = 0;
+
+            foreach ($data['items'] as $item) {
+                $amount = $item['qty'] * $item['unit_price'];
+                $subtotal += $amount;
+
+                PurchaseOrderDetail::create([
+                    'po_number' => $poNumber,
+                    'sku' => $item['sku'],
+                    'item_name' => $item['item_name'],
+                    'qty' => $item['qty'],
+                    'unit_price' => $item['unit_price'],
+                    'amount' => $amount,
+                ]);
+            }
+
+            $tax = $subtotal * 0.1;
+            $purchaseOrder->update([
+                'subtotal' => $subtotal,
+                'tax' => $tax,
+                'total' => $subtotal + $tax,
+            ]);
+
+            DB::commit();
+            return $purchaseOrder;
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }
