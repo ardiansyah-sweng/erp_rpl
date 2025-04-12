@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create($tablePODetail, function (Blueprint $table) use ($column) {
             $table->char($column['po_number'], 6);
             $table->string($column['product_id'], 50);
+            $table->integer($column['base_price'])->default(0);
             $table->integer($column['quantity']);
             $table->bigInteger($column['amount']); #quantity x base_price
             $table->tinyInteger($column['received_days'])->default(0);
