@@ -53,4 +53,4 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
 
 # supplier
-Route::get('/supplier/{id}', [SupplierController::class, 'deleteSupplierByID']);
+Route::delete('/supplier/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete');
