@@ -20,6 +20,10 @@ Route::get('/branch/add', function () {
     return view('branch/add');
 });
 
+Route::get('/Supplier', function (){
+    return view('Supplier');
+});
+
 # Product 
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
 
@@ -37,4 +41,4 @@ Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
 
 # supplier
-Route::get('/delete_supplier', [SupplierController::class, 'deleteSupplierByID']);
+Route::get('/supplier/{id}', [SupplierController::class, 'deleteSupplierByID']);
