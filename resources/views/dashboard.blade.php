@@ -328,6 +328,12 @@
                       <p>Tambah Supplier Item</p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a href="/supplier/list" class="nav-link">
+                     <i class="nav-icon bi bi-circle"></i>
+                    <p>List Supplier</p>
+                    </a>
+                 </li>
                 </ul>
               </li>
               <li class="nav-item">
