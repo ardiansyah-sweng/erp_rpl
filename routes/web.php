@@ -24,9 +24,15 @@ Route::get('/branch/add', function () {
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
+Route::get('/product/add', function () {
+    return view('product/add');
+});
 
 # Product 
-Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
+Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+Route::post('/product/add', [ProductController::class, 'store'])->name('product.add');
+
+
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
@@ -46,3 +52,11 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 
 # Items
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
+
+// Tambahkan route-route ini untuk fitur produk
+Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+Route::post('/item/store', [ProductController::class, 'store'])->name('item.store');
+Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
+Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
+Route::put('/product/{id}', [ProductController::class, 'update'])->name('product.update');
+Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy');

@@ -49,4 +49,15 @@ class Product extends Model
                         ->where($this->table.'.'.$colProduct['type'], 'RM')
                         ->select($tableItem.'.'.$colItem['sku']);
     }
+
+    public static function createProduct(array $data)
+    {
+        $columns = config('db_constants.column.products');
+        $fillableColumns = array_values($columns ?? []);
+
+        // Filter hanya kolom yang diizinkan
+        $filteredData = collect($data)->only($fillableColumns)->toArray();
+
+        return self::create($filteredData);
+    }
 }
