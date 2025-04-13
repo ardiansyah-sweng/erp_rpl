@@ -28,13 +28,15 @@ class PurchaseOrder extends Model
 
     public static function getAllPurchaseOrders()
     {
-        // Mengurutkan supplier berdasarkan tanggal pesanan(order_date) secara Descending
         return self::with('supplier')->orderBy('order_date', 'desc')->paginate(10);
     }
 
     public static function getPurchaseOrderByID($po_number)
     {
-        return self::with('supplier', 'details')->orderBy('po_number')->where('po_number', $po_number)->paginate(10);
+        return self::with('supplier', 'details')
+                    ->where('po_number', $po_number)
+                    ->orderBy('po_number')
+                    ->paginate(10);
     }
 
     /**
