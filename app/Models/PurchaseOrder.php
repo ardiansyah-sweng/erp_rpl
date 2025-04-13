@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -7,6 +6,9 @@ use Illuminate\Support\Facades\DB;
 
 class PurchaseOrder extends Model
 {
+    protected $table;
+    protected $fillable = [];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -45,39 +47,31 @@ class PurchaseOrder extends Model
     public static function addPurchaseOrder($data)
     {
         DB::beginTransaction();
+        
+        // Ambil item detail (0–n-1)
+        $itemDetails = array_slice($data, 0, -1);
 
+        // Ambil header data (elemen terakhir)
+        $headerData = end($data);
+        
         try {
-            $poNumber = 'PO-' . now()->format('YmdHis');
 
             $purchaseOrder = self::create([
-                'po_number' => $poNumber,
-                'branch_id' => $data['branch_id'],
-                'supplier_id' => $data['supplier_id'],
-                'order_date' => now(),
+                'po_number' => $headerData['po_number'],
+                'branch_id' => $headerData['branch_id'],
+                'supplier_id' => $headerData['supplier_id'],
+                'order_date' => $headerData['order_date'],
+                'total' => $headerData['total'],
             ]);
 
-            $subtotal = 0;
-
-            foreach ($data['items'] as $item) {
-                $amount = $item['qty'] * $item['unit_price'];
-                $subtotal += $amount;
-
+            foreach ($itemDetails as $item) {
                 PurchaseOrderDetail::create([
-                    'po_number' => $poNumber,
-                    'sku' => $item['sku'],
-                    'item_name' => $item['item_name'],
-                    'qty' => $item['qty'],
-                    'unit_price' => $item['unit_price'],
-                    'amount' => $amount,
+                    'po_number' => $headerData['po_number'],
+                    'product_id' => $item['sku'],
+                    'quantity' => $item['qty'],
+                    'amount' => $item['amount'],
                 ]);
             }
-
-            $tax = $subtotal * 0.1;
-            $purchaseOrder->update([
-                'subtotal' => $subtotal,
-                'tax' => $tax,
-                'total' => $subtotal + $tax,
-            ]);
 
             DB::commit();
             return $purchaseOrder;

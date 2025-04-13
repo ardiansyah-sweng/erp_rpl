@@ -30,7 +30,7 @@ class PurchaseOrderController extends Controller
         return view('purchase_orders.list', compact('purchaseOrders', 'keyword'));
     }
 
-    // Menambahkan PO baru (versi revisi)
+    // Menambahkan PO baru
     public function addPurchaseOrder(Request $request)
     {
         $allData = $request->all();
