@@ -7,6 +7,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
+use App\Http\Controllers\SupplierPIController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -53,3 +54,5 @@ Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.d
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
+Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPICByID'])->name('supplier.pic.delete');
+
