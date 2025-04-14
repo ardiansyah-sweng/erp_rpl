@@ -333,7 +333,7 @@
                      <i class="nav-icon bi bi-circle"></i>
                     <p>List Supplier</p>
                     </a>
-                 </li>
+                 </li> 
                 </ul>
               </li>
               <li class="nav-item">

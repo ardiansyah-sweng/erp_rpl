@@ -49,4 +49,4 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
 
 #Supplier
-Route::get('/supplier/list', [SupplierController::class, 'index'])->name('supplier.list');
+Route::get('/supplier/list', [SupplierController::class, 'index'])->name('supplier.list'); 

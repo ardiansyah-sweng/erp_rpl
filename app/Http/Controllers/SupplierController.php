@@ -8,7 +8,8 @@ class SupplierController extends Controller
 {
     public function index()
     {
-        $suppliers = Supplier::all(); // otomatis pakai tabel & kolom dari config
+        // ✅ Pakai method dari Model
+        $suppliers = Supplier::getAllSuppliers();
         return view('supplier.list', compact('suppliers'));
     }
 }

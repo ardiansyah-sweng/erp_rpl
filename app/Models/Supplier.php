@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -12,8 +13,13 @@ class Supplier extends Model
     {
         parent::__construct($attributes);
 
-        // Tetapkan nama tabel dan kolom
         $this->table = config('db_constants.table.supplier');
         $this->fillable = array_values(config('db_constants.column.supplier') ?? []);
+    }
+
+    //Tambahan: fungsi ambil semua data supplier
+    public static function getAllSuppliers()
+    {
+        return self::all();
     }
 }
