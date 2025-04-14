@@ -6,6 +6,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
+use App\Http\Controllers\MerkController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -26,8 +27,8 @@ Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
 
-# Product 
-Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
+# Product
+Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
@@ -49,3 +50,6 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
+
+# Merk
+Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
