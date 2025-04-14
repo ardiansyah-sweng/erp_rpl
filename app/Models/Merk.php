@@ -18,8 +18,8 @@ class Merk extends Model
         $this->fillable = array_values(config('db_constants.column.merk') ?? []);
     }
 
-    public function getMerkById($id)
+    public static function countMerek()
     {
-        return self::where('id', $id)->first();
+        return self::count();
     }
 }
