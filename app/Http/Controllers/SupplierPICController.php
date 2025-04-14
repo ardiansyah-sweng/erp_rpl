@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\SupplierPic;
 
 class SupplierPICController extends Controller
 {
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
+            'supplier_id' => 'required|integer',
+            'name'        => 'required|string|max:255',
+            'position'    => 'nullable|string|max:100',
+            'phone'       => 'nullable|string|max:20',
+            'email'       => 'nullable|email|max:255',
         ]);
 
-        // Simpan data ke database
-        User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => bcrypt($validatedData['password']),
-        ]);
+        // Ini cara yang benar: memanggil fungsi dari model
+        SupplierPic::addSupplierPIC($validatedData);
 
-        return redirect()->back()->with('success', 'User berhasil ditambahkan!');
+        return redirect()->back()->with('success', 'PIC Supplier berhasil ditambahkan!');
     }
 }
