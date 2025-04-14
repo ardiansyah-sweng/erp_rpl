@@ -4,7 +4,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Dashboard</title>
+    <title>ERP RPL UAD | Tambah PIC Supplier</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -295,7 +295,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="dashboard" class="nav-link active">
+                <a href="/dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -303,7 +303,7 @@
                 </a>
               </li>
               <li class="nav-item">
-              <a href="{{ route('product.list') }}" class="nav-link">
+                <a href="./generate/theme.html" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
@@ -330,9 +330,9 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="./widgets/cards.html" class="nav-link">
+                    <a href="/supplier/material/add" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Cards</p>
+                      <p>Tambah Supplier Item</p>
                     </a>
                   </li>
                 </ul>
@@ -343,19 +343,11 @@
                   <p>
                     Purchase Orders
                   </p>
-                </a>                
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Branch
-                  </p>
-                </a>                
+                </a>
               </li>
               <li class="nav-item">
               <a href="{{ route('item.list') }}" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <i class="nav-icon bi bi-circle"></i>
                       <p>Item</p>
                     </a>
                   </li>
@@ -373,16 +365,12 @@
           <!--begin::Container-->
           <div class="container-fluid">
             <!--begin::Row-->
-            <div class="row align-items-center">
-              <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Branch</h3>
-                <a href="{{ route('branch.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-              </div>
-    
+            <div class="row">
+              <div class="col-sm-6"><h3 class="mb-0">Tambah Supplier Item</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Branch</li>
+                  <li class="breadcrumb-item active" aria-current="page">Tambah Supplier Item</li>
                 </ol>
               </div>
             </div>
@@ -390,73 +378,55 @@
           </div>
           <!--end::Container-->
         </div>
-
-        <div class="card mb-4">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                      <h3 class="card-title">List Table</h3>
-                      <form action="{{ route('branch.list') }}" method="GET" class="d-flex ms-auto">
-                        <!-- Search bar berada di ujung kanan -->
-                        <div class="input-group input-group-sm ms-auto" style="width: 450px;">
-                          <input type="text" name="search" class="form-control" placeholder="Search Branch">
-                          <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
-                              <i class="bi bi-search"></i>
-                            </button>
-                          </div>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+                <div class="container">
+                    <form id="picForm">
+                        <div class="mb-3">
+                            <label for="supplier_id" class="form-label">ID Supplier</label>
+                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
+                            <span id="supplierIdError" class="error"></span>
                         </div>
-                      </form>
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                    <table class="table table-bordered">
-                      <thead class="text-center">
-                        <tr>
-                          <th style="width: 10px">id</th>
-                          <th>Branch Name</th>
-                          <th>Branch Address</th>
-                          <th>Branch Telephone</th>
-                          <th>Aktif</th>
-                          <th>Created At</th>
-                          <th>Updated At </th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                            @forelse($branches as $branch)
-                            <tr>
-                            <td>{{ $branch->id }}</td>
-                            <td>{{ $branch->branch_name }}</td>
-                            <td>{{ $branch->branch_address }}</td>
-                            <td>{{ $branch->branch_telephone }}</td>
-                            <td class="text-center">
-                                 @if($branch->branch_status == 1)
-                                        <i class="bi bi-check-circle-fill text-success"></i>
-                                @else
-                                        <i class="bi bi-x-circle-fill text-danger"></i>
-                                  @endif
-                           </td>
-                            <td>{{ $branch->created_at }}</td>
-                            <td>{{ $branch->updated_at }}</td>
-                            <td>
-                              <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                              <a href="#" class="btn btn-sm btn-info">Detail</a>
-                            </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="7" class="text-center">No data available in table</td>
-                            </tr>
-                            @endforelse
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- /.card-body -->
-                  <div class="card-footer clearfix">
-                  {{ $branches->links('pagination::bootstrap-4') }}
-                  </div>
+                        <div class="mb-3">
+                            <label for="supplier_name" class="form-label">Nama Supplier</label>
+                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="SKU" class="form-label">SKU</label>
+                            <input type="text" class="form-control" id="SKU" name="SKU" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nama_item" class="form-label">Nama Item</label>
+                            <input type="text" class="form-control" id="nama_item" name="name_item" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="base_price" class="form-label">Base Price Rp:</label>
+                            <input type="number" class="form-control" id="base_price" name="base_price" required>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div>
+                                  <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
+                                  <button type="reset" class="btn btn-secondary">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--end::Row-->
+            <!--begin::Row-->
+            
+            <!-- /.row (main row) -->
+          </div>
+          <!--end::Container-->
         </div>
-        
+        <!--end::App Content-->
       </main>
       <!--end::App Main-->
       <!--begin::Footer-->
@@ -475,7 +445,6 @@
       <!--end::Footer-->
     </div>
     <!--end::App Wrapper-->
-
     <!--begin::Script-->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script
@@ -729,7 +698,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- AdminLTE JS -->
-    <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
+    <script src={{ asset("assets/dist/js/adminlte.js")}}></script>
 
     <!-- Custom Sidebar Toggle Script -->
     <script>
@@ -740,7 +709,6 @@
         });
     });
     </script>
-
     <!--end::Script-->
   </body>
   <!--end::Body-->

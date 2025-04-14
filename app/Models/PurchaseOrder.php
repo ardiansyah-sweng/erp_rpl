@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -22,13 +23,33 @@ class PurchaseOrder extends Model
         return $this->belongsTo(Supplier::class, 'supplier_id', 'supplier_id');
     }
 
-    public function details(){
+    public function details()
+    {
         return $this->hasMany(PurchaseOrderDetail::class, 'po_number', 'po_number');
     }
 
     public static function getAllPurchaseOrders()
     {
-        return self::with('supplier')->orderBy('created_at', 'desc')->paginate(10);
+        // Mengurutkan supplier berdasarkan tanggal pesanan(order_date) secara Descending
+        return self::with('supplier')->orderBy('order_date', 'desc')->paginate(10);
+    }
+
+    public static function getPurchaseOrderByKeywords($keywords = null)
+    {
+        $query = self::with('supplier');
+
+        if ($keywords) {
+            $query->where(function ($q) use ($keywords) {
+                $q->where('po_number', 'LIKE', "%{$keywords}%")
+                    ->orWhere('status', 'LIKE', "%{$keywords}%")
+                    ->orWhereHas('supplier', function ($subQuery) use ($keywords) {
+                        $subQuery->where('company_name', 'LIKE', "%{$keywords}%");
+                    });
+            });
+        }
+
+        return $query->orderBy('created_at', 'asc')
+            ->paginate(10);
     }
 
     public static function getPurchaseOrderByID($po_number)
@@ -36,4 +57,14 @@ class PurchaseOrder extends Model
         return self::with('supplier', 'details')->orderBy('po_number')->where('po_number', $po_number)->paginate(10);
     }
 
+    // Fungsi tambahan untuk menghitung jumlah item pada 1 PO
+    public static function countItem($poNumber)
+    {
+        return PurchaseOrderDetail::where('po_number', $poNumber)->count();
+    }
+
+    public static function countPurchaseOrder()
+    {
+        return self::count();
+    }
 }
