@@ -5,15 +5,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
-    protected $table;
-    protected $fillable = [];
+    protected $table = 'supplier';
+    protected $fillable = ['supplier_id', 'company_name', 'address', 'phone_number', 'bank_account'];
 
-    public function __construct(array $attributes = [])
+    public static function deleteSupplier($id)
     {
-        parent::__construct($attributes);
-
-        // Tetapkan nama tabel dan kolom
-        $this->table = config('db_constants.table.supplier');
-        $this->fillable = array_values(config('db_constants.column.supplier') ?? []);
+    return static::where('supplier_id', $id)->delete();
     }
+
 }
