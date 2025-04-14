@@ -25,13 +25,12 @@ Route::get('/branch/add', function () {
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
-Route::get('/product/add', function () {
-    return view('product/add');
+Route::get('/item/add', function () {
+    return view('item/add');
 });
 
 # Product 
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
-Route::post('/product/add', [ProductController::class, 'store'])->name('product.add');
 
 
 
@@ -55,6 +54,8 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
+Route::post('/item/add', [ProductController::class, 'store'])->name('item.add');
+
 
 // Tambahkan route-route ini untuk fitur produk
 Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');

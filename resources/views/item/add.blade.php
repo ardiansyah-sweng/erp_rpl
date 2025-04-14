@@ -167,7 +167,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/product/list" class="nav-link active">
+                <a href="/product/list" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
@@ -217,6 +217,14 @@
                   </p>
                 </a>                
               </li>
+              <li class="nav-item">
+              <a href="{{ route('item.list') }}" class="nav-link active">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Item
+                  </p>
+                </a>                
+              </li>
             </ul>
           </nav>
         </div>
@@ -244,7 +252,7 @@
   <div class="card-header">
     <h3 class="card-title">Tambah Item Produk</h3>
   </div>
-  <form action="{{ route('product.add') }}" method="POST" id="productForm">
+  <form action="{{ route('item.add') }}" method="POST" id="productForm">
     @csrf
     <div class="card-body">
       <div class="form-group">
