@@ -15,11 +15,7 @@ class Product extends Model
 
     protected $table;
     protected $fillable = [];
-
-    protected $tableItem;
-    protected $colItem;
-    protected $colProduct;
-
+    
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -48,16 +44,5 @@ class Product extends Model
                         ->distinct()
                         ->where($this->table.'.'.$colProduct['type'], 'RM')
                         ->select($tableItem.'.'.$colItem['sku']);
-    }
-
-    public static function createProduct(array $data)
-    {
-        $columns = config('db_constants.column.products');
-        $fillableColumns = array_values($columns ?? []);
-
-        
-        $filteredData = collect($data)->only($fillableColumns)->toArray();
-
-        return self::create($filteredData);
     }
 }
