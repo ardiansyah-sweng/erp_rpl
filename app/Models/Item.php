@@ -68,6 +68,10 @@ class Item extends Model
         // Jika item tidak ditemukan, kembalikan false
         return false;
     }
-
+    public static function addItem($data)
+    {
+        return self::create($data);
+    }
+    
     
 }

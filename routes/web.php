@@ -22,6 +22,9 @@ Route::get('/supplier/pic/add', function () {
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
+Route::get('/item/add', function () {
+    return view('item/add');
+});
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
@@ -46,6 +49,7 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 
 
 # Items
-Route::get('/items', [ItemController::class, 'getItemAll']);
+Route::get('/item', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
+Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');

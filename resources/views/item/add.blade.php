@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah Cabang</title>
+    <title>ERP RPL UAD | Tambah Item</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
@@ -221,6 +221,7 @@
               <a href="{{ route('item.list') }}" class="nav-link">
               <i class="nav-icon bi bi-clipboard-fill"></i>
                       <p>Item</p>
+
                     </a>
                   </li>
             </ul>
@@ -231,11 +232,11 @@
         <div class="app-content-header">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Cabang</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Tambah Item</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="/branch/list">Cabang</a></li>
+                  <li class="breadcrumb-item"><a href="/item/list">Cabang</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                 </ol>
               </div>
@@ -248,32 +249,44 @@
               <div class="col-md-12">
                 <div class="card card-primary">
                   <div class="card-header">
-                    <h3 class="card-title">Formulir Tambah Cabang</h3>
+                    <h3 class="card-title">Formulir Tambah Item</h3>
                   </div>
                   <form action="{{ route('item.add') }}" method="POST" id="itemForm">
                     @csrf
                     <div class="card-body">
                       <div class="form-group">
-                        <label for="branch_name">Nama Cabang</label>
-                        <input type="text" class="form-control" id="branch_name" name="branch_name" placeholder="Masukkan nama cabang" value="{{ old('branch_name') }}">
+                        <label for="id">Id Produk</label>
+                        <input type="text" class="form-control" id="id" name="id" placeholder="Masukkan id" value="{{ old('id') }}">
                       </div>
                       
                       <div class="form-group">
-                        <label for="branch_address">Alamat</label>
-                        <textarea class="form-control" id="branch_address" name="branch_address" rows="3" placeholder="Masukkan alamat cabang">{{ old('branch_address') }}</textarea>
+                        <label for="sku">SKU</label>
+                        <input type="text"class="form-control" id="sku" name="sku" rows="3" placeholder="Masukkan alamat cabang">{{ old('sku') }}</text>
                       </div>
                       
                       <div class="form-group">
-                        <label for="branch_telephone">Telepon</label>
-                        <input type="text" class="form-control" id="branch_telephone" name="branch_telephone" placeholder="Masukkan nomor telepon" value="{{ old('branch_telephone') }}">
+                        <label for="item_name">Nama Item Produk</label>
+                        <input type="text" class="form-control" id="item_name" name="item_name" placeholder="Masukkan nomor telepon" value="{{ old('item_name') }}">
                       </div>
+
                       
-                      <div class="form-group">
-                        <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="branch_status" name="branch_status" value="1" checked>
-                          <label class="custom-control-label" for="branch_status">Aktif</label>
+                      <div class="form-groups">
+                          <label for="measurement_unit">Satuan</label>
+                          <select class="form-select" id="measurement_unit" required="">
+                            <option selected="" disabled="" value="">Choose...</option>
+                            <option>33</option>
+                            <option>18</option>
+                            <option>8</option>
+                          </select>
+                          <div class="invalid-feedback">Please select a valid state.</div>
                         </div>
+
+                       <div class="form-group">
+                        <label for="selling_price">Harga jual</label>
+                        <input type="text" class="form-control" id="selling_price" name="selling_price" placeholder="Masukkan nomor telepon" value="{{ old('selling_price') }}">
                       </div>
+                      
+                     
                     </div>
                     
                     <div class="card-footer">
