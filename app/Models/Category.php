@@ -42,4 +42,9 @@ class Category extends Model
     {
         return self::count();
     }
+
+    public static function addCategory($data)
+    {
+        return self::create($data);
+    }
 }
