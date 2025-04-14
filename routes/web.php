@@ -5,6 +5,7 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ItemController; // tambahkan jika belum
 
 Route::get('/', function () {
     return view('dashboard');
@@ -51,7 +52,9 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 
 
 # Items
-Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
+Route::get('/items', [ItemController::class, 'getItemAll']);
+Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
+Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
 
 // Tambahkan route-route ini untuk fitur produk
 Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
