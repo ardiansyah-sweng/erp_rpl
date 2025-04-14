@@ -28,7 +28,6 @@ Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
 
-<<<<<<< HEAD
 #API
 Route::get('/products', [APIProductController::class, 'getProducts']);
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice']);
@@ -36,10 +35,8 @@ Route::get('/branches/{id}', [App\Http\Controllers\BranchController::class, 'get
 Route::get('/supplier-material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialByID']); // widya_d_2200018266
 # Product 
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
-=======
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
->>>>>>> 6b3c17c23263cd5b65a5662488a88069123d343d
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
