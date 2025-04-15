@@ -7,6 +7,8 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
+use App\Http\Controllers\SupplierPIController;
+
 
 Route::get('/', function () {
     return view('dashboard');
