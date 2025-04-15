@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class SupplierPic extends Model
 {
@@ -20,11 +21,11 @@ class SupplierPic extends Model
 
     public static function assignmentDuration($pic)
     {
-        if (!$pic->assignment_date) {
+        if (!$pic->assigned_date) {
             return 'Tanggal penugasan tidak tersedia';
         }
 
-        $startDate = Carbon::parse($pic->assignment_date);
+        $startDate = Carbon::parse($pic->assigned_date);
         $now = Carbon::now();
 
         $diff = $startDate->diff($now);
