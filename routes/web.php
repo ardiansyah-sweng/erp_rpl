@@ -7,6 +7,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
+use App\Http\Controllers\SupplierController; // tambahan dari branch satu lagi
 
 Route::get('/', function () {
     return view('dashboard');
@@ -45,7 +46,6 @@ Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('br
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPurchaseOrder'])->name('purchase_orders.search');
 
-
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
@@ -53,3 +53,6 @@ Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.d
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
+
+# Supplier
+Route::get('/supplier/list', [SupplierController::class, 'index'])->name('supplier.list');
