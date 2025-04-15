@@ -309,7 +309,7 @@
                 </a>
               </li>
 
-              
+
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-person-circle"></i>
@@ -345,7 +345,7 @@
                   <p>
                     Purchase Orders
                   </p>
-                </a>                
+                </a>
               </li>
               <li class="nav-item">
               <a href="{{ route('branch.list') }}" class="nav-link">
@@ -353,7 +353,7 @@
                   <p>
                     Branch
                   </p>
-                </a>                
+                </a>
               </li>
               <li class="nav-item">
               <a href="{{ route('item.list') }}" class="nav-link">
@@ -380,11 +380,11 @@
                 <h3 class="mb-0 me-2">Produk</h3>
                 <a href="#" class="btn btn-primary btn-sm">Tambah</a>
               </div>
-    
+
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Produk</li>
+                    <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"> Produk</li>
                 </ol>
               </div>
             </div>
@@ -437,9 +437,9 @@
                 {{ $products->links('pagination::bootstrap-4') }}
               </div>
             </div>
-    
 
-        
+
+
       </main>
       <!--end::App Main-->
       <!--begin::Footer-->

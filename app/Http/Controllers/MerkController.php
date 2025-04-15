@@ -17,4 +17,6 @@ class MerkController extends Controller
 
         return response()->json($merk);
     }
+
+
 }
