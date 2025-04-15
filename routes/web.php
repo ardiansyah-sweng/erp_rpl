@@ -25,10 +25,10 @@ Route::get('/branch/add', function () {
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
-// Route::get('/purchase_orders/detail/{id}', function () {
-//     return view('purchase_orders/detail');
-// });
-Route::get('/purchase_orders/detail/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID'])->name('purchase_orders.detail');
+Route::get('/purchase_orders/detail/{id}', function () {
+    return view('purchase_orders.detail');
+});
+Route::get('/api/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 
 # Product 
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 

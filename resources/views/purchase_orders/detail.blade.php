@@ -202,7 +202,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('purchase.orders')}}" class="nav-link active">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Purchase Orders
@@ -210,7 +210,7 @@
                 </a>                
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link active">
+                <a href="{{ route('branch.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -235,7 +235,7 @@
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="/branch/list">Cabang</a></li>
+                  <li class="breadcrumb-item"><a href="{{route('purchase.orders')}}">Purchase Orders</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Detail Order</li>
                 </ol>
               </div>
@@ -250,51 +250,82 @@
                   <div class="card-header">
                     <h3 class="card-title"> </h3>
                   </div>
-
-                  {{-- <div class="card-body">
-                    <h6>ID Purchase Order</h6>
-                    <p class="text-muted">{{ $purchaseOrder->po_number }}</p>
-                    <h6>Supplier</h6>
-                    <p class="text-muted">{{ $purchaseOrder->supplier->company_name }}</p>
-                  </div> --}}
                          
-                  <div class="card-body">
-                    <h6>ID Purchase Order</h6>
-                    <h4>{{ $purchaseOrder->po_number }}</h4>
-                    <h6>Supplier</h6>
-                    <h4>{{ $purchaseOrder->supplier->company_name }}</h4>
-                    
-                    <!-- Add Purchase Order Details Table -->
-                    <h6 class="mt-4">Purchase Order Details</h6>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Product ID</th>
-                                    <th>Quantity</th>
-                                    <th>Amount</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($purchaseOrder->details as $detail)
-                                <tr>
-                                    <td>{{ $detail->product_id }}</td>
-                                    <td>{{ $detail->quantity }}</td>
-                                    <td>Rp {{ number_format($detail->amount, 0, ',', '.') }}</td>
-                                    <td>Rp {{ number_format($detail->amount * $detail->quantity, 0, ',', '.') }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="3" class="text-end"><strong>Grand Total:</strong></td>
-                                    <td><strong>Rp {{ number_format($purchaseOrder->total, 0, ',', '.') }}</strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
+                <div class="card-body">
+                  <!-- Add a container for the purchase order data -->
+                  <div id="purchase-order-details">
+                      <h6>ID Purchase Order</h6>
+                      <h4 id="po-number"></h4>
+                      <h6>Supplier</h6>
+                      <h4 id="supplier-name"></h4>
+                      
+                      <!-- Add Purchase Order Details Table -->
+                      <h6 class="mt-4">Purchase Order Details</h6>
+                      <div class="table-responsive">
+                          <table class="table table-bordered table-striped">
+                              <thead>
+                                  <tr>
+                                      <th>Product ID</th>
+                                      <th>Quantity</th>
+                                      <th>Amount</th>
+                                      <th>Total</th>
+                                  </tr>
+                              </thead>
+                              <tbody id="po-details">
+                              </tbody>
+                              <tfoot>
+                                  <tr>
+                                      <td colspan="3" class="text-end"><strong>Grand Total:</strong></td>
+                                      <td><strong id="grand-total"></strong></td>
+                                  </tr>
+                              </tfoot>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+              
+              <!-- Add this script at the bottom of the file -->
+              <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  // Get PO number from URL
+                  const pathArray = window.location.pathname.split('/');
+                  const poNumber = pathArray[pathArray.length - 1];
+              
+                  // Update fetch URL to use the API endpoint
+                  fetch(`/api/purchase_orders/${poNumber}`)
+                      .then(response => response.json())
+                      .then(data => {
+                          const purchaseOrder = data.data[0]; // Access first item since it's paginated
+                          
+                          // Update basic info
+                          document.getElementById('po-number').textContent = purchaseOrder.po_number;
+                          document.getElementById('supplier-name').textContent = purchaseOrder.supplier.company_name;
+                          
+                          // Update details table
+                          const tbody = document.getElementById('po-details');
+                          let grandTotal = 0; // Initialize grand total
+
+                          purchaseOrder.details.forEach(detail => {
+                              const subtotal = detail.amount * detail.quantity;
+                              grandTotal += subtotal; // Add to grand total
+                              
+                              const row = document.createElement('tr');
+                              row.innerHTML = `
+                                  <td>${detail.product_id}</td>
+                                  <td>${detail.quantity}</td>
+                                  <td>Rp ${new Intl.NumberFormat('id-ID').format(detail.amount)}</td>
+                                  <td>Rp ${new Intl.NumberFormat('id-ID').format(subtotal)}</td>
+                              `;
+                              tbody.appendChild(row);
+                          });
+                          
+                          // Update grand total
+                          document.getElementById('grand-total').textContent = 
+                              `Rp ${new Intl.NumberFormat('id-ID').format(grandTotal)}`;
+                      })
+                      .catch(error => console.error('Error:', error));
+              });
+              </script>
                   
                   <div id="debug-output" class="mt-4" style="display: none;">
                     <div class="card">
