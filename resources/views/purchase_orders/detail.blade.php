@@ -255,9 +255,9 @@
                   <!-- Add a container for the purchase order data -->
                   <div id="purchase-order-details">
                       <h6>ID Purchase Order</h6>
-                      <h4 id="po-number"></h4>
+                      <h4>{{ $purchaseOrder->first()->po_number }}</h4>
                       <h6>Supplier</h6>
-                      <h4 id="supplier-name"></h4>
+                      <h4>{{ $purchaseOrder->first()->supplier->company_name }}</h4>
                       
                       <!-- Add Purchase Order Details Table -->
                       <h6 class="mt-4">Purchase Order Details</h6>
@@ -271,61 +271,31 @@
                                       <th>Total</th>
                                   </tr>
                               </thead>
-                              <tbody id="po-details">
+                              <tbody>
+                                  @php $grandTotal = 0; @endphp
+                                  @foreach($purchaseOrder->first()->details as $detail)
+                                      @php
+                                          $subtotal = $detail->quantity * $detail->amount;
+                                          $grandTotal += $subtotal;
+                                      @endphp
+                                      <tr>
+                                          <td>{{ $detail->product_id }}</td>
+                                          <td>{{ $detail->quantity }}</td>
+                                          <td>Rp {{ number_format($detail->amount, 0, ',', '.') }}</td>
+                                          <td>Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
+                                      </tr>
+                                  @endforeach
                               </tbody>
                               <tfoot>
                                   <tr>
                                       <td colspan="3" class="text-end"><strong>Grand Total:</strong></td>
-                                      <td><strong id="grand-total"></strong></td>
+                                      <td><strong>Rp {{ number_format($grandTotal, 0, ',', '.') }}</strong></td>
                                   </tr>
                               </tfoot>
                           </table>
                       </div>
                   </div>
               </div>
-              
-              <!-- Add this script at the bottom of the file -->
-              <script>
-              document.addEventListener('DOMContentLoaded', function() {
-                  // Get PO number from URL
-                  const pathArray = window.location.pathname.split('/');
-                  const poNumber = pathArray[pathArray.length - 1];
-              
-                  // Update fetch URL to use the API endpoint
-                  fetch(`/api/purchase_orders/${poNumber}`)
-                      .then(response => response.json())
-                      .then(data => {
-                          const purchaseOrder = data.data[0]; // Access first item since it's paginated
-                          
-                          // Update basic info
-                          document.getElementById('po-number').textContent = purchaseOrder.po_number;
-                          document.getElementById('supplier-name').textContent = purchaseOrder.supplier.company_name;
-                          
-                          // Update details table
-                          const tbody = document.getElementById('po-details');
-                          let grandTotal = 0; // Initialize grand total
-
-                          purchaseOrder.details.forEach(detail => {
-                              const subtotal = detail.amount * detail.quantity;
-                              grandTotal += subtotal; // Add to grand total
-                              
-                              const row = document.createElement('tr');
-                              row.innerHTML = `
-                                  <td>${detail.product_id}</td>
-                                  <td>${detail.quantity}</td>
-                                  <td>Rp ${new Intl.NumberFormat('id-ID').format(detail.amount)}</td>
-                                  <td>Rp ${new Intl.NumberFormat('id-ID').format(subtotal)}</td>
-                              `;
-                              tbody.appendChild(row);
-                          });
-                          
-                          // Update grand total
-                          document.getElementById('grand-total').textContent = 
-                              `Rp ${new Intl.NumberFormat('id-ID').format(grandTotal)}`;
-                      })
-                      .catch(error => console.error('Error:', error));
-              });
-              </script>
                   
                   <div id="debug-output" class="mt-4" style="display: none;">
                     <div class="card">
