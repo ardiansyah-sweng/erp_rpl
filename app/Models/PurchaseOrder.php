@@ -62,4 +62,9 @@ class PurchaseOrder extends Model
     {
         return PurchaseOrderDetail::where('po_number', $poNumber)->count();
     }
+
+    public static function countPurchaseOrder()
+    {
+        return self::count();
+    }
 }
