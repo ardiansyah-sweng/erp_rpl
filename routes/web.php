@@ -5,6 +5,7 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -46,3 +47,8 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 
 # Items
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
+
+
+# Supplier Update View
+Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier'])->name('supplier.edit');
+
