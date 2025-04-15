@@ -5,6 +5,7 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierMaterialController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -27,6 +28,7 @@ Route::get('/supplier/material/add', function () {
 
 # Product 
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
+Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
@@ -46,3 +48,8 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 
 # Items
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
+Route::get('/items/{id}', [App\Http\Controllers\ItemController::class, 'getItemByID'])->name('item.show');
+
+
+Route::get('/supplier-material', [SupplierMaterialController::class, 'create'])->name('supplier-material.create');
+Route::post('/supplier-material', [SupplierMaterialController::class, 'material'])->name('supplier-material.store');

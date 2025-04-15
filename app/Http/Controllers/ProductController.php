@@ -12,4 +12,9 @@ class ProductController extends Controller
         $products = Product::getAllProducts();
         return view('product.list', compact('products'));
     }
+
+    public function getProductById($id){
+        $product = Product::with('category')->findOrFail($id);
+        return view('product.detail',compact('product'));
+    }
 }

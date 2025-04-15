@@ -372,7 +372,6 @@
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Produk</h3>
-                <a href="#" class="btn btn-primary btn-sm">Tambah</a>
               </div>
     
               <div class="col-sm-6">
@@ -401,33 +400,25 @@
                       <th>product_description</th>
                       <th>Created At</th>
                       <th>Updated At </th>
+                      <th>Action </th>
                     </tr>
                   </thead>
                  <tbody>
-                  @foreach ($products as $index => $product)
                   <tr class="align-middle">
-                      <td>{{ $index + 1 }}</td>
+                      <td>{{ $product->id }}</td>
                       <td>{{ $product->product_id }}</td>
                       <td>{{ $product->product_name }}</td>
                       <td>{{ $product->product_type }}</td>
-                      <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
+                      <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td>
                       <td>{{ $product->product_description }}</td>
                       <td>{{ $product->created_at }}</td>
                       <td>{{ $product->updated_at }}</td>
                       <td>
-                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                          <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                          <a href="{{ route('product.detail', $product->id) }}" class="btn btn-sm btn-info">Detail</a>
-
+                        <a href="{{ route('product.list') }}" class="btn btn-secondary">Kembali</a>
                       </td>
                   </tr>
-        @endforeach
     </tbody>
 </table>
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                {{ $products->links('pagination::bootstrap-4') }}
               </div>
             </div>
     

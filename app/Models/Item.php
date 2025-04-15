@@ -21,4 +21,8 @@ class Item extends Model
     public function getItem(){
         return self::all();
     }
+
+    public function getItemByID($id){
+        return self::where('id', $id)->first();
+    }
 }
