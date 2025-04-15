@@ -44,7 +44,7 @@ Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('br
 # PurchaseOrders
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPurchaseOrder'])->name('purchase_orders.search');
-
+Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])->name('purchase_orders.add'); // tambahan
 
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
