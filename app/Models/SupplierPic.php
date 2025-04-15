@@ -17,4 +17,22 @@ class SupplierPic extends Model
         $this->table = config('db_constants.table.supplier_pic');
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
     }
+
+    public static function assignmentDuration($pic)
+    {
+        if (!$pic->assignment_date) {
+            return 'Tanggal penugasan tidak tersedia';
+        }
+
+        $startDate = Carbon::parse($pic->assignment_date);
+        $now = Carbon::now();
+
+        $diff = $startDate->diff($now);
+
+        return json_encode([
+            'years' => $diff->y,
+            'months' => $diff->m,
+            'days' => $diff->d,
+        ]);
+    }
 }

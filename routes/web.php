@@ -6,6 +6,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 
+
 Route::get('/', function () {
     return view('dashboard');
 });
