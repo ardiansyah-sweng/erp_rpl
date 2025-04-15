@@ -62,9 +62,12 @@ class PurchaseOrder extends Model
     {
         return PurchaseOrderDetail::where('po_number', $poNumber)->count();
     }
+<<<<<<< HEAD
 
     public static function countPurchaseOrder()
     {
         return self::count();
     }
+=======
+>>>>>>> 8075850 (Menambahkan validasi form di add material)
 }
