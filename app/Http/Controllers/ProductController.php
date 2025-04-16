@@ -29,7 +29,7 @@ class ProductController extends Controller
             'product_type' => $request->product_type,
             'product_category' => $request->product_category,
             'product_description' => $request->product_description,
-            'created_at' => now(), 
+            'created_at' => now(),
             'updated_at' => now(),
         ];
     
