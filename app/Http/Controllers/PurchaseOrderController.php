@@ -21,13 +21,6 @@ class PurchaseOrderController extends Controller
     }
 
 
-    public function ponumber()
-    {
-        $lastPo = PurchaseOrder::latest('created_at')->first();
-        $poNumber = $lastPo ? 'PO' . str_pad(substr($lastPo->po_number, 2) + 1, 4, '0', STR_PAD_LEFT) : 'PO0001';   
-        return view('purchase_orders.list', compact('poNumber'));
-    }
-
 
     public function searchPurchaseOrder()
     {
