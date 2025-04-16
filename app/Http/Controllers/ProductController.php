@@ -31,6 +31,7 @@ class ProductController extends Controller
             'product_description' => $request->product_description,
             'created_at' => now(),
             'updated_at' => now(),
+            
         ];
     
         $productModel = new ProductModel();

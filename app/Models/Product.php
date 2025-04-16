@@ -48,7 +48,7 @@ class Product extends Model
     
     public function updateProduct($id, $data)
     {
-        DB::table('product')->where('id', $id)->update($data);
+        DB::table('products')->where('id', $id)->update($data);
     }
   
 }
