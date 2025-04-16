@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class Supplier extends Model
 {
     protected $table;
-    protected $fillable = ['company_name', 'address'];
+    protected $fillable = ['company_name', 'address',];
 
     protected $primaryKey = 'supplier_id';
     public $incrementing = false;
