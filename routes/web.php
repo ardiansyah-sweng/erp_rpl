@@ -56,4 +56,4 @@ Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.d
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 
 #Supplier
-Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier'])->name('supplier.edit');
+#Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);

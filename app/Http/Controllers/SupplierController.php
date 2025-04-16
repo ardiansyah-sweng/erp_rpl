@@ -7,14 +7,36 @@ use App\Models\Supplier;
 
 class SupplierController extends Controller
 {
-    public function getUpdateSupplier($supplier_id)
+    public function getUpdateSupplier(Request $request, $supplier_id)
     {
-        $supplier = Supplier::getUpdateSupplier($supplier_id)->first();
+        // Validasi input
+        $request->validate([
+            'company_name' => 'required|string|max:255',
+            'address' => 'required|string|max:500',
+        ]);
 
-        if (!$supplier) {
+        // Update data supplier
+        $updatedSupplier = Supplier::getUpdateSupplier($supplier_id, $request->only(['company_name', 'address']));
+
+        if (!$updatedSupplier) {
             return response()->json(['message' => 'Data Supplier Tidak Tersedia'], 404);
         }
 
-        return response()->json($supplier);
+        return response()->json([
+            'message' => 'Data Supplier berhasil diperbarui',
+            'data' => $updatedSupplier,
+        ]);
     }
+    public function showEditForm($supplier_id)
+    {
+    $supplier = Supplier::find($supplier_id);
+
+    if (!$supplier) {
+        return abort(404, 'Supplier tidak ditemukan');
+    }
+
+    return view('supplier.edit', compact('supplier'));
+    }
+
 }
+
