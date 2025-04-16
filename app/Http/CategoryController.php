@@ -44,4 +44,4 @@ class CategoryController extends Controller
 
         return redirect()->route('category.list')->with('success', 'Kategori berhasil ditambahkan!');
     }
-}
+} //CategoryController

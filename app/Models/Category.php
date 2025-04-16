@@ -43,7 +43,7 @@ class Category extends Model
         return self::count();
     }
 
-    public static function addCategory($data)
+    public static function addCategory($data) //insert table
     {
         return self::create($data);
     }
