@@ -32,7 +32,7 @@ class CategoryController extends Controller
             'parent_id' => 'nullable|integer',
             'active' => 'required|boolean'
         ]);
-
+            //colum category
         $category = new Category();
         $category->addCategory([
             'category' => $request->category,
