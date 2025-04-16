@@ -394,70 +394,76 @@
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="modalTitle">Add Purchase Order</h5>
-                          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button> -->
                         </div>
                         <div class="modal-body">
-                          <form>
+                          <form id="purchaseOrderForm">
+                            <!-- PO Number -->
                             <div class="form-group">
-                                <label for="branch">Cabang</label>
-                                <input type="text" class="form-control" id="branch" placeholder="Masukkan nama cabang">
+                              <label for="po_number">PO Number</label>
+                              <input type="text" class="form-control" id="po_number" value="PO0001" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="supplier_id">ID Supplier</label>
-                                <input type="text" class="form-control" id="supplier_id" placeholder="Masukkan ID Supplier">
+                              <label for="branch">Cabang</label>
+                              <input type="text" class="form-control" id="branch" placeholder="Masukkan nama cabang">
+                            </div>
+                            <!-- Supplier ID dan Nama Supplier -->
+                            <div class="form-group">
+                              <label for="supplier_id">ID Supplier</label>
+                              <select class="form-control" id="supplier_id">
+                                  <option value="">Pilih Supplier</option>
+                                  <option value="SUP001">SUP001 - Penyetor Kaos</option>
+                                  <option value="SUP002">SUP002 - Penyetor Celana</option>
+                              </select>
                             </div>
                             <div class="form-group">
-                                <label for="supplier_name">Nama Supplier</label>
-                                <input type="text" class="form-control" id="supplier_name" placeholder="Masukkan Nama Supplier">
+                              <label for="supplier_name">Nama Supplier</label>
+                              <input type="text" class="form-control" id="supplier_name" readonly>
                             </div>
 
                             <table class="table" id="itemsTable">
-                                <thead>
+                              <thead>
                                 <tr>
-                                    <th>SKU</th>
-                                    <th>Nama Item</th>
-                                    <th>Qty</th>
-                                    <th>Unit Price</th>
-                                    <th>Amount</th>
-                                    <th>Action</th>
+                                  <th>SKU</th>
+                                  <th>Nama Item</th>
+                                  <th>Qty</th>
+                                  <th>Unit Price</th>
+                                  <th>Amount</th>
+                                  <th>Action</th>
                                 </tr>
-                                </thead>
-                                <tbody>
+                              </thead>
+                              <tbody>
                                 <tr>
-                                    <td><input type="text" class="form-control sku"></td>
-                                    <td><input type="text" class="form-control nama-item"></td>
-                                    <td><input type="number" class="form-control qty" value="1"></td>
-                                    <td><input type="number" class="form-control unit-price" value="0"></td>
-                                    <td><input type="number" class="form-control amount" value="0" readonly></td>
-                                    <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
+                                  <td>
+                                    <select class="form-control sku" readonly>
+                                      <option value="">Pilih SKU</option>
+                                    </select>
+                                  </td>
+                                  <td><input type="text" class="form-control nama-item" readonly></td>
+                                  <td><input type="number" class="form-control qty" value="1"></td>
+                                  <td><input type="number" class="form-control unit-price" value="0"></td>
+                                  <td><input type="number" class="form-control amount" value="0" readonly></td>
+                                  <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
                                 </tr>
-                                </tbody>
+                              </tbody>
                             </table>
                             <button type="button" id="addRow" class="btn btn-info mb-3">Tambah Barang</button>
 
                             <div class="form-group">
-                                <label>Sub Total Rp.</label>
-                                <input type="text" class="form-control" id="subtotal" readonly>
+                              <label>Sub Total Rp.</label>
+                              <input type="text" class="form-control" id="subtotal" readonly>
                             </div>
                             <div class="form-group">
-                                <label>Tax Rp.</label>
-                                <input type="text" class="form-control" id="tax" readonly>
+                              <label>Tax Rp.</label>
+                              <input type="text" class="form-control" id="tax" readonly>
                             </div>
 
-                            <!-- <button type="submit" class="btn btn-primary">Add</button>
-                            <button type="button" class="btn btn-danger">Cancel</button> -->
+                            <button type="button" id="submitBtn" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                           </form>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-primary">Add</button>
-                          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         </div>
                       </div>
                     </div>
                   </div>
-
                   <!--begin::Start Search Bar-->
                   <div class="relative p-1 border border-gray-200 rounded-lg w-full max-w-lg ms-auto">
                     <input type="text" class="rounded-md p-1 w-full" placeholder="Search Purchase Orders">
@@ -789,43 +795,200 @@
   </script>
 
   <script>
-      function updateAmount(row) {
-          let qty = parseFloat(row.find(".qty").val()) || 0;
-          let price = parseFloat(row.find(".unit-price").val()) || 0;
-          row.find(".amount").val(qty * price);
-          updateTotal();
+      // Data Dummy untuk Supplier dan Item
+      const suppliers = {
+          "SUP001": "Penyetor Kaos",
+          "SUP002": "Penyetor Celana",
+      };
+
+      const items = {
+          "SUP001": {
+              "KAOS-s": { name: "Kaos Kecil", price: 1000 },
+              "KAOS-m": { name: "Kaos Sedang", price: 2000 },
+              "KAOS-l": { name: "Kaos Besar", price: 3000 },
+          },
+          "SUP002": {
+              "CELANA-s": { name: "Celana Kecil", price: 1000 },
+              "CELANA-m": { name: "Celana Sedang", price: 2000 },
+              "CELANA-l": { name: "Celana Besar", price: 3000 },
+          }
+      };
+
+      // Ketika ID Supplier diubah
+      $('#supplier_id').on('change', function() {
+          const supplierId = $(this).val();  // Ambil ID Supplier dari input
+          const supplierName = suppliers[supplierId];  // Cari nama supplier berdasarkan ID
+
+          if (supplierName) {
+              $('#supplier_name').val(supplierName);  // Isi nama supplier secara otomatis
+              populateSKU(supplierId);  // Populasi SKU berdasarkan supplier yang dipilih
+          } else {
+              $('#supplier_name').val('');  // Kosongkan nama supplier jika tidak ditemukan
+          }
+      });
+
+      // Fungsi untuk mengisi dropdown SKU berdasarkan supplier
+      function populateSKU(supplierId) {
+          const supplierItems = items[supplierId];
+          const skuDropdowns = $('#itemsTable tbody .sku');
+          
+          // Kosongkan semua dropdown SKU
+          skuDropdowns.each(function() {
+              const dropdown = $(this);
+              dropdown.empty();  // Kosongkan dropdown SKU
+
+              // Tambahkan option untuk SKU baru
+              dropdown.append('<option value="">Pilih SKU</option>');  // Tambahkan opsi "Pilih SKU"
+              for (const sku in supplierItems) {
+                  const item = supplierItems[sku];
+                  dropdown.append(`<option value="${sku}">${sku} - ${item.name}</option>`);  // Tambahkan SKU ke dropdown
+              }
+          });
       }
 
+      // Fungsi untuk mengupdate Nama Item dan Unit Price berdasarkan SKU
+      $(document).on('change', '.sku', function() {
+          const sku = $(this).val();  // Ambil SKU yang dipilih
+          const supplierId = $('#supplier_id').val();  // Ambil ID Supplier yang dipilih
+          const item = items[supplierId] ? items[supplierId][sku] : null;
+
+          const row = $(this).closest('tr');  // Ambil baris terkait
+
+          if (item) {
+              row.find('.nama-item').val(item.name);  // Isi Nama Item
+              row.find('.unit-price').val(item.price);  // Isi Unit Price
+              updateAmount(row);  // Update Amount berdasarkan Unit Price dan Qty
+          } else {
+              row.find('.nama-item').val('');  // Kosongkan Nama Item jika SKU tidak ditemukan
+              row.find('.unit-price').val('');  // Kosongkan Unit Price
+              row.find('.amount').val('');  // Kosongkan Amount
+          }
+      });
+
+      // Fungsi untuk menghitung Amount (Qty * Unit Price)
+      function updateAmount(row) {
+          const qty = parseFloat(row.find('.qty').val()) || 0;  // Ambil Qty, default 0 jika kosong
+          const price = parseFloat(row.find('.unit-price').val()) || 0;  // Ambil Unit Price, default 0 jika kosong
+          const amount = qty * price;  // Hitung Amount (Qty * Unit Price)
+
+          row.find('.amount').val(amount.toFixed(2));  // Tampilkan amount pada kolom Amount (2 angka desimal)
+          updateTotal();  // Update Subtotal dan Tax setelah Amount berubah
+      }
+
+      // Fungsi untuk menghitung Subtotal dan Tax
       function updateTotal() {
           let total = 0;
           $(".amount").each(function () {
-              total += parseFloat($(this).val()) || 0;
+              total += parseFloat($(this).val()) || 0;  // Menjumlahkan semua Amount
           });
-          $("#subtotal").val(total.toLocaleString("id-ID"));
-          $("#tax").val(total.toLocaleString("id-ID")); // sementara sama
+          $("#subtotal").val(total.toLocaleString("id-ID"));  // Tampilkan Subtotal
+          $("#tax").val(total.toLocaleString("id-ID"));  // Tax sama dengan Subtotal untuk sementara
       }
 
-      $(document).on("input", ".qty, .unit-price", function () {
-          let row = $(this).closest("tr");
-          updateAmount(row);
+      // Update Total ketika Qty atau Unit Price diubah
+      $(document).on('input', '.qty, .unit-price', function() {
+          const row = $(this).closest('tr');  // Ambil baris yang terkait
+          updateAmount(row);  // Panggil fungsi untuk update Amount dan Total
       });
 
-      $("#addRow").click(function () {
-          let newRow = `<tr>
-                  <td><input type="text" class="form-control sku"></td>
-                  <td><input type="text" class="form-control nama-item"></td>
-                  <td><input type="number" class="form-control qty" value="1"></td>
-                  <td><input type="number" class="form-control unit-price" value="0"></td>
-                  <td><input type="number" class="form-control amount" value="0" readonly></td>
-                  <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
-              </tr>`;
-          $("#itemsTable tbody").append(newRow);
+
+      // Menghapus baris item
+      $(document).on('click', '.remove', function() {
+          $(this).closest('tr').remove();
+          updateTotal();  // Update total setelah menghapus
       });
 
-      $(document).on("click", ".remove", function () {
-          $(this).closest("tr").remove();
-          updateTotal();
+      // Menambah baris SKU
+      $('#addRow').on('click', function() {
+          const supplierId = $('#supplier_id').val();  // Ambil ID Supplier yang dipilih
+          if (supplierId) {
+              const supplierItems = items[supplierId];  // Ambil data item berdasarkan supplier yang dipilih
+              const newRow = `
+                  <tr>
+                      <td>
+                          <select class="form-control sku">
+                              <option value="">Pilih SKU</option>
+                              ${Object.keys(supplierItems).map(sku => 
+                                  `<option value="${sku}">${sku} - ${supplierItems[sku].name}</option>`
+                              ).join('')}
+                          </select>
+                      </td>
+                      <td><input type="text" class="form-control nama-item" readonly></td>
+                      <td><input type="number" class="form-control qty" value="1"></td>
+                      <td><input type="number" class="form-control unit-price" value="0"></td>
+                      <td><input type="number" class="form-control amount" value="0" readonly></td>
+                      <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
+                  </tr>
+              `;
+              $('#itemsTable tbody').append(newRow);  // Tambahkan baris baru ke dalam tabel
+              updateTotal();  // Update Subtotal dan Tax setelah baris baru ditambahkan
+          } else {
+              alert("Pilih Supplier terlebih dahulu!");
+          }
       });
+
+
+      // $('#submitBtn').on('click', function() {
+      // // Mengumpulkan data PO dari form
+      // const formData = {
+      //     po_number: $('#po_number').val(),  // Ambil PO Number
+      //     supplier_id: $('#supplier_id').val(),  // Ambil ID Supplier
+      //     supplier_name: $('#supplier_name').val(),  // Ambil Nama Supplier
+      //     branch: $('#branch').val(),  // Ambil nama Cabang
+      //     items: []  // Menyimpan list item yang dipilih
+      // };
+
+      // // Mengumpulkan data barang (SKU, nama item, qty, unit price, amount)
+      // $('#itemsTable tbody tr').each(function() {
+      //     const sku = $(this).find('.sku').val();  // Ambil SKU
+      //     const name = $(this).find('.nama-item').val();  // Ambil Nama Item
+      //     const qty = $(this).find('.qty').val();  // Ambil Qty
+      //     const unitPrice = $(this).find('.unit-price').val();  // Ambil Unit Price
+      //     const amount = $(this).find('.amount').val();  // Ambil Amount
+
+      //     // Push data barang ke formData.items
+      //     formData.items.push({ sku, name, qty, unitPrice, amount });
+
+      //     // Debugging: Menampilkan data setiap item
+      //     console.log("Item Data:", { sku, name, qty, unitPrice, amount });
+      // });
+
+      // // Menampilkan data dalam format JSON di console
+      // console.log("Form Data JSON:", JSON.stringify(formData, null, 2));
+      // });
+
+      $('#submitBtn').on('click', function() {
+        // Mengumpulkan data PO dari form
+        const formData = {
+            po_number: $('#po_number').val(),
+            supplier_id: $('#supplier_id').val(),
+            supplier_name: $('#supplier_name').val(),
+            branch: $('#branch').val(),
+            items: [],
+            subtotal: $('#subtotal').val(),  // Tambahkan Subtotal
+            tax: $('#tax').val()  // Tambahkan Tax
+        };
+
+        // Mengumpulkan data barang (SKU, nama item, qty, unit price, amount)
+        $('#itemsTable tbody tr').each(function() {
+            const sku = $(this).find('.sku').val();
+            const name = $(this).find('.nama-item').val();
+            const qty = $(this).find('.qty').val();
+            const unitPrice = $(this).find('.unit-price').val();
+            const amount = $(this).find('.amount').val();
+
+            // Push data barang ke formData.items
+            formData.items.push({ sku, name, qty, unitPrice, amount });
+
+            // Debugging: Menampilkan data setiap item
+            console.log("Item Data:", { sku, name, qty, unitPrice, amount });
+        });
+
+        // Debugging: Menampilkan formData yang sudah termasuk Subtotal dan Tax
+        console.log("Form Data JSON:", JSON.stringify(formData, null, 2));
+    });
+
+
   </script>
 
 

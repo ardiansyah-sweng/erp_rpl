@@ -8,6 +8,10 @@
 <body>
 <div class="container mt-5">
     <h2>Add Purchase Order</h2>
+    <div class="form-group">
+              <label for="po_number">PO Number</label>
+              <input type="text" class="form-control" id="po_number" value="PO0001" readonly>
+    </div>
     <form>
         <div class="form-group">
             <label for="branch">Cabang</label>
