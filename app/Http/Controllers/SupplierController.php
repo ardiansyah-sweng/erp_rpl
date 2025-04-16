@@ -28,16 +28,5 @@ class SupplierController extends Controller
             'data' => $updatedSupplier,
         ]);
     }
-    public function showEditForm($supplier_id)
-    {
-    $supplier = Supplier::find($supplier_id);
-
-    if (!$supplier) {
-        return abort(404, 'Supplier tidak ditemukan');
-    }
-
-    return view('supplier.edit', compact('supplier'));
-    }
-
 }
 
