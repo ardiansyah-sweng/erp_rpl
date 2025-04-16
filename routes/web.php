@@ -29,7 +29,6 @@ Route::get('/supplier/material/add', function () {
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
-Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.update');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
