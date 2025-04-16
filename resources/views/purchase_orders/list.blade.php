@@ -928,35 +928,6 @@
       });
 
 
-      // $('#submitBtn').on('click', function() {
-      // // Mengumpulkan data PO dari form
-      // const formData = {
-      //     po_number: $('#po_number').val(),  // Ambil PO Number
-      //     supplier_id: $('#supplier_id').val(),  // Ambil ID Supplier
-      //     supplier_name: $('#supplier_name').val(),  // Ambil Nama Supplier
-      //     branch: $('#branch').val(),  // Ambil nama Cabang
-      //     items: []  // Menyimpan list item yang dipilih
-      // };
-
-      // // Mengumpulkan data barang (SKU, nama item, qty, unit price, amount)
-      // $('#itemsTable tbody tr').each(function() {
-      //     const sku = $(this).find('.sku').val();  // Ambil SKU
-      //     const name = $(this).find('.nama-item').val();  // Ambil Nama Item
-      //     const qty = $(this).find('.qty').val();  // Ambil Qty
-      //     const unitPrice = $(this).find('.unit-price').val();  // Ambil Unit Price
-      //     const amount = $(this).find('.amount').val();  // Ambil Amount
-
-      //     // Push data barang ke formData.items
-      //     formData.items.push({ sku, name, qty, unitPrice, amount });
-
-      //     // Debugging: Menampilkan data setiap item
-      //     console.log("Item Data:", { sku, name, qty, unitPrice, amount });
-      // });
-
-      // // Menampilkan data dalam format JSON di console
-      // console.log("Form Data JSON:", JSON.stringify(formData, null, 2));
-      // });
-
       $('#submitBtn').on('click', function() {
         // Mengumpulkan data PO dari form
         const formData = {
