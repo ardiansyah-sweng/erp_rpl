@@ -45,4 +45,8 @@ class Product extends Model
                         ->where($this->table.'.'.$colProduct['type'], 'RM')
                         ->select($tableItem.'.'.$colItem['sku']);
     }
+
+    public static function countProduct() {
+        return self::count();
+    }
 }
