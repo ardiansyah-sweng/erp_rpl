@@ -322,6 +322,12 @@
                       <p>Tambah PIC supplier</p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a href="/supplier/material/detail" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Detail Material supplier</p>
+                    </a>
+                  </li>
                 </ul>
               </li>
               <li class="nav-item">
