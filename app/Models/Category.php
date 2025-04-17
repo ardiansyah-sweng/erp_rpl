@@ -38,4 +38,8 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
+    public static function countCategory()
+    {
+        return self::count();
+    }
 }
