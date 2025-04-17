@@ -395,22 +395,18 @@
                         <div class="mb-3">
                             <label for="supplier_name" class="form-label">Nama Supplier</label>
                             <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
-                            <span id="supplierNameError" class="error"></span>
                         </div>
                         <div class="mb-3">
                             <label for="SKU" class="form-label">SKU</label>
                             <input type="text" class="form-control" id="SKU" name="SKU" required>
-                            <span id="skuError" class="error"></span>
                         </div>
                         <div class="mb-3">
                             <label for="nama_item" class="form-label">Nama Item</label>
                             <input type="text" class="form-control" id="nama_item" name="name_item" required>
-                            <span id="itemNameError" class="error"></span>
                         </div>
                         <div class="mb-3">
                             <label for="base_price" class="form-label">Base Price Rp:</label>
                             <input type="number" class="form-control" id="base_price" name="base_price" required>
-                            <span id="basePriceError" class="error"></span>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div>
