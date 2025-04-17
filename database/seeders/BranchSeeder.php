@@ -29,7 +29,6 @@ class BranchSeeder extends Seeder
                 $colBranch['branch_address'] => $this->faker->address(),
                 $colBranch['branch_telephone'] => $this->faker->phoneNumber(),
                 $colBranch['branch_status'] => $this->faker->boolean(),
-  
             ]);
         }
     }
