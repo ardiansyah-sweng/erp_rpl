@@ -5,6 +5,7 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\MerkController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -17,6 +18,9 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
+});
+Route::get('/supplier/material/detail', function () {
+    return view('supplier/material/detail');
 });
 Route::get('/branch/add', function () {
     return view('branch/add');
@@ -41,3 +45,5 @@ Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchas
 
 # Items
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
+
+Route::get('/merks', [MerkController::class, 'index']);
