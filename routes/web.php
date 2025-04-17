@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SupplierPIController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
@@ -55,5 +56,8 @@ Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.d
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 
+
 #Supplier
+Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPICByID'])->name('supplier.pic.delete');
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+
