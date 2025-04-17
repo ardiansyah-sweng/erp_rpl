@@ -17,4 +17,5 @@ class Merk extends Model
         $this->table = config('db_constants.table.merk');
         $this->fillable = array_values(config('db_constants.column.merk') ?? []);
     }
+    
 }
