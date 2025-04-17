@@ -11,7 +11,7 @@ class BranchSeeder extends Seeder
 {
     public function __construct()
     {
-       $this->faker = Faker::create('id_ID'); 
+        $this->faker = Faker::create('id_ID'); 
     }
 
     /**
