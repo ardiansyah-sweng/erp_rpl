@@ -11,7 +11,7 @@ class BranchSeeder extends Seeder
 {
     public function __construct()
     {
-        $this->faker = Faker::create('id_ID');   
+        $this->faker = Faker::create('id_ID'); 
     }
 
     /**
@@ -20,7 +20,7 @@ class BranchSeeder extends Seeder
     public function run(): void
     {
         $colBranch = config('db_constants.column.branch');
-        $numOfBranch = $this->faker->numberBetween(1, 10); 
+        $numOfBranch = $this->faker->numberBetween(1, 10);
 
         for ($i=0; $i<=$numOfBranch; $i++)
         {
