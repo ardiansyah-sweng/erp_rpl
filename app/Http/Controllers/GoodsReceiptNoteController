@@ -1,0 +1,87 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\GoodsReceiptNote;
+use App\Models\PurchaseOrder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+class GoodsReceiptNoteController extends Controller
+{
+    /**
+     * Add a new Goods Receipt Note
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function addGoodsReceiptNote(Request $request)
+    {
+        // Validate basic request data first
+        $validator = Validator::make($request->all(), [
+            'purchase_order_id' => 'required|integer|exists:purchase_orders,po_number',
+            'receipt_date' => 'required|date',
+            'received_by' => 'required|string|max:255',
+            'notes' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Get purchase order data to reference it
+        $purchaseOrderId = $request->input('purchase_order_id');
+        $purchaseOrder = PurchaseOrder::with('supplier')->find($purchaseOrderId);
+
+        if (!$purchaseOrder) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Purchase order not found'
+            ], 404);
+        }
+
+        // Check if PO is in a valid state for receiving
+        if ($purchaseOrder->status === 'cancelled' || $purchaseOrder->status === 'received') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cannot create goods receipt note for a purchase order with status: ' . $purchaseOrder->status
+            ], 422);
+        }
+
+        // Prepare data for insertion, using PO data as reference
+        $data = [
+            'purchase_order_id' => $purchaseOrderId,
+            'receipt_date' => $request->input('receipt_date'),
+            'supplier_id' => $purchaseOrder->supplier_id, // Get supplier ID from PO
+            'received_by' => $request->input('received_by'),
+            'notes' => $request->input('notes'),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+
+        // Call the model method to insert data
+        $goodsReceiptNote = new GoodsReceiptNote();
+        $id = $goodsReceiptNote->addGoodsReceiptNote($data);
+
+        if ($id) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Goods Receipt Note added successfully',
+                'data' => [
+                    'id' => $id,
+                    'purchase_order_number' => $purchaseOrderId,
+                    'supplier_name' => $purchaseOrder->supplier->company_name ?? null
+                ]
+            ], 201);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to add Goods Receipt Note'
+            ], 500);
+        }
+    }
+}
