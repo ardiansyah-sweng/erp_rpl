@@ -28,7 +28,6 @@ return [
         'po'                        => 'purchase_order',
         'po_detail'                 => 'purchase_order_detail',
         'products'                   => 'products',
-        'product'                   => 'products',
         'supplier'                  => 'supplier',
         'supplier_pic'              => 'supplier_pic',
         'supplier_product'          => 'supplier_product',
