@@ -6,7 +6,7 @@ use App\Models\SupplierPIC;
 
 class SupplierPICModel
 {
-    public static function deleteSupplierPICByID($id)
+    public static function deleteSupplierPICByID($id): bool
     {
         $pic = SupplierPIC::find($id);
 
