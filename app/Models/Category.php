@@ -42,4 +42,14 @@ class Category extends Model
     {
         return self::count();
     }
+
+    //hitung kategori tiap-tiap gurp kategori/parent
+    public static function countByParent()
+    {
+        return self::select('parent_id')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('parent_id')
+            ->pluck('total', 'parent_id')
+            ->toArray();
+    }
 }
