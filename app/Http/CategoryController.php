@@ -7,23 +7,6 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function getCategoryById($id)
-    {
-        $category = (new Category())->getCategoryById($id);
-
-        if (!$category) {
-            return abort(404, 'Kategori tidak ditemukan');
-        }
-
-        return view('category.detail', compact('category'));
-    }
-
-    public function getCategoryAll(Request $request)
-    {
-        $search = $request->input('search');
-        $categories = Category::getAllCategory($search);
-        return view('category.list', ['categories' => $categories]);
-    }
 
     public function addCategory(Request $request)
     {
