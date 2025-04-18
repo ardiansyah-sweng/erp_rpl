@@ -20,6 +20,8 @@ class PurchaseOrderController extends Controller
         return response()->json($purchaseOrder);
     }
 
+
+
     public function searchPurchaseOrder()
     {
         $keyword = request()->input('keyword');

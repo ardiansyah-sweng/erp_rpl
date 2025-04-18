@@ -28,6 +28,7 @@ Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
 
+
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 
