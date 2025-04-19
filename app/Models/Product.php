@@ -45,6 +45,7 @@ class Product extends Model
                         ->where($this->table.'.'.$colProduct['type'], 'RM')
                         ->select($tableItem.'.'.$colItem['sku']);
     }
+
     
     public static function updateProduct($id, array $input)
     {
@@ -95,4 +96,8 @@ class Product extends Model
         }
     }
   
+
+    public static function countProduct() {
+        return self::count();
+    }
 }
