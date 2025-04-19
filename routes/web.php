@@ -19,6 +19,9 @@ Route::get('/dashboard', function () {
 Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
+Route::get('/supplier/add', function () {
+    return view('supplier/add');
+});
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
