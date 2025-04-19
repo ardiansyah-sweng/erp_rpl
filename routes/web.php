@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\SupplierPICcontroller;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -60,3 +61,6 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+
+#Count pic Model
+Route::get('/pic/{supplier_id}', [SupplierPICcontroller::class, 'countPICModel']);
