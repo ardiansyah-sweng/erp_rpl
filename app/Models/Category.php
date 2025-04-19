@@ -9,17 +9,10 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $table;
-    protected $fillable = [];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
+    protected $table = 'category';
 
-        // Tetapkan nama tabel dan kolom berdasarkan config
-        $this->table = config('db_constants.table.category', 'categories'); // Default ke 'categories' jika tidak ditemukan di config
-        $this->fillable = array_values(config('db_constants.column.category', ['category', 'parent_id', 'active', 'created_at', 'updated_at']));
-    }
+    protected $fillable = ['category', 'parent_id', 'active', 'created_at', 'updated_at'];
 
     // Relasi ke produk
     public function products()
@@ -38,18 +31,24 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
+
+    // Menghitung total semua kategori
     public static function countCategory()
     {
         return self::count();
     }
 
-    //hitung kategori tiap-tiap gurp kategori/parent
+    // Menghitung jumlah kategori per parent (dalam format array seperti yang dosen minta)
     public static function countByParent()
     {
-        return self::select('parent_id')
-            ->selectRaw('COUNT(*) as total')
-            ->groupBy('parent_id')
-            ->pluck('total', 'parent_id')
+        return self::select('parent.category as name')
+            ->join('category as parent', 'category.parent_id', '=', 'parent.id')
+            ->selectRaw('COUNT(category.id) as total')
+            ->groupBy('category.parent_id', 'parent.category')
+            ->get()
+            ->map(function ($item) {
+                return [$item->name, $item->total];
+            })
             ->toArray();
     }
 }
