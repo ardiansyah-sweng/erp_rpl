@@ -7,7 +7,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
-use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\SupplierMaterialController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -56,4 +56,4 @@ Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.d
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 
 #Supplier
-#Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
