@@ -711,35 +711,87 @@
     </script>
     
     <script>
+      // function validateForm() {
+      //   let isValid = true;
+      //   $('#supplierIdError').html("");
+      //   $('#skuError').html("");
+      //   $('#itemNameError').html("");
+      //   $('#basePriceError').html("");
+
+      //   let supplierId = $('#supplier_id').val(); 
+      //   let sku = $('#SKU').val(); 
+      //   let itemName = $('#nama_item').val(); 
+      //   let basePrice = $('#base_price').val(); 
+
+      //   if (supplierId === null || supplierId === "") {
+      //     $('#supplierIdError').html("<span style='color: red;'>ID Supplier harus diisi.</span>");
+      //     isValid = false;
+      //   }
+      //   if (sku === null || sku === "") {
+      //     $('#skuError').html("<span style='color: red;'>SKU harus diisi.</span>");
+      //     isValid = false;
+      //   }
+      //   if (itemName === null || itemName === "") {
+      //     $('#itemNameError').html("<span style='color: red;'>Nama Item harus diisi.</span>");
+      //     isValid = false;
+      //   }
+      //   if (basePrice === null || basePrice <= 0) {
+      //     $('#basePriceError').html("<span style='color: red;'>Base Price harus diisi dan lebih besar dari 0.</span>");
+      //     isValid = false;
+      //   }
+      //   return isValid;
+      // }
+
       function validateForm() {
         let isValid = true;
-        $('#supplierIdError').html("");
-        $('#skuError').html("");
-        $('#itemNameError').html("");
-        $('#basePriceError').html("");
 
-        let supplierId = $('#supplier_id').val(); 
-        let sku = $('#SKU').val(); 
-        let itemName = $('#nama_item').val(); 
-        let basePrice = $('#base_price').val(); 
+        // Reset semua state error input
+        $("#picForm input").removeClass("is-invalid");
 
-        if (supplierId === null || supplierId === "") {
-          $('#supplierIdError').html("<span style='color: red;'>ID Supplier harus diisi.</span>");
+        const supplierId = $("#supplier_id").val().trim();
+        const supplierName = $("#supplier_name").val().trim();
+        const sku = $("#SKU").val().trim();
+        const namaItem = $("#nama_item").val().trim();
+        const basePrice = $("#base_price").val().trim();
+
+        if (supplierId === "") {
+          $("#supplier_id").addClass("is-invalid");
+          $("#supplierIdError").text("ID Supplier wajib diisi.");
+          isValid = false;
+        } else {
+          $("#supplierIdError").text("");
+        }
+
+        if (supplierName === "") {
+          $("#supplier_name").addClass("is-invalid");
+          alert("Nama Supplier tidak boleh kosong. Pastikan ID Supplier valid.");
           isValid = false;
         }
-        if (sku === null || sku === "") {
-          $('#skuError').html("<span style='color: red;'>SKU harus diisi.</span>");
+
+
+        if (sku === "") {
+          $("#SKU").addClass("is-invalid");
+          alert("SKU wajib diisi.");
           isValid = false;
         }
-        if (itemName === null || itemName === "") {
-          $('#itemNameError').html("<span style='color: red;'>Nama Item harus diisi.</span>");
+
+
+        if (namaItem === "") {
+          $("#nama_item").addClass("is-invalid");
+          alert("Nama item wajib diisi.");
           isValid = false;
         }
-        if (basePrice === null || basePrice <= 0) {
-          $('#basePriceError').html("<span style='color: red;'>Base Price harus diisi dan lebih besar dari 0.</span>");
+
+
+        if (basePrice === "" || isNaN(basePrice) || Number(basePrice) <= 0) {
+          $("#base_price").addClass("is-invalid");
+          alert("Base price harus berupa angka lebih dari 0.");
           isValid = false;
         }
-        return isValid;
+
+        if (isValid) {
+          alert("Form valid. Siap dikirim!");
+        }
       }
     </script>
 
