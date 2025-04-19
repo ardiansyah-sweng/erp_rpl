@@ -7,6 +7,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
+use App\Http\Controllers\SupplierMaterialController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -25,6 +26,9 @@ Route::get('/branch/add', function () {
 });
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
+});
+Route::get('/supplier/material/list', function () {
+    return view('supplier/material/list');
 });
 
 # Product
@@ -53,3 +57,6 @@ Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.d
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
+
+# SupplierMaterial
+Route::get('supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial']);
