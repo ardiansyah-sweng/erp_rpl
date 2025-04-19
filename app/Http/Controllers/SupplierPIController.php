@@ -1,19 +1,18 @@
-<?php
-
 namespace App\Http\Controllers;
 
-use App\Models\SupplierPICModel;
+use App\Models\SupplierPic;
+use Illuminate\Http\Request;
 
 class SupplierPIController extends Controller
 {
     public function deleteSupplierPICByID($id)
     {
-        $deleted = SupplierPICModel::deleteSupplierPICByID($id);
+        $deleted = SupplierPic::deleteSupplierPICByID($id);
 
-        if (!$deleted) {
-            return redirect()->back()->with('error', 'PIC Supplier tidak ditemukan.');
+        if ($deleted) {
+            return response()->json(['message' => 'PIC berhasil dihapus.']);
+        } else {
+            return response()->json(['message' => 'PIC tidak ditemukan.'], 404);
         }
-
-        return redirect()->back()->with('success', 'PIC Supplier berhasil dihapus.');
     }
 }
