@@ -13,31 +13,41 @@ class ProductController extends Controller
         return view('product.list', compact('products'));
     }
 
-    public function updateProduct(Request $request, $id)
+    public function updateProduct($id)
     {
-        $request->validate([
-            'product_id' => 'required|string|min:3',
-            'product_name' => 'required|string|min:3',
-            'product_type' => 'required|string',
-            'product_category' => 'required|exists:categories,id',
-            'product_description' => 'required|string|min:3',
-        ]);
-    
-        $data = [
-            'product_id' => $request->product_id,
-            'product_name' => $request->product_name,
-            'product_type' => $request->product_type,
-            'product_category' => $request->product_category,
-            'product_description' => $request->product_description,
-            'created_at' => now(),
-            'updated_at' => now(),
-            
-        ];
-    
-        $productModel = new ProductModel();
-        $productModel->updateProduct($id, $data);
-    
-        return redirect()->route('product.list')->with('success', 'Produk berhasil diupdate!');
+        $input = request()->all();
+        
+        $productColumns = config('db_constants.column.products', []);
+        
+        $rules = [];
+        foreach ($productColumns as $key => $column) {
+            if (!in_array($column, ['id', 'created_at', 'updated_at'])) {
+                $rules[$column] = 'required|min:3';
+            }
+        }
+        
+        if (isset($productColumns['category'])) {
+            $categoryTable = config('db_constants.table.category', 'categories');
+            $rules[$productColumns['category']] = 'required|exists:' . $categoryTable . ',id';
+        }
+        
+        $validator = Validator::make($input, $rules);
+        
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        
+        $result = Product::updateProduct($id, $input);
+        
+        if (!$result['success']) {
+            return redirect()->back()
+                ->with('error', $result['message'])
+                ->withInput();
+        }
+        
+        return redirect()->route('product.list')->with('success', $result['message']);
     }
 }
 
