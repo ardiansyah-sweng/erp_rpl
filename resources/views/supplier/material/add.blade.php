@@ -391,6 +391,7 @@
                             <label for="supplier_id" class="form-label">ID Supplier</label>
                             <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
                             <span id="supplierIdError" class="error"></span>
+                            <div class="invalid-feedback">ID Supplier harus diisi.</div>
                         </div>
                         <div class="mb-3">
                             <label for="supplier_name" class="form-label">Nama Supplier</label>
