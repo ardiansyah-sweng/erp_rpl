@@ -7,6 +7,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
+use App\Http\Controllers\MerkController_salman;
 use App\Http\Controllers\SupplierController;
 
 Route::get('/', function () {
@@ -57,6 +58,7 @@ Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.d
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
+Route::get('/merks', [MerkController_salman::class, 'index'])->name('merk.index');
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
