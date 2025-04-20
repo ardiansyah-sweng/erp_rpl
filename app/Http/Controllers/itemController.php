@@ -32,5 +32,32 @@ class ItemController extends Controller
     $items = Item::getAllItems($search);
     return view('item.list', compact('items'));
 }
+    public function updateItem(Request $request, $id)
+{
+    
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'price' => 'required|numeric|min:0',
+    ]);
+
+    $item = Item::find($id);
+
+    if (!$item) {
+        return redirect()->back()->with('error', 'Item tidak ditemukan.');
+    }
+    $item->name = $validated['name'];
+    $item->description = $validated['description'] ?? null;
+    $item->price = $validated['price'];
+    $item->updated_at = now(); 
+    if (!$item->created_at) {
+        $item->created_at = now(); 
+    }
+
+    $item->save();
+
+    return redirect()->back()->with('success', 'Item berhasil diperbarui.');
+}
+
     
 }
