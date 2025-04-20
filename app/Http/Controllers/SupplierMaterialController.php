@@ -12,7 +12,6 @@ class SupplierMaterialController extends Controller
         $model = new SupplierMaterial();
         $materials = $model->getSupplierMaterial();
 
-        dd($materials);
 
         return view('supplier.material', ['materials' => $materials]);
     }
