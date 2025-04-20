@@ -19,7 +19,7 @@ class SupplierPic extends Model
     }
     public static function getPICByID($id)
     {
-        return self::find($id); 
+        return self::find($id); //sudah berdasarkan id
     }
 
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SupplierPic;
 
-class SupplierPIController extends Controller
+class SupplierPIController extends Controller //mengganti SupplierPICController menjadi SupplierPIController
 {
     public function getPICByID($id)
     {
