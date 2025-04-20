@@ -5,6 +5,10 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ItemController; // tambahkan jika belum
+use App\Http\Controllers\MerkController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\SupplierPICController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -48,4 +52,16 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])->name('purchase_orders.add'); // tambahan
 
 # Items
+Route::get('/items', [ItemController::class, 'getItemAll']);
+Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
+Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
+
+# Merk
+Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
+
+#Supplier
+#Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
+
+# Supplier PIC
+Route::post('/supplier/{supplierID}/add-pic', [SupplierPICController::class, 'addSupplierPIC'])->name('supplier.pic.add');
