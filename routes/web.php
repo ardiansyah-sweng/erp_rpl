@@ -60,3 +60,4 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+Route::get('/supplier/list', [SupplierController::class, 'index'])->name('supplier.list'); 
