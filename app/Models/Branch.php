@@ -50,4 +50,10 @@ class Branch extends Model
     {
         return self::create($data);
     }
+
+    public static function deleteBranch($id)
+    {
+        return self::where('id', $id)->delete();
+    }
+
 }
