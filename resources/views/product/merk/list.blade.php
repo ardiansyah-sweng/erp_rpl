@@ -309,7 +309,7 @@
                 </a>
               </li>
 
-              
+
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-person-circle"></i>
@@ -345,7 +345,7 @@
                   <p>
                     Purchase Orders
                   </p>
-                </a>                
+                </a>
               </li>
               <li class="nav-item">
               <a href="{{ route('branch.list') }}" class="nav-link">
@@ -353,7 +353,7 @@
                   <p>
                     Branch
                   </p>
-                </a>                
+                </a>
               </li>
               <li class="nav-item">
               <a href="{{ route('item.list') }}" class="nav-link">
@@ -377,14 +377,15 @@
             <!--begin::Row-->
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Produk</h3>
+                <h3 class="mb-0 me-2">Merk</h3>
                 <a href="#" class="btn btn-primary btn-sm">Tambah</a>
               </div>
-    
+
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Produk</li>
+                  <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+                  <li class="breadcrumb-item" aria-current="page"> <a href="/product/list">Produk</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Merk</li>
                 </ol>
               </div>
             </div>
@@ -401,45 +402,42 @@
                   <thead>
                     <tr>
                       <th style="width: 10px">id</th>
-                      <th>product_id</th>
-                      <th>product_name</th>
-                      <th>product_type</th>
-                      <th>product_category</th>
-                      <th>product_description</th>
+                      <th>merk</th>
+                      <th>active</th>
                       <th>Created At</th>
                       <th>Updated At </th>
-                      <th>Action </th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                  <tbody>
-                  @foreach ($products as $index => $product)
-                  <tr class="align-middle">
-                      <td>{{ $index + 1 }}</td>
-                      <td>{{ $product->product_id }}</td>
-                      <td>{{ $product->product_name }}</td>
-                      <td>{{ $product->product_type }}</td>
-                      <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
-                      <td>{{ $product->product_description }}</td>
-                      <td>{{ $product->created_at }}</td>
-                      <td>{{ $product->updated_at }}</td>
+                    @foreach($merks as $merk)
+
+                    <tr class="align-middle">
+                     <td>{{ $merk->id }}</td>
+                     <td>{{ $merk->merk }}</td>
+                     <td>{{ $merk->active }}</td>
+                     <td>{{ $merk->created_at}}</td>
+                     <td>{{ $merk->updated_at }}</td>
+
                       <td>
                           <a href="#" class="btn btn-sm btn-primary">Edit</a>
                           <a href="#" class="btn btn-sm btn-danger">Delete</a>
                           <a href="#" class="btn btn-sm btn-info">Detail</a>
                       </td>
                   </tr>
-        @endforeach
+
+                  @endforeach
     </tbody>
 </table>
               </div>
               <!-- /.card-body -->
               <div class="card-footer clearfix">
-                {{ $products->links('pagination::bootstrap-4') }}
+                {{ $merks->links('pagination::bootstrap-4') }}
               </div>
             </div>
-    
 
-        
+
+
       </main>
       <!--end::App Main-->
       <!--begin::Footer-->
