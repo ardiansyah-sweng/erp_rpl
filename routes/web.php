@@ -5,6 +5,7 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -46,3 +47,7 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 
 # Items
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
+
+#Category
+Route::post('/category/add', [CategoryController::class, 'addCategory'])->name('category.add');
+
