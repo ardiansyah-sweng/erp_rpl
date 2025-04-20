@@ -18,3 +18,4 @@ class BillOfMaterial extends Model
         $this->fillable = array_values(config('db_constants.column.bom') ?? []);
     }
 }
+//yuyuyuyuyuuyu
