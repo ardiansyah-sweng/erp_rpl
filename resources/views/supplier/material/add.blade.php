@@ -781,7 +781,7 @@
       return isValid;
   }
 
-    </script>
+  </script>
 
     <!--end::Script-->
   </body>
