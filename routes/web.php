@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\SupplierMaterialController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -57,3 +58,7 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+
+#Supplier Material
+Route::get('/supplier-material/create', [SupplierMaterialController::class, 'create'])->name('supplier.material.create');
+Route::post('/supplier-material/store', [SupplierMaterialController::class, 'material'])->name('supplier.material');
