@@ -325,7 +325,7 @@
                   <li class="nav-item">
                     <a href="/supplier/material/add" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Tambah Supplier Item</p>
+                      <p>Tambah Supplier Material</p>
                     </a>
                   </li>
                 </ul>
