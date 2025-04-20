@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseOrder extends Model
 {
@@ -62,4 +63,53 @@ class PurchaseOrder extends Model
     {
         return PurchaseOrderDetail::where('po_number', $poNumber)->count();
     }
+<<<<<<< HEAD
+=======
+
+    public static function countPurchaseOrder()
+    {
+        return self::count();
+    }
+
+    /**
+     * Fungsi untuk menambahkan Purchase Order baru
+     */
+    public static function addPurchaseOrder($data)
+    {
+        DB::beginTransaction();
+        
+        // Ambil item detail (0–n-1)
+        $itemDetails = array_slice($data, 0, -1);
+
+        // Ambil header data (elemen terakhir)
+        $headerData = end($data);
+        
+        try {
+
+            $purchaseOrder = self::create([
+                'po_number' => $headerData['po_number'],
+                'branch_id' => $headerData['branch_id'],
+                'supplier_id' => $headerData['supplier_id'],
+                'order_date' => $headerData['order_date'],
+                'total' => $headerData['total'],
+            ]);
+
+            foreach ($itemDetails as $item) {
+                PurchaseOrderDetail::create([
+                    'po_number' => $headerData['po_number'],
+                    'product_id' => $item['sku'],
+                    'quantity' => $item['qty'],
+                    'amount' => $item['amount'],
+                ]);
+            }
+
+            DB::commit();
+            return $purchaseOrder;
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+>>>>>>> 10ccd635e9f303c4f7b772a8ac9e354b0aeea7f8
 }

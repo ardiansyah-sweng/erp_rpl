@@ -353,6 +353,12 @@
                   </p>
                 </a>                
               </li>
+              <li class="nav-item">
+              <a href="{{ route('item.list') }}" class="nav-link">
+              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>Item</p>
+                    </a>
+                  </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>

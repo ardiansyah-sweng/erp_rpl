@@ -4,7 +4,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah PIC Supplier</title>
+    <title>ERP RPL UAD | Dashboard</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -295,7 +295,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="/dashboard" class="nav-link active">
+              <a href="dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -303,11 +303,13 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./generate/theme.html" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
               </li>
+
+              
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-person-circle"></i>
@@ -330,9 +332,9 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="/supplier/material/add" class="nav-link">
+                    <a href="./widgets/cards.html" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Tambah Supplier Item</p>
+                      <p>Cards</p>
                     </a>
                   </li>
                 </ul>
@@ -343,14 +345,24 @@
                   <p>
                     Purchase Orders
                   </p>
-                </a>
+                </a>                
               </li>
               <li class="nav-item">
-              <a href="{{ route('item.list') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Item</p>
-                    </a>
-                  </li>
+              <a href="{{ route('branch.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Branch
+                  </p>
+                </a>                
+              </li>
+              <li class="nav-item">
+              <a href="{{ route('branch.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Item
+                  </p>
+                </a>                
+              </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -365,12 +377,16 @@
           <!--begin::Container-->
           <div class="container-fluid">
             <!--begin::Row-->
-            <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Supplier Item</h3></div>
+            <div class="row align-items-center">
+              <div class="col-sm-6 d-flex align-items-center">
+                <h3 class="mb-0 me-2">Item</h3>
+                <a href="#" class="btn btn-primary btn-sm">Tambah</a>
+              </div>
+    
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Tambah Supplier Item</li>
+                  <li class="breadcrumb-item active" aria-current="page">Item</li>
                 </ol>
               </div>
             </div>
@@ -378,62 +394,86 @@
           </div>
           <!--end::Container-->
         </div>
-        <!--end::App Content Header-->
-        <!--begin::App Content-->
-        <div class="app-content">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-                <div class="container">
-                    <form id="picForm">
-                        <div class="mb-3">
-                            <label for="supplier_id" class="form-label">ID Supplier</label>
-                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
-                            <span id="supplierIdError" class="error"></span>
-                            <div class="invalid-feedback">ID Supplier harus diisi.</div>
+
+        <div class="card mb-4">
+              <div class="card-header"><h3 class="card-title">List Table</h3>
+              <form action="{{ route('item.list') }}" method="GET" class="d-flex ms-auto">
+                        <!-- Search bar berada di ujung kanan -->
+                        <div class="input-group input-group-sm ms-auto" style="width: 450px;">
+                          <input type="text" name="search" class="form-control" placeholder="Search Item">
+                          <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                              <i class="bi bi-search"></i>
+                            </button>
+                          </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="supplier_name" class="form-label">Nama Supplier</label>
-                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="SKU" class="form-label">SKU</label>
-                            <input type="text" class="form-control" id="SKU" name="SKU" required>
-                            <span class="error" id="skuError"></span>
-                            <div class="invalid-feedback">SKU harus diisi.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="nama_item" class="form-label">Nama Item</label>
-                            <input type="text" class="form-control" id="nama_item" name="name_item" required>
-                            <span class="error" id="itemNameError"></span>
-                            <div class="invalid-feedback">Nama Item harus diisi.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="base_price" class="form-label">Base Price Rp:</label>
-                            <input type="number" class="form-control" id="base_price" name="base_price" required>
-                            <span class="error" id="basePriceError"></span>
-                            <div class="invalid-feedback">Base Price harus diisi dan lebih besar dari 0.</div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <div>
-                                  <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
-                                  <button type="reset" class="btn btn-secondary">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                      </form>
             </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            
-            <!-- /.row (main row) -->
-          </div>
-          <!--end::Container-->
-        </div>
-        <!--end::App Content-->
+              <!-- /.card-header -->
+              <div class="card-body">
+              @if(session('success'))
+              <div class="alert alert-success">
+                  {{ session('success') }}
+              </div>
+              @endif
+
+              @if(session('error'))
+                  <div class="alert alert-danger">
+                      {{ session('error') }}
+                  </div>
+              @endif
+                <table class="table table-bordered">
+                  <thead class="text-center">
+                    <tr>
+                      <th style="width: 10px">id</th>
+                      <th>sku</th>
+                      <th>item_name</th>
+                      <th>measurement_unit</th>
+                      <th>avg_base_price</th>
+                      <th>selling_price</th>
+                      <th>created_at</th>
+                      <th>updated_at</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-center">
+                            @forelse($items as $item)
+                            <tr id="row-{{ $item->id }}">
+                            <td>{{ $item->id }}</td>
+                            <td>{{ $item->sku }}</td>
+                            <td>{{ $item->item_name }}</td>
+                            <td>{{ $item->measurement_unit }}</td>
+                            <td>{{ $item->avg_base_price }}</td>
+                            <td>{{ $item->selling_price }}</td>
+                            <td>{{ $item->created_at }}</td>
+                            <td>{{ $item->updated_at }}</td>
+                            <td>
+                              <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                              <form action="{{ route('item.delete', $item->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus item ini?')">Delete</button>
+                              </form>
+                            
+                              <a href="#" class="btn btn-sm btn-info">Detail</a>
+                            </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="7" class="text-center">No data available in table</td>
+                            </tr>
+                            @endforelse
+                      </tbody>
+</table>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer clearfix">
+                {{ $items->links('pagination::bootstrap-4') }}
+              </div>
+            </div>
+    
+
+        
       </main>
       <!--end::App Main-->
       <!--begin::Footer-->
@@ -452,6 +492,7 @@
       <!--end::Footer-->
     </div>
     <!--end::App Wrapper-->
+
     <!--begin::Script-->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script
@@ -705,7 +746,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- AdminLTE JS -->
-    <script src={{ asset("assets/dist/js/adminlte.js")}}></script>
+    <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
 
     <!-- Custom Sidebar Toggle Script -->
     <script>
@@ -715,79 +756,6 @@
             $('body').toggleClass('sidebar-collapse');
         });
     });
-    </script>
-    
-    <script>
-      // function validateForm() {
-      //   let isValid = true;
-      //   $('#supplierIdError').html("");
-	    //   $('#supplierNameError').html("");
-      //   $('#skuError').html("");
-      //   $('#itemNameError').html("");
-      //   $('#basePriceError').html("");
-
-      //   let supplierId = $('#supplier_id').val();
-	    //   let supplierName = $('#supplier_name').val();
-      //   let sku = $('#SKU').val(); 
-      //   let itemName = $('#nama_item').val(); 
-      //   let basePrice = $('#base_price').val(); 
-
-	    //   console.log(supplierId);
-
-      //   if (supplierId === null || supplierId === "") {
-      //     $('#supplierIdError').html("<span style='color: red;'>ID Supplier harus diisi.</span>");
-      //     isValid = false;
-      //   }
-      //   if (sku === null || sku === "") {
-      //     $('#skuError').html("<span style='color: red;'>SKU harus diisi.</span>");
-      //     isValid = false;
-      //   }
-      //   if (itemName === null || itemName === "") {
-      //     $('#itemNameError').html("<span style='color: red;'>Nama Item harus diisi.</span>");
-      //     isValid = false;
-      //   }
-      //   if (basePrice === null || basePrice <= 0) {
-      //     $('#basePriceError').html("<span style='color: red;'>Base Price harus diisi dan lebih besar dari 0.</span>");
-      //     isValid = false;
-      //   }
-      //   return isValid;
-      // }
-
-      function validateForm() {
-        let isValid = true;
-
-        // Reset error states
-        $('#supplier_id, #SKU, #nama_item, #base_price').removeClass('is-invalid');
-
-        const supplierId = $('#supplier_id').val().trim();
-        const sku = $('#SKU').val().trim();
-        const itemName = $('#nama_item').val().trim();
-        const basePrice = parseFloat($('#base_price').val());
-
-        if (!supplierId) {
-          $('#supplier_id').addClass('is-invalid');
-          isValid = false;
-        }
-
-        if (!sku) {
-          $('#SKU').addClass('is-invalid');
-          isValid = false;
-        }
-
-        if (!itemName) {
-          $('#nama_item').addClass('is-invalid');
-          isValid = false;
-        }
-
-        if (isNaN(basePrice) || basePrice <= 0) {
-          $('#base_price').addClass('is-invalid');
-          isValid = false;
-        }
-
-        return isValid;
-      }
-
-
     </script>
 
     <!--end::Script-->
