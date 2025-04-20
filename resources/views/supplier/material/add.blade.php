@@ -385,6 +385,7 @@
                             <label for="supplier_id" class="form-label">ID Supplier</label>
                             <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
                             <span id="supplierIdError" class="error"></span>
+                            <div class="invalid-feedback">ID Supplier harus diisi.</div>
                         </div>
                         <div class="mb-3">
                             <label for="supplier_name" class="form-label">Nama Supplier</label>
@@ -394,16 +395,19 @@
                             <label for="SKU" class="form-label">SKU</label>
                             <input type="text" class="form-control" id="SKU" name="SKU" required>
                             <span class="error" id="skuError"></span>
+                            <div class="invalid-feedback">SKU harus diisi.</div>
                         </div>
                         <div class="mb-3">
                             <label for="nama_item" class="form-label">Nama Item</label>
                             <input type="text" class="form-control" id="nama_item" name="name_item" required>
                             <span class="error" id="itemNameError"></span>
+                            <div class="invalid-feedback">Nama Item harus diisi.</div>
                         </div>
                         <div class="mb-3">
                             <label for="base_price" class="form-label">Base Price Rp:</label>
                             <input type="number" class="form-control" id="base_price" name="base_price" required>
                             <span class="error" id="basePriceError"></span>
+                            <div class="invalid-feedback">Base Price harus diisi dan lebih besar dari 0.</div>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div>
@@ -708,40 +712,75 @@
     </script>
 
 <script>
+      // function validateForm() {
+      //   let isValid = true;
+      //   $('#supplierIdError').html("");
+	    //   $('#supplierNameError').html("");
+      //   $('#skuError').html("");
+      //   $('#itemNameError').html("");
+      //   $('#basePriceError').html("");
+
+      //   let supplierId = $('#supplier_id').val();
+	    //   let supplierName = $('#supplier_name').val();
+      //   let sku = $('#SKU').val(); 
+      //   let itemName = $('#nama_item').val(); 
+      //   let basePrice = $('#base_price').val(); 
+
+	    //   console.log(supplierId);
+
+      //   if (supplierId === null || supplierId === "") {
+      //     $('#supplierIdError').html("<span style='color: red;'>ID Supplier harus diisi.</span>");
+      //     isValid = false;
+      //   }
+      //   if (sku === null || sku === "") {
+      //     $('#skuError').html("<span style='color: red;'>SKU harus diisi.</span>");
+      //     isValid = false;
+      //   }
+      //   if (itemName === null || itemName === "") {
+      //     $('#itemNameError').html("<span style='color: red;'>Nama Item harus diisi.</span>");
+      //     isValid = false;
+      //   }
+      //   if (basePrice === null || basePrice <= 0) {
+      //     $('#basePriceError').html("<span style='color: red;'>Base Price harus diisi dan lebih besar dari 0.</span>");
+      //     isValid = false;
+      //   }
+      //   return isValid;
+      // }
+
       function validateForm() {
         let isValid = true;
-        $('#supplierIdError').html("");
-	$('#supplierNameError').html("");
-        $('#skuError').html("");
-        $('#itemNameError').html("");
-        $('#basePriceError').html("");
 
-        let supplierId = $('#supplier_id').val();
-	let supplierName = $('#supplier_name').val();
-        let sku = $('#SKU').val(); 
-        let itemName = $('#nama_item').val(); 
-        let basePrice = $('#base_price').val(); 
+        // Reset error states
+        $('#supplier_id, #SKU, #nama_item, #base_price').removeClass('is-invalid');
 
-	console.log(supplierId);
+        const supplierId = $('#supplier_id').val().trim();
+        const sku = $('#SKU').val().trim();
+        const itemName = $('#nama_item').val().trim();
+        const basePrice = parseFloat($('#base_price').val());
 
-        if (supplierId === null || supplierId === "") {
-          $('#supplierIdError').html("<span style='color: red;'>ID Supplier harus diisi.</span>");
+        if (!supplierId) {
+          $('#supplier_id').addClass('is-invalid');
           isValid = false;
         }
-        if (sku === null || sku === "") {
-          $('#skuError').html("<span style='color: red;'>SKU harus diisi.</span>");
+
+        if (!sku) {
+          $('#SKU').addClass('is-invalid');
           isValid = false;
         }
-        if (itemName === null || itemName === "") {
-          $('#itemNameError').html("<span style='color: red;'>Nama Item harus diisi.</span>");
+
+        if (!itemName) {
+          $('#nama_item').addClass('is-invalid');
           isValid = false;
         }
-        if (basePrice === null || basePrice <= 0) {
-          $('#basePriceError').html("<span style='color: red;'>Base Price harus diisi dan lebih besar dari 0.</span>");
+
+        if (isNaN(basePrice) || basePrice <= 0) {
+          $('#base_price').addClass('is-invalid');
           isValid = false;
         }
+
         return isValid;
       }
+
     </script>
 
     <!--end::Script-->
