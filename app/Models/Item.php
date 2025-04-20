@@ -69,5 +69,15 @@ class Item extends Model
         return false;
     }
 
+    public static function getItemByType($productType)
+{
+    return self::join(config('db_constants.table.product') . ' as p', 'p.id', '=', 'items.product_id')
+                ->where('p.type', $productType)
+                ->select('items.*', 'p.type as product_type', 'p.product_name')
+                ->orderBy('items.created_at', 'asc')
+                ->paginate(10);
+}
+
+
     
 }
