@@ -5,13 +5,10 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
-<<<<<<< HEAD
-use App\Http\Controllers\SupplierPICController;
-=======
+use App\Http\Controllers\SupplierPIController; // perubahan
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
->>>>>>> 10ccd635e9f303c4f7b772a8ac9e354b0aeea7f8
 
 Route::get('/', function () {
     return view('dashboard');
