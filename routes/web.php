@@ -17,6 +17,7 @@ use App\Helpers\EncryptionHelper;
 
 
 #Login
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -108,4 +109,9 @@ Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);j
 
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
+Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
+
+#Category
+Route::post('/category/add', [CategoryController::class, 'addCategory'])->name('category.add');
+
 
