@@ -5,7 +5,7 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SupplierPICController;
+use App\Http\Controllers\SupplierPIController;
 
 Route::get('/', function () {
     return view('dashboard');
