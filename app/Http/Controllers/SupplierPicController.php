@@ -24,13 +24,9 @@ class SupplierPicController extends Controller
             'email' => 'required|email',
             'telephone' => 'required|string|max:20',
             'assignment_date' => 'required|date',
-            'pic_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $avatarPath = null;
-        if ($request->hasFile('pic_photo')) {
-            $avatarPath = $request->file('pic_photo')->store('avatars', 'public');
-        }
+        
 
         SupplierPic::create([
             'supplier_id' => $request->supplier_id,
@@ -38,8 +34,6 @@ class SupplierPicController extends Controller
             'phone_number' => $request->telephone,
             'email' => $request->email,
             'assigned_date' => $request->assignment_date,
-            'active' => $request->status ? 1 : 0,
-            'avatar' => $avatarPath ? asset('storage/' . $avatarPath) : null,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

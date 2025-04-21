@@ -13,9 +13,7 @@ class SupplierPic extends Model
         'name',
         'phone_number',
         'email',
-        'avatar',
         'assigned_date',
-        'active',
         'created_at',
         'updated_at'
     ];

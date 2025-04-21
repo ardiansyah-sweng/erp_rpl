@@ -373,25 +373,11 @@
                                     <span id="assignmentDateError" class="error"></span>
                                 </div>
                                 <div>
-                                    <div><label for="pic_photo" class="form-label">Upload Foto PIC</label></div>
-                                    <div class="d-flex justify">
-                                        <div><img id="photo_preview"
-                                                src={{ asset('assets/dist/assets/img/avatar_default.png') }}
-                                                alt="Avatar Default" class="mt-2"
-                                                style="max-width: 100px; max-height: 100px;"></div>
-                                        <div>
-                                            <input type="file" class="form-control" id="pic_photo"
-                                                name="pic_photo" accept="image/*">
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <div class="mb-3">
-                                            <label class="form-check-label" for="status">Status</label>
-                                            <input type="checkbox" class="form-check-input" id="status"
-                                                name="status" value="1">
-                                            <label for="status">Aktif</label>
                                         </div>
                                         <div>
                                             <button type="submit" class="btn btn-primary">Add</button>
