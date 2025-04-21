@@ -69,3 +69,4 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+Route::get('/supplier/list', [SupplierController::class, 'index'])->name('supplier.list'); 

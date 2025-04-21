@@ -33,4 +33,8 @@ class Supplier extends Model
 
         return $supplier;
     }
+    public static function getAllSuppliers()
+    {
+        return self::all();
+    }
 }
