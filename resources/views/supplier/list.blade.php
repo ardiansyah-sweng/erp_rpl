@@ -420,6 +420,7 @@
                     <a href="#" class="btn btn-warning btn-sm">Edit</a>
                     <a href="#" class="btn btn-info btn-sm text-white">Create PO</a>
                     <a href="#" class="btn btn-primary btn-sm">Add Pic</a>
+                    <button onclick="confirmDelete('CV Amartya Sein')" class="btn btn-danger btn-sm">Delete</button>
                   </div>
                 </td>
               </tr>
@@ -728,6 +729,14 @@
             $('body').toggleClass('sidebar-collapse');
         });
     });
+    </script>
+
+    <script>
+      function confirmDelete(namaSupplier) {
+        if (confirm(`Apakah kamu yakin ingin menghapus supplier "${namaSupplier}"?`)) {
+          alert('Fitur delete belum aktif. Ini hanya tampilan');
+        }
+      }
     </script>
 
     <!--end::Script-->
