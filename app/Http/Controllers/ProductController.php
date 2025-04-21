@@ -23,16 +23,6 @@ class ProductController extends Controller
             'product_category' => 'required|integer',
             'product_description' => 'required|string|max:255',
         ]);
-    
-        $product = new Product();
-        $product->product_id = $validated['product_id'];
-        $product->product_name = $validated['product_name'];
-        $product->product_type = $validated['product_type'];
-        $product->product_category = $validated['product_category'];
-        $product->product_description = $validated['product_description'];
-        $product->save();
-
-    return redirect()->back()->with('success', 'Product berhasil ditambahkan!');
     }
 
 }
