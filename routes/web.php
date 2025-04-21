@@ -6,8 +6,9 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
-use App\Http\Controllers\MerkController;
-use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\MerkController;  
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SupplierPicController;
 use App\Helpers\EncryptionHelper;
 
 Route::get('/', function () {
@@ -67,5 +68,11 @@ Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 
+
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+
+
+
+Route::get('/supplier/pic/add', [SupplierPicController::class, 'create'])->name('supplier.pic.add');
+Route::post('/supplier/pic/store', [SupplierPicController::class, 'store'])->name('supplier.pic.store');
