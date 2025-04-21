@@ -28,6 +28,12 @@ class SupplierController extends Controller
             'data' => $updatedSupplier,
         ]);
     }
-}
 
-//tes
+    public function deleteSupplierByID($id)
+    {
+    if (Supplier::deleteSupplier($id)) {
+        return redirect()->back()->with('success', 'Supplier deleted successfully');
+        }
+    return redirect()->back()->with('error', 'Supplier not found');
+    }
+}

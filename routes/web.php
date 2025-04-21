@@ -30,6 +30,9 @@ Route::get('/branch/add', function () {
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
+Route::get('/Supplier', function (){
+    return view('Supplier');
+});
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
@@ -60,3 +63,4 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+Route::get('/delete_supplier/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete');
