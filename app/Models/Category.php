@@ -10,7 +10,12 @@ class Category extends Model
     use HasFactory;
 
     protected $table;
-    protected $fillable = [];
+    protected $fillable = [
+        'category',
+        'parent_id',
+        'updated_at'
+    ];
+    public $timestamps = true;
 
     public function __construct(array $attributes = [])
     {
@@ -42,4 +47,15 @@ class Category extends Model
     {
         return self::count();
     }
+
+    public function updateCategory($data)
+    {
+        $this->name = $data['category'];
+        $this->parent_id = $data['parent_id'] ?? null;
+        $this->updated_at = now();
+        $this->save();
+
+        return $this;
+    }
+
 }

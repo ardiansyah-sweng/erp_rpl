@@ -6,6 +6,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -49,3 +50,6 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
+
+# Category
+Route::get('/category/{id}/update', [CategoryController::class, 'updateCategory']);
