@@ -73,4 +73,4 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
 Route::get('/delete_supplier/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete');
-#
+#route
