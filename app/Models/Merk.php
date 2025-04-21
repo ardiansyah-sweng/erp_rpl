@@ -22,4 +22,8 @@ class Merk extends Model
     {
         return self::count();
     }
+    public function getMerkById($id)
+    {
+        return self::where('id', $id)->first();
+    }
 }

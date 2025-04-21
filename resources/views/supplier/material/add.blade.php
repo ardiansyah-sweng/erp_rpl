@@ -709,6 +709,40 @@
         });
     });
     </script>
+    
+    <script>
+      function validateForm() {
+        let isValid = true;
+        $('#supplierIdError').html("");
+        $('#skuError').html("");
+        $('#itemNameError').html("");
+        $('#basePriceError').html("");
+
+        let supplierId = $('#supplier_id').val(); 
+        let sku = $('#SKU').val(); 
+        let itemName = $('#nama_item').val(); 
+        let basePrice = $('#base_price').val(); 
+
+        if (supplierId === null || supplierId === "") {
+          $('#supplierIdError').html("<span style='color: red;'>ID Supplier harus diisi.</span>");
+          isValid = false;
+        }
+        if (sku === null || sku === "") {
+          $('#skuError').html("<span style='color: red;'>SKU harus diisi.</span>");
+          isValid = false;
+        }
+        if (itemName === null || itemName === "") {
+          $('#itemNameError').html("<span style='color: red;'>Nama Item harus diisi.</span>");
+          isValid = false;
+        }
+        if (basePrice === null || basePrice <= 0) {
+          $('#basePriceError').html("<span style='color: red;'>Base Price harus diisi dan lebih besar dari 0.</span>");
+          isValid = false;
+        }
+        return isValid;
+      }
+    </script>
+
     <!--end::Script-->
   </body>
   <!--end::Body-->
