@@ -37,9 +37,29 @@
                         <a href="#" class="btn btn-sm btn-warning">Edit</a>
                         <a href="#" class="btn btn-sm btn-info">Create PO</a>
                         <a href="#" class="btn btn-sm btn-primary">Add Pic</a>
+                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-supplier="CV Amartya Sein">Delete</button>
                     </td>
                 </tr>
                 <!-- Tambahkan baris lain seperti di atas -->
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete <strong id="supplierName"></strong>?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <a href="#" class="btn btn-danger" id="confirmDeleteBtn">Yes, Delete</a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+
             </tbody>
         </table>
     </div>
