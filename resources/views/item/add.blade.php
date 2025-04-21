@@ -295,8 +295,8 @@
     </div>
     
     <div class="card-footer">
-      <button type="submit" class="btn btn-primary">Add</button>
-      <button type="button" class="btn btn-secondary">Cancel</button>
+    <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
+    <button type="reset" class="btn btn-secondary">Cancel</button>
     </div>
   </form>
 </div>
@@ -369,5 +369,51 @@ function selectUnit(unit) {
         });
     });
     </script>
+    <script>
+function selectUnit(unit) {
+  document.getElementById('product_unit').value = unit;
+}
+
+function validateForm() {
+  let isValid = true;
+  
+  $('.error-message').remove();
+  
+  let productId = $('#product_id').val(); 
+  let productSku = $('#product_sku').val(); 
+  let productName = $('#product_name').val(); 
+  let productPrice = $('#product_price').val();
+  
+  if (productId === null || productId === "") {
+    $('#product_id').after("<div class='error-message'><span style='color: red;'>ID Produk harus diisi.</span></div>");
+    isValid = false;
+  }
+  
+  if (productSku === null || productSku === "") {
+    $('#product_sku').after("<div class='error-message'><span style='color: red;'>SKU harus diisi.</span></div>");
+    isValid = false;
+  }
+  
+  if (productName === null || productName === "") {
+    $('#product_name').after("<div class='error-message'><span style='color: red;'>Nama Item Produk harus diisi.</span></div>");
+    isValid = false;
+  }
+  
+  let hargaPattern = /^\d+(\.\d{1,2})?$/;
+  if (productPrice === "" || productPrice === null) {
+    $('#product_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus diisi.</span></div>");
+    isValid = false;
+  } else if (!hargaPattern.test(productPrice)) {
+    $('#product_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus berupa angka.</span></div>");
+    isValid = false;
+  }
+  
+  if (isValid) {
+    document.getElementById('productForm').submit();
+  }
+  
+  return isValid;
+}
+</script>
   </body>
 </html>
