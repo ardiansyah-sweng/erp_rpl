@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
+use App\Helpers\EncryptionHelper;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -30,8 +31,10 @@ Route::get('/branch/add', function () {
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
-Route::get('/purchase_orders/detail/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
-//Route::get('/api/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
+Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
+    $id = EncryptionHelper::decrypt($encrypted_id);
+    return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
+})->name('purchase.orders.detail');
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');

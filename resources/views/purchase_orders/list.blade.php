@@ -1,3 +1,6 @@
+@php
+use App\Helpers\EncryptionHelper;
+@endphp
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
@@ -411,7 +414,7 @@
                       @forelse($purchaseOrders as $index => $order)
                       <tr class="align-middle">
                         <td>{{ $index + 1 }}</td>
-                        <td><a href="/purchase_orders/detail/{{ $order->po_number }}">{{ $order->po_number }}</a></td>
+                        <td><a href="/purchase_orders/detail/{{ EncryptionHelper::encrypt($order->po_number) }}">{{ $order->po_number }}</a></td>
                         <td><a href="#">{{ $order->supplier ? $order->supplier->company_name : 'Supplier not found' }}</a></td>
                         <td>Rp{{ number_format($order->total, 0, ',', '.') }}</td>
                         <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d M Y') }}</td>
@@ -420,7 +423,7 @@
                         <td>
                           <a href="#" class="btn btn-sm btn-primary">Edit</a>
                           <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                          <a href="/purchase_orders/detail/{{ $order->po_number }}" class="btn btn-sm btn-info">Detail</a>
+                          <a href="/purchase_orders/detail/{{ EncryptionHelper::encrypt($order->po_number) }}" class="btn btn-sm btn-info">Detail</a>
                         </td>
                       </tr>
                       @empty
