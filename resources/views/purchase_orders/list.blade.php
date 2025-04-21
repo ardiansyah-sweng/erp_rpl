@@ -907,8 +907,6 @@ use App\Helpers\EncryptionHelper;
           document.getElementById('sku_id').style.display = 'none';  // Menyembunyikan dropdown setelah memilih SKU
       });
 
-
-
       // Ketika ID Supplier diubah
       $('#supplier_id').on('change', function() {
           const supplierId = $(this).val();  // Ambil ID Supplier dari input
@@ -1077,8 +1075,6 @@ use App\Helpers\EncryptionHelper;
   });
 
   </script>
-
-
 
   <!--end::Script-->
 </body>
