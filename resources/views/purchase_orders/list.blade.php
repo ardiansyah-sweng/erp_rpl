@@ -61,6 +61,7 @@
       integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
       crossorigin="anonymous"
     />
+
     <!-- Bootstrap Modal Dependencies -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -408,12 +409,12 @@
                             </div>
                             <!-- Supplier ID dan Nama Supplier -->
                             <div class="form-group">
-                              <label for="supplier_id">ID Supplier</label>
-                              <select class="form-control" id="supplier_id">
-                                  <option value="">Pilih Supplier</option>
-                                  <option value="SUP001">SUP001 - Penyetor Kaos</option>
-                                  <option value="SUP002">SUP002 - Penyetor Celana</option>
-                              </select>
+                                <label for="supplier_id">ID Supplier</label>
+                                <input type="text" id="supplierSearch" class="form-control" placeholder="Cari Supplier">
+                                <select class="form-control" id="supplier_id" size="5" style="display:none;">
+                                    <option value="SUP001">SUP001 - Penyetor Kaos</option>
+                                    <option value="SUP002">SUP002 - Penyetor Celana</option>
+                                </select>
                             </div>
                             <div class="form-group">
                               <label for="supplier_name">Nama Supplier</label>
@@ -432,18 +433,17 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr>
-                                  <td>
-                                    <select class="form-control sku" readonly>
-                                      <option value="">Pilih SKU</option>
-                                    </select>
-                                  </td>
-                                  <td><input type="text" class="form-control nama-item" readonly></td>
-                                  <td><input type="number" class="form-control qty" value="1"></td>
-                                  <td><input type="number" class="form-control unit-price" value="0"></td>
-                                  <td><input type="number" class="form-control amount" value="0" readonly></td>
-                                  <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
-                                </tr>
+                              <tr>
+                                <td>
+                                  <input type="text" class="form-control sku-search" placeholder="Cari SKU">
+                                  <select class="form-control sku-dropdown" size="5" style="display:none;"></select>
+                                </td>
+                                <td><input type="text" class="form-control nama-item" readonly></td>
+                                <td><input type="number" class="form-control qty" value="1"></td>
+                                <td><input type="number" class="form-control unit-price" value="0"></td>
+                                <td><input type="number" class="form-control amount" value="0" readonly></td>
+                                <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
+                              </tr>
                               </tbody>
                             </table>
                             <button type="button" id="addRow" class="btn btn-info mb-3">Tambah Barang</button>
@@ -778,8 +778,8 @@
     sparkline3.render();
   </script>
 
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- jQuery
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
   <!-- AdminLTE JS -->
   <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
@@ -814,6 +814,98 @@
           }
       };
 
+      document.getElementById('supplierSearch').addEventListener('input', function() {
+          const filter = this.value.toLowerCase();
+          const options = document.getElementById('supplier_id').options;
+          
+          // Menyembunyikan semua option yang tidak sesuai
+          for (let i = 0; i < options.length; i++) {
+              const option = options[i];
+              const text = option.text.toLowerCase();
+              option.style.display = text.includes(filter) ? "" : "none";  // Menyembunyikan yang tidak sesuai
+          }
+
+          // Menampilkan dropdown jika input ada
+          document.getElementById('supplier_id').style.display = filter ? 'block' : 'none';
+      });
+
+      document.getElementById('supplier_id').addEventListener('change', function() {
+          const selectedOption = this.options[this.selectedIndex];
+          const supplierId = selectedOption.value; // Ambil ID Supplier yang dipilih
+          const supplierName = selectedOption.text.split(' - ')[1]; // Ambil Nama Supplier berdasarkan ID
+
+          // Isi kolom Nama Supplier
+          document.getElementById('supplier_name').value = supplierName;
+
+          // Isi kolom ID Supplier
+          document.getElementById('supplierSearch').value = supplierId; // Isi dengan ID Supplier yang dipilih
+
+          // Sembunyikan dropdown setelah memilih
+          document.getElementById('supplier_id').style.display = 'none';  // Menyembunyikan dropdown setelah memilih
+      });
+
+      // Fungsi untuk menampilkan dropdown SKU berdasarkan supplier
+      function populateSKU(supplierId) {
+          const supplierItems = items[supplierId];
+          $('#itemsTable tbody tr').each(function() {
+              const skuDropdown = $(this).find('.sku');
+              skuDropdown.empty(); // Kosongkan dropdown SKU
+
+              if (supplierItems) {
+                  // Menambah opsi SKU ke dropdown
+                  for (const sku in supplierItems) {
+                      const item = supplierItems[sku];
+                      skuDropdown.append(`<option value="${sku}">${sku} - ${item.name}</option>`);
+                  }
+              }
+              skuDropdown.css('display', supplierItems ? 'block' : 'none'); // Tampilkan dropdown jika ada item
+          });
+      }
+
+      // Menambahkan event listener untuk menampilkan dropdown SKU berdasarkan supplier
+      document.getElementById('skuSearch').addEventListener('input', function() {
+          const filter = this.value.toLowerCase();
+          const supplierId = document.getElementById('supplier_id').value;
+          const itemsList = items[supplierId] || {}; // Ambil daftar item berdasarkan supplier yang dipilih
+          const skuOptions = document.getElementById('sku_id');
+
+          skuOptions.innerHTML = ''; // Kosongkan semua opsi sebelumnya
+
+          if (filter.length > 0 && itemsList) {
+              for (let sku in itemsList) {
+                  const item = itemsList[sku];
+                  if (item.name.toLowerCase().includes(filter)) {
+                      // Menambahkan option SKU yang sesuai dengan pencarian
+                      skuOptions.innerHTML += `<option value="${sku}">${sku} - ${item.name}</option>`;
+                  }
+              }
+              skuOptions.style.display = filter.length > 0 ? 'block' : 'none'; // Tampilkan dropdown SKU jika ada input
+          } else {
+              skuOptions.style.display = 'none'; // Sembunyikan dropdown jika tidak ada filter
+          }
+      });
+
+      // Ketika SKU dipilih
+      document.getElementById('sku_id').addEventListener('change', function() {
+          const selectedOption = this.options[this.selectedIndex];
+          const sku = selectedOption.value;
+          const supplierId = document.getElementById('supplier_id').value;
+          const item = items[supplierId] ? items[supplierId][sku] : null;
+
+          if (item) {
+              document.getElementById('item_name').value = item.name;  // Isi Nama Item
+              document.getElementById('unit_price').value = item.price;  // Isi Unit Price dengan harga yang sesuai
+          } else {
+              document.getElementById('item_name').value = '';  // Kosongkan Nama Item jika SKU tidak ditemukan
+              document.getElementById('unit_price').value = '';  // Kosongkan Unit Price
+          }
+
+          // Menyembunyikan dropdown SKU setelah memilih SKU
+          document.getElementById('sku_id').style.display = 'none';  // Menyembunyikan dropdown setelah memilih SKU
+      });
+
+
+
       // Ketika ID Supplier diubah
       $('#supplier_id').on('change', function() {
           const supplierId = $(this).val();  // Ambil ID Supplier dari input
@@ -824,44 +916,6 @@
               populateSKU(supplierId);  // Populasi SKU berdasarkan supplier yang dipilih
           } else {
               $('#supplier_name').val('');  // Kosongkan nama supplier jika tidak ditemukan
-          }
-      });
-
-      // Fungsi untuk mengisi dropdown SKU berdasarkan supplier
-      function populateSKU(supplierId) {
-          const supplierItems = items[supplierId];
-          const skuDropdowns = $('#itemsTable tbody .sku');
-          
-          // Kosongkan semua dropdown SKU
-          skuDropdowns.each(function() {
-              const dropdown = $(this);
-              dropdown.empty();  // Kosongkan dropdown SKU
-
-              // Tambahkan option untuk SKU baru
-              dropdown.append('<option value="">Pilih SKU</option>');  // Tambahkan opsi "Pilih SKU"
-              for (const sku in supplierItems) {
-                  const item = supplierItems[sku];
-                  dropdown.append(`<option value="${sku}">${sku} - ${item.name}</option>`);  // Tambahkan SKU ke dropdown
-              }
-          });
-      }
-
-      // Fungsi untuk mengupdate Nama Item dan Unit Price berdasarkan SKU
-      $(document).on('change', '.sku', function() {
-          const sku = $(this).val();  // Ambil SKU yang dipilih
-          const supplierId = $('#supplier_id').val();  // Ambil ID Supplier yang dipilih
-          const item = items[supplierId] ? items[supplierId][sku] : null;
-
-          const row = $(this).closest('tr');  // Ambil baris terkait
-
-          if (item) {
-              row.find('.nama-item').val(item.name);  // Isi Nama Item
-              row.find('.unit-price').val(item.price);  // Isi Unit Price
-              updateAmount(row);  // Update Amount berdasarkan Unit Price dan Qty
-          } else {
-              row.find('.nama-item').val('');  // Kosongkan Nama Item jika SKU tidak ditemukan
-              row.find('.unit-price').val('');  // Kosongkan Unit Price
-              row.find('.amount').val('');  // Kosongkan Amount
           }
       });
 
@@ -887,10 +941,9 @@
 
       // Update Total ketika Qty atau Unit Price diubah
       $(document).on('input', '.qty, .unit-price', function() {
-          const row = $(this).closest('tr');  // Ambil baris yang terkait
-          updateAmount(row);  // Panggil fungsi untuk update Amount dan Total
+          const row = $(this).closest('tr'); // Ambil baris yang terkait
+          updateAmount(row); // Panggil fungsi untuk update Amount dan Total
       });
-
 
       // Menghapus baris item
       $(document).on('click', '.remove', function() {
@@ -898,69 +951,130 @@
           updateTotal();  // Update total setelah menghapus
       });
 
-      // Menambah baris SKU
-      $('#addRow').on('click', function() {
-          const supplierId = $('#supplier_id').val();  // Ambil ID Supplier yang dipilih
-          if (supplierId) {
-              const supplierItems = items[supplierId];  // Ambil data item berdasarkan supplier yang dipilih
-              const newRow = `
-                  <tr>
-                      <td>
-                          <select class="form-control sku">
-                              <option value="">Pilih SKU</option>
-                              ${Object.keys(supplierItems).map(sku => 
-                                  `<option value="${sku}">${sku} - ${supplierItems[sku].name}</option>`
-                              ).join('')}
-                          </select>
-                      </td>
-                      <td><input type="text" class="form-control nama-item" readonly></td>
-                      <td><input type="number" class="form-control qty" value="1"></td>
-                      <td><input type="number" class="form-control unit-price" value="0"></td>
-                      <td><input type="number" class="form-control amount" value="0" readonly></td>
-                      <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
-                  </tr>
-              `;
-              $('#itemsTable tbody').append(newRow);  // Tambahkan baris baru ke dalam tabel
-              updateTotal();  // Update Subtotal dan Tax setelah baris baru ditambahkan
-          } else {
-              alert("Pilih Supplier terlebih dahulu!");
+  </script>
+
+  <script>
+    $(document).on('input', '.sku-search', function() {
+      const row = $(this).closest('tr');
+      const filter = $(this).val().toLowerCase();
+      const supplierId = $('#supplier_id').val();
+      const itemsList = items[supplierId] || {};
+      const skuDropdown = row.find('.sku-dropdown');
+
+      skuDropdown.empty();
+      if (filter.length > 0) {
+        for (let sku in itemsList) {
+          const item = itemsList[sku];
+          if (item.name.toLowerCase().includes(filter)) {
+            skuDropdown.append(`<option value="${sku}">${sku} - ${item.name}</option>`);
           }
-      });
-
-
-      $('#submitBtn').on('click', function() {
-        // Mengumpulkan data PO dari form
-        const formData = {
-            po_number: $('#po_number').val(),
-            supplier_id: $('#supplier_id').val(),
-            supplier_name: $('#supplier_name').val(),
-            branch: $('#branch').val(),
-            items: [],
-            subtotal: $('#subtotal').val(),  // Tambahkan Subtotal
-            tax: $('#tax').val()  // Tambahkan Tax
-        };
-
-        // Mengumpulkan data barang (SKU, nama item, qty, unit price, amount)
-        $('#itemsTable tbody tr').each(function() {
-            const sku = $(this).find('.sku').val();
-            const name = $(this).find('.nama-item').val();
-            const qty = $(this).find('.qty').val();
-            const unitPrice = $(this).find('.unit-price').val();
-            const amount = $(this).find('.amount').val();
-
-            // Push data barang ke formData.items
-            formData.items.push({ sku, name, qty, unitPrice, amount });
-
-            // Debugging: Menampilkan data setiap item
-            console.log("Item Data:", { sku, name, qty, unitPrice, amount });
-        });
-
-        // Debugging: Menampilkan formData yang sudah termasuk Subtotal dan Tax
-        console.log("Form Data JSON:", JSON.stringify(formData, null, 2));
+        }
+        skuDropdown.show();
+      } else {
+        skuDropdown.hide();
+      }
     });
 
+    $(document).on('change', '.sku-dropdown', function() {
+      const row = $(this).closest('tr');
+      const sku = $(this).val();
+      const supplierId = $('#supplier_id').val();
+      const item = items[supplierId] ? items[supplierId][sku] : null;
+
+      if (item) {
+        row.find('.sku-search').val(sku);
+        row.find('.nama-item').val(item.name);
+        row.find('.unit-price').val(item.price);
+        updateAmount(row);
+      }
+      $(this).hide();
+    });
+
+    $(document).on('input', '.qty, .unit-price', function() {
+      const row = $(this).closest('tr');
+      updateAmount(row);
+    });
+
+    function updateAmount(row) {
+      const qty = parseFloat(row.find('.qty').val()) || 0;
+      const price = parseFloat(row.find('.unit-price').val()) || 0;
+      const amount = qty * price;
+      row.find('.amount').val(amount.toFixed(2));
+      updateTotal();
+    }
+
+    function updateTotal() {
+      let total = 0;
+      $('.amount').each(function () {
+        total += parseFloat($(this).val()) || 0;
+      });
+      $('#subtotal').val(total.toLocaleString('id-ID'));
+      $('#tax').val(total.toLocaleString('id-ID'));
+    }
+
+    $(document).on('click', '.remove', function() {
+      $(this).closest('tr').remove();
+      updateTotal();
+    });
+
+    $(document).on('click', '#addRow', function() {
+    const newRow = `
+      <tr>
+        <td>
+          <input type="text" class="form-control sku-search" placeholder="Cari SKU">
+          <select class="form-control sku-dropdown" size="5" style="display:none;"></select>
+        </td>
+        <td><input type="text" class="form-control nama-item" readonly></td>
+        <td><input type="number" class="form-control qty" value="1" min="1"></td>
+        <td><input type="number" class="form-control unit-price" value="0"></td>
+        <td><input type="number" class="form-control amount" value="0" readonly></td>
+        <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
+      </tr>
+    `;
+    $('#itemsTable tbody').append(newRow);
+  });
+
+  document.getElementById('submitBtn').addEventListener('click', function () {
+    const po_number = document.getElementById('po_number').value;
+    const supplier_id = document.getElementById('supplierSearch').value;
+    const supplier_name = document.getElementById('supplier_name').value;
+    const branch = document.getElementById('branch').value;
+
+    const items = [];
+    document.querySelectorAll('#itemsTable tbody tr').forEach(row => {
+      const sku = row.querySelector('.sku-search')?.value || '';
+      const name = row.querySelector('.nama-item')?.value || '';
+      const qty = row.querySelector('.qty')?.value || '';
+      const unitPrice = row.querySelector('.unit-price')?.value || '';
+      const amount = row.querySelector('.amount')?.value || '';
+
+      items.push({
+        sku,
+        name,
+        qty,
+        unitPrice,
+        amount
+      });
+    });
+
+    const subtotal = document.getElementById('subtotal').value;
+    const tax = document.getElementById('tax').value;
+
+    const formData = {
+      po_number,
+      supplier_id,
+      supplier_name,
+      branch,
+      items,
+      subtotal,
+      tax
+    };
+
+    console.log("Form Data JSON:", formData);
+  });
 
   </script>
+
 
 
   <!--end::Script-->
