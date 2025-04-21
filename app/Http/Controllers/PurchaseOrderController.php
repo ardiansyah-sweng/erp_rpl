@@ -17,7 +17,6 @@ class PurchaseOrderController extends Controller
     {
         $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($po_number);
         return view('purchase_orders.detail', compact('purchaseOrder'));
-        //return response()->json($purchaseOrder);
     }
     public function searchPurchaseOrder()
     {
