@@ -53,7 +53,7 @@ Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); 
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
 
 # Merk
-Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
+Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail'); //nicho
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
