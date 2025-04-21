@@ -9,9 +9,20 @@ use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 
+
+#Login
 Route::get('/', function () {
-    return view('dashboard');
+    return redirect()->route('login');
 });
+
+Route::get('/login', function () {
+    return view('login'); // tampilkan view login
+})->name('login');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
 Route::get('/branches', function () {
     return view('branches.index');
 })->name('branches.index');
