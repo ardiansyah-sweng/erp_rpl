@@ -19,4 +19,5 @@ class APIProductController extends Controller
         $avgBasePrices = LogAVgBasePrice::all();
         return response()->json($avgBasePrices);
     }
+
 }
