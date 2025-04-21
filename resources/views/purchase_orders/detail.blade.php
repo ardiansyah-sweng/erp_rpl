@@ -202,7 +202,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('purchase.orders')}}" class="nav-link active">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Purchase Orders
@@ -210,7 +210,7 @@
                 </a>                
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link active">
+                <a href="{{ route('branch.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -231,12 +231,12 @@
         <div class="app-content-header">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Cabang</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Detail Order</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="/branch/list">Cabang</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Tambah</li>
+                  <li class="breadcrumb-item"><a href="{{route('purchase.orders')}}">Purchase Orders</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Detail Order</li>
                 </ol>
               </div>
             </div>
@@ -248,38 +248,54 @@
               <div class="col-md-12">
                 <div class="card card-primary">
                   <div class="card-header">
-                    <h3 class="card-title">Formulir Tambah Cabang</h3>
+                    <h3 class="card-title"> </h3>
                   </div>
-                  <form action="{{ route('branch.add') }}" method="POST" id="branchForm">
-                    @csrf
-                    <div class="card-body">
-                      <div class="form-group">
-                        <label for="branch_name">Nama Cabang</label>
-                        <input type="text" class="form-control" id="branch_name" name="branch_name" placeholder="Masukkan nama cabang" value="{{ old('branch_name') }}">
-                      </div>
+                         
+                <div class="card-body">
+                  <!-- Add a container for the purchase order data -->
+                  <div id="purchase-order-details">
+                      <h6>ID Purchase Order</h6>
+                      <h4>{{ $purchaseOrder->first()->po_number }}</h4>
+                      <h6>Supplier</h6>
+                      <h4>{{ $purchaseOrder->first()->supplier->company_name }}</h4>
                       
-                      <div class="form-group">
-                        <label for="branch_address">Alamat</label>
-                        <textarea class="form-control" id="branch_address" name="branch_address" rows="3" placeholder="Masukkan alamat cabang">{{ old('branch_address') }}</textarea>
+                      <!-- Add Purchase Order Details Table -->
+                      <h6 class="mt-4">Purchase Order Details</h6>
+                      <div class="table-responsive">
+                          <table class="table table-bordered table-striped">
+                              <thead>
+                                  <tr>
+                                      <th>Product ID</th>
+                                      <th>Quantity</th>
+                                      <th>Amount</th>
+                                      <th>Total</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @php $grandTotal = 0; @endphp
+                                  @foreach($purchaseOrder->first()->details as $detail)
+                                      @php
+                                          $subtotal = $detail->quantity * $detail->amount;
+                                          $grandTotal += $subtotal;
+                                      @endphp
+                                      <tr>
+                                          <td>{{ $detail->product_id }}</td>
+                                          <td>{{ $detail->quantity }}</td>
+                                          <td>Rp {{ number_format($detail->amount, 0, ',', '.') }}</td>
+                                          <td>Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                              <tfoot>
+                                  <tr>
+                                      <td colspan="3" class="text-end"><strong>Grand Total:</strong></td>
+                                      <td><strong>Rp {{ number_format($grandTotal, 0, ',', '.') }}</strong></td>
+                                  </tr>
+                              </tfoot>
+                          </table>
                       </div>
-                      
-                      <div class="form-group">
-                        <label for="branch_telephone">Telepon</label>
-                        <input type="text" class="form-control" id="branch_telephone" name="branch_telephone" placeholder="Masukkan nomor telepon" value="{{ old('branch_telephone') }}">
-                      </div>
-                      
-                      <div class="form-group">
-                        <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="branch_status" name="branch_status" value="1" checked>
-                          <label class="custom-control-label" for="branch_status">Aktif</label>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="card-footer">
-                      <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                  </form>
+                  </div>
+              </div>
                   
                   <div id="debug-output" class="mt-4" style="display: none;">
                     <div class="card">
@@ -291,8 +307,8 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </div> 
+        </div> 
       </main>
       <footer class="app-footer">
         <div class="float-end d-none d-sm-inline">Anything you want</div>
