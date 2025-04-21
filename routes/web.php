@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
+use App\Helpers\EncryptionHelper;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -33,6 +34,13 @@ Route::get('/supplier/material/add', function () {
 Route::get('/Supplier', function (){
     return view('Supplier');
 });
+Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
+    $id = EncryptionHelper::decrypt($encrypted_id);
+    return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
+})->name('purchase.orders.detail');
+Route::get('/item/add', function () {
+    return view('item/add');
+});
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
@@ -57,9 +65,10 @@ Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchas
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
+Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 
 # Merk
-Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
+Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);

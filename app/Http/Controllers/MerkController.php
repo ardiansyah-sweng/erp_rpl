@@ -15,6 +15,6 @@ class MerkController extends Controller
             return abort(404, 'Merk tidak ditemukan');
         }
 
-        return response()->json($merk);
+        return view('merk.detail', compact('merk'));
     }
 }
