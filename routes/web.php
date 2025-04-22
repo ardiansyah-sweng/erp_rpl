@@ -7,7 +7,9 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
+use App\Helpers\EncryptionHelper;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -21,14 +23,26 @@ Route::get('/dashboard', function () {
 Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
+Route::get('/supplier/detail', function () {
+    return view('supplier/detail');
+});
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
+
 Route::get('/supplier/material/list', function () {
     return view('supplier/material/list');
+});
+Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
+    $id = EncryptionHelper::decrypt($encrypted_id);
+    return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
+})->name('purchase.orders.detail');
+
+Route::get('/item/add', function () {
+    return view('item/add');
 });
 
 # Product
@@ -48,15 +62,20 @@ Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('br
 # PurchaseOrders
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPurchaseOrder'])->name('purchase_orders.search');
-
+Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])->name('purchase_orders.add'); // tambahan
 
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
+Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 
 # SupplierMaterial
 Route::get('supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial']);
+Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
+
+#Supplier
+Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
