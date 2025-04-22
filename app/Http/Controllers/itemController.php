@@ -32,5 +32,27 @@ class ItemController extends Controller
     $items = Item::getAllItems($search);
     return view('item.list', compact('items'));
 }
+
+public function addItem(Request $request)
+{
+    $request->validate([
+        'product_id' => 'required|string|size:4', // ID Produk 4 karakter
+        'sku' => 'required|string',
+        'item_name' => 'required|string|min:3',
+        'measurement_unit' => 'required|string',
+        'selling_price' => 'required|numeric|min:0',
+    ]);
+
+    $item = new Item();
+    $item->addItem([
+        'product_id' => $request->product_id,
+        'sku' => $request->sku,
+        'item_name' => $request->item_name,
+        'measurement_unit' => $request->measurement_unit, // Perbaikan di sini
+        'selling_price' => $request->selling_price, // Perbaikan di sini
+    ]);
+
+    return redirect()->route('item.list')->with('success', 'Item berhasil ditambahkan!');
+}
     
 }

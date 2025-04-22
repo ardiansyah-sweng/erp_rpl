@@ -69,5 +69,10 @@ class Item extends Model
         return false;
     }
 
+    public function addItem($data)
+    {
+        return self::create($data);
+    }
+
     
 }
