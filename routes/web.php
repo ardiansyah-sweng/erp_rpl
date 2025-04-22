@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SupplierPIController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
@@ -67,5 +68,8 @@ Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 
+
 #Supplier
+Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPICByID'])->name('supplier.pic.delete');
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+

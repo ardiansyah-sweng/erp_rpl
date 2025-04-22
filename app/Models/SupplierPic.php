@@ -6,15 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class SupplierPic extends Model
 {
-    protected $table;
-    protected $fillable = [];
+    protected $table = 'supplier_pics'; // Pastikan sesuai dengan nama tabelmu
+    protected $fillable = ['nama', 'email', 'telepon', 'supplier_id'];
 
-    public function __construct(array $attributes = [])
+    public static function deleteSupplierPICByID($id)
     {
-        parent::__construct($attributes);
-
-        // Tetapkan nama tabel dan kolom
-        $this->table = config('db_constants.table.supplier_pic');
-        $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
+        $pic = self::find($id);
+        if ($pic) {
+            $pic->delete();
+            return true;
+        }
+        return false;
     }
 }
