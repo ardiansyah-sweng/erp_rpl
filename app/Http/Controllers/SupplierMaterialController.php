@@ -28,20 +28,6 @@ class SupplierMaterialController extends Controller
             'stock_unit'        => 'required|integer|min:0|max:255',
         ]);
 
-        DB::table('supplier_product')->insert([
-            'product_id'        => $validated['product_id'],
-            'sku'               => $validated['sku'],
-            'item_name'         => $validated['item_name'],
-            'measurement_unit'  => $validated['measurement_unit'],
-            'avg_base_price'    => $validated['avg_base_price'],
-            'selling_price'     => $validated['selling_price'],
-            'purchase_unit'     => $validated['purchase_unit'],
-            'sell_unit'         => $validated['sell_unit'],
-            'stock_unit'        => $validated['stock_unit'],
-            'created_at'        => now(),
-            'updated_at'        => now(),
-        ]);
-
         return redirect()->back()->with('success', 'Data supplier product berhasil ditambahkan!');
     }
 }
