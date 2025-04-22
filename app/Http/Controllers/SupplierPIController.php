@@ -9,13 +9,12 @@ use App\Models\User;
 
 class SupplierPIController extends Controller
 {
-    public function store(Request $request)
+    public function updateSupplierPICDetail(Request $request, $id)
     {
-        // Validasi data
         $validator = Validator::make($request->all(), [
             'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8',
+            'email'    => 'required|email|unique:users,email,' . $id,
+            'password' => 'required|string|min:10',
         ]);
 
         if ($validator->fails()) {
