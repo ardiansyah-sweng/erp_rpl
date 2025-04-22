@@ -4,38 +4,42 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\SupplierMaterial;
 
 class SupplierMaterialController extends Controller
 {
-    // Method untuk menampilkan data supplier material
-    public function getSupplierMaterial()
+    // Menampilkan form tambah supplier material
+    public function showForm()
     {
-        $model = new SupplierMaterial();
-        $materials = $model->getSupplierMaterial();
-
-        return view('supplier.material', ['materials' => $materials]);
+        return view('supplier.material.add');
     }
 
-    // Method untuk menambahkan data supplier material
+    // Menyimpan data supplier material ke tabel supplier_product
     public function addSupplierMaterial(Request $request)
     {
         $validated = $request->validate([
-            'supplier_id'   => 'required|string|max:50',
-            'company_name'  => 'required|string|max:255',
-            'product_id'    => 'required|string|max:50',
-            'product_name'  => 'required|string|max:255',
-            'base_price'    => 'required|numeric',
+            'product_id'        => 'required|string|size:4',
+            'sku'               => 'required|string|max:50',
+            'item_name'         => 'required|string|max:50',
+            'measurement_unit'  => 'required|string|max:6',
+            'avg_base_price'    => 'required|integer',
+            'selling_price'     => 'required|integer',
+            'purchase_unit'     => 'required|integer|min:0|max:255',
+            'sell_unit'         => 'required|integer|min:0|max:255',
+            'stock_unit'        => 'required|integer|min:0|max:255',
         ]);
 
         DB::table('supplier_product')->insert([
-            'supplier_id'   => $validated['supplier_id'],
-            'company_name'  => $validated['company_name'],
-            'product_id'    => $validated['product_id'],
-            'product_name'  => $validated['product_name'],
-            'base_price'    => $validated['base_price'],
-            'created_at'    => now(),
-            'updated_at'    => now(),
+            'product_id'        => $validated['product_id'],
+            'sku'               => $validated['sku'],
+            'item_name'         => $validated['item_name'],
+            'measurement_unit'  => $validated['measurement_unit'],
+            'avg_base_price'    => $validated['avg_base_price'],
+            'selling_price'     => $validated['selling_price'],
+            'purchase_unit'     => $validated['purchase_unit'],
+            'sell_unit'         => $validated['sell_unit'],
+            'stock_unit'        => $validated['stock_unit'],
+            'created_at'        => now(),
+            'updated_at'        => now(),
         ]);
 
         return redirect()->back()->with('success', 'Data supplier product berhasil ditambahkan!');
