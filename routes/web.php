@@ -8,6 +8,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
+<<<<<<< HEAD
+=======
+use App\Http\Controllers\SupplierMaterialController;
+>>>>>>> b02cf2841aec6d2466d3724255d19caa37e77a32
 use App\Helpers\EncryptionHelper;
 
 Route::get('/', function () {
@@ -68,4 +72,8 @@ Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 
 #Supplier
+<<<<<<< HEAD
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+=======
+Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
+>>>>>>> b02cf2841aec6d2466d3724255d19caa37e77a32

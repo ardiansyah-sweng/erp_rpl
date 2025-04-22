@@ -14,4 +14,8 @@ class SupplierMaterialController extends Controller
 
         return view('supplier.material', ['materials' => $materials]);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> b02cf2841aec6d2466d3724255d19caa37e77a32
