@@ -26,4 +26,11 @@ class Merk extends Model
     {
         return self::where('id', $id)->first();
     }
+
+    public $timestamps = false;
+
+    public static function getMerkAll()
+    {
+        return self::all();
+    }
 }
