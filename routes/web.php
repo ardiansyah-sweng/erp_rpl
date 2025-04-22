@@ -60,8 +60,7 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])->name('purchase_orders.add'); // tambahan
 
 # supplier pic route nya
-Route::get('/supplier/pic/edit/{id}', [SupplierPICController::class, 'getPICByID']);
-Route::put('/supplier/pic/update/{id}', [SupplierPICController::class, 'update'])->name('supplier.pic.update');
+Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'getPICByID']);
 
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
