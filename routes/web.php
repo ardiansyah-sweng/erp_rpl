@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 
 Route::get('/', function () {
@@ -71,5 +72,6 @@ Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 
 #Supplier
+Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
 Route::get('/delete_supplier/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete');
