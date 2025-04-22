@@ -37,3 +37,4 @@ class SupplierController extends Controller
     return redirect()->back()->with('error', 'Supplier not found');
     }
 }
+#
