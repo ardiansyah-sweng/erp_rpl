@@ -390,13 +390,15 @@
                         <div class="mb-3">
                             <label for="supplier_id" class="form-label">ID Supplier</label>
                             <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
-                            <span 
-                             class="error"></span>
+                            <span id="supplierIdError" class="error"></span>
                             <div class="invalid-feedback">ID Supplier harus diisi.</div>
+                            
                         </div>
                         <div class="mb-3">
                             <label for="supplier_name" class="form-label">Nama Supplier</label>
                             <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
+                            <div class="invalid-feedback">Nama Supplier harus diisi.</div>
+                            
                         </div>
                         <div class="mb-3">
                             <label for="SKU" class="form-label">SKU</label>
@@ -716,72 +718,47 @@
     </script>
     
     <script>
-      // function validateForm() {
-      //   let isValid = true;
-      //   $('#supplierIdError').html("");
-      //   $('#skuError').html("");
-      //   $('#itemNameError').html("");
-      //   $('#basePriceError').html("");
+      function validateForm() {
+        let isValid = true;
 
-      //   let supplierId = $('#supplier_id').val(); 
-      //   let sku = $('#SKU').val(); 
-      //   let itemName = $('#nama_item').val(); 
-      //   let basePrice = $('#base_price').val(); 
+        // Reset error states
+        $('#supplier_id, #SKU, #supplier_name, #nama_item, #base_price').removeClass('is-invalid');
 
-      //   if (supplierId === null || supplierId === "") {
-      //     $('#supplierIdError').html("<span style='color: red;'>ID Supplier harus diisi.</span>");
-      //     isValid = false;
-      //   }
-      //   if (sku === null || sku === "") {
-      //     $('#skuError').html("<span style='color: red;'>SKU harus diisi.</span>");
-      //     isValid = false;
-      //   }
-      //   if (itemName === null || itemName === "") {
-      //     $('#itemNameError').html("<span style='color: red;'>Nama Item harus diisi.</span>");
-      //     isValid = false;
-      //   }
-      //   if (basePrice === null || basePrice <= 0) {
-      //     $('#basePriceError').html("<span style='color: red;'>Base Price harus diisi dan lebih besar dari 0.</span>");
-      //     isValid = false;
-      //   }
-      //   return isValid;
-      // }
+        const supplierId = $('#supplier_id').val().trim();
+        const supplierName = $('#supplier_name').val().trim();
+        const sku = $('#SKU').val().trim();
+        const itemName = $('#nama_item').val().trim();
+        const basePrice = parseFloat($('#base_price').val());
 
-    function validateForm() {
-      let isValid = true;
+        if (!supplierId) {
+          $('#supplier_id').addClass('is-invalid');
+          isValid = false;
+        }
+        
+        if (!supplierName) {
+          $('#supplier_name').addClass('is-invalid');
+          isValid = false;
+        }
 
-      // Reset error states
-      $('#supplier_id, #SKU, #nama_item, #base_price').removeClass('is-invalid');
+        if (!sku) {
+          $('#SKU').addClass('is-invalid');
+          isValid = false;
+        }
 
-      const supplierId = $('#supplier_id').val().trim();
-      const sku = $('#SKU').val().trim();
-      const itemName = $('#nama_item').val().trim();
-      const basePrice = parseFloat($('#base_price').val());
+        if (!itemName) {
+          $('#nama_item').addClass('is-invalid');
+          isValid = false;
+        }
 
-      if (!supplierId) {
-        $('#supplier_id').addClass('is-invalid');
-        isValid = false;
+        if (isNaN(basePrice) || basePrice <= 0) {
+          $('#base_price').addClass('is-invalid');
+          isValid = false;
+        }
+
+        return isValid;
       }
 
-      if (!sku) {
-        $('#SKU').addClass('is-invalid');
-        isValid = false;
-      }
-
-      if (!itemName) {
-        $('#nama_item').addClass('is-invalid');
-        isValid = false;
-      }
-
-      if (isNaN(basePrice) || basePrice <= 0) {
-        $('#base_price').addClass('is-invalid');
-        isValid = false;
-      }
-
-      return isValid;
-  }
-
-  </script>
+    </script>
 
     <!--end::Script-->
   </body>
