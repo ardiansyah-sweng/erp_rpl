@@ -11,7 +11,7 @@ class SupplierPIController extends Controller
 {
     public function store(Request $request)
     {
-        // Validasi input data
+        // Validasi data
         $validator = Validator::make($request->all(), [
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users,email',
@@ -23,18 +23,7 @@ class SupplierPIController extends Controller
                 'status'  => 'error',
                 'message' => 'Validasi gagal',
                 'errors'  => $validator->errors(),
-            ], 422);
+            ]);
         }
-
-        User::create([
-            'name'     => $request->input('name'),
-            'email'    => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-        ]);
-
-        return response()->json([
-            'status'  => 'success',
-            'message' => 'Data berhasil disimpan',
-        ], 201);
     }
 }
