@@ -345,12 +345,6 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
-              <a href="{{ route('item.list') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Item</p>
-                    </a>
-                  </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -391,29 +385,22 @@
                             <label for="supplier_id" class="form-label">ID Supplier</label>
                             <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
                             <span id="supplierIdError" class="error"></span>
-                            <div class="invalid-feedback">ID Supplier harus diisi.</div>
-                            
                         </div>
                         <div class="mb-3">
                             <label for="supplier_name" class="form-label">Nama Supplier</label>
                             <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
-                            <div class="invalid-feedback">Nama Supplier harus diisi.</div>
-                            
                         </div>
                         <div class="mb-3">
                             <label for="SKU" class="form-label">SKU</label>
                             <input type="text" class="form-control" id="SKU" name="SKU" required>
-                            <div class="invalid-feedback">SKU harus diisi.</div>
                         </div>
                         <div class="mb-3">
                             <label for="nama_item" class="form-label">Nama Item</label>
                             <input type="text" class="form-control" id="nama_item" name="name_item" required>
-                            <div class="invalid-feedback">Nama Item harus diisi.</div>
                         </div>
                         <div class="mb-3">
                             <label for="base_price" class="form-label">Base Price Rp:</label>
                             <input type="number" class="form-control" id="base_price" name="base_price" required>
-                            <div class="invalid-feedback">Base Price harus diisi dan lebih besar dari 0.</div>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div>
@@ -716,81 +703,6 @@
         });
     });
     </script>
-    
-    <script>
-      function validateForm() {
-        let isValid = true;
-<<<<<<< HEAD
-        $('#supplierIdError').html("");
-        $('#skuError').html("");
-        $('#itemNameError').html("");
-        $('#basePriceError').html("");
-
-        let supplierId = $('#supplier_id').val(); 
-        let sku = $('#SKU').val(); 
-        let itemName = $('#nama_item').val(); 
-        let basePrice = $('#base_price').val(); 
-
-        if (supplierId === null || supplierId === "") {
-          $('#supplierIdError').html("<span style='color: red;'>ID Supplier harus diisi.</span>");
-          isValid = false;
-        }
-        if (sku === null || sku === "") {
-          $('#skuError').html("<span style='color: red;'>SKU harus diisi.</span>");
-          isValid = false;
-        }
-        if (itemName === null || itemName === "") {
-          $('#itemNameError').html("<span style='color: red;'>Nama Item harus diisi.</span>");
-          isValid = false;
-        }
-        if (basePrice === null || basePrice <= 0) {
-          $('#basePriceError').html("<span style='color: red;'>Base Price harus diisi dan lebih besar dari 0.</span>");
-          isValid = false;
-        }
-        return isValid;
-      }
-=======
-
-        // Reset error states
-        $('#supplier_id, #SKU, #supplier_name, #nama_item, #base_price').removeClass('is-invalid');
-
-        const supplierId = $('#supplier_id').val().trim();
-        const supplierName = $('#supplier_name').val().trim();
-        const sku = $('#SKU').val().trim();
-        const itemName = $('#nama_item').val().trim();
-        const basePrice = parseFloat($('#base_price').val());
-
-        if (!supplierId) {
-          $('#supplier_id').addClass('is-invalid');
-          isValid = false;
-        }
-        
-        if (!supplierName) {
-          $('#supplier_name').addClass('is-invalid');
-          isValid = false;
-        }
-
-        if (!sku) {
-          $('#SKU').addClass('is-invalid');
-          isValid = false;
-        }
-
-        if (!itemName) {
-          $('#nama_item').addClass('is-invalid');
-          isValid = false;
-        }
-
-        if (isNaN(basePrice) || basePrice <= 0) {
-          $('#base_price').addClass('is-invalid');
-          isValid = false;
-        }
-
-        return isValid;
-      }
-
->>>>>>> b02cf2841aec6d2466d3724255d19caa37e77a32
-    </script>
-
     <!--end::Script-->
   </body>
   <!--end::Body-->
