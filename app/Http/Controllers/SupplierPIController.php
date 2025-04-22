@@ -14,7 +14,7 @@ class SupplierPIController extends Controller {
         $validator = Validator::make($request->all(), [
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users,email',
-            'password' => 'required|string|min:12',
+            'password' => 'required|string|min:10',
         ]);
 
         if ($validator->fails()) {
