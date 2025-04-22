@@ -42,6 +42,8 @@ Route::get('/item/add', function () {
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+Route::get('/product/add', [ProductController::class, 'getProductAdd'])->name('product.add');
+
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');

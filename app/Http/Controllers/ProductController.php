@@ -12,4 +12,10 @@ class ProductController extends Controller
         $products = Product::getAllProducts();
         return view('product.list', compact('products'));
     }
+    public function getProductAdd()
+    {
+        $products = Product::getAllProducts();
+        return view('product.add', compact('products'));
+    }
+
 }
