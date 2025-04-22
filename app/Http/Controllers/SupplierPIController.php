@@ -7,10 +7,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-class SupplierPIController extends Controller
-{
-    public function store(Request $request)
-    {
+class SupplierPIController extends Controller {
+
+    public function store(Request $request) {
 
         $validator = Validator::make($request->all(), [
             'name'     => 'required|string|max:255',
