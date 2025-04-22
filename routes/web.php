@@ -32,10 +32,6 @@ Route::get('/branch/add', function () {
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
-
-Route::get('/supplier/material/list', function () {
-    return view('supplier/material/list');
-});
 Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
     $id = EncryptionHelper::decrypt($encrypted_id);
     return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
@@ -73,9 +69,8 @@ Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 
-# SupplierMaterial
-Route::get('supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial']);
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
+Route::get('supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial']);

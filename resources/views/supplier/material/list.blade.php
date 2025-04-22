@@ -424,16 +424,16 @@
                           <a href="#" class="btn btn-sm btn-info">Detail</a>
                       </td>
                   </tr>
-        @endforeach
-    </tbody>
-</table>
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                {{ $materials->links('pagination::bootstrap-4') }}
-              </div>
-            </div> 
-      </main>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+             <div class="card-footer clearfix">
+              {{ $materials->links('pagination::bootstrap-4') }}
+            </div>
+          </div> 
+        </main>
       <!--end::App Main-->
       <!--begin::Footer-->
       <footer class="app-footer">
