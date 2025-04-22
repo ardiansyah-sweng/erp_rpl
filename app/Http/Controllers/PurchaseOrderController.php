@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
 use Illuminate\Support\Facades\Validator;
+use App\Models\GoodsReceiptNote;
+use App\Enums\POStatus;
+use Carbon\Carbon;
 
 class PurchaseOrderController extends Controller
 {
@@ -61,5 +64,21 @@ class PurchaseOrderController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal menambahkan PO: ' . $e->getMessage());
         }
+    }
+
+    public static function getPOLength($poNumber, $orderDate)
+    {
+        $po = PurchaseOrder::where('po_number', $poNumber)
+            ->where('status', POStatus::FD->value)
+            ->first();
+    
+        if (!$po) {
+            return null; 
+        }
+    
+        $orderDate = Carbon::parse($orderDate);
+        $statusUpdateDate = Carbon::parse($po->updated_at);
+    
+        return intval($orderDate->diffInDays($statusUpdateDate));
     }
 }
