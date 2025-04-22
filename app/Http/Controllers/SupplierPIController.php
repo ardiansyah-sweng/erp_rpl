@@ -9,18 +9,18 @@ class SupplierPIController extends Controller
 {
     public function getPICByID($id)
     {
-        $pic = SupplierPic::getPICByID($id); // Memanggil method getPICByID dari model SupplierPic
+        $pic = SupplierPic::getPICByID($id); // memanggil method getPICByID dari model SupplierPic
 
         if (!$pic) {
             return redirect('/supplier')->with('error', 'PIC tidak ditemukan.');
         }
 
         $pic->supplier_name = $pic->name;
-        return view('supplier.pic.detail', ['pic' => $pic]); // Pastikan view yang benar
+        return view('supplier.pic.detail', ['pic' => $pic]);
     }
 
     public function update(Request $request, $id)
     {
-        // Implementasikan update jika dibutuhkan
+        // method update jika
     }
 }
