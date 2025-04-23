@@ -73,7 +73,7 @@ class PurchaseOrderController extends Controller
             ->first();
     
         if (!$po) {
-            return null; 
+            return "PO Number tidak ditemukan atau status bukan FD."; 
         }
     
         $orderDate = Carbon::parse($orderDate);
