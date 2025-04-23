@@ -93,4 +93,3 @@ Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplie
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
 Route::get('/delete_supplier/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete');
-#
