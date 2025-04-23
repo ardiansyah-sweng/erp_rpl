@@ -10,6 +10,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
+use App\Http\Controllers\CategoryController;
 
 
 #Login
@@ -37,7 +38,7 @@ Route::get('/supplier/pic/add', function () {
 
 Route::get('/supplier/add', function () {
     return view('supplier/add');
-
+});
 Route::get('/supplier/detail', function () {
     return view('supplier/detail');
 });
@@ -87,3 +88,6 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
+
+#Category
+Route::get('/category/{id}/update', [CategoryController::class, 'updateCategory']);
