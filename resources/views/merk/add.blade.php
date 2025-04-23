@@ -265,11 +265,11 @@
                             <div class="d-flex gap-3"> 
                             <div class="form-check">
                             <input class="form-check-input" type="radio" name="active" id="active1" value="1" checked>
-                            <label class="form-check-label" for="active1">1</label>
+                            <label class="form-check-label" for="active1">Aktif</label>
                         </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="active" id="active0" value="0">
-                        <label class="form-check-label" for="active0">0</label>
+                        <label class="form-check-label" for="active0">Non Aktif</label>
                     </div>
                 </div>
             </div>
