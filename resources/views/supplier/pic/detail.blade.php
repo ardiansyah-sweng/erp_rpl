@@ -761,7 +761,7 @@
 
     return isValid;
 }
-    // preview avatar saat diupload
+    // preview avatar saat diupload, script juga sudah benar
     document.getElementById('avatar').addEventListener('change', function(event) {
     const file = event.target.files[0];
     const preview = document.getElementById('photo_preview');
