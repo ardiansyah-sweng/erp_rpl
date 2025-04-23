@@ -9,7 +9,6 @@ use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
-use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 
 
@@ -38,7 +37,7 @@ Route::get('/supplier/pic/add', function () {
 
 Route::get('/supplier/add', function () {
     return view('supplier/add');
-
+});
 Route::get('/supplier/detail', function () {
     return view('supplier/detail');
 });
