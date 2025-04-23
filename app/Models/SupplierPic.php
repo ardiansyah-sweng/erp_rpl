@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SupplierPic extends Model
 {
-    protected $table = 'supplier_pics'; // Pastikan sesuai dengan nama tabelmu
+    protected $table = 'supplier_pic';
     protected $fillable = ['nama', 'email', 'telepon', 'supplier_id'];
 
     public static function deleteSupplierPICByID($id)
