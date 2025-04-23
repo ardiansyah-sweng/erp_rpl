@@ -423,6 +423,7 @@
                       <td>{{ $product->created_at }}</td>
                       <td>{{ $product->updated_at }}</td>
                       <td>
+                        
                       <a href="#" class="btn btn-sm btn-primary">Edit</a>
                               <form method="POST" style="display: inline;">
 
