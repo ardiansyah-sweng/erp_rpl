@@ -3,10 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
+use App\Http\Controllers\SupplierController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -53,3 +55,9 @@ Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.d
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
+
+
+Route::get('/supllier/{id}', [SupplierController::class, 'getSupplierById']);
+
+Route::get('/product/category', [CategoryController::class, 'index']);
+Route::get('/product/category/{id}', [CategoryController::class, 'show']);
