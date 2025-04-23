@@ -423,9 +423,13 @@
                       <td>{{ $product->created_at }}</td>
                       <td>{{ $product->updated_at }}</td>
                       <td>
-                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                          <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                          <a href="#" class="btn btn-sm btn-info">Detail</a>
+                      <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                              <form method="POST" style="display: inline;">
+
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus item ini?')">Delete</button>
+                              </form>
+                            
+                              <a href="#" class="btn btn-sm btn-info">Detail</a>
                       </td>
                   </tr>
         @endforeach
