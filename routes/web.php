@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 
 Route::get('/', function () {
@@ -23,9 +24,14 @@ Route::get('/dashboard', function () {
 Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
+
+Route::get('/supplier/add', function () {
+    return view('supplier/add');
+
 Route::get('/supplier/detail', function () {
     return view('supplier/detail');
 });
+  
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
@@ -75,3 +81,4 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
