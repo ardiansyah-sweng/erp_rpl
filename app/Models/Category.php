@@ -42,4 +42,8 @@ class Category extends Model
     {
         return self::count();
     }
+    public static function getCategoryById($id)
+    {
+        return self::where('id', $id)->first();
+    }
 }
