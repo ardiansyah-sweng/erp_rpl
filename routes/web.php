@@ -39,7 +39,7 @@ Route::get('/supplier/pic/add', function () {
 
 Route::get('/supplier/add', function () {
     return view('supplier/add');
-
+});
 Route::get('/supplier/detail', function () {
     return view('supplier/detail');
 });

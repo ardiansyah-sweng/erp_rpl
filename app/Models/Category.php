@@ -10,11 +10,7 @@ class Category extends Model
     use HasFactory;
 
     protected $table;
-    protected $fillable = [
-        'category',
-        'parent_id',
-        'updated_at'
-    ];
+    protected $fillable = [];
     public $timestamps = true;
 
     public function __construct(array $attributes = [])
