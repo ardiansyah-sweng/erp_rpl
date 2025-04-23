@@ -9,11 +9,23 @@ use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
+use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 
+
+#Login
 Route::get('/', function () {
-    return view('dashboard');
+    return redirect()->route('login');
 });
+
+Route::get('/login', function () {
+    return view('login'); // tampilkan view login
+})->name('login');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
 Route::get('/branches', function () {
     return view('branches.index');
 })->name('branches.index');
@@ -23,9 +35,14 @@ Route::get('/dashboard', function () {
 Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
+
+Route::get('/supplier/add', function () {
+    return view('supplier/add');
+
 Route::get('/supplier/detail', function () {
     return view('supplier/detail');
 });
+  
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
@@ -72,6 +89,7 @@ Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 
 #Supplier
+Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
 Route::get('/delete_supplier/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete');
