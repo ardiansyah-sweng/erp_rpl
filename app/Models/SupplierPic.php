@@ -12,20 +12,14 @@ class SupplierPic extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-
+        
         $this->table = config('db_constants.table.supplier_pic');
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
     }
 
-    // method ambil id
+    // method untuk ambil data berdasarkan ID
     public static function getPICByID($id)
     {
         return self::find($id);
-    }
-
-    // jika data tidak ditemukan tidak error
-    public static function getPICOrFailByID($id)
-    {
-        return self::findOrFail($id);
     }
 }
