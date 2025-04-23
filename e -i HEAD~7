@@ -1,0 +1,319 @@
+[33ma95f183[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32m281_RafiMahrizky_update[m[33m, [m[1;31morigin/281_RafiMahrizky_update[m[33m)[m Update dan pindah file detail.blade.php ke struktur PIC, edit SupplierPIController, Supplierpic, dan web.php
+[33mdfd15a7[m update supplierpic by id
+[33m2fc962d[m[33m ([m[1;32m281_rafi_updatepic[m[33m)[m ubah pada web.php dan mengganti file SupplierPICController menjadi SupplierPIController
+[33m569442d[m Fix merge conflict dan mengganti nama SupplierPICController menjadi SupplierPIController
+[33m324ffb1[m mengganti SupplierPICController menjadi SupplierPIController
+[33m10ccd63[m[33m ([m[1;31morigin/Akyas_C_189_DeleteBranch[m[33m)[m Merge pull request #180 from ardiansyah-sweng/nabila_245D_view-supplier-material-add.blade.php-validasi_form
+[33m2b3ce7f[m Merge pull request #200 from ardiansyah-sweng/Fadiya-Ghifari_167_C
+[33m36581d6[m Merge pull request #198 from ardiansyah-sweng/bagus_c_2200018199
+[33m312c22b[m[33m ([m[1;31morigin/Fadiya_167_C[m[33m)[m Merge branch 'main' of https://github.com/ardiansyah-sweng/erp_rpl into Fadiya_167_C
+[33m2774134[m[33m ([m[1;31morigin/nabila_245D_view-supplier-material-add.blade.php-validasi_form[m[33m)[m Merge branch 'development' into nabila_245D_view-supplier-material-add.blade.php-validasi_form
+[33m96d5e18[m Menambahkan validation
+[33md131383[m Merge pull request #183 from ardiansyah-sweng/WisnuWicaksono_D_233
+[33m490733c[m Update Supplier Material
+[33m9275261[m Memperbaiki tampilan filled form supplier
+[33me5b0005[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #187 from ardiansyah-sweng/development
+[33ma5a2879[m Merge pull request #176 from ardiansyah-sweng/Narendra_D_238_SupplierControllerandUpdateSupplier
+[33m85335c9[m[33m ([m[1;31morigin/bagus_c_2200018199[m[33m)[m Telah membuat fungsi menghitung jumlah produk
+[33m043bd97[m Membuat supplier material controller dan supplier material model
+[33m674d469[m Merge branch 'main' of https://github.com/ardiansyah-sweng/erp_rpl into Fadiya_167_C
+[33mc63baf9[m Perbaiki Hapus edit
+[33m5e4d22c[m Update Tambah Kolom Nomor Telepon
+[33m81587b1[m Resolve updateSupplier dan kontroller
+[33m3345a87[m Menambahkan validation
+[33m024eab7[m Menambahkan validation
+[33m45f62b6[m Merge pull request #179 from ardiansyah-sweng/development
+[33med0018e[m Merge pull request #167 from ardiansyah-sweng/add-po-function
+[33mb5264a3[m Memperbaiki konflik resolve
+[33mdbc5580[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into Narendra_D_238_SupplierControllerandUpdateSupplier
+[33m0816621[m Menambahkan route untuk tambah Purchase Order
+[33mdd340ba[m Membuat supplierController dan Fungsi Update pada model supplier
+[33m6b3c17c[m Merge pull request #169 from ardiansyah-sweng/development
+[33m82d86a9[m Merge pull request #162 from ardiansyah-sweng/Rico_174C_Merk
+[33m3abf106[m chore: update model PurchaseOrder
+[33m7410192[m feat: tambah fungsi addPurchaseOrder di controller
+[33mef2b4cb[m membuat filled form
+[33md001a42[m penambahan fungsi getMerkByID di models merk
+[33m389b8da[m Rico_174C_Merk
+[33m94b53ba[m[33m ([m[1;31morigin/haniffalah_C_223[m[33m, [m[1;31morigin/faiz-rizal_D_227[m[33m, [m[1;31morigin/Riickyy_C_191[m[33m, [m[1;31morigin/Raihan_frakasya_C_216_UpdateBranch[m[33m)[m Merge pull request #161 from ardiansyah-sweng/development
+[33m7b5bb12[m[33m ([m[1;31morigin/Andika-Putra-Wijaya_168_C[m[33m)[m Merge pull request #159 from ardiansyah-sweng/gia_C_171
+[33mb86ea1f[m menghitung jumlah Merk dan PurchaseOrder
+[33m1da0b2c[m add function getMerkByID
+[33m2e27f14[m Merge pull request #156 from ardiansyah-sweng/development
+[33mf989c4b[m Merge pull request #146 from ardiansyah-sweng/Andika-Putra-Wijaya_168_C
+[33m29bc6fa[m Merge pull request #155 from ardiansyah-sweng/development
+[33m8307640[m Merge pull request #149 from ardiansyah-sweng/andika_D_237
+[33m3c94649[m menghitung jumlah po
+[33m0ca1e7e[m Merge branch 'main' of https://github.com/ardiansyah-sweng/erp_rpl into development
+[33m4335e4b[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into development
+[33m9802189[m add:menambahkan halaman item dan delete untuk item
+[33m3679211[m Merge pull request #145 from ardiansyah-sweng/development
+[33m5c32e75[m refactor:po detail migration
+[33m62304cb[m Merge pull request #144 from ardiansyah-sweng/development
+[33m67a747c[m Merge pull request #142 from ardiansyah-sweng/RicoWidiyatma_255D_PurchaseOrderController_searchPurchaseOrder
+[33mce0a06e[m Merapikan kode di bagian PurchaseOrder Model agar mudah di baca
+[33m8fcc973[m Merge pull request #133 from ardiansyah-sweng/RicoWidiyatma_255D_PurchaseOrderController_searchPurchaseOrder
+[33m59c7c87[m  Update PurchaseOrder model
+[33m046c1d1[m fix kurawal, fix PICById from id
+[33m94f9a04[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into development
+[33m3803c1a[m Memperbaiki pemanggilan kolom supplier di purchase order karena ada relasi, dan menambahkan route agar bisa dicek di web server
+[33m307c961[m Merge pull request #141 from ardiansyah-sweng/development
+[33m8f21652[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into dev
+[33ma0b4df2[m refactor:skema supplier_pic
+[33m54c740e[m supplier pic model, form dan validasi nya
+[33m6be7ae1[m[33m ([m[1;31morigin/RicoWidiyatma_255D_PurchaseOrderController_searchPurchaseOrder[m[33m)[m Menambahkan method  searchPurchaseOrder  untuk pencarian Purchase Order di bagian PO controler
+[33md389867[m[33m ([m[1;31morigin/RicoWidiyatma_255D_PurchaseOrderModel_getPurchaseOrderByKeywords[m[33m)[m Menambahkan method getPurchaseOrderByKeywords untuk pencarian Purchase Order
+[33m44bae6e[m Menambahkan method getPurchaseOrderByKeywords untuk pencarian Purchase Order
+[33m51fecf5[m Merge pull request #128 from ardiansyah-sweng/development
+[33mbd28506[m Merge pull request #127 from ardiansyah-sweng/andika_D_237
+[33m96ee61f[m Edit model Category: tambah countCategory
+[33mc88c883[m Merge pull request #126 from ardiansyah-sweng/development
+[33mee05f25[m Merge pull request #125 from ardiansyah-sweng/andika_D_237
+[33m6797710[m Edit model Category: tambah countCategory
+[33md4a5f4e[m Merge pull request #123 from ardiansyah-sweng/development
+[33m4d14891[m Merge pull request #122 from ardiansyah-sweng/ammara_D_269_view-supplier/material/add.blade.php-inputform
+[33m38a1c18[m[33m ([m[1;31morigin/ammara_D_269_view-supplier/material/add.blade.php-inputform[m[33m)[m memperbaiki style form dan memperbaiki button
+[33m3b39e6f[m membuat view tambah supplier item
+[33me056bbc[m[33m ([m[1;31morigin/farras_d_262_PurchaseOrderByID-model-and-controller[m[33m)[m Merge pull request #80 from ardiansyah-sweng/search_feature_fadhli_197
+[33m1d2deff[m delete migration file
+[33m0afb6f9[m Merge branch 'main' of https://github.com/ardiansyah-sweng/erp_rpl into search_feature_fadhli_197
+[33ma1a8828[m Merge pull request #115 from ardiansyah-sweng/development
+[33m6e342b2[m Merge pull request #114 from ardiansyah-sweng/raihanraiswicaksono_c_2200018225
+[33m14a0a15[m[33m ([m[1;31morigin/raihanraiswicaksono_c_2200018225[m[33m)[m Update template AdmnLTE
+[33mdfac2bc[m Merge pull request #113 from ardiansyah-sweng/development
+[33m2940046[m Merge pull request #112 from ardiansyah-sweng/farras_d_262_PurchaseOrderByID-model-and-controller
+[33mb11092a[m Merge pull request #111 from ardiansyah-sweng/Vionitta254-validateform
+[33m8bd65f1[m Merge pull request #110 from ardiansyah-sweng/development
+[33m6dbdffb[m memperbaiki getPurchaseOrderByID agar mengeluarkan po_number yang dicari
+[33ma98614c[m memperbaiki PurchaseOrderController
+[33m0dcee48[m validate pic
+[33m11cc57d[m memperbaiki purchaseOrderByID pada PurchaseOrderController
+[33md331867[m memperbaiki purchaseOrderByID
+[33mff15198[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into farras_d_262_PurchaseOrderByID-model-and-controller
+[33m0030e9c[m Menyesuaikan detail.blade.php agar lebih rapi
+[33m1355fad[m fixed:supplier product seeder
+[33mdfeae30[m fixing getPurchaseOrederByID
+[33m571aae7[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into farras_d_262_PurchaseOrderByID-model-and-controller
+[33m41a13bb[m Merge branch 'main' of https://github.com/ardiansyah-sweng/erp_rpl into farras_d_262_PurchaseOrderByID-model-and-controller
+[33m8eb8dea[m add:warehouse
+[33mfe3954e[m Revisi tugas ERP RPL - update detail cabang
+[33m9d87673[m add:bom production
+[33med57fec[m refactor:BOM total
+[33mb4847c3[m refactor:bill of material
+[33m0ffed00[m refactor:conversion unit
+[33ma241f5d[m refactor:item and faker
+[33ma000eb6[m Merge pull request #98 from ardiansyah-sweng/data-generation
+[33m75ba4c5[m[33m ([m[1;31morigin/data-generation[m[33m)[m feat(Data Generation): Add dataset based on the custom faker provider
+[33m19a939a[m refactor:measurement unit
+[33ma010126[m Merge pull request #97 from ardiansyah-sweng/Wahyu194_C
+[33me76a04c[m Merge pull request #96 from ardiansyah-sweng/development
+[33m53ec519[m Merge branch 'Wahyu194_C' into development
+[33ma749991[m[33m ([m[1;31morigin/Wahyu194_C[m[33m)[m move query to model Wahyu194
+[33mfa4ca2d[m membuat PurchaseOrderByID model and controller
+[33m6db61df[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl
+[33mad9b0a5[m refactor:database seeder
+[33m5a6eb1d[m refactor:item
+[33m12d4441[m Merge pull request #95 from ardiansyah-sweng/development
+[33mfb905e8[m add:bill of material
+[33m45fa393[m Merge pull request #94 from ardiansyah-sweng/M.ArifRahmanHakim_180C
+[33m9f4cbac[m[33m ([m[1;31morigin/M.ArifRahmanHakim_180C[m[33m)[m update
+[33mad59ad6[m Update branch list search
+[33mfb05500[m join product_category in view product.list
+[33mfaef149[m Merge pull request #90 from ardiansyah-sweng/development
+[33mb7fc004[m Merge pull request #89 from ardiansyah-sweng/Wahyu194_C
+[33m79d719f[m ripair data dummy
+[33m2d0e94d[m Merge branch 'Wahyu194_C' of https://github.com/ardiansyah-sweng/erp_rpl into Wahyu194_C
+[33m5e143d3[m repair view model product
+[33m34265dc[m Merge pull request #86 from ardiansyah-sweng/Wahyu194_C
+[33me8bb5cc[m Merge pull request #88 from ardiansyah-sweng/development
+[33m2764aba[m tautan routing product
+[33m44fb3eb[m Merge pull request #87 from ardiansyah-sweng/development
+[33m1b8075b[m refactor:supplierPIC
+[33mc3076fa[m ghghh
+[33m3209ef5[m Merge branch 'Wahyu194_C' of https://github.com/ardiansyah-sweng/erp_rpl into Wahyu194_C
+[33me190ab8[m view product list
+[33mf0bc9fc[m Merge pull request #85 from ardiansyah-sweng/development
+[33mc05ef1f[m Merge pull request #84 from ardiansyah-sweng/vincent_c_2200018220
+[33m3a7fb5d[m Fix validation rule for branch name and update form action in add branch view
+[33m39088fa[m view product list
+[33mb862490[m view product list
+[33mfd603e9[m Add route and view for adding a new branch
+[33m25898bf[m Merge pull request #83 from ardiansyah-sweng/development
+[33m551e708[m Add status column to purchase_order table and update seeder for PO status
+[33mb02bc0c[m Merge branch 'main' of https://github.com/ardiansyah-sweng/erp_rpl into search_feature_fadhli_197
+[33m63152b6[m edit
+[33md489dc5[m Update search bar placeholder and button alignment in purchase orders list
+[33m610fc3d[m Refactor search bar in purchase orders list for improved design and usability
+[33m8d6c472[m Sort purchase orders by order date in descending order
+[33m0dfd223[m deleted search bar from list.blade
+[33mb21b92c[m Make supplier name clickable in purchase orders list
+[33med6b710[m Delete update at from table in purchase_orders folders
+[33ma84d7d1[m Update card header in purchase orders list to include title and add button
+[33m4b4133a[m add Search
+[33m20ceb6a[m Remove commented-out badge and arrow from Purchase Orders sidebar menu
+[33m318fdfa[m Add Branch link to purchase orders sidebar menu
+[33me7f1ee6[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into search_feature_fadhli_197
+[33mab96c9b[m update list
+[33m7fbf795[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into development
+[33mfc3602a[m new:Purchase Order status
+[33mbdb0d99[m Merge pull request #79 from ardiansyah-sweng/development
+[33mf2e59d0[m Merge pull request #78 from ardiansyah-sweng/Hansen_C_2200018224
+[33ma87549f[m Deskripsi perubahan
+[33md19f64d[m Merge pull request #77 from ardiansyah-sweng/development
+[33mc4fdd84[m Merge pull request #76 from ardiansyah-sweng/M.ArifRahmanHakim_180C
+[33m297bd61[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into M.ArifRahmanHakim_180C
+[33m73b3490[m update actions ui branch
+[33mdfbc01b[m Merge pull request #74 from ardiansyah-sweng/development
+[33md7a5e00[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into development
+[33m0ccf3b9[m refactor:category status
+[33me9a90ac[m Merge pull request #73 from ardiansyah-sweng/M.ArifRahmanHakim_180C
+[33mb23ff8f[m update view ui branch
+[33mf4a5bef[m refactor:Branch dan Item
+[33m3c9844d[m Merge pull request #72 from ardiansyah-sweng/development
+[33mb837fa5[m Merge pull request #66 from ardiansyah-sweng/M.ArifRahmanHakim_180C
+[33m5b22642[m update fungsi getBranchAll() dan pidah query ke model
+[33m182a081[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into M.ArifRahmanHakim_180C
+[33m84775fc[m update
+[33m38ad2bf[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into search_feature_fadhli_197
+[33mffbfdf9[m aa
+[33md427595[m update link ke halaman branch dan update ikon status 1 jdi centang dan 0 jadi silang
+[33me76c8db[m Merge pull request #70 from ardiansyah-sweng/development
+[33m4c6d06f[m Merge pull request #69 from ardiansyah-sweng/faiz-dev
+[33m4ca20ca[m Merge branch '2200018205_ItemModel_ItemController_Route_KelasC' into faiz-dev
+[33mbfda401[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into search_feature_fadhli_197
+[33m724058c[m View Bracnh list
+[33mab89aac[m Update list.blade.php
+[33m40e8ad5[m Merge pull request #65 from ardiansyah-sweng/development
+[33m879a1ea[m add:Goods Receipt Note
+[33mf32c363[m Merge pull request #64 from ardiansyah-sweng/farras_d_262_merapikan-navbar-dashboard-dan-menambah-form-tambah-pic-supplier
+[33m971edf7[m Merge pull request #63 from ardiansyah-sweng/development
+[33mb6b9861[m add:Merk
+[33md4655fc[m merapikan upload image
+[33m3060f53[m update inputan ID dan foto pic
+[33mbc81d67[m Merge pull request #62 from ardiansyah-sweng/development
+[33mf287b1b[m Merge pull request #60 from ardiansyah-sweng/fadhli_c_2200018197
+[33m373c3eb[m Refactor: Move purchase order retrieval logic to a model method for better separation of concerns
+[33m6fcb948[m Update: Enhance PurchaseOrder model with supplier relationship and update view to display supplier name
+[33mf1655ae[m Update: Change column header from 'Supplier ID' to 'Supplier' in purchase orders list
+[33m00d9d29[m Merge pull request #59 from ardiansyah-sweng/development
+[33m6321684[m Merge pull request #58 from ardiansyah-sweng/fadhli_c_2200018197
+[33mcecf77e[m Update: Add supplier in sidebar
+[33me2a762a[m Merge branch 'development' into fadhli_c_2200018197
+[33mf8af846[m Update dashboard.blade.php
+[33m1fa71cb[m Add action in list.blade.php
+[33m829e45b[m Merge pull request #54 from ardiansyah-sweng/development
+[33m3f5d7c3[m Merge pull request #53 from ardiansyah-sweng/backend
+[33meab9434[m Merge pull request #52 from ardiansyah-sweng/backend
+[33maf66a74[m[33m ([m[1;31morigin/backend[m[33m)[m Merge branch 'fadhli_farrash' of https://github.com/ardiansyah-sweng/erp_rpl into backend
+[33m8db9749[m Merge pull request #51 from ardiansyah-sweng/farras_d_262_merapikan-navbar-dashboard-dan-menambah-form-tambah-pic-supplier
+[33m3a67cc1[m Delete list.blade.php from purchase/orders
+[33ma8d4431[m memperbaiki bagian add pic
+[33mcfd9adb[m membenarkan href pic supplier add
+[33m956e6ca[m Fix Sidebar in List.blade.php
+[33m87e1f40[m membenarkan route pic add
+[33me669dae[m Merge pull request #47 from ardiansyah-sweng/farras_d_262_merapikan-navbar-dashboard-dan-menambah-form-tambah-pic-supplier
+[33m8888f01[m Merge pull request #46 from ardiansyah-sweng/fadhli_c_2200018197
+[33m18a4127[m[33m ([m[1;31morigin/2200018205_ItemModel_ItemController_Route_KelasC[m[33m, [m[1;31morigin/205_Faiz_C[m[33m)[m 2200018205_ItemModel getItem()_ItemController GetItem()_Route_KelasC
+[33m1cb979e[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into farras_d_262_merapikan-navbar-dashboard-dan-menambah-form-tambah-pic-supplier
+[33m51f4673[m Merge pull request #43 from ardiansyah-sweng/fadhli_c_2200018197
+[33ma81b806[m update sidebar & menambah form tambah PIC supplier
+[33m7cae611[m Update dashboard
+[33meba7d8a[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into fadhli_c_2200018197
+[33mbe8cfb5[m Update list.blade.php
+[33m572e582[m insert AdminLte template in list.blade.php
+[33m4526251[m[33m ([m[1;31morigin/SupplierPICController[m[33m)[m Merge pull request #42 from ardiansyah-sweng/development
+[33ma3654b8[m add:env example
+[33m5c50cd4[m Rename purchase folder to purchase_orders
+[33mf5b1314[m[33m ([m[1;31morigin/M.ArifRahmanHakim_C_180[m[33m)[m Merge pull request #41 from ardiansyah-sweng/development
+[33mc50c1d6[m refactor:category
+[33mb19822f[m Merge pull request #40 from ardiansyah-sweng/development
+[33m77032ec[m update:PO purchase order
+[33me1aee1b[m Merge pull request #39 from ardiansyah-sweng/development
+[33m05009b5[m refactor:purchaseOrderSeeder
+[33mcf79366[m Merge pull request #38 from ardiansyah-sweng/development
+[33m88036a8[m Merge pull request #37 from ardiansyah-sweng/farras_d_262_update_dashboard
+[33m4f7a435[m update dashboard
+[33medb631e[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into farras_d_262_update_dashboard
+[33m2d298eb[m Update Dashboard
+[33m4871b7c[m convert an order to a purchase order in the dashboard
+[33m5e82410[m update list
+[33m88eaeff[m Merge branch 'development' of https://github.com/ardiansyah-sweng/erp_rpl into fadhli_c_2200018197
+[33mb18d7be[m Delete comment from list.blade.php
+[33mc7ea36d[m Update list.blade.php
+[33m9c40b4a[m Merge pull request #33 from ardiansyah-sweng/Dashboard-Update
+[33m0fa6eac[m Merge branch 'main' of https://github.com/ardiansyah-sweng/erp_rpl into fadhli_c_2200018197
+[33md5b11a9[m Dashboard Update
+[33mdd1c43f[m Merge pull request #31 from ardiansyah-sweng/backend
+[33m4275a40[m refactor:purcase order
+[33m2f4ede6[m Merge pull request #29 from ardiansyah-sweng/backend
+[33m21404a0[m refactor:kolom pada tabel purchase_order
+[33m03e9305[m Merge pull request #28 from ardiansyah-sweng/main
+[33m7c99e27[m Merge pull request #27 from ardiansyah-sweng/farras_d_2200018262
+[33mbb66c5a[m Dashboard tahap awal
+[33m9c7e1a6[m Add: purchase order list
+[33mc2d15da[m Merge pull request #26 from ardiansyah-sweng/backend
+[33m873ec48[m update:readme
+[33m57dd67e[m Merge pull request #25 from ardiansyah-sweng/backend
+[33mc8b8123[m refactor:add order_date field di tabel purchase_order
+[33m0732738[m Merge pull request #24 from ardiansyah-sweng/backend
+[33m7952661[m refactor:product getSKURawMaterialItem
+[33m8a0d89c[m Merge pull request #23 from ardiansyah-sweng/222_BranchModel_BranchController_D
+[33mc86511c[m Hapus Block Kodingan yang tidak perli d  BranchModel dan Branch Controller - getBranchByID
+[33m5598432[m BranchModel dan Branch Controller
+[33m5d25578[m[33m ([m[1;31morigin/Tiyo_239D_SupplierPICModel_countSupplierPIC[m[33m)[m Merge pull request #22 from ardiansyah-sweng/fahreza_d_2200018246
+[33m3bc0495[m update:branch
+[33m8a83e3d[m update:migration
+[33m519c0f1[m Merge pull request #21 from ardiansyah-sweng/backend
+[33mb579f95[m add:model
+[33m54e9b55[m ref:SupplierSeeder
+[33md252532[m Merge pull request #20 from ardiansyah-sweng/backend
+[33mc8fecf6[m add skema.sql
+[33me4c8d67[m refactor: perombakan untuk mempersiapkan bill of material
+[33m86fe35c[m refactor: mengatur ulang nama kolom dan tabel biar reusable
+[33mb37da6c[m feat: Add LogStock untuk memantau perubahan stock produk
+[33mb23ba58[m feat: API Transaction  untuk update stock
+[33m0c3453c[m Merge pull request #19 from ardiansyah-sweng/database/purchase_order
+[33m07bdb2a[m style: menambah keterangan API
+[33m104cc30[m feat: Product Price Seeder
+[33mf9f244e[m Merge pull request #18 from ardiansyah-sweng/database/purchase_order
+[33m467d221[m feat: Good receipt note database
+[33m920df12[m fix: Penyesuaian purchase order
+[33m7293416[m fix: Penanggalan produk dan log base price agar urut
+[33m4a3785d[m feat: update current_stock seeder
+[33m02be0b0[m refactor: menambah kolom stock
+[33m9f448e1[m feat: membuat trigger perubahan harga produk
+[33mafb5268[m refactor: mengubah DB_DATABASE di .env.example agar langsung bisa dipakai
+[33mb810f6b[m feat: php artisan db:create agar mudah membuat database langsung
+[33ma4a1dda[m feat: Pembuatan database purchase order & refactor
+[33m70c4998[m Merge pull request #17 from ardiansyah-sweng/feature/supplier
+[33mff2f35d[m Merge pull request #16 from ardiansyah-sweng/supplier-product-schema
+[33mc973616[m refactor: Membuat seeder lebih efisien dan ringkas
+[33m640454c[m refactor: Memperbaiki penamaan tabel
+[33m293381d[m add kolom company name dan product name di supplier_product
+[33me7d9da2[m Merge pull request #15 from ardiansyah-sweng/supplier-product-schema
+[33m2a342fd[m Merge branch 'feature/supplier' of https://github.com/ardiansyah-sweng/erp_rpl into supplier-product-schema
+[33mb9458cf[m Add SupplierProduct Schema, Model, Seeder
+[33m9528f8c[m Merge pull request #14 from ardiansyah-sweng/supplier-product-schema
+[33m635d821[m Add column id_supplier migrate supplier product
+[33md731510[m Add Supplier Product Migration
+[33m9269860[m Add Migration Seeder Product dan Category
+[33m0d7bfee[m Merge pull request #13 from ardiansyah-sweng/feature/supplier
+[33mfda65ad[m Merge pull request #12 from ardiansyah-sweng/feature/supplier-migrationseeder
+[33mb4be50f[m Tes TODO
+[33m4bb5125[m Hapus Migration Supplier Pic Phone
+[33me9ec633[m Add supplier bank account migration
+[33mf8e993b[m Merge branch 'feature/supplier' of https://github.com/ardiansyah-sweng/erp_rpl into feature/supplier-pic-phone
+[33m34e29b9[m Add Migrate Produk
+[33m618ff96[m Merge pull request #11 from ardiansyah-sweng/feature/supplier-pic
+[33ma454b00[m Merge pull request #10 from ardiansyah-sweng/feature/supplier
+[33mb3e44d2[m Add Migrate Supplier Pic Phone
+[33m33f2768[m Commit 5
+[33mc146918[m Merge pull request #9 from ardiansyah-sweng/feature/supplier
+[33m7f37b27[m Cek commit
+[33ma271145[m Merge pull request #7 from ardiansyah-sweng/feature/supplier
+[33m4b9247a[m Commit Asik
+[33m8a4548a[m Commit phone pic
+[33m368e131[m Tes Commit
+[33m2e8a129[m Edit
+[33med517b6[m Add SupplierPIC Table & Dummy
+[33m2ee7c0a[m First Push
