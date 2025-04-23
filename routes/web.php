@@ -61,6 +61,7 @@ Route::get('/item/add', function () {
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
