@@ -334,6 +334,11 @@
                     <p>List Supplier</p>
                     </a>
                  </li> 
+                    <a href="/supplier/add" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Tambah Supplier</p>
+                    </a>
+                  </li>
                 </ul>
               </li>
               <li class="nav-item">
