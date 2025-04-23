@@ -28,5 +28,11 @@ class SupplierController extends Controller
             'data' => $updatedSupplier,
         ]);
     }
+    // Tambahan: Fungsi untuk mengambil semua data supplier dan menampilkannya di view
+    public function index()
+    {
+        $suppliers = Supplier::all(); // Ambil data supplier dari database
+        return view('supplier.list', compact('suppliers'));
+    }
 }
 

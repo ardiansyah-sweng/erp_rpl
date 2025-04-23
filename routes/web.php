@@ -37,7 +37,7 @@ Route::get('/supplier/pic/add', function () {
 
 Route::get('/supplier/add', function () {
     return view('supplier/add');
-
+});
 Route::get('/supplier/detail', function () {
     return view('supplier/detail');
 });
@@ -86,4 +86,6 @@ Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 
 #Supplier
+#Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+Route::get('/supplier/list', [SupplierController::class, 'index'])->name('supplier.list'); 
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');

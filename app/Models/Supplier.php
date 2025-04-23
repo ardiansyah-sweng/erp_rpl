@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -32,5 +33,9 @@ class Supplier extends Model
         $supplier->update($filteredData);
 
         return $supplier;
+    }
+    public static function getAllSuppliers()
+    {
+        return self::all();
     }
 }
