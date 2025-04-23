@@ -61,6 +61,7 @@ Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchas
 
 # supplier pic route nya
 Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'getPICByID']);
+Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
 
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);

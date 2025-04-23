@@ -23,3 +23,4 @@ class SupplierPic extends Model
         return self::find($id);
     }
 }
+//sudah benar

@@ -716,60 +716,60 @@
     });
     </script>
     <!--validate form -->
+    <!--validate form -->
     <script>
     function validateForm() {
-        let isValid = true;
+    let isValid = true;
 
-        $('#supplierIdError').html("");
-        $('#picNameError').html("");
-        $('#emailError').html("");
-        $('#telephoneError').html("");
-        $('#assignmentDateError').html("");
+    // reset pesan error
+    $('#picNameError').html("");
+    $('#emailError').html("");
+    $('#telephoneError').html("");
+    $('#assignmentDateError').html("");
 
-        let supplierId = $('#supplier_id').val();
-        let name = $('#name').val();
-        let email = $('#email').val();
-        let phoneNumber = $('#phone_number').val();
-        let assignedDate = $('#assigned_date').val();
+    // ambil nilai input
+    let name = $('#name').val();
+    let email = $('#email').val();
+    let rawPhone = $('#phone_number').val();
+    let phoneNumber = rawPhone.replace(/\D/g, ''); // hanya angka
+    let assignedDate = $('#assigned_date').val();
 
-        if (!supplierId) {
-            $('#supplierIdError').html("<span style='color: red;'>ID Supplier harus diisi.</span>");
-            isValid = false;
-        }
-
-        if (!name) {
-            $('#picNameError').html("<span style='color: red;'>Nama PIC harus diisi.</span>");
-            isValid = false;
-        }
-
-        const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
-        if (!emailPattern.test(email)) {
-            $('#emailError').html("<span style='color: red;'>Masukan email yang valid.</span>");
-            isValid = false;
-        }
-
-        const phonePattern = /^\\d{10,13}$/;
-        if (!phonePattern.test(phoneNumber)) {
-            $('#telephoneError').html("<span style='color: red;'>Nomor Telephone harus 10-13 digit angka.</span>");
-            isValid = false;
-        }
-
-        if (!assignedDate) {
-            $('#assignmentDateError').html("<span style='color: red;'>Tanggal penugasan harus diisi.</span>");
-            isValid = false;
-        }
-
-        return isValid;
+    // validasi Nama PIC
+    if (!name) {
+        $('#picNameError').html("<span style='color: red;'>Nama PIC harus diisi.</span>");
+        isValid = false;
     }
-    // preview avatar saat diupload
+
+    // validasi Email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        $('#emailError').html("<span style='color: red;'>Masukan email yang valid.</span>");
+        isValid = false;
+    }
+
+    // validasi No. Telepon
+    if (!/^\d{10,13}$/.test(phoneNumber)) {
+        $('#telephoneError').html("<span style='color: red;'>Nomor Telephone harus 10-13 digit angka.</span>");
+        isValid = false;
+    }
+
+    // validasi Assignment Date
+    if (!assignedDate) {
+        $('#assignmentDateError').html("<span style='color: red;'>Tanggal penugasan harus diisi.</span>");
+        isValid = false;
+    }
+
+    return isValid;
+}
+    // preview avatar saat diupload dan ini sudah benar
     document.getElementById('avatar').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const preview = document.getElementById('photo_preview');
-        if (file) {
-            preview.src = URL.createObjectURL(file);
-        }
-    });
-</script>
+    const file = event.target.files[0];
+    const preview = document.getElementById('photo_preview');
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+    }
+});
+  </script>
     </script>
     <!--end::Script-->
   </body>

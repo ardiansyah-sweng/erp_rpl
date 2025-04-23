@@ -21,6 +21,6 @@ class SupplierPIController extends Controller
 
     public function update(Request $request, $id)
     {
-        // method update jika
+        // method update disini untuk update
     }
 }
