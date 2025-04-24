@@ -39,6 +39,9 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
 Route::get('/item/add', function () {
     return view('item/add');
 });
+Route::get('/product/add', function () {
+    return view('product/add');
+});
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
