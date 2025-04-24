@@ -40,6 +40,7 @@ Route::get('/product/add', [ProductController::class, 'create'])->name('product.
 Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
 
 
+
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('api.prices');
@@ -65,4 +66,4 @@ Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.d
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 
 #Supplier
-#Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+#Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);j

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -19,23 +18,15 @@ class ProductController extends Controller
         return view('product.detail', compact('product'));
     }
 
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'product_id' => 'required|string|unique:products,product_id',
-            'product_name' => 'required|string',
-            'product_type' => 'required|string',
-            'product_category' => 'required|string',
-            'product_description' => 'nullable|string',
-        ]);
-
-        Product::create($validatedData);
-
-        return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
-    }
-
     public function create()
     {
-        return view('product.add');
+        return view('product.add'); 
+    }
+
+    public function store(Request $request)
+    {
+        Product::addProduct($request->all()); 
+
+        return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
 }

@@ -57,4 +57,9 @@ class Product extends Model
     public static function countProduct() {
         return self::count();
     }
+
+    public static function addProduct(array $data)
+    {
+        return self::create($data);
+    }
 }
