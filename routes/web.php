@@ -45,6 +45,10 @@ Route::get('/supplier/detail', function () {
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
+
+Route::get('/warehouse/add', function () {
+    return view('warehouse/add');
+});
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
