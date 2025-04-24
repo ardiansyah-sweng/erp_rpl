@@ -955,6 +955,30 @@ use App\Helpers\EncryptionHelper;
   </script>
 
   <script>
+  $(document).ready(function() {
+    // Disable input SKU saat awal
+    $(".sku-search").prop('disabled', true); 
+    $(".sku-dropdown").hide(); // Sembunyikan dropdown SKU
+
+    // Aktifkan input SKU hanya jika cabang dan supplier terisi
+    $('#branch, #supplier_id').on('input change', function() {
+      if ($('#branch').val() && $('#supplier_id').val()) {
+        $(".sku-search").prop('disabled', false); // Enable SKU search
+      } else {
+        $(".sku-search").prop('disabled', true); // Disable SKU search
+        $(".sku-dropdown").hide(); // Hide dropdown SKU
+      }
+    });
+
+    // Ketika input SKU diklik, pastikan cabang dan supplier terisi
+    $('.sku-search').on('click', function() {
+      if (!$('#branch').val() || !$('#supplier_id').val()) {
+        alert("Pilih Cabang dan Supplier terlebih dahulu!");
+        return false; // Hentikan jika cabang dan supplier belum terisi
+      }
+    });
+
+    // Saat pengguna mulai mengetik SKU, munculkan dropdown SKU
     $(document).on('input', '.sku-search', function() {
       const row = $(this).closest('tr');
       const filter = $(this).val().toLowerCase();
@@ -976,6 +1000,7 @@ use App\Helpers\EncryptionHelper;
       }
     });
 
+    // Ketika SKU dipilih dari dropdown
     $(document).on('change', '.sku-dropdown', function() {
       const row = $(this).closest('tr');
       const sku = $(this).val();
@@ -988,14 +1013,10 @@ use App\Helpers\EncryptionHelper;
         row.find('.unit-price').val(item.price);
         updateAmount(row);
       }
-      $(this).hide();
+      $(this).hide(); // Sembunyikan dropdown SKU setelah memilih
     });
 
-    $(document).on('input', '.qty, .unit-price', function() {
-      const row = $(this).closest('tr');
-      updateAmount(row);
-    });
-
+    // Fungsi untuk menghitung Amount
     function updateAmount(row) {
       const qty = parseFloat(row.find('.qty').val()) || 0;
       const price = parseFloat(row.find('.unit-price').val()) || 0;
@@ -1004,76 +1025,86 @@ use App\Helpers\EncryptionHelper;
       updateTotal();
     }
 
+    // Fungsi untuk menghitung Subtotal dan Tax
     function updateTotal() {
       let total = 0;
-      $('.amount').each(function () {
+      $(".amount").each(function () {
         total += parseFloat($(this).val()) || 0;
       });
-      $('#subtotal').val(total.toLocaleString('id-ID'));
-      $('#tax').val(total.toLocaleString('id-ID'));
+      $("#subtotal").val(total.toLocaleString("id-ID"));
+      $("#tax").val(total.toLocaleString("id-ID"));
     }
 
+    // Update Total ketika Qty atau Unit Price diubah
+    $(document).on('input', '.qty, .unit-price', function() {
+      const row = $(this).closest('tr');
+      updateAmount(row);
+    });
+
+    // Menghapus baris item
     $(document).on('click', '.remove', function() {
       $(this).closest('tr').remove();
       updateTotal();
     });
 
+    // Menambahkan baris item baru
     $(document).on('click', '#addRow', function() {
-    const newRow = `
-      <tr>
-        <td>
-          <input type="text" class="form-control sku-search" placeholder="Cari SKU">
-          <select class="form-control sku-dropdown" size="5" style="display:none;"></select>
-        </td>
-        <td><input type="text" class="form-control nama-item" readonly></td>
-        <td><input type="number" class="form-control qty" value="1" min="1"></td>
-        <td><input type="number" class="form-control unit-price" value="0"></td>
-        <td><input type="number" class="form-control amount" value="0" readonly></td>
-        <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
-      </tr>
-    `;
-    $('#itemsTable tbody').append(newRow);
-  });
-
-  document.getElementById('submitBtn').addEventListener('click', function () {
-    const po_number = document.getElementById('po_number').value;
-    const supplier_id = document.getElementById('supplierSearch').value;
-    const supplier_name = document.getElementById('supplier_name').value;
-    const branch = document.getElementById('branch').value;
-
-    const items = [];
-    document.querySelectorAll('#itemsTable tbody tr').forEach(row => {
-      const sku = row.querySelector('.sku-search')?.value || '';
-      const name = row.querySelector('.nama-item')?.value || '';
-      const qty = row.querySelector('.qty')?.value || '';
-      const unitPrice = row.querySelector('.unit-price')?.value || '';
-      const amount = row.querySelector('.amount')?.value || '';
-
-      items.push({
-        sku,
-        name,
-        qty,
-        unitPrice,
-        amount
-      });
+      const newRow = `
+        <tr>
+          <td>
+            <input type="text" class="form-control sku-search" placeholder="Cari SKU">
+            <select class="form-control sku-dropdown" size="5" style="display:none;"></select>
+          </td>
+          <td><input type="text" class="form-control nama-item" readonly></td>
+          <td><input type="number" class="form-control qty" value="1" min="1"></td>
+          <td><input type="number" class="form-control unit-price" value="0"></td>
+          <td><input type="number" class="form-control amount" value="0" readonly></td>
+          <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
+        </tr>
+      `;
+      $('#itemsTable tbody').append(newRow);
     });
 
-    const subtotal = document.getElementById('subtotal').value;
-    const tax = document.getElementById('tax').value;
+    // Menyusun data form saat tombol submit ditekan
+    document.getElementById('submitBtn').addEventListener('click', function () {
+      const po_number = document.getElementById('po_number').value;
+      const supplier_id = document.getElementById('supplierSearch').value;
+      const supplier_name = document.getElementById('supplier_name').value;
+      const branch = document.getElementById('branch').value;
 
-    const formData = {
-      po_number,
-      supplier_id,
-      supplier_name,
-      branch,
-      items,
-      subtotal,
-      tax
-    };
+      const items = [];
+      document.querySelectorAll('#itemsTable tbody tr').forEach(row => {
+        const sku = row.querySelector('.sku-search')?.value || '';
+        const name = row.querySelector('.nama-item')?.value || '';
+        const qty = row.querySelector('.qty')?.value || '';
+        const unitPrice = row.querySelector('.unit-price')?.value || '';
+        const amount = row.querySelector('.amount')?.value || '';
 
-    console.log("Form Data JSON:", formData);
+        items.push({
+          sku,
+          name,
+          qty,
+          unitPrice,
+          amount
+        });
+      });
+
+      const subtotal = document.getElementById('subtotal').value;
+      const tax = document.getElementById('tax').value;
+
+      const formData = {
+        po_number,
+        supplier_id,
+        supplier_name,
+        branch,
+        items,
+        subtotal,
+        tax
+      };
+
+      console.log("Form Data JSON:", formData);
+    });
   });
-
   </script>
 
   <!--end::Script-->
