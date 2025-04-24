@@ -4,52 +4,70 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class GoodsReceiptNote extends Model
 {
     protected $table;
     protected $fillable = [];
+    protected $primaryKey;
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
         $this->table = config('db_constants.table.grn');
+        $this->primaryKey = config('db_constants.column.grn.grn_number');
         $this->fillable = array_values(config('db_constants.column.grn') ?? []);
     }
 
-    /**
-     * Add a new Goods Receipt Note
-     *
-     * @param array $data The goods receipt note data
-     * @return int|bool Returns the inserted ID on success, false on failure
-     */
-    public function addGoodsReceiptNote(array $data)
+    public function details()
     {
-        try {
-            // Begin transaction
-            DB::beginTransaction();
+        return $this->hasMany(GoodsReceiptNoteDetail::class, config('db_constants.column.grn_detail.grn_number'), $this->primaryKey);
+    }
 
-            // Insert data into goods receipt note table
-            $id = DB::table($this->table)->insertGetId($data);
+    public function purchaseOrder()
+    {
+         return $this->belongsTo(PurchaseOrder::class, config('db_constants.column.grn.po_number'), config('db_constants.column.po.po_number'));
+    }
 
-            // Update purchase order status if needed
-            if ($id && isset($data['purchase_order_id'])) {
-                DB::table(config('db_constants.table.po'))
-                    ->where('po_number', $data['purchase_order_id'])
-                    ->update(['status' => 'received']);
-            }
+    public static function generateGrnNumber(): string
+    {
+         $datePart = Carbon::now()->format('Ymd');
+         $randomPart = strtoupper(Str::random(4));
+         return 'GRN-' . $datePart . '-' . $randomPart;
+    }
 
-            // Commit transaction
-            DB::commit();
+    public static function addGoodsReceiptNote($data)
+    {
+        $headerData = $data['header'];
+        $itemDetails = $data['details'];
+        $colGrn = config('db_constants.column.grn');
+        $colGrnDetail = config('db_constants.column.grn_detail');
 
-            return $id;
-        } catch (\Exception $e) {
-            // Rollback transaction on error
-            DB::rollBack();
+        $grnNumber = self::generateGrnNumber();
 
-            return false;
+        $grn = self::create([
+            $colGrn['grn_number'] => $grnNumber,
+            $colGrn['po_number'] => $headerData['po_number'],
+            $colGrn['receipt_date'] => $headerData['receipt_date'],
+            $colGrn['received_by'] => $headerData['received_by'],
+            $colGrn['status'] => 'Pending',
+        ]);
+
+        foreach ($itemDetails as $item) {
+            GoodsReceiptNoteDetail::create([
+                $colGrnDetail['grn_number'] => $grnNumber,
+                $colGrnDetail['product_id'] => $item['product_id'],
+                $colGrnDetail['quantity_received'] => $item['quantity_received'],
+                $colGrnDetail['notes'] => $item['notes'] ?? null,
+            ]);
         }
+
+        return $grn;
+
     }
 }
-
