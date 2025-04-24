@@ -35,21 +35,21 @@ class Supplier extends Model
     }
 
     public static function deleteSupplier($id)
-{
-    $supplier = static::where('supplier_id', $id)->first();
+    {
+        $supplier = static::where('supplier_id', $id)->first();
+        
+        if (!$supplier) {
+            return false;
+        }
 
-    if (!$supplier) {
-        return false;
+        $hasPO = \DB::table('purchase_order')->where('supplier_id', $id)->exists();
+
+        if ($hasPO) {
+            return false;
+        }
+
+        return $supplier->delete();
     }
-
-    $hasPO = \DB::table('purchase_order')->where('supplier_id', $id)->exists();
-
-    if ($hasPO) {
-        return false;
-    }
-
-    return $supplier->delete();
-}
 
 }
 
