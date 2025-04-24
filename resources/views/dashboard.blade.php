@@ -335,14 +335,13 @@
                     <p>Supplier Material</p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="/supplier/add" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Tambah Supplier</p>
+                  </a>
+                </li>
               </ul>
-                  <li class="nav-item">
-                    <a href="/supplier/add" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Tambah Supplier</p>
-                    </a>
-                  </li>
-                </ul>
               </li>
               <li class="nav-item">
                 <a href="{{ route('purchase.orders') }}" class="nav-link">
