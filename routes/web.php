@@ -37,6 +37,7 @@ Route::get('/supplier/pic/add', function () {
 
 Route::get('/supplier/add', function () {
     return view('supplier/add');
+});
 
 Route::get('/supplier/detail', function () {
     return view('supplier/detail');
@@ -62,6 +63,7 @@ Route::get('/merk/add', function () {
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
