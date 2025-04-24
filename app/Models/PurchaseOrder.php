@@ -113,8 +113,8 @@ class PurchaseOrder extends Model
 
     public static function getPOByNumberAndStatusFD($poNumber)
     {
-    return self::where('po_number', $poNumber)
-               ->where('status', POStatus::FD->value)
-               ->first();
+        return self::where('po_number', $poNumber)
+            ->where('status', POStatus::FD->value)
+            ->first();
     }
 }
