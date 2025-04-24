@@ -49,4 +49,8 @@ class Product extends Model
     public static function countProduct() {
         return self::count();
     }
+    public function getProductById($id)
+    {
+        return self::where('id', $id)->first();
+    }
 }

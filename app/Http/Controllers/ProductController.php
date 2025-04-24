@@ -12,4 +12,15 @@ class ProductController extends Controller
         $products = Product::getAllProducts();
         return view('product.list', compact('products'));
     }
+    public function getProductById($id)
+    {
+        $Product = (new Product())->getProductById($id);
+
+        if (!$Product) {
+            return abort(404, 'Product tidak ditemukan');
+        }
+
+        return response()->json($Product);
+       # return view('Product.detail', compact('Product'));
+    }
 }
