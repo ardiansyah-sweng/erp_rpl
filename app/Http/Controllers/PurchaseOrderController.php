@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
 use Illuminate\Support\Facades\Validator;
-use App\Models\GoodsReceiptNote;
-use App\Enums\POStatus;
 use Carbon\Carbon;
 
 class PurchaseOrderController extends Controller
