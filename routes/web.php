@@ -46,3 +46,7 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 
 # Items
 Route::get('/items', [App\Http\Controllers\ItemController::class, 'getItemAll']);
+
+use App\Http\Controllers\PicSupplierController;
+
+Route::get('/supplier/pic', [PicSupplierController::class, 'index'])->name('supplier.pic.index');
