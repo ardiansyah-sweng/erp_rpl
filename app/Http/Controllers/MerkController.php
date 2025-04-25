@@ -17,4 +17,20 @@ class MerkController extends Controller
 
         return view('merk.detail', compact('merk'));
     }
+
+    //salman
+    public function index()
+    {
+        return $this->getMerkAll();
+    }
+
+    public function getMerkAll()
+    {
+        $dataMerk = Merk::getMerkAll();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $dataMerk
+        ]);
+    }
 }
