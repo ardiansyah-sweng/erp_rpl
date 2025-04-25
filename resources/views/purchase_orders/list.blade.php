@@ -408,7 +408,15 @@ use App\Helpers\EncryptionHelper;
                             </div>
                             <div class="form-group">
                               <label for="branch">Cabang</label>
-                              <input type="text" class="form-control" id="branch" placeholder="Masukkan nama cabang">
+                              <!-- <input type="text" class="form-control" id="branch" placeholder="Masukkan nama cabang"> -->
+                              <select class="form-control" id="branch">
+                                <option value="">Pilih Cabang</option>
+                                <option value="Yogyakarta">Yogyakarta</option>
+                                <option value="Jakarta">Jakarta</option>
+                                <option value="Surakarta">Surakarta</option>
+                                <option value="Bogor">Bogor</option>
+                                <option value="Surabaya">Surabaya</option>
+                              </select>
                             </div>
                             <!-- Supplier ID dan Nama Supplier -->
                             <div class="form-group">
