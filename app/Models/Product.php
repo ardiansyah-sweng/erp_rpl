@@ -53,4 +53,3 @@ class Product extends Model
                         ->where($this->table.'.'.$colProduct['type'], 'RM')
                         ->select($tableItem.'.'.$colItem['sku']);
     }
-}
