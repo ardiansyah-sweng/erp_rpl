@@ -24,6 +24,15 @@ Route::get('/dashboard', function () {
 Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
+
+Route::get('/supplier/add', function () {
+    return view('supplier/add');
+});
+
+Route::get('/supplier/detail', function () {
+    return view('supplier/detail');
+});
+  
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
@@ -31,11 +40,27 @@ Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
 
+
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 Route::get('/product/add', [ProductController::class, 'create'])->name('product.create');
 Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
 
+Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
+    $id = EncryptionHelper::decrypt($encrypted_id);
+    return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
+})->name('purchase.orders.detail');
+Route::get('/item/add', function () {
+    return view('item/add');
+});
+Route::get('/merk/add', function () {
+    return view('merk/add');
+});
+
+
+# Product
+Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
@@ -60,7 +85,10 @@ Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); 
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
 
 # Merk
+
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
+Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
+Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
