@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Merk extends Model
 {
     protected $table;
-    protected $fillable = [];
+    protected $fillable = ['merk'];
+    protected $primaryKey = 'id';
+    PUBLIC $incrementing = false;
+    protected $keyType = 'string';
 
     public function __construct(array $attributes = [])
     {
@@ -16,6 +19,19 @@ class Merk extends Model
         // Tetapkan nama tabel dan kolom
         $this->table = config('db_constants.table.merk');
         $this->fillable = array_values(config('db_constants.column.merk') ?? []);
+    }
+
+    public static function getUpdateMerk($id, array $data){
+    $merk = self::find($id);
+    if (!$merk) {
+        return null;
+    }
+
+    $fillable = (new self)->getFillable();
+    $filteredData = array_intersect_key($data, array_flip($fillable));
+    $merk->update($filteredData);
+    
+    return $merk;
     }
 
     public static function countMerek()
