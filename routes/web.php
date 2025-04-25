@@ -5,14 +5,14 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ItemController; // tambahkan jika belum
+use App\Http\Controllers\ItemController; 
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 
 
-#Login
+
 Route::get('/', function () {
     return redirect()->route('login');
 });
@@ -63,7 +63,10 @@ Route::get('/merk/add', function () {
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+Route::get('/product/add', [ProductController::class, 'create'])->name('product.create');
+Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
+
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');

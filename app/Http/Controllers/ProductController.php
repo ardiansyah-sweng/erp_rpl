@@ -14,49 +14,29 @@ class ProductController extends Controller
     }
 
     public function getProductById($id)
-{
-    $products = [
-        1 => [
-            'id' => 1,
-            'product_id' => 'KAOS',
-            'product_name' => 'Kaos T-Shirt',
-            'product_type' => 'Finished',
-            'category' => ['category' => 'Pakaian'],
-            'product_description' => 'Kaos T-Shirt',
-            'created_at' => '2025-03-12 19:48:13',
-            'updated_at' => '2025-03-12 19:48:13'
-        ],
-        2 => [
-            'id' => 2,
-            'product_id' => 'TOPI',
-            'product_name' => 'Topi',
-            'product_type' => 'Finished',
-            'category' => ['category' => 'Aksesoris'],
-            'product_description' => 'Topi',
-            'created_at' => '2025-03-12 19:48:13',
-            'updated_at' => '2025-03-12 19:48:13'
-        ],
-        3 => [
-            'id' => 3,
-            'product_id' => 'TASS',
-            'product_name' => 'Tas',
-            'product_type' => 'Finished',
-            'category' => ['category' => 'Aksesoris'],
-            'product_description' => 'Tas',
-            'created_at' => '2025-03-12 19:48:13',
-            'updated_at' => '2025-03-12 19:48:13'
-        ]
-    ];
-
-    if (!isset($products[$id])) {
-        abort(404, 'Product not found.');
+    {
+        $product = Product::with('category')->findOrFail($id);
+        return view('product.detail', compact('product'));
     }
 
-    $productData = $products[$id];
-    $productData['category'] = (object)$productData['category'];
-    $product = (object)$productData;
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'product_id' => 'required|string|unique:products,product_id',
+            'product_name' => 'required|string',
+            'product_type' => 'required|string',
+            'product_category' => 'required|string',
+            'product_description' => 'nullable|string',
+        ]);
 
-    return view('product.detail', compact('product'));
+        Product::create($validatedData);
+
+        return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
+    }
+
+    public function create()
+    {
+        return view('product.add');
+    }
 }
 
-}
