@@ -59,6 +59,7 @@ class ProductController extends Controller
     return view('product.detail', compact('product'));
 }
 
+
 public function deleteProduct($id)
 {
     // Panggil fungsi deleteProductById dari model Product
