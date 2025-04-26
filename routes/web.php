@@ -14,7 +14,7 @@ use App\Helpers\EncryptionHelper;
 
 #Login
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect()->route('dashboard');
 });
 
 Route::get('/login', function () {
@@ -56,10 +56,14 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
 Route::get('/item/add', function () {
     return view('item/add');
 });
+Route::get('/product/add', function () {
+    return view('product/add');
+});
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
+Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
