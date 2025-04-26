@@ -56,9 +56,16 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
 Route::get('/item/add', function () {
     return view('item/add');
 });
+
 Route::get('/product/add', function () {
     return view('product/add');
 });
+
+Route::get('/merk/add', function () {
+    return view('merk/add');
+});
+
+
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
@@ -89,6 +96,7 @@ Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
+Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
