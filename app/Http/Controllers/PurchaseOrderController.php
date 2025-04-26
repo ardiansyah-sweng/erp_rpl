@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
 use Illuminate\Support\Facades\Validator;
 
-class PurchaseOrderController extends Controller
+class PurchaseOrderController extends Controller 
 {
     public function getPurchaseOrder()
     {

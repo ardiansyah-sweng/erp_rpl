@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/login', function () {
-    return view('login'); // tampilkan view login
+    return view('login'); 
 })->name('login');
 
 Route::get('/dashboard', function () {
@@ -85,6 +85,8 @@ Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
+Route::delete('/merk/{id}', [MerkController::class, 'deleteMerk'])->name('merk.delete');
+
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
