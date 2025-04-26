@@ -64,4 +64,9 @@ class Product extends Model
 
     return false;
     }
+
+    public static function countItem() {
+        return self::count();
+    }
+
 }
