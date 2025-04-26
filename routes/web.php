@@ -7,6 +7,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
+use App\Http\Controllers\GoodsReceiptNoteController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -53,3 +54,7 @@ Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.d
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
+
+
+# Receipt
+Route::post('/grn/store', [GoodsReceiptNoteController::class, 'store'])->name('grn.store');
