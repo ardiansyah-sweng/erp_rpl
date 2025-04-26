@@ -49,4 +49,20 @@ class Product extends Model
     public static function countProduct() {
         return self::count();
     }
+    
+    public static function deleteProductById($id)
+    {
+   
+    $product = self::find($id);
+
+    if ($product) {
+        $product->delete();
+        self::where('id', '>', $id)->decrement('id');
+
+        return true;
+    }
+
+    return false;
+    }
+
 }
