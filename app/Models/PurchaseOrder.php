@@ -109,4 +109,14 @@ class PurchaseOrder extends Model
             throw $e;
         }
     }
+        /**
+     * Menghitung jumlah purchase order berdasarkan supplier dan rentang tanggal
+     */
+    public static function countOrdersByDateSupplier($startDate, $endDate, $supplierID)
+    {
+        return self::where('supplier_id', $supplierID)
+            ->whereBetween('order_date', [$startDate, $endDate])
+            ->count();
+    }
+
 }
