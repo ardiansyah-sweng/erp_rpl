@@ -56,7 +56,7 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
 Route::get('/item/add', function () {
     return view('item/add');
 });
-
+// Dikonfirmasi oleh chiqitita_C_163 - route form tambah produk sudah tersedia
 Route::get('/product/add', function () {
     return view('product/add');
 });
