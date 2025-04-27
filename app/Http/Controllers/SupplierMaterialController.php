@@ -15,18 +15,18 @@ class SupplierMaterialController extends Controller
         return view('supplier.material', ['materials' => $materials]);
     }
 
-    public function updateSupplierMaterial(Request $request, $id)
+    public function updateSupplierMaterial(Request $request, $supplier_id, $product_id)
     {
         // Validasi input
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:1',
+            'company_name' => 'required|string|max:100',
+            'product_name' => 'required|string|max:50',
+            'base_price' => 'required|integer|min:0',
         ]);
 
         // Memanggil metode updateSupplierMaterial di model
         $model = new SupplierMaterial();
-        $updateResult = $model->updateSupplierMaterial($id, $validatedData);
+        $updateResult = $model->updateSupplierMaterial($supplier_id, $product_id, $validatedData);
 
         if ($updateResult) {
             return redirect()->back()->with('success', 'Supplier material updated successfully.');
