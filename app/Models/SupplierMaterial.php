@@ -11,4 +11,12 @@ class SupplierMaterial extends Model
     {
         return DB::table('supplier_product')->get();
     }
+    public static function countSupplierMaterial(){
+        //menghitung jumlah item bertipe RM yang dipasok oleh seluruh supplier
+        return DB::table('supplier_product')
+            ->join('products', 'supplier_product.product_id', '=', 'products.product_id')
+            ->where('products.product_type', 'RM')
+            ->count();
+    }
+
 }

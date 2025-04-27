@@ -92,4 +92,7 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
+Route::get('/supplier/count', [SupplierController::class, 'countSupplier']);
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
+#Count Supplier Material
+Route::get('/supplier/material/count', [SupplierMaterialController::class, 'countSupplierMaterial']);
