@@ -77,5 +77,16 @@ class Item extends Model
         return self::create($data);
     }
 
-    
+    public function measurement_unit ()
+    {
+        return $this->belongsTo(item::class, 'id', 'id');
+    }
+
+    public static function getAllItem()
+    {
+        return self::with('mu')->orderBy('created_at', 'desc')->paginate(10);
+    }
 }
+
+
+

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class MeasurementUnit extends Model
 {
     protected $table;
-    protected $fillable = [];
 
     public function __construct(array $attributes = [])
     {
@@ -17,4 +16,6 @@ class MeasurementUnit extends Model
         $this->table = config('db_constants.table.mu');
         $this->fillable = array_values(config('db_constants.column.mu') ?? []);
     }
+
+    protected $fillable = ['id', 'unit_name'];
 }

@@ -66,6 +66,8 @@ CREATE TABLE `item` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`,`sku`)
+  PRIMARY KEY (`po_number`)
+  FOREIGN KEY (`id`) REFERENCES `mu`(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=274 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
