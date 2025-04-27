@@ -34,25 +34,25 @@ Route::get('/dashboard', function () {
 Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
+
+Route::get('/supplier/add', function () {
+    return view('supplier/add');
+});
+
 Route::get('/supplier/detail', function () {
     return view('supplier/detail');
 });
+  
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
-Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
-    $id = EncryptionHelper::decrypt($encrypted_id);
-    return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
-})->name('purchase.orders.detail');
-Route::get('/item/add', function () {
-    return view('item/add');
-});
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
@@ -77,7 +77,7 @@ Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.d
 Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 
 # Merk
-Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
+Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
