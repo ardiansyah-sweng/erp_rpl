@@ -30,23 +30,26 @@ class Item extends Model
     
     public static function getAllItems($search = null)
 {
-    $query = self::query();
+    $query = self::query()
+        ->select('item.*', 'measurement_unit.unit_name') // Pilih kolom dari tabel items dan unit_name
+        ->join('measurement_unit', 'item.measurement_unit', '=', 'measurement_unit.id'); // Join dengan tabel measurement_unit
+    
 
     // Jika ada input pencarian, tambahkan kondisi pencarian
     if ($search) {
         // Cek apakah pencarian adalah angka dan gunakan '=' untuk ID
         if (is_numeric($search)) {
-            $query->where('id', '=', $search);
+            $query->where('item.id', '=', $search);
         } else {
             // Jika bukan angka, gunakan LIKE untuk item_name dan sku
             $query->where(function($q) use ($search) {
-                $q->where('item_name', 'LIKE', "%{$search}%")
-                  ->orWhere('sku', 'LIKE', "%{$search}%");
+                $q->where('item.item_name', 'LIKE', "%{$search}%")
+                  ->orWhere('item.sku', 'LIKE', "%{$search}%");
             });
         }
     }
 
-    return $query->orderBy('id', 'asc')->paginate(10);
+    return $query->orderBy('item.id', 'asc')->paginate(10);
 }
 
     public static function deleteItemById($id)
