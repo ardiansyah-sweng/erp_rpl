@@ -33,18 +33,9 @@ class Supplier extends Model
 
         return $supplier;
     }
-    public static function countSupplier() {
-
-        //testbro
-        $query = "SELECT COUNT(*) AS total FROM supplier";
-        $result = mysqli_query($conn, $query);
-    
-        if ($result) {
-            $row = mysqli_fetch_assoc($result);
-            return $row['total'];
-        } else {
-            return 0; // atau tampilkan pesan error
-        }
+    public static function countSupplier()
+    {
+        return self::count(); 
     }
 
 

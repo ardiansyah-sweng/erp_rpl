@@ -14,4 +14,15 @@ class SupplierMaterialController extends Controller
 
         return view('supplier.material', ['materials' => $materials]);
     }
+    public function countSupplierMaterial()
+    {
+        $model = new SupplierMaterial();
+        $count = $model->countSupplierMaterial();
+
+        return response()->json([
+            
+            'Item Type RM' => $count
+        ]);
+    }
+
 }
