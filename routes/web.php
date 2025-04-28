@@ -40,7 +40,6 @@ Route::get('/product/add', [ProductController::class, 'create'])->name('product.
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 
 
-
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('api.prices');
