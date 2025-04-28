@@ -66,14 +66,17 @@ class PurchaseOrderController extends Controller
 
     public static function getPOLength($poNumber, $orderDate)
     {
-        $po = PurchaseOrder::getPOByNumberAndStatusFD($poNumber);
-    
-        if (!$po) {
-            return "PO Number tidak ditemukan atau status bukan FD.";
+        $po = PurchaseOrder::getPurchaseOrderByID($poNumber);
+        
+        if (!$po || $po->count() === 0) {
+            return null;
         }
     
+        // Ambil data PO pertama dari hasil paginate
+        $poData = $po->first();
+        
         $orderDate = Carbon::parse($orderDate);
-        $statusUpdateDate = Carbon::parse($po->updated_at);
+        $statusUpdateDate = Carbon::parse($poData->updated_at);
     
         return intval($orderDate->diffInDays($statusUpdateDate));
     }

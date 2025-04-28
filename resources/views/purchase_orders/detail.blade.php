@@ -258,6 +258,20 @@
                       <h4>{{ $purchaseOrder->first()->po_number }}</h4>
                       <h6>Supplier</h6>
                       <h4>{{ $purchaseOrder->first()->supplier->company_name }}</h4>
+                      <h6>Status</h6>
+                      <h4>{{ $purchaseOrder->first()->status }}</h4>
+                      <h6>Last Updated Status</h6>
+                      @php
+                        $poLength = App\Http\Controllers\PurchaseOrderController::getPOLength(
+                          $purchaseOrder[0]->po_number, 
+                          $purchaseOrder[0]->order_date
+                        );
+                      @endphp
+                      <h4>{{ $poLength }}</h4>
+                      <h6>Order Date</h6>
+                      <h4>{{ $purchaseOrder->first()->order_date }}</h4>
+                      <h6>Updated At</h6>
+                      <h4>{{ Carbon\Carbon::parse($purchaseOrder->first()->updated_at)->format('Y-m-d') }}</h4>                     
                       
                       <!-- Add Purchase Order Details Table -->
                       <h6 class="mt-4">Purchase Order Details</h6>
