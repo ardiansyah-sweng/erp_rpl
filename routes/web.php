@@ -79,9 +79,9 @@ Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchas
 Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPurchaseOrder'])->name('purchase_orders.search');
 Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])->name('purchase_orders.add'); // tambahan
 
-
 #Category
 Route::post('/category/add', [CategoryController::class, 'addCategory'])->name('category.add');
+Route::get('/category/{id}/update', [CategoryController::class, 'updateCategory']);
 
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
@@ -94,6 +94,3 @@ Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
-
-# Category
-Route::get('/category/{id}/update', [CategoryController::class, 'updateCategory']);

@@ -43,6 +43,7 @@ class Category extends Model
     }
 
     public function updateCategory($data) {
+        
         $this->name = $data['category'];
         $this->parent_id = $data['parent_id'] ?? null;
         $this->updated_at = now();
