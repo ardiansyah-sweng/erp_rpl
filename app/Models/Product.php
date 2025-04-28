@@ -24,9 +24,9 @@ class Product extends Model
         'updated_at',
     ];
 
-    public function __construct(array $attributes = [])
+    public function construct(array $attributes = [])
     {
-        parent::__construct($attributes);
+        parent::construct($attributes);
 
         $this->table = config('db_constants.table.products');
         $this->fillable = array_values(config('db_constants.column.products') ?? []);
@@ -54,15 +54,13 @@ class Product extends Model
                         ->select($tableItem.'.'.$colItem['sku']);
     }
 
-    public static function countProduct() {
+    public static function countProduct()
+    {
         return self::count();
     }
 
-
-    
     public static function addProduct($data)
     {
         return self::create($data);
     }
-    }
-
+}
