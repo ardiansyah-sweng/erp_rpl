@@ -88,6 +88,7 @@ Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::clas
 
 #Category
 Route::post('/category/add', [CategoryController::class, 'addCategory'])->name('category.add');
+Route::get('/category/{id}/update', [CategoryController::class, 'updateCategory']);
 
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
