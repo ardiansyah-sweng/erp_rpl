@@ -267,7 +267,7 @@
                           $purchaseOrder[0]->order_date
                         );
                       @endphp
-                      <h4>{{ $poLength }}</h4>
+                      <h4>{{ $poLength }} Days</h4>
                       <h6>Order Date</h6>
                       <h4>{{ $purchaseOrder->first()->order_date }}</h4>
                       <h6>Updated At</h6>
