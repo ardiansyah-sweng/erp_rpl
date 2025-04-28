@@ -9,7 +9,7 @@ class Merk extends Model
     protected $table;
     protected $fillable = ['merk'];
     protected $primaryKey = 'id';
-    PUBLIC $incrementing = false;
+    public $incrementing = false;
     protected $keyType = 'string';
 
     public function __construct(array $attributes = [])
@@ -21,7 +21,7 @@ class Merk extends Model
         $this->fillable = array_values(config('db_constants.column.merk') ?? []);
     }
 
-    public static function getUpdateMerk($id, array $data)
+    public static function UpdateMerk($id, array $data)
     {
         $merk = self::find($id);
 
