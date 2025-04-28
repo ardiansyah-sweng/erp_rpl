@@ -62,10 +62,10 @@ class ProductController extends Controller
 
 public function generateProductPDF()
 {
-    $products = Product::all(); // Fetch all products
+    $products = Product::getAllProducts(); // Use getAllProducts() method
 
-    $pdf = PDF::loadView('pdf.product_list', compact('products'));
+    $pdf = Pdf::loadView('pdf.product_list', compact('products'));
 
-    return $pdf->download('product_list.pdf'); // Download the PDF
+    return $pdf->download('product_list.pdf');
 }
 }
