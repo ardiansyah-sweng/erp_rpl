@@ -5,9 +5,12 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ItemController; // tambahkan jika belum
+use App\Http\Controllers\ItemController; 
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
+
+
+
 
 Route::get('/', function () {
     return view('dashboard');
@@ -21,6 +24,9 @@ Route::get('/dashboard', function () {
 Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
+Route::get('/supplier/detail', function () {
+    return view('supplier/detail');
+});
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
@@ -30,6 +36,10 @@ Route::get('/supplier/material/add', function () {
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+Route::get('/product/add', [ProductController::class, 'create'])->name('product.create');
+Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
+
+
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
