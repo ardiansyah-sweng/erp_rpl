@@ -13,8 +13,16 @@ class Product extends Model
 {
     use HasDynamicColumns;
 
-    protected $table;
-    protected $fillable = [];
+    protected $table = 'products';
+    protected $fillable = [
+        'product_id',
+        'product_name',
+        'product_type',
+        'product_category',
+        'product_description',
+        'created_at',
+        'updated_at',
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -44,5 +52,9 @@ class Product extends Model
                         ->distinct()
                         ->where($this->table.'.'.$colProduct['type'], 'RM')
                         ->select($tableItem.'.'.$colItem['sku']);
+    }
+
+    public static function countProduct() {
+        return self::count();
     }
 }
