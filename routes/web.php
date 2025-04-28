@@ -59,7 +59,6 @@ Route::get('/merk/add', function () {
     return view('merk/add');
 });
 
-
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
