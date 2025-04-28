@@ -72,5 +72,5 @@ class Item extends Model
     public static function countItem() {
         return self::count();
     }
-    
+
 }
