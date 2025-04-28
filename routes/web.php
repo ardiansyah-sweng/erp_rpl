@@ -92,4 +92,3 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
-Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
