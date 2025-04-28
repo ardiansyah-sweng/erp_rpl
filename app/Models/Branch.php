@@ -59,8 +59,8 @@ class Branch extends Model
     public static function countBranchByStatus()
 {
     return [
-        'aktif' => self::where('status', 1)->count(),
-        'nonaktif' => self::where('status', 0)->count(),
+        'aktif' => self::where('branch_status', 1)->count(),
+        'nonaktif' => self::where('branch_status', 0)->count(),
     ];
 }
 }
