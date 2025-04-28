@@ -10,7 +10,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
-
+use App\Models\Supplier;
 
 #Login
 Route::get('/', function () {
@@ -56,6 +56,10 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
 Route::get('/item/add', function () {
     return view('item/add');
 });
+Route::get('/supplier/list', function () {
+    $suppliers = Supplier::all();
+    return view('supplier.list', compact('suppliers'));
+});
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
@@ -88,3 +92,4 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
+Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
