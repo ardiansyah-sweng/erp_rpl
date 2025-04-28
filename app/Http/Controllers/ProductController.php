@@ -20,7 +20,8 @@ class ProductController extends Controller
         return view('product.detail', compact('product'));
     }
 
-    public function store(Request $request)
+    public function addproduct
+    (Request $request)
     {
         $validatedData = $request->validate([
             'product_id' => 'required|string|unique:products,product_id',
