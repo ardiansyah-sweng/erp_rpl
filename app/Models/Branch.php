@@ -56,4 +56,8 @@ class Branch extends Model
         return self::where('id', $id)->delete();
     }
 
+    public static function countBranch()
+    {
+        return self::count();
+    }
 }
