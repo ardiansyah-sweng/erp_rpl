@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -6,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Supplier extends Model
 {
     protected $table;
+
+    protected $fillable = [];
+
     protected $fillable = ['company_name', 'address','phone_number'];
+
 
     protected $primaryKey = 'supplier_id';
     public $incrementing = false;
@@ -19,6 +24,13 @@ class Supplier extends Model
         $this->table = config('db_constants.table.supplier');
         $this->fillable = array_values(config('db_constants.column.supplier') ?? []);
     }
+
+
+    public function getSupplierById($id)
+    {
+        return self::where($this->getKeyName(), $id)->first();
+    }
+}
 
     public static function getUpdateSupplier($supplier_id, array $data)
     {
@@ -34,3 +46,4 @@ class Supplier extends Model
         return $supplier;
     }
 }
+

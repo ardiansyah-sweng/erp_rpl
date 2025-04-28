@@ -3,13 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
+
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
+
 
 
 #Login
@@ -88,8 +91,18 @@ Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.d
 Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 
 # Merk
+
+Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
+
+
+Route::get('/supllier/{id}', [SupplierController::class, 'getSupplierById']);
+
+Route::get('/product/category', [CategoryController::class, 'index']);
+Route::get('/product/category/{id}', [CategoryController::class, 'show']);
+
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
+
