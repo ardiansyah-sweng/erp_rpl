@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\SupplierPIController;
 use App\Helpers\EncryptionHelper;
 
 Route::get('/', function () {
@@ -69,3 +70,4 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+Route::put('/supplier-pic/{id}', [SupplierPIController::class, 'updateSupplierPICDetail']);

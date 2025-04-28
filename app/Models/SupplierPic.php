@@ -7,14 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class SupplierPic extends Model
 {
     protected $table;
-    protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'email',
+        'phone_number',
+        'assigned_date',
+        'avatar',
+    ];
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        // Tetapkan nama tabel dan kolom
         $this->table = config('db_constants.table.supplier_pic');
-        $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
     }
 }
