@@ -18,4 +18,17 @@ class SupplierMaterialController extends Controller
 
         return redirect()->back()->with('success', 'Data berhasil ditambahkan ke tabel bill_of_material!');
     }
+    
+
+
+
+
+    public function getSupplierMaterial()
+    {
+        $model = new SupplierMaterial();
+        $materials = $model->getSupplierMaterial();
+
+        return view('supplier.material', ['materials' => $materials]);
+    }
 }
+
