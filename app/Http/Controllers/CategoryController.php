@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    //
-    public function updateCategory(Request $request, $id)
-    {
+    
+    public function updateCategory(Request $request, $id) {
         $category = Category::find($id);
 
         if (!$category) {

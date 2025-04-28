@@ -59,7 +59,6 @@ Route::get('/merk/add', function () {
     return view('merk/add');
 });
 
-
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
@@ -86,12 +85,12 @@ Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); 
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
 Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 
-# Category
-Route::get('/category/{id}/update', [CategoryController::class, 'updateCategory']);
-
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+
+# Category
+Route::get('/category/{id}/update', [CategoryController::class, 'updateCategory']);
