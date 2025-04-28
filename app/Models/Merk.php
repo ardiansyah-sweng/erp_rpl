@@ -21,9 +21,11 @@ class Merk extends Model
         $this->fillable = array_values(config('db_constants.column.merk') ?? []);
     }
 
-    public static function getUpdateMerk($id, array $data){
+    public static function getUpdateMerk($id, array $data)
+    {
     $merk = self::find($id);
-    if (!$merk) {
+    if (!$merk) 
+    {
         return null;
     }
 

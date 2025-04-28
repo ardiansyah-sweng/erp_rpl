@@ -11,7 +11,8 @@ class MerkController extends Controller
     {
         $merk = (new Merk())->getMerkByID($id);
 
-        if (!$merk) {
+        if (!$merk) 
+        {
             return abort(404, 'Merk tidak ditemukan');
         }
 
@@ -30,7 +31,10 @@ class MerkController extends Controller
            // Update data merk
         $updatedMerk = Merk::getUpdateMerk($request->id, $request->only(['merk']));
 
-        if (!$updatedMerk) { return response()->json(['message' => 'Data Merk Tidak Tersedia'], 404); }
+        if (!$updatedMerk) 
+        { 
+            return response()->json(['message' => 'Data Merk Tidak Tersedia'], 404); 
+        }
         
         return response()->json([ 'message' => 'Data Merk berhasil diperbarui','data' => $updatedMerk, ]);
     }
