@@ -5,8 +5,8 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
@@ -79,7 +79,10 @@ Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchas
 Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPurchaseOrder'])->name('purchase_orders.search');
 Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])->name('purchase_orders.add'); // tambahan
 
-# Items
+
+#Category
+Route::post('/category/add', [CategoryController::class, 'addCategory'])->name('category.add');
+
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
