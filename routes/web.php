@@ -69,5 +69,5 @@ Route::get('/merks', [MerkController_salman::class, 'index'])->name('merk.index'
 // Laporan
 Route::get('/laporan/cabang/pdf', [LaporanController::class, 'generateCabangPDF'])->name('laporan.cabang.pdf');
 
-// Supplier (optional, uncomment jika perlu)
+// Supplier
 // Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier'])->name('supplier.update');
