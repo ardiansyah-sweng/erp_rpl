@@ -57,4 +57,8 @@ class Product extends Model
     public static function countProduct() {
         return self::count();
     }
+
 }
+
+}
+
