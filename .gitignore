@@ -20,5 +20,4 @@ yarn-error.log
 /.idea
 /.nova
 /.vscode
-/.zed
-.qodo
+.qodo/
