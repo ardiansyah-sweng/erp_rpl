@@ -18,4 +18,16 @@ class SupplierMaterial extends Model
         'updated_at',
     ];
 
+    public static function storeMaterial($data)
+    {
+        return self::create([
+            'bom_id' => $data->bom_id,
+            'bom_name' => $data->bom_name,
+            'measurement_unit' => $data->measurement_unit,
+            'sku' => $data->sku,
+            'total_cost' => $data->total_cost,
+            'active' => $data->active,
+        ]);
+    }
+
 }

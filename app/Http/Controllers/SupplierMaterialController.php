@@ -14,17 +14,8 @@ class SupplierMaterialController extends Controller
 
     public function material(Request $request)
     {
-        SupplierMaterial::create([
-            'bom_id' => $request->bom_id,
-            'bom_name' => $request->bom_name,
-            'measurement_unit' => $request->measurement_unit,
-            'sku' => $request->sku,
-            'total_cost' => $request->total_cost,
-            'active' => $request->active
-        ]);
+        SupplierMaterial::storeMaterial($request);
 
         return redirect()->back()->with('success', 'Data berhasil ditambahkan ke tabel bill_of_material!');
     }
 }
-
-
