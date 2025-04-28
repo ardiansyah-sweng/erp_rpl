@@ -23,17 +23,17 @@ class Merk extends Model
 
     public static function getUpdateMerk($id, array $data)
     {
-    $merk = self::find($id);
-    if (!$merk) 
-    {
-        return null;
-    }
+        $merk = self::find($id);
 
-    $fillable = (new self)->getFillable();
-    $filteredData = array_intersect_key($data, array_flip($fillable));
-    $merk->update($filteredData);
+        if (!$merk) {
+            return null;
+        }
+
+         $fillable = (new self)->getFillable();
+         $filteredData = array_intersect_key($data, array_flip($fillable));
+         $merk->update($filteredData);
     
-    return $merk;
+         return $merk;
     }
 
     public static function countMerek()
