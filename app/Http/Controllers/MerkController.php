@@ -20,7 +20,7 @@ class MerkController extends Controller
   
     }
 
-    public function getUpdateMerk(Request $request, $id)
+    public function updateMerk(Request $request, $id)
     {
        // Validasi input
        $request->validate([
@@ -29,7 +29,7 @@ class MerkController extends Controller
         ]);
     
            // Update data merk
-        $updatedMerk = Merk::getUpdateMerk($request->id, $request->only(['merk']));
+        $updatedMerk = Merk::updateMerk($request->id, $request->only(['merk']));
 
         if (!$updatedMerk) 
         { 
