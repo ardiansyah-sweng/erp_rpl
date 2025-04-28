@@ -93,3 +93,6 @@ Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
+
+#Category
+Route::post('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');

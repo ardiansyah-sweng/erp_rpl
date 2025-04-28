@@ -42,4 +42,17 @@ class Category extends Model
     {
         return self::count();
     }
+
+    //Delete category
+    public static function deleteCategoryById($id)
+{
+    $category = self::find($id);
+
+    if ($category) {
+        return $category->delete();
+    }
+
+    return false;
+}
+
 }
