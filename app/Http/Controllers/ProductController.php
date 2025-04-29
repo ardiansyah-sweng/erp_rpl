@@ -58,5 +58,14 @@ class ProductController extends Controller
 
     return view('product.detail', compact('product'));
 }
+    public function deleteProduct($id)
+    {
+        $deleted = Product::deleteProductById($id);
+        if ($deleted) {
+            return redirect()->back()->with('success', 'Produk berhasil dihapus!');
+        } else {
+            return redirect()->back()->with('error', 'Produk tidak ditemukan atau gagal dihapus.');
+        }
+}
 
 }
