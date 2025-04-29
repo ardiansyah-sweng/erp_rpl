@@ -31,7 +31,7 @@ class Category extends Model
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }
-    
+
     public function children()
     {
         return $this->hasMany(Category::class, 'parent_id');
@@ -44,5 +44,22 @@ class Category extends Model
     public static function addCategory($data) //insert table
     {
         return self::create($data);
+    }
+    public static function countByParent()
+    {
+        $instance = new static;
+        $table = $instance->getTable();
+
+        return self::join($table . ' as parent', $table . '.parent_id', '=', 'parent.id')
+            ->selectRaw('parent.category as name, COUNT(' . $table . '.id) as total')
+            ->groupBy($table . '.parent_id', 'parent.category')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    $item->name,
+                    $item->total,
+                ];
+            })
+            ->toArray();
     }
 }
