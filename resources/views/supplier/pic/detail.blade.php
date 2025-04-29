@@ -412,9 +412,18 @@
                     <label for="assignment_date" class="form-label">Assignment Date</label>
                     <input type="date" class="form-control" id="assigned_date" name="assigned_date" value="{{ $pic->assigned_date }}" required>
                     <span id="assignmentDateError" class="error"></span>
-                </div>
+                    @php
+                      $id = $pic->id;
+                      $mod = $id % 6;
+                      if ($mod === 0 || $mod === 1) {
+                          $filename = 'avatar.png';
+                      } else {
+                          $filename = "avatar{$mod}.png";
+                      }
+                      $avatarPath = asset("assets/dist/assets/img/{$filename}");
+                  @endphp
                 <div class="d-flex gap-3 mb-3">
-                    <img id="photo_preview" src="{{ $pic->avatar ? asset('storage/' . $pic->avatar) : asset('assets/dist/assets/img/avatar_default.png') }}" class="img-thumbnail" style="width: 120px;">
+                    <img src="{{ $avatarPath }}" style="width: 120px;">
                     <input type="file" class="form-control" id="avatar" name="avatar" accept="image/*">
                 </div>
                 <div class="mb-3">
