@@ -38,7 +38,7 @@ class Category extends Model
         return self::count();
     }
 
-    // Menghitung jumlah kategori per parent (dalam format array seperti yang dosen minta)
+
     public static function countByParent()
     {
         return self::select('parent.category as name')
