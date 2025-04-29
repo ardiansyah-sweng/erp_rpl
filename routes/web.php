@@ -40,7 +40,6 @@ Route::get('/supplier/add', function () {
     return view('supplier/add');
 });
 
-
 Route::get('/supplier/detail', function () {
     return view('supplier/detail');
 });
@@ -111,4 +110,4 @@ Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
-Route::delete('/delete_supplier/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete'); #tes
+Route::delete('/delete_supplier/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete');
