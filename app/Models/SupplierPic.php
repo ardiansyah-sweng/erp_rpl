@@ -13,8 +13,9 @@ class SupplierPic extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_constants.table.supplier_pic') ?? 'supplier_pic';
-        $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? ['nama', 'email', 'telepon', 'supplier_id']);
+        // mengambil nama tabel dan kolom dari file konfigurasi
+        $this->table = config('db_constants.table.supplier_pic');
+        $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
     }
 
     public static function deleteSupplierPICByID($id)
