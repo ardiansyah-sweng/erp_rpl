@@ -15,23 +15,47 @@ class SupplierMaterialController extends Controller
         return view('supplier.material', ['materials' => $materials]);
     }
 
-    public function updateSupplierMaterial(Request $request, $supplier_id, $product_id)
-    {
-        // Validasi input
-        $validatedData = $request->validate([
-            'company_name' => 'required|string|max:100',
-            'product_name' => 'required|string|max:50',
-            'base_price' => 'required|integer|min:0',
+     // Validasi data supplier material
+     public function addSupplierMaterial(Request $request)
+     {
+        $validated = $request->validate([
+            'supplier_id'   => 'required|string|size:6',
+            'company_name'  => 'required|string|max:255', 
+            'product_id'    => 'required|string|max:50',
+            'product_name'  => 'required|string|max:255',
+            'base_price'    => 'required|integer|min:0',
+            'created_at'    => 'nullable|date',
+            'updated_at'    => 'nullable|date',
+        ]);
+         return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
+     }
+
+     public function updateSupplierMaterial(Request $request, $id)
+     {
+        // Validate the request
+        $validated = $request->validate([
+            'supplier_id'   => 'required|string|size:6',
+            'company_name'  => 'required|string|max:255', 
+            'product_id'    => 'required|string|max:50',
+            'product_name'  => 'required|string|max:255',
+            'base_price'    => 'required|integer|min:0',
+            'created_at'    => 'nullable|date',
+            'updated_at'    => 'nullable|date',
         ]);
 
-        // Memanggil metode updateSupplierMaterial di model
-        $model = new SupplierMaterial();
-        $updateResult = $model->updateSupplierMaterial($supplier_id, $product_id, $validatedData);
+        // Update the supplier material
+        $result = SupplierMaterial::updateSupplierMaterial($id, $validated);
 
-        if ($updateResult) {
-            return redirect()->back()->with('success', 'Supplier material updated successfully.');
-        } else {
-            return redirect()->back()->with('error', 'Failed to update supplier material.');
+        if (!$result) {
+            return response()->json([
+                'message' => 'Data supplier material tidak ditemukan'
+            ], 404);
         }
-    }
+
+        return response()->json([
+            'message' => 'Data supplier material berhasil diperbarui',
+            'data' => $validated
+        ]);
+     }
+
 }
