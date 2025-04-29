@@ -56,6 +56,9 @@ Route::get('/item/add', function () {
 Route::get('/merk/add', function () {
     return view('merk/add');
 });
+Route::get('/supplier/list', function () {
+    return view('supplier.list');
+});
 
 
 
