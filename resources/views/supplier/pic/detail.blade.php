@@ -360,7 +360,7 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Edit PIC Supplier</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Detail PIC Supplier</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -391,7 +391,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="supplier_name" class="form-label">Nama Supplier</label>
-                    <input type="text" class="form-control" id="supplier_name" name="supplier_name" value="{{ $pic->supplier_name }}" readonly>
+                    <input type="text" class="form-control" id="supplier_name" name="supplier_name" value="{{ $supplier->company_name }}" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="pic_name" class="form-label">Nama PIC</label>

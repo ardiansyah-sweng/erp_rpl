@@ -15,8 +15,9 @@ class SupplierPIController extends Controller
             return redirect('/supplier')->with('error', 'PIC tidak ditemukan.');
         }
 
-        $pic->supplier_name = $pic->name;
-        return view('supplier.pic.detail', ['pic' => $pic]);
+        $supplier = $pic->supplier;
+        $pic->supplier_name = $supplier ? $supplier->name : null;
+        return view('supplier.pic.detail', ['pic' => $pic, 'supplier' => $supplier]);
     }
 
     public function update(Request $request, $id)

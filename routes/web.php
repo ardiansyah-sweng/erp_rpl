@@ -60,7 +60,7 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])->name('purchase_orders.add'); // tambahan
 
 # supplier pic route nya
-Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'getPICByID']);
+Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
 Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
 
 # Items
