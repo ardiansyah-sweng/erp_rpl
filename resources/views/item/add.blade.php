@@ -261,16 +261,16 @@
       </div>
       
       <div class="form-group">
-        <label for="product_sku">SKU</label>
-        <input type="text" class="form-control" id="product_sku" name="product_sku" value="{{ old('product_sku') }}">
+        <label for="sku">SKU</label>
+        <input type="text" class="form-control" id="sku" name="sku" value="{{ old('sku') }}">
       </div>
       
       <div class="form-group">
-        <label for="product_name">Nama Item Produk</label>
-        <input type="text" class="form-control" id="product_name" name="product_name" value="{{ old('product_name') }}">
+        <label for="item_name">Nama Item Produk</label>
+        <input type="text" class="form-control" id="item_name" name="item_name" value="{{ old('item_name') }}">
       </div>
       
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="product_unit">Satuan</label>
         <div class="input-group">
           <input type="text" class="form-control" id="product_unit" name="product_unit" value="{{ old('product_unit') }}">
@@ -286,11 +286,27 @@
             </ul>
           </div>
         </div>
+      </div> -->
+      <div class="form-group">
+        <label for="measurement_unit">Unit</label>
+        <select class="form-select" id="measurement_unit" name="measurement_unit" required>
+          <option selected disabled value="">Choose...</option>
+          <option>12</option>
+          <option>33</option>
+          <option>34</option>
+          <option>56</option>
+          <option>67</option>
+          <option>65</option>
+          <option>89</option>
+          <option>90</option>
+        </select>
+        <div class="invalid-feedback">Please select a valid unit.</div>
       </div>
+
       
       <div class="form-group">
-        <label for="product_price">Harga Jual Rp.</label>
-        <input type="number" class="form-control" id="product_price" name="product_price" value="{{ old('product_price') }}">
+        <label for="selling_price">Harga Jual Rp.</label>
+        <input type="number" class="form-control" id="selling_price" name="selling_price" value="{{ old('selling_price') }}">
       </div>
     </div>
     
@@ -371,40 +387,57 @@ function selectUnit(unit) {
     </script>
     <script>
 function selectUnit(unit) {
-  document.getElementById('product_unit').value = unit;
+  document.getElementById('measurement_unit').value = unit;
 }
+
+
+
+
 
 function validateForm() {
   let isValid = true;
   
-  $('.error-message').remove();
+  $('.error-message').remove(); // Hapus pesan error sebelumnya
   
   let productId = $('#product_id').val(); 
-  let productSku = $('#product_sku').val(); 
-  let productName = $('#product_name').val(); 
-  let productPrice = $('#product_price').val();
+  let productSku = $('#sku').val(); 
+  let productName = $('#item_name').val(); 
+  let productPrice = $('#selling_price').val();
   
+  // Validasi ID Produk
   if (productId === null || productId === "") {
     $('#product_id').after("<div class='error-message'><span style='color: red;'>ID Produk harus diisi.</span></div>");
     isValid = false;
+  } else if (productId.length !== 4) {
+    $('#product_id').after("<div class='error-message'><span style='color: red;'>ID Produk harus diisi 4 karakter.</span></div>");
+    isValid = false;
   }
   
+  // Validasi SKU
   if (productSku === null || productSku === "") {
-    $('#product_sku').after("<div class='error-message'><span style='color: red;'>SKU harus diisi.</span></div>");
+    $('#sku').after("<div class='error-message'><span style='color: red;'>SKU harus diisi.</span></div>");
     isValid = false;
   }
   
+  // Validasi Nama Item
   if (productName === null || productName === "") {
-    $('#product_name').after("<div class='error-message'><span style='color: red;'>Nama Item Produk harus diisi.</span></div>");
+    $('#item_name').after("<div class='error-message'><span style='color: red;'>Nama Item Produk harus diisi.</span></div>");
     isValid = false;
   }
   
+  // Validasi Unit
+  if ($('#measurement_unit').val() === null || $('#measurement_unit').val() === "") {
+    $('#measurement_unit').after("<div class='error-message'><span style='color: red;'>Unit harus dipilih.</span></div>");
+    isValid = false;
+  }
+  
+  // Validasi Harga Jual
   let hargaPattern = /^\d+(\.\d{1,2})?$/;
   if (productPrice === "" || productPrice === null) {
-    $('#product_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus diisi.</span></div>");
+    $('#selling_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus diisi.</span></div>");
     isValid = false;
   } else if (!hargaPattern.test(productPrice)) {
-    $('#product_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus berupa angka.</span></div>");
+    $('#selling_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus berupa angka.</span></div>");
     isValid = false;
   }
   
@@ -414,6 +447,13 @@ function validateForm() {
   
   return isValid;
 }
+
+
+
+
+
+
+
 </script>
   </body>
 </html>

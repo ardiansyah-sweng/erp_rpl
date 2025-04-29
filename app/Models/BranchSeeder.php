@@ -9,6 +9,7 @@ use Faker\Factory as Faker;
 
 class BranchSeeder extends Seeder
 {
+    protected $faker;
     public function __construct()
     {
         $this->faker = Faker::create('id_ID');
