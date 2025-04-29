@@ -49,4 +49,53 @@ class Product extends Model
     public static function countProduct() {
         return self::count();
     }
+
+    public static function updateProduct($id, array $input)
+    {
+        $product = self::find($id);
+        
+        if (!$product) {
+            return [
+                'success' => false,
+                'message' => 'Produk tidak ditemukan'
+            ];
+        }
+        
+        DB::beginTransaction();
+        
+        try {
+            $productColumns = config('db_constants.column.products', []);
+            
+            foreach ($productColumns as $key => $column) {
+                if ($column != 'id' && isset($input[$column])) {
+                    $product->$column = $input[$column];
+                }
+            }
+            
+            $now = now();
+            $product->updated_at = $now;
+            
+            $product->save();
+            
+            DB::commit();
+            
+            return [
+                'success' => true,
+                'message' => 'Produk berhasil diperbarui',
+                'data' => $product
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            Log::error('Gagal memperbarui produk', [
+                'product_id' => $id,
+                'error' => $e->getMessage()
+            ]);
+            
+            return [
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ];
+        }
+    }
 }

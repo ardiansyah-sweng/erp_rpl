@@ -62,6 +62,7 @@ Route::get('/merk/add', function () {
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
+Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.update');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
