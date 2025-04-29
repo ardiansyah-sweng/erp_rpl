@@ -455,6 +455,12 @@
                   <div class="card-footer clearfix">
                   {{ $branches->links('pagination::bootstrap-4') }}
                   </div>
+
+                  <form action="{{ route('branch.list') }}" method="GET" target="_blank" class="m-0">
+                            <input type="hidden" name="export" value="pdf">
+                            <input type="hidden" name="search" value="{{ request('search') }}">
+                            <button type="submit" class="btn btn-danger">Export PDF</button>
+                  </form>
         </div>
         
       </main>
