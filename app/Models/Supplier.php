@@ -2,7 +2,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Package\DB;
+use Illuminate\Support\Facades\DB;
 
 class Supplier extends Model
 {
