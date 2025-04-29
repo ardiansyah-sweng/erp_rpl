@@ -18,7 +18,7 @@ class SupplierPic extends Model
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
     }
 
-    public static function getAllSupplierPic($search = null)
+    public static function getSupplierByKeyword($search = null)
     {
         $query = self::query();
 
