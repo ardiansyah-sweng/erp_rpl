@@ -223,6 +223,12 @@
                       <p>Item</p>
                     </a>
                   </li>
+              <li class="nav-item">
+              <a href="{{ route('warehouse.list') }}" class="nav-link">
+              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>warehouse</p>
+                    </a>
+                  </li>
             </ul>
           </nav>
         </div>
@@ -231,11 +237,11 @@
         <div class="app-content-header">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Cabang</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Tambah Gudang</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="/branch/list">Cabang</a></li>
+                  <li class="breadcrumb-item"><a href="/warehouse/list">warehouse</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                 </ol>
               </div>
@@ -248,29 +254,29 @@
               <div class="col-md-12">
                 <div class="card card-primary">
                   <div class="card-header">
-                    <h3 class="card-title">Formulir Tambah Cabang</h3>
+                    <h3 class="card-title">Tambah Gudang</h3>
                   </div>
-                  <form action="{{ route('branch.add') }}" method="POST" id="branchForm">
+                  <form action="{{ route('warehouse.add') }}" method="POST" id="warehouseForm">
                     @csrf
                     <div class="card-body">
                       <div class="form-group">
-                        <label for="branch_name">Nama Cabang</label>
-                        <input type="text" class="form-control" id="branch_name" name="branch_name" placeholder="Masukkan nama cabang" value="{{ old('branch_name') }}">
+                        <label for="warehouse_name">Nama Gudang</label>
+                        <input type="text" class="form-control" id="warehouse_name" name="warehouse_name" placeholder="Masukkan Nama Gudang" value="{{ old('warehouse_name') }}">
                       </div>
                       
                       <div class="form-group">
-                        <label for="branch_address">Alamat</label>
-                        <textarea class="form-control" id="branch_address" name="branch_address" rows="3" placeholder="Masukkan alamat cabang">{{ old('branch_address') }}</textarea>
+                        <label for="warehouse_address">Alamat</label>
+                        <textarea class="form-control" id="warehouse_address" name="warehouse_address" placeholder="Masukkan alamat warehouse">{{ old('warehouse_address') }}</textarea>
                       </div>
                       
                       <div class="form-group">
-                        <label for="branch_telephone">Telephone</label>
-                        <input type="text" class="form-control" id="branch_telephone" name="branch_telephone" placeholder="Masukkan nomor telephone" value="{{ old('branch_telephone') }}">
+                        <label for="warehouse_telephone">Telepon</label>
+                        <input type="text" class="form-control" id="warehouse_telephone" name="warehouse_telephone" placeholder="Masukkan nomor telepon" value="{{ old('warehouse_telephone') }}">
                       </div>
                       
                       <div class="form-group">
                         <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="branch_status" name="branch_status" value="1" checked>
+                          <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" checked>
                           <label class="custom-control-label" for="branch_status">Aktif</label>
                         </div>
                       </div>
