@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah Cabang</title>
+    <title>ERP RPL UAD | Tambah Merk</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
@@ -76,7 +76,7 @@
                     <div class="flex-shrink-0">
                       <img
                         src={{asset("assets/dist/assets/img/user1-128x128.jpg")}}
-                        alt="User Avatar"
+                         alt="User Avatar"
                         class="img-size-50 rounded-circle me-3"
                       />
                     </div>
@@ -167,7 +167,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./generate/theme.html" class="nav-link">
+                <a href="/product/list" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
@@ -210,7 +210,7 @@
                 </a>                
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link active">
+                <a href="{{ route('branch.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -218,17 +218,13 @@
                 </a>                
               </li>
               <li class="nav-item">
-              <a href="{{ route('item.list') }}" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
-                      <p>Item</p>
-                    </a>
-                  </li>
-              <li class="nav-item">
-              <a href="{{ route('warehouse.list') }}" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
-                      <p>warehouse</p>
-                    </a>
-                  </li>
+              <a href="{{ route('item.list') }}" class="nav-link active">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Item
+                  </p>
+                </a>                
+              </li>
             </ul>
           </nav>
         </div>
@@ -237,11 +233,11 @@
         <div class="app-content-header">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Gudang</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Tambah Merk</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="/warehouse/list">warehouse</a></li>
+                  <li class="breadcrumb-item"><a href="/merk/list">Merk</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                 </ol>
               </div>
@@ -254,46 +250,36 @@
               <div class="col-md-12">
                 <div class="card card-primary">
                   <div class="card-header">
-                    <h3 class="card-title">Tambah Gudang</h3>
+                    <h3 class="card-title">Tambah Merk</h3>
                   </div>
-                  <form action="{{ route('warehouse.add') }}" method="POST" id="warehouseForm">
+                  <form action="{{ route('merk.add') }}" method="POST" id="merkForm">
                     @csrf
                     <div class="card-body">
                       <div class="form-group">
-                        <label for="warehouse_name">Nama Gudang</label>
-                        <input type="text" class="form-control" id="warehouse_name" name="warehouse_name" placeholder="Masukkan Nama Gudang" value="{{ old('warehouse_name') }}">
+                        <label for="merk">Nama Merk</label>
+                        <input type="text" class="form-control" id="merk" name="merk" value="{{ old('merk') }}" placeholder="Masukkan nama merk">
                       </div>
                       
-                      <div class="form-group">
-                        <label for="warehouse_address">Alamat</label>
-                        <textarea class="form-control" id="warehouse_address" name="warehouse_address" placeholder="Masukkan alamat warehouse">{{ old('warehouse_address') }}</textarea>
-                      </div>
-                      
-                      <div class="form-group">
-                        <label for="warehouse_telephone">Telepon</label>
-                        <input type="text" class="form-control" id="warehouse_telephone" name="warehouse_telephone" placeholder="Masukkan nomor telepon" value="{{ old('warehouse_telephone') }}">
-                      </div>
-                      
-                      <div class="form-group">
-                        <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" checked>
-                          <label class="custom-control-label" for="branch_status">Aktif</label>
+                    <div class="form-group">
+                        <label class="d-block">Status</label>
+                            <div class="d-flex gap-3"> 
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="active" id="active1" value="1" checked>
+                            <label class="form-check-label" for="active1">Aktif</label>
                         </div>
-                      </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="active" id="active0" value="0">
+                        <label class="form-check-label" for="active0">Non Aktif</label>
                     </div>
+                </div>
+            </div>
+        </div>
                     
                     <div class="card-footer">
-                      <button type="submit" class="btn btn-primary">Simpan</button>
+                      <button type="button" class="btn btn-primary" onclick="validateForm()">Simpan</button>
+                      <button type="reset" class="btn btn-secondary">Batal</button>
                     </div>
                   </form>
-                  
-                  <div id="debug-output" class="mt-4" style="display: none;">
-                    <div class="card">
-                      <div class="card-body bg-light">
-                        <pre id="dd-content" class="p-3 bg-dark text-light" style="border-radius: 5px;"></pre>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -358,7 +344,28 @@
         });
     });
     </script>
-
-    
+    <script>
+    function validateForm() {
+      let isValid = true;
+      
+      $('.error-message').remove();
+      
+      let merk = $('#merk').val(); 
+      
+      if (merk === null || merk === "") {
+        $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk harus diisi.</span></div>");
+        isValid = false;
+      } else if (merk.length > 255) {
+        $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk maksimal 255 karakter.</span></div>");
+        isValid = false;
+      }
+      
+      if (isValid) {
+        document.getElementById('merkForm').submit();
+      }
+      
+      return isValid;
+    }
+    </script>
   </body>
 </html>
