@@ -720,7 +720,6 @@
     <script>
       function validateForm() {
         let isValid = true;
-<<<<<<< HEAD
         $('#supplierIdError').html("");
         $('#skuError').html("");
         $('#itemNameError').html("");
@@ -749,7 +748,6 @@
         }
         return isValid;
       }
-=======
 
         // Reset error states
         $('#supplier_id, #SKU, #supplier_name, #nama_item, #base_price').removeClass('is-invalid');
@@ -788,7 +786,6 @@
         return isValid;
       }
 
->>>>>>> 254bf92e20eeadbcb87be5e68339f7ae93d72f34
     </script>
 
     <!--end::Script-->
