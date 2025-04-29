@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchase_order_detail', function (Blueprint $table) {
-            $table->char('po_number', 6);
-            $table->char('product_id', 6);
-            $table->integer('quantity');
-            $table->bigInteger('amount'); #quantity x base_price
-            $table->tinyInteger('received_days')->default(0);
+        $column = config('db_constants.column.po_detail');
+        $tablePODetail = config('db_constants.table.po_detail');
+
+        Schema::create($tablePODetail, function (Blueprint $table) use ($column) {
+            $table->char($column['po_number'], 6);
+            $table->string($column['product_id'], 50);
+            $table->integer($column['base_price'])->default(0);
+            $table->integer($column['quantity']);
+            $table->bigInteger($column['amount']); #quantity x base_price
+            $table->tinyInteger($column['received_days'])->default(0);
             $table->timestamps();
 
             $table->primary(['po_number', 'product_id']);

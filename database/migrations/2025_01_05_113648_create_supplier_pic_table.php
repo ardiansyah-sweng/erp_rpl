@@ -6,17 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    public function __construct()
+    {
+        $this->table = config('db_constants.table.supplier_pic');
+    }
+
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('supplier_pic', function (Blueprint $table) {
-            $table->char('supplier_id', 6);
-            $table->string('name', 50);
-            $table->string('phone_number', 30);
-            $table->string('email', 50);
-            $table->date('assigned_date');
+        $col = config('db_constants.column.supplier_pic');
+
+        Schema::create($this->table, function (Blueprint $table) use ($col) {
+            $table->id();
+            $table->char($col['supplier_id'], 6);
+            $table->string($col['name'], 50);
+            $table->string($col['phone_number'], 30);
+            $table->string($col['email'], 50);
+            $table->boolean($col['active'])->default(1);
+            $table->string($col['avatar'], 100);
+            $table->date($col['assigned_date']);
             $table->timestamps();
         });
     }
@@ -26,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('supplier_pic');
+        Schema::dropIfExists($this->table);
     }
 };
