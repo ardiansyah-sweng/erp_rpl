@@ -368,9 +368,9 @@
 <!-- list.blade.php -->
 <main class="content-wrapper">
   <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h1 class="h3 fw-bold mb-0">Suppliers</h1>
-      <a href="#" class="btn btn-primary btn-sm mt-1">New Supplier</a>
+    <div class="mb-4">
+      <h1 class="h3 fw-bold mb-2">Suppliers</h1>
+      <a href="#" class="btn btn-primary btn-sm">New Supplier</a>
     </div>
 
     <div class="card shadow-sm">
