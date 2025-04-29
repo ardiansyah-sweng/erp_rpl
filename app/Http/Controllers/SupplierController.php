@@ -30,7 +30,7 @@ class SupplierController extends Controller
     }
     
     public function deleteSupplierByID($id)
-    {   #menghapus supplier
+    {   
         if (Supplier::deleteSupplier($id)) {
             return redirect()->back()->with('success', 'Supplier deleted successfully');
         }
