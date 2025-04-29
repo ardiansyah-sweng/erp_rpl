@@ -98,5 +98,5 @@ Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 
-#cetak pdf
+#Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');

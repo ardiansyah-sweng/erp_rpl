@@ -32,6 +32,6 @@ class CategoryController extends Controller
     {
     $categories = Category::getCategory(); // kita tambahkan method ini di bawah
     $pdf = PDF::loadView('product.category.pdf', compact('categories'));
-    return $pdf->stream('laporan_kategori.pdf');
+    return $pdf->stream('laporan_kategori.pdf'); //cetak pdf
     }
 } //CategoryController

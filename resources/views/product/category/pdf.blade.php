@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 <head>
     <title>Laporan Kategori</title>
@@ -32,4 +32,4 @@
         </tbody>
     </table>
 </body>
-</html>
+</html> 
