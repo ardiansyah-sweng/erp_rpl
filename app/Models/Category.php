@@ -42,6 +42,7 @@ class Category extends Model
     {
         return self::count();
     }
+
     public static function countByParent()
     {
         $instance = new static;
