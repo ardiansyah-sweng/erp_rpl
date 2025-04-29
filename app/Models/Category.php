@@ -16,49 +16,32 @@ class Category extends Model
     {
         parent::__construct($attributes);
 
-
-        $this->table = config('db_constants.table.category', 'categories'); // Default ke 'categories' jika tidak ditemukan
+        // Tetapkan nama tabel dan kolom berdasarkan config
+        $this->table = config('db_constants.table.category', 'categories'); // Default ke 'categories' jika tidak ditemukan di config
         $this->fillable = array_values(config('db_constants.column.category', ['category', 'parent_id', 'active', 'created_at', 'updated_at']));
     }
 
-
-    // Relasi: Kategori memiliki banyak produk.
-
+    // Relasi ke produk
     public function products()
     {
         return $this->hasMany(Product::class, 'category_id');
     }
 
-
-
+    // Relasi ke kategori induk
     public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-
-    //  Relasi: Kategori memiliki banyak anak (sub kategori).
-
+    // Relasi ke sub-kategori
     public function children()
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
-
-    /**
-     * Menghitung total semua kategori.
-     *
-     * @return int
-     */
     public static function countCategory()
     {
         return self::count();
     }
-
-    /**
-     * Menghitung jumlah kategori berdasarkan parent category.
-     *
-     * @return array
-     */
     public static function countByParent()
     {
         $instance = new static;
