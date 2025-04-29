@@ -103,3 +103,5 @@ Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 # Supplier PIC
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPICController::class, 'addSupplierPIC'])->name('supplier.pic.add');
+
+Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
