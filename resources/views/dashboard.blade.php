@@ -335,7 +335,12 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="/supplier/list" class="nav-link">
+                    <a href="/supplier/material/list" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Supplier Material</p>
+                    </a>
+                  </li>
+                  <a href="/supplier/list" class="nav-link">
                      <i class="nav-icon bi bi-circle"></i>
                     <p>List Supplier</p>
                     </a>
