@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ItemController extends Controller
 {
@@ -27,10 +28,22 @@ class ItemController extends Controller
 
 
     public function getItemList(Request $request)
-{
-    $search = $request->input('search');
-    $items = Item::getAllItems($search);
-    return view('item.list', compact('items'));
-}
+    {
+        $search = $request->input('search');
+        $items = Item::getAllItems($search);
+
+        if ($request->has('export') && $request->input('export') === 'pdf') {
+            $items = Item::query()
+                ->when($search, function ($query, $search) {
+                    $query->where('item_name', 'like', "%$search%");
+                })
+                ->get(); 
     
+            $pdf = Pdf::loadView('item.report', ['items' => $items]);
+            return $pdf->stream('report-item.pdf');
+        }
+    
+        $items = Item::getAllItems($search); 
+        return view('item.list', compact('items'));
+    }
 }
