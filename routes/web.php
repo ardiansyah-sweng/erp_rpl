@@ -108,3 +108,7 @@ Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])
 # Merk controller route
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])
      ->name('merk.detail');
+
+# Cetak Pdf
+Route::get('/items/pdf', [ItemController::class, 'generateItemPDF'])->name('items.pdf');
+
