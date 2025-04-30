@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ItemController extends Controller
 {
@@ -27,10 +28,17 @@ class ItemController extends Controller
 
 
     public function getItemList(Request $request)
-{
+    {
     $search = $request->input('search');
     $items = Item::getAllItems($search);
     return view('item.list', compact('items'));
-}
+    }
     
+    public function generateItemPDF()
+    {
+    $items = (new Item)->getItem(); // Panggil fungsi getItem() buatan Fairz Rachmah
+    $pdf = Pdf::loadView('pdf.items', compact('items'));
+    return $pdf->download('daftar_item.pdf');
+    }
 }
+

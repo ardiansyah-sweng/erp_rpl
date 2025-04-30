@@ -5,21 +5,22 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
+
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
+
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 
-
-#Login
+# Login
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
 Route::get('/login', function () {
-    return view('login'); // tampilkan view login
+    return view('login');
 })->name('login');
 
 Route::get('/dashboard', function () {
@@ -29,58 +30,92 @@ Route::get('/dashboard', function () {
 Route::get('/branches', function () {
     return view('branches.index');
 })->name('branches.index');
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-Route::get('/supplier/pic/add', function () {
-    return view('supplier/pic/add');
+
+// Supplier group
+Route::prefix('supplier')->group(function () {
+    Route::get('pic/add', function () {
+        return view('supplier/pic/add');
+    });
+
+    Route::get('add', function () {
+        return view('supplier/add');
+    });
+
+    Route::get('detail', function () {
+        return view('supplier/detail');
+    });
+
+    Route::get('material/add', function () {
+        return view('supplier/material/add');
+    });
 });
 
-Route::get('/supplier/add', function () {
-    return view('supplier/add');
-});
 
-Route::get('/supplier/detail', function () {
-    return view('supplier/detail');
-});
-  
+Route::get('material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
+
+# Branch add view
 Route::get('/branch/add', function () {
     return view('branch/add');
-});
-Route::get('/supplier/material/add', function () {
-    return view('supplier/material/add');
-});
+})->name('branch.add');
+
+# Purchase Order Detail (encrypted ID)
+Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
+    $id = EncryptionHelper::decrypt($encrypted_id);
+    return app()->make(PurchaseOrderController::class)
+                ->getPurchaseOrderByID($id);
+})->name('purchase.orders.detail');
+
+# Item add view
 Route::get('/item/add', function () {
     return view('item/add');
-});
+})->name('item.add');
+
+# Merk add view
 Route::get('/merk/add', function () {
     return view('merk/add');
 });
+
+# Supplier material add view (redundan tapi jaga jika dipanggil dari luar grup)
+Route::get('/supplier/material/add', function () {
+    return view('supplier/material/add');
+});
+
+# Supplier list view
 Route::get('/supplier/list', function () {
     return view('supplier.list');
 });
 
+# Product routes
+Route::get('/product/list', [ProductController::class, 'getProductList'])
+     ->name('product.list');
+Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])
+     ->name('product.detail');
 
+# API routes
+Route::get('/products', [APIProductController::class, 'getProducts'])
+     ->name('api.products');
+Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])
+     ->name('api.prices');
+Route::get('/api/branches/{id}', [BranchController::class, 'getBranchById'])
+     ->name('api.branch.detail');
 
-# Product
-Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
-Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
+# Branch controller routes
+Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])
+     ->name('purchase.orders');
+Route::get('/branch', [BranchController::class, 'getBranchAll'])
+     ->name('branch.list');
+Route::post('/branch/add', [BranchController::class, 'addBranch'])
+     ->name('branch.add');
+Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])
+     ->name('branch.detail');
 
-# API
-Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
-Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('api.prices');
-Route::get('/api/branches/{id}', [BranchController::class, 'getBranchById'])->name('api.branch.detail');
-
-# Branch
-Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
-Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
-Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
-Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
-
-# PurchaseOrders
+# Purchase Orders controller
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
-Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPurchaseOrder'])->name('purchase_orders.search');
-Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])->name('purchase_orders.add'); // tambahan
+# Purchase Order routes
+Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPurchaseOrder'])
+    ->name('purchase_orders.search');
+Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])
+    ->name('purchase_orders.add');
 Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
     $id = EncryptionHelper::decrypt($encrypted_id);
     return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
@@ -88,19 +123,34 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
 
+# Category
+Route::post('/category/add', [CategoryController::class, 'addCategory'])
+    ->name('category.add');
 
-#Category
-Route::post('/category/add', [CategoryController::class, 'addCategory'])->name('category.add');
-
+# Item controller routes
 Route::get('/items', [ItemController::class, 'getItemAll']);
-Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
-Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
-Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
+Route::get('/item', [ItemController::class, 'getItemList'])
+    ->name('item.list');
+Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])
+    ->name('item.delete');
+Route::post('/item/add', [ItemController::class, 'store'])
+    ->name('item.add');
 
-# Merk
-Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
-Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
+# Merk controller routes
+Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])
+    ->name('merk.detail');
 
-#Supplier
-Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
-Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
+# Tambah Merk
+Route::post('/merk/add', [MerkController::class, 'addMerk'])
+    ->name('merk.add');
+
+# Cetak PDF Item
+Route::get('/items/pdf', [ItemController::class, 'generateItemPDF'])
+    ->name('items.pdf');
+
+# Supplier Material routes
+Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])
+    ->name('supplier.material.add');
+
+Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])
+    ->name('supplier.material.list');
