@@ -33,10 +33,9 @@ class SupplierMaterialController extends Controller
      public function updateSupplierMaterial(Request $request, $supplierId, $productId)
      {
         $validated = $request->validate([
-            'company_name'  => 'required|string|max:100',
-            'product_name' => 'required|string|max:50',
-            'base_price'    => 'required|integer|min:0',
-            'updated_at'    => 'nullable|date'
+            'product_id' => 'required|string|max:50',
+            'product_name' => 'required|string|max:255',
+            'base_price' => 'required|integer|min:0'
         ]);
 
         try {
