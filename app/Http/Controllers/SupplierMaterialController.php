@@ -12,7 +12,7 @@ class SupplierMaterialController extends Controller
         $model = new SupplierMaterial();
         $materials = $model->getSupplierMaterial();
 
-        return view('supplier.material', ['materials' => $materials]);
+        return view('supplier.material.list', ['materials' => $materials]);
     }
 
      // Validasi data supplier material
