@@ -56,6 +56,9 @@ Route::get('/item/add', function () {
 Route::get('/merk/add', function () {
     return view('merk/add');
 });
+Route::get('/supplier/list', function () {
+    return view('supplier.list');
+});
 
 
 
@@ -101,9 +104,7 @@ Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
+Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
-
-
-
