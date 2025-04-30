@@ -60,6 +60,9 @@ Route::get('/item/add', function () {
 Route::get('/product/add', function () {
     return view('product/add');
 });
+Route::get('/supplier/list', function () {
+    return view('supplier.list');
+});
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
@@ -93,4 +96,8 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
+
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
+Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
+Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
+
