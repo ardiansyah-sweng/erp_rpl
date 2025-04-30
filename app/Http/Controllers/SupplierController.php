@@ -32,9 +32,9 @@ class SupplierController extends Controller
     public function deleteSupplierByID($id)
     {   
         if (Supplier::deleteSupplier($id)) {
-            return redirect()->back()->with('success', 'Supplier deleted successfully');
+            return redirect()->back()->with('success', 'Supplier berhasil dihapus');
         }
 
-        return redirect()->back()->with('error', 'Supplier not found');
+        return redirect()->back()->with('error', 'Supplier tidak ditemukan');
     }
 }

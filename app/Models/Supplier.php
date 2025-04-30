@@ -43,11 +43,7 @@ class Supplier extends Model
             return false;
         }
 
-        $hasPO = \DB::table('purchase_order')->where('supplier_id', $id)->exists();
-
-        if ($hasPO) {
-            return false;
-        }
+        DB::table('purchase_order')->where('supplier_id', $id)->update(['supplier_id' => null]);
 
         return $supplier->delete();
     }
