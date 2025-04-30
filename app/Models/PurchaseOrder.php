@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class PurchaseOrder extends Model
 {
@@ -102,6 +103,8 @@ class PurchaseOrder extends Model
             }
 
             DB::commit();
+            // Kirim email notifikasi setelah berhasil membuat PO
+            $purchaseOrder->sendMailPurchaseOrder();
             return $purchaseOrder;
 
         } catch (\Exception $e) {
@@ -109,5 +112,22 @@ class PurchaseOrder extends Model
             throw $e;
         }
     }
+    public function sendMailPurchaseOrder()
+    {
+        $supplier = $this->supplier;
+        $details = $this->details;
+
+        $data = [
+            'po_number' => $this->po_number,
+            'supplier'  => $supplier,
+            'order_date' => $this->order_date,
+            'total' => $this->total,
+            'details' => $details,
+        ];
+
+        Mail::send('emails.purchase_order', $data, function($message) use ($supplier) {
+            $message->to($supplier->email)
+                    ->subject('New Purchase Order: ' . $this->po_number);
+        });
+    }
 }
-//wiwibai
