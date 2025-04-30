@@ -30,7 +30,7 @@ class Merk extends Model
         }
 
          $fillable = (new self)->getFillable();
-         $filteredData = array_intersect_key($data, array_flip($fillable));
+         $filteredData = collect($data)->only($fillable)->toArray();
          $merk->update($filteredData);
     
          return $merk;
