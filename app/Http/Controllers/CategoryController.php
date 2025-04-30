@@ -27,4 +27,17 @@ class CategoryController extends Controller
 
         return redirect()->route('category.list')->with('success', 'Kategori berhasil ditambahkan!');
     }
+
+    //delete category
+    public function deleteCategory($id)
+    {
+        $deleted = Category::deleteCategoryById($id);
+
+        if ($deleted) {
+            return redirect()->back()->with('success', 'Kategori berhasil dihapus!');
+        } else {
+            return redirect()->back()->with('error', 'Kategori tidak ditemukan atau gagal dihapus.');
+        }
+    }
+
 } //CategoryController
