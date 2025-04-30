@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasDynamicColumns;
 use Illuminate\Support\Facades\DB;
 use App\Models\Item;
-use App\Models\Category; 
+use App\Models\Category;
 use App\Enums\ProductType;
 
 class Product extends Model
@@ -48,5 +48,20 @@ class Product extends Model
 
     public static function countProduct() {
         return self::count();
+    }
+
+    public static function deleteProductById($id)
+    {
+
+    $product = self::find($id);
+
+    if ($product) {
+        $product->delete();
+        self::where('id', '>', $id)->decrement('id');
+
+        return true;
+    }
+
+    return false;
     }
 }
