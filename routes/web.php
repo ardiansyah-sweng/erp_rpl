@@ -11,7 +11,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
-
+use App\Http\Controllers\SupplierPIController;
 
 #Login
 Route::get('/', function () {
@@ -99,3 +99,4 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
+Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPICByID'])->name('supplier.pic.delete');
