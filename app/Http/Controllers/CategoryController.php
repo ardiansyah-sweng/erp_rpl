@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CategoryController extends Controller
 {
@@ -28,7 +28,7 @@ class CategoryController extends Controller
     public function printCategoryPDF()
     {
     $categories = Category::getCategory(); // kita tambahkan method ini di bawah
-    $pdf = PDF::loadView('product.category.pdf', compact('categories'));
-    return $pdf->stream('laporan_kategori.pdf'); //cetak pdf
+    $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
+    return $pdf->stream('laporan_kategori.pdf'); 
     }
 } //CategoryController
