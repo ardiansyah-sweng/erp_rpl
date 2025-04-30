@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Enums\POStatus;
 
 class PurchaseOrder extends Model
 {
@@ -108,5 +109,12 @@ class PurchaseOrder extends Model
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public static function getPOByNumberAndStatusFD($poNumber)
+    {
+        return self::where('po_number', $poNumber)
+            ->where('status', POStatus::FD->value)
+            ->first();
     }
 }
