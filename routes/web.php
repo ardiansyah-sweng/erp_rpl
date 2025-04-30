@@ -10,6 +10,7 @@ use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
+
 use App\Helpers\EncryptionHelper;
 
 
@@ -102,4 +103,13 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
+#Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+
+#Supplier Material
+Route::get('/supplier-material/create', [SupplierMaterialController::class, 'create'])->name('supplier.material.create');
+Route::post('/supplier-material/store', [SupplierMaterialController::class, 'material'])->name('supplier.material');
+Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
+
+
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
+
