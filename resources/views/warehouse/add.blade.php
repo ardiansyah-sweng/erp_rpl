@@ -256,28 +256,28 @@
                   <div class="card-header">
                     <h3 class="card-title">Tambah Gudang</h3>
                   </div>
-                  <form action="{{ route('warehouse.add') }}" method="POST" id="warehouseForm">
+                  <!-- <form action="{{ route('warehouse.add') }}" method="POST" id="warehouseForm"> -->
                     @csrf
                     <div class="card-body">
                       <div class="form-group">
                         <label for="warehouse_name">Nama Gudang</label>
-                        <input type="text" class="form-control" id="warehouse_name" name="warehouse_name" placeholder="Masukkan Nama Gudang" value="{{ old('warehouse_name') }}">
+                        <input type="text" class="form-control" id="warehouse_name" name="warehouse_name" readonly>
                       </div>
                       
                       <div class="form-group">
                         <label for="warehouse_address">Alamat</label>
-                        <textarea class="form-control" id="warehouse_address" name="warehouse_address" placeholder="Masukkan alamat warehouse">{{ old('warehouse_address') }}</textarea>
+                        <textarea class="form-control" id="warehouse_address" name="warehouse_address" readonly></textarea>
                       </div>
                       
                       <div class="form-group">
                         <label for="warehouse_telephone">Telepon</label>
-                        <input type="text" class="form-control" id="warehouse_telephone" name="warehouse_telephone" placeholder="Masukkan nomor telepon" value="{{ old('warehouse_telephone') }}">
+                        <input type="text" class="form-control" id="warehouse_telephone" name="warehouse_telephone" readonly>
                       </div>
                       
                       <div class="form-group">
                         <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" checked>
-                          <label class="custom-control-label" for="branch_status">Aktif</label>
+                          <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" disabled>
+                          <label class="custom-control-label" for="is_active">Aktif</label>
                         </div>
                       </div>
                     </div>
@@ -357,6 +357,25 @@
             $('body').toggleClass('sidebar-collapse');
         });
     });
+    </script>
+    <script>
+      //Data Dummy gudang
+      const warehouseData = {
+        "GUD001": {
+          name: "Gudang Jakarta",
+          address: "Jl. Sudirman No.10, Jakarta",
+          telephone: "021-1234567",
+          active: true
+        };
+
+        window.onload = function(){
+          document.getElementById('warehouse_name').value = warehouseData.name;
+          document.getElementById('warehouse_address').value = warehouseData.address;
+          document.getElementById('warehouse_telephone').value = warehouseData.telephone;
+          document.getElementById('is_active').value = warehouseData.active;
+        }
+      };
+
     </script>
 
     
