@@ -28,6 +28,7 @@ class SupplierPic extends Model
                   ->orWhere('phone_number', 'LIKE', "%{$search}%")
                   ->orWhere('email', 'LIKE', "%{$search}%");
         }
+        return $query->orderBy('created_at', 'asc')->paginate(10);
     }
 
        
