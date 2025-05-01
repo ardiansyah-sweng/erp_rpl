@@ -17,10 +17,10 @@ class SupplierMaterialController extends Controller
 
     public function supplierMaterialSearch($keyword)
     {
-        $model = new SupplierMaterial();
-        $results = $model->supplierMaterialSearch($keyword);
-
-         return $results;
+        $results = SupplierMaterial::supplierMaterialSearch($keyword);
+        return $results;
     }
+
+    
 }
 
