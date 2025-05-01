@@ -379,6 +379,8 @@
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Produk</h3>
                 <a href="#" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="{{ route('category.export') }}" class="btn btn-primary btn-sm ms-2" target="_blank">Cetak PDF</a>
+
               </div>
     
               <div class="col-sm-6">
