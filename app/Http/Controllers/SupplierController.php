@@ -30,13 +30,18 @@ class SupplierController extends Controller
     }
     
     public function deleteSupplierByID($id)
-    {   
-    
-        if (Supplier::deleteSupplier($id)) {
+    {
+        $result = Supplier::deleteSupplier($id);
+
+        if ($result === true) {
             return redirect()->back()->with('success', 'Supplier berhasil dihapus');
         }
+         
+        elseif ($result === 'Supplier ini tidak bisa dihapus karena sudah memiliki purchase order') {
+            return redirect()->back()->with('error', $result);
+        }
 
-    
-        return redirect()->back()->with('error', 'Supplier tidak ditemukan atau gagal dihapus');
-    }
+        return redirect()->back()->with('error', 'Supplier tidak ditemukan');
+}
+
 }
