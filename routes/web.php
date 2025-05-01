@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 
 Route::get('/', function () {
@@ -69,3 +70,6 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+
+#Supplier Material Controller
+Route::get('/supplier/material/search/{keyword}', [SupplierMaterialController::class, 'supplierMaterialSearch']);
