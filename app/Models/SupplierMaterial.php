@@ -11,4 +11,10 @@ class SupplierMaterial extends Model
     {
         return DB::table('supplier_product')->get();
     }
+
+    public function supplierMaterialSearch($keyword)
+    {
+        return $this->where('nama_material', 'LIKE', "%$keyword%")->get();
+    }
+
 }
