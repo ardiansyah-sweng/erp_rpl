@@ -37,14 +37,18 @@ class Supplier extends Model
 
     public static function deleteSupplier($id)
     {
+    
         $supplier = static::where('supplier_id', $id)->first();
-        
+
+    
         if (!$supplier) {
             return false;
         }
 
+    
         DB::table('purchase_order')->where('supplier_id', $id)->update(['supplier_id' => null]);
 
+    
         return $supplier->delete();
     }
 
