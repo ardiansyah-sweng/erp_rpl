@@ -14,13 +14,13 @@ class SupplierMaterialController extends Controller
 
         return view('supplier.material', ['materials' => $materials]);
     }
-}
 
-public function supplierMaterialSearch($keyword)
-{
-    $model = new SupplierMaterial();
-    $results = $model->supplierMaterialSearch($keyword);
+    public function supplierMaterialSearch($keyword)
+    {
+        $model = new SupplierMaterial();
+        $results = $model->supplierMaterialSearch($keyword);
 
-    return $results;
+         return $results;
+    }
 }
 
