@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Enums\POStatus;
 
 class PurchaseOrder extends Model
 {
@@ -109,14 +110,26 @@ class PurchaseOrder extends Model
             throw $e;
         }
     }
-        /**
-     * Menghitung jumlah purchase order berdasarkan supplier dan rentang tanggal
-     */
-    public static function countOrdersByDateSupplier($startDate, $endDate, $supplierID)
+
+
+
+    public static function getPOByNumberAndStatusFD($poNumber)
     {
-        return self::where('supplier_id', $supplierID)
-            ->whereBetween('order_date', [$startDate, $endDate])
-            ->count();
+        return self::where('po_number', $poNumber)
+            ->where('status', POStatus::FD->value)
+            ->first();
     }
 
+//hitung jumlah order dari supplier tertentu untuk rentang waktu tertentu
+    public static function countOrdersByDateSupplier($startDate, $endDate, $supplierID, ?POStatus $status = null)
+{
+    $query = self::where('supplier_id', $supplierID)
+        ->whereBetween('order_date', [$startDate, $endDate]);
+
+    if ($status !== null) {
+        $query->where('status', $status->value);
+    }
+
+    return $query->count();
+}
 }
