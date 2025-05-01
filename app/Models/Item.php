@@ -68,35 +68,25 @@ class Item extends Model
         // Jika item tidak ditemukan, kembalikan false
         return false;
     }
-    public function updateItem(Request $request, $id)
-{
-    // Validasi input
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'price' => 'required|numeric|min:0',
-    ]);
-
-    // Cari item berdasarkan ID
-    $item = Item::find($id);
-
-    if (!$item) {
-        return redirect()->back()->with('error', 'Item tidak ditemukan.');
+    public static function updateItemById($id, $data) {
+        $item = self::find($id);
+    
+        if (!$item) {
+            return null;
+        }
+    
+        $item->name = $data['name'];
+        $item->description = $data['description'] ?? null;
+        $item->price = $data['price'];
+        $item->updated_at = now();
+    
+        if (!$item->created_at) {
+            $item->created_at = now();
+        }
+    
+        $item->save();
+    
+        return $item;
     }
-
-    // Update data item
-    $item->name = $validated['name'];
-    $item->description = $validated['description'] ?? null;
-    $item->price = $validated['price'];
-    $item->updated_at = now(); // waktu update
-    if (!$item->created_at) {
-        $item->created_at = now(); // fallback jika kosong
-    }
-
-    $item->save();
-
-    return redirect()->back()->with('success', 'Item berhasil diperbarui.');
-}
-
     
 }
