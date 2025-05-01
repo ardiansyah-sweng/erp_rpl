@@ -29,4 +29,25 @@ class SupplierMaterialController extends Controller
         ]);
          return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
      }
+
+     public function updateSupplierMaterial(Request $request, $supplierId, $productId)
+     {
+        $validated = $request->validate([
+            'product_id' => 'required|string|max:50',
+            'product_name' => 'required|string|max:255',
+            'base_price' => 'required|integer|min:0'
+        ]);
+
+        try {
+            $result = SupplierMaterial::updateSupplierMaterial($supplierId, $productId, $validated);
+            
+            if ($result) {
+                return redirect()->back()->with('success', 'Data supplier material berhasil diperbarui!');
+            }
+            
+            return redirect()->back()->with('error', 'Gagal memperbarui data supplier material');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+     }
 }
