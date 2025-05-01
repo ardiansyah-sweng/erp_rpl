@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class SupplierMaterial extends Model
 {
+    protected $table = 'supplier_product';
+
     public static function getSupplierMaterial()
     {
         return DB::table('supplier_product')->get();
