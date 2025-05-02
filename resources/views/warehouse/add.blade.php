@@ -223,12 +223,6 @@
                       <p>Item</p>
                     </a>
                   </li>
-              <!-- <li class="nav-item">
-              <a href="{{ route('warehouse.list') }}" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
-                      <p>warehouse</p>
-                    </a>
-                  </li> -->
             </ul>
           </nav>
         </div>
@@ -256,7 +250,7 @@
                   <div class="card-header">
                     <h3 class="card-title">Tambah Gudang</h3>
                   </div>
-                  <!-- <form action="{{ route('warehouse.add') }}" method="POST" id="warehouseForm"> -->
+                  <form action="{{ route('warehouse.add') }}" method="POST" id="warehouseForm">
                     @csrf
                     <div class="card-body">
                       <div class="form-group">
