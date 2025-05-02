@@ -75,8 +75,8 @@
                 <i class="bi bi-list"></i>
               </a>
             </li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
+            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Beranda</a></li>
+            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Kontak</a></li>
           </ul>
           <!--end::Start Navbar Links-->
           <!--begin::End Navbar Links-->
@@ -173,7 +173,7 @@
                   <!--end::Message-->
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                <a href="#" class="dropdown-item dropdown-footer">Lihat Semua Pesan</a>
               </div>
             </li>
             <!--end::Messages Dropdown Menu-->
@@ -184,24 +184,24 @@
                 <span class="navbar-badge badge text-bg-warning">15</span>
               </a>
               <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <span class="dropdown-item dropdown-header">15 Notifications</span>
+                <span class="dropdown-item dropdown-header">15 Notifikasi</span>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
-                  <i class="bi bi-envelope me-2"></i> 4 new messages
-                  <span class="float-end text-secondary fs-7">3 mins</span>
+                  <i class="bi bi-envelope me-2"></i> 4 pesan baru
+                  <span class="float-end text-secondary fs-7">3 menit</span>
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
-                  <i class="bi bi-people-fill me-2"></i> 8 friend requests
-                  <span class="float-end text-secondary fs-7">12 hours</span>
+                  <i class="bi bi-people-fill me-2"></i> 8 permintaan pertemanan
+                  <span class="float-end text-secondary fs-7">12 jam</span>
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
-                  <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
-                  <span class="float-end text-secondary fs-7">2 days</span>
+                  <i class="bi bi-file-earmark-fill me-2"></i> 3 laporan baru
+                  <span class="float-end text-secondary fs-7">2 hari</span>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer"> See All Notifications </a>
+                <a href="#" class="dropdown-item dropdown-footer"> Lihat Semua Notifikasi </a>
               </div>
             </li>
             <!--end::Notifications Dropdown Menu-->
@@ -233,7 +233,7 @@
                   />
                   <p>
                     Alexander Pierce - Web Developer
-                    <small>Member since Nov. 2023</small>
+                    <small>Anggota sejak Nov. 2023</small>
                   </p>
                 </li>
                 <!--end::User Image-->
@@ -241,17 +241,17 @@
                 <li class="user-body">
                   <!--begin::Row-->
                   <div class="row">
-                    <div class="col-4 text-center"><a href="#">Followers</a></div>
-                    <div class="col-4 text-center"><a href="#">Sales</a></div>
-                    <div class="col-4 text-center"><a href="#">Friends</a></div>
+                    <div class="col-4 text-center"><a href="#">Pengikut</a></div>
+                    <div class="col-4 text-center"><a href="#">Penjualan</a></div>
+                    <div class="col-4 text-center"><a href="#">Teman</a></div>
                   </div>
                   <!--end::Row-->
                 </li>
                 <!--end::Menu Body-->
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+                  <a href="#" class="btn btn-default btn-flat">Profil</a>
+                  <a href="#" class="btn btn-default btn-flat float-end">Keluar</a>
                 </li>
                 <!--end::Menu Footer-->
               </ul>
@@ -368,7 +368,7 @@
               <div class="col-sm-6"><h3 class="mb-0">Tambah Produk</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item"><a href="#">Beranda</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Tambah Produk</li>
                 </ol>
               </div>
@@ -404,6 +404,10 @@
                                     <label class="form-check-label" for="finished">Finished</label>
                                 </div>
                                 <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="product_type" id="half_finished" value="half_finished">
+                                    <label class="form-check-label" for="half_finished">Half Finished</label>
+                                </div>
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="product_type" id="raw_material" value="raw_material">
                                     <label class="form-check-label" for="raw_material">Raw Material</label>
                                 </div>
@@ -423,10 +427,14 @@
                             </div>
                             <div class="invalid-feedback">Kategori harus diisi.</div>
                         </div>
+                        <div class="mb-3">
+                            <label for="product_description" class="form-label">Deskripsi Produk</label>
+                            <textarea class="form-control" id="product_description" name="product_description" rows="3"></textarea>
+                        </div>
                         <div class="d-flex justify-content-start mt-4">
                             <div>
-                                <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
-                                <button type="reset" class="btn btn-secondary ms-2">Cancel</button>
+                                <button type="button" class="btn btn-primary" onclick="validateForm()">Tambah</button>
+                                <button type="reset" class="btn btn-secondary ms-2">Batal</button>
                             </div>
                         </div>
                     </form>
@@ -442,14 +450,14 @@
       <!--begin::Footer-->
       <footer class="app-footer">
         <!--begin::To the end-->
-        <div class="float-end d-none d-sm-inline">Anything you want</div>
+        <div class="float-end d-none d-sm-inline">Apa pun yang Anda inginkan</div>
         <!--end::To the end-->
         <!--begin::Copyright-->
         <strong>
-          Copyright &copy; 2014-2024&nbsp;
+          Hak Cipta &copy; 2014-2024&nbsp;
           <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
         </strong>
-        All rights reserved.
+        Hak cipta dilindungi.
         <!--end::Copyright-->
       </footer>
       <!--end::Footer-->
