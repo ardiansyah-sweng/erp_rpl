@@ -17,4 +17,18 @@ class SupplierPic extends Model
         $this->table = config('db_constants.table.supplier_pic');
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
     }
+
+    public static function getSupplierByKeyword($search = null)
+    {
+        $query = self::query();
+
+        if ($search) {
+            $query->where('supplier_id', 'LIKE', "%{$search}%")
+                  ->orWhere('name', 'LIKE', "%{$search}%")
+                  ->orWhere('phone_number', 'LIKE', "%{$search}%")
+                  ->orWhere('email', 'LIKE', "%{$search}%");
+        }
+    }
+
+       
 }
