@@ -25,10 +25,15 @@ class CategoryController extends Controller
 
         return redirect()->route('category.list')->with('success', 'Kategori berhasil ditambahkan!');
     }
+    public function getCategoryList() 
+    {
+        $category = Category::getAllCategory();
+        return view('category.list', compact('category'));
+    }
     public function printCategoryPDF()
     {
-    $categories = Category::getCategory(); // kita tambahkan method ini di bawah
-    $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
-    return $pdf->stream('laporan_kategori.pdf'); 
+        $categories = Category::getCategory(); // kita tambahkan method ini di bawah
+        $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
+        return $pdf->stream('laporan_kategori.pdf'); 
     }
 } //CategoryController

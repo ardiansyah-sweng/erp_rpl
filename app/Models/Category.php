@@ -39,7 +39,7 @@ class Category extends Model
 
     public static function addCategory(array $data)
     {
-    return self::create($data);
+        return self::create($data);
     }
 
     public static function countCategory()
@@ -49,6 +49,6 @@ class Category extends Model
     // mengambil semua kategori beserta data induknya
     public static function getCategory()
     {
-    return self::with('parent')->get();
+        return self::with('parent')->get();
     }
 }
