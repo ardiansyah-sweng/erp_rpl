@@ -35,12 +35,12 @@ class SupplierController extends Controller
 
         if ($result === true) {
             return redirect()->back()->with('success', 'Supplier berhasil dihapus');
-            
+
         } elseif ($result === 'Supplier ini tidak bisa dihapus karena sudah memiliki purchase order') {
             return redirect()->back()->with('error', $result);
         }
 
-        return redirect()->back()->with('error', 'Supplier tidak ditemukan');
+        return redirect()->back()->with('error', 'Supplier tidak ditemukan'); #
     }
 
 }
