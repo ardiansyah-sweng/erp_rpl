@@ -223,12 +223,12 @@
                       <p>Item</p>
                     </a>
                   </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
               <a href="{{ route('warehouse.list') }}" class="nav-link">
               <i class="nav-icon bi bi-clipboard-fill"></i>
                       <p>warehouse</p>
                     </a>
-                  </li>
+                  </li> -->
             </ul>
           </nav>
         </div>
