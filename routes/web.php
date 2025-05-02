@@ -10,6 +10,7 @@ use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
+use App\Http\Controllers\SupplierPicController;
 use App\Helpers\EncryptionHelper;
 
 
