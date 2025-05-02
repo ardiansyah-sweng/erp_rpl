@@ -14,4 +14,10 @@ class SupplierMaterialController extends Controller
 
         return view('supplier.material', ['materials' => $materials]);
     }
+
+    public function supplierMaterialSearch($keyword)
+    {
+        $results = SupplierMaterial::supplierMaterialSearch($keyword);
+        return $results;
+    }
 }
