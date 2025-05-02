@@ -20,7 +20,5 @@ class SupplierMaterialController extends Controller
         $results = SupplierMaterial::supplierMaterialSearch($keyword);
         return $results;
     }
-
-    
 }
 

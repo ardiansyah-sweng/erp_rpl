@@ -718,7 +718,7 @@
     </script>
     
     <script>
-      function validateForm() {
+        function validateForm() {
         let isValid = true;
 
         // Reset error states
