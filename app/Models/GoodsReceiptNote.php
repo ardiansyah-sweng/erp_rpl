@@ -34,12 +34,6 @@ class GoodsReceiptNote extends Model
          return $this->belongsTo(PurchaseOrder::class, config('db_constants.column.grn.po_number'), config('db_constants.column.po.po_number'));
     }
 
-    public static function generateGrnNumber(): string
-    {
-         $datePart = Carbon::now()->format('Ymd');
-         $randomPart = strtoupper(Str::random(4));
-         return 'GRN-' . $datePart . '-' . $randomPart;
-    }
 
     public static function addGoodsReceiptNote($data)
     {
@@ -48,10 +42,9 @@ class GoodsReceiptNote extends Model
         $colGrn = config('db_constants.column.grn');
         $colGrnDetail = config('db_constants.column.grn_detail');
 
-        $grnNumber = self::generateGrnNumber();
 
         $grn = self::create([
-            $colGrn['grn_number'] => $grnNumber,
+            $colGrn['grn_number'] => $headerData['grn_number'],
             $colGrn['po_number'] => $headerData['po_number'],
             $colGrn['receipt_date'] => $headerData['receipt_date'],
             $colGrn['received_by'] => $headerData['received_by'],
@@ -60,7 +53,7 @@ class GoodsReceiptNote extends Model
 
         foreach ($itemDetails as $item) {
             GoodsReceiptNoteDetail::create([
-                $colGrnDetail['grn_number'] => $grnNumber,
+                $colGrnDetail['grn_number'] => $headerData['grn_number'],
                 $colGrnDetail['product_id'] => $item['product_id'],
                 $colGrnDetail['quantity_received'] => $item['quantity_received'],
                 $colGrnDetail['notes'] => $item['notes'] ?? null,
