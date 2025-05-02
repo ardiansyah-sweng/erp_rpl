@@ -423,7 +423,7 @@
                       $avatarPath = asset("assets/dist/assets/img/{$filename}");
                   @endphp
                 <div class="d-flex gap-3 mb-3 mt-4">
-                    <img src="{{ $avatarPath }}" style="width: 120px;">
+                <img id="photo_preview" src="{{ $avatarPath }}" style="width: 120px;">
                     <input type="file" class="form-control" id="avatar" name="avatar" accept="image/*">
                 </div>
                 <div class="mb-3">
