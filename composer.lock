@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+
     "content-hash": "f6302f5d124677ed90b06a585bc04244",
+
+    "content-hash": "0943736492514a4a9195de5ad0f4adc3",
+
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1288,6 +1292,7 @@
         },
         {
             "name": "laravel/framework",
+
             "version": "v11.44.7",
             "source": {
                 "type": "git",
@@ -1298,6 +1303,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/00bc6ac91a6d577bf051c18ddaa638c0d221e1c7",
                 "reference": "00bc6ac91a6d577bf051c18ddaa638c0d221e1c7",
+
+            "version": "v11.44.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "b0a87fbd13c0b05227a00da7968701f4274e3195"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/b0a87fbd13c0b05227a00da7968701f4274e3195",
+                "reference": "b0a87fbd13c0b05227a00da7968701f4274e3195",
+
                 "shasum": ""
             },
             "require": {
@@ -1499,7 +1516,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
+
             "time": "2025-04-25T12:40:47+00:00"
+
+            "time": "2025-04-23T14:45:24+00:00"
+
         },
         {
             "name": "laravel/prompts",
