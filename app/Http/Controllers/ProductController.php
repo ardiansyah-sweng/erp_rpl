@@ -69,14 +69,11 @@ class ProductController extends Controller
             'product_description' => 'nullable|string',
         ]);
 
-        Product::create($validatedData);
+        Product::addProduct($validatedData);
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
 
-    public function create()
-    {
-        return view('product.add');
-    }
+    
 
 }
