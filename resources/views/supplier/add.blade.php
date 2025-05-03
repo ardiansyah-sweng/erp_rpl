@@ -4,7 +4,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah PIC Supplier</title>
+    <title>ERP RPL UAD | Tambah Supplier</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -360,11 +360,11 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah PIC Supplier</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Tambah Supplier</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Tambah PIC Supplier</li>
+                  <li class="breadcrumb-item active" aria-current="page">Tambah Supplier</li>
                 </ol>
               </div>
             </div>
@@ -380,52 +380,34 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="container">
-                <form id="picForm">
+                    <form id="picForm">
                         <div class="mb-3">
                             <label for="supplier_id" class="form-label">ID Supplier</label>
                             <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
                             <span id="supplierIdError" class="error"></span>
                         </div>
                         <div class="mb-3">
-                            <label for="supplier_name" class="form-label">Nama Supplier</label>
-                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
+                            <label for="company_name" class="form-label">Nama Supplier</label>
+                            <input type="text" class="form-control" id="company_name" name="company_name" required>
+                            <span id="companynameError" class="error"></span>
                         </div>
                         <div class="mb-3">
-                            <label for="pic_name" class="form-label">Nama PIC (Person In Charge)</label>
-                            <input type="text" class="form-control" id="pic_name" name="pic_name" required>
-                            <span id="picNameError" class="error"></span>
+                            <label for="address" class="form-label">Alamat Supplier</label>
+                            <input type="text" class="form-control" id="address" name="address" required>
+                            <span id="addressError" class="error"></span>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                            <span id="emailError" class="error"></span>
+                            <label for="phone_number" class="form-label">Telephone</label>
+                            <input type="text" class="form-control" id="phone_number" name="phone_number" required>
+                            <span id="phonenuberError" class="error"></span>
                         </div>
                         <div class="mb-3">
-                            <label for="telephone" class="form-label">Telephone</label>
-                            <input type="text" class="form-control" id="telephone" name="telephone" required>
-                            <span id="telephoneError" class="error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="assignment_date" class="form-label">Assignment Date</label>
-                            <input type="date" class="form-control" id="assignment_date" name="assignment_date" required>
-                            <span id="assignmentDateError" class="error"></span>
-                        </div>
-                        <div>
-                            <div><label for="pic_photo" class="form-label">Upload Foto PIC</label></div>
-                                <div class="d-flex justify">
-                                  <div><img id="photo_preview" src={{asset("assets/dist/assets/img/avatar_default.png")}} alt="Avatar Default" class="mt-2" style="max-width: 100px; max-height: 100px;"></div>
-                                  <div>
-                                    <input type="file" class="form-control" id="pic_photo" name="pic_photo" accept="image/*">
-                                  </div>
-                                </div>
+                                <label for="bank_account" class="form-label">Rekening Bank</label>
+                                <input type="text" class="form-control" id="bank_account" name="bank_account" required>
+                                <span id="bankaccountError" class="error"></span>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div>
-                                <div class="mb-3">
-                                    <label class="form-check-label" for="status">Status</label>
-                                    <input type="checkbox" class="form-check-input" id="status" name="status" value="1">
-                                    <label for="status">Aktif</label>
-                                </div>
                                 <div>
                                   <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
                                   <button type="reset" class="btn btn-secondary">Cancel</button>
@@ -730,16 +712,16 @@
         function validateForm() {
           let isValid = true;
           $('#supplierIdError').html("");
-          $('#picNameError').html("");
-          $('#emailError').html("");
-          $('#telephoneError').html("");
-          $('#assignmentDateError').html("");
+          $('#companynameError').html("");
+          $('#addressError').html("");
+          $('#phonenuberError').html("");
+          $('#bankaccountError').html("");
 
           let supplierId = $('#supplier_id').val(); 
-          let picName = $('#pic_name').val(); 
-          let email = $('#email').val(); 
-          let telephone = $('#telephone').val(); 
-          let assignmentDate = $('#assignment_date').val(); 
+          let company_name = $('#company_name').val(); 
+          let address = $('#address').val(); 
+          let phone_number = $('#phone_number').val(); 
+          let bank_account = $('#bank_account').val(); 
 
           console.log(supplierId);
 
@@ -747,22 +729,21 @@
             $('#supplierIdError').html("<span style=\"color: red;\">ID Supplier harus diisi.</span>");
             isValid = false;
           }
-          if (picName === null || supplierId === "") {
-            $('#picNameError').html("<span style=\"color: red;\">Nama PIC harus diisi.</span>");
+          if (company_name === null || company_name === "") {
+            $('#companynameError').html("<span style=\"color: red;\">company name harus diisi.</span>");
             isValid = false;
           }
-          let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailPattern.test(email)) {
-            $('#emailError').html("<span style=\"color: red;\">Masukan email yang valid.</span>");
+          if (address === null || address === "") {
+            $('#addressError').html("<span style=\"color: red;\">Address harus diisi.</span>");
             isValid = false;
-          } 
+          }
           let phonePattern = /^\d{10,13}$/;
-          if (!phonePattern.test(telephone)) {
-            $('#telephoneError').html("<span style=\"color: red;\">Nomor Telephone harus diisi(10-13 digit).</span>");
+          if (!phonePattern.test(phone_number)) {
+            $('#phonenuberError').html("<span style=\"color: red;\">Nomor Telephone harus diisi(10-13 digit).</span>");
             isValid = false;
           }
-          if (assignmentDate === null || supplierId === "") {
-            $('#assignmentDateError').html("<span style=\"color: red;\">Tanggal penugasan harus diisi.</span>");
+          if (bank_account === null || bank_account === "") {
+            $('#bankaccountError').html("<span style=\"color: red;\">bank account harus diisi.</span>");
             isValid = false;
           }
           return isValid;
