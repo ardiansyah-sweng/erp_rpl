@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Item extends Model
 {
@@ -68,16 +69,20 @@ class Item extends Model
         // Jika item tidak ditemukan, kembalikan false
         return false;
     }
+    
 
-    public static function getItemByType($productType)
+public static function getItemByType($productType)
 {
-    return self::join(config('db_constants.table.product') . ' as p', 'p.id', '=', 'items.product_id')
-                ->where('p.type', $productType)
-                ->select('items.*', 'p.type as product_type', 'p.product_name')
-                ->orderBy('items.created_at', 'asc')
-                ->paginate(10);
+    return DB::table(config('db_constants.table.item') . ' as i')
+        ->join(config('db_constants.table.produk') . ' as p', 'i.produk_id', '=', 'p.id')
+        ->where('p.tipe_produk', $productType)
+        ->select('i.*', 'p.nama_produk', 'p.tipe_produk')
+        ->get();
 }
+
+}
+
 
 
     
-}
+
