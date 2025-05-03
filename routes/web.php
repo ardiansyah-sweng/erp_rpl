@@ -48,10 +48,11 @@ Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPu
 Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])->name('purchase_orders.add'); // tambahan
 
 # Items
-Route::get('/items', [ItemController::class, 'getItemAll']);
-Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
+
+Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); 
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
-Route::post('/item/update/{id}', [ItemController::class, 'updateItem'])->name('item.update');
+Route::get('/item/edit/{id}', [ItemController::class, 'editItem'])->name('item.edit');
+Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
 
 
 # Merk

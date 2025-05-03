@@ -48,8 +48,16 @@ if (!$item) {
 }
 
 return redirect()->back()->with('success', 'Item berhasil diperbarui.');
-
-
     
+}
+public function editItem($id)
+{
+    $item = Item::find($id);
+
+    if (!$item) {
+        return redirect()->back()->with('error', 'Item tidak ditemukan.');
+    }
+
+    return view('item.edit', compact('item'));
 }
 }

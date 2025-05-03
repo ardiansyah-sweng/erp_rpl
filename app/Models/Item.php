@@ -68,25 +68,16 @@ class Item extends Model
         // Jika item tidak ditemukan, kembalikan false
         return false;
     }
-    public static function updateItemById($id, $data) {
+    public static function updateItem($id, $data)
+    {
         $item = self::find($id);
     
         if (!$item) {
             return null;
         }
     
-        $item->name = $data['name'];
-        $item->description = $data['description'] ?? null;
-        $item->price = $data['price'];
-        $item->updated_at = now();
-    
-        if (!$item->created_at) {
-            $item->created_at = now();
-        }
-    
-        $item->save();
+        $item->update($data);
     
         return $item;
     }
-    
 }
