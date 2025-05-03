@@ -60,21 +60,13 @@ class Item extends Model
             throw new Exception("Item tidak bisa dihapus karena sudah digunakan di purchase order.");
         }
 
-        $item->delete();
+    $item->delete();
+    self::where('id', '>', $id)->decrement('id');
 
-        // Opsional, hanya jika kamu butuh susunan id berurutan
-        self::where('id', '>', $id)->decrement('id');
+    return true;
+}
 
-            return true;
-        }
-
-        // Jika item tidak ditemukan, kembalikan false
-        return false;
-    }
-
-    public static function countItem() {
-        return self::count();
-    }
-
-
+public static function countItem() {
+    return self::count();
+}
 }
