@@ -7,6 +7,20 @@ use App\Models\Supplier;
 
 class SupplierController extends Controller
 {
+    public function getSupplier(Request $request)
+    {
+        // Mengambil data supplier sekaligus menghitung jumlah relasi supplier PIC dan PO
+        $suppliers = Supplier::withCount([
+            'supplierPics',
+            'purchaseOrders'
+        ])->get();
+
+        return response()->json([
+            'message' => 'Data Supplier berhasil diambil',
+            'data'    => $suppliers
+        ], 200);
+    }
+    
     public function getUpdateSupplier(Request $request, $supplier_id)
     {
         // Validasi input
