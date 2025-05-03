@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah Cabang</title>
+    <title>ERP RPL UAD | Detail Produk</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
@@ -116,7 +116,7 @@
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
-                <span class="d-none d-md-inline">Admin</span>
+                <span class="d-none d-md-inline">Mimin Gantenks</span>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <li class="user-header text-bg-primary">
@@ -126,7 +126,7 @@
                     alt="User Image"
                   />
                   <p>
-                    Admin - Web Developer
+                    Alexander Pierce - Web Developer
                     <small>Member since Jan. 2024</small>
                   </p>
                 </li>
@@ -202,7 +202,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="{{route('purchase.orders')}}" class="nav-link active">
+                <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Purchase Orders
@@ -210,7 +210,7 @@
                 </a>                
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
+                <a href="{{ route('branch.list') }}" class="nav-link active">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -227,113 +227,79 @@
           </nav>
         </div>
       </aside>
-      <main class="app-main">
-        <div class="app-content-header">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Detail Order</h3></div>
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="{{route('purchase.orders')}}">Purchase Orders</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Detail Order</li>
-                </ol>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="app-content">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="card card-primary">
-                  <div class="card-header">
-                    <h3 class="card-title"> </h3>
-                  </div>
-                         
-                <div class="card-body">
-                  <!-- Add a container for the purchase order data -->
-                  <div id="purchase-order-details">
-                      <h6>ID Purchase Order</h6>
-                      <h4>{{ $purchaseOrder->first()->po_number }}</h4>
-                      <h6>Supplier</h6>
-                      <h4>{{ $purchaseOrder->first()->supplier->company_name }}</h4>
-                      <h6>Status</h6>
-                      <h4>{{ $purchaseOrder->first()->status }}</h4>
-                      <h6>Last Updated Status</h6>
-                      @php
-                        $poLength = App\Http\Controllers\PurchaseOrderController::getPOLength(
-                          $purchaseOrder[0]->po_number, 
-                          $purchaseOrder[0]->order_date
-                        );
-                      @endphp
-                      <h4>{{ $poLength }} Days</h4>
-                      <h6>Order Date</h6>
-                      <h4>{{ $purchaseOrder->first()->order_date }}</h4>
-                      <h6>Updated At</h6>
-                      <h4>{{ Carbon\Carbon::parse($purchaseOrder->first()->updated_at)->format('Y-m-d') }}</h4>                     
-                      
-                      <!-- Add Purchase Order Details Table -->
-                      <h6 class="mt-4">Purchase Order Details</h6>
-                      <div class="table-responsive">
-                          <table class="table table-bordered table-striped">
-                              <thead>
-                                  <tr>
-                                      <th>Product ID</th>
-                                      <th>Quantity</th>
-                                      <th>Amount</th>
-                                      <th>Total</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  @php $grandTotal = 0; @endphp
-                                  @foreach($purchaseOrder->first()->details as $detail)
-                                      @php
-                                          $subtotal = $detail->quantity * $detail->amount;
-                                          $grandTotal += $subtotal;
-                                      @endphp
-                                      <tr>
-                                          <td>{{ $detail->product_id }}</td>
-                                          <td>{{ $detail->quantity }}</td>
-                                          <td>Rp {{ number_format($detail->amount, 0, ',', '.') }}</td>
-                                          <td>Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
-                                      </tr>
-                                  @endforeach
-                              </tbody>
-                              <tfoot>
-                                  <tr>
-                                      <td colspan="3" class="text-end"><strong>Grand Total:</strong></td>
-                                      <td><strong>Rp {{ number_format($grandTotal, 0, ',', '.') }}</strong></td>
-                                  </tr>
-                              </tfoot>
-                          </table>
-                      </div>
-                  </div>
-              </div>
-                  
-                  <div id="debug-output" class="mt-4" style="display: none;">
-                    <div class="card">
-                      <div class="card-body bg-light">
-                        <pre id="dd-content" class="p-3 bg-dark text-light" style="border-radius: 5px;"></pre>
-                      </div>
+      <!-- Content -->
+      <div class="app-wrapper d-flex flex-column">
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Detail Produk</h1>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div> 
-        </div> 
-      </main>
-      <footer class="app-footer">
-        <div class="float-end d-none d-sm-inline">Anything you want</div>
-        <strong>
-          Copyright &copy; 2014-2024&nbsp;
-          <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
-        </strong>
-        All rights reserved.
-      </footer>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Informasi Produk
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th style="width: 30%">ID</th>
+                                <td>{{ $product->id ?? 'Tidak ada data' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Produk ID</th>
+                                <td>{{ $product->product_id ?? 'Tidak ada data' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Produk Name</th>
+                                <td>{{ $product->product_name ?? 'Tidak ada data' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Produk Type</th>
+                                <td>{{ $product->product_type ?? 'Tidak ada data' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Produk Catecory</th>
+                                <td>{{ $product->category->category ?? 'Tidak ada data' }}</td>
+
+                            </tr>
+                            <tr>
+                                <th>Produk Description</th>
+                                <td>{{ $product->product_description ?? 'Tidak ada data' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Created At</th>
+                                <td>{{ $product->created_at ?? 'Tidak ada data' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Updated At</th>
+                                <td>{{ $product->updated_at ?? 'Tidak ada data' }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-    
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="float-end d-none d-sm-inline">Anything you want</div>
+        <div class="text-left ms-3">
+            <strong>
+                Copyright &copy; 2014-2024&nbsp;
+                <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+            </strong>
+            All rights reserved.
+        </div>
+    </footer>
+</div>
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
       integrity="sha256-JLMUQfrMvhB/C+XTyqfc/TUlC6gGQE0H2hZFX5FJ1cM="
@@ -371,9 +337,7 @@
         }
       });
     </script>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
     $(document).ready(function () {
         $('[data-widget="pushmenu"]').on('click', function (e) {
@@ -382,7 +346,6 @@
         });
     });
     </script>
-
     
-  </body>
+  </body>
 </html>

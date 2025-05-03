@@ -65,6 +65,16 @@ class Item extends Model
         // Opsional, hanya jika kamu butuh susunan id berurutan
         self::where('id', '>', $id)->decrement('id');
 
-        return true;
+            return true;
+        }
+
+        // Jika item tidak ditemukan, kembalikan false
+        return false;
     }
+
+    public static function countItem() {
+        return self::count();
+    }
+
+
 }
