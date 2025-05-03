@@ -65,6 +65,7 @@ Route::get('/supplier/list', function () {
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.update');
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 
 # API
