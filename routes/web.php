@@ -11,7 +11,8 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
-
+use App\Http\Controllers\SupplierPicController;
+use App\Models\SupplierPic;
 
 #Login
 Route::get('/', function () {
@@ -98,4 +99,5 @@ Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
-#Supplier
+#SupplierPic
+Route::get('/supplierPic/{id}', [SupplierPicController::class,'getSupplierPicById']);
