@@ -114,3 +114,8 @@ Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSu
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
+
+//Cetak PDF purchase order
+Route::get('/purchase-orders/report', [PurchaseOrderController::class, 'showReportForm'])->name('purchase_orders.report_form');
+Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePurchaseOrderPDF'])->name('purchase_orders.pdf');
+Route::get('/purchase-orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase_orders.list');

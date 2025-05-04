@@ -390,6 +390,7 @@ use App\Helpers\EncryptionHelper;
                     <h2 class="card-title mb-0 me-2">Purchase Orders</h2>
                     <!-- <a href="{{ route('purchase_orders.add') }}" class="btn btn-primary btn-sm">Add</a> -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPurchaseOrderModal">  Add </button>
+                    <a href="{{ route('purchase_orders.report_form') }}" class="btn btn-primary">Cetak PDF</a>
                   </div>
 
                   <!-- Modal -->
