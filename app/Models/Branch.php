@@ -51,9 +51,23 @@ class Branch extends Model
         return self::create($data);
     }
 
+
     public static function updateBranch($data)
 {
     return self::update($id, $data);
 }
 
+
+    public static function countBranch()
+    {
+        return self::count();
+    }
+
+    public static function countBranchByStatus()
+    {
+        return [
+            'aktif' => self::where('branch_status', 1)->count(),
+            'nonaktif' => self::where('branch_status', 0)->count(),
+            ];
+    }
 }
