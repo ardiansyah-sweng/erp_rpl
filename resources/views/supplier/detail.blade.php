@@ -247,28 +247,43 @@
                         Informasi Supplier
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th style="width: 30%">ID Supplier</th>
-                                <td>{{ $supplier->supplier_id ?? 'Tidak ada data' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Nama Supplier</th>
-                                <td>{{ $supplier->company_name ?? 'Tidak ada data' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Alamat Supplier</th>
-                                <td>{{ $supplier->address ?? 'Tidak ada data' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Telephone</th>
-                                <td>{{ $supplier->phone_number ?? 'Tidak ada data' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Rekening Bank</th>
-                                <td>{{ $supplier->bank_account ?? 'Tidak ada data' }}</td>
-                            </tr>
-                        </table>
+                      <table class="table table-bordered">
+                        <tr>
+                            <th style="width: 30%">ID Supplier</th>
+                            <td>{{ $supplier->supplier_id ?? 'Tidak ada data' }}</td>
+                            @error('supplier_id')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </tr>
+                        <tr>
+                            <th>Nama Supplier</th>
+                            <td>{{ $supplier->company_name ?? 'Tidak ada data' }}</td>
+                            @error('company_name')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </tr>
+                        <tr>
+                            <th>Alamat Supplier</th>
+                            <td>{{ $supplier->address ?? 'Tidak ada data' }}</td>
+                            @error('address')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </tr>
+                        <tr>
+                            <th>Telephone</th>
+                            <td>{{ $supplier->phone_number ?? 'Tidak ada data' }}</td>
+                            @error('phone_number')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </tr>
+                        <tr>
+                            <th>Rekening Bank</th>
+                            <td>{{ $supplier->bank_account ?? 'Tidak ada data' }}</td>
+                            @error('bank_account')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </tr>
+                    </table>                    
                     </div>
                 </div>
             </div>
