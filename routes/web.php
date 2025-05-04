@@ -63,4 +63,28 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
 
 #Count pic Model
-Route::get('/pic/{supplier_id}', [SupplierPICcontroller::class, 'countPICModel']);
+use App\Models\SupplierPic;
+
+Route::get('/pic/{supplier_id}', function ($supplier_id) {
+    if (!$supplier_id) {
+        return response()->json([
+            'success' => false,
+            'message' => 'supplier_id wajib diisi.'
+        ], 400);
+    }
+
+    $count = SupplierPic::countSupplierPIC($supplier_id);
+
+    if (!$count) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Data tidak ditemukan.'
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'supplier_id' => $supplier_id,
+        'pic_count' => $count->jumlah
+    ]);
+});
