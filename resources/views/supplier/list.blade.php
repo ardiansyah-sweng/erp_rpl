@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah PIC Supplier</title>
+    <title>ERP RPL UAD | Supplier List</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -303,7 +302,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./generate/theme.html" class="nav-link">
+              <a href="{{ route('product.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
@@ -343,110 +342,162 @@
                   <p>
                     Purchase Orders
                   </p>
-                </a>
+                </a>                
               </li>
+              <li class="nav-item">
+                <a href="{{ route('branch.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Branch
+                  </p>
+                </a>                
+              </li>
+              <li class="nav-item">
+              <a href="{{ route('item.list') }}" class="nav-link">
+              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>Item</p>
+                    </a>
+                  </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
         </div>
         <!--end::Sidebar Wrapper-->
       </aside>
-      <!--end::Sidebar-->
-      <!--begin::App Main-->
-      <main class="app-main">
-        <!--begin::App Content Header-->
-        <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah PIC Supplier</h3></div>
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Tambah PIC Supplier</li>
-                </ol>
-              </div>
-            </div>
-            <!--end::Row-->
+
+<!-- list.blade.php -->
+<main class="content-wrapper">
+  <div class="container-fluid">
+    <div class="mb-4">
+      <h1 class="h3 fw-bold mb-2">Suppliers</h1>
+      <a href="#" class="btn btn-primary btn-sm">New Supplier</a>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <!-- Filter & Search -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="d-flex align-items-center">
+            <span>Show</span>
+            <select id="pageLength" class="form-select mx-2" style="width: auto;">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+            <span>entries</span>
           </div>
-          <!--end::Container-->
-        </div>
-        <!--end::App Content Header-->
-        <!--begin::App Content-->
-        <div class="app-content">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-                <div class="container">
-                <form id="picForm">
-                        <div class="mb-3">
-                            <label for="supplier_id" class="form-label">ID Supplier</label>
-                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
-                            <span id="supplierIdError" class="error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="supplier_name" class="form-label">Nama Supplier</label>
-                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="pic_name" class="form-label">Nama PIC (Person In Charge)</label>
-                            <input type="text" class="form-control" id="pic_name" name="pic_name" required>
-                            <span id="picNameError" class="error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                            <span id="emailError" class="error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="telephone" class="form-label">Telephone</label>
-                            <input type="text" class="form-control" id="telephone" name="telephone" required>
-                            <span id="telephoneError" class="error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="assignment_date" class="form-label">Assignment Date</label>
-                            <input type="date" class="form-control" id="assignment_date" name="assignment_date" required>
-                            <span id="assignmentDateError" class="error"></span>
-                        </div>
-                        <div>
-                            <div><label for="pic_photo" class="form-label">Upload Foto PIC</label></div>
-                                <div class="d-flex justify">
-                                  <div><img id="photo_preview" src={{asset("assets/dist/assets/img/avatar_default.png")}} alt="Avatar Default" class="mt-2" style="max-width: 100px; max-height: 100px;"></div>
-                                  <div>
-                                    <input type="file" class="form-control" id="pic_photo" name="pic_photo" accept="image/*">
-                                  </div>
-                                </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <div class="mb-3">
-                                    <label class="form-check-label" for="status">Status</label>
-                                    <input type="checkbox" class="form-check-input" id="status" name="status" value="1">
-                                    <label for="status">Aktif</label>
-                                </div>
-                                <div>
-                                  <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
-                                  <button type="reset" class="btn btn-secondary">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            
-            <!-- /.row (main row) -->
+          <div class="d-flex align-items-center">
+            <span class="me-2">Search:</span>
+            <input type="text" id="supplierSearch" class="form-control" style="width: 200px;">
           </div>
-          <!--end::Container-->
         </div>
-        <!--end::App Content-->
-      </main>
-      <!--end::App Main-->
-      <!--begin::Footer-->
-      <footer class="app-footer">
+
+        <!-- Table -->
+        <div class="table-responsive">
+          <table id="supplierTable" class="table table-bordered table-hover align-middle mb-0">
+            <thead class="table-light text-center">
+              <tr>
+                <th>No</th>
+                <th>ID Supplier</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Telephone</th>
+                <th>PiC</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Static Data List -->
+              <tr>
+                <td class="text-center">1</td>
+                <td>SUP001</td>
+                <td>PT. Sumber Makmur</td>
+                <td>Jl. Merdeka No.123</td>
+                <td>081234567890</td>
+                <td class="text-center">
+                  <span class="badge bg-info text-dark">0</span>
+                </td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-1 flex-wrap">
+                    <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                    <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
+                    <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">2</td>
+                <td>SUP002</td>
+                <td>CV. Maju Jaya</td>
+                <td>Jl. Sudirman No.45</td>
+                <td>082134567891</td>
+                <td class="text-center">
+                  <span class="badge bg-info text-dark">0</span>
+                </td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-1 flex-wrap">
+                    <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                    <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
+                    <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">3</td>
+                <td>SUP003</td>
+                <td>UD. Berkah Abadi</td>
+                <td>Jl. Diponegoro No.78</td>
+                <td>083134567892</td>
+                <td class="text-center">
+                  <span class="badge bg-info text-dark">0</span>
+                </td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-1 flex-wrap">
+                    <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                    <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
+                    <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
+                  </div>
+                </td>
+              </tr>
+              <!-- End Static Data List -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Info -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div>Showing 1 to 3 of 3 entries</div>
+          <nav>
+            <ul class="pagination">
+              <li class="page-item disabled">
+                <a class="page-link" href="#">Previous</a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+              </li>
+              <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Custom CSS -->
+<style>
+.custom-btn {
+  padding: 3px 8px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+</style>
+
+
+<!--begin::Footer-->
+<footer class="app-footer">
         <!--begin::To the end-->
         <div class="float-end d-none d-sm-inline">Anything you want</div>
         <!--end::To the end-->
@@ -461,6 +512,7 @@
       <!--end::Footer-->
     </div>
     <!--end::App Wrapper-->
+
     <!--begin::Script-->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script
@@ -714,7 +766,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- AdminLTE JS -->
-    <script src={{ asset("assets/dist/js/adminlte.js")}}></script>
+    <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
 
     <!-- Custom Sidebar Toggle Script -->
     <script>
@@ -725,49 +777,7 @@
         });
     });
     </script>
-    <!--validate form -->
-    <script>
-        function validateForm() {
-          let isValid = true;
-          $('#supplierIdError').html("");
-          $('#picNameError').html("");
-          $('#emailError').html("");
-          $('#telephoneError').html("");
-          $('#assignmentDateError').html("");
 
-          let supplierId = $('#supplier_id').val(); 
-          let picName = $('#pic_name').val(); 
-          let email = $('#email').val(); 
-          let telephone = $('#telephone').val(); 
-          let assignmentDate = $('#assignment_date').val(); 
-
-          console.log(supplierId);
-
-          if (supplierId === null || supplierId === "") {
-            $('#supplierIdError').html("<span style=\"color: red;\">ID Supplier harus diisi.</span>");
-            isValid = false;
-          }
-          if (picName === null || supplierId === "") {
-            $('#picNameError').html("<span style=\"color: red;\">Nama PIC harus diisi.</span>");
-            isValid = false;
-          }
-          let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailPattern.test(email)) {
-            $('#emailError').html("<span style=\"color: red;\">Masukan email yang valid.</span>");
-            isValid = false;
-          } 
-          let phonePattern = /^\d{10,13}$/;
-          if (!phonePattern.test(telephone)) {
-            $('#telephoneError').html("<span style=\"color: red;\">Nomor Telephone harus diisi(10-13 digit).</span>");
-            isValid = false;
-          }
-          if (assignmentDate === null || supplierId === "") {
-            $('#assignmentDateError').html("<span style=\"color: red;\">Tanggal penugasan harus diisi.</span>");
-            isValid = false;
-          }
-          return isValid;
-        }
-    </script>
     <!--end::Script-->
   </body>
   <!--end::Body-->

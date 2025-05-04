@@ -21,11 +21,11 @@ return new class extends Migration
         Schema::dropIfExists('supplier_product');
 
         Schema::create($this->table, function (Blueprint $table) use ($col) {
+            $table->id();
             $table->char($col['supplier_id'], 6);
             $table->string($col['company_name'], 100);
             $table->char($col['product_id'], 50);
             $table->string($col['product_name'], 50);
-            $table->primary([$col['supplier_id'], $col['product_id']]);
             $table->integer($col['base_price']);
             $table->timestamps();
         });
