@@ -28,4 +28,10 @@ class SupplierPic extends Model
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
     }
+    
+    public static function addSupplierPIC($supplierID, $data)
+    {
+        $data['supplier_id'] = $supplierID;
+        return self::create($data);
+    }    
 }

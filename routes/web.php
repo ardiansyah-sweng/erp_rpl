@@ -96,6 +96,7 @@ Route::post('/category/add', [CategoryController::class, 'addCategory'])->name('
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
 Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
+Route::post('/supplier/{supplierID}/add-pic', [SupplierPICController::class, 'addSupplierPIC'])->name('supplier.pic.add');
 
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
