@@ -40,7 +40,7 @@ class SupplierController extends Controller
             return redirect()->back()->with('error', $result);
         }
 
-        return redirect()->back()->with('error', 'Supplier tidak ditemukan'); #
+        return redirect()->back()->with('error', 'Supplier tidak ditemukan'); 
     }
 
 }
