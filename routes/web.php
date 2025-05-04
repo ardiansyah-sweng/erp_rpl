@@ -106,3 +106,5 @@ Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+#Route::get('/pic/{supplier_id}', [SupplierPICcontroller::class, 'countPICModel']);
+Route::get('/pic/{supplier_id}', [SupplierPIController::class, 'countPICModel']);

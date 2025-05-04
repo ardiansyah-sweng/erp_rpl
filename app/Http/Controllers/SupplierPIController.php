@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SupplierPic;
 
-class SupplierPIController extends Controller
+class SupplierPICController extends Controller
 {
     public function getPICByID($id)
     {
-        $pic = SupplierPic::getPICByID($id); // memanggil method getPICByID dari model SupplierPic
-
+        $pic = SupplierPic::getPICByID($id);
         if (!$pic) {
             return redirect('/supplier')->with('error', 'PIC tidak ditemukan.');
         }
@@ -22,6 +21,6 @@ class SupplierPIController extends Controller
 
     public function update(Request $request, $id)
     {
-        // method update disini untuk update
+        // method update di sini
     }
 }
