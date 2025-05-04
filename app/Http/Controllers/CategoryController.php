@@ -64,5 +64,5 @@ class CategoryController extends Controller
         // apabila halaman detail kategori sudah ada harap untuk di uncomment return view
         // dan return response nya di hapus
     }
-    
+
 } //CategoryController
