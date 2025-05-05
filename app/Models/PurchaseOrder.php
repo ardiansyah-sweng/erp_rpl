@@ -111,17 +111,14 @@ class PurchaseOrder extends Model
         }
     }
 
-
-
     public static function getPOByNumberAndStatusFD($poNumber)
     {
         return self::where('po_number', $poNumber)
             ->where('status', POStatus::FD->value)
             ->first();
     }
-
-//hitung jumlah order dari supplier tertentu untuk rentang waktu tertentu
-    public static function countOrdersByDateSupplier($startDate, $endDate, $supplierID, ?POStatus $status = null)
+        //hitung jumlah order dari supplier tertentu untuk rentang waktu tertentu
+public static function countOrdersByDateSupplier($startDate, $endDate, $supplierID, ?POStatus $status = null)
 {
     $query = self::where('supplier_id', $supplierID)
         ->whereBetween('order_date', [$startDate, $endDate]);
