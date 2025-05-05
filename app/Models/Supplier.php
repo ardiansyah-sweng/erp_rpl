@@ -44,18 +44,16 @@ class Supplier extends Model
         }
 
     
-        $purchaseOrderCount = DB::table('purchase_order')->where('supplier_id', $id)->count();
-    
-        if ($purchaseOrderCount > 0) {
+        $hasPurchaseOrders = DB::table('purchase_order')->where('supplier_id', $id)->exists();
+
+        if ($hasPurchaseOrders) {
+        
             return 'Supplier ini tidak bisa dihapus karena sudah memiliki purchase order';
         }
 
-        DB::table('purchase_order')->where('supplier_id', $id)->update(['supplier_id' => null]);
-
+    
         return $supplier->delete();
     }
 
 
 }
-
-#
