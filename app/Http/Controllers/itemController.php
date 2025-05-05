@@ -44,7 +44,8 @@ class ItemController extends Controller
     }
 
     // Tampilan default halaman item (tanpa PDF)
-    $items = Item::getAllItems($search); 
+    $items = Item::getAllItems($search);
+
     return view('item.list', compact('items'));
 }
 }
