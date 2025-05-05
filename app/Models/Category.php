@@ -38,26 +38,19 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
+
+    public static function addCategory(array $data)
+    {
+        return self::create($data);
+    }
+
     public static function countCategory()
     {
         return self::count();
     }
 
-    public static function countByParent()
+    public static function addCategory($data) //insert table
     {
-        $instance = new static;
-        $table = $instance->getTable();
-
-        return self::join($table . ' as parent', $table . '.parent_id', '=', 'parent.id')
-            ->selectRaw('parent.category as name, COUNT(' . $table . '.id) as total')
-            ->groupBy($table . '.parent_id', 'parent.category')
-            ->get()
-            ->map(function ($item) {
-                return [
-                    $item->name,
-                    $item->total,
-                ];
-            })
-            ->toArray();
+        return self::create($data);
     }
 }
