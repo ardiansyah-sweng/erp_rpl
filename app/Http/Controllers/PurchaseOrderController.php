@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PurchaseOrderMail;
 use Carbon\Carbon;
 
 class PurchaseOrderController extends Controller
@@ -79,5 +81,28 @@ class PurchaseOrderController extends Controller
         $statusUpdateDate = Carbon::parse($poData->updated_at);
     
         return intval($orderDate->diffInDays($statusUpdateDate));
+    }
+    public function sendMailPurchaseOrder(Request $request)
+    {
+        $poNumber = $request->input('po_number');
+        $email    = $request->input('email');
+
+        // Ambil data PO
+        $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($poNumber);
+
+        if (!$purchaseOrder || $purchaseOrder->isEmpty()) {
+            return redirect()->back()->with('error', 'Data Purchase Order tidak ditemukan.');
+        }
+
+        try {
+            // Ambil satu data dari koleksi hasil paginate
+            $poData = $purchaseOrder->first();
+
+            Mail::to($email)->send(new PurchaseOrderMail($poData));
+
+            return redirect()->back()->with('success', 'Email PO berhasil dikirim ke ' . $email);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal mengirim email: ' . $e->getMessage());
+        }
     }
 }
