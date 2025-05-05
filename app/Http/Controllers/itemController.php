@@ -43,11 +43,11 @@ class ItemController extends Controller
 
     $item = Item::updateItemById($id, $validated);
 
-if (!$item) {
-    return redirect()->back()->with('error', 'Item tidak ditemukan.');
-}
+    if (!$item) {
+        return redirect()->back()->with('error', 'Item tidak ditemukan.');
+    }
 
-return redirect()->back()->with('success', 'Item berhasil diperbarui.');
+    return redirect()->back()->with('success', 'Item berhasil diperbarui.');
     
-}
+    }
 }

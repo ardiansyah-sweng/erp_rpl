@@ -52,8 +52,8 @@ Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchas
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); 
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
 Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
-
-
+ 
+ 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 
