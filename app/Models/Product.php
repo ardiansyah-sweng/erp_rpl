@@ -51,6 +51,7 @@ class Product extends Model
     }
 
 
+
     public function updateProduct($id, $data)
     {
         try {
@@ -66,3 +67,9 @@ class Product extends Model
     }    
     
 }
+
+    public function getProductById($id) {
+        return self::where('id', $id)->first();
+    }    
+}
+

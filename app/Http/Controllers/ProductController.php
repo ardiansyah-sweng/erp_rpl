@@ -15,6 +15,7 @@ class ProductController extends Controller
 
     public function getProductById($id)
     {
+
         $products = [
             1 => [
                 'id' => 1,
@@ -92,3 +93,13 @@ class ProductController extends Controller
     }
     
 }
+
+        $product = (new Product())->getProductById($id);
+
+        if (!$product) {
+            return abort(404, 'Product tidak ditemukan');
+        }
+       return view('product.detail', compact('product'));
+    }
+}
+
