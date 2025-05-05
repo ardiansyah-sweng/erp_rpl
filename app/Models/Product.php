@@ -50,8 +50,19 @@ class Product extends Model
         return self::count();
     }
 
-    public static function getUpdateProduct($product_id)
+
+    public function updateProduct($id, $data)
     {
-        return self::where('id', $product_id);
-    }
+        try {
+            $idColumn = config('db_constants.column.products.id', 'id');
+            $fillable = $this->getFillable();
+            $safeData = array_intersect_key($data, array_flip($fillable));
+    
+            return self::where($idColumn, $id)->update($safeData);
+        } catch (\Exception $e) {
+            \Log::error('Update error: ' . $e->getMessage());
+            return false;
+        }
+    }    
+    
 }

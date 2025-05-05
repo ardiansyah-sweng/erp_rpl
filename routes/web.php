@@ -65,7 +65,7 @@ Route::get('/supplier/list', function () {
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
-Route::get('/product/{id}', [ProductController::class, 'getUpdateProduct'])->name('product.edit');
+Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.update');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
@@ -92,6 +92,8 @@ Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::clas
 
 #Category
 Route::post('/category/add', [CategoryController::class, 'addCategory'])->name('category.add');
+Route::get('category/print', [CategoryController::class, 'print'])->name('category.print');
+
 
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan

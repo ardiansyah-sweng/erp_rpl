@@ -58,39 +58,37 @@ class ProductController extends Controller
 
         return view('product.detail', compact('product'));
     }
+    
 
-    public function getUpdateProduct($product_id)
+    public function updateProduct(Request $request, $id)
     {
-        $product = Product::getUpdateProduct($product_id)->first();
-
+        $product = Product::find($id);
         if (!$product) {
-            return response()->json(['message' => 'Data Produk Tidak Tersedia'], 404);
+            \Log::error('Product not found with ID: ' . $id);
+            return redirect()->back()->with('error', 'Product not found.');
         }
-
-        return response()->json([
-            'message' => 'Data Produk berhasil ditemukan',
-            'data' => $product,
-        ]);
-    }
-
-    public function updateProduct(Request $request, $product_id)
-    {
-        $request->validate([
-            'name' => 'required|string|min:3',
-            'price' => 'required|numeric',
-            'category_id' => 'required|exists:categories,id',
-            'stock' => 'required|integer'
-        ]);
-
-        $updatedProduct = Product::updateProduct($product_id, $request->all());
-
-        if (!$updatedProduct) {
-            return response()->json(['message' => 'Data Produk Tidak Tersedia'], 404);
+    
+        try {
+            $validated = $request->validate([
+                'product_name' => 'required|string|min:3',
+                'product_description' => 'required|string|min:3',
+                'product_type' => 'required|string',
+                'category_id' => 'required|exists:categories,id' // ganti dengan nama field yang sesuai di DB
+            ]);
+    
+            $validated['updated_at'] = now();
+    
+            $result = $product->update($validated);
+    
+            if ($result) {
+                return redirect()->route('product.detail', ['id' => $id])->with('success', 'Product updated successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Failed to update product. No changes were made.');
+            }
+        } catch (\Exception $e) {
+            \Log::error('Update error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
-
-        return response()->json([
-            'message' => 'Data Produk berhasil diperbarui',
-            'data' => $updatedProduct,
-        ]);
     }
+    
 }
