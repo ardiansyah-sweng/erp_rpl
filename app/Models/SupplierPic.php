@@ -19,15 +19,12 @@ class SupplierPic extends Model
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? ['supplier_id','name','phone_number']);
     }
 
-    /**
-     * Menghitung jumlah PIC berdasarkan supplier_id
-     *
-     * @param int $supplier_id
-     * @return int
-     */
     public static function countSupplierPIC($supplier_id)
     {
-        return self::where('supplier_id', $supplier_id)->count();
+        return self::select('supplier_id',DB::raw('COUNT(*) as jumlahnya'))// Menghitung jumlah PIC berdasarkan supplier_id, dengan pengelompokkan
+            ->where('supplier_id', $supplier_id)
+            ->groupBy('supplier_id')
+            ->first();
     }
 
 }
