@@ -60,7 +60,9 @@ Route::get('/merk/add', function () {
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
+
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 
 # API
