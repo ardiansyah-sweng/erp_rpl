@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
 use Illuminate\Support\Facades\Validator;
-use Carbon\Carbon;
 
 class PurchaseOrderController extends Controller
 {
@@ -17,8 +16,10 @@ class PurchaseOrderController extends Controller
     public function getPurchaseOrderByID($po_number)
     {
         $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($po_number);
-        return view('purchase_orders.detail', compact('purchaseOrder'));
+        // return view('purchase_orders.detail', compact('purchaseOrder'));
+        return response()->json($purchaseOrder);
     }
+
     public function searchPurchaseOrder()
     {
         $keyword = request()->input('keyword');
@@ -62,22 +63,5 @@ class PurchaseOrderController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal menambahkan PO: ' . $e->getMessage());
         }
-    }
-
-    public static function getPOLength($poNumber, $orderDate)
-    {
-        $po = PurchaseOrder::getPurchaseOrderByID($poNumber);
-        
-        if (!$po || $po->count() === 0) {
-            return null;
-        }
-    
-        // Ambil data PO pertama dari hasil paginate
-        $poData = $po->first();
-        
-        $orderDate = Carbon::parse($orderDate);
-        $statusUpdateDate = Carbon::parse($poData->updated_at);
-    
-        return intval($orderDate->diffInDays($statusUpdateDate));
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller
@@ -23,12 +22,6 @@ class BranchController extends Controller
     {
         $search = $request->input('search');
         $branches = Branch::getAllBranch($search);
-
-        if ($request->has('export') && $request->input('export') ==='pdf'){
-            $pdf = Pdf::loadView('branch.report', ['branches' => $branches]);
-            return $pdf->stream('report-branch.pdf');
-        }
-
         return view('branch.list', ['branches' => $branches]);
     }
 

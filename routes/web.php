@@ -93,11 +93,17 @@ Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByI
 Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
 
 # Items
+
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
 Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 
+Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); 
+Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
+Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
+ 
+ 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');

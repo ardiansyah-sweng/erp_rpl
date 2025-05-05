@@ -380,7 +380,7 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="container">
-                <form id="picForm">
+                    <form id="picForm">
                         <div class="mb-3">
                             <label for="supplier_id" class="form-label">ID Supplier</label>
                             <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
