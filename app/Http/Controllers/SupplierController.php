@@ -30,9 +30,9 @@ class SupplierController extends Controller
     }
     public function getSupplierById($id)
     {
-    $sup = (new Supplier())->getSupplierById($id);
+        $sup = (new Supplier())->getSupplierById($id);
 
-    return response()->json($sup);
+        return response()->json($sup);
     }
 }
 
