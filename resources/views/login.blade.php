@@ -51,12 +51,10 @@
   <body class="login-page bg-body-secondary">
     <div class="login-box">
       <div class="card card-outline card-primary">
-        <div class="card-header">
-          <a
-            href="../index2.html"
-            class="link-dark text-center link-offset-2 link-opacity-100 link-opacity-50-hover"
-          >
-            <h1 class="mb-0"><b>Admin</b>LTE</h1>
+      <div class="card-header text-center">
+          <a href="{{ url('/') }}" class="d-flex flex-column align-items-center text-decoration-none">
+            <img src="{{ asset('assets/dist/assets/img/Laravel-Logo.png') }}" alt="Laravel Logo" style="height: 80px;">
+            <h2 class="mt-2 fw-bold" style="color: red; font-family: 'Source Sans 3', sans-serif;">Laravel</h2>
           </a>
         </div>
         <div class="card-body login-card-body">
