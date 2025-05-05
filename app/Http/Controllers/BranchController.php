@@ -3,18 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
     public function getBranchById($id)
     {
-        return (new Branch)->getBranchById($id);
+    $branch = (new Branch())->getBranchByID($id);
+
+    if (!$branch) {
+        return abort(404, 'Cabang tidak ditemukan');
     }
 
-    public function getBranchAll()
+    return view('branch.detail', compact('branch'));
+    }
+
+    public function getBranchAll(Request $request)
     {
-        $branches = Branch::getAllBranch();
+        $search = $request->input('search');
+        $branches = Branch::getAllBranch($search);
+
+        if ($request->has('export') && $request->input('export') ==='pdf'){
+            $pdf = Pdf::loadView('branch.report', ['branches' => $branches]);
+            return $pdf->stream('report-branch.pdf');
+        }
+
         return view('branch.list', ['branches' => $branches]);
     }
 

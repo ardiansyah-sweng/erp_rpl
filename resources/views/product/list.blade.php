@@ -355,6 +355,12 @@
                   </p>
                 </a>                
               </li>
+              <li class="nav-item">
+              <a href="{{ route('item.list') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Item</p>
+                    </a>
+                  </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -372,8 +378,9 @@
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Produk</h3>
-                <a href="#" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
               </div>
+    
     
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">

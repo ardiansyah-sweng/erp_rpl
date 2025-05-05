@@ -353,6 +353,12 @@
                   </p>
                 </a>                
               </li>
+              <li class="nav-item">
+              <a href="{{ route('item.list') }}" class="nav-link">
+              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>Item</p>
+                    </a>
+                  </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -371,6 +377,7 @@
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Branch</h3>
                 <a href="{{ route('branch.add') }}" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="{{ route('branch.list', ['export' => 'pdf']) }}" class="btn btn-primary btn-sm ms-2">Cetak Branch</a>
               </div>
     
               <div class="col-sm-6">
@@ -386,11 +393,24 @@
         </div>
 
         <div class="card mb-4">
-                  <div class="card-header"><h3 class="card-title">List Table</h3></div>
+              <div class="card-header d-flex justify-content-between align-items-center">
+                      <h3 class="card-title">List Table</h3>
+                      <form action="{{ route('branch.list') }}" method="GET" class="d-flex ms-auto">
+                        <!-- Search bar berada di ujung kanan -->
+                        <div class="input-group input-group-sm ms-auto" style="width: 450px;">
+                          <input type="text" name="search" class="form-control" placeholder="Search Branch">
+                          <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                              <i class="bi bi-search"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                  </div>
                   <!-- /.card-header -->
                   <div class="card-body">
                     <table class="table table-bordered">
-                      <thead>
+                      <thead class="text-center">
                         <tr>
                           <th style="width: 10px">id</th>
                           <th>Branch Name</th>
@@ -409,7 +429,7 @@
                             <td>{{ $branch->branch_name }}</td>
                             <td>{{ $branch->branch_address }}</td>
                             <td>{{ $branch->branch_telephone }}</td>
-                            <td>
+                            <td class="text-center">
                                  @if($branch->branch_status == 1)
                                         <i class="bi bi-check-circle-fill text-success"></i>
                                 @else
@@ -436,6 +456,7 @@
                   <div class="card-footer clearfix">
                   {{ $branches->links('pagination::bootstrap-4') }}
                   </div>
+
         </div>
         
       </main>

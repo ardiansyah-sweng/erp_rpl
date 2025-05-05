@@ -54,12 +54,13 @@ class Product extends Model
         $colItem = config('db_constants.column.item');
         $colProduct = config('db_constants.column.products');
 
-        return Item::join($this->table, DB::raw('SUBSTRING(' . $tableItem . '.' . $colItem['sku'] . ', 1, 4)'), '=', $this->table . '.' . $colProduct['id'])
-            ->where($this->table . '.product_type', ProductType::RM)
-            ->select($tableItem . '.' . $colItem['sku'])
-            ->pluck($colItem['sku']);
+        return Item::join($this->table, $this->table.'.'.$colProduct['id'], '=', $tableItem.'.'.$colItem['prod_id'])
+                        ->distinct()
+                        ->where($this->table.'.'.$colProduct['type'], 'RM')
+                        ->select($tableItem.'.'.$colItem['sku']);
     }
 
+<<<<<<< HEAD
     public function getProductTypeAttribute($value)
     {
         return match ($value) {
@@ -71,4 +72,13 @@ class Product extends Model
     }
 
 
+=======
+    public static function countProduct() {
+        return self::count();
+    }
+
+    public function getProductById($id) {
+        return self::where('id', $id)->first();
+    }    
+>>>>>>> a373f1ad7717183e92940c81b9c2508085ad1b1e
 }

@@ -4,6 +4,7 @@ namespace App\Enums;
 
 enum ProductType: string
 {
-    case Finishied = 'Finishied';
+    case FG = 'Finished Goods';
     case RM = 'Raw Material';
+    case HFG = 'Half Finished Goods';
 }
