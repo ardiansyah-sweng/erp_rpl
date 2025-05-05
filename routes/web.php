@@ -98,7 +98,7 @@ Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByI
 Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
 Route::get('/supplier/pic/list', function () {
     $pics = App\Models\SupplierPic::getSupplierPICAll(10);
-    return view('supplier.pic.list', compact('pics')); //implementasi sementara(menunggu controller faiz el fayyed)
+    return view('supplier.pic.list', compact('pics')); //implementasi sementara(menunggu controller dari faiz el fayyed)
 })->name('supplier.pic.list');
 
 # Items
