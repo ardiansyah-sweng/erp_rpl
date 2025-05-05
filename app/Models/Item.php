@@ -78,4 +78,12 @@ class Item extends Model
         return $this->belongsTo(MeasurementUnit::class, 'measurement_unit', 'id');
     }
 
+
+
+    public static function countItem() {
+        return self::count();
+    }
+
+
+
 }
