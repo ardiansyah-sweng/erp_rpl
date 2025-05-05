@@ -91,14 +91,14 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
 })->name('purchase.orders.detail');
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
-
+ 
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
 Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
 Route::get('/supplier/pic/list', function () {
     $pics = App\Models\SupplierPic::getSupplierPICAll(10);
-    return view('supplier.pic.list', compact('pics')); //implementasi sementara(menunggu controller)
+    return view('supplier.pic.list', compact('pics')); //implementasi sementara(menunggu controller faiz el fayyed)
 })->name('supplier.pic.list');
 
 # Items
