@@ -223,12 +223,6 @@
                       <p>Item</p>
                     </a>
                   </li>
-              <li class="nav-item">
-              <a href="{{ route('warehouse.list') }}" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
-                      <p>warehouse</p>
-                    </a>
-                  </li>
             </ul>
           </nav>
         </div>
@@ -241,7 +235,7 @@
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="/warehouse/list">warehouse</a></li>
+                  <li class="breadcrumb-item"><a href="/warehouse/add">warehouse</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                 </ol>
               </div>
