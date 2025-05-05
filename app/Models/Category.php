@@ -36,14 +36,20 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
+
+    public static function addCategory(array $data)
+    {
+        return self::create($data);
+    }
+
     public static function countCategory()
     {
         return self::count();
     }
-
-    public static function addCategory($data) //insert table
+    // mengambil semua kategori beserta data induknya
+    public static function getCategory()
     {
-        return self::create($data);
+        return self::with('parent')->get();
     }
     public static function countByParent()
     {
