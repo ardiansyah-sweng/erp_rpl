@@ -68,16 +68,15 @@ class Item extends Model
         // Jika item tidak ditemukan, kembalikan false
         return false;
     }
-    public function addItem($data)
+     public function addItem($data)
     {
         return self::create($data);
     }
 
     public function unit()
-{
-    return $this->belongsTo(MeasurementUnit::class, 'measurement_unit', 'id');
-}
-
+    {
+        return $this->belongsTo(MeasurementUnit::class, 'measurement_unit', 'id');
+    }
 
     
 
