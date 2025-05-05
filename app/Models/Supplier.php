@@ -46,7 +46,5 @@ class Supplier extends Model
         $supplier->update($filteredData);
 
         return $supplier;
-    }
-
-    
+    }   
 }
