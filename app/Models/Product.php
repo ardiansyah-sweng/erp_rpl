@@ -67,4 +67,16 @@ class Product extends Model
             ->select($tableItem . '.' . $colItem['sku'])
             ->pluck($colItem['sku']);
     }
+
+    public function getProductTypeAttribute($value)
+    {
+        return match ($value) {
+            'RM' => 'Raw Material',
+            'FG' => 'Finished Good',
+            'HFG' => 'Half Finish Good',
+            default => $value,
+        };
+    }
+
+
 }
