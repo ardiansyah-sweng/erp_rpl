@@ -47,9 +47,7 @@ Route::get('/supplier/detail', function () {
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
-Route::get('/warehouse/add', function () {
-    return view('warehouse/add');
-});
+
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
@@ -67,6 +65,13 @@ Route::get('/product/add', function () {
 Route::get('/supplier/list', function () {
     return view('supplier.list');
 });
+Route::get('/warehouse/add', function () {
+    return view('warehouse/add');
+});
+
+# Warehouse
+Route::post('/warehouse/add', [ProductController::class, 'addWarehouse'])->name('warehouse.add');
+
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
