@@ -99,3 +99,7 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
+Route::get('/supplier/data', [SupplierController::class, 'index'])->name('supplier.index');
+Route::get('/supplier', [SupplierController::class, 'index'])->name('supplier.index');
+Route::get('/supplier/data', [App\Http\Controllers\SupplierController::class, 'index'])->name('supplier.index');
+Route::get('/supplier/pic', [App\Http\Controllers\SupplierPicController::class, 'index'])->name('supplier.pic.index');
