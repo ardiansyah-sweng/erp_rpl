@@ -377,6 +377,7 @@
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Branch</h3>
                 <a href="{{ route('branch.add') }}" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="{{ route('branch.list', ['export' => 'pdf']) }}" class="btn btn-primary btn-sm ms-2">Cetak Branch</a>
               </div>
     
               <div class="col-sm-6">
@@ -459,6 +460,7 @@
                   <div class="card-footer clearfix">
                   {{ $branches->links('pagination::bootstrap-4') }}
                   </div>
+
         </div>
         
       </main>
