@@ -26,32 +26,34 @@ class ItemController extends Controller
         }
     }
     public function addItem(Request $request)
-    {
-        $request->validate([
-            'product_id' => 'required|string|size:4',
-            'sku' => 'required|string',
-            'item_name' => 'required|string|min:3',
-            'measurement_unit' => 'required|string',
-            'selling_price' => 'required|numeric|min:0',
-        ]);
+{
+    $validated = $request->validate([
+        'product_id'        => 'required|string|size:4',    // ID Produk 4 karakter
+        'sku'               => 'required|string',
+        'item_name'         => 'required|string|min:3',
+        'measurement_unit'  => 'required|string',
+        'selling_price'     => 'required|numeric|min:0',
+    ]);
 
-        $item = new Item();
-        $item->addItem([
-            'product_id' => $request->product_id,
-            'sku' => $request->sku,
-            'item_name' => $request->item_name,
-            'measurement_unit' => $request->measurement_unit,
-            'selling_price' => $request->selling_price,
-        ]);
+    $item = new Item();
+    $item->addItem([
+        'product_id'        => $validated['product_id'],
+        'sku'               => $validated['sku'],
+        'item_name'         => $validated['item_name'],
+        'measurement_unit'  => $validated['measurement_unit'],
+        'selling_price'     => $validated['selling_price'],
+    ]);
 
-        return redirect()->route('item.list')->with('success', 'Item berhasil ditambahkan!');
-    }
+    return redirect()
+        ->route('item.list')
+        ->with('success', 'Item berhasil ditambahkan!');
+}
 
-    public function showAddForm()
-    {
-        $units = MeasurementUnit::all();
-        return view('item.add', compact('units'));
-    }
+public function showAddForm()
+{
+    $units = MeasurementUnit::all(); // Ambil semua unit
+    return view('item.add', compact('units'));
+}
 
 
 

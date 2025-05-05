@@ -78,7 +78,4 @@ class Item extends Model
         return $this->belongsTo(MeasurementUnit::class, 'measurement_unit', 'id');
     }
 
-    
-
-    
 }

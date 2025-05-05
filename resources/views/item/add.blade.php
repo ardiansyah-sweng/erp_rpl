@@ -273,11 +273,11 @@
       <div class="form-group">
         <label for="measurement_unit">Unit</label>
         <select class="form-select" id="measurement_unit" name="measurement_unit" required>
-            <option selected disabled value="">Choose...</option>
+          <option selected disabled value="">Choose...</option>
             @foreach($units as $unit)
-                <option value="{{ $unit->id }}">{{ $unit->unit_name }}</option>
+          <option value="{{ $unit->id }}">{{ $unit->unit_name }}</option>
             @endforeach
-        </select>
+         </select>
         <div class="invalid-feedback">Please select a valid unit.</div>
       </div>
       
