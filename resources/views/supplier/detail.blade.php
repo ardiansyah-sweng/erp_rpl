@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah Merk</title>
+    <title>ERP RPL UAD | Detail Supplier (Filled Form) </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
@@ -76,7 +76,7 @@
                     <div class="flex-shrink-0">
                       <img
                         src={{asset("assets/dist/assets/img/user1-128x128.jpg")}}
-                         alt="User Avatar"
+                        alt="User Avatar"
                         class="img-size-50 rounded-circle me-3"
                       />
                     </div>
@@ -116,7 +116,7 @@
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
-                <span class="d-none d-md-inline">Admin</span>
+                <span class="d-none d-md-inline">Mimin Gantenks</span>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <li class="user-header text-bg-primary">
@@ -126,7 +126,7 @@
                     alt="User Image"
                   />
                   <p>
-                    Admin - Web Developer
+                    Alexander Pierce - Web Developer
                     <small>Member since Jan. 2024</small>
                   </p>
                 </li>
@@ -167,7 +167,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/product/list" class="nav-link">
+                <a href="./generate/theme.html" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
@@ -210,7 +210,7 @@
                 </a>                
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
+                <a href="{{ route('branch.list') }}" class="nav-link active">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -218,84 +218,75 @@
                 </a>                
               </li>
               <li class="nav-item">
-              <a href="{{ route('item.list') }}" class="nav-link active">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Item
-                  </p>
-                </a>                
-              </li>
+              <a href="{{ route('item.list') }}" class="nav-link">
+              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>Item</p>
+                    </a>
+                  </li>
             </ul>
           </nav>
         </div>
       </aside>
-      <main class="app-main">
-        <div class="app-content-header">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Merk</h3></div>
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="/merk/list">Merk</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Tambah</li>
-                </ol>
-              </div>
+      <!-- Content -->
+      <div class="app-wrapper d-flex flex-column">
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Detail Supplier</h1>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="app-content">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="card card-primary">
-                  <div class="card-header">
-                    <h3 class="card-title">Tambah Merk</h3>
-                  </div>
-                  <form action="{{ route('merk.add') }}" method="POST" id="merkForm">
-                    @csrf
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Informasi Supplier
+                    </div>
                     <div class="card-body">
-                      <div class="form-group">
-                        <label for="merk">Nama Merk</label>
-                        <input type="text" class="form-control" id="merk" name="merk" value="{{ old('merk') }}" placeholder="Masukkan nama merk">
-                      </div>
-                      
-                    <div class="form-group">
-                        <label class="d-block">Status</label>
-                            <div class="d-flex gap-3"> 
-                            <div class="form-check">
-                            <input class="form-check-input" type="radio" name="active" id="active1" value="1" checked>
-                            <label class="form-check-label" for="active1">Aktif</label>
-                        </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="active" id="active0" value="0">
-                        <label class="form-check-label" for="active0">Non Aktif</label>
+                        <table class="table table-bordered">
+                            <tr>
+                                <th style="width: 30%">ID Supplier</th>
+                                <td>{{ $supplier->supplier_id ?? 'Tidak ada data' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nama Supplier</th>
+                                <td>{{ $supplier->company_name ?? 'Tidak ada data' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Alamat Supplier</th>
+                                <td>{{ $supplier->address ?? 'Tidak ada data' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Telephone</th>
+                                <td>{{ $supplier->phone_number ?? 'Tidak ada data' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Rekening Bank</th>
+                                <td>{{ $supplier->bank_account ?? 'Tidak ada data' }}</td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-                    
-                    <div class="card-footer">
-                      <button type="button" class="btn btn-primary" onclick="validateForm()">Simpan</button>
-                      <button type="reset" class="btn btn-secondary">Batal</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-      <footer class="app-footer">
-        <div class="float-end d-none d-sm-inline">Anything you want</div>
-        <strong>
-          Copyright &copy; 2014-2024&nbsp;
-          <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
-        </strong>
-        All rights reserved.
-      </footer>
+        </section>
     </div>
-    
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="float-end d-none d-sm-inline">Anything you want</div>
+        <div class="text-left ms-3">
+            <strong>
+                Copyright &copy; 2014-2024&nbsp;
+                <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+            </strong>
+            All rights reserved.
+        </div>
+    </footer>
+</div>
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
       integrity="sha256-JLMUQfrMvhB/C+XTyqfc/TUlC6gGQE0H2hZFX5FJ1cM="
@@ -344,28 +335,7 @@
         });
     });
     </script>
-    <script>
-    function validateForm() {
-      let isValid = true;
-      
-      $('.error-message').remove();
-      
-      let merk = $('#merk').val(); 
-      
-      if (merk === null || merk === "") {
-        $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk harus diisi.</span></div>");
-        isValid = false;
-      } else if (merk.length > 255) {
-        $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk maksimal 255 karakter.</span></div>");
-        isValid = false;
-      }
-      
-      if (isValid) {
-        document.getElementById('merkForm').submit();
-      }
-      
-      return isValid;
-    }
-    </script>
+
+    
   </body>
 </html>

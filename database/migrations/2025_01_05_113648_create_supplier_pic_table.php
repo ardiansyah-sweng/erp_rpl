@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string($col['phone_number'], 30);
             $table->string($col['email'], 50);
             $table->boolean($col['active'])->default(1);
-            $table->string($col['avatar'], 100)->default('http://placehold.it/100x100');
+            $table->string($col['avatar'], 100);
             $table->date($col['assigned_date']);
             $table->timestamps();
         });

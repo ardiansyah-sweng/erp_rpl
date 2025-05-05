@@ -43,99 +43,76 @@
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
    <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.css') }}">
-    <style>
-    @media (max-width: 768px) {
-      .login-box {
-        z-index: 1;
-      }
-    }
-    </style>
 
     <!--end::Required Plugin(AdminLTE)-->
   </head>
   <!--end::Head-->
   <!--begin::Body-->
-  <body class="login-page bg-body-secondary position-relative" style="min-height:100vh;">
-  <div class="container-fluid">
-    <div class="row min-vh-100">
-      <!-- Kolom kiri: Form login -->
-      <div class="col-lg-6 d-flex align-items-center justify-content-center">
-        <div class="login-box w-100 px-3" style="max-width: 400px;">
-          <div class="card card-outline card-primary">
-            <div class="card-header">
-              <a
-                href="../index2.html"
-                class="link-dark text-center link-offset-2 link-opacity-100 link-opacity-50-hover"
-              >
-                <h1 class="mb-0"><b>Admin</b>LTE</h1>
-              </a>
-            </div>
-            <div class="card-body login-card-body">
-              <p class="login-box-msg">Sign in to start your session</p>
-              <form action="{{ route('dashboard') }}" method="get">
-                <div class="input-group mb-1">
-                  <div class="form-floating">
-                    <input id="loginEmail" type="email" class="form-control" value="" placeholder="" />
-                    <label for="loginEmail">Email</label>
-                  </div>
-                  <div class="input-group-text"><span class="bi bi-envelope"></span></div>
-                </div>
-                <div class="input-group mb-1">
-                  <div class="form-floating">
-                    <input id="loginPassword" type="password" class="form-control" placeholder="" />
-                    <label for="loginPassword">Password</label>
-                  </div>
-                  <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
-                </div>
-
-                <div class="row">
-                  <div class="col-8 d-inline-flex align-items-center">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                      <label class="form-check-label" for="flexCheckDefault"> Remember Me </label>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="d-grid gap-2">
-                      <button type="submit" class="btn btn-primary">Sign In</button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-
-              <div class="social-auth-links text-center mb-3 d-grid gap-2">
-                <p>- OR -</p>
-                <a href="#" class="btn btn-primary">
-                  <i class="bi bi-facebook me-2"></i> Sign in using Facebook
-                </a>
-                <a href="#" class="btn btn-info text-white">
-                   <i class="bi bi-twitter me-2"></i> Sign in using Twitter
-                </a>
-                <a href="#" class="btn btn-danger">
-                  <i class="bi bi-google me-2"></i> Sign in using Google+
-                </a>
-              </div>
-
-              <p class="mb-1"><a href="forgot-password.html">I forgot my password</a></p>
-              <p class="mb-0">
-                <a href="register.html" class="text-center"> Register a new membership </a>
-              </p>
-            </div>
-          </div>
+  <body class="login-page bg-body-secondary">
+    <div class="login-box">
+      <div class="card card-outline card-primary">
+        <div class="card-header">
+          <a
+            href="../index2.html"
+            class="link-dark text-center link-offset-2 link-opacity-100 link-opacity-50-hover"
+          >
+            <h1 class="mb-0"><b>Admin</b>LTE</h1>
+          </a>
         </div>
-      </div>
-
-      <!-- Kolom kanan: Gambar -->
-      <div class="col-lg-6 d-none d-lg-block p-0">
-        <img
-        src="{{ asset('assets/dist/assets/img/rpl.jpg') }}"
-        alt="Login Image"
-        class="img-fluid h-100"
-        style="object-fit: cover;"
-        />
+        <div class="card-body login-card-body">
+          <p class="login-box-msg">Sign in to start your session</p>
+          <form action="{{ route('dashboard') }}" method="get">
+            <div class="input-group mb-1">
+              <div class="form-floating">
+                <input id="loginEmail" type="email" class="form-control" value="" placeholder="" />
+                <label for="loginEmail">Email</label>
+              </div>
+              <div class="input-group-text"><span class="bi bi-envelope"></span></div>
+            </div>
+            <div class="input-group mb-1">
+              <div class="form-floating">
+                <input id="loginPassword" type="password" class="form-control" placeholder="" />
+                <label for="loginPassword">Password</label>
+              </div>
+              <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
+            </div>
+        
+            <div class="row">
+              <div class="col-8 d-inline-flex align-items-center">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                  <label class="form-check-label" for="flexCheckDefault"> Remember Me </label>
+                </div>
+              </div>
+              <!-- /.col -->
+              <div class="col-4">
+                <div class="d-grid gap-2">
+                  <button type="submit" class="btn btn-primary">Sign In</button>
+                </div>
+              </div>
+              <!-- /.col -->
+            </div>
+            <!--end::Row-->
+          </form>
+          <div class="social-auth-links text-center mb-3 d-grid gap-2">
+            <p>- OR -</p>
+            <a href="#" class="btn btn-primary">
+              <i class="bi bi-facebook me-2"></i> Sign in using Facebook
+            </a>
+            <a href="#" class="btn btn-danger">
+              <i class="bi bi-google me-2"></i> Sign in using Google+
+            </a>
+          </div>
+          <!-- /.social-auth-links -->
+          <p class="mb-1"><a href="forgot-password.html">I forgot my password</a></p>
+          <p class="mb-0">
+            <a href="register.html" class="text-center"> Register a new membership </a>
+          </p>
+        </div>
+        <!-- /.login-card-body -->
       </div>
     </div>
-  </div>
+    <!-- /.login-box -->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"

@@ -9,6 +9,6 @@ class SupplierMaterial extends Model
 {
     public static function getSupplierMaterial()
     {
-        return DB::table('supplier_product')->paginate(10);
+        return DB::table('supplier_product')->get();
     }
 }
