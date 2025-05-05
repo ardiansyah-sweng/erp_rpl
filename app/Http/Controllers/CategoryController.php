@@ -36,4 +36,17 @@ class CategoryController extends Controller
         $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
         return $pdf->stream('laporan_kategori.pdf'); 
     }
+
+    // delete category
+    public function deleteCategory($id)
+    {
+        $deleted = Category::deleteCategoryById($id);
+
+        if ($deleted) {
+            return redirect()->back()->with('success', 'Kategori berhasil dihapus!');
+        } else {
+            return redirect()->back()->with('error', 'Kategori tidak ditemukan atau gagal dihapus.');
+        }
+    }
+
 } //CategoryController

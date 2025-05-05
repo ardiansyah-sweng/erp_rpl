@@ -51,4 +51,17 @@ class Category extends Model
     {
         return self::with('parent')->get();
     }
+
+    // delete category
+    public static function deleteCategoryById($id)
+    {
+        $category = self::find($id);
+
+        if ($category) {
+            return $category->delete();
+        }
+
+        return false;
+    }
+
 }

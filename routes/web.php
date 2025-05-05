@@ -92,6 +92,7 @@ Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::clas
 
 #Category
 Route::post('/category/add', [CategoryController::class, 'addCategory'])->name('category.add');
+Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
