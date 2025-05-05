@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah PIC Supplier</title>
+    <title>ERP RPL UAD | Tambah Produk</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -76,8 +75,8 @@
                 <i class="bi bi-list"></i>
               </a>
             </li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
+            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Beranda</a></li>
+            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Kontak</a></li>
           </ul>
           <!--end::Start Navbar Links-->
           <!--begin::End Navbar Links-->
@@ -174,7 +173,7 @@
                   <!--end::Message-->
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                <a href="#" class="dropdown-item dropdown-footer">Lihat Semua Pesan</a>
               </div>
             </li>
             <!--end::Messages Dropdown Menu-->
@@ -185,24 +184,24 @@
                 <span class="navbar-badge badge text-bg-warning">15</span>
               </a>
               <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <span class="dropdown-item dropdown-header">15 Notifications</span>
+                <span class="dropdown-item dropdown-header">15 Notifikasi</span>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
-                  <i class="bi bi-envelope me-2"></i> 4 new messages
-                  <span class="float-end text-secondary fs-7">3 mins</span>
+                  <i class="bi bi-envelope me-2"></i> 4 pesan baru
+                  <span class="float-end text-secondary fs-7">3 menit</span>
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
-                  <i class="bi bi-people-fill me-2"></i> 8 friend requests
-                  <span class="float-end text-secondary fs-7">12 hours</span>
+                  <i class="bi bi-people-fill me-2"></i> 8 permintaan pertemanan
+                  <span class="float-end text-secondary fs-7">12 jam</span>
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
-                  <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
-                  <span class="float-end text-secondary fs-7">2 days</span>
+                  <i class="bi bi-file-earmark-fill me-2"></i> 3 laporan baru
+                  <span class="float-end text-secondary fs-7">2 hari</span>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer"> See All Notifications </a>
+                <a href="#" class="dropdown-item dropdown-footer"> Lihat Semua Notifikasi </a>
               </div>
             </li>
             <!--end::Notifications Dropdown Menu-->
@@ -234,7 +233,7 @@
                   />
                   <p>
                     Alexander Pierce - Web Developer
-                    <small>Member since Nov. 2023</small>
+                    <small>Anggota sejak Nov. 2023</small>
                   </p>
                 </li>
                 <!--end::User Image-->
@@ -242,17 +241,17 @@
                 <li class="user-body">
                   <!--begin::Row-->
                   <div class="row">
-                    <div class="col-4 text-center"><a href="#">Followers</a></div>
-                    <div class="col-4 text-center"><a href="#">Sales</a></div>
-                    <div class="col-4 text-center"><a href="#">Friends</a></div>
+                    <div class="col-4 text-center"><a href="#">Pengikut</a></div>
+                    <div class="col-4 text-center"><a href="#">Penjualan</a></div>
+                    <div class="col-4 text-center"><a href="#">Teman</a></div>
                   </div>
                   <!--end::Row-->
                 </li>
                 <!--end::Menu Body-->
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+                  <a href="#" class="btn btn-default btn-flat">Profil</a>
+                  <a href="#" class="btn btn-default btn-flat float-end">Keluar</a>
                 </li>
                 <!--end::Menu Footer-->
               </ul>
@@ -295,7 +294,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="dashboard" class="nav-link active">
+                <a href="/dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -330,9 +329,9 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="./widgets/cards.html" class="nav-link">
+                    <a href="/supplier/material/add" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Cards</p>
+                      <p>Tambah Supplier Item</p>
                     </a>
                   </li>
                 </ul>
@@ -345,6 +344,12 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+              <a href="{{ route('item.list') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Item</p>
+                    </a>
+                  </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -360,11 +365,11 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah PIC Supplier</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Tambah Produk</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Tambah PIC Supplier</li>
+                  <li class="breadcrumb-item"><a href="#">Beranda</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Tambah Produk</li>
                 </ol>
               </div>
             </div>
@@ -380,65 +385,62 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="container">
-                <form id="picForm">
+                    <form id="productForm">
                         <div class="mb-3">
-                            <label for="supplier_id" class="form-label">ID Supplier</label>
-                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
-                            <span id="supplierIdError" class="error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="supplier_name" class="form-label">Nama Supplier</label>
-                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
+                            <label for="product_id" class="form-label">ID Produk</label>
+                            <input type="text" class="form-control" id="product_id" name="product_id" required>
+                            <div class="invalid-feedback">ID Produk harus diisi.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="pic_name" class="form-label">Nama PIC (Person In Charge)</label>
-                            <input type="text" class="form-control" id="pic_name" name="pic_name" required>
-                            <span id="picNameError" class="error"></span>
+                            <label for="product_name" class="form-label">Nama Produk</label>
+                            <input type="text" class="form-control" id="product_name" name="product_name" required>
+                            <div class="invalid-feedback">Nama Produk harus diisi.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                            <span id="emailError" class="error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="telephone" class="form-label">Telephone</label>
-                            <input type="text" class="form-control" id="telephone" name="telephone" required>
-                            <span id="telephoneError" class="error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="assignment_date" class="form-label">Assignment Date</label>
-                            <input type="date" class="form-control" id="assignment_date" name="assignment_date" required>
-                            <span id="assignmentDateError" class="error"></span>
-                        </div>
-                        <div>
-                            <div><label for="pic_photo" class="form-label">Upload Foto PIC</label></div>
-                                <div class="d-flex justify">
-                                  <div><img id="photo_preview" src={{asset("assets/dist/assets/img/avatar_default.png")}} alt="Avatar Default" class="mt-2" style="max-width: 100px; max-height: 100px;"></div>
-                                  <div>
-                                    <input type="file" class="form-control" id="pic_photo" name="pic_photo" accept="image/*">
-                                  </div>
-                                </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
+                            <label class="form-label">Jenis</label>
                             <div>
-                                <div class="mb-3">
-                                    <label class="form-check-label" for="status">Status</label>
-                                    <input type="checkbox" class="form-check-input" id="status" name="status" value="1">
-                                    <label for="status">Aktif</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="product_type" id="finished" value="finished">
+                                    <label class="form-check-label" for="finished">Finished</label>
                                 </div>
-                                <div>
-                                  <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
-                                  <button type="reset" class="btn btn-secondary">Cancel</button>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="product_type" id="half_finished" value="half_finished">
+                                    <label class="form-check-label" for="half_finished">Half Finished</label>
                                 </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="product_type" id="raw_material" value="raw_material">
+                                    <label class="form-check-label" for="raw_material">Raw Material</label>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">Jenis produk harus dipilih.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Kategori</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="category" name="category" required>
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">Makanan</a></li>
+                                    <li><a class="dropdown-item" href="#">Minuman</a></li>
+                                    <li><a class="dropdown-item" href="#">Snack</a></li>
+                                </ul>
+                            </div>
+                            <div class="invalid-feedback">Kategori harus diisi.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="product_description" class="form-label">Deskripsi Produk</label>
+                            <textarea class="form-control" id="product_description" name="product_description" rows="3"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-start mt-4">
+                            <div>
+                                <button type="button" class="btn btn-primary" onclick="validateForm()">Tambah</button>
+                                <button type="reset" class="btn btn-secondary ms-2">Batal</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
             <!--end::Row-->
-            <!--begin::Row-->
-            
-            <!-- /.row (main row) -->
           </div>
           <!--end::Container-->
         </div>
@@ -448,14 +450,14 @@
       <!--begin::Footer-->
       <footer class="app-footer">
         <!--begin::To the end-->
-        <div class="float-end d-none d-sm-inline">Anything you want</div>
+        <div class="float-end d-none d-sm-inline">Apa pun yang Anda inginkan</div>
         <!--end::To the end-->
         <!--begin::Copyright-->
         <strong>
-          Copyright &copy; 2014-2024&nbsp;
+          Hak Cipta &copy; 2014-2024&nbsp;
           <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
         </strong>
-        All rights reserved.
+        Hak cipta dilindungi.
         <!--end::Copyright-->
       </footer>
       <!--end::Footer-->
@@ -504,211 +506,6 @@
       });
     </script>
     <!--end::OverlayScrollbars Configure-->
-    <!-- OPTIONAL SCRIPTS -->
-    <!-- sortablejs -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"
-      integrity="sha256-ipiJrswvAR4VAx/th+6zWsdeYmVae0iJuiR+6OqHJHQ="
-      crossorigin="anonymous"
-    ></script>
-    <!-- sortablejs -->
-    <script>
-      const connectedSortables = document.querySelectorAll('.connectedSortable');
-      connectedSortables.forEach((connectedSortable) => {
-        let sortable = new Sortable(connectedSortable, {
-          group: 'shared',
-          handle: '.card-header',
-        });
-      });
-
-      const cardHeaders = document.querySelectorAll('.connectedSortable .card-header');
-      cardHeaders.forEach((cardHeader) => {
-        cardHeader.style.cursor = 'move';
-      });
-    </script>
-    <!-- apexcharts -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
-      integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8="
-      crossorigin="anonymous"
-    ></script>
-    <!-- ChartJS -->
-    <script>
-      // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
-      // IT'S ALL JUST JUNK FOR DEMO
-      // ++++++++++++++++++++++++++++++++++++++++++
-
-      const sales_chart_options = {
-        series: [
-          {
-            name: 'Digital Goods',
-            data: [28, 48, 40, 19, 86, 27, 90],
-          },
-          {
-            name: 'Electronics',
-            data: [65, 59, 80, 81, 56, 55, 40],
-          },
-        ],
-        chart: {
-          height: 300,
-          type: 'area',
-          toolbar: {
-            show: false,
-          },
-        },
-        legend: {
-          show: false,
-        },
-        colors: ['#0d6efd', '#20c997'],
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: 'smooth',
-        },
-        xaxis: {
-          type: 'datetime',
-          categories: [
-            '2023-01-01',
-            '2023-02-01',
-            '2023-03-01',
-            '2023-04-01',
-            '2023-05-01',
-            '2023-06-01',
-            '2023-07-01',
-          ],
-        },
-        tooltip: {
-          x: {
-            format: 'MMMM yyyy',
-          },
-        },
-      };
-
-      const sales_chart = new ApexCharts(
-        document.querySelector('#revenue-chart'),
-        sales_chart_options,
-      );
-      sales_chart.render();
-    </script>
-    <!-- jsvectormap -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"
-      integrity="sha256-/t1nN2956BT869E6H4V1dnt0X5pAQHPytli+1nTZm2Y="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"
-      integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY="
-      crossorigin="anonymous"
-    ></script>
-    <!-- jsvectormap -->
-    <script>
-      const visitorsData = {
-        US: 398, // USA
-        SA: 400, // Saudi Arabia
-        CA: 1000, // Canada
-        DE: 500, // Germany
-        FR: 760, // France
-        CN: 300, // China
-        AU: 700, // Australia
-        BR: 600, // Brazil
-        IN: 800, // India
-        GB: 320, // Great Britain
-        RU: 3000, // Russia
-      };
-
-      // World map by jsVectorMap
-      const map = new jsVectorMap({
-        selector: '#world-map',
-        map: 'world',
-      });
-
-      // Sparkline charts
-      const option_sparkline1 = {
-        series: [
-          {
-            data: [1000, 1200, 920, 927, 931, 1027, 819, 930, 1021],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline1 = new ApexCharts(document.querySelector('#sparkline-1'), option_sparkline1);
-      sparkline1.render();
-
-      const option_sparkline2 = {
-        series: [
-          {
-            data: [515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline2 = new ApexCharts(document.querySelector('#sparkline-2'), option_sparkline2);
-      sparkline2.render();
-
-      const option_sparkline3 = {
-        series: [
-          {
-            data: [15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
-      sparkline3.render();
-    </script>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -723,51 +520,52 @@
             e.preventDefault();
             $('body').toggleClass('sidebar-collapse');
         });
+        
+        // Dropdown item click handler
+        $('.dropdown-item').on('click', function (e) {
+            e.preventDefault();
+            $('#category').val($(this).text());
+        });
     });
     </script>
-    <!--validate form -->
+    
     <script>
-        function validateForm() {
-          let isValid = true;
-          $('#supplierIdError').html("");
-          $('#picNameError').html("");
-          $('#emailError').html("");
-          $('#telephoneError').html("");
-          $('#assignmentDateError').html("");
+      function validateForm() {
+        let isValid = true;
 
-          let supplierId = $('#supplier_id').val(); 
-          let picName = $('#pic_name').val(); 
-          let email = $('#email').val(); 
-          let telephone = $('#telephone').val(); 
-          let assignmentDate = $('#assignment_date').val(); 
+        // Reset error states
+        $('#product_id, #product_name, #category').removeClass('is-invalid');
+        $('input[name="product_type"]').parent().parent().removeClass('is-invalid');
 
-          console.log(supplierId);
+        const productId = $('#product_id').val().trim();
+        const productName = $('#product_name').val().trim();
+        const productType = $('input[name="product_type"]:checked').val();
+        const category = $('#category').val().trim();
 
-          if (supplierId === null || supplierId === "") {
-            $('#supplierIdError').html("<span style=\"color: red;\">ID Supplier harus diisi.</span>");
-            isValid = false;
-          }
-          if (picName === null || supplierId === "") {
-            $('#picNameError').html("<span style=\"color: red;\">Nama PIC harus diisi.</span>");
-            isValid = false;
-          }
-          let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailPattern.test(email)) {
-            $('#emailError').html("<span style=\"color: red;\">Masukan email yang valid.</span>");
-            isValid = false;
-          } 
-          let phonePattern = /^\d{10,13}$/;
-          if (!phonePattern.test(telephone)) {
-            $('#telephoneError').html("<span style=\"color: red;\">Nomor Telephone harus diisi(10-13 digit).</span>");
-            isValid = false;
-          }
-          if (assignmentDate === null || supplierId === "") {
-            $('#assignmentDateError').html("<span style=\"color: red;\">Tanggal penugasan harus diisi.</span>");
-            isValid = false;
-          }
-          return isValid;
+        if (!productId) {
+          $('#product_id').addClass('is-invalid');
+          isValid = false;
         }
+        
+        if (!productName) {
+          $('#product_name').addClass('is-invalid');
+          isValid = false;
+        }
+
+        if (!productType) {
+          $('input[name="product_type"]').parent().parent().addClass('is-invalid');
+          isValid = false;
+        }
+
+        if (!category) {
+          $('#category').addClass('is-invalid');
+          isValid = false;
+        }
+
+        return isValid;
+      }
     </script>
+    
     <!--end::Script-->
   </body>
   <!--end::Body-->
