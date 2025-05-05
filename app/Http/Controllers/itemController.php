@@ -23,7 +23,8 @@ class ItemController extends Controller
             } else {
                 return redirect()->back()->with('error', 'Item tidak ditemukan atau gagal dihapus.');
             }
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) {
             // Tangkap pesan exception dari model
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -31,10 +32,10 @@ class ItemController extends Controller
 
 
     public function getItemList(Request $request)
-{
-    $search = $request->input('search');
-    $items = Item::getAllItems($search);
-    return view('item.list', compact('items'));
-}
+    {
+        $search = $request->input('search');
+        $items = Item::getAllItems($search);
+        return view('item.list', compact('items'));
+    }
     
 }
