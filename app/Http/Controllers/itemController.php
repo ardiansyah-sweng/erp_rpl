@@ -26,24 +26,25 @@ class ItemController extends Controller
         }
     }
 
-
+    // Menampilkan fungsi buat PDF
     public function getItemList(Request $request)
-    {
-        $search = $request->input('search');
-        $items = Item::getAllItems($search);
+{
+    $search = $request->input('search');
 
-        if ($request->has('export') && $request->input('export') === 'pdf') {
-            $items = Item::query()
-                ->when($search, function ($query, $search) {
-                    $query->where('item_name', 'like', "%$search%");
-                })
-                ->get(); 
-    
-            $pdf = Pdf::loadView('item.report', ['items' => $items]);
-            return $pdf->stream('report-item.pdf');
-        }
-    
-        $items = Item::getAllItems($search); 
-        return view('item.list', compact('items'));
+    // Jika tombol Export PDF diklik
+    if ($request->has('export') && $request->input('export') === 'pdf') {
+        $items = Item::query()
+            ->when($search, function ($query, $search) {
+                $query->where('item_name', 'like', "%$search%");
+            })
+            ->get();
+
+        $pdf = Pdf::loadView('item.report', ['items' => $items]);
+        return $pdf->stream('report-item.pdf');
     }
+
+    // Tampilan default halaman item (tanpa PDF)
+    $items = Item::getAllItems($search); 
+    return view('item.list', compact('items'));
+}
 }
