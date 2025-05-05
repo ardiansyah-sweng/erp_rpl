@@ -11,9 +11,9 @@ class SupplierPIController extends Controller
     public function updateSupplierPICDetail(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name'          => 'required|string|max:255',
-            'email'         => 'required|email|unique:supplier_pics,email,' . $id,
-            'password'      => 'required|string|min:10',
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:supplier_pics,email,' . $id,
+            'password' => 'required|string|min:10',
         ]);
 
         if ($validator->fails()) {
@@ -24,28 +24,9 @@ class SupplierPIController extends Controller
             ], 422);
         }
 
-        $supplierPic = SupplierPic::find($id);
+            // Panggil fungsi dari model
+            $result = SupplierPic::updateSupplierPIC($id, $request->all());
 
-        if (!$supplierPic) {
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Supplier PIC tidak ditemukan.',
-            ], 404);
-        }
-
-        $supplierPic->fill($request->all());
-
-        if ($supplierPic->save()) {
-            return response()->json([
-                'status'  => 'success',
-                'message' => 'Supplier PIC berhasil diperbarui.',
-                'data'    => $supplierPic,
-            ]);
-        } else {
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Gagal memperbarui Supplier PIC.',
-            ], 500);
-        }
+        return response()->json($result, $result['code']);
     }
 }
