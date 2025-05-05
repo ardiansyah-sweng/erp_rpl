@@ -68,6 +68,7 @@ class Item extends Model
         // Jika item tidak ditemukan, kembalikan false
         return false;
     }
+
     public static function updateItem($id, $data)
     {
         $item = self::find($id);
@@ -81,3 +82,7 @@ class Item extends Model
         return $item;
     }
 }
+
+
+
+
