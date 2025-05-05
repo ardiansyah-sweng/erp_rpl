@@ -17,8 +17,8 @@ class SupplierMaterial extends Model
     public static function supplierMaterialSearch($keyword)
     {
          return self::where('supplier_id', 'LIKE', "%$keyword%")
-         ->where('nama', 'LIKE', "%$keyword%")
-         ->where('alamat', 'LIKE', "%$keyword%")
+         ->where('company_name', 'LIKE', "%$keyword%")
+         ->where('address', 'LIKE', "%$keyword%")
          ->get();
     }
 
