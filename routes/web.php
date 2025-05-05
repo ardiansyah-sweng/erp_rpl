@@ -106,6 +106,7 @@ Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
+Route::post('/merk/{id}', [MerkController::class, 'updateMerk'])->name('merk.add');
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
