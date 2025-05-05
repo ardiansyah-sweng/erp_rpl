@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0943736492514a4a9195de5ad0f4adc3",
+    "content-hash": "f6302f5d124677ed90b06a585bc04244",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1289,6 +1289,7 @@
         {
             "name": "laravel/framework",
 <<<<<<< HEAD
+<<<<<<< HEAD
             "version": "v11.44.5",
             "source": {
                 "type": "git",
@@ -1301,16 +1302,24 @@
                 "reference": "819555ccc7e88ea92945ea785ef9f0fa9b6d4931",
 =======
             "version": "v11.44.3",
+=======
+            "version": "v11.44.7",
+>>>>>>> 353a88878bebd84dfec9ce7244923b32c116ce7e
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b0a87fbd13c0b05227a00da7968701f4274e3195"
+                "reference": "00bc6ac91a6d577bf051c18ddaa638c0d221e1c7"
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/laravel/framework/zipball/b0a87fbd13c0b05227a00da7968701f4274e3195",
                 "reference": "b0a87fbd13c0b05227a00da7968701f4274e3195",
 >>>>>>> bce3112af012ff2a7576e5f62900d89ea25bfba0
+=======
+                "url": "https://api.github.com/repos/laravel/framework/zipball/00bc6ac91a6d577bf051c18ddaa638c0d221e1c7",
+                "reference": "00bc6ac91a6d577bf051c18ddaa638c0d221e1c7",
+>>>>>>> 353a88878bebd84dfec9ce7244923b32c116ce7e
                 "shasum": ""
             },
             "require": {
@@ -1513,10 +1522,14 @@
                 "source": "https://github.com/laravel/framework"
             },
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2025-04-24T13:59:11+00:00"
 =======
             "time": "2025-04-23T14:45:24+00:00"
 >>>>>>> bce3112af012ff2a7576e5f62900d89ea25bfba0
+=======
+            "time": "2025-04-25T12:40:47+00:00"
+>>>>>>> 353a88878bebd84dfec9ce7244923b32c116ce7e
         },
         {
             "name": "laravel/prompts",
