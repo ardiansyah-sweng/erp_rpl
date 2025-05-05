@@ -439,7 +439,11 @@
                             <td>{{ $branch->updated_at }}</td>
                             <td>
                               <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                              <form action="{{ route('branch.delete', $branch->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus branch ini?')">Delete</button>
+                              </form>
                               <a href="#" class="btn btn-sm btn-info">Detail</a>
                             </td>
                             </tr>

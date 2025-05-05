@@ -46,13 +46,12 @@ class BranchController extends Controller
 
     public function deleteBranch($id)
     {
-        $branch = Branch::find($id);
-
-        if (!$branch) {
-            return redirect()->route('branch.list')->with('error', 'Cabang tidak ditemukan!');
+        try {
+            $branch = Branch::findBranch($id);
+            Branch::deleteBranch($id);
+            return redirect()->route('branch.list')->with('success', 'Cabang berhasil dihapus!');
+        } catch (\Exception $e) {
+            return redirect()->route('branch.list')->with('error', $e->getMessage());
         }
-
-        $branch->deleteBranch($id);
-        return redirect()->route('branch.list')->with('success', 'Cabang berhasil dihapus!');
     }
 }

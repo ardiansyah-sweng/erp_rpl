@@ -74,6 +74,7 @@ Route::get('/api/branches/{id}', [BranchController::class, 'getBranchById'])->na
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
+Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('branch.delete');
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
 
 # PurchaseOrders
