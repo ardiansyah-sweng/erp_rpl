@@ -3,11 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SupplierMaterial;
 use App\Models\Supplier;
+use App\Models\SupplierMaterial;
 
 class SupplierMaterialController extends Controller
 {
+    public function getSupplierMaterialByID($id)
+    {
+        $supplier = Supplier::find($id);
+        if (!$supplier){
+            return response()->json(['message' => 'Supplier not found'], 404);
+        }
+
+        return response()->json($supplier);
+    }
+
     public function getSupplierMaterial()
     {
         $model = new SupplierMaterial();
@@ -50,13 +60,4 @@ class SupplierMaterialController extends Controller
         return redirect()->back()->with('error', 'Gagal memperbarui data supplier material!');
     }
 
-    public function getSupplierMaterialByID($id)
-    {
-        $supplier = Supplier::find($id);
-        if (!$supplier){
-            return response()->json(['message' => 'Supplier not found'], 404);
-        }
-
-        return response()->json($supplier);
-    }
 }
