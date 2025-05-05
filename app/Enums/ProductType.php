@@ -6,5 +6,4 @@ enum ProductType: string
 {
     case Finishied = 'Finishied';
     case RM = 'Raw Material';
-    case HFG ='Half Finished Goods';
 }
