@@ -57,15 +57,14 @@ class Category extends Model
         $table = $instance->getTable();
 
         return self::join($table . ' as parent', $table . '.parent_id', '=', 'parent.id')
-            ->selectRaw('parent.category as name, COUNT(' . $table . '.id) as total')
-            ->groupBy($table . '.parent_id', 'parent.category')
+            ->selectRaw('parent.category as category_name, COUNT(*) as total')
+            ->groupBy('parent.category')
             ->get()
             ->map(function ($item) {
                 return [
-                    $item->name,
-                    $item->total,
+                    'category' => $item->category_name,
+                    'total' => $item->total,
                 ];
-            })
-            ->toArray();
+            });
     }
 }
