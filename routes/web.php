@@ -5,6 +5,7 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierPIController; // perubahan
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
@@ -15,7 +16,7 @@ use App\Helpers\EncryptionHelper;
 
 #Login
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect()->route('dashboard');
 });
 
 Route::get('/login', function () {
@@ -50,18 +51,25 @@ Route::get('/branch/add', function () {
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
+Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
+    $id = EncryptionHelper::decrypt($encrypted_id);
+    return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
+})->name('purchase.orders.detail');
 Route::get('/item/add', function () {
     return view('item/add');
 });
-Route::get('/merk/add', function () {
-    return view('merk/add');
+// Dikonfirmasi oleh chiqitita_C_163 - route form tambah produk sudah tersedia
+Route::get('/product/add', function () {
+    return view('product/add');
 });
-
-
+Route::get('/supplier/list', function () {
+    return view('supplier.list');
+});
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
+Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
@@ -78,17 +86,13 @@ Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('br
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPurchaseOrder'])->name('purchase_orders.search');
 Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])->name('purchase_orders.add'); // tambahan
-Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
-    $id = EncryptionHelper::decrypt($encrypted_id);
-    return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
-})->name('purchase.orders.detail');
-Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
-    ->name('purchase_orders.length');
 
 
-#Category
-Route::post('/category/add', [CategoryController::class, 'addCategory'])->name('category.add');
+# supplier pic route nya
+Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
+Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
 
+# Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
@@ -99,3 +103,8 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
+Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
+Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
+Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
+#Cetak pdf
+Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
