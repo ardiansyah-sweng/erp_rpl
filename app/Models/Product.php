@@ -38,14 +38,6 @@ class Product extends Model
         return $this->hasMany(Item::class, 'sku', 'product_id');
     }
 
-    // public static function getAllProducts()
-    // {
-    //     return self::withCount('items')  
-    //                 ->with('category')  
-    //                 ->orderBy('created_at', 'desc')  
-    //                 ->paginate(10);
-    // }
-    
     public static function getAllProducts()
     {
         return self::withCount('items') 
