@@ -9,7 +9,7 @@ class SupplierMaterial extends Model
 {
     public static function getSupplierMaterial()
     {
-        return DB::table('supplier_product')->get();
+        return DB::table('supplier_product')->paginate(10);
     }
 
     public static function getSupplierMaterialByKeyword($keyword)
