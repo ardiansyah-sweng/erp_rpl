@@ -7,18 +7,19 @@ use Illuminate\Support\Facades\DB;
 
 class SupplierMaterial extends Model
 {
+    protected $table = 'supplier_product';
+
     public static function getSupplierMaterial()
     {
         return DB::table('supplier_product')->paginate(10);
     }
-
-    public static function getSupplierMaterialByKeyword($keyword)
+    
+    public static function supplierMaterialSearch($keyword)
     {
-        return DB::table('supplier_product')
-            ->where('supplier_id', 'like', '%' . $keyword . '%')
-            ->orWhere('company_name', 'like', '%' . $keyword . '%')
-            ->orWhere('product_id', 'like', '%' . $keyword . '%')
-            ->orWhere('product_name', 'like', '%' . $keyword . '%')
-            ->get();
+         return self::where('supplier_id', 'LIKE', "%$keyword%")
+         ->where('company_name', 'LIKE', "%$keyword%")
+         ->where('address', 'LIKE', "%$keyword%")
+         ->get();
     }
+
 }
