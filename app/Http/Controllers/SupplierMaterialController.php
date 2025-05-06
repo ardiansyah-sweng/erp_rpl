@@ -40,5 +40,4 @@ class SupplierMaterialController extends Controller
         return view('supplier.material.list', ['materials' => $materials, 'keyword' => $keyword]);
     }
 
-
 }
