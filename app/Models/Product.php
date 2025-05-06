@@ -57,14 +57,9 @@ class Product extends Model
     public static function countProduct() {
         return self::count();
     }
-<<<<<<< HEAD
-}
-=======
-
-
 
     public function updateProduct($id, $data)
-    {
+{
         try {
             $idColumn = config('db_constants.column.products.id', 'id');
             $fillable = $this->getFillable();
@@ -77,11 +72,8 @@ class Product extends Model
         }
     }    
     
-}
 
     public function getProductById($id) {
         return self::where('id', $id)->first();
     }    
 }
-
->>>>>>> 3fc794a9414fee8bf32d4fd490b4adfb110d070f
