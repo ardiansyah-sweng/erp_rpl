@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Item extends Model
 {
@@ -69,9 +70,5 @@ class Item extends Model
         return false;
     }
 
-    public static function countItem() {
-        return self::count();
-    }
-
-
+    
 }
