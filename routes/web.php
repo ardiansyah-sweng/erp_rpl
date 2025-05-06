@@ -57,6 +57,10 @@ Route::get('/merk/add', function () {
     return view('merk/add');
 });
 
+Route::get('product/kategory/add', function () {
+        return view('product/kategory/add');
+});
+
 
 
 # Product
