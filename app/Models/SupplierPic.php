@@ -13,7 +13,7 @@ class SupplierPic extends Model
     {
         parent::__construct($attributes);
 
-        // Set nama tabel dari config
+        // Set nama tabel dan kolom dari config
         $this->table = config('db_constants.table.supplier_pic');
         $columns = config('db_constants.column.supplier_pic');
         $this->fillable = array_values(array_filter($columns, function ($key) {
@@ -41,5 +41,10 @@ class SupplierPic extends Model
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
+    }
+
+    public static function getSupplierPICAll($perPage = 10)
+    {
+        return self::paginate($perPage);
     }
 }
