@@ -39,9 +39,9 @@ class Supplier extends Model
         $query = self::query();
     
         if ($keywords) {
-            $query->where('supplier_name', 'LIKE', "%{$keywords}%")
-                  ->orWhere('supplier_address', 'LIKE', "%{$keywords}%")
-                  ->orWhere('supplier_phone', 'LIKE', "%{$keywords}%");
+            $query->where('company_name', 'LIKE', "%{$keywords}%")
+                  ->orWhere('address', 'LIKE', "%{$keywords}%")
+                  ->orWhere('phone_number', 'LIKE', "%{$keywords}%");
         }
     
         return $query->orderBy('created_at', 'asc')->paginate(10);
