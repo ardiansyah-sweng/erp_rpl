@@ -52,13 +52,17 @@ class Category extends Model
         return self::with('parent')->get();
     }
 
-    public function updateCategory($data)
+    public static function updateCategory($category_id, array $data)
     {
-        $this->name = $data['category'];
-        $this->parent_id = $data['parent_id'] ?? null;
-        $this->updated_at = now();
-        $this->save();
-
-        return $this;
+        $category = self::find($category_id);
+        if (!$category) {
+            return null;
+        }
+        
+        $fillable = (new self)->getFillable();
+        $filteredData = array_intersect_key($data, array_flip($fillable));
+        $category->update($filteredData);
+        
+        return $category;
     }
 }
