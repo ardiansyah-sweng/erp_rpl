@@ -7,10 +7,10 @@ use App\Models\SupplierPic;
 
 class SupplierPicController extends Controller
 {
-    public function getSupplierPICAll(Request $request)
+    public function getSupplierPICAll()
     {
-        $search = $request->input('search');
-        $supplier_PIC = SupplierPic::getSupplierPICAll($search);
-        return view('supplierPic.list', ['supplier_PIC' => $supplier_PIC]);
+        $supplierPICs = SupplierPICModel::getSupplierPICAll(); 
+        return view('supplier.pic.list', compact('supplierPICs'));
     }
+
 }

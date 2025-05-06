@@ -100,3 +100,6 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
+
+#SupplierPIC
+Route::get('/supplier/pic/list', [SupplierPICController::class, 'getSupplierPICAll']);
