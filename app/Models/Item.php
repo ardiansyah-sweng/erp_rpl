@@ -30,7 +30,7 @@ class Item extends Model
     
     public static function getAllItems($search = null)
 {
-    $query = self::query();
+    $query = self::with('unit');
 
     // Jika ada input pencarian, tambahkan kondisi pencarian
     if ($search) {
@@ -68,10 +68,22 @@ class Item extends Model
         // Jika item tidak ditemukan, kembalikan false
         return false;
     }
+     public function addItem($data)
+    {
+        return self::create($data);
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(MeasurementUnit::class, 'measurement_unit', 'id');
+    }
+
+
 
     public static function countItem() {
         return self::count();
     }
+
 
 
 }
