@@ -343,19 +343,28 @@
                 @csrf
 
                 <div class="mb-3">
-                  <label for="bom_id" class="form-label">BOM ID</label>
-                  <input type="text" class="form-control" id="bom_id" name="bom_id" required>
-                  <span id="bomIdError" class="text-danger small"></span>
+                  <label for="supplier_id" class="form-label">Supplier ID</label>
+                  <input type="text" class="form-control" id="bom_id" name="supplier_id" required>
+                  <span id="supplierIdError" class="text-danger small"></span>
                 </div>
 
                 <div class="mb-3">
-                  <label for="bom_name" class="form-label">BOM Name</label>
-                  <input type="text" class="form-control" id="bom_name" name="bom_name" required>
+                  <label for="company_name" class="form-label">Company Name</label>
+                  <input type="text" class="form-control" id="company_name" name="company_name" required>
                 </div>
 
                 <div class="mb-3">
-                  <label for="measurement_unit" class="form-label">Measurement Unit</label>
-                  <input type="text" class="form-control" id="measurement_unit" name="measurement_unit" required>
+                  <label for="product_id" class="form-label">Product Id</label>
+                  <input type="text" class="form-control" id="product_id" name="product_id" required>
+                </div>
+                <div class="mb-3">
+                  <label for="product_name" class="form-label">Product name</label>
+                  <input type="text" class="form-control" id="product_name" name="product_name" required>
+                </div>
+                <div class="mb-3">
+                  <label for="base_price" class="form-label">Base Price</label>
+                  <input type="text" class="form-control" id="base_price" name="base_price" required>
+                </div>
 
         <!--end::App Content Header-->
         <!--begin::App Content-->
@@ -364,65 +373,6 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-                <div class="container">
-                    <form id="picForm">
-                        <div class="mb-3">
-                            <label for="supplier_id" class="form-label">ID Supplier</label>
-                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
-                            <span id="supplierIdError" class="error"></span>
-                            <div class="invalid-feedback">ID Supplier harus diisi.</div>
-                            
-                        </div>
-                        <div class="mb-3">
-                            <label for="supplier_name" class="form-label">Nama Supplier</label>
-                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
-                            <div class="invalid-feedback">Nama Supplier harus diisi.</div>
-                            
-                        </div>
-                        <div class="mb-3">
-                            <label for="SKU" class="form-label">SKU</label>
-                            <input type="text" class="form-control" id="SKU" name="SKU" required>
-                            <div class="invalid-feedback">SKU harus diisi.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="nama_item" class="form-label">Nama Item</label>
-                            <input type="text" class="form-control" id="nama_item" name="name_item" required>
-                            <div class="invalid-feedback">Nama Item harus diisi.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="base_price" class="form-label">Base Price Rp:</label>
-                            <input type="number" class="form-control" id="base_price" name="base_price" required>
-                            <div class="invalid-feedback">Base Price harus diisi dan lebih besar dari 0.</div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <div>
-                                  <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
-                                  <button type="reset" class="btn btn-secondary">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-
-                </div>
-
-                <div class="mb-3">
-                  <label for="sku" class="form-label">SKU</label>
-                  <input type="text" class="form-control" id="sku" name="sku" required>
-                </div>
-
-                <div class="mb-3">
-                  <label for="total_cost" class="form-label">Total Cost (Rp)</label>
-                  <input type="number" class="form-control" id="total_cost" name="total_cost" required>
-                </div>
-
-                <div class="mb-3">
-                  <label for="active" class="form-label">Active</label>
-                  <select class="form-control" id="active" name="active" required>
-                    <option value="1" selected>Yes</option>
-                    <option value="0">No</option>
-                  </select>
-                </div>
 
                 <div class="d-flex justify-content-between">
                   <div>

@@ -14,9 +14,9 @@ class SupplierMaterialController extends Controller
 
     public function material(Request $request)
     {
-        SupplierMaterial::storeMaterial($request);
+        SupplierMaterial::addSupplierMaterial($request);
 
-        return redirect()->back()->with('success', 'Data berhasil ditambahkan ke tabel bill_of_material!');
+        return redirect()->back()->with('success', 'Data berhasil ditambahkan ke tabel Supplier Product!');
     }
     
 

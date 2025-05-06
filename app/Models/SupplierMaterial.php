@@ -7,27 +7,25 @@ use Illuminate\Support\Facades\DB;
 
 class SupplierMaterial extends Model
 {
-    protected $table = 'bill_of_material';
+    protected $table = 'supplier_product';
     protected $fillable = [
-        'bom_id',
-        'bom_name',
-        'measurement_unit',
-        'sku',
-        'total_cost',
-        'active',
+        'supplier_id',
+        'company_name',
+        'product_id',
+        'product_name',
+        'base_price',
         'created_at',
         'updated_at',
     ];
 
-    public static function storeMaterial($data)
+    public static function addSupplierMaterial($data)
     {
         return self::create([
-            'bom_id' => $data->bom_id,
-            'bom_name' => $data->bom_name,
-            'measurement_unit' => $data->measurement_unit,
-            'sku' => $data->sku,
-            'total_cost' => $data->total_cost,
-            'active' => $data->active,
+            'supplier_id' => $data->supplier_id,
+            'company_name' => $data->company_name,
+            'product_id' => $data->product_id,
+            'product_name'=> $data->product_name,
+            'base_price' => $data->base_price,
         ]);
     }
 
