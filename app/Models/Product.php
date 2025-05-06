@@ -60,25 +60,20 @@ class Product extends Model
                         ->select($tableItem.'.'.$colItem['sku']);
     }
 
-<<<<<<< HEAD
     public function getProductTypeAttribute($value)
     {
         return match ($value) {
             'RM' => 'Raw Material',
             'FG' => 'Finished Good',
-            'HFG' => 'Half Finish Good',
             default => $value,
         };
     }
-
-
-=======
+    
     public static function countProduct() {
         return self::count();
     }
-
+    
     public function getProductById($id) {
         return self::where('id', $id)->first();
-    }    
->>>>>>> a373f1ad7717183e92940c81b9c2508085ad1b1e
-}
+    }
+}    
