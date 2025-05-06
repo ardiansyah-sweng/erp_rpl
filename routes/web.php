@@ -69,6 +69,11 @@ Route::get('/supplier/list', function () {
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
+<<<<<<<<< Temporary merge branch 1
+Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
+=========
+Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.update');
+>>>>>>>>> Temporary merge branch 2
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
@@ -91,6 +96,7 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
 })->name('purchase.orders.detail');
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
+<<<<<<<<< Temporary merge branch 1
  
 
 #Category
@@ -99,6 +105,18 @@ Route::post('/category/add', [CategoryController::class, 'addCategory'])->name('
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
 Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
+Route::get('/supplier/pic/list', function () {
+    $pics = App\Models\SupplierPic::getSupplierPICAll(10);
+    return view('supplier.pic.list', compact('pics')); //implementasi sementara(menunggu controller dari faiz el fayyed)
+})->name('supplier.pic.list');
+=========
+
+
+#Category
+Route::post('/category/add', [CategoryController::class, 'addCategory'])->name('category.add');
+Route::get('category/print', [CategoryController::class, 'print'])->name('category.print');
+
+>>>>>>>>> Temporary merge branch 2
 
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
@@ -113,7 +131,11 @@ Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('m
 
 #Supplier
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
+<<<<<<<<< Temporary merge branch 1
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
+=========
+Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
+>>>>>>>>> Temporary merge branch 2
