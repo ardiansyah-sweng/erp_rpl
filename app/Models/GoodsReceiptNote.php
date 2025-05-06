@@ -14,19 +14,27 @@ class GoodsReceiptNote extends Model
     protected $primaryKey;
     public $incrementing = false;
     protected $keyType = 'string';
+    protected $casts = [];
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_constants.table.grn');
-        $this->primaryKey = config('db_constants.column.grn.grn_number');
-        $this->fillable = array_values(config('db_constants.column.grn') ?? []);
-    }
+        $dbConfig = config('db_constants');
+        $grnConfig = $dbConfig['column']['grn'] ?? [];
 
-    public function details()
-    {
-        return $this->hasMany(GoodsReceiptNoteDetail::class, config('db_constants.column.grn_detail.grn_number'), $this->primaryKey);
+        $this->table = $dbConfig['table']['grn'] ?? 'goods_receipt_notes';
+        $this->primaryKey = $grnConfig['grn_number'] ?? 'grn_number';
+
+        $this->fillable = array_values($grnConfig);
+
+        $detailsColumnKey = 'details_payload';
+        if (isset($grnConfig[$detailsColumnKey])) {
+            $this->casts[$grnConfig[$detailsColumnKey]] = 'array';
+        }
+        if (isset($grnConfig['receipt_date'])) {
+            $this->casts[$grnConfig['receipt_date']] = 'datetime';
+        }
     }
 
     public function purchaseOrder()
@@ -34,33 +42,39 @@ class GoodsReceiptNote extends Model
          return $this->belongsTo(PurchaseOrder::class, config('db_constants.column.grn.po_number'), config('db_constants.column.po.po_number'));
     }
 
-
     public static function addGoodsReceiptNote($data)
     {
         $headerData = $data['header'];
         $itemDetails = $data['details'];
         $colGrn = config('db_constants.column.grn');
-        $colGrnDetail = config('db_constants.column.grn_detail');
 
-
-        $grn = self::create([
-            $colGrn['grn_number'] => $headerData['grn_number'],
-            $colGrn['po_number'] => $headerData['po_number'],
+        $createData = [
+            $colGrn['grn_number']   => $headerData['grn_number'],
+            $colGrn['po_number']    => $headerData['po_number'],
             $colGrn['receipt_date'] => $headerData['receipt_date'],
-            $colGrn['received_by'] => $headerData['received_by'],
-            $colGrn['status'] => 'Pending',
-        ]);
+            $colGrn['received_by']  => $headerData['received_by'],
+            $colGrn['status']       => 'Pending',
+        ];
 
-        foreach ($itemDetails as $item) {
-            GoodsReceiptNoteDetail::create([
-                $colGrnDetail['grn_number'] => $headerData['grn_number'],
-                $colGrnDetail['product_id'] => $item['product_id'],
-                $colGrnDetail['quantity_received'] => $item['quantity_received'],
-                $colGrnDetail['notes'] => $item['notes'] ?? null,
-            ]);
+        $detailsColumnKey = 'details_payload';
+        if (isset($colGrn[$detailsColumnKey])) {
+            $createData[$colGrn[$detailsColumnKey]] = $itemDetails;
         }
 
-        return $grn;
+        $grn = self::create($createData);
 
+        return $grn;
+    }
+
+    public function getDetailsArray(): ?array
+    {
+        $colGrn = config('db_constants.column.grn');
+        $detailsColumnKey = 'details_payload';
+
+        if (isset($colGrn[$detailsColumnKey])) {
+            $detailsColumnName = $colGrn[$detailsColumnKey];
+            return $this->{$detailsColumnName};
+        }
+        return null;
     }
 }
