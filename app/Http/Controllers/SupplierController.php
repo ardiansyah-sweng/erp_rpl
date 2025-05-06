@@ -28,5 +28,11 @@ class SupplierController extends Controller
             'data' => $updatedSupplier,
         ]);
     }
+    public function searchSuppliers(Request $request)
+{
+    $keywords = $request->input('search');
+    $suppliers = Supplier::getAllSuppliers($keywords);
+    return view('supplier.list', ['suppliers' => $suppliers]);
+}
 }
 
