@@ -280,7 +280,7 @@
             role="menu"
             data-accordion="false">
             <li class="nav-item">
-              <a href="dashboard" class="nav-link active">
+              <a href="dashboard" class="nav-link ">
                 <i class="nav-icon bi bi-speedometer"></i>
                 <p>
                   Dashboard
@@ -344,8 +344,8 @@
                 <p>Item</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="{{ route('warehouse.list') }}" class="nav-link">
+            <li class="nav-item ">
+              <a href="{{ route('warehouse.list') }}" class="nav-link active">
                 <i class="nav-icon bi bi-clipboard-fill"></i>
                 <p>Warehouse</p>
               </a>
@@ -460,7 +460,7 @@
         </div>
         <!-- /.card-body -->
         <div class="card-footer clearfix">
-          {{ $warehouse->links('pagination::bootstrap-4') }}
+          {{ $warehouses->links('pagination::bootstrap-4') }}
         </div>
 
       </div>

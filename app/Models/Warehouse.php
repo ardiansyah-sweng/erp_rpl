@@ -46,8 +46,8 @@ class Warehouse extends Model
     public static function countBranchByStatus()
     {
         return [
-            'aktif' => self::where('branch_status', 1)->count(),
-            'nonaktif' => self::where('branch_status', 0)->count(),
+            'aktif' => self::where('is_active', 1)->count(),
+            'nonaktif' => self::where('is_active', 0)->count(),
         ];
     }
 
