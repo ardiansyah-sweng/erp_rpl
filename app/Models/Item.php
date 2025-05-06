@@ -69,20 +69,6 @@ class Item extends Model
         // Jika item tidak ditemukan, kembalikan false
         return false;
     }
-    
-
-public static function getItemByType($productType)
-{
-    return DB::table(config('db_constants.table.item') . ' as i')
-        ->join(config('db_constants.table.produk') . ' as p', 'i.produk_id', '=', 'p.id')
-        ->where('p.tipe_produk', $productType)
-        ->select('i.*', 'p.nama_produk', 'p.tipe_produk')
-        ->get();
-}
-
-}
-
-
 
     
-
+}
