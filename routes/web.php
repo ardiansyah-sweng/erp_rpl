@@ -5,6 +5,7 @@ use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierPIController; // perubahan
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
@@ -56,6 +57,9 @@ Route::get('/item/add', function () {
 Route::get('/merk/add', function () {
     return view('merk/add');
 });
+Route::get('/supplier/list', function () {
+    return view('supplier.list');
+});
 
 
 
@@ -89,6 +93,11 @@ Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::clas
 #Category
 Route::post('/category/add', [CategoryController::class, 'addCategory'])->name('category.add');
 
+# supplier pic route nya
+Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
+Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
+
+# Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
@@ -99,3 +108,9 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
+Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
+Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
+Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
+
+#Cetak pdf
+Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
