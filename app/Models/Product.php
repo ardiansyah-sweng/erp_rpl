@@ -13,8 +13,16 @@ class Product extends Model
 {
     use HasDynamicColumns;
 
-    protected $table;
-    protected $fillable = [];
+    protected $table = 'products';
+    protected $fillable = [
+        'product_id',
+        'product_name',
+        'product_type',
+        'product_category',
+        'product_description',
+        'created_at',
+        'updated_at',
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -49,20 +57,4 @@ class Product extends Model
     public static function countProduct() {
         return self::count();
     }
-
-
-    public function updateProduct($id, $data)
-    {
-        try {
-            $idColumn = config('db_constants.column.products.id', 'id');
-            $fillable = $this->getFillable();
-            $safeData = array_intersect_key($data, array_flip($fillable));
-    
-            return self::where($idColumn, $id)->update($safeData);
-        } catch (\Exception $e) {
-            \Log::error('Update error: ' . $e->getMessage());
-            return false;
-        }
-    }    
-    
 }
