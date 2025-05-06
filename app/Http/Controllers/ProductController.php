@@ -24,12 +24,12 @@ class ProductController extends Controller
     }
 
 
-    $productData = $products[$id];
-    $productData['category'] = (object)$productData['category'];
-    $product = (object)$productData;
+    // $productData = $products[$id];
+    // $productData['category'] = (object)$productData['category'];
+    // $product = (object)$productData;
 
-    return view('product.detail', compact('product'));
-}
+    // return view('product.detail', compact('product'));
+
 
     public function addProduct(Request $request)
     {
@@ -45,8 +45,6 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
-
-    
 
 
 }
