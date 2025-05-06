@@ -34,11 +34,10 @@ class ItemController extends Controller
 }
 public function updateItem(Request $request, $id)
 {
-    
     $validated = $request->validate([
-        'name' => 'required|string|max:255',
+        'name'        => 'required|string|max:255',
         'description' => 'nullable|string',
-        'price' => 'required|numeric|min:0',
+        'price'       => 'required|numeric|min:0',
     ]);
 
     $item = Item::updateItemById($id, $validated);
@@ -48,6 +47,5 @@ public function updateItem(Request $request, $id)
     }
 
     return redirect()->back()->with('success', 'Item berhasil diperbarui.');
-    
-    } 
+}
 }
