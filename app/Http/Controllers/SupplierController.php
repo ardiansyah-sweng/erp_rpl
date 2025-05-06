@@ -28,5 +28,15 @@ class SupplierController extends Controller
             'data' => $updatedSupplier,
         ]);
     }
-}
 
+    public function createSupplier(Request $request)
+    {
+        $supplier = Supplier::create([
+            'supplier_id'   => $request->supplier_id,
+            'company_name'  => $request->company_name,
+            'address'       => $request->address,
+            'phone_number'  => $request->phone_number,
+            'bank_account'  => $request->bank_account,
+        ]);
+    }
+}
