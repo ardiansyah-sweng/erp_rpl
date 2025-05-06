@@ -12,7 +12,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
-
+use App\Http\Controllers\WarehouseController;
 
 #Login
 Route::get('/', function () {
@@ -50,7 +50,7 @@ Route::get('/branch/add', function () {
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
-Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
+Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
     $id = EncryptionHelper::decrypt($encrypted_id);
     return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
 })->name('purchase.orders.detail');
@@ -64,6 +64,7 @@ Route::get('/product/add', function () {
 Route::get('/supplier/list', function () {
     return view('supplier.list');
 });
+
 
 
 # Product
@@ -95,7 +96,7 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
 })->name('purchase.orders.detail');
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
- 
+
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
@@ -124,3 +125,10 @@ Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSu
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
+
+#warehouse
+Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById'])->name('warehouse.detail');
+Route::get('/warehouse', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.list');
+Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
+Route::get('/warehouse/create', [WarehouseController::class, 'create'])->name('warehouse.create');
+Route::delete('/warehouse/{id}', [WarehouseController::class, 'delete'])->name('warehouse.delete');
