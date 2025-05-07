@@ -124,3 +124,6 @@ Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSu
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
+#Category
+Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
+

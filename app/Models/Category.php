@@ -51,4 +51,9 @@ class Category extends Model
     {
         return self::with('parent')->get();
     }
+
+    public static function getCategoryById($id)
+    {
+        return self::find($id);
+    }
 }
