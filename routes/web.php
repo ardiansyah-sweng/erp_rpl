@@ -11,7 +11,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
-
+use App\Http\Controllers\WarehouseController;
 
 #Login
 Route::get('/', function () {
@@ -99,3 +99,6 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 
 #Supplier
+
+#Warehouse
+Route::get('/warehouse/report',[WarehouseController::class,'exportPdf'])->name('warehouse.report');
