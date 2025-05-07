@@ -76,3 +76,7 @@ Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.det
 
 Route::get('/supplier/pic/add', [SupplierPicController::class, 'create'])->name('supplier.pic.add');
 Route::post('/supplier/pic/store', [SupplierPicController::class, 'store'])->name('supplier.pic.store');
+
+Route::get('/warehouse/detail/{id}', function(){
+    return view('warehouse.detail');
+});
