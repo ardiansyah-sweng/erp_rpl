@@ -31,18 +31,41 @@ class Category extends Model
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }
-    
+
     public function children()
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
+
+    public static function addCategory(array $data)
+    {
+        return self::create($data);
+    }
+
     public static function countCategory()
     {
         return self::count();
     }
-
-    public static function addCategory($data) //insert table
+    // mengambil semua kategori beserta data induknya
+    public static function getCategory()
     {
-        return self::create($data);
+        return self::with('parent')->get();
+    }
+    public static function countByParent()
+    {
+        $instance = new static;
+        $table = $instance->getTable();
+
+        return self::join($table . ' as parent', $table . '.parent_id', '=', 'parent.id')
+            ->selectRaw('parent.id as parent_id, parent.category as category_name, COUNT(*) as total')
+            ->groupBy('parent.id', 'parent.category')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'parent_id' => $item->parent_id,
+                    'category' => $item->category_name,
+                    'total' => $item->total,
+                ];
+            });
     }
 }
