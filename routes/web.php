@@ -122,9 +122,19 @@ Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('m
 
 
 #Supplier
+#<<<<<<< M_Puguh_D_View
+Route::get('/supplier/data', [SupplierController::class, 'index'])->name('supplier.index');
+Route::get('/supplier', [SupplierController::class, 'index'])->name('supplier.index');
+Route::get('/supplier/data', [App\Http\Controllers\SupplierController::class, 'index'])->name('supplier.index');
+Route::get('/supplier/pic', [App\Http\Controllers\SupplierPicController::class, 'index'])->name('supplier.pic.index');
+=======
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
+#<<<<<<< M_Puguh_D_View
+#>>>>>>> development
+#=======
 
+#>>>>>>> development

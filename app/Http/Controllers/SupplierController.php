@@ -28,5 +28,13 @@ class SupplierController extends Controller
             'data' => $updatedSupplier,
         ]);
     }
+
+    public function index()
+    {
+        $suppliers = \App\Models\Supplier::all(); // Pastikan model dan tabelnya benar
+        return view('supplier.index', compact('suppliers'));
+    }
+
+
 }
 
