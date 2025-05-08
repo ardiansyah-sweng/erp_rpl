@@ -104,6 +104,7 @@ Route::get('/supplier/pic/list', function () {
     $pics = App\Models\SupplierPic::getSupplierPICAll(10);
     return view('supplier.pic.list', compact('pics')); //implementasi sementara(menunggu controller dari faiz el fayyed)
 })->name('supplier.pic.list');
+Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplierPic'])->name('supplier.pic.list');
 
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
