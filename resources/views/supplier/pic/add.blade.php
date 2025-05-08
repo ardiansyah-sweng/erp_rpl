@@ -295,7 +295,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="dashboard" class="nav-link active">
+                <a href="/dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -303,7 +303,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./generate/theme.html" class="nav-link">
+                <a href="{{ route('product.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
@@ -313,16 +313,9 @@
                   <i class="nav-icon bi bi-person-circle"></i>
                   <p>
                     Supplier
-                    <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="./widgets/small-box.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Small Box</p>
-                    </a>
-                  </li>
                   <li class="nav-item">
                     <a href="/supplier/pic/add" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
@@ -330,11 +323,28 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="./widgets/cards.html" class="nav-link">
+                    <a href="/supplier/material/add" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Cards</p>
+                      <p>Tambah Supplier Item</p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a href="/supplier/add" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Tambah Supplier</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/supplier/material/list" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Supplier Material</p>
+                    </a>
+                  </li>
+                  <a href="/supplier/list" class="nav-link">
+                     <i class="nav-icon bi bi-circle"></i>
+                    <p>List Supplier</p>
+                    </a>
+                 </li>
                 </ul>
               </li>
               <li class="nav-item">
@@ -343,7 +353,23 @@
                   <p>
                     Purchase Orders
                   </p>
-                </a>
+                </a>                
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('branch.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Branch
+                  </p>
+                </a>                
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('item.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Item
+                  </p>
+                </a>                
               </li>
             </ul>
             <!--end::Sidebar Menu-->
@@ -423,7 +449,7 @@
                             <div>
                                 <div class="mb-3">
                                     <label class="form-check-label" for="status">Status</label>
-                                    <input type="checkbox" class="form-check-input" id="status" name="status" value="1">
+                                    <input type="checkbox" class="form-check-input" id="status" name="status" value="1" checked>
                                     <label for="status">Aktif</label>
                                 </div>
                                 <div>
