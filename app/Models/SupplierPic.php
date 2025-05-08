@@ -13,10 +13,9 @@ class SupplierPic extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-
-        // Ambil dari config
-        $this->table = config('db_constants.table.supplier_pic', 'supplier_pic');
-        $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? ['supplier_id','name','phone_number']);
+        
+        $this->table = config('db_constants.table.supplier_pic');
+        $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
     }
 
     public static function countSupplierPIC($supplier_id)
@@ -27,4 +26,9 @@ class SupplierPic extends Model
             ->first();
     }
 
+    // relasi ke Supplier
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id');
+    }
 }
