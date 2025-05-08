@@ -21,4 +21,12 @@ class SupplierMaterial extends Model
             ->orWhere('product_name', 'like', '%' . $keyword . '%')
             ->get();
     }
+
+    public static function countSupplierMaterial()
+    {
+        return DB::table('supplier_product')
+            ->join('products', 'supplier_product.product_id', '=', 'products.product_id')
+            ->where('products.product_type', '=', 'RM')  // RM adalah nilai enum yang benar untuk Raw Material
+            ->count();
+    }
 }

@@ -28,5 +28,15 @@ class SupplierController extends Controller
             'data' => $updatedSupplier,
         ]);
     }
+
+    public function getSupplier()
+    {
+        $totalSuppliers = Supplier::countSupplier();
+        
+        return response()->json([
+            
+            'total_suppliers' => $totalSuppliers
+        ]);
+    }
 }
 
