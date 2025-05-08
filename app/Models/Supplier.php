@@ -19,6 +19,20 @@ class Supplier extends Model
         $this->table = config('db_constants.table.supplier');
         $this->fillable = array_values(config('db_constants.column.supplier') ?? []);
     }
+    public static function getSupplier()
+    {
+        return self::withCount('purchaseOrders')->get();
+    }
+    
+    public function supplierPics()
+    {
+        return $this->hasMany(SupplierPic::class, 'supplier_id', 'supplier_id');
+    }
+
+    public function purchaseOrders()
+    {
+        return $this->hasMany(PurchaseOrder::class, 'supplier_id', 'supplier_id');
+    }
 
     public static function getUpdateSupplier($supplier_id, array $data)
     {
@@ -32,5 +46,5 @@ class Supplier extends Model
         $supplier->update($filteredData);
 
         return $supplier;
-    }
+    }   
 }
