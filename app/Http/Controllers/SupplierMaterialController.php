@@ -29,4 +29,14 @@ class SupplierMaterialController extends Controller
         ]);
          return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
      }
+
+    public function getTotalRawMaterials()
+    {
+        $totalRM = SupplierMaterial::countSupplierMaterial();
+        
+        return response()->json([
+            'message' => 'Total jumlah item bertipe Raw Material ',
+            'total_raw_materials' => $totalRM
+        ]);
+    }
 }

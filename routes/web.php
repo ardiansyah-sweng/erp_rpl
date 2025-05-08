@@ -121,6 +121,8 @@ Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('m
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
+Route::get('/supplier/material/total-rm', [SupplierMaterialController::class, 'getTotalRawMaterials'])->name('supplier.material.total-rm');
+
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
