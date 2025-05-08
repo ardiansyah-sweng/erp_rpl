@@ -22,6 +22,7 @@ class SupplierPIController extends Controller
     public function update(Request $request, $id)
     {
         // method update di sini
+        //yowan
     }
     public function countPICModel($supplier_id){
         //VALIDASI

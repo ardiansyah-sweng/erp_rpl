@@ -25,6 +25,7 @@ class SupplierPic extends Model
             ->groupBy('supplier_id')
             ->first();
     }
+    //tyo
 
     // relasi ke Supplier
     public function supplier()
