@@ -14,28 +14,38 @@ class ItemController extends Controller
 
     public function deleteItem($id)
     {
-        try {
-            // Panggil fungsi deleteItemById dari model Item
-            $deleted = Item::deleteItemById($id);
-    
-            if ($deleted) {
-                return redirect()->back()->with('success', 'Item berhasil dihapus!');
-            } else {
-                return redirect()->back()->with('error', 'Item tidak ditemukan atau gagal dihapus.');
-            }
-        } 
-        catch (\Exception $e) {
-            // Tangkap pesan exception dari model
-            return redirect()->back()->with('error', $e->getMessage());
+        // Panggil fungsi deleteItemById dari model Item
+        $deleted = Item::deleteItemById($id);
+
+        // Redirect kembali ke halaman list dengan pesan sukses atau gagal
+        if ($deleted) {
+            return redirect()->back()->with('success', 'Item berhasil dihapus!');
+        } else {
+            return redirect()->back()->with('error', 'Item tidak ditemukan atau gagal dihapus.');
         }
     }
 
 
     public function getItemList(Request $request)
+  {
+    $search = $request->input('search');
+    $items = Item::getAllItems($search);
+    return view('item.list', compact('items'));
+}
+    public function updateItem(Request $request, $id)
     {
-        $search = $request->input('search');
-        $items = Item::getAllItems($search);
-        return view('item.list', compact('items'));
+        $validated = $request->validate([
+        'name'        => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'price'       => 'required|numeric|min:0',
+    ]);
+
+    $item = Item::updateItemById($id, $validated);
+
+    if (!$item) {
+        return redirect()->back()->with('error', 'Item tidak ditemukan.');
     }
-    
+
+        return redirect()->back()->with('success', 'Item berhasil diperbarui.');
+    }
 }
