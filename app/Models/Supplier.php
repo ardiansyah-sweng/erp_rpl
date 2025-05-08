@@ -37,4 +37,9 @@ class Supplier extends Model
     {
         return self::where($this->getKeyName(), $id)->first();
     }
+
+    public static function findBySupplierId($supplierId)
+    {
+        return self::where('supplier_id', $supplierId)->first();
+    }
 }

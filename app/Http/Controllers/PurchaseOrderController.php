@@ -91,7 +91,7 @@ class PurchaseOrderController extends Controller
 
     public function generatePurchaseOrderPDF(Request $request)
     {
-        // Validate request data
+        // Validasi input
         $request->validate([
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -102,15 +102,10 @@ class PurchaseOrderController extends Controller
         $endDate = Carbon::parse($request->end_date)->endOfDay();
         $supplierId = $request->supplier_id;
 
-        $supplier = Supplier::where('supplier_id', $supplierId)->first();
-        
-        $purchaseOrders = PurchaseOrder::with(['supplier', 'details'])
-            ->where('supplier_id', $supplierId)
-            ->whereBetween('order_date', [$startDate, $endDate])
-            ->orderBy('order_date', 'desc')
-            ->get();
+        // Ambil data dari model
+        $supplier = Supplier::findBySupplierId($supplierId);
+        $purchaseOrders = PurchaseOrder::getReportBySupplierAndDate($supplierId, $startDate, $endDate);
 
-        // Generate PDF
         $data = [
             'purchaseOrders' => $purchaseOrders,
             'supplier' => $supplier,
