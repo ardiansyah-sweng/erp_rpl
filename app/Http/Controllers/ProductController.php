@@ -17,42 +17,69 @@ class ProductController extends Controller
 
     public function getProductById($id)
     {
-        $product = Product::find($id);
+        $product = (new Product())->getProductById($id);
+
         if (!$product) {
             return abort(404, 'Product tidak ditemukan');
         }
-
-        return view('product.detail', compact('product'));
+       return view('product.detail', compact('product'));
     }
 
-    // Fungsi untuk update produk
-    public function updateProduct(Request $request, $id)
+
+    // $productData = $products[$id];
+    // $productData['category'] = (object)$productData['category'];
+    // $product = (object)$productData;
+
+    // return view('product.detail', compact('product'));
+
+
+    public function addProduct(Request $request)
     {
-        // Validasi input
-        $validated = $request->validate([
-            'product_name' => 'required|min:3|max:255', // Nama produk harus lebih dari 3 karakter
-            'category_id' => 'required|exists:categories,id', // Kategori harus ada di database
-            'product_description' => 'required|max:255', // Deskripsi produk
+        $validatedData = $request->validate([
+            'product_id' => 'required|string|unique:products,product_id',
+            'product_name' => 'required|string',
+            'product_type' => 'required|string',
+            'product_category' => 'required|string',
+            'product_description' => 'nullable|string',
         ]);
 
-        // Ambil data produk yang akan diupdate
-        $product = Product::find($id);
-        
+        Product::addProduct($validatedData);
+
+        return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
+    }
+
+    public function updateProduct(Request $request, $id)
+    {
+        // Validasi input, pastikan product_id unik kecuali untuk produk ini sendiri
+        $validated = $request->validate([
+            'product_id' => 'required|string|unique:products,product_id,' . $id . ',product_id',
+            'product_name' => 'required|string|min:3|max:255',
+            'product_type' => 'required|string',
+            'product_category' => 'required|string',
+            'product_description' => 'nullable|string|max:255',
+        ]);
+    
+        // Ambil produk berdasarkan product_id lama
+        $product = Product::where('product_id', $id)->first();
+    
         // Jika produk tidak ditemukan
         if (!$product) {
-            return abort(404, 'Product tidak ditemukan');
+            return abort(404, 'Produk tidak ditemukan');
         }
-
-        // Memperbarui data produk
+    
+        // Update data produk
+        $product->product_id = $validated['product_id'];
         $product->product_name = $validated['product_name'];
-        $product->category_id = $validated['category_id'];
-        $product->product_description = $validated['product_description'];
-        $product->updated_at = now(); // Perbarui waktu updated_at
-        
+        $product->product_type = $validated['product_type'];
+        $product->product_category = $validated['product_category'];
+        $product->product_description = $validated['product_description'] ?? null;
+        $product->updated_at = now();
+    
         // Simpan perubahan
         $product->save();
-
-        // Redirect atau beri respons setelah berhasil
-        return redirect()->route('product.list')->with('success', 'Product berhasil diperbarui!');
+    
+        // Redirect dengan pesan sukses
+        return redirect()->route('product.list')->with('success', 'Produk berhasil diperbarui!');
     }
+    
 }
