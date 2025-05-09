@@ -103,8 +103,6 @@ class PurchaseOrder extends Model
             }
 
             DB::commit();
-            // Kirim email notifikasi setelah berhasil membuat PO
-            $purchaseOrder->sendMailPurchaseOrder();
             return $purchaseOrder;
 
         } catch (\Exception $e) {
