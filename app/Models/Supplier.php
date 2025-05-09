@@ -34,6 +34,11 @@ class Supplier extends Model
 
         return $supplier;
     }
+    public function getSupplierById($id)
+    {
+        return self::where($this->getKeyName(), $id)->first();
+    }
+}
 
     public static function deleteSupplier($id)
     {
