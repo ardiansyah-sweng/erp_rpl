@@ -36,4 +36,10 @@ class CategoryController extends Controller
         $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
         return $pdf->stream('laporan_kategori.pdf'); 
     }
+
+    public function getCategoryById($id)
+    {
+        $category = (new Category())->getCategoryById($id);
+        return response()->json($category);
+    }
 } //CategoryController
