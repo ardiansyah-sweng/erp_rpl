@@ -33,10 +33,40 @@ class SupplierPic extends Model
     {
         return self::paginate($perPage);
     }
-    
+
     public static function addSupplierPIC($supplierID, $data)
     {
         $data['supplier_id'] = $supplierID;
         return self::create($data);
-    }    
+    }
+    public static function updateSupplierPIC($id, $data)
+    {
+        $supplierPic = self::find($id);
+
+        if (!$supplierPic) {
+            return [
+                'status' => 'error',
+                'message' => 'Supplier PIC tidak ditemukan.',
+                'code' => 404
+            ];
+        }
+
+        $supplierPic->fill($data);
+
+        if ($supplierPic->save()) {
+            return [
+                'status' => 'success',
+                'message' => 'Supplier PIC berhasil diperbarui.',
+                'data' => $supplierPic,
+                'code' => 200
+            ];
+        } else {
+            return [
+                'status' => 'error',
+                'message' => 'Gagal memperbarui Supplier PIC.',
+                'code' => 500
+            ];
+        }
+    }
+
 }
