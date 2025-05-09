@@ -75,7 +75,7 @@ class SupplierPIController extends Controller
         $validator = Validator::make($request->all(), [
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:supplier_pics,email,' . $id,
-            'password' => 'required|string|min:10',
+            'password' => 'required|string|min:8',
         ]);
 
         if ($validator->fails()) {
@@ -91,7 +91,7 @@ class SupplierPIController extends Controller
             'password' => bcrypt($request->password),
         ];
 
-        $result = SupplierPICModel::updateSupplierPIC($id, $data);
+        $result = SupplierPic::updateSupplierPIC($id, $data);
 
         return response()->json([
             'status'  => $result['status'],
@@ -99,6 +99,4 @@ class SupplierPIController extends Controller
             'data'    => $result['data'] ?? null,
         ], $result['code']);
     }
-
-
 }
