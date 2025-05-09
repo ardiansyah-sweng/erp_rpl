@@ -28,6 +28,16 @@ class SupplierController extends Controller
             'data' => $updatedSupplier,
         ]);
     }
+ itemDetail_insertTableSupplier_Farrel_188_C
+
+    public function getSupplierById($id)
+    {
+        $sup = (new Supplier())->getSupplierById($id);
+
+        return response()->json($sup);
+    }
+}
+ development
 
     public function createSupplier(Request $request)
     {
