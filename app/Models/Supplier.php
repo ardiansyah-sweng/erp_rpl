@@ -48,17 +48,13 @@ class Supplier extends Model
             return false;
         }
 
-    
         $hasPurchaseOrders = DB::table('purchase_order')->where('supplier_id', $id)->exists();
 
         if ($hasPurchaseOrders) {
-        
             return 'Supplier ini tidak bisa dihapus karena sudah memiliki purchase order';
         }
 
-    
         return $supplier->delete();
     }
-
 
 }
