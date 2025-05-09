@@ -4,11 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-<<<<<<< HEAD
-use Illuminate\Support\Facades\Mail;
-=======
 use App\Enums\POStatus;
->>>>>>> 4d9ce9449d0fb2e843539eb9088bc8ac97b18824
 
 class PurchaseOrder extends Model
 {
@@ -116,31 +112,11 @@ class PurchaseOrder extends Model
             throw $e;
         }
     }
-<<<<<<< HEAD
-    public function sendMailPurchaseOrder()
-    {
-        $supplier = $this->supplier;
-        $details = $this->details;
-
-        $data = [
-            'po_number' => $this->po_number,
-            'supplier'  => $supplier,
-            'order_date' => $this->order_date,
-            'total' => $this->total,
-            'details' => $details,
-        ];
-
-        Mail::send('emails.purchase_order', $data, function($message) use ($supplier) {
-            $message->to($supplier->email)
-                    ->subject('New Purchase Order: ' . $this->po_number);
-        });
-=======
 
     public static function getPOByNumberAndStatusFD($poNumber)
     {
         return self::where('po_number', $poNumber)
             ->where('status', POStatus::FD->value)
             ->first();
->>>>>>> 4d9ce9449d0fb2e843539eb9088bc8ac97b18824
     }
 }
