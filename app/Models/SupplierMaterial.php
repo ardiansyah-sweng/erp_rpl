@@ -21,4 +21,13 @@ class SupplierMaterial extends Model
             ->orWhere('product_name', 'like', '%' . $keyword . '%')
             ->get();
     }
+    public static function countSupplierMaterial(){
+        return DB::table('supplier_product as sp')
+            ->join('products as p', function($join) {
+                $join->on(DB::raw('LEFT(sp.product_id, LOCATE("-", sp.product_id) - 1)'), '=', 'p.product_id');
+            })
+            ->where('p.product_type', '=', 'RM')
+            ->distinct('p.product_id')
+            ->count(DB::raw('DISTINCT p.product_id'));
+    }
 }
