@@ -15,20 +15,24 @@ class ItemController extends Controller
 
     public function deleteItem($id)
     {
-        // Panggil fungsi deleteItemById dari model Item
-        $deleted = Item::deleteItemById($id);
-
-        // Redirect kembali ke halaman list dengan pesan sukses atau gagal
-        if ($deleted) {
-            return redirect()->back()->with('success', 'Item berhasil dihapus!');
-        } else {
-            return redirect()->back()->with('error', 'Item tidak ditemukan atau gagal dihapus.');
+        try {
+            // Panggil fungsi deleteItemById dari model Item
+            $deleted = Item::deleteItemById($id);
+    
+            if ($deleted) {
+                return redirect()->back()->with('success', 'Item berhasil dihapus!');
+            } else {
+                return redirect()->back()->with('error', 'Item tidak ditemukan atau gagal dihapus.');
+            }
+        } 
+        catch (\Exception $e) {
+            // Tangkap pesan exception dari model
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
     // Menampilkan fungsi buat PDF
-    public function getItemList(Request $request)
-{
+    public function getItemList(Request $request){
     $search = $request->input('search');
 
     // Jika tombol Export PDF diklik
@@ -48,4 +52,5 @@ class ItemController extends Controller
 
     return view('item.list', compact('items'));
 }
+
 }
