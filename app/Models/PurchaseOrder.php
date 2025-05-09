@@ -117,4 +117,13 @@ class PurchaseOrder extends Model
             ->where('status', POStatus::FD->value)
             ->first();
     }
+
+    public static function getReportBySupplierAndDate($supplierId, $startDate, $endDate)
+    {
+        return self::with(['supplier', 'details'])
+            ->where('supplier_id', $supplierId)
+            ->whereBetween('order_date', [$startDate, $endDate])
+            ->orderBy('order_date', 'desc')
+            ->get();
+    }
 }
