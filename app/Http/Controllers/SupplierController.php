@@ -28,6 +28,8 @@ class SupplierController extends Controller
             'data' => $updatedSupplier,
         ]);
     }
+ itemDetail_insertTableSupplier_Farrel_188_C
+
     public function getSupplierById($id)
     {
         $sup = (new Supplier())->getSupplierById($id);
@@ -35,4 +37,16 @@ class SupplierController extends Controller
         return response()->json($sup);
     }
 }
+ development
 
+    public function createSupplier(Request $request)
+    {
+        $supplier = Supplier::create([
+            'supplier_id'   => $request->supplier_id,
+            'company_name'  => $request->company_name,
+            'address'       => $request->address,
+            'phone_number'  => $request->phone_number,
+            'bank_account'  => $request->bank_account,
+        ]);
+    }
+}
