@@ -21,6 +21,7 @@ class SupplierMaterial extends Model
             ->orWhere('product_name', 'like', '%' . $keyword . '%')
             ->get();
     }
+    #
     public static function countSupplierMaterial(){
         return DB::table('supplier_product as sp')
             ->join('products as p', function($join) {
