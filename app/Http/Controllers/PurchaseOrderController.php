@@ -82,27 +82,33 @@ class PurchaseOrderController extends Controller
     
         return intval($orderDate->diffInDays($statusUpdateDate));
     }
-    public function sendMailPurchaseOrder(Request $request)
+    public function sendMailPurchaseOrder()
     {
-        $poNumber = $request->input('po_number');
-        $email    = $request->input('email');
+        // Ambil semua purchase orders
+        $purchaseOrders = PurchaseOrder::all();
 
-        // Ambil data PO
-        $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($poNumber);
-
-        if (!$purchaseOrder || $purchaseOrder->isEmpty()) {
-            return redirect()->back()->with('error', 'Data Purchase Order tidak ditemukan.');
+        // Mengecek jika tidak ada purchase order
+        if ($purchaseOrders->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada Purchase Order untuk dikirim.');
         }
 
-        try {
-            // Ambil satu data dari koleksi hasil paginate
-            $poData = $purchaseOrder->first();
-
-            Mail::to($email)->send(new PurchaseOrderMail($poData));
-
-            return redirect()->back()->with('success', 'Email PO berhasil dikirim ke ' . $email);
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal mengirim email: ' . $e->getMessage());
+        // Mengirim email ke setiap PO
+        foreach ($purchaseOrders as $po) {
+            try {
+                // Kirim email ke supplier dengan data PO
+                Mail::send('emails.purchase_order', ['po' => $po], function ($message) use ($po) {
+                    $message->to($po->supplier->email ?? 'default@example.com')
+                            ->subject('Purchase Order #' . $po->po_number); // Set subject email
+                });
+            } catch (\Exception $e) {
+                // Jika gagal mengirim email, tampilkan error
+                return redirect()->back()->with('error', 'Gagal mengirim email untuk PO ' . $po->po_number . ': ' . $e->getMessage());
+            }
         }
+
+        // Setelah semua email berhasil dikirim
+        return redirect()->back()->with('success', 'Email Purchase Order berhasil dikirim ke semua supplier.');
     }
 }
+
+
