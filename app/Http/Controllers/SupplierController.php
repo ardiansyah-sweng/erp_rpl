@@ -34,7 +34,7 @@ class SupplierController extends Controller
 
         return response()->json($sup);
     }
-}
+
     
     public function deleteSupplierByID($id)
     {
