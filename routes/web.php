@@ -10,9 +10,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\SupplierMaterialController;
-use App\Helpers\EncryptionHelper;
-
 
 #Login
 Route::get('/', function () {
@@ -40,7 +37,7 @@ Route::get('/supplier/pic/add', function () {
 Route::get('/supplier/add', function () {
     return view('supplier/add');
 });
-
+//halo
 Route::get('/supplier/detail', function () {
     return view('supplier/detail');
 });
@@ -128,8 +125,6 @@ Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('m
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
-Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
-
