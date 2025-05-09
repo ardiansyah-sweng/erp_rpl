@@ -58,14 +58,22 @@ class Product extends Model
         return self::count();
     }
 
-
-    public static function addProduct($data)
-    {
-        return self::create($data);
-    }
+    public function updateProduct($id, $data)
+{
+        try {
+            $idColumn = config('db_constants.column.products.id', 'id');
+            $fillable = $this->getFillable();
+            $safeData = array_intersect_key($data, array_flip($fillable));
+    
+            return self::where($idColumn, $id)->update($safeData);
+        } catch (\Exception $e) {
+            \Log::error('Update error: ' . $e->getMessage());
+            return false;
+        }
+    }    
+    
 
     public function getProductById($id) {
         return self::where('id', $id)->first();
     }    
-
 }
