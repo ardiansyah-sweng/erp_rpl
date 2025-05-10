@@ -409,6 +409,17 @@
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
+                    @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+
+                    @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                    @endif
                     <table class="table table-bordered">
                       <thead class="text-center">
                         <tr>
@@ -440,7 +451,11 @@
                             <td>{{ $branch->updated_at }}</td>
                             <td>
                               <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                              <form action="{{ route('branch.delete', $branch->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus branch {{ $branch->branch_name }}?')">Delete</button>
+                              </form>
                               <a href="#" class="btn btn-sm btn-info">Detail</a>
                             </td>
                             </tr>
