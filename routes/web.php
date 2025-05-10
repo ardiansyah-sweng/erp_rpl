@@ -129,6 +129,7 @@ Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplie
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
+Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteByID'])->name('supplier.pic.delete');
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');

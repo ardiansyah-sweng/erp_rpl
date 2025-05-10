@@ -29,7 +29,7 @@ class SupplierPIController extends Controller
 
     public function update(Request $request, $id)
     {
-        // method update disini untuk updatee
+        // method update disini untuk update
     }
 
     public function addSupplierPIC(Request $request, $supplierID)
