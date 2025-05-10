@@ -133,3 +133,5 @@ Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
+#Category
+Route::post('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
