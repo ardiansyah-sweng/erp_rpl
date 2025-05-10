@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SupplierPic;
+use App\Models\SupplierPICModel;
+
 
 class SupplierPIController extends Controller
 {
@@ -24,6 +26,16 @@ class SupplierPIController extends Controller
     {
         // method update disini untuk update
     }
+
+    public function searchSupplierPic(Request $request)
+    {
+        $keywords = $request->input('keywords');
+        $supplierPics = SupplierPICModel::searchSupplierPic($keywords);
+
+        return view('supplier.pic.list', ['pics' => $supplierPics, 'supplier_id' => $keywords]);
+    }
+
+
     public function addSupplierPIC(Request $request, $supplierID)
     {
         // Validasi input
