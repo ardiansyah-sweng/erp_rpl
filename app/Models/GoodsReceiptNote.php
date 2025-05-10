@@ -68,13 +68,14 @@ class GoodsReceiptNote extends Model
 
     public function getDetailsArray(): ?array
     {
-        $colGrn = config('db_constants.column.grn');
-        $detailsColumnKey = 'details_payload';
-
-        if (isset($colGrn[$detailsColumnKey])) {
-            $detailsColumnName = $colGrn[$detailsColumnKey];
-            return $this->{$detailsColumnName};
+        $poNumber = $this->purchaseOrder->po_number ?? null;
+    
+        if ($poNumber) {
+            $purchaseOrderData = PurchaseOrder::getPurchaseOrderByID($poNumber);
+            return $purchaseOrderData['items'] ?? null;
         }
+    
         return null;
     }
+    
 }
