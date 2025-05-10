@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class SupplierPic extends Model
 {
-    protected $table;
+    protected $table = '';
     protected $fillable = [];
+
 
     public function __construct(array $attributes = [])
     {
@@ -23,7 +24,7 @@ class SupplierPic extends Model
         return self::find($id);
     }
 
-    // relasi ke Supplier
+    // relasi ke Supplierr
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
