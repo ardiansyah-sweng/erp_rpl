@@ -31,6 +31,7 @@ class BranchSeeder extends Seeder
             ]);
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
     }
 }
 =======
@@ -38,3 +39,5 @@ class BranchSeeder extends Seeder
     }
 }
 >>>>>>> 710f97bdf0590c08d0edbdd686edc9a146c0d6c3
+=======
+>>>>>>> 11bd0bb81e32246aace9f343e9ce016e7f77a059

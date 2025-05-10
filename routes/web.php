@@ -126,10 +126,18 @@ Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('m
 
 #Supplier
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 #Warehouse
 Route::get('/warehouse/report',[WarehouseController::class,'exportPdf'])->name('warehouse.report');
 =======
+=======
+singgih-romadoni_2200018200_C
+
+#Warehouse
+Route::get('/warehouse/report',[WarehouseController::class,'exportPdf'])->name('warehouse.report');
+
+>>>>>>> 11bd0bb81e32246aace9f343e9ce016e7f77a059
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
@@ -138,4 +146,8 @@ Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
+<<<<<<< HEAD
 >>>>>>> 710f97bdf0590c08d0edbdd686edc9a146c0d6c3
+=======
+development
+>>>>>>> 11bd0bb81e32246aace9f343e9ce016e7f77a059
