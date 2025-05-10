@@ -7,6 +7,18 @@ use App\Models\SupplierMaterial;
 
 class SupplierMaterialController extends Controller
 {
+    public function create()
+    {
+        return view('supplier_material');
+    }
+
+    public function material(Request $request)
+    {
+        SupplierMaterial::addSupplierMaterial($request);
+
+        return redirect()->back()->with('success', 'Data berhasil ditambahkan ke tabel Supplier Product!');
+    }
+
     public function getSupplierMaterial()
     {
         $model = new SupplierMaterial();
@@ -14,8 +26,6 @@ class SupplierMaterialController extends Controller
 
         return view('supplier.material.list', ['materials' => $materials]);
     }
-
-     // Validasi data supplier material
      public function addSupplierMaterial(Request $request)
      {
         $validated = $request->validate([
@@ -29,4 +39,6 @@ class SupplierMaterialController extends Controller
         ]);
          return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
      }
+     
 }
+
