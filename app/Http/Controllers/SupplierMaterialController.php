@@ -3,33 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Supplier;
-use App\Models\SupplierMaterial;
+use App\Models\SupplierMaterialModel;
 
 class SupplierMaterialController extends Controller
 {
     public function getSupplierMaterialByID($id)
     {
-        $supplier = Supplier::find($id);
-        if (!$supplier){
-            return response()->json(['message' => 'Supplier not found'], 404);
+        $materials = SupplierMaterialModel::getSupplierMaterialByID($id);
+
+        if ($materials->isEmpty()) {
+            return response()->json(['message' => 'Supplier not found or has no materials'], 404);
         }
 
-        return response()->json($supplier);
+        return response()->json($materials);
     }
 
     public function getSupplierMaterial()
     {
-        $model = new SupplierMaterial();
-        $materials = $model->getSupplierMaterial();
+        $model = new SupplierMaterialModel();
+        $materials = $model->getSupplierMaterial(); 
 
         return view('supplier.material.list', ['materials' => $materials]);
     }
-}
 
-     // Validasi data supplier material
-     public function addSupplierMaterial(Request $request)
-     {
+    public function addSupplierMaterial(Request $request)
+    {
         $validated = $request->validate([
             'supplier_id'   => 'required|string|size:6',
             'company_name'  => 'required|string|max:255', 
@@ -39,6 +37,7 @@ class SupplierMaterialController extends Controller
             'created_at'    => 'nullable|date',
             'updated_at'    => 'nullable|date',
         ]);
-         return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
-     }
+
+        return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
+    }
 }

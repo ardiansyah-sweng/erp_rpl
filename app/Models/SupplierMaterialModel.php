@@ -12,7 +12,20 @@ class SupplierMaterialModel extends Model
 
     public static function getSupplierMaterialByID($id)
     {
-        return self::find($id);
+        return \DB::table('supplier')
+            ->join('supplier_product', 'supplier.supplier_id', '=', 'supplier_product.supplier_id')
+            ->join('products', 'supplier_product.product_id', '=', 'products.id')
+            ->where('supplier.supplier_id', $id)
+            ->select(
+                'supplier.supplier_id',
+                'supplier.company_name',
+                'supplier.address',
+                'supplier.phone_number',
+                'supplier.bank_account',
+                'products.id as product_id',
+                'products.name as product_name'
+            )
+            ->get();
     }
 
 }
