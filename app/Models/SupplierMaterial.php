@@ -21,4 +21,6 @@ class SupplierMaterial extends Model
             ->orWhere('product_name', 'like', '%' . $keyword . '%')
             ->get();
     }
+    
 }
+
