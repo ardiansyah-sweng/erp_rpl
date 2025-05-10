@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Dashboard</title>
+    <title>ERP RPL UAD | Supplier List</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -365,104 +364,140 @@
         </div>
         <!--end::Sidebar Wrapper-->
       </aside>
-      <!--end::Sidebar-->
-      <!--begin::App Main-->
-      <main class="app-main">
-        <!--begin::App Content Header-->
-        <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row align-items-center">
-              <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Branch</h3>
-                <a href="{{ route('branch.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="{{ route('branch.list', ['export' => 'pdf']) }}" class="btn btn-primary btn-sm ms-2">Cetak Branch</a>
-              </div>
-    
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Branch</li>
-                </ol>
-              </div>
-            </div>
-            <!--end::Row-->
+
+<!-- list.blade.php -->
+<main class="content-wrapper">
+  <div class="container-fluid">
+    <div class="mb-4">
+      <h1 class="h3 fw-bold mb-2">Suppliers</h1>
+      <a href="#" class="btn btn-primary btn-sm">New Supplier</a>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <!-- Filter & Search -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="d-flex align-items-center">
+            <span>Show</span>
+            <select id="pageLength" class="form-select mx-2" style="width: auto;">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+            <span>entries</span>
           </div>
-          <!--end::Container-->
+          <div class="d-flex align-items-center">
+            <span class="me-2">Search:</span>
+            <input type="text" id="supplierSearch" class="form-control" style="width: 200px;">
+          </div>
         </div>
 
-        <div class="card mb-4">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                      <h3 class="card-title">List Table</h3>
-                      <form action="{{ route('branch.list') }}" method="GET" class="d-flex ms-auto">
-                        <!-- Search bar berada di ujung kanan -->
-                        <div class="input-group input-group-sm ms-auto" style="width: 450px;">
-                          <input type="text" name="search" class="form-control" placeholder="Search Branch">
-                          <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
-                              <i class="bi bi-search"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </form>
+        <!-- Table -->
+        <div class="table-responsive">
+          <table id="supplierTable" class="table table-bordered table-hover align-middle mb-0">
+            <thead class="table-light text-center">
+              <tr>
+                <th>No</th>
+                <th>ID Supplier</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Telephone</th>
+                <th>PiC</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Static Data List -->
+              <tr>
+                <td class="text-center">1</td>
+                <td>SUP001</td>
+                <td>PT. Sumber Makmur</td>
+                <td>Jl. Merdeka No.123</td>
+                <td>081234567890</td>
+                <td class="text-center">
+                  <span class="badge bg-info text-dark">0</span>
+                </td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-1 flex-wrap">
+                    <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                    <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
+                    <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
                   </div>
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                    <table class="table table-bordered">
-                      <thead class="text-center">
-                        <tr>
-                          <th style="width: 10px">id</th>
-                          <th>Branch Name</th>
-                          <th>Branch Address</th>
-                          <th>Branch Telephone</th>
-                          <th>Aktif</th>
-                          <th>Created At</th>
-                          <th>Updated At </th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                            @forelse($branches as $branch)
-                            <tr>
-                            <td>{{ $branch->id }}</td>
-                            <td>{{ $branch->branch_name }}</td>
-                            <td>{{ $branch->branch_address }}</td>
-                            <td>{{ $branch->branch_telephone }}</td>
-                            <td class="text-center">
-                                 @if($branch->branch_status == 1)
-                                        <i class="bi bi-check-circle-fill text-success"></i>
-                                @else
-                                        <i class="bi bi-x-circle-fill text-danger"></i>
-                                  @endif
-                           </td>
-                            <td>{{ $branch->created_at }}</td>
-                            <td>{{ $branch->updated_at }}</td>
-                            <td>
-                              <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                              <a href="#" class="btn btn-sm btn-info">Detail</a>
-                            </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="7" class="text-center">No data available in table</td>
-                            </tr>
-                            @endforelse
-                      </tbody>
-                    </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">2</td>
+                <td>SUP002</td>
+                <td>CV. Maju Jaya</td>
+                <td>Jl. Sudirman No.45</td>
+                <td>082134567891</td>
+                <td class="text-center">
+                  <span class="badge bg-info text-dark">0</span>
+                </td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-1 flex-wrap">
+                    <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                    <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
+                    <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
                   </div>
-                  <!-- /.card-body -->
-                  <div class="card-footer clearfix">
-                  {{ $branches->links('pagination::bootstrap-4') }}
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">3</td>
+                <td>SUP003</td>
+                <td>UD. Berkah Abadi</td>
+                <td>Jl. Diponegoro No.78</td>
+                <td>083134567892</td>
+                <td class="text-center">
+                  <span class="badge bg-info text-dark">0</span>
+                </td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-1 flex-wrap">
+                    <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                    <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
+                    <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
                   </div>
-
+                </td>
+              </tr>
+              <!-- End Static Data List -->
+            </tbody>
+          </table>
         </div>
-        
-      </main>
-      <!--end::App Main-->
-      <!--begin::Footer-->
-      <footer class="app-footer">
+
+        <!-- Pagination Info -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div>Showing 1 to 3 of 3 entries</div>
+          <nav>
+            <ul class="pagination">
+              <li class="page-item disabled">
+                <a class="page-link" href="#">Previous</a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+              </li>
+              <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Custom CSS -->
+<style>
+.custom-btn {
+  padding: 3px 8px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+</style>
+
+
+<!--begin::Footer-->
+<footer class="app-footer">
         <!--begin::To the end-->
         <div class="float-end d-none d-sm-inline">Anything you want</div>
         <!--end::To the end-->
