@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Helpers\EncryptionHelper;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
@@ -21,6 +21,14 @@ class ProductController extends Controller
             return abort(404, 'Product tidak ditemukan');
         }
        return view('product.detail', compact('product'));
+    }
+    
+    // encry
+    public function detail($id)
+    {
+        $productId = EncryptionHelper::decrypt($id);
+        $product = Product::where('product_id', $productId)->firstOrFail();
+        return view('product.detail', compact('product'));
     }
 
 

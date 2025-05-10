@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use App\Models\PurchaseOrder;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
@@ -49,5 +50,21 @@ class BranchController extends Controller
         ]);
 
         return redirect()->route('branch.list')->with('success', 'Cabang berhasil ditambahkan!');
+    }
+
+    public function deleteBranch($id)
+    {
+        try {
+            $branch = Branch::findBranch($id);
+
+            if (PurchaseOrder::where('branch_id', $id)->exists()) {
+                throw new \Exception('Cabang tidak bisa dihapus bila id branch sudah muncul di purchase_order!');
+            }
+
+            Branch::deleteBranch($id);
+            return redirect()->route('branch.list')->with('success', 'Cabang berhasil dihapus!');
+        } catch (\Exception $e) {
+            return redirect()->route('branch.list')->with('error', $e->getMessage());
+        }
     }
 }

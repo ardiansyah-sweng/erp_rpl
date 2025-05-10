@@ -33,4 +33,10 @@ class SupplierPic extends Model
     {
         return self::paginate($perPage);
     }
+    
+    public static function addSupplierPIC($supplierID, $data)
+    {
+        $data['supplier_id'] = $supplierID;
+        return self::create($data);
+    }    
 }

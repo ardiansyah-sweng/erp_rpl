@@ -420,11 +420,11 @@
                             <td>{{ $material->base_price }}</td>
                             <td>{{ $material->created_at }}</td>
                             <td>{{ $material->updated_at }}</td>
-                           
+
                             <td>
                                 <a href="#" class="btn btn-sm btn-primary">Edit</a>
                                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                                <a href="#" class="btn btn-sm btn-info">Detail</a>
+                                <a href="/supplier/material/detail/" class="btn btn-sm btn-info">Detail</a>
                             </td>
                         </tr>
                         @endforeach
