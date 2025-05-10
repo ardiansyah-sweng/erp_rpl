@@ -71,6 +71,7 @@ Route::get('/product/list', [ProductController::class, 'getProductList'])->name(
 
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
+#encry
 Route::get('/products/detail/{id}', [ProductController::class, 'detail']);
 
 
