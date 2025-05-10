@@ -46,6 +46,7 @@ class Product extends Model
         return $this->hasMany(Item::class, 'sku', 'product_id');
     }
 
+    
     public static function getAllProducts()
     {
         return self::withCount('items') 
