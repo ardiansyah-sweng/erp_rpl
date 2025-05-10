@@ -21,6 +21,19 @@ class SupplierPIController extends Controller
         $pic->supplier_name = $supplier ? $supplier->name : null;
         return view('supplier.pic.detail', ['pic' => $pic, 'supplier' => $supplier]);
     }
+    //
+    public function deleteSupplierPICByID($id)
+    {
+        $pic = SupplierPic::find($id);
+
+        if (!$pic) {
+            return redirect()->route('supplier.pic.list')->with('error', 'PIC tidak ditemukan.');
+        }
+
+        $pic->delete();
+
+        return redirect()->route('supplier.pic.list')->with('success', 'PIC berhasil dihapus.');
+    }
 
     public function update(Request $request, $id)
     {
