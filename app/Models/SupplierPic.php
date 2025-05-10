@@ -24,7 +24,7 @@ class SupplierPic extends Model
         return self::find($id);
     }
 
-    // relasi ke Supplierr
+    // relasi ke Supplier
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
