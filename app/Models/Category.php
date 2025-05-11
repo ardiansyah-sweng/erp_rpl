@@ -55,7 +55,7 @@ class Category extends Model
     public static function getCategoryById($id)
     {
         return self::find($id);
-      
+    }
     public static function countByParent()
     {
         $instance = new static;
