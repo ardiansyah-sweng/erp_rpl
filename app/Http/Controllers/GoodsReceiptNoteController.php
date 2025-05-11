@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PurchaseOrder;
 use App\Models\GoodsReceiptNote;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -19,8 +18,8 @@ class GoodsReceiptNoteController extends Controller
              return redirect()->back()->with('error', 'Invalid GRN data structure.');
         }
 
-        $itemDetails = array_slice($allData, 0, -1);
-        $headerData = end($allData);
+        $itemDetailsInput = array_slice($allData, 0, -1);
+        $headerDataInput = end($allData);
 
         $headerValidationRules = [
             'po_number'    => 'required|string|exists:'.config('db_constants.table.po').','.config('db_constants.column.po.po_number'),
@@ -34,13 +33,13 @@ class GoodsReceiptNoteController extends Controller
             'notes'             => 'nullable|string|max:255',
         ];
 
-        $headerValidator = Validator::make($headerData, $headerValidationRules);
+        $headerValidator = Validator::make($headerDataInput, $headerValidationRules);
         if ($headerValidator->fails()) {
             return redirect()->back()->withErrors($headerValidator)->withInput();
         }
 
         $validatedDetails = [];
-        foreach ($itemDetails as $index => $item) {
+        foreach ($itemDetailsInput as $index => $item) {
             $detailValidator = Validator::make($item, $detailValidationRules);
             if ($detailValidator->fails()) {
                  return redirect()->back()->withErrors($detailValidator, 'grn_details_'.$index)->withInput();
@@ -49,17 +48,30 @@ class GoodsReceiptNoteController extends Controller
         }
 
         $validatedHeader = $headerValidator->validated();
-        $grnData = array_merge(['header' => $validatedHeader], ['details' => $validatedDetails]);
+
+        $colGrn = config('db_constants.column.grn');
+
+        $grnHeaderDataForDb = [];
+        foreach ($validatedHeader as $inputKey => $value) {
+            if (isset($colGrn[$inputKey])) {
+                $grnHeaderDataForDb[$colGrn[$inputKey]] = $value;
+            } else {
+                Log::warning("GRN Store: Kunci input '{$inputKey}' tidak ditemukan dalam mapping db_constants.column.grn.");
+            }
+        }
+        
+        $payloadForModel = $grnHeaderDataForDb;
+        $payloadForModel['details'] = $validatedDetails;
 
         DB::beginTransaction();
         try {
-            GoodsReceiptNote::addGoodsReceiptNote($grnData);
+            GoodsReceiptNote::addGoodsReceiptNote($payloadForModel);
             DB::commit();
             return redirect()->back()->with('success', 'Goods Receipt Note successfully created.');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('GRN Creation Failed: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to create GRN: ' . $e->getMessage())->withInput();
+            return redirect()->back()->with('error', 'Failed to create GRN. Details: ' . $e->getMessage())->withInput();
         }
     }
 }

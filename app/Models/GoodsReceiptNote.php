@@ -65,17 +65,5 @@ class GoodsReceiptNote extends Model
 
         return $grn;
     }
-
-    public function getDetailsArray(): ?array
-    {
-        $poNumber = $this->purchaseOrder->po_number ?? null;
-    
-        if ($poNumber) {
-            $purchaseOrderData = PurchaseOrder::getPurchaseOrderByID($poNumber);
-            return $purchaseOrderData['items'] ?? null;
-        }
-    
-        return null;
-    }
     
 }
