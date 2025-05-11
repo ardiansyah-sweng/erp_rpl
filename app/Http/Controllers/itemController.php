@@ -37,7 +37,6 @@ class ItemController extends Controller
         $items = Item::getAllItems($search);
         return view('item.list', compact('items'));
     }
-itemDetail_insertTableSupplier_Farrel_188_C
 
     public function getItemById($id)
     {
@@ -95,6 +94,4 @@ itemDetail_insertTableSupplier_Farrel_188_C
         return view('item.detail', compact('item'));
     }
 
-    
-development
 }
