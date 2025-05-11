@@ -334,7 +334,12 @@
                     <div class="row align-items-center">
                         <div class="col-sm-6 d-flex align-items-center">
                             <h3 class="mb-0 me-2">Item</h3>
-                            <a href="{{ route('item.add') }} " class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="{{ route('item.add') }} " class="btn btn-primary btn-sm me-2">Tambah</a>
+                            <form action="{{ route('item.list') }}" method="GET" target="_blank" class="m-0">
+                        <input type="hidden" name="export" value="pdf">
+                        <input type="hidden" name="search" value="{{ request('search') }}">
+                        <button type="submit" class="btn btn-primary btn-sm">Export PDF</button>
+                    </form>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-end">
@@ -461,11 +466,7 @@
                         {{ $items->links('pagination::bootstrap-4') }}
                     </div>
 
-                    <form action="{{ route('item.list') }}" method="GET" target="_blank" class="m-0">
-                        <input type="hidden" name="export" value="pdf">
-                        <input type="hidden" name="search" value="{{ request('search') }}">
-                        <button type="submit" class="btn btn-danger">Export PDF</button>
-                    </form>
+                    
                 </div>
             </div>
 
