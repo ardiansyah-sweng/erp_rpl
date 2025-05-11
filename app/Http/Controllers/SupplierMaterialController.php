@@ -31,13 +31,13 @@ class SupplierMaterialController extends Controller
      }
 
      public function searchSupplierMaterial(Request $request)
-    {
-        $keyword = $request->input('keyword');
-
-        $model = new SupplierMaterial();
-        $materials = $model->getSupplierMaterialByKeyword($keyword);
-
-        return view('supplier.material.list', ['materials' => $materials, 'keyword' => $keyword]);
-    }
+     {
+         $keyword = $request->input('keyword');
+ 
+         $model = new SupplierMaterial();
+         $materials = $model->getSupplierMaterialByKeyword($keyword);
+ 
+         return view('supplier.material.list', ['materials' => $materials, 'keyword' => $keyword]);
+     }
 
 }
