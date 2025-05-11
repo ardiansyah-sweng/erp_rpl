@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class ItemController extends Controller
 {
@@ -38,4 +40,15 @@ class ItemController extends Controller
         return view('item.list', compact('items'));
     }
     
+   public function exportAllToPdf()
+{
+    $items = $this->getItemAll(); 
+
+    if (empty($items) || count($items) === 0) {
+        return redirect()->back()->with('error', 'Tidak ada data yang tersedia untuk diekspor.');
+    }
+
+    $pdf = Pdf::loadView('item.report', compact('items'));
+    return $pdf->download('laporan-item.pdf');
+}
 }

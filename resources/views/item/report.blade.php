@@ -30,7 +30,7 @@
             @foreach($items as $index => $item)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $item->product_id }}</td>
+                <td>{{ $item->id }}</td>
                 <td>{{ $item->sku }}</td>
                 <td>{{ $item->item_name }}</td>
                 <td>{{ $item->measurement_unit }}</td>
