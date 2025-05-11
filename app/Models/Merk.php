@@ -16,7 +16,6 @@ class Merk extends Model
     {
         parent::__construct($attributes);
 
-        // Tetapkan nama tabel dan kolom
         $this->table = config('db_constants.table.merk');
         $this->fillable = array_values(config('db_constants.column.merk') ?? []);
     }
@@ -44,4 +43,14 @@ class Merk extends Model
     {
         return self::where('id', $id)->first();
     }
+    // Tambahkan ini di dalam class Merk
+public function deleteMerk($id)
+{
+    $merk = $this->getMerkById($id);
+    if ($merk) {
+        return $merk->delete();
+    }
+    return false;
+}
+
 }
