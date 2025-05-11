@@ -129,7 +129,6 @@ Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('m
 #Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
 
 #Supplier Material
-Route::get('/supplier-material/create', [SupplierMaterialController::class, 'create'])->name('supplier.material.create');
 Route::post('/supplier-material/store', [SupplierMaterialController::class, 'material'])->name('supplier.material');
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
