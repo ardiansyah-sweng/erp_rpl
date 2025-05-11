@@ -23,14 +23,12 @@ class ProductController extends Controller
        return view('product.detail', compact('product'));
     }
     
-    // encry
     public function detail($id)
     {
         $productId = EncryptionHelper::decrypt($id);
         $product = Product::where('product_id', $productId)->firstOrFail();
         return view('product.detail', compact('product'));
     }
-
 
     // $productData = $products[$id];
     // $productData['category'] = (object)$productData['category'];

@@ -419,7 +419,6 @@ use App\Helpers\EncryptionHelper;
                 @foreach ($products as $index => $product)
                 <tr class="align-middle">
                     <td>{{ $index + 1 }}</td>
-                    <!-- encry -->
                     <td>
                         <a href="/products/detail/{{ EncryptionHelper::encrypt($product->product_id) }}" class="text-dark">
                          {{ $product->product_id }}
