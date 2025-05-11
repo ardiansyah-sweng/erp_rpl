@@ -12,7 +12,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
-
+use App\Http\Controllers\WarehouseController;
 
 #Login
 Route::get('/', function () {
@@ -125,6 +125,14 @@ Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('m
 
 
 #Supplier
+
+
+#Warehouse
+Route::get('/warehouse/report',[WarehouseController::class,'exportPdf'])->name('warehouse.report');
+
+#Warehouse
+Route::get('/warehouse/report',[WarehouseController::class,'exportPdf'])->name('warehouse.report');
+
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
@@ -132,4 +140,5 @@ Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
+
 
