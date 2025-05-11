@@ -1,6 +1,7 @@
 @php
 use App\Helpers\EncryptionHelper;
 @endphp
+
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->

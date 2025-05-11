@@ -35,8 +35,6 @@ class ProductController extends Controller
     // $product = (object)$productData;
 
     // return view('product.detail', compact('product'));
-
-
     public function addProduct(Request $request)
     {
         $validatedData = $request->validate([
