@@ -39,4 +39,15 @@ class SupplierPic extends Model
         $data['supplier_id'] = $supplierID;
         return self::create($data);
     }    
+
+    public static function deletePICByID($id)
+{
+    $pic = self::find($id);
+    if ($pic) {
+        $pic->delete();
+        return true;
+    }
+    return false;
+}
+
 }
