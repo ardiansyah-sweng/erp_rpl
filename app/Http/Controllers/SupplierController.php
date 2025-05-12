@@ -28,11 +28,5 @@ class SupplierController extends Controller
             'data' => $updatedSupplier,
         ]);
     }
-    public function getSupplierById($id)
-    {
-        $sup = (new Supplier())->getSupplierById($id);
-
-        return response()->json($sup);
-    }
 }
 
