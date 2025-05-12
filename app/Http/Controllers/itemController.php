@@ -14,19 +14,25 @@ class ItemController extends Controller
 
     public function deleteItem($id)
     {
-        // Panggil fungsi deleteItemById dari model Item
-        $deleted = Item::deleteItemById($id);
-
-        // Redirect kembali ke halaman list dengan pesan sukses atau gagal
-        if ($deleted) {
-            return redirect()->back()->with('success', 'Item berhasil dihapus!');
-        } else {
-            return redirect()->back()->with('error', 'Item tidak ditemukan atau gagal dihapus.');
+        try {
+            // Panggil fungsi deleteItemById dari model Item
+            $deleted = Item::deleteItemById($id);
+    
+            if ($deleted) {
+                return redirect()->back()->with('success', 'Item berhasil dihapus!');
+            } else {
+                return redirect()->back()->with('error', 'Item tidak ditemukan atau gagal dihapus.');
+            }
+        } 
+        catch (\Exception $e) {
+            // Tangkap pesan exception dari model
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
 
     public function getItemList(Request $request)
+<<<<<<< HEAD
 {
     $search = $request->input('search');
     $items = Item::getAllItems($search);
@@ -42,5 +48,12 @@ public function getItemByType($productType)
     // return response()->json($items);
 }
 
+=======
+    {
+        $search = $request->input('search');
+        $items = Item::getAllItems($search);
+        return view('item.list', compact('items'));
+    }
+>>>>>>> 1b72cf278af7327d7019438557509ba71acf78cf
     
 }
