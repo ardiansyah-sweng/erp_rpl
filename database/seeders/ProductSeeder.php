@@ -16,7 +16,6 @@ class ProductSeeder extends Seeder
     public function __construct()
     {
         $this->faker = Faker::create('id_ID');
-        $this->faker->addProvider(new SkripsiDatasetProvider($this->faker));
     }
 
     /**
@@ -24,10 +23,17 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $column = config('db_constants.column.products');
+        $column = [
+            'id' => 'id',
+            'name' => 'name',
+            'type' => 'type',
+            'category' => 'category_id',
+            'desc' => 'description',
+            'created' => 'created_at',
+            'updated' => 'updated_at',
+        ];
 
         Product::insert([
-            
             [
                 $column['id'] => 'KAOS', 
                 $column['name'] => 'Kaos TShirt', 
@@ -160,18 +166,20 @@ class ProductSeeder extends Seeder
             ]
     ]);
 
-        $numOfRMProduct = $this->faker->numberBetween(1, 50);
-        $numOfCategory = $this->faker->numberBetween(1, 20);
+        $numOfRMProduct = $this->faker->numberBetween(1, 10); // Kurangi jumlah produk
+        $numOfCategory = $this->faker->numberBetween(1, 5);   // Kurangi jumlah kategori
 
         $products = Product::all();
 
-        while ($products && $numOfCategory < $products->count())
-        {
-            $numOfCategory = $this->faker->numberBetween(1, 20);
-        }
-
+        $numOfCategory = min($numOfCategory, $products->count());
         $this->createCategory($numOfCategory);
+
         $category = Category::where('active', 1)->inRandomOrder()->take(1)->get();
+        if ($category->isEmpty()) {
+            $this->createCategory(1);
+            $category = Category::where('active', 1)->inRandomOrder()->take(1)->get();
+        }
+        $categoryID = $category->pluck('id')->toArray();
 
         $prefix = 'P';
 
@@ -180,20 +188,18 @@ class ProductSeeder extends Seeder
         {
             $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
             $productID = $prefix . $formattedNumber;
-            $categoryID = $category->pluck('id')->toArray();
 
             Product::create([
                 $column['id'] => $productID,
-                $column['name'] => $this->faker->fullProduct(),
+                $column['name'] => $this->faker->word(),
                 $column['type'] =>'RM',
-                $column['category'] => $categoryID[0],
+                $column['category'] => $categoryID[0] ?? 1, // Default to category 1 if empty
                 $column['desc'] => $this->faker->sentence(),
                 $column['created'] => now(),
                 $column['updated'] => now()
             ]);
         }
 
-        $category = Category::where('active', 1)->inRandomOrder()->take(1)->get();
         $numOFHFGProduct = $numOfRMProduct + $this->faker->numberBetween(1, 6);
 
         #create half finished goods products
@@ -201,11 +207,10 @@ class ProductSeeder extends Seeder
         {
             $formattedNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
             $productID = $prefix . $formattedNumber;
-            $categoryID = $category->pluck('id')->toArray();
 
             Product::create([
                 $column['id'] => $productID,
-                $column['name'] => $this->faker->fullProduct(),
+                $column['name'] => $this->faker->word(),
                 $column['type'] =>'HFG',
                 $column['category'] => $categoryID[0],
                 $column['desc'] => $this->faker->sentence(),
@@ -217,14 +222,18 @@ class ProductSeeder extends Seeder
 
     public function createCategory($numOfCategory)
     {
-        $colCategory = config('db_constants.column.category');
+        $colCategory = [
+            'category' => 'name',
+            'parent_id' => 'parent_id',
+            'active' => 'active',
+        ];
 
         $numOfParentCategory = $this->faker->numberBetween(1, $numOfCategory);
 
         for ($i=1; $i <= $numOfParentCategory; $i++)
         {
             Category::create([
-                $colCategory['category'] => $this->faker->asssproductCategory(),
+                $colCategory['category'] => $this->faker->word(),
                 $colCategory['parent_id'] => null,
             ]);
         }
@@ -237,11 +246,8 @@ class ProductSeeder extends Seeder
             $numOfSubCategory = $this->faker->numberBetween(1, 5);
             for ($i=1; $i <= $numOfSubCategory; $i++)
             {
-                $category_name = $this->faker->asssproductCategory();
-                print_r("Category Name: $category_name\n");
-
                 Category::create([
-                    $colCategory['category'] => $this->faker->asssproductCategory(),
+                    $colCategory['category'] => $this->faker->word(),
                     $colCategory['parent_id'] => $id,
                     $colCategory['active'] => $this->faker->boolean()
                 ]);
