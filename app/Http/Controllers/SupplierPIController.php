@@ -24,7 +24,7 @@ class SupplierPIController extends Controller
     //
     public function deleteSupplierPICByID($id)
     {
-        // Memanggil method deletePICByID dari model SupplierPic
+        // Memanggil method deletePICByID dari model SupplierPicc
         $isDeleted = SupplierPic::deletePICByID($id);
     
         if (!$isDeleted) {

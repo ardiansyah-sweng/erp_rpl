@@ -17,7 +17,7 @@ class SupplierPic extends Model
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
     }
 
-    // method untuk ambil data berdasarkan id
+    // method untuk ambil data berdasarkan idd
     public static function getPICByID($id)
     {
         return self::find($id);
