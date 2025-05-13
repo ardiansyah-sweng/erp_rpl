@@ -135,5 +135,6 @@ class PurchaseOrder extends Model
          return $query->count();
     }
 
+    
 }
   
