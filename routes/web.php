@@ -105,7 +105,7 @@ Route::get('/supplier/pic/list', function () {
     return view('supplier.pic.list', compact('pics')); //implementasi sementara(menunggu controller dari faiz el fayyed)
 })->name('supplier.pic.list');
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
-
+#fjnfjnf
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
@@ -125,3 +125,5 @@ Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSu
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
+
+Route::get('/PIC/{supplier_id}', [SupplierPIController::class, 'countPICModel'])->name('supplier.pic.count');
