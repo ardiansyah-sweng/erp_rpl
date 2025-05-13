@@ -422,7 +422,6 @@
                     <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
                     <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
                     <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
-                    <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('SUP001')">Delete</button>
                   </div>
                 </td>
               </tr>
@@ -440,7 +439,6 @@
                     <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
                     <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
                     <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
-                    <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('SUP002')">Delete</button>
                   </div>
                 </td>
               </tr>
@@ -458,7 +456,6 @@
                     <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
                     <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
                     <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
-                    <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('SUP003')">Delete</button>
                   </div>
                 </td>
               </tr>
@@ -517,19 +514,6 @@
     <!--end::App Wrapper-->
 
     <!--begin::Script-->
-
-    <!-- Bootstrap JS & Modal Dependencies (jika belum ada) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      function confirmDelete(supplierId) {
-        if (confirm("Apakah Anda yakin ingin menghapus supplier " + supplierId + "?")) {
-          // Lakukan penghapusan data di sini, misalnya:
-          alert("Supplier " + supplierId + " dihapus (simulasi).");
-          // Atau bisa arahkan ke endpoint penghapusan:
-          // window.location.href = '/delete-supplier?id=' + supplierId;
-        }
-      }
-    </script>
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"

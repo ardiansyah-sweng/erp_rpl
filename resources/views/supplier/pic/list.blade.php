@@ -245,7 +245,7 @@
           <h3 class="card-title">List Table</h3>
           <form action="{{ route('supplier.pic.list') }}" method="GET" class="d-flex ms-auto">
             <div class="input-group input-group-sm ms-auto" style="width: 450px;">
-              <input type="text" name="keywords" class="form-control" placeholder="Search PIC Supplier">
+              <input type="text" name="search" class="form-control" placeholder="Search PIC Supplier">
               <div class="input-group-append">
                 <button type="submit" class="btn btn-default">
                   <i class="bi bi-search"></i>
