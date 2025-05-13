@@ -26,7 +26,7 @@ class SupplierPic extends Model
             ->first();
     }
     //tyo
-
+    //ekfnekfnek
     // relasi ke Supplier
     public function supplier()
     {
