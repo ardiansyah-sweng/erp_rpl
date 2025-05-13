@@ -4,7 +4,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah PIC Supplier</title>
+    <title>ERP RPL UAD | Tambah Supplier</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -295,7 +295,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="/dashboard" class="nav-link active">
+                <a href="dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -330,9 +330,9 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="/supplier/material/add" class="nav-link">
+                    <a href="./widgets/cards.html" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Tambah Supplier Item</p>
+                      <p>Cards</p>
                     </a>
                   </li>
                 </ul>
@@ -345,12 +345,6 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
-              <a href="{{ route('item.list') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Item</p>
-                    </a>
-                  </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -366,11 +360,11 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Supplier Item</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Tambah Supplier</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Tambah Supplier Item</li>
+                  <li class="breadcrumb-item active" aria-current="page">Tambah Supplier</li>
                 </ol>
               </div>
             </div>
@@ -391,29 +385,26 @@
                             <label for="supplier_id" class="form-label">ID Supplier</label>
                             <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
                             <span id="supplierIdError" class="error"></span>
-                            <div class="invalid-feedback">ID Supplier harus diisi.</div>
-                            
                         </div>
                         <div class="mb-3">
-                            <label for="supplier_name" class="form-label">Nama Supplier</label>
-                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
-                            <div class="invalid-feedback">Nama Supplier harus diisi.</div>
-                            
+                            <label for="company_name" class="form-label">Nama Supplier</label>
+                            <input type="text" class="form-control" id="company_name" name="company_name" required>
+                            <span id="companynameError" class="error"></span>
                         </div>
                         <div class="mb-3">
-                            <label for="SKU" class="form-label">SKU</label>
-                            <input type="text" class="form-control" id="SKU" name="SKU" required>
-                            <div class="invalid-feedback">SKU harus diisi.</div>
+                            <label for="address" class="form-label">Alamat Supplier</label>
+                            <input type="text" class="form-control" id="address" name="address" required>
+                            <span id="addressError" class="error"></span>
                         </div>
                         <div class="mb-3">
-                            <label for="nama_item" class="form-label">Nama Item</label>
-                            <input type="text" class="form-control" id="nama_item" name="name_item" required>
-                            <div class="invalid-feedback">Nama Item harus diisi.</div>
+                            <label for="phone_number" class="form-label">Telephone</label>
+                            <input type="text" class="form-control" id="phone_number" name="phone_number" required>
+                            <span id="phonenuberError" class="error"></span>
                         </div>
                         <div class="mb-3">
-                            <label for="base_price" class="form-label">Base Price Rp:</label>
-                            <input type="number" class="form-control" id="base_price" name="base_price" required>
-                            <div class="invalid-feedback">Base Price harus diisi dan lebih besar dari 0.</div>
+                                <label for="bank_account" class="form-label">Rekening Bank</label>
+                                <input type="text" class="form-control" id="bank_account" name="bank_account" required>
+                                <span id="bankaccountError" class="error"></span>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div>
@@ -716,50 +707,48 @@
         });
     });
     </script>
-    
+    <!--validate form -->
     <script>
-      function validateForm() {
-        let isValid = true;
+        function validateForm() {
+          let isValid = true;
+          $('#supplierIdError').html("");
+          $('#companynameError').html("");
+          $('#addressError').html("");
+          $('#phonenuberError').html("");
+          $('#bankaccountError').html("");
 
-        // Reset error states
-        $('#supplier_id, #SKU, #supplier_name, #nama_item, #base_price').removeClass('is-invalid');
+          let supplierId = $('#supplier_id').val(); 
+          let company_name = $('#company_name').val(); 
+          let address = $('#address').val(); 
+          let phone_number = $('#phone_number').val(); 
+          let bank_account = $('#bank_account').val(); 
 
-        const supplierId = $('#supplier_id').val().trim();
-        const supplierName = $('#supplier_name').val().trim();
-        const sku = $('#SKU').val().trim();
-        const itemName = $('#nama_item').val().trim();
-        const basePrice = parseFloat($('#base_price').val());
+          console.log(supplierId);
 
-        if (!supplierId) {
-          $('#supplier_id').addClass('is-invalid');
-          isValid = false;
+          if (supplierId === null || supplierId === "") {
+            $('#supplierIdError').html("<span style=\"color: red;\">ID Supplier harus diisi.</span>");
+            isValid = false;
+          }
+          if (company_name === null || company_name === "") {
+            $('#companynameError').html("<span style=\"color: red;\">company name harus diisi.</span>");
+            isValid = false;
+          }
+          if (address === null || address === "") {
+            $('#addressError').html("<span style=\"color: red;\">Address harus diisi.</span>");
+            isValid = false;
+          }
+          let phonePattern = /^\d{10,13}$/;
+          if (!phonePattern.test(phone_number)) {
+            $('#phonenuberError').html("<span style=\"color: red;\">Nomor Telephone harus diisi(10-13 digit).</span>");
+            isValid = false;
+          }
+          if (bank_account === null || bank_account === "") {
+            $('#bankaccountError').html("<span style=\"color: red;\">bank account harus diisi.</span>");
+            isValid = false;
+          }
+          return isValid;
         }
-        
-        if (!supplierName) {
-          $('#supplier_name').addClass('is-invalid');
-          isValid = false;
-        }
-
-        if (!sku) {
-          $('#SKU').addClass('is-invalid');
-          isValid = false;
-        }
-
-        if (!itemName) {
-          $('#nama_item').addClass('is-invalid');
-          isValid = false;
-        }
-
-        if (isNaN(basePrice) || basePrice <= 0) {
-          $('#base_price').addClass('is-invalid');
-          isValid = false;
-        }
-
-        return isValid;
-      }
-
     </script>
-
     <!--end::Script-->
   </body>
   <!--end::Body-->

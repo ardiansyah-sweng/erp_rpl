@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah PIC Supplier</title>
+    <title>ERP RPL UAD | Supplier List</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -295,7 +294,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="/dashboard" class="nav-link active">
+                <a href="dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -303,7 +302,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./generate/theme.html" class="nav-link">
+              <a href="{{ route('product.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
@@ -330,9 +329,9 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="/supplier/material/add" class="nav-link">
+                    <a href="./widgets/cards.html" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Tambah Supplier Item</p>
+                      <p>Cards</p>
                     </a>
                   </li>
                 </ul>
@@ -343,11 +342,19 @@
                   <p>
                     Purchase Orders
                   </p>
-                </a>
+                </a>                
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('branch.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Branch
+                  </p>
+                </a>                
               </li>
               <li class="nav-item">
               <a href="{{ route('item.list') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
+              <i class="nav-icon bi bi-clipboard-fill"></i>
                       <p>Item</p>
                     </a>
                   </li>
@@ -357,87 +364,143 @@
         </div>
         <!--end::Sidebar Wrapper-->
       </aside>
-      <!--end::Sidebar-->
-      <!--begin::App Main-->
-      <main class="app-main">
-        <!--begin::App Content Header-->
-        <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Supplier Item</h3></div>
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Tambah Supplier Item</li>
-                </ol>
-              </div>
-            </div>
-            <!--end::Row-->
+
+<!-- list.blade.php -->
+<main class="content-wrapper">
+  <div class="container-fluid">
+    <div class="mb-4">
+      <h1 class="h3 fw-bold mb-2">Suppliers</h1>
+      <a href="#" class="btn btn-primary btn-sm">New Supplier</a>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <!-- Filter & Search -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="d-flex align-items-center">
+            <span>Show</span>
+            <select id="pageLength" class="form-select mx-2" style="width: auto;">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+            <span>entries</span>
           </div>
-          <!--end::Container-->
-        </div>
-        <!--end::App Content Header-->
-        <!--begin::App Content-->
-        <div class="app-content">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-                <div class="container">
-                    <form id="picForm">
-                        <div class="mb-3">
-                            <label for="supplier_id" class="form-label">ID Supplier</label>
-                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
-                            <span id="supplierIdError" class="error"></span>
-                            <div class="invalid-feedback">ID Supplier harus diisi.</div>
-                            
-                        </div>
-                        <div class="mb-3">
-                            <label for="supplier_name" class="form-label">Nama Supplier</label>
-                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
-                            <div class="invalid-feedback">Nama Supplier harus diisi.</div>
-                            
-                        </div>
-                        <div class="mb-3">
-                            <label for="SKU" class="form-label">SKU</label>
-                            <input type="text" class="form-control" id="SKU" name="SKU" required>
-                            <div class="invalid-feedback">SKU harus diisi.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="nama_item" class="form-label">Nama Item</label>
-                            <input type="text" class="form-control" id="nama_item" name="name_item" required>
-                            <div class="invalid-feedback">Nama Item harus diisi.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="base_price" class="form-label">Base Price Rp:</label>
-                            <input type="number" class="form-control" id="base_price" name="base_price" required>
-                            <div class="invalid-feedback">Base Price harus diisi dan lebih besar dari 0.</div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <div>
-                                  <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
-                                  <button type="reset" class="btn btn-secondary">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            
-            <!-- /.row (main row) -->
+          <div class="d-flex align-items-center">
+            <span class="me-2">Search:</span>
+            <input type="text" id="supplierSearch" class="form-control" style="width: 200px;">
           </div>
-          <!--end::Container-->
         </div>
-        <!--end::App Content-->
-      </main>
-      <!--end::App Main-->
-      <!--begin::Footer-->
-      <footer class="app-footer">
+
+        <!-- Table -->
+        <div class="table-responsive">
+          <table id="supplierTable" class="table table-bordered table-hover align-middle mb-0">
+            <thead class="table-light text-center">
+              <tr>
+                <th>No</th>
+                <th>ID Supplier</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Telephone</th>
+                <th>PiC</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Static Data List -->
+              <tr>
+                <td class="text-center">1</td>
+                <td>SUP001</td>
+                <td>PT. Sumber Makmur</td>
+                <td>Jl. Merdeka No.123</td>
+                <td>081234567890</td>
+                <td class="text-center">
+                  <span class="badge bg-info text-dark">0</span>
+                </td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-1 flex-wrap">
+                    <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                    <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
+                    <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
+                    <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('SUP001')">Delete</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">2</td>
+                <td>SUP002</td>
+                <td>CV. Maju Jaya</td>
+                <td>Jl. Sudirman No.45</td>
+                <td>082134567891</td>
+                <td class="text-center">
+                  <span class="badge bg-info text-dark">0</span>
+                </td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-1 flex-wrap">
+                    <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                    <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
+                    <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
+                    <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('SUP002')">Delete</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">3</td>
+                <td>SUP003</td>
+                <td>UD. Berkah Abadi</td>
+                <td>Jl. Diponegoro No.78</td>
+                <td>083134567892</td>
+                <td class="text-center">
+                  <span class="badge bg-info text-dark">0</span>
+                </td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-1 flex-wrap">
+                    <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                    <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
+                    <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
+                    <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('SUP003')">Delete</button>
+                  </div>
+                </td>
+              </tr>
+              <!-- End Static Data List -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Info -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div>Showing 1 to 3 of 3 entries</div>
+          <nav>
+            <ul class="pagination">
+              <li class="page-item disabled">
+                <a class="page-link" href="#">Previous</a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+              </li>
+              <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Custom CSS -->
+<style>
+.custom-btn {
+  padding: 3px 8px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+</style>
+
+
+<!--begin::Footer-->
+<footer class="app-footer">
         <!--begin::To the end-->
         <div class="float-end d-none d-sm-inline">Anything you want</div>
         <!--end::To the end-->
@@ -452,7 +515,21 @@
       <!--end::Footer-->
     </div>
     <!--end::App Wrapper-->
+
     <!--begin::Script-->
+
+    <!-- Bootstrap JS & Modal Dependencies (jika belum ada) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function confirmDelete(supplierId) {
+        if (confirm("Apakah Anda yakin ingin menghapus supplier " + supplierId + "?")) {
+          // Lakukan penghapusan data di sini, misalnya:
+          alert("Supplier " + supplierId + " dihapus (simulasi).");
+          // Atau bisa arahkan ke endpoint penghapusan:
+          // window.location.href = '/delete-supplier?id=' + supplierId;
+        }
+      }
+    </script>
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
@@ -705,7 +782,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- AdminLTE JS -->
-    <script src={{ asset("assets/dist/js/adminlte.js")}}></script>
+    <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
 
     <!-- Custom Sidebar Toggle Script -->
     <script>
@@ -715,49 +792,6 @@
             $('body').toggleClass('sidebar-collapse');
         });
     });
-    </script>
-    
-    <script>
-      function validateForm() {
-        let isValid = true;
-
-        // Reset error states
-        $('#supplier_id, #SKU, #supplier_name, #nama_item, #base_price').removeClass('is-invalid');
-
-        const supplierId = $('#supplier_id').val().trim();
-        const supplierName = $('#supplier_name').val().trim();
-        const sku = $('#SKU').val().trim();
-        const itemName = $('#nama_item').val().trim();
-        const basePrice = parseFloat($('#base_price').val());
-
-        if (!supplierId) {
-          $('#supplier_id').addClass('is-invalid');
-          isValid = false;
-        }
-        
-        if (!supplierName) {
-          $('#supplier_name').addClass('is-invalid');
-          isValid = false;
-        }
-
-        if (!sku) {
-          $('#SKU').addClass('is-invalid');
-          isValid = false;
-        }
-
-        if (!itemName) {
-          $('#nama_item').addClass('is-invalid');
-          isValid = false;
-        }
-
-        if (isNaN(basePrice) || basePrice <= 0) {
-          $('#base_price').addClass('is-invalid');
-          isValid = false;
-        }
-
-        return isValid;
-      }
-
     </script>
 
     <!--end::Script-->

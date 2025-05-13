@@ -4,7 +4,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah PIC Supplier</title>
+    <title>ERP RPL UAD | Detail PIC Supplier</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -295,7 +295,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="/dashboard" class="nav-link active">
+                <a href="dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -330,9 +330,9 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="/supplier/material/add" class="nav-link">
+                    <a href="./widgets/cards.html" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Tambah Supplier Item</p>
+                      <p>Cards</p>
                     </a>
                   </li>
                 </ul>
@@ -345,12 +345,6 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
-              <a href="{{ route('item.list') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Item</p>
-                    </a>
-                  </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -366,11 +360,11 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Supplier Item</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Detail PIC Supplier</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Tambah Supplier Item</li>
+                  <li class="breadcrumb-item active" aria-current="page">Edit PIC Supplier</li>
                 </ol>
               </div>
             </div>
@@ -386,49 +380,63 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="container">
-                    <form id="picForm">
-                        <div class="mb-3">
-                            <label for="supplier_id" class="form-label">ID Supplier</label>
-                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
-                            <span id="supplierIdError" class="error"></span>
-                            <div class="invalid-feedback">ID Supplier harus diisi.</div>
-                            
-                        </div>
-                        <div class="mb-3">
-                            <label for="supplier_name" class="form-label">Nama Supplier</label>
-                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
-                            <div class="invalid-feedback">Nama Supplier harus diisi.</div>
-                            
-                        </div>
-                        <div class="mb-3">
-                            <label for="SKU" class="form-label">SKU</label>
-                            <input type="text" class="form-control" id="SKU" name="SKU" required>
-                            <div class="invalid-feedback">SKU harus diisi.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="nama_item" class="form-label">Nama Item</label>
-                            <input type="text" class="form-control" id="nama_item" name="name_item" required>
-                            <div class="invalid-feedback">Nama Item harus diisi.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="base_price" class="form-label">Base Price Rp:</label>
-                            <input type="number" class="form-control" id="base_price" name="base_price" required>
-                            <div class="invalid-feedback">Base Price harus diisi dan lebih besar dari 0.</div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <div>
-                                  <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
-                                  <button type="reset" class="btn btn-secondary">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                <!-- Form Update PIC -->
+            <form id="picForm" method="POST" action="{{ route('supplier.pic.update', $pic->id) }}" enctype="multipart/form-data" onsubmit="return validateForm()">
+                @csrf
+                @method('PUT')
+                <div class="mb-3">
+                    <label for="supplier_id" class="form-label">ID Supplier</label>
+                    <input type="text" class="form-control" id="supplier_id" name="supplier_id" value="{{ $pic->supplier_id }}" readonly>
+                    <span id="supplierIdError" class="error"></span>
                 </div>
-            </div>
+                <div class="mb-3">
+                    <label for="supplier_name" class="form-label">Nama Supplier</label>
+                    <input type="text" class="form-control" id="supplier_name" name="supplier_name" value="{{ $supplier->company_name }}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="pic_name" class="form-label">Nama PIC</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ $pic->name }}" required>
+                    <span id="picNameError" class="error"></span>
+                </div>   
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ $pic->email }}" required>
+                    <span id="emailError" class="error"></span>
+                </div>     
+                <div class="mb-3">
+                    <label for="telephone" class="form-label">Telephone</label>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ $pic->phone_number }}" required>
+                    <span id="telephoneError" class="error"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="assignment_date" class="form-label">Assignment Date</label>
+                    <input type="date" class="form-control" id="assigned_date" name="assigned_date" value="{{ $pic->assigned_date }}" required>
+                    <span id="assignmentDateError" class="error"></span>
+                    @php
+                      $id = $pic->id;
+                      $mod = $id % 6;
+                      if ($mod === 0 || $mod === 1) {
+                          $filename = 'avatar.png';
+                      } else {
+                          $filename = "avatar{$mod}.png";
+                      }
+                      $avatarPath = asset("assets/dist/assets/img/{$filename}");
+                  @endphp
+                <div class="d-flex gap-3 mb-3 mt-4">
+                <img id="photo_preview" src="{{ $avatarPath }}" style="width: 120px;">
+                    <input type="file" class="form-control" id="avatar" name="avatar" accept="image/*">
+                </div>
+                <div class="mb-3">
+                    <input type="checkbox" class="form-check-input" id="active" name="active" value="1" {{ $pic->active == 1 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="active">Aktif</label>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
             <!--end::Row-->
             <!--begin::Row-->
-            
             <!-- /.row (main row) -->
           </div>
           <!--end::Container-->
@@ -716,50 +724,62 @@
         });
     });
     </script>
-    
+    <!--validate form -->
+    <!--validate form -->
     <script>
-      function validateForm() {
-        let isValid = true;
+    function validateForm() {
+    let isValid = true;
 
-        // Reset error states
-        $('#supplier_id, #SKU, #supplier_name, #nama_item, #base_price').removeClass('is-invalid');
+    // reset pesan error
+    $('#picNameError').html("");
+    $('#emailError').html("");
+    $('#telephoneError').html("");
+    $('#assignmentDateError').html("");
 
-        const supplierId = $('#supplier_id').val().trim();
-        const supplierName = $('#supplier_name').val().trim();
-        const sku = $('#SKU').val().trim();
-        const itemName = $('#nama_item').val().trim();
-        const basePrice = parseFloat($('#base_price').val());
+    // ambil nilai input
+    let name = $('#name').val();
+    let email = $('#email').val();
+    let rawPhone = $('#phone_number').val();
+    let phoneNumber = rawPhone.replace(/\D/g, ''); // hanya angka
+    let assignedDate = $('#assigned_date').val();
 
-        if (!supplierId) {
-          $('#supplier_id').addClass('is-invalid');
-          isValid = false;
-        }
-        
-        if (!supplierName) {
-          $('#supplier_name').addClass('is-invalid');
-          isValid = false;
-        }
+    // validasi Nama PIC
+    if (!name) {
+        $('#picNameError').html("<span style='color: red;'>Nama PIC harus diisi.</span>");
+        isValid = false;
+    }
 
-        if (!sku) {
-          $('#SKU').addClass('is-invalid');
-          isValid = false;
-        }
+    // validasi Email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        $('#emailError').html("<span style='color: red;'>Masukan email yang valid.</span>");
+        isValid = false;
+    }
 
-        if (!itemName) {
-          $('#nama_item').addClass('is-invalid');
-          isValid = false;
-        }
+    // validasi No. Telepon
+    if (!/^\d{10,13}$/.test(phoneNumber)) {
+        $('#telephoneError').html("<span style='color: red;'>Nomor Telephone harus 10-13 digit angka.</span>");
+        isValid = false;
+    }
 
-        if (isNaN(basePrice) || basePrice <= 0) {
-          $('#base_price').addClass('is-invalid');
-          isValid = false;
-        }
+    // validasi Assignment Date
+    if (!assignedDate) {
+        $('#assignmentDateError').html("<span style='color: red;'>Tanggal penugasan harus diisi.</span>");
+        isValid = false;
+    }
 
-        return isValid;
-      }
-
+    return isValid;
+}
+    // preview avatar saat diupload dan ini sudah benar
+    document.getElementById('avatar').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('photo_preview');
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+    }
+});
+  </script>
     </script>
-
     <!--end::Script-->
   </body>
   <!--end::Body-->
