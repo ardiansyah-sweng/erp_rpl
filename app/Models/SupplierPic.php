@@ -25,9 +25,8 @@ class SupplierPic extends Model
             ->groupBy('supplier_id')
             ->first();
     }
-    //tyo
-    //ekfnekfnek
-    // relasi ke Supplier
+    //t
+    
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
