@@ -60,4 +60,9 @@ class CategoryController extends Controller
         // dan return response nya di hapus
     }
 
+    public function getCategoryById($id)
+    {
+        $category = (new Category())->getCategoryById($id);
+        return response()->json($category);
+    }
 } //CategoryController
