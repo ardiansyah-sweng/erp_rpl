@@ -58,15 +58,28 @@ class Product extends Model
         return self::count();
     }
 
+    public static function items() 
+    {
+        return $this->hasMany(Item::class);
+    }
+
     public static function deleteProductById($id)
     {
         $product = self::find($id);
-        if ($product) {
-            $product->delete();
-            self::where('id', '>', $id)->decrement('id');
-            return true;
+
+        if (!$product) {
+            return false;
         }
-        return false;
+
+        $itemCount = $product->items()->count();
+
+        if ($itemCount > 0) {
+            return false;
+        }
+        
+        $product->delete();
+        
+        return true;
     }
 
     public static function addProduct($data)
