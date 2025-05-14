@@ -23,14 +23,15 @@ class SupplierPIController extends Controller
     }
     public function deleteSupplierPICByID($id)
     {
-        $pic = SupplierPic::find($id);
+        // Memanggil method deletePICByID dari model SupplierPic
+        $isDeleted = SupplierPic::deletePICByID($id);
 
-        if (!$pic) {
+        if (!$isDeleted) {
+            // Jika PIC tidak ditemukan
             return redirect()->route('supplier.pic.list')->with('error', 'PIC tidak ditemukan.');
         }
 
-        $pic->delete();
-
+        // Jika penghapusan berhasil
         return redirect()->route('supplier.pic.list')->with('success', 'PIC berhasil dihapus.');
     }
 
