@@ -48,6 +48,7 @@ class Item extends Model
 
         return $query->orderBy('id', 'asc')->paginate(10);
     }
+    
 
     public static function deleteItemById($id)
     {
