@@ -13,8 +13,16 @@ class Product extends Model
 {
     use HasDynamicColumns;
 
-    protected $table;
-    protected $fillable = [];
+    protected $table = 'products';
+    protected $fillable = [
+        'product_id',
+        'product_name',
+        'product_type',
+        'product_category',
+        'product_description',
+        'created_at',
+        'updated_at',
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -60,4 +68,14 @@ class Product extends Model
         }
         return false;
     }
+
+    public static function addProduct($data)
+    {
+        return self::create($data);
+    }
+
+    public function getProductById($id) {
+        return self::where('id', $id)->first();
+    }    
+
 }
