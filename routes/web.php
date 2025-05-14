@@ -84,6 +84,8 @@ Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrde
 Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
+Route::get('/branch/detail/{id}', [BranchController::class, 'show'])->name('branch.detail');
+
 
 # PurchaseOrders
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
