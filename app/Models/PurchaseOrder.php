@@ -121,7 +121,7 @@ class PurchaseOrder extends Model
     public static function countOrdersByDateSupplier(
         string $startDate,
         string $endDate,
-        int $supplierID,
+        string $supplierID,
         ?POStatus $status = null
      ): int {
          $query = self::query()
