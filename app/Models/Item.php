@@ -30,7 +30,6 @@ class Item extends Model
     }
 
     public static function getAllItems($search = null)
-<<<<<<< HEAD
     {
         $query = self::with('unit');
 
@@ -51,41 +50,6 @@ class Item extends Model
         return $query->orderBy('id', 'asc')->paginate(10);
     }
     
-=======
-
-{
-    $query = self::with('unit');
-
-    // Jika ada input pencarian, tambahkan kondisi pencarian
-    if ($search) {
-        // Cek apakah pencarian adalah angka dan gunakan '=' untuk ID
-        if (is_numeric($search)) {
-            $query->where('id', '=', $search);
-        } else {
-            // Jika bukan angka, gunakan LIKE untuk item_name dan sku
-            $query->where(function($q) use ($search) {
-                $q->where('item_name', 'LIKE', "%{$search}%")
-                  ->orWhere('sku', 'LIKE', "%{$search}%");
-            });
-
-    {
-        $query = self::query();
-
-        if ($search) {
-            if (is_numeric($search)) {
-                $query->where('id', '=', $search);
-            } else {
-                $query->where(function($q) use ($search) {
-                    $q->where('item_name', 'LIKE', "%{$search}%")
-                      ->orWhere('sku', 'LIKE', "%{$search}%");
-                });
-            }
-
-        }
-
-        return $query->orderBy('id', 'asc')->paginate(10);
-    }
->>>>>>> a6f17706939dbe92e17a2ef742f31de9c908a889
 
     public static function deleteItemById($id)
     {
