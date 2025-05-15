@@ -15,50 +15,38 @@ class ProductController extends Controller
     }
 
     public function getProductById($id)
-{
-    $products = [
-        1 => [
-            'id' => 1,
-            'product_id' => 'KAOS',
-            'product_name' => 'Kaos T-Shirt',
-            'product_type' => 'Finished',
-            'category' => ['category' => 'Pakaian'],
-            'product_description' => 'Kaos T-Shirt',
-            'created_at' => '2025-03-12 19:48:13',
-            'updated_at' => '2025-03-12 19:48:13'
-        ],
-        2 => [
-            'id' => 2,
-            'product_id' => 'TOPI',
-            'product_name' => 'Topi',
-            'product_type' => 'Finished',
-            'category' => ['category' => 'Aksesoris'],
-            'product_description' => 'Topi',
-            'created_at' => '2025-03-12 19:48:13',
-            'updated_at' => '2025-03-12 19:48:13'
-        ],
-        3 => [
-            'id' => 3,
-            'product_id' => 'TASS',
-            'product_name' => 'Tas',
-            'product_type' => 'Finished',
-            'category' => ['category' => 'Aksesoris'],
-            'product_description' => 'Tas',
-            'created_at' => '2025-03-12 19:48:13',
-            'updated_at' => '2025-03-12 19:48:13'
-        ]
-    ];
+    {
+        $product = (new Product())->getProductById($id);
 
-    if (!isset($products[$id])) {
-        abort(404, 'Product not found.');
+        if (!$product) {
+            return abort(404, 'Product tidak ditemukan');
+        }
+       return view('product.detail', compact('product'));
     }
 
-    $productData = $products[$id];
-    $productData['category'] = (object)$productData['category'];
-    $product = (object)$productData;
 
-    return view('product.detail', compact('product'));
-}
+    // $productData = $products[$id];
+    // $productData['category'] = (object)$productData['category'];
+    // $product = (object)$productData;
+
+    // return view('product.detail', compact('product'));
+
+
+    public function addProduct(Request $request)
+    {
+        $validatedData = $request->validate([
+            'product_id' => 'required|string|unique:products,product_id',
+            'product_name' => 'required|string',
+            'product_type' => 'required|string',
+            'product_category' => 'required|string',
+            'product_description' => 'nullable|string',
+        ]);
+
+        Product::addProduct($validatedData);
+
+        return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
+    }
+
 
 public function generateProductPDF()
 {

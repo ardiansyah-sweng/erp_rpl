@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Settings
@@ -110,7 +109,7 @@ return [
         /**
          * Whether to enable font subsetting or not.
          */
-        'enable_font_subsetting' => false,
+        'enable_font_subsetting' => true, // Enable font subsetting for smaller file sizes
 
         /**
          * The PDF rendering backend to use
@@ -170,7 +169,7 @@ return [
          *
          * @var string
          */
-        'default_paper_orientation' => 'portrait',
+        'default_paper_orientation' => 'landscape', // Better for product lists
 
         /**
          * The default font family
@@ -214,7 +213,7 @@ return [
          *
          * @var int
          */
-        'dpi' => 96,
+        'dpi' => 150, // Increased DPI for better quality
 
         /**
          * Enable embedded PHP
@@ -297,5 +296,4 @@ return [
          */
         'enable_html5_parser' => true,
     ],
-
 ];
