@@ -32,7 +32,6 @@ class ItemController extends Controller
 
 
     public function getItemList(Request $request)
-<<<<<<< HEAD
 {
     $search = $request->input('search');
     $items = Item::getAllItems($search);
@@ -46,14 +45,11 @@ public function getItemByType($productType)
     return view('item.by_type', compact('items', 'productType'));
  
     // return response()->json($items);
-}
 
-=======
-    {
+    
         $search = $request->input('search');
         $items = Item::getAllItems($search);
         return view('item.list', compact('items'));
     }
->>>>>>> 1b72cf278af7327d7019438557509ba71acf78cf
     
 }
