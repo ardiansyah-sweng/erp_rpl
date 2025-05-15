@@ -24,8 +24,12 @@ class SupplierMaterial extends Model
 
     public static function updateSupplierMaterial($id, array $data)
     {
-        return DB::table('supplier_product')
-            ->where('id', $id)
-            ->update($data);
+        try {
+            return DB::table('supplier_product')
+                ->where('id', $id)
+                ->update($data);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
