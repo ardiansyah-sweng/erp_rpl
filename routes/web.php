@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Warehouse;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
@@ -47,6 +48,7 @@ Route::get('/supplier/detail', function () {
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
+
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
@@ -64,10 +66,13 @@ Route::get('/product/add', function () {
 Route::get('/supplier/list', function () {
     return view('supplier.list');
 });
-Route::get('/supplier/material/detail', function () {
-    return view('supplier/material/detail');
+
+Route::get('/warehouse/add', function () {
+    return view('warehouse/add');
 });
 
+#warehouse
+Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
