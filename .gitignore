@@ -6,7 +6,7 @@
 /storage/*.key
 /storage/pail
 /vendor
-/vendor/barryvdh/laravel-dompdf
+/vendor/barryvdh/laravel-dompdfj
 .env
 .env.backup
 .env.production

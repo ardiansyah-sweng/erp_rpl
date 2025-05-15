@@ -7,7 +7,7 @@
     "content-hash": "626b9e7ddd47fb7eff9aaa53cce0c9ad",
     "packages": [
         {
-            "name": "barryvdh/laravel-dompdf",
+            "name": "barryvdh/laravel-dompdfk",
             "version": "v3.1.1",
             "source": {
                 "type": "git",
