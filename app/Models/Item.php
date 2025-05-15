@@ -70,4 +70,17 @@ class Item extends Model
     {
         return self::count();
     }
+    public static function updateItem($id, $data)
+    {
+        $item = self::find($id);
+    
+        if (!$item) {
+            return null;
+        }
+    
+        $item->update($data);
+    
+        return $item;
+    }
+
 }
