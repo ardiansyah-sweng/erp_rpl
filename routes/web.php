@@ -12,7 +12,8 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
-
+use App\Http\Controllers\SupplierPicController;
+use App\Models\SupplierPic;
 
 #Login
 Route::get('/', function () {
@@ -124,6 +125,10 @@ Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.add');
 
 
+
+#SupplierPic
+Route::get('/supplierPic/{id}', [SupplierPicController::class,'getSupplierPicById']);
+
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
@@ -136,4 +141,5 @@ Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->
 #Category
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
+
 

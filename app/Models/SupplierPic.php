@@ -13,8 +13,15 @@ class SupplierPic extends Model
     {
         parent::__construct($attributes);
 
+
+
         $this->table = config('db_constants.table.supplier_pic');
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
+    }
+
+
+    public function getSupplierPicById($id){
+        return self::where('id', $id)->first();
     }
 
     // method untuk ambil data berdasarkan ID
@@ -39,4 +46,5 @@ class SupplierPic extends Model
         $data['supplier_id'] = $supplierID;
         return self::create($data);
     }    
+
 }
