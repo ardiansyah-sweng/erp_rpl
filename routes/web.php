@@ -100,7 +100,6 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
 
-
 # supplier pic route nya
 Route::post('/supplier/pic/detail/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail']);
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);

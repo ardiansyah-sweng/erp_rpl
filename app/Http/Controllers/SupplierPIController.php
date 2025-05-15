@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SupplierPic;
 use App\Models\SupplierPICModel;
+use Illuminate\Support\Facades\Validator;
 
 
 class SupplierPIController extends Controller
@@ -22,9 +23,37 @@ class SupplierPIController extends Controller
         return view('supplier.pic.detail', ['pic' => $pic, 'supplier' => $supplier]);
     }
 
-    public function update(Request $request, $id)
+    public function updateSupplierPICDetail(Request $request, $id)
     {
-        // method update disini untuk update
+        $validator = Validator::make($request->all(), [
+            'supplier_id'   => 'required|integer|exists:suppliers,id',
+            'supplier_name' => 'required|string|max:255',
+            'name'          => 'required|string|max:255', // Nama PIC
+            'email'         => 'required|email|unique:supplier_pics,email,' . $id,
+            'telephone'     => 'required|string|max:20',
+            'password'      => 'required|string|min:10',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Validasi gagal',
+                'errors'  => $validator->errors(),
+            ], 422);
+        }
+        $data = [
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => bcrypt($request->password),
+        ];
+
+        $result = SupplierPICModel::updateSupplierPIC($id, $data);
+
+        return response()->json([
+            'status'  => $result['status'],
+            'message' => $result['message'],
+            'data'    => $result['data'] ?? null,
+        ], $result['code']);
     }
 
     public function searchSupplierPic(Request $request)
@@ -69,36 +98,5 @@ class SupplierPIController extends Controller
 
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
     }
-
-    public function updateSupplierPICDetail(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:supplier_pics,email,' . $id,
-            'password' => 'required|string|min:10',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Validasi gagal',
-                'errors'  => $validator->errors(),
-            ], 422);
-        }
-        $data = [
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => bcrypt($request->password),
-        ];
-
-        $result = SupplierPICModel::updateSupplierPIC($id, $data);
-
-        return response()->json([
-            'status'  => $result['status'],
-            'message' => $result['message'],
-            'data'    => $result['data'] ?? null,
-        ], $result['code']);
-    }
-
 
 }
