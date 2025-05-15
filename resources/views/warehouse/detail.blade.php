@@ -249,7 +249,7 @@
                     <div class="card-body">
                         <table class="table table-bordered">
                             <tr>
-                                <th style="width: 30%">Id</th>
+                                <th style="width: 30%">ID</th>
                                 <td>{{ $warehouse->id ?? 'Tidak ada data' }}</td>
                             </tr>
                             <tr>

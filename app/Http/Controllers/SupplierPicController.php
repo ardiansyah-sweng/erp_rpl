@@ -15,7 +15,7 @@ class SupplierPicController extends Controller
     return view('supplier.pic.add', compact('suppliers'));
 }
 
-    public function store(Request $request)
+    public function insertSupplierPIC(Request $request)
     {
         
         $request->validate([
@@ -32,14 +32,11 @@ class SupplierPicController extends Controller
             $avatarPath = $request->file('pic_photo')->store('avatars', 'public');
         }
 
-        SupplierPic::create([
-            'supplier_id' => $request->supplier_id,
+        SupplierPic::addSupplierPIC($request->supplier_id,[
             'name' => $request->pic_name,
             'phone_number' => $request->telephone,
             'email' => $request->email,
             'assigned_date' => $request->assignment_date,
-            'active' => $request->status ? 1 : 0,
-            'avatar' => $avatarPath ? asset('storage/' . $avatarPath) : null,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
