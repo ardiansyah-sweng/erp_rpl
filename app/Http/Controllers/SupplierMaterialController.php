@@ -8,12 +8,7 @@ use App\Models\SupplierMaterial;
 class SupplierMaterialController extends Controller
 {
 
-    public function material(Request $request)
-    {
-        SupplierMaterial::addSupplierMaterial($request);
-
-        return redirect()->back()->with('success', 'Data berhasil ditambahkan ke tabel Supplier Product!');
-    }
+        
 
     public function getSupplierMaterial()
     {
