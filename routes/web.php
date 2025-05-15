@@ -148,5 +148,6 @@ Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
 #Category
+Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 
