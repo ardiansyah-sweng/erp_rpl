@@ -416,6 +416,7 @@ use App\Helpers\EncryptionHelper;
                   </thead>
                  <tbody>
                   @foreach ($products as $index => $product)
+
                 <tr class="align-middle">
                     <td>{{ $index + 1 }}</td>
                     <td>
@@ -441,6 +442,10 @@ use App\Helpers\EncryptionHelper;
                     </td>
                 </tr>
                 @endforeach
+<<<<<<< HEAD
+=======
+
+>>>>>>> 827b553a2791c0e1e53e22fea68e61f6103de368
                   <tr class="align-middle">
                       <td>{{ $index + 1 }}</td>
                       <td>{{ $product->product_id }}</td>
