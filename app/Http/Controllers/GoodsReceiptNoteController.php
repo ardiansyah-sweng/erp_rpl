@@ -5,73 +5,52 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\GoodsReceiptNote;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class GoodsReceiptNoteController extends Controller
 {
     public function store(Request $request)
     {
-        $allData = $request->all();
-
-        if (count($allData) < 2) {
-             return redirect()->back()->with('error', 'Invalid GRN data structure. Expecting item details and a header.');
-        }
-
-        $itemDetailsInput = array_slice($allData, 0, -1);
-        $headerDataInput = end($allData);
-
-        $headerValidationRules = [
-            'po_number'    => 'required|string|exists:'.config('db_constants.table.po', 'purchase_orders').','.config('db_constants.column.po.po_number', 'po_number'),
-            'delivery_date' => 'required|date',
+        $rules = [
+            'header.po_number'    => 'required|string|exists:'.config('db_constants.table.po', 'purchase_orders').','.config('db_constants.column.po.po_number', 'po_number'),
+            'header.delivery_date' => 'required|date',
+            'items'               => 'required|array|min:1',
+            'items.*.product_id'  => 'required|string|exists:'.config('db_constants.table.item', 'items').','.config('db_constants.column.item.sku', 'sku'),
+            'items.*.delivered_quantity' => 'required|numeric|min:0',
+            'items.*.comments'    => 'nullable|string|max:255',
         ];
 
-        $detailValidationRules = [
-            'product_id'        => 'required|string|exists:'.config('db_constants.table.item', 'items').','.config('db_constants.column.item.sku', 'sku'),
-            'delivered_quantity' => 'required|numeric|min:0',
-            'comments'             => 'nullable|string|max:255',
+        $messages = [
+            'header.po_number.required' => 'Purchase Order number is required.',
+            'header.po_number.exists'   => 'The selected Purchase Order number is invalid.',
+            'header.delivery_date.required' => 'Delivery date is required.',
+            'items.required'            => 'At least one item must be provided for the GRN.',
+            'items.min'                 => 'At least one item must be provided for the GRN.',
+            'items.*.product_id.required' => 'Product ID is required for item #:position.',
+            'items.*.product_id.exists'   => 'Product ID for item #:position is invalid.',
+            'items.*.delivered_quantity.required' => 'Delivered quantity is required for item #:position.',
+            'items.*.delivered_quantity.numeric' => 'Delivered quantity for item #:position must be a number.',
+            'items.*.delivered_quantity.min' => 'Delivered quantity for item #:position must be at least 0.',
         ];
 
-        $headerValidator = Validator::make($headerDataInput, $headerValidationRules);
-        if ($headerValidator->fails()) {
-            return redirect()->back()->withErrors($headerValidator)->withInput();
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $validatedDetails = [];
-        foreach ($itemDetailsInput as $index => $item) {
-            $detailValidator = Validator::make($item, $detailValidationRules);
-            if ($detailValidator->fails()) {
-                 return redirect()->back()->withErrors($detailValidator, 'grn_details_'.$index)->withInput();
-            }
-             $validatedDetails[] = $detailValidator->validated();
-        }
+        $validatedData = $validator->validated();
+        $validatedHeader = $validatedData['header'];
+        $validatedDetails = $validatedData['items'];
 
-        if (empty($validatedDetails)) {
-            return redirect()->back()->with('error', 'No item details provided for GRN.')->withInput();
-        }
-
-        $validatedHeader = $headerValidator->validated();
-
-        DB::beginTransaction();
         try {
-            foreach ($validatedDetails as $itemDetail) {
-                $createData = [];
-                $createData['po_number'] = $validatedHeader['po_number'];
-                $createData['delivery_date'] = $validatedHeader['delivery_date'];
+            GoodsReceiptNote::createGrnWithItems($validatedHeader, $validatedDetails);
 
-                $createData['product_id'] = $itemDetail['product_id'];
-                $createData['delivered_quantity'] = $itemDetail['delivered_quantity'];
-                $createData['comments'] = $itemDetail['comments'] ?? null;
-                
-                GoodsReceiptNote::create($createData);
-            }
-
-            DB::commit();
             return redirect()->back()->with('success', 'Goods Receipt Note successfully created.');
+
         } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('GRN Creation Failed: ' . $e->getMessage() . ' Trace: ' . $e->getTraceAsString());
-            return redirect()->back()->with('error', 'Failed to create GRN. Details: ' . $e->getMessage())->withInput();
+            Log::error('Controller GRN Creation Failed: ' . $e->getMessage() . ' Trace: ' . $e->getTraceAsString());
+            return redirect()->back()->with('error', 'Failed to create Goods Receipt Note. Please try again or contact support.')->withInput();
         }
     }
 }
