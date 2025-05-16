@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\SupplierMaterialController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierPIController; // perubahan
@@ -10,7 +11,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 
 
@@ -69,6 +69,13 @@ Route::get('/supplier/material/detail', function () {
 });
 
 
+#API
+Route::get('/products', [APIProductController::class, 'getProducts']);
+Route::get('/prices', [APIProductController::class, 'getAvgBasePrice']);
+Route::get('/branches/{id}', [App\Http\Controllers\BranchController::class, 'getBranchById']);
+Route::get('/supplier-material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialByID']); // widya_d_2200018266
+# Product 
+Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 
