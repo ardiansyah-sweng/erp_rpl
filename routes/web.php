@@ -13,7 +13,6 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 
-
 #Login
 Route::get('/', function () {
     return redirect()->route('dashboard');
