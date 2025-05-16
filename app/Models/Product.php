@@ -60,7 +60,7 @@ class Product extends Model
 
     public static function items() 
     {
-        return $this->hasMany(Item::class);
+        return $this->hasMany(Item::class, 'product_id');
     }
 
     public static function deleteProductById($id)
@@ -71,8 +71,8 @@ class Product extends Model
             return false;
         }
 
-        $itemCount = $product->items()->count();
-
+        $itemCount = Item::where('product_id', $id)->count();
+        
         if ($itemCount > 0) {
             return false;
         }
