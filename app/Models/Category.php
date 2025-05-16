@@ -46,6 +46,7 @@ class Category extends Model
     {
         return self::count();
     }
+
     // mengambil semua kategori beserta data induknya
     public static function getCategory()
     {
