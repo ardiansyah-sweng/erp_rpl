@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Helpers\EncryptionHelper;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
@@ -22,15 +22,19 @@ class ProductController extends Controller
         }
        return view('product.detail', compact('product'));
     }
-
+    
+    public function detail($id)
+    {
+        $productId = EncryptionHelper::decrypt($id);
+        $product = Product::where('product_id', $productId)->firstOrFail();
+        return view('product.detail', compact('product'));
+    }
 
     // $productData = $products[$id];
     // $productData['category'] = (object)$productData['category'];
     // $product = (object)$productData;
 
     // return view('product.detail', compact('product'));
-
-
     public function addProduct(Request $request)
     {
         $validatedData = $request->validate([
