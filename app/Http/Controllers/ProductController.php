@@ -46,5 +46,26 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
 
+        public function updateProduct(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'product_name' => 'required|string|max:35',
+            'product_type' => 'required|string|max:12',
+            'product_category' => 'required|tinyInteger',
+            'product_description' => 'nullable|string|max:255',
+        ]);
+
+        // Update data Product
+        $updatedProduct = Product::getUpdateProduct($id, $request->only(['product_name', 'product_type', 'product_category', 'product_description']));
+
+        if (!$updatedProduct) {
+            return response()->json(['message' => 'Data Product Tidak Tersedia'], 404);
+        }
+
+        return response()->json([
+            'message' => 'Data Product berhasil diperbarui',
+            'data' => $updatedProduct,
+        ]);
+    }
 
 }
