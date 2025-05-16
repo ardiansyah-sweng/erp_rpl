@@ -36,10 +36,9 @@ class MerkController extends Controller
         return response()->json(['message' => 'Data Merk berhasil diperbarui', 'data' => $updatedMerk,]);
     }
 
-    public function getMerkAll(Request $request)
+    public function getMerkAll()
     {
-        $search = $request->input('search');
-        $merks = Merk::getAllMerk($search);
+        $merks = Merk::getAllMerk();
 
         return response()->json($merks);
     }
