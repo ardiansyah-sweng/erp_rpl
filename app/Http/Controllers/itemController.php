@@ -45,7 +45,7 @@ class ItemController extends Controller
             'price'       => 'required|numeric|min:0',
         ]);
 
-         $item = Item::updateItemById($id, $validated);
+         $item = Item::updateItem($id, $validated);
 
         if (!$item) {
             return redirect()->back()->with('error', 'Item tidak ditemukan.');
