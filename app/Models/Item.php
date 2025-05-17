@@ -70,4 +70,9 @@ class Item extends Model
     {
         return self::count();
     }
+    public static function getItemByType($productType)
+    {
+        return self::where('product_type', $productType)->get();
+    }
+
 }
