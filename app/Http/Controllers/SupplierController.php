@@ -15,8 +15,9 @@ class SupplierController extends Controller
             'address' => 'required|string|max:100',
             'phone_number' => 'required|string|max:30',
         ]);
-
-        // Update data supplier
+ 
+    
+        // Update data supplierr
         $updatedSupplier = Supplier::getUpdateSupplier($supplier_id, $request->only(['company_name', 'address']));
 
         if (!$updatedSupplier) {
