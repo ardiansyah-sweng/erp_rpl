@@ -135,3 +135,6 @@ Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->
 
 Route::get('/items/export/pdf', [ItemController::class, 'exportAllToPdf'])->name('items.export.pdf');
 
+#Category
+Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
+Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
