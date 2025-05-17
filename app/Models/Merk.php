@@ -29,11 +29,11 @@ class Merk extends Model
             return null;
         }
 
-         $fillable = (new self)->getFillable();
-         $filteredData = collect($data)->only($fillable)->toArray();
-         $merk->update($filteredData);
-    
-         return $merk;
+        $fillable = (new self)->getFillable();
+        $filteredData = collect($data)->only($fillable)->toArray();
+        $merk->update($filteredData);
+
+        return $merk;
     }
 
     public static function countMerek()
@@ -43,5 +43,10 @@ class Merk extends Model
     public function getMerkById($id)
     {
         return self::where('id', $id)->first();
+    }
+
+    public static function getAllMerk()
+    {
+        return self::orderBy('created_at', 'asc')->paginate(10);
     }
 }
