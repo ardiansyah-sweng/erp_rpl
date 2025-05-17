@@ -22,11 +22,6 @@ class SupplierPIController extends Controller
         return view('supplier.pic.detail', ['pic' => $pic, 'supplier' => $supplier]);
     }
 
-    public function update(Request $request, $id)
-    {
-        // method update disini untuk update
-    }
-
     public function searchSupplierPic(Request $request)
     {
         $keywords = $request->input('keywords');
@@ -72,10 +67,13 @@ class SupplierPIController extends Controller
 
     public function updateSupplierPICDetail(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:supplier_pics,email,' . $id,
-            'password' => 'required|string|min:10',
+          $validator = Validator::make($request->all(), [
+            'supplier_id'   => 'required|integer|exists:suppliers,id',
+            'name'          => 'required|string|max:255',
+            'phone_number'  => 'required|string|max:20',
+            'email'         => 'required|email|unique:supplier_pics,email,' . $id,
+            'assigned_date' => 'required|date'
+
         ]);
 
         if ($validator->fails()) {

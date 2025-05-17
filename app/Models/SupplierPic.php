@@ -60,6 +60,7 @@ class SupplierPic extends Model
                 'data' => $supplierPic,
                 'code' => 200
             ];
+
         } else {
             return [
                 'status' => 'error',
