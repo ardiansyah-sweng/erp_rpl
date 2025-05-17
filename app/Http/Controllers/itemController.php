@@ -40,9 +40,9 @@ class ItemController extends Controller
     public function updateItem(Request $request, $id)
     {
         $validated = $request->validate([
-            'name'        => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price'       => 'required|numeric|min:0',
+            'product_id' => 'required|integer',
+            'sku' => 'required|string|max:50',
+            'item_name' => 'required|string|max:100',
         ]);
 
          $item = Item::updateItem($id, $validated);
