@@ -73,6 +73,7 @@ Route::get('/supplier/material/detail', function () {
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
+Route::delete('/product/{id}', [ProductController::class, 'deleteProduct'])->name('product.delete');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
