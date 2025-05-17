@@ -69,4 +69,9 @@ class SupplierPIController extends Controller
 
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
     }    
+
+    public static function addSupplierPICId($supplierID, $data)
+    {
+        return SupplierPic::addSupplierPIC($supplierID, $data);
+    }
 }
