@@ -51,6 +51,11 @@ class Category extends Model
     {
         return self::with('parent')->get();
     }
+
+    public static function getCategoryById($id)
+    {
+        return self::find($id);
+    }
     public static function countByParent()
     {
         $instance = new static;
@@ -67,5 +72,31 @@ class Category extends Model
                     'total' => $item->total,
                 ];
             });
+    }
+    
+    public static function updateCategory($category_id, array $data) 
+    {
+        $category = self::find($category_id);
+        if (!$category) {
+            return null;
+        }
+
+        $fillable = (new self)->getFillable();
+        $filteredData = array_intersect_key($data, array_flip($fillable));
+        $category->update($filteredData);
+
+        return $category;
+    }
+
+    // delete category
+    public static function deleteCategoryById($id)
+    {
+        $category = self::find($id);
+
+        if ($category) {
+            return $category->delete();
+        }
+
+        return false;
     }
 }
