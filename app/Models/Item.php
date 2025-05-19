@@ -70,6 +70,7 @@ class Item extends Model
     {
         return self::count();
     }
+
     public function addItem($data)
     {
         return self::create($data);
@@ -78,6 +79,12 @@ class Item extends Model
     public function unit()
     {
         return $this->belongsTo(MeasurementUnit::class, 'measurement_unit', 'id');
+    }
+
+
+
+    public static function getItembyId($id){
+        return self::where('id', $id)->first();
     }
 
 }
