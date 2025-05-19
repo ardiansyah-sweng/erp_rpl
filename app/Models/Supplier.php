@@ -6,16 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 class Supplier extends Model
 {
     protected $table;
-    protected $fillable = ['company_name', 'address','phone_number'];
-
-    protected $primaryKey = 'supplier_id';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    protected $fillable = [];
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
+        // Tetapkan nama tabel dan kolom
         $this->table = config('db_constants.table.supplier');
         $this->fillable = array_values(config('db_constants.column.supplier') ?? []);
     }

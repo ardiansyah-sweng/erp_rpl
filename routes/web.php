@@ -120,6 +120,7 @@ Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 Route::get('/item/{id}', [itemController::class, 'getItemById']);
 
 # Merk
+Route::get('/merk/{id}', [MerkController::class, 'getMerkById']);
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.add');
