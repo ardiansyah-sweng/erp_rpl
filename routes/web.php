@@ -145,15 +145,25 @@ Route::prefix('merk')->group(function () {
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
+Syafiq_validasi-dan-memanggil-deleteMerk-dari-MerkModel
  Syafiq_validasi-dan-memanggil-deleteMerk-dari-MerkModel
 
+Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
+ development
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
  development
 
+Syafiq_validasi-dan-memanggil-deleteMerk-dari-MerkModel
 // =====================
 // CATEGORY
 // =====================
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
+
+#Category
+Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
+Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
+Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
+development
