@@ -16,8 +16,8 @@ class SupplierController extends Controller
             'phone_number' => 'required|string|max:30',
         ]);
 
-        // Update data supplier
-        $updatedSupplier = Supplier::getUpdateSupplier($supplier_id, $request->only(['company_name', 'address']));
+        // Update data supplier nama perusahaan, alamat, dan nomor telepon
+        $updatedSupplier = Supplier::getUpdateSupplier($supplier_id, $request->only(['company_name', 'address','phone_number']));
 
         if (!$updatedSupplier) {
             return response()->json(['message' => 'Data Supplier Tidak Tersedia'], 404);
