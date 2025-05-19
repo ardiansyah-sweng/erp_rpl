@@ -37,7 +37,25 @@ class SupplierMaterialController extends Controller
             'created_at'    => 'nullable|date',
             'updated_at'    => 'nullable|date',
         ]);
+         return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
+     }
 
-        return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
+    public function updateSupplierMaterial(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'product_id'    => 'required|string|max:50',
+            'product_name'  => 'required|string|max:255',
+            'base_price'    => 'required|integer|min:0'
+        ]);
+
+        $validated['updated_at'] = now();
+        
+        $model = new SupplierMaterial();
+        $result = $model->updateSupplierMaterial($id, $validated);
+
+        if ($result) {
+            return redirect()->back()->with('success', 'Data supplier material berhasil diperbarui!');
+        }
+        return redirect()->back()->with('error', 'Gagal memperbarui data supplier material!');
     }
 }
