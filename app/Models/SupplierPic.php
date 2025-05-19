@@ -52,7 +52,6 @@ class SupplierPic extends Model
         }
 
         $supplierPic->fill($data);
-
         if ($supplierPic->save()) {
             return [
                 'status' => 'success',

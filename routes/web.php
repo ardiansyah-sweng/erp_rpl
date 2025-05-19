@@ -112,7 +112,6 @@ Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplier
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
 Route::post('/supplier/pic/detail/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail']);
 
-
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan

@@ -68,7 +68,7 @@ class SupplierPIController extends Controller
     public function updateSupplierPICDetail(Request $request, $id)
     {
           $validator = Validator::make($request->all(), [
-            'supplier_id'   => 'required|integer|exists:suppliers,id',
+            'id'   => 'required|integer|exists:suppliers,id',
             'name'          => 'required|string|max:255',
             'phone_number'  => 'required|string|max:20',
             'email'         => 'required|email|unique:supplier_pics,email,' . $id,
@@ -83,11 +83,6 @@ class SupplierPIController extends Controller
                 'errors'  => $validator->errors(),
             ], 422);
         }
-        $data = [
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => bcrypt($request->password),
-        ];
 
         $result = SupplierPICModel::updateSupplierPIC($id, $data);
 
