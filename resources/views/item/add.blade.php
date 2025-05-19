@@ -377,10 +377,11 @@ function validateForm() {
   let productName = $('#item_name').val(); 
   let productPrice = $('#selling_price').val();
   
-  if (productId === null || productId === "") {
-    $('#product_id').after("<div class='error-message'><span style='color: red;'>ID Produk harus diisi.</span></div>");
+  if (productId.length !== 4 || productId === "") {
+    $('#product_id').after("<div class='error-message'><span style='color: red;'>ID Produk harus terdiri dari 4 karakter.</span></div>");
     isValid = false;
-  }
+}
+
   
   if (productSku === null || productSku === "") {
     $('#sku').after("<div class='error-message'><span style='color: red;'>SKU harus diisi.</span></div>");
