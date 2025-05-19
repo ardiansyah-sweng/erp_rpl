@@ -66,6 +66,9 @@ Route::get('/product/add', function () {
 Route::get('/supplier/list', function () {
     return view('supplier.list');
 });
+Route::get('/supplier/material/detail', function () {
+    return view('supplier/material/detail');
+});
 
 Route::get('/warehouse/add', function () {
     return view('warehouse/add');
