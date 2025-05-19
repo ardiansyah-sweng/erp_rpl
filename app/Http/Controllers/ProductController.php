@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category; // Untuk validasi kategori
+use Validator;
 
 class ProductController extends Controller
 {
@@ -15,36 +17,42 @@ class ProductController extends Controller
 
     public function getProductById($id)
     {
-        $product = (new Product())->getProductById($id);
-
+        $product = Product::find($id);
         if (!$product) {
             return abort(404, 'Product tidak ditemukan');
         }
-       return view('product.detail', compact('product'));
+
+        return view('product.detail', compact('product'));
     }
 
-
-    // $productData = $products[$id];
-    // $productData['category'] = (object)$productData['category'];
-    // $product = (object)$productData;
-
-    // return view('product.detail', compact('product'));
-
-
-    public function addProduct(Request $request)
+    // Fungsi untuk update produk
+    public function updateProduct(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'product_id' => 'required|string|unique:products,product_id',
-            'product_name' => 'required|string',
-            'product_type' => 'required|string',
-            'product_category' => 'required|string',
-            'product_description' => 'nullable|string',
+        // Validasi input
+        $validated = $request->validate([
+            'product_name' => 'required|min:3|max:255', // Nama produk harus lebih dari 3 karakter
+            'category_id' => 'required|exists:categories,id', // Kategori harus ada di database
+            'product_description' => 'required|max:255', // Deskripsi produk
         ]);
 
-        Product::addProduct($validatedData);
+        // Ambil data produk yang akan diupdate
+        $product = Product::find($id);
+        
+        // Jika produk tidak ditemukan
+        if (!$product) {
+            return abort(404, 'Product tidak ditemukan');
+        }
 
-        return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
+        // Memperbarui data produk
+        $product->product_name = $validated['product_name'];
+        $product->category_id = $validated['category_id'];
+        $product->product_description = $validated['product_description'];
+        $product->updated_at = now(); // Perbarui waktu updated_at
+        
+        // Simpan perubahan
+        $product->save();
+
+        // Redirect atau beri respons setelah berhasil
+        return redirect()->route('product.list')->with('success', 'Product berhasil diperbarui!');
     }
-
-
 }
