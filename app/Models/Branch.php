@@ -52,10 +52,16 @@ class Branch extends Model
     }
 
 
-    public static function updateBranch($data)
-{
-    return self::update($id, $data);
-}
+    public static function updateBranch($id, $data)
+    {
+        $branch = self::find($id);
+        if ($branch) {
+            $branch->update($data);
+            return true;
+        }
+        return false;
+    }
+    
 
 
     public static function countBranch()
