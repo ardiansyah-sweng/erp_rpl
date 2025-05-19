@@ -58,6 +58,21 @@ class Branch extends Model
 }
 
 
+    public static function findBranch($id)
+    {
+        $branch = self::find($id);
+        if (!$branch) {
+            throw new \Exception('Cabang tidak ditemukan!');
+        }
+        return $branch;
+    }
+
+    public static function deleteBranch($id)
+    {
+        return self::where('id', $id)->delete();
+    }
+main
+
     public static function countBranch()
     {
         return self::count();
