@@ -45,7 +45,7 @@ class ItemController extends Controller
       $items = $this->getItemAll(); 
 
       if (empty($items) || count($items) === 0) {
-        return redirect()->back()->with('error', 'Tidak ada data yang tersedia untuk diekspor.');
+        return redirect()->back()->with('error', 'Tidak ada data yang tersedia untuk diekspor');
       }
 
       $pdf = Pdf::loadView('item.report', compact('items'));
