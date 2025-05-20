@@ -11,6 +11,7 @@ use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
+use App\Http\Controllers\GoodsReceiptNoteController;
 use App\Helpers\EncryptionHelper;
 
 
@@ -114,3 +115,9 @@ Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSu
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
+
+# grn
+Route::get('/goods-receipt-notes', [GoodsReceiptNoteController::class, 'index'])->name('grn.index'); 
+Route::get('/goods-receipt-notes/create', [GoodsReceiptNoteController::class, 'create'])->name('grn.create'); 
+Route::post('/goods-receipt-note/store', [GoodsReceiptNoteController::class, 'store'])->name('grn.store');
+Route::get('/goods-receipt-notes/{goodsReceiptNote}', [GoodsReceiptNoteController::class, 'show'])->name('grn.show');
