@@ -8,6 +8,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierPIController; // perubahan
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
+use App\Http\Controllers\MerkController;  
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SupplierPicController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
@@ -125,7 +128,18 @@ Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.add');
 
 
+
 #Supplier
+#Route::get('/supplier/{id}', [SupplierController::class, 'getUpdateSupplier']);
+
+
+
+Route::get('/supplier/pic/add', [SupplierPicController::class, 'create'])->name('supplier.pic.add');
+Route::post('/supplier/pic/store', [SupplierPicController::class, 'store'])->name('supplier.pic.store');
+
+Route::get('/warehouse/detail/{id}', function(){
+    return view('warehouse.detail');
+});
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');

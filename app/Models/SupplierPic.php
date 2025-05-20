@@ -6,8 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class SupplierPic extends Model
 {
-    protected $table;
-    protected $fillable = [];
+    protected $table = 'supplier_pic';
+    protected $fillable = [
+        'id',
+        'supplier_id',
+        'name',
+        'phone_number',
+        'email',
+        'avatar',
+        'assigned_date',
+        'active',
+        'created_at',
+        'updated_at'
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -17,6 +28,10 @@ class SupplierPic extends Model
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
     }
 
+    public function addSupplierPIC(array $data)
+    {
+        return $this->create($data);
+    }
     // method untuk ambil data berdasarkan ID
     public static function getPICByID($id)
     {
