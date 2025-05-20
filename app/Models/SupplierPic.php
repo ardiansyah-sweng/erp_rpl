@@ -25,6 +25,21 @@ class SupplierPic extends Model
             ->groupBy('supplier_id')
             ->first();
     }
+    
+    public static function getSupplierById($id)
+    {
+        return self::find($id);
+    }
+
+    public static function getUpdateSupplier($supplier_id, $data)
+    {
+        $supplier = self::find($supplier_id);
+        if (!$supplier) return null;
+
+        $supplier->update($data);
+        return $supplier;
+    }
+
     //t
     
     public function supplier()
