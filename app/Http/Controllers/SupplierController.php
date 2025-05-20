@@ -7,7 +7,7 @@ use App\Models\Supplier;
 
 class SupplierController extends Controller
 {
-    public function getUpdateSupplier(Request $request, $supplier_id)
+    public function UpdateSupplier(Request $request, $supplier_id)
     {
         // Validasi input
         $request->validate([
@@ -17,7 +17,7 @@ class SupplierController extends Controller
         ]);
 
         // Update data supplier nama perusahaan, alamat, dan nomor telepon
-        $updatedSupplier = Supplier::getUpdateSupplier($supplier_id, $request->only(['company_name', 'address','phone_number']));
+        $updatedSupplier = Supplier::UpdateSupplier($supplier_id, $request->only(['company_name', 'address','phone_number']));
 
         if (!$updatedSupplier) {
             return response()->json(['message' => 'Data Supplier Tidak Tersedia'], 404);

@@ -20,7 +20,7 @@ class Supplier extends Model
         $this->fillable = array_values(config('db_constants.column.supplier') ?? []);
     }
 
-    public static function getUpdateSupplier($supplier_id, array $data)
+    public static function UpdateSupplier($supplier_id, array $data)
     {
         $supplier = self::find($supplier_id);
         if (!$supplier) {
