@@ -117,4 +117,8 @@ class PurchaseOrder extends Model
             ->where('status', POStatus::FD->value)
             ->first();
     }
+
+    public static function getPurchaseOrderBySupplierID($supplier_id){
+        return self::where('supplier_id', $supplier_id)->first();
+    }
 }
