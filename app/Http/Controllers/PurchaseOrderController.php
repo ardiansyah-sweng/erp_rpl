@@ -80,4 +80,9 @@ class PurchaseOrderController extends Controller
     
         return intval($orderDate->diffInDays($statusUpdateDate));
     }
+
+    public function getPurchaseOrderSupplier($supplier_id){
+        $purchaseOrders = PurchaseOrder::getPurchaseOrderBySupplierID($supplier_id);
+        return response()->json($purchaseOrders);
+    }
 }
