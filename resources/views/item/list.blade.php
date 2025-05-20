@@ -338,7 +338,7 @@
                             <form action="{{ route('items.export.pdf') }}" method="GET" target="_blank" class="m-0">
                         <input type="hidden" name="export" value="pdf">
                         <input type="hidden" name="search" value="{{ request('search') }}">
-                        <button type="submit" class="btn btn-primary btn-sm">Export PDF</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Cetak Item</button>
                     </form>
                         </div>
                         <div class="col-sm-6">
