@@ -36,6 +36,7 @@ class ItemController extends Controller
         $items = Item::getAllItems($search);
         return view('item.list', compact('items'));
     }
+
     public function getItemById($id)
     {
         $item = [
@@ -90,5 +91,9 @@ class ItemController extends Controller
         $item = (object) $item[$id];
 
         return view('item.detail', compact('item'));
+    
+    public function getItemById($id){
+        $item = (new item())->getItemById($id);
+        return response()->json($item);
     }
 }

@@ -70,4 +70,8 @@ class Item extends Model
     {
         return self::count();
     }
+
+    public static function getItembyId($id){
+        return self::where('id', $id)->first();
+    }
 }
