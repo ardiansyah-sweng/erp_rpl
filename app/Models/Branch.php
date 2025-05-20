@@ -77,7 +77,6 @@ class Branch extends Model
     {
         return self::where('id', $id)->delete();
     }
-main
 
     public static function countBranch()
     {
