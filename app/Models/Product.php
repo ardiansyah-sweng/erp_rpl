@@ -72,7 +72,7 @@ class Product extends Model
             return 0;
         }
 
-        return self::where($colProduct['type'], $mapping[$shortType])->count();
+        return self::where($colProduct['product_type'], $mapping[$shortType])->count();
     }
 
 
