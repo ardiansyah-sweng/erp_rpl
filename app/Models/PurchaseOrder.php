@@ -117,4 +117,5 @@ class PurchaseOrder extends Model
             ->where('status', POStatus::FD->value)
             ->first();
     }
+    
 }
