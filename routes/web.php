@@ -122,6 +122,14 @@ Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add'
 Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 Route::get('/item/{id}', [itemController::class, 'getItemById']);
 
+//Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
+Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
+Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
+
+Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
+Route::get('/item/{id}', [itemController::class, 'getItemById']);
+
+
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
