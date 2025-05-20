@@ -67,4 +67,8 @@ class ItemController extends Controller
         return view('item.list', compact('items'));
     }
     
+    public function getItemById($id){
+        $item = (new item())->getItemById($id);
+        return response()->json($item);
+    }
 }
