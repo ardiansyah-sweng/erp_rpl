@@ -20,7 +20,7 @@ class ProductController extends Controller
         if (!$product) {
             return abort(404, 'Product tidak ditemukan');
         }
-       return view('product.detail', compact('product'));
+        return view('product.detail', compact('product'));
     }
 
 
@@ -46,12 +46,12 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
 
-        public function updateProduct(Request $request, $id)
+    public function updateProduct(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'product_name' => 'required|string|max:35',
-            'product_type' => 'required|string|max:12',
-            'product_category' => 'required|tinyInteger',
+            'product_name' => 'required|string|min:3|max:35',
+            'product_type' => 'required|string|min:3|max:12',
+            'product_category' => 'required|exists:product_categories,id',
             'product_description' => 'nullable|string|max:255',
         ]);
 
@@ -67,5 +67,4 @@ class ProductController extends Controller
             'data' => $updatedProduct,
         ]);
     }
-
 }

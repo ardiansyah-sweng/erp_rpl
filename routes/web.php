@@ -78,6 +78,7 @@ Route::post('/product/add', [ProductController::class, 'addProduct'])->name('pro
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 Route::put('/products/{id}', [ProductController::class, 'updateProduct']);
 
+
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('api.prices');
