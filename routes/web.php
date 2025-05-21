@@ -14,6 +14,9 @@ use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 
 # Login
+use App\Http\Controllers\WarehouseController;
+
+#Login
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
@@ -146,3 +149,5 @@ Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::get('/item/detail/{id}', [ItemController::class, 'getItemById'])->name('item.detail');
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
 
+# Warehouse
+Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
