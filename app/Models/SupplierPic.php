@@ -17,7 +17,7 @@ class SupplierPic extends Model
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
     }
 
-    // method untuk ambil data berdasarkan ID
+    // method untuk ambil data berdasarkan id
     public static function getPICByID($id)
     {
         return self::find($id);
@@ -33,10 +33,21 @@ class SupplierPic extends Model
     {
         return self::paginate($perPage);
     }
-    
+
     public static function addSupplierPIC($supplierID, $data)
     {
         $data['supplier_id'] = $supplierID;
         return self::create($data);
-    }    
+    }
+    public static function deletePICByID($id)
+    {
+        $pic = self::find($id);
+
+        if ($pic) {
+            $pic->delete();
+            return true;
+        }
+
+        return false;
+    }
 }
