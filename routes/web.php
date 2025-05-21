@@ -118,7 +118,7 @@ Route::get('/supplier/pic/list', function () {
 Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplierPic'])->name('supplier.pic.list');
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
 
-
+ Syafiq_validasi-dan-memanggil-deleteMerk-dari-MerkModel
 // =====================
 // ITEM ROUTES
 // =====================
@@ -138,6 +138,20 @@ Route::prefix('merk')->group(function () {
     Route::post('/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.update');
     Route::delete('/{id}', [MerkController::class, 'deleteMerk'])->name('merk.delete');
 });
+
+# Items
+Route::get('/items', [ItemController::class, 'getItemAll']);
+Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
+Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
+Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
+Route::get('/item/{id}', [itemController::class, 'getItemById']);
+
+# Merk
+Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
+Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
+Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.add');
+
+development
 
 // =====================
 // SUPPLIER MATERIAL
