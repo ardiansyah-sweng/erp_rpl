@@ -65,8 +65,12 @@ class SupplierPIController extends Controller
         $validatedData['supplier_name'] = $request->input('supplier_name');
 
         // Simpan ke database
-        SupplierPic::addSupplierPIC($supplierID, $validatedData);
+        $supplierPicModel = new SupplierPic();
+        $supplierPicModel::addSupplierPIC($supplierID, $validatedData);
+
 
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
     }    
+
+    
 }
