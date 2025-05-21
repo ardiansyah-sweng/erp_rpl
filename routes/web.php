@@ -47,6 +47,11 @@ Route::get('/supplier/detail', function () {
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
+
+Route::get('/branch/update', function () {
+    return view('branch/update');
+});
+
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
@@ -69,6 +74,10 @@ Route::get('/supplier/material/detail', function () {
 });
 
 
+
+# Product 
+Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
+
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 
@@ -88,6 +97,9 @@ Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.l
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
 Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('branch.delete');
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
+Route::post('/branch/update/{id}', [BranchController::class, 'updateBranch'])->name('branch.update');
+
+
 
 # PurchaseOrders
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
