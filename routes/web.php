@@ -136,6 +136,9 @@ Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
+#email
+Route::get('/send-po-email/{po_number}', [PurchaseOrderController::class, 'sendPurchaseOrderEmail']);
+
 #Category
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
