@@ -84,7 +84,7 @@ Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->na
 Route::get('/products', [APIProductController::class, 'getProducts']);
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice']);
 Route::get('/branches/{id}', [App\Http\Controllers\BranchController::class, 'getBranchById']);
-Route::get('/supplier-material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialByID']); // widya_d_2200018266
+Route::get('/supplier-material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialByID']);
 # Product 
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
 # Product
