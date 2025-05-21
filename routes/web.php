@@ -136,10 +136,9 @@ Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
-<<<<<<< HEAD
 #email
 Route::get('/send-po-email/{po_number}', [PurchaseOrderController::class, 'sendPurchaseOrderEmail']);
-=======
+
 #Category
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
@@ -147,4 +146,3 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
->>>>>>> 3aafc76a573fe35c3b366b64e8d8c1b6d0add789
