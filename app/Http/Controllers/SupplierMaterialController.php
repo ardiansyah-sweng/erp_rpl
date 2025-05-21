@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SupplierMaterialModel;
+use App\Models\SupplierMaterial;
 
 class SupplierMaterialController extends Controller
 {
