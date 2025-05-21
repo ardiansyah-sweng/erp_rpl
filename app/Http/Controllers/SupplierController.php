@@ -17,7 +17,7 @@ class SupplierController extends Controller
         ]);
 
         // Update data supplier nama perusahaan, alamat, dan nomor telepon
-        $updatedSupplier = Supplier::updateSupplier($supplier_id, $request->only(['company_name', 'address','phone_number']));
+        $updatedSupplier = Supplier::updateSupplier($supplier_id, $request->only(['company_name', 'address','phone_number']));//Sudah sesuai pada ERP RPL
 
         if (!$updatedSupplier) {
             return response()->json(['message' => 'Data Supplier Tidak Tersedia'], 404);
