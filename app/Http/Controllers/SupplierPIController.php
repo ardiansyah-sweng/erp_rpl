@@ -92,6 +92,4 @@ class SupplierPIController extends Controller
             'data'    => $result['data'] ?? null,
         ], $result['code']);
     }
-
-
 }

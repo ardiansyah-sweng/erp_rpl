@@ -39,8 +39,8 @@ class SupplierPic extends Model
     {
         $data['supplier_id'] = $supplierID;
         return self::create($data);
-<<<<<<< HEAD
     }
+
     public static function updateSupplierPIC($id, $data)
     {
         $supplierPic = self::find($id);
@@ -61,7 +61,6 @@ class SupplierPic extends Model
                 'data' => $supplierPic,
                 'code' => 200
             ];
-
         } else {
             return [
                 'status' => 'error',
@@ -71,9 +70,6 @@ class SupplierPic extends Model
         }
     }
 
-=======
-    } 
-    
     public static function assignmentDuration($pic)
     {
         if (!$pic->assigned_date) {
@@ -91,5 +87,4 @@ class SupplierPic extends Model
             'days' => $diff->d,
         ]);
     }
->>>>>>> 3aafc76a573fe35c3b366b64e8d8c1b6d0add789
 }
