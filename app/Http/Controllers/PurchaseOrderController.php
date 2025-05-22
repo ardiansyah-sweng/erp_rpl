@@ -63,4 +63,8 @@ class PurchaseOrderController extends Controller
             return redirect()->back()->with('error', 'Gagal menambahkan PO: ' . $e->getMessage());
         }
     }
+    public function getPOLength($poNumber, $orderDate) 
+    {
+        return PurchaseOrder::getPOLength($poNumber, $orderDate);
+    }
 }
