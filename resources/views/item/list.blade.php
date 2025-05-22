@@ -427,7 +427,7 @@
                       <th style="width: 10px">id</th>
                       <th>sku</th>
                       <th>item_name</th>
-                      <th>measurement_unit</th>
+                      <th>unit_name</th>
                       <th>avg_base_price</th>
                       <th>selling_price</th>
                       <th>created_at</th>
@@ -441,7 +441,7 @@
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->sku }}</td>
                             <td>{{ $item->item_name }}</td>
-                            <td>{{ $item->measurement_unit }}</td>
+                            <td>{{ $item->unit->unit_name }}</td>
                             <td>{{ $item->avg_base_price }}</td>
                             <td>{{ $item->selling_price }}</td>
                             <td>{{ $item->created_at }}</td>

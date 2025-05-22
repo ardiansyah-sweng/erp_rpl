@@ -261,36 +261,29 @@
       </div>
       
       <div class="form-group">
-        <label for="product_sku">SKU</label>
-        <input type="text" class="form-control" id="product_sku" name="product_sku" value="{{ old('product_sku') }}">
+      <label for="sku">SKU</label>
+      <input type="text" class="form-control" id="sku" name="sku" value="{{ old('sku') }}">
       </div>
       
       <div class="form-group">
-        <label for="product_name">Nama Item Produk</label>
-        <input type="text" class="form-control" id="product_name" name="product_name" value="{{ old('product_name') }}">
+      <label for="item_name">Nama Item Produk</label>
+      <input type="text" class="form-control" id="item_name" name="item_name" value="{{ old('item_name') }}">
       </div>
       
       <div class="form-group">
-        <label for="product_unit">Satuan</label>
-        <div class="input-group">
-          <input type="text" class="form-control" id="product_unit" name="product_unit" value="{{ old('product_unit') }}">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-chevron-down"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="#" onclick="selectUnit('Unit')">Unit</a></li>
-              <li><a class="dropdown-item" href="#" onclick="selectUnit('Box')">Box</a></li>
-              <li><a class="dropdown-item" href="#" onclick="selectUnit('Pcs')">Pcs</a></li>
-              <li><a class="dropdown-item" href="#" onclick="selectUnit('Kg')">Kg</a></li>
-            </ul>
-          </div>
-        </div>
+      <label for="measurement_unit">Unit</label>
+        <select class="form-select" id="measurement_unit" name="measurement_unit" required>
+            <option selected disabled value="">Choose...</option>
+            @foreach($units as $unit)
+                <option value="{{ $unit->id }}">{{ $unit->unit_name }}</option>
+            @endforeach
+        </select>
+        <div class="invalid-feedback">Please select a valid unit.</div>
       </div>
       
       <div class="form-group">
-        <label for="product_price">Harga Jual Rp.</label>
-        <input type="number" class="form-control" id="product_price" name="product_price" value="{{ old('product_price') }}">
+      <label for="selling_price">Harga Jual Rp.</label>
+      <input type="number" class="form-control" id="selling_price" name="selling_price" value="{{ old('selling_price') }}">
       </div>
     </div>
     
@@ -371,7 +364,7 @@ function selectUnit(unit) {
     </script>
     <script>
 function selectUnit(unit) {
-  document.getElementById('product_unit').value = unit;
+  document.getElementById('measurement_unit').value = unit;
 }
 
 function validateForm() {
@@ -380,31 +373,37 @@ function validateForm() {
   $('.error-message').remove();
   
   let productId = $('#product_id').val(); 
-  let productSku = $('#product_sku').val(); 
-  let productName = $('#product_name').val(); 
-  let productPrice = $('#product_price').val();
+  let productSku = $('#sku').val(); 
+  let productName = $('#item_name').val(); 
+  let productPrice = $('#selling_price').val();
   
-  if (productId === null || productId === "") {
-    $('#product_id').after("<div class='error-message'><span style='color: red;'>ID Produk harus diisi.</span></div>");
+  if (productId.length !== 4 || productId === "") {
+    $('#product_id').after("<div class='error-message'><span style='color: red;'>ID Produk harus terdiri dari 4 karakter.</span></div>");
     isValid = false;
-  }
+}
+
   
   if (productSku === null || productSku === "") {
-    $('#product_sku').after("<div class='error-message'><span style='color: red;'>SKU harus diisi.</span></div>");
+    $('#sku').after("<div class='error-message'><span style='color: red;'>SKU harus diisi.</span></div>");
     isValid = false;
   }
   
   if (productName === null || productName === "") {
-    $('#product_name').after("<div class='error-message'><span style='color: red;'>Nama Item Produk harus diisi.</span></div>");
+    $('#item_name').after("<div class='error-message'><span style='color: red;'>Nama Item Produk harus diisi.</span></div>");
+    isValid = false;
+  }
+  // Validasi Unit
+  if ($('#measurement_unit').val() === null || $('#measurement_unit').val() === "") {
+    $('#measurement_unit').after("<div class='error-message'><span style='color: red;'>Unit harus dipilih.</span></div>");
     isValid = false;
   }
   
   let hargaPattern = /^\d+(\.\d{1,2})?$/;
   if (productPrice === "" || productPrice === null) {
-    $('#product_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus diisi.</span></div>");
+    $('#selling_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus diisi.</span></div>");
     isValid = false;
   } else if (!hargaPattern.test(productPrice)) {
-    $('#product_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus berupa angka.</span></div>");
+    $('#selling_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus berupa angka.</span></div>");
     isValid = false;
   }
   
