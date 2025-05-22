@@ -33,8 +33,23 @@ class Supplier extends Model
 
         return $supplier;
     }
-    public function getSupplierById($id)
+    
+    public static function getSupplierByKeywords($keywords = null)
+    {
+        $query = self::query();
+
+        if ($keywords) {
+            $query->where('company_name', 'LIKE', "%{$keywords}%")
+                  ->orWhere('address', 'LIKE', "%{$keywords}%")
+                  ->orWhere('phone_number', 'LIKE', "%{$keywords}%");
+        }
+
+        return $query->orderBy('created_at', 'asc')->paginate(10);
+    }
+
+    public static function getSupplierById($id)
     {
         return self::where($this->getKeyName(), $id)->first();
     }
+    
 }
