@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Warehouse;
+use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
 {
@@ -40,5 +42,20 @@ class WarehouseController extends Controller
 
         $pdf = Pdf::loadView('warehouse.report',compact('warehouse'));
         return $pdf->stream('warehouse_report.pdf');
+
+
+class WarehouseController extends Controller
+{
+    public function getWarehouseById($id)
+    {
+        $warehouse = (new Warehouse())->getWarehouseByID($id);
+
+        if (!$warehouse) 
+        {
+            return abort(404, 'Warehouse tidak ditemukan');
+        }
+
+        return response()->json($warehouse);
+
     }
 }
