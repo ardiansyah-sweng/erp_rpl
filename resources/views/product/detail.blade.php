@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Detail Supplier (Filled Form) </title>
+    <title>ERP RPL UAD | Detail Produk</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
@@ -234,7 +234,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Detail Supplier</h1>
+                        <h1>Detail Produk</h1>
                     </div>
                 </div>
             </div>
@@ -244,29 +244,42 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        Informasi Supplier
+                        Informasi Produk
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered">
                             <tr>
-                                <th style="width: 30%">ID Supplier</th>
-                                <td>{{ $supplier->supplier_id ?? 'Tidak ada data' }}</td>
+                                <th style="width: 30%">ID</th>
+                                <td>{{ $product->id ?? 'Tidak ada data' }}</td>
                             </tr>
                             <tr>
-                                <th>Nama Supplier</th>
-                                <td>{{ $supplier->company_name ?? 'Tidak ada data' }}</td>
+                                <th>Produk ID</th>
+                                <td>{{ $product->product_id ?? 'Tidak ada data' }}</td>
                             </tr>
                             <tr>
-                                <th>Alamat Supplier</th>
-                                <td>{{ $supplier->address ?? 'Tidak ada data' }}</td>
+                                <th>Produk Name</th>
+                                <td>{{ $product->product_name ?? 'Tidak ada data' }}</td>
                             </tr>
                             <tr>
-                                <th>Telephone</th>
-                                <td>{{ $supplier->phone_number ?? 'Tidak ada data' }}</td>
+                                <th>Produk Type</th>
+                                <td>{{ $product->product_type ?? 'Tidak ada data' }}</td>
                             </tr>
                             <tr>
-                                <th>Rekening Bank</th>
-                                <td>{{ $supplier->bank_account ?? 'Tidak ada data' }}</td>
+                                <th>Produk Catecory</th>
+                                <td>{{ $product->category->category ?? 'Tidak ada data' }}</td>
+
+                            </tr>
+                            <tr>
+                                <th>Produk Description</th>
+                                <td>{{ $product->product_description ?? 'Tidak ada data' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Created At</th>
+                                <td>{{ $product->created_at ?? 'Tidak ada data' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Updated At</th>
+                                <td>{{ $product->updated_at ?? 'Tidak ada data' }}</td>
                             </tr>
                         </table>
                     </div>
@@ -324,9 +337,7 @@
         }
       });
     </script>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
     $(document).ready(function () {
         $('[data-widget="pushmenu"]').on('click', function (e) {
@@ -335,7 +346,6 @@
         });
     });
     </script>
-
     
-  </body>
+  </body>
 </html>
