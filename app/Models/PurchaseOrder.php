@@ -136,7 +136,7 @@ class PurchaseOrder extends Model
 
          return $query->count();
     }
-    
+    //.
     public static function sendMailPurchaseOrder(string $po_number): void
     {
         $po = self::getPurchaseOrderByID($po_number);
@@ -148,14 +148,14 @@ class PurchaseOrder extends Model
 
         $poData = $po->first();
 
-        // Ambil informasi penting dari PO
+        // Ambil informasi penting dari PO.
         $supplierName = $poData->supplier->company_name ?? 'Unknown Supplier';
         $orderDate    = $poData->order_date;
         $totalAmount  = $poData->total;
 
         $recipientEmail = $poData->supplier->email ?? 'purchasing@example.com';
 
-        // Format isi email sederhana
+        // Format isi email sederhana.
         $message = "Purchase Order Baru Telah Dibuat\n\n"
                 . "Nomor PO   : $po_number\n"
                 . "Supplier   : $supplierName\n"

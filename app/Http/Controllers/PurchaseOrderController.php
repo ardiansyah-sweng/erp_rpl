@@ -59,7 +59,7 @@ class PurchaseOrderController extends Controller
         try {
             PurchaseOrder::addPurchaseOrder($allData);
             
-            // Cek apakah email perlu dikirim setelah Purchase Order berhasil dibuat.
+            // Cek apakah email perlu dikirim setelah Purchase Order berhasil dibuat..
             if ($request->input('send_email', true)) { 
                 PurchaseOrder::sendMail($headerData['po_number']);
             }
