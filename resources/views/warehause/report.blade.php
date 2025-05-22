@@ -21,7 +21,7 @@
         <thead>
             <tr>
                 <th>Warehouse Name</th>
-                <th>Warehouse Addres</th>
+                <th>Warehouse Address</th>
                 <th>Warehouse Telephone</th>
                 <th>Is Active</th>
             </tr>
@@ -32,7 +32,7 @@
                 <td>{{ $warehousePdf['warehouse_name'] }}</td>
                 <td>{{ $warehousePdf['warehouse_address'] }}</td>
                 <td>{{ $warehousePdf['warehouse_telephone'] }}</td>
-                <td>{{ $warehousePdf['is_active'] ? '1' : '0'}}</td>
+                <td>{{ $warehousePdf['is_active'] ? 'Active' : 'Inactive' }}</td>
             </tr>
             @endforeach
         </tbody>
