@@ -134,4 +134,9 @@ class PurchaseOrder extends Model
 
          return $query->count();
     }
+    //Ambil data PO lengkap (bukan paginate) berdasarkan nomor PO
+    public static function findPOWithRelations(string $po_number)
+    {
+    return self::with('supplier', 'details')->where('po_number', $po_number)->first();
+    }
 }

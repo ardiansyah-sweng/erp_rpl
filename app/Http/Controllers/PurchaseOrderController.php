@@ -60,6 +60,7 @@ class PurchaseOrderController extends Controller
 
         try {
             PurchaseOrder::addPurchaseOrder($allData);
+            
             return redirect()->back()->with('success', 'Purchase Order berhasil ditambahkan.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal menambahkan PO: ' . $e->getMessage());
@@ -83,33 +84,6 @@ class PurchaseOrderController extends Controller
         return intval($orderDate->diffInDays($statusUpdateDate));
     }
     
-    public function sendMailPurchaseOrder()
-    {
-        // Ambil data langsung dari model.
-        $purchaseOrders = PurchaseOrder::all();
-
-        // Mengecek jika tidak ada purchase order.
-        if ($purchaseOrders->isEmpty()) {
-            return redirect()->back()->with('error', 'Tidak ada Purchase Order untuk dikirim.');
-        }
-
-        // Mengirim email ke setiap PO.
-        foreach ($purchaseOrders as $po) {
-            try {
-                // Kirim email ke supplier dengan data PO.
-                Mail::send('emails.purchase_order', ['po' => $po], function ($message) use ($po) {
-                    $message->to($po->supplier->email ?? 'default@example.com')
-                            ->subject('Purchase Order #' . $po->po_number); // Set subject email
-                });
-            } catch (\Exception $e) {
-                // Jika gagal mengirim email, tampilkan error.
-                return redirect()->back()->with('error', 'Gagal mengirim email untuk PO ' . $po->po_number . ': ' . $e->getMessage());
-            }
-        }
-
-        // Setelah semua email berhasil dikirim.
-        return redirect()->back()->with('success', 'Email Purchase Order berhasil dikirim ke semua supplier.');
-    }
 }
 
 
