@@ -84,4 +84,5 @@ class Product extends Model
     return $product;
     }
 
+    
 }

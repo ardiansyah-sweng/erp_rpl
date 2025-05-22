@@ -72,5 +72,6 @@ class ProductController extends Controller
         'data'    => $updatedProduct
     ]);
     }
+    
 
 }
