@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah Produk</title>
+    <title>ERP RPL UAD | Tambah Merk</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
@@ -233,11 +233,11 @@
         <div class="app-content-header">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Produk</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Tambah Merk</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="/product/list">Produk</a></li>
+                  <li class="breadcrumb-item"><a href="/merk/list">Merk</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                 </ol>
               </div>
@@ -248,57 +248,39 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-12">
-              <div class="card card-primary">
-  <div class="card-header">
-    <h3 class="card-title">Tambah Item Produk</h3>
-  </div>
-  <form action="{{ route('item.add') }}" method="POST" id="productForm">
-    @csrf
-    <div class="card-body">
-      <div class="form-group">
-        <label for="product_id">ID Produk</label>
-        <input type="text" class="form-control" id="product_id" name="product_id" value="{{ old('product_id') }}">
-      </div>
-      
-      <div class="form-group">
-      <label for="sku">SKU</label>
-      <input type="text" class="form-control" id="sku" name="sku" value="{{ old('sku') }}">
-      </div>
-      
-      <div class="form-group">
-      <label for="item_name">Nama Item Produk</label>
-      <input type="text" class="form-control" id="item_name" name="item_name" value="{{ old('item_name') }}">
-      </div>
-      
-      <div class="form-group">
-      <label for="measurement_unit">Unit</label>
-        <select class="form-select" id="measurement_unit" name="measurement_unit" required>
-            <option selected disabled value="">Choose...</option>
-            @foreach($units as $unit)
-                <option value="{{ $unit->id }}">{{ $unit->unit_name }}</option>
-            @endforeach
-        </select>
-        <div class="invalid-feedback">Please select a valid unit.</div>
-      </div>
-      
-      <div class="form-group">
-      <label for="selling_price">Harga Jual Rp.</label>
-      <input type="number" class="form-control" id="selling_price" name="selling_price" value="{{ old('selling_price') }}">
-      </div>
-    </div>
-    
-    <div class="card-footer">
-    <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
-    <button type="reset" class="btn btn-secondary">Cancel</button>
-    </div>
-  </form>
-</div>
-
-<script>
-function selectUnit(unit) {
-  document.getElementById('product_unit').value = unit;
-}
-</script>
+                <div class="card card-primary">
+                  <div class="card-header">
+                    <h3 class="card-title">Tambah Merk</h3>
+                  </div>
+                  <form action="{{ route('merk.add') }}" method="POST" id="merkForm">
+                    @csrf
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="merk">Nama Merk</label>
+                        <input type="text" class="form-control" id="merk" name="merk" value="{{ old('merk') }}" placeholder="Masukkan nama merk">
+                      </div>
+                      
+                    <div class="form-group">
+                        <label class="d-block">Status</label>
+                            <div class="d-flex gap-3"> 
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="active" id="active1" value="1" checked>
+                            <label class="form-check-label" for="active1">Aktif</label>
+                        </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="active" id="active0" value="0">
+                        <label class="form-check-label" for="active0">Non Aktif</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    
+                    <div class="card-footer">
+                      <button type="button" class="btn btn-primary" onclick="validateForm()">Simpan</button>
+                      <button type="reset" class="btn btn-secondary">Batal</button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -363,56 +345,27 @@ function selectUnit(unit) {
     });
     </script>
     <script>
-function selectUnit(unit) {
-  document.getElementById('measurement_unit').value = unit;
-}
-
-function validateForm() {
-  let isValid = true;
-  
-  $('.error-message').remove();
-  
-  let productId = $('#product_id').val(); 
-  let productSku = $('#sku').val(); 
-  let productName = $('#item_name').val(); 
-  let productPrice = $('#selling_price').val();
-  
-  if (productId.length !== 4 || productId === "") {
-    $('#product_id').after("<div class='error-message'><span style='color: red;'>ID Produk harus terdiri dari 4 karakter.</span></div>");
-    isValid = false;
-}
-
-  
-  if (productSku === null || productSku === "") {
-    $('#sku').after("<div class='error-message'><span style='color: red;'>SKU harus diisi.</span></div>");
-    isValid = false;
-  }
-  
-  if (productName === null || productName === "") {
-    $('#item_name').after("<div class='error-message'><span style='color: red;'>Nama Item Produk harus diisi.</span></div>");
-    isValid = false;
-  }
-  // Validasi Unit
-  if ($('#measurement_unit').val() === null || $('#measurement_unit').val() === "") {
-    $('#measurement_unit').after("<div class='error-message'><span style='color: red;'>Unit harus dipilih.</span></div>");
-    isValid = false;
-  }
-  
-  let hargaPattern = /^\d+(\.\d{1,2})?$/;
-  if (productPrice === "" || productPrice === null) {
-    $('#selling_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus diisi.</span></div>");
-    isValid = false;
-  } else if (!hargaPattern.test(productPrice)) {
-    $('#selling_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus berupa angka.</span></div>");
-    isValid = false;
-  }
-  
-  if (isValid) {
-    document.getElementById('productForm').submit();
-  }
-  
-  return isValid;
-}
-</script>
+    function validateForm() {
+      let isValid = true;
+      
+      $('.error-message').remove();
+      
+      let merk = $('#merk').val(); 
+      
+      if (merk === null || merk === "") {
+        $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk harus diisi.</span></div>");
+        isValid = false;
+      } else if (merk.length > 255) {
+        $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk maksimal 255 karakter.</span></div>");
+        isValid = false;
+      }
+      
+      if (isValid) {
+        document.getElementById('merkForm').submit();
+      }
+      
+      return isValid;
+    }
+    </script>
   </body>
 </html>

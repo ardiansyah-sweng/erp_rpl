@@ -174,8 +174,7 @@
                   <!--end::Message-->
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-              </div>
+                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a></div>
             </li>
             <!--end::Messages Dropdown Menu-->
             <!--begin::Notifications Dropdown Menu-->
@@ -289,164 +288,156 @@
           <nav class="mt-2">
             <!--begin::Sidebar Menu-->
             <ul
-              class="nav sidebar-menu flex-column"
-              data-lte-toggle="treeview"
-              role="menu"
-              data-accordion="false"
-            >
-              <li class="nav-item">
-              <a href="dashboard" class="nav-link active">
-                  <i class="nav-icon bi bi-speedometer"></i>
-                  <p>
-                    Dashboard
-                  </p>
+            class="nav sidebar-menu flex-column"
+            data-lte-toggle="treeview"
+            role="menu"
+            data-accordion="false">
+            <li class="nav-item">
+                <a href="{{ route('dashboard') }}" class="nav-link active">
+                    <i class="nav-icon bi bi-speedometer"></i>
+                    <p>
+                        Dashboard
+                    </p>
                 </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-box-seam-fill"></i>
-                  <p>Produk</p>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('product.list') }}" class="nav-link">
+                    <i class="nav-icon bi bi-box-seam-fill"></i>
+                    <p>
+                        Produk
+                    </p>
                 </a>
-              </li>
-
-              
-              <li class="nav-item">
+            </li>
+            <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-person-circle"></i>
-                  <p>
-                    Supplier
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
+                    <i class="nav-icon bi bi-person-circle"></i>
+                    <p>
+                        Supplier
+                        <i class="nav-arrow bi bi-chevron-right"></i>
+                    </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="./widgets/small-box.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Small Box</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="/supplier/pic/add" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Tambah PIC supplier</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./widgets/cards.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Cards</p>
-                    </a>
-                  </li>
+                    <li class="nav-item">
+                        <a href="./widgets/small-box.html" class="nav-link">
+                            <i class="nav-icon bi bi-circle"></i>
+                            <p>Small Box</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/supplier/pic/add" class="nav-link">
+                            <i class="nav-icon bi bi-circle"></i>
+                            <p>Tambah PIC supplier</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/supplier/material/add" class="nav-link">
+                            <i class="nav-icon bi bi-circle"></i>
+                            <p>Tambah Supplier Item</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/supplier/material/list" class="nav-link">
+                            <i class="nav-icon bi bi-circle"></i>
+                            <p>Supplier Material</p>
+                        </a>
+                    </li>
                 </ul>
-              </li>
-              <li class="nav-item">
+            </li>
+            <li class="nav-item">
                 <a href="{{ route('purchase.orders') }}" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Purchase Orders
-                  </p>
+                    <i class="nav-icon bi bi-clipboard-fill"></i>
+                    <p>
+                        Purchase Orders
+                    </p>
                 </a>                
-              </li>
-              <li class="nav-item">
-              <a href="{{ route('branch.list') }}" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Branch
-                  </p>
-                </a>                
-              </li>
-              <li class="nav-item">
-              <a href="{{ route('item.list') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Item</p>
-                    </a>
-                  </li>
-            </ul>
-            <!--end::Sidebar Menu-->
-          </nav>
-        </div>
-        <!--end::Sidebar Wrapper-->
-      </aside>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('item.list') }}" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>
+                        Item
+                    </p>
+                </a>
+            </li>
+        </ul>
+        <!--end::Sidebar Menu-->
+    </nav>
+</div>
+<!--end::Sidebar Wrapper-->
+</aside>
       <!--end::Sidebar-->
       <!--begin::App Main-->
       <main class="app-main">
         <!--begin::App Content Header-->
         <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row align-items-center">
-              <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Produk</h3>
-                <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-              </div>
-    
-    
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Produk</li>
-                </ol>
-              </div>
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Row-->
+                <div class="row align-items-center">
+                    <div class="col-sm-6 d-flex align-items-center">
+                        <h3 class="mb-0 me-2">Supplier Material</h3>
+                        <a href="/supplier/material/add" class="btn btn-primary btn-sm">Tambah</a>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Supplier Material</li>
+                        </ol>
+                    </div>
+                </div>
+                <!--end::Row-->
             </div>
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
+            <!--end::Container-->
         </div>
-
-        <div class="card mb-4">
-              <div class="card-header"><h3 class="card-title">List Table</h3></div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th style="width: 10px">id</th>
-                      <th>product_id</th>
-                      <th>product_name</th>
-                      <th>product_type</th>
-                      <th>product_category</th>
-                      <th>product_description</th>
-                      <th>Created At</th>
-                      <th>Updated At </th>
-                      <th>Action </th>
-                    </tr>
-                  </thead>
-                 <tbody>
-                  @foreach ($products as $index => $product)
-                  <tr class="align-middle">
-                      <td>{{ $index + 1 }}</td>
-                      <td>{{ $product->product_id }}</td>
-                      <td>{{ $product->product_name }}</td>
-                      <td>{{ $product->product_type }}</td>
-                      <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
-                      <td>{{ $product->product_description }}</td>
-                      <td>{{ $product->created_at }}</td>
-                      <td>{{ $product->updated_at }}</td>
-                      <td>
-                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <form  method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?')">Delete</button>
-                              </form>
-                          <a href="#" class="btn btn-sm btn-info">Detail</a>
-                      </td>
-                  </tr>
-        @endforeach
-    </tbody>
-</table>
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                {{ $products->links('pagination::bootstrap-4') }}
-              </div>
-            </div>
-    
-
         
-      </main>
-      <!--end::App Main-->
+        <div class="card mb-4">
+            <div class="card-header"><h3 class="card-title">List Table</h3></div>
+            <!-- /.card-header -->
+             <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">id</th>
+                            <th>supplier_id</th>
+                            <th>company_name</th>
+                            <th>product_id</th>
+                            <th>product_name</th>
+                            <th>base_price</th>
+                            <th>Created_at</th>
+                            <th>Updated_at </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($materials as $index => $material)
+                        <tr class="align-middle">
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $material->supplier_id }}</td>
+                            <td>{{ $material->company_name }}</td>
+                            <td>{{ $material->product_id }}</td>
+                            <td>{{ $material->product_name }}</td>
+                            <td>{{ $material->base_price }}</td>
+                            <td>{{ $material->created_at }}</td>
+                            <td>{{ $material->updated_at }}</td>
+
+                            <td>
+                                <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                <a href="/supplier/material/detail/" class="btn btn-sm btn-info">Detail</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+             <div class="card-footer clearfix">
+                {{ $materials->links('pagination::bootstrap-4') }}
+            </div>
+        </div> 
+    </main>
+    <!--end::App Main-->
       <!--begin::Footer-->
       <footer class="app-footer">
         <!--begin::To the end-->

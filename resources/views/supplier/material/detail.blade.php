@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah Produk</title>
+    <title>ERP RPL UAD | Tambah Cabang</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
@@ -76,7 +76,7 @@
                     <div class="flex-shrink-0">
                       <img
                         src={{asset("assets/dist/assets/img/user1-128x128.jpg")}}
-                         alt="User Avatar"
+                        alt="User Avatar"
                         class="img-size-50 rounded-circle me-3"
                       />
                     </div>
@@ -167,7 +167,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/product/list" class="nav-link">
+                <a href="./generate/theme.html" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
@@ -202,7 +202,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('purchase.orders')}}" class="nav-link active">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Purchase Orders
@@ -218,92 +218,94 @@
                 </a>                
               </li>
               <li class="nav-item">
-              <a href="{{ route('item.list') }}" class="nav-link active">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Item
-                  </p>
-                </a>                
-              </li>
+              <a href="{{ route('item.list') }}" class="nav-link">
+              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>Item</p>
+                    </a>
+                  </li>
             </ul>
           </nav>
         </div>
       </aside>
       <main class="app-main">
-        <div class="app-content-header">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Produk</h3></div>
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="/product/list">Produk</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Tambah</li>
-                </ol>
-              </div>
-            </div>
-          </div>
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class="mb-0">Detail Material</h3>
         </div>
-        <div class="app-content">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-12">
-              <div class="card card-primary">
-  <div class="card-header">
-    <h3 class="card-title">Tambah Item Produk</h3>
-  </div>
-  <form action="{{ route('item.add') }}" method="POST" id="productForm">
-    @csrf
-    <div class="card-body">
-      <div class="form-group">
-        <label for="product_id">ID Produk</label>
-        <input type="text" class="form-control" id="product_id" name="product_id" value="{{ old('product_id') }}">
-      </div>
-      
-      <div class="form-group">
-      <label for="sku">SKU</label>
-      <input type="text" class="form-control" id="sku" name="sku" value="{{ old('sku') }}">
-      </div>
-      
-      <div class="form-group">
-      <label for="item_name">Nama Item Produk</label>
-      <input type="text" class="form-control" id="item_name" name="item_name" value="{{ old('item_name') }}">
-      </div>
-      
-      <div class="form-group">
-      <label for="measurement_unit">Unit</label>
-        <select class="form-select" id="measurement_unit" name="measurement_unit" required>
-            <option selected disabled value="">Choose...</option>
-            @foreach($units as $unit)
-                <option value="{{ $unit->id }}">{{ $unit->unit_name }}</option>
-            @endforeach
-        </select>
-        <div class="invalid-feedback">Please select a valid unit.</div>
-      </div>
-      
-      <div class="form-group">
-      <label for="selling_price">Harga Jual Rp.</label>
-      <input type="number" class="form-control" id="selling_price" name="selling_price" value="{{ old('selling_price') }}">
-      </div>
-    </div>
-    
-    <div class="card-footer">
-    <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
-    <button type="reset" class="btn btn-secondary">Cancel</button>
-    </div>
-  </form>
-</div>
 
-<script>
-function selectUnit(unit) {
-  document.getElementById('product_unit').value = unit;
-}
-</script>
+        <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Supplier Material</li>
+                        </ol>
+                    </div>
+      </div>
+    </div>
+  </div>
+  <div class="app-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              
+            </div>
+            <div class="card-body">
+            <div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3>Detail Material</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th>Supplier ID</th>
+                    <td>SUP-001</td>
+                </tr>
+                <tr>
+                    <th>Company Name</th>
+                    <td>PT. Bangun Jaya</td>
+                </tr>
+                <tr>
+                    <th>Product ID</th>
+                    <td>PRD-1001</td>
+                </tr>
+                <tr>
+                    <th>Product Name</th>
+                    <td>Pasir Halus</td>
+                </tr>
+                <tr>
+                    <th>Base Price</th>
+                    <td>Rp 250.000</td>
+                </tr>
+                <tr>
+                    <th>Created At</th>
+                    <td>2025-05-05 08:30:00</td>
+                </tr>
+                <tr>
+                    <th>Updated At</th>
+                    <td>2025-05-05 10:15:00</td>
+                </tr>
+            </table>
+            <a href="/supplier/material" class="btn btn-secondary">Kembali ke Daftar</a>
+        </div>
+    </div>
+</div>
               </div>
             </div>
           </div>
         </div>
-      </main>
+      </div>
+    </div>
+  </div>
+</main>
+
       <footer class="app-footer">
         <div class="float-end d-none d-sm-inline">Anything you want</div>
         <strong>
@@ -362,57 +364,7 @@ function selectUnit(unit) {
         });
     });
     </script>
-    <script>
-function selectUnit(unit) {
-  document.getElementById('measurement_unit').value = unit;
-}
 
-function validateForm() {
-  let isValid = true;
-  
-  $('.error-message').remove();
-  
-  let productId = $('#product_id').val(); 
-  let productSku = $('#sku').val(); 
-  let productName = $('#item_name').val(); 
-  let productPrice = $('#selling_price').val();
-  
-  if (productId.length !== 4 || productId === "") {
-    $('#product_id').after("<div class='error-message'><span style='color: red;'>ID Produk harus terdiri dari 4 karakter.</span></div>");
-    isValid = false;
-}
-
-  
-  if (productSku === null || productSku === "") {
-    $('#sku').after("<div class='error-message'><span style='color: red;'>SKU harus diisi.</span></div>");
-    isValid = false;
-  }
-  
-  if (productName === null || productName === "") {
-    $('#item_name').after("<div class='error-message'><span style='color: red;'>Nama Item Produk harus diisi.</span></div>");
-    isValid = false;
-  }
-  // Validasi Unit
-  if ($('#measurement_unit').val() === null || $('#measurement_unit').val() === "") {
-    $('#measurement_unit').after("<div class='error-message'><span style='color: red;'>Unit harus dipilih.</span></div>");
-    isValid = false;
-  }
-  
-  let hargaPattern = /^\d+(\.\d{1,2})?$/;
-  if (productPrice === "" || productPrice === null) {
-    $('#selling_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus diisi.</span></div>");
-    isValid = false;
-  } else if (!hargaPattern.test(productPrice)) {
-    $('#selling_price').after("<div class='error-message'><span style='color: red;'>Harga Jual harus berupa angka.</span></div>");
-    isValid = false;
-  }
-  
-  if (isValid) {
-    document.getElementById('productForm').submit();
-  }
-  
-  return isValid;
-}
-</script>
+    
   </body>
 </html>
