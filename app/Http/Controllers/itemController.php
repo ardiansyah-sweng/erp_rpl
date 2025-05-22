@@ -37,6 +37,7 @@ class ItemController extends Controller
     $items = Item::getAllItems($search);
     return view('item.list', compact('items'));
 }
+
 public function getItemByType($productType)
 {
     $items = Item::getItemByType($productType);
