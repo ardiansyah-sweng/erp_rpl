@@ -364,6 +364,53 @@
         });
     });
     </script>
+    <script>
+      document.getElementById("materialForm").addEventListener("submit", function(event) {
+        const supplierId = document.getElementById("supplierId").value.trim();
+        const productId = document.getElementById("productId").value.trim();
+        const companyName = document.getElementById("companyName").value.trim();
+        const productName = document.getElementById("productName").value.trim();
+        const basePrice = parseFloat(document.getElementById("basePrice").value);
+
+        const idFormat = /^[A-Z]{3}-\d+$/;
+
+        // Validasi jika form kosong dan tidak diisi
+        if (!supplierId || !productId || !companyName || !productName || isNaN(basePrice)) {
+          alert("Semua field wajib diisi!");
+          event.preventDefault();
+          return;
+        }
+
+         // Validasi companyName
+        if (!idFormat.test(supplierId)) {
+          alert("Supplier ID harus dalam format SUP-001");
+          event.preventDefault();
+          return;
+        }
+       // Validasi Supplier
+        if (!idFormat.test(supplierId)) {
+          alert("Supplier ID harus dalam format SUP-001");
+          event.preventDefault();
+          return;
+        }
+        // Validasi Product Id
+        if (!idFormat.test(productId)) {
+          alert("Product ID harus dalam format PRD-1001");
+          event.preventDefault();
+          return;
+        }
+
+        // Validasi base price
+        if (basePrice <= 0) {
+          alert("Base Price harus lebih dari 0");
+          event.preventDefault();
+          return;
+        }
+
+        // Jika semua valid
+        alert("Data berhasil valid ");
+      });
+    </script>
 
     
   </body>
