@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Enums\POStatus;
+use Carbon\Carbon;
 
 class PurchaseOrder extends Model
 {
@@ -116,5 +117,22 @@ class PurchaseOrder extends Model
         return self::where('po_number', $poNumber)
             ->where('status', POStatus::FD->value)
             ->first();
+    }
+
+    public static function getPOLength($poNumber, $orderDate)
+    {
+        $po = PurchaseOrder::getPurchaseOrderByID($poNumber);
+        
+        if (!$po || $po->count() === 0) {
+            return null;
+        }
+    
+        // Ambil data PO pertama dari hasil paginate
+        $poData = $po->first();
+        
+        $orderDate = Carbon::parse($orderDate);
+        $statusUpdateDate = Carbon::parse($poData->updated_at);
+    
+        return intval($orderDate->diffInDays($statusUpdateDate));
     }
 }

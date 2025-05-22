@@ -63,21 +63,4 @@ class PurchaseOrderController extends Controller
             return redirect()->back()->with('error', 'Gagal menambahkan PO: ' . $e->getMessage());
         }
     }
-
-    public static function getPOLength($poNumber, $orderDate)
-    {
-        $po = PurchaseOrder::getPurchaseOrderByID($poNumber);
-        
-        if (!$po || $po->count() === 0) {
-            return null;
-        }
-    
-        // Ambil data PO pertama dari hasil paginate
-        $poData = $po->first();
-        
-        $orderDate = Carbon::parse($orderDate);
-        $statusUpdateDate = Carbon::parse($poData->updated_at);
-    
-        return intval($orderDate->diffInDays($statusUpdateDate));
-    }
 }

@@ -262,7 +262,7 @@
                       <h4>{{ $purchaseOrder->first()->status }}</h4>
                       <h6>Last Updated Status</h6>
                       @php
-                        $poLength = App\Http\Controllers\PurchaseOrderController::getPOLength(
+                        $poLength = App\Models\PurchaseOrder::getPOLength(
                           $purchaseOrder[0]->po_number, 
                           $purchaseOrder[0]->order_date
                         );
