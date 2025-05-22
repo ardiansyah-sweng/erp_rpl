@@ -8,9 +8,9 @@ use Carbon\Carbon;
 
 class SupplierPicController extends Controller
 {
-    public function getSupplierPicById($id)
+    public function getSupplierPicById($supplier_id)
     {
-        $supplierPic = (new SupplierPic())->getSupplierPicById($id);
+        $supplierPic = (new SupplierPic())->getSupplierPicById($supplier_id);
 
         if (!$supplierPic) {
             return response()->json(['message' => 'Data not found'], 404);
