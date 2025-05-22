@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class SupplierPic extends Model
 {
@@ -46,6 +45,15 @@ class SupplierPic extends Model
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
     }
+
+    public static function getSupplierPICAll($perPage = 10)
+    {
+        return self::paginate($perPage);
+    }
+    
+    public static function addSupplierPIC($supplierID, $data)
+    {
+        $data['supplier_id'] = $supplierID;
+        return self::create($data);
+    }    
 }
-
-

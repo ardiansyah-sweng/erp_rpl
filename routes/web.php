@@ -10,6 +10,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\SupplierMaterialController;
+use App\Helpers\EncryptionHelper;
+
 
 #Login
 Route::get('/', function () {
@@ -112,7 +115,8 @@ Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'add
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
-Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
+Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
+Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
 Route::get('/item/{id}', [itemController::class, 'getItemById']);
 
 # Merk
@@ -130,4 +134,7 @@ Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
-#chdcn
+#Category
+Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
+Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
+Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
