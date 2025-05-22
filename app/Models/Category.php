@@ -87,16 +87,4 @@ class Category extends Model
 
         return $category;
     }
-
-    // delete category
-    public static function deleteCategoryById($id)
-    {
-        $category = self::find($id);
-
-        if ($category) {
-            return $category->delete();
-        }
-
-        return false;
-    }
 }

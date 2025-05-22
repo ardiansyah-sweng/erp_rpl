@@ -71,6 +71,11 @@ class Item extends Model
         return self::count();
     }
 
+
+    public static function getItemByType($productType)
+    {
+        return self::where('product_type', $productType)->get();
+
     public function addItem($data)
     {
         return self::create($data);
@@ -79,6 +84,7 @@ class Item extends Model
     public function unit()
     {
         return $this->belongsTo(MeasurementUnit::class, 'measurement_unit', 'id');
+
     }
 
 
