@@ -35,4 +35,3 @@ class SupplierController extends Controller
         return response()->json($sup);
     }
 }
-
