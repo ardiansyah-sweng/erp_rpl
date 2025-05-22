@@ -135,6 +135,7 @@ class PurchaseOrder extends Model
     
         return intval($orderDate->diffInDays($statusUpdateDate));
     }
+
      //hitung jumlah order dari supplier tertentu untuk rentang waktu tertentu
     public static function countOrdersByDateSupplier(
         string $startDate,
