@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/login', function () {
-    return view('login'); // tampilkan view login
+    return view('login'); // tampilkan view login 
 })->name('login');
 
 Route::get('/dashboard', function () {
