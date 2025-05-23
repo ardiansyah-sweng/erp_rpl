@@ -137,3 +137,7 @@ Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 
+
+#Supplier Pic
+Route::delete(('/supplier/pic/delete/{id}'), [SupplierPIController::class, 'deleteSupplierPIC']);
+
