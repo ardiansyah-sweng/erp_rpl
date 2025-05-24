@@ -46,7 +46,6 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
 
-
     public function updateProduct(Request $request, $id)
     {
         $validated = $request->validate([
