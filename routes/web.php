@@ -50,7 +50,7 @@ Route::get('/branch/add', function () {
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
-Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
+Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
     $id = EncryptionHelper::decrypt($encrypted_id);
     return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
 })->name('purchase.orders.detail');
@@ -99,7 +99,7 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
 })->name('purchase.orders.detail');
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
- 
+
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
@@ -129,7 +129,7 @@ Route::get('/item/{id}', [itemController::class, 'getItemById']);
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.add');
-
+Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
