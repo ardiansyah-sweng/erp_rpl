@@ -58,4 +58,13 @@ class SupplierPic extends Model
             'days' => $diff->d,
         ]);
     }
+
+    public static function deleteSupplierPIC($id)
+    {
+        $pic = self::find($id);
+        if ($pic) {
+            return $pic->delete();
+        }
+        return false;
+    }
 }
