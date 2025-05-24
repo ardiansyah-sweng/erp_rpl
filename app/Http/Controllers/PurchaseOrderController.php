@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use App\Models\Supplier;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PurchaseOrderController extends Controller
 {
@@ -79,5 +81,40 @@ class PurchaseOrderController extends Controller
         $statusUpdateDate = Carbon::parse($poData->updated_at);
     
         return intval($orderDate->diffInDays($statusUpdateDate));
+    }
+
+    public function showReportForm()
+    {
+        $suppliers = Supplier::all(); // dropdown untuk supplier semua
+        return view('purchase_orders.report_form', compact('suppliers'));
+    }
+
+    public function generatePurchaseOrderPDF(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'supplier_id' => 'required|string',
+        ]);
+
+        $startDate = Carbon::parse($request->start_date)->startOfDay();
+        $endDate = Carbon::parse($request->end_date)->endOfDay();
+        $supplierId = $request->supplier_id;
+
+        // Ambil data dari model
+        $supplier = Supplier::findBySupplierId($supplierId);
+        $purchaseOrders = PurchaseOrder::getReportBySupplierAndDate($supplierId, $startDate, $endDate);
+
+        $data = [
+            'purchaseOrders' => $purchaseOrders,
+            'supplier' => $supplier,
+            'startDate' => $startDate->format('d-m-Y'),
+            'endDate' => $endDate->format('d-m-Y'),
+            'generatedAt' => Carbon::now()->format('d-m-Y H:i:s')
+        ];
+
+        $pdf = Pdf::loadView('purchase_orders.pdf_report', $data);
+        return $pdf->stream('laporan_purchase_order_' . $supplier->company_name . '.pdf');
     }
 }
