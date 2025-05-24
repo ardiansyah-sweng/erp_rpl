@@ -66,7 +66,8 @@ class Product extends Model
 
     public function getProductById($id) {
         return self::where('id', $id)->first();
-    }     
+    } 
+        
     public static function getUpdateProduct($id, array $data)
     {
         $product = self::find($id);
