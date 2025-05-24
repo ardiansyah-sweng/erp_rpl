@@ -134,7 +134,7 @@ Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
 
 #Suppplier Update 
-Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');//Sudah sesuai pada ERP RPL
+Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');//Sudah sesuai pada ERP RPL untuk update
 Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');
 
 #Cetak pdf

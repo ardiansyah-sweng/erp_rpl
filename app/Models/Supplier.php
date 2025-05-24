@@ -20,16 +20,14 @@ class Supplier extends Model
         $this->fillable = array_values(config('db_constants.column.supplier') ?? []);
     }
 
-    public static function updateSupplier($supplier_id, array $data)//Sudah sesuai pada ERP RPL
+    public static function updateSupplier($supplier_id, array $data)//Sudah sesuai pada ERP RPL untuk update
     {
         $supplier = self::find($supplier_id);
         if (!$supplier) {
             return null;
         }
 
-        $fillable = (new self)->getFillable();
-        $filteredData = array_intersect_key($data, array_flip($fillable));
-        $supplier->update($filteredData);
+        $update->update($data);
 
         return $supplier;
     }

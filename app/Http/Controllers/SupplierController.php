@@ -7,7 +7,7 @@ use App\Models\Supplier;
 
 class SupplierController extends Controller
 {
-    public function updateSupplier(Request $request, $supplier_id)
+    public function updateSupplier(Request $request, $supplier_id)//Sudah sesuai pada ERP RPL untuk update
     {
         // Validasi input
         $request->validate([
