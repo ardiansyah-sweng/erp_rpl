@@ -37,6 +37,10 @@ class Supplier extends Model
     {
         return self::where($this->getKeyName(), $id)->first();
     }
+    public static function countSupplier(){
+        return self::count();   
+    }
+
 
     public static function findBySupplierId($supplierId)
     {
