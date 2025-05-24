@@ -66,6 +66,20 @@ class Product extends Model
 
     public function getProductById($id) {
         return self::where('id', $id)->first();
-    }    
+    }   
+    
+    public static function getUpdateProduct($id, array $data)
+    {
+        $product = self::find($id);
+        if (!$product) {
+            return null;
+        }
 
+        $fillable = (new self)->getFillable();
+        $filteredData = array_intersect_key($data, array_flip($fillable));
+        $filteredData['updated_at'] = now(); 
+
+        $product->update($filteredData);
+        return $product;
+    }
 }
