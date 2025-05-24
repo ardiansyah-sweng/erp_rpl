@@ -7,6 +7,9 @@ use App\Models\Supplier;
 
 class SupplierController extends Controller
 {
+    /**
+     * Update data supplier berdasarkan ID
+     */
     public function getUpdateSupplier(Request $request, $supplier_id)
     {
         // Validasi input
@@ -17,7 +20,11 @@ class SupplierController extends Controller
         ]);
 
         // Update data supplier
-        $updatedSupplier = Supplier::getUpdateSupplier($supplier_id, $request->only(['company_name', 'address']));
+        $updatedSupplier = Supplier::getUpdateSupplier($supplier_id, $request->only([
+            'company_name',
+            'address',
+            'phone_number'
+        ]));
 
         if (!$updatedSupplier) {
             return response()->json(['message' => 'Data Supplier Tidak Tersedia'], 404);
@@ -28,11 +35,19 @@ class SupplierController extends Controller
             'data' => $updatedSupplier,
         ]);
     }
+
+    /**
+     * Ambil data supplier berdasarkan ID
+     */
     public function getSupplierById($id)
     {
-        $sup = (new Supplier())->getSupplierById($id);
+        $supplier = Supplier::getSupplierById($id);
 
-        return response()->json($sup);
+        if (!$supplier) {
+            return response()->json(['message' => 'Supplier tidak ditemukan'], 404);
+        }
+
+        return response()->json($supplier);
     }
 }
-
+#ttff
