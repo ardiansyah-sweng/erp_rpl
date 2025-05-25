@@ -11,4 +11,25 @@ class SupplierMaterial extends Model
     {
         return DB::table('supplier_product')->paginate(10);
     }
+
+    public static function getSupplierMaterialByKeyword($keyword)
+    {
+        return DB::table('supplier_product')
+            ->where('supplier_id', 'like', '%' . $keyword . '%')
+            ->orWhere('company_name', 'like', '%' . $keyword . '%')
+            ->orWhere('product_id', 'like', '%' . $keyword . '%')
+            ->orWhere('product_name', 'like', '%' . $keyword . '%')
+            ->get();
+    }
+
+    public static function updateSupplierMaterial($id, array $data)
+    {
+        try {
+            return DB::table('supplier_product')
+                ->where('id', $id)
+                ->update($data);
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }
