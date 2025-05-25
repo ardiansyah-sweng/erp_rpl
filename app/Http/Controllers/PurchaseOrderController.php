@@ -6,7 +6,7 @@ use App\Models\PurchaseOrder;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
-class PurchaseOrderController extends Controller 
+class PurchaseOrderController extends Controller
 {
     public function getPurchaseOrder()
     {
