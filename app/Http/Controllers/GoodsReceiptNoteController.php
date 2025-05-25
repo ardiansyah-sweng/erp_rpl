@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class GoodsReceiptNoteController extends Controller
 {
-    public function store(Request $request)
+    public function addGoodsReceiptNote(Request $request)
     {
         $rules = [
             'header.po_number'    => 'required|string|exists:'.config('db_constants.table.po', 'purchase_orders').','.config('db_constants.column.po.po_number', 'po_number'),
@@ -44,7 +44,7 @@ class GoodsReceiptNoteController extends Controller
         $validatedDetails = $validatedData['items'];
 
         try {
-            GoodsReceiptNote::createGrnWithItems($validatedHeader, $validatedDetails);
+            GoodsReceiptNote::addGoodsReceiptNote($validatedHeader, $validatedDetails);
 
             return redirect()->back()->with('success', 'Goods Receipt Note successfully created.');
 

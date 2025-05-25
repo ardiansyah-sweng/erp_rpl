@@ -119,5 +119,5 @@ Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->
 # grn
 Route::get('/goods-receipt-notes', [GoodsReceiptNoteController::class, 'index'])->name('grn.index'); 
 Route::get('/goods-receipt-notes/create', [GoodsReceiptNoteController::class, 'create'])->name('grn.create'); 
-Route::post('/goods-receipt-note/store', [GoodsReceiptNoteController::class, 'store'])->name('grn.store');
+Route::post('/goods-receipt-note/store', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote'])->name('grn.store');
 Route::get('/goods-receipt-notes/{goodsReceiptNote}', [GoodsReceiptNoteController::class, 'show'])->name('grn.show');

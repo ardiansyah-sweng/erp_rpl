@@ -31,16 +31,7 @@ class GoodsReceiptNote extends Model
          return $this->belongsTo(PurchaseOrder::class, 'po_number', config('db_constants.column.po.po_number', 'po_number'));
     }
 
-    /**
-     * Creates Goods Receipt Note items from validated header and detail data.
-     * Manages its own database transaction.
-     *
-     * @param array $headerData Validated header data (po_number, delivery_date)
-     * @param array $itemDetailsArray Array of validated item details
-     * @return bool True on success, throws exception on failure
-     * @throws \Exception If creation fails
-     */
-    public static function createGrnWithItems(array $headerData, array $itemDetailsArray): bool
+    public static function addGoodsReceiptNote(array $headerData, array $itemDetailsArray): bool
     {
         DB::beginTransaction();
         try {
