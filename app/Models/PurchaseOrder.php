@@ -73,7 +73,7 @@ class PurchaseOrder extends Model
     //Menghitung jumlah purchase order by supplier
     public static function countPurchaseOrderBySupplier($supplier_id)
     {
-    return self::where('supplier_id', $supplier_id)->count();
+        return self::where('supplier_id', $supplier_id)->count();
     }
     
     /**
