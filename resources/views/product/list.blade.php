@@ -442,29 +442,8 @@ use App\Helpers\EncryptionHelper;
                     </td>
                 </tr>
                 @endforeach
-
-                  <tr class="align-middle">
-                      <td>{{ $index + 1 }}</td>
-                      <td>{{ $product->product_id }}</td>
-                      <td>{{ $product->product_name }}</td>
-                      <td>{{ $product->product_type }}</td>
-                      <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
-                      <td>{{ $product->product_description }}</td>
-                      <td>{{ $product->created_at }}</td>
-                      <td>{{ $product->updated_at }}</td>
-                      <td>
-                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <form  method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?')">Delete</button>
-                              </form>
-                          <a href="#" class="btn btn-sm btn-info">Detail</a>
-                      </td>
-                  </tr>
-        @endforeach
-    </tbody>
-</table>
+            </tbody>
+        </table>
               </div>
               <!-- /.card-body -->
               <div class="card-footer clearfix">
