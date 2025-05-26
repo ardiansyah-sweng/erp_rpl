@@ -93,6 +93,6 @@ class ItemController extends Controller
         $item = (new item())->getItemById($id);
 
         return view('item.detail', compact('item'));
-    }
+    } 
 
 }
