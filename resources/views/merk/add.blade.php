@@ -253,33 +253,68 @@
                     <h3 class="card-title">Tambah Merk</h3>
                   </div>
                   <form action="{{ route('merk.add') }}" method="POST" id="merkForm">
-                    @csrf
-                    <div class="card-body">
-                      <div class="form-group">
-                        <label for="merk">Nama Merk</label>
-                        <input type="text" class="form-control" id="merk" name="merk" value="{{ old('merk') }}" placeholder="Masukkan nama merk">
-                      </div>
-                      
-                    <div class="form-group">
-                        <label class="d-block">Status</label>
-                            <div class="d-flex gap-3"> 
-                            <div class="form-check">
-                            <input class="form-check-input" type="radio" name="active" id="active1" value="1" checked>
-                            <label class="form-check-label" for="active1">Aktif</label>
-                        </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="active" id="active0" value="0">
-                        <label class="form-check-label" for="active0">Non Aktif</label>
-                    </div>
-                </div>
-            </div>
+  @csrf
+  <div class="card-body">
+    <div class="form-group">
+      <label for="id_produk">ID Produk</label>
+      <input type="text" class="form-control" id="id_produk" name="id_produk" placeholder="Masukkan ID produk">
+    </div>
+
+    <div class="form-group">
+      <label for="sku">SKU</label>
+      <input type="text" class="form-control" id="sku" name="sku" placeholder="Masukkan SKU">
+    </div>
+
+    <div class="form-group">
+      <label for="item_name">Nama Item Produk</label>
+      <input type="text" class="form-control" id="item_name" name="item_name" placeholder="Masukkan nama item produk">
+    </div>
+
+    <div class="form-group">
+      <label for="satuan">Satuan</label>
+       <select class="form-control" id="satuan" name="satuan">
+        <option value="">-- Pilih Satuan --</option>
+        <option value="pcs">pcs</option>
+        <option value="unit">unit</option>
+        <option value="m">meter (m)</option>
+        <option value="km">kilometer (km)</option>
+        <option value="gram">gram</option>
+        <option value="kg">kilogram (kg)</option>
+        <option value="liter">liter</option>
+        
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="harga_jual">Harga Jual</label>
+      <input type="number" class="form-control" id="harga_jual" name="harga_jual" placeholder="Masukkan harga jual">
+    </div>
+
+    <div class="form-group">
+      <label for="merk">Nama Merk</label>
+      <input type="text" class="form-control" id="merk" name="merk" value="{{ old('merk') }}" placeholder="Masukkan nama merk">
+    </div>
+
+    <div class="form-group">
+      <label class="d-block">Status</label>
+      <div class="d-flex gap-3">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="active" id="active1" value="1" checked>
+          <label class="form-check-label" for="active1">Aktif</label>
         </div>
-                    
-                    <div class="card-footer">
-                      <button type="button" class="btn btn-primary" onclick="validateForm()">Simpan</button>
-                      <button type="reset" class="btn btn-secondary">Batal</button>
-                    </div>
-                  </form>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="active" id="active0" value="0">
+          <label class="form-check-label" for="active0">Non Aktif</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <button type="button" class="btn btn-primary" onclick="validateForm()">Simpan</button>
+    <button type="reset" class="btn btn-secondary">Batal</button>
+  </div>
+</form>
                 </div>
               </div>
             </div>
@@ -367,5 +402,35 @@
       return isValid;
     }
     </script>
+    
+<script>
+  function validateForm() {
+    const fields = [
+      'id_produk',
+      'sku',
+      'item_name',
+      'satuan',
+      'harga_jual',
+      'merk'
+    ];
+
+    let isValid = true;
+    let message = '';
+
+    fields.forEach(function(field) {
+      const input = document.getElementById(field);
+      if (!input.value.trim()) {
+        isValid = false;
+        message += `- ${field.replace('_', ' ')} wajib diisi.\n`;
+      }
+    });
+
+    if (isValid) {
+      document.getElementById('merkForm').submit();
+    } else {
+      alert('Form tidak lengkap:\n' + message);
+    }
+  }
+</script>
   </body>
 </html>

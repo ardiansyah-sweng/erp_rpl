@@ -38,5 +38,10 @@ class MerkController extends Controller
         
         return response()->json([ 'message' => 'Data Merk berhasil diperbarui','data' => $updatedMerk, ]);
     }
+
+    public function addMerk()
+    {
+        return view('merk.add');
+    }
 }
 
