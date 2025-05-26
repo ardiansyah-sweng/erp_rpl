@@ -42,7 +42,13 @@ Route::get('/supplier/add', function () {
 });
 
 Route::get('/supplier/detail', function () {
-    return view('supplier/detail');
+    $supplier = (object) [
+        'supplier_id' => 'SUP001',
+        'company_name' => 'PT. Sumber Makmur',
+        'address' => 'Jl. Merdeka No.123',
+        'phone_number' => '081234567890',
+    ];
+    return view('supplier.detail', ['supplier' => $supplier]);
 });
 Route::get('/branch/add', function () {
     return view('branch/add');
