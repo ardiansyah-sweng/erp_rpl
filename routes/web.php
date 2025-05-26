@@ -13,7 +13,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
-
+use App\Http\Controllers\WarehouseController;
 
 #Login
 Route::get('/', function () {
@@ -124,7 +124,14 @@ Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'add
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
+
 Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
+Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
+
+Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
+Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
+Route::get('/item/{id}', [itemController::class, 'getItemById']);
+
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
@@ -146,3 +153,6 @@ Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
+
+# Warehouse
+Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
