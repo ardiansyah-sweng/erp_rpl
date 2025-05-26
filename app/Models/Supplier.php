@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Supplier extends Model
 {
@@ -39,6 +40,26 @@ class Supplier extends Model
     }
     public static function countSupplier(){
         return self::count();   
+    }
+
+
+
+
+    public static function deleteSupplier($id)
+    {
+        $supplier = static::where('supplier_id', $id)->first();
+
+        if (!$supplier) {
+            return false;
+        }
+
+        $hasPurchaseOrders = DB::table('purchase_order')->where('supplier_id', $id)->exists();
+
+        if ($hasPurchaseOrders) {
+            return 'Supplier ini tidak bisa dihapus karena sudah memiliki purchase order';
+        }
+
+        return $supplier->delete();
     }
 
 }
