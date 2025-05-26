@@ -1,10 +1,10 @@
 <?php
 
 $master = [
-    'id' => 'id',
-    'category' => 'category',
-    'created' => 'created_at',
-    'updated' => 'updated_at',
+    'id'        => 'id',
+    'category'  => 'category',
+    'created'   => 'created_at',
+    'updated'   => 'updated_at',
     'po_number' => 'po_number',
     'supplier_id' => 'supplier_id'
 ];
@@ -21,8 +21,9 @@ return [
         'item'                      => 'item',
         'log_avg_base_price'        => 'log_avg_base_price',
         'log_base_price_supplier'   => 'log_base_price_supplier_product',
-        'log_stock'                 => 'log_stock',
         'master_product'            => 'master_product',
+        'log_matory'                => 'log_material_inventory', 
+        'matory'                    => 'material_inventory',
         'merk'                      => 'merks',
         'mu'                        => 'measurement_unit',
         'po'                        => 'purchase_order',
@@ -140,14 +141,23 @@ return [
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
-        'log_stock' => [
+
+        'log_matory' => [
             'id'                    => 'id',
-            'log_id'                => 'log_id', #po_number or transaction_id
-            'product_id'            => 'product_id',
+            'log_id'                => 'log_id', #grn_number or production_id
+            'sku'                   => 'sku',
             'old_stock'             => 'old_stock',
             'new_stock'             => 'new_stock',
-            'created_at'            => 'created_at',
-            'updated_at'            => 'updated_at'
+            'created_at'            => $master['created'],
+            'updated_at'            => $master['updated']
+        ],
+
+        'matory' => [
+            'id'                    => 'id',
+            'sku'                   => 'sku', #ambil dari tabel products
+            'stock'                 => 'stock',
+            'created_at'            => $master['created'],
+            'updated_at'            => $master['updated']
         ],
 
         'merk' => [

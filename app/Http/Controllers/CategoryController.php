@@ -37,9 +37,44 @@ class CategoryController extends Controller
         return $pdf->stream('laporan_kategori.pdf'); 
     }
 
+    public function updateCategory(Request $request, $id) 
+    {
+        $validated = $request->validate([
+            'category' => 'required|string|min:3',
+            'parent_id' => 'nullable|integer|exists:categories,id',
+        ]);
+
+        $updatedCategory = Category::updateCategory($id, $request->only(['category', 'parent_id']));
+
+        if (!$updatedCategory) {
+            return response()->json(['message' => 'Kategori tidak ditemukan'], 404);
+        }
+
+        return response()->json([
+            'message' => 'Kategori berhasil diupdate',
+            'data' => $updatedCategory
+        ]);
+
+        // return view('category.detail', compact('category')); 
+        // apabila halaman detail kategori sudah ada harap untuk di uncomment return view
+        // dan return response nya di hapus
+    }
+
     public function getCategoryById($id)
     {
         $category = (new Category())->getCategoryById($id);
         return response()->json($category);
     }
-} //CategoryController
+
+    // delete category
+    public function deleteCategory($id)
+    {
+        $deleted = Category::deleteCategoryById($id);
+
+        if ($deleted) {
+            return redirect()->back()->with('success', 'Kategori berhasil dihapus!');
+        } else {
+            return redirect()->back()->with('error', 'Kategori tidak ditemukan atau gagal dihapus.');
+        }
+    }
+}
