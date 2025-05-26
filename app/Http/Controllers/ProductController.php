@@ -15,6 +15,7 @@ class ProductController extends Controller
 
     public function getProductById($id)
     {
+        
         $product = (new Product())->getProductById($id);
 
         if (!$product) {
@@ -22,13 +23,11 @@ class ProductController extends Controller
         }
        return view('product.detail', compact('product'));
     }
+        
+    
 
 
-    // $productData = $products[$id];
-    // $productData['category'] = (object)$productData['category'];
-    // $product = (object)$productData;
-
-    // return view('product.detail', compact('product'));
+    
 
 
     public function addProduct(Request $request)
@@ -45,6 +44,5 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
-
 
 }

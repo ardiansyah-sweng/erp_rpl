@@ -132,6 +132,9 @@ Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('m
 
 
 #Supplier
+
+#item
+Route::get('/item/detail/{id}', [ItemController::class, 'getItemById'])->name('item.detail');
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
@@ -148,3 +151,4 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
