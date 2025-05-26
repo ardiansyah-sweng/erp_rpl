@@ -74,8 +74,8 @@ Route::get('/product/list', [ProductController::class, 'getProductList'])->name(
 
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
-
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
+Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.update');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
