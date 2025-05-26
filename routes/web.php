@@ -41,7 +41,6 @@ Route::get('/supplier/pic/add', function () {
 Route::get('/supplier/add', function () {
     return view('supplier/add');
 });
-
 Route::get('/supplier/detail', function () {
     return view('supplier/detail');
 });
@@ -76,6 +75,8 @@ Route::get('/warehouse/add', function () {
 
 #warehouse
 Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
+# Warehouse
+Route::post('/warehouse/add', [ProductController::class, 'addWarehouse'])->name('warehouse.add');
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
