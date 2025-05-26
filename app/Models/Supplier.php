@@ -41,9 +41,4 @@ class Supplier extends Model
         return self::count();   
     }
 
-
-    public static function findBySupplierId($supplierId)
-    {
-        return self::where('supplier_id', $supplierId)->first();
-    }
 }

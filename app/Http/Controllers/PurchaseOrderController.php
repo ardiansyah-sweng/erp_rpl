@@ -102,8 +102,11 @@ class PurchaseOrderController extends Controller
         $endDate = Carbon::parse($request->end_date)->endOfDay();
         $supplierId = $request->supplier_id;
 
-        // Ambil data dari model
-        $supplier = Supplier::findBySupplierId($supplierId);
+        // Buat instance Supplier dan panggil getSupplierById
+        $supplierModel = new Supplier();
+        $supplier = $supplierModel->getSupplierById($supplierId);
+
+        // Ambil data purchase order
         $purchaseOrders = PurchaseOrder::getReportBySupplierAndDate($supplierId, $startDate, $endDate);
 
         $data = [
@@ -117,4 +120,5 @@ class PurchaseOrderController extends Controller
         $pdf = Pdf::loadView('purchase_orders.pdf_report', $data);
         return $pdf->stream('laporan_purchase_order_' . $supplier->company_name . '.pdf');
     }
+
 }
