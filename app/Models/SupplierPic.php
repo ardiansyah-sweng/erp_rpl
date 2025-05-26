@@ -23,7 +23,7 @@ class SupplierPic extends Model
     {
         return self::find($id);
     }
-
+#gbhb
     // relasi ke Supplier
     public function supplier()
     {
