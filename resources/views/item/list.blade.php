@@ -383,6 +383,48 @@
                     @endif
                     <table class="table table-bordered">
                         <thead class="text-center">
+              @if(session('error'))
+                  <div class="alert alert-danger">
+                      {{ session('error') }}
+                  </div>
+              @endif
+                <table class="table table-bordered">
+                  <thead class="text-center">
+                    <tr>
+                      <th style="width: 10px">id</th>
+                      <th>sku</th>
+                      <th>item_name</th>
+                      <th>unit_name</th>
+                      <th>avg_base_price</th>
+                      <th>selling_price</th>
+                      <th>created_at</th>
+                      <th>updated_at</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-center">
+                            @forelse($items as $item)
+                            <tr id="row-{{ $item->id }}">
+                            <td>{{ $item->id }}</td>
+                            <td>{{ $item->sku }}</td>
+                            <td>{{ $item->item_name }}</td>
+                            <td>{{ $item->unit->unit_name }}</td>
+                            <td>{{ $item->avg_base_price }}</td>
+                            <td>{{ $item->selling_price }}</td>
+                            <td>{{ $item->created_at }}</td>
+                            <td>{{ $item->updated_at }}</td>
+                            <td>
+                              <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                              <form action="{{ route('item.delete', $item->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus item ini?')">Delete</button>
+                              </form>
+                            
+                              <a href="#" class="btn btn-sm btn-info">Detail</a>
+                            </td>
+                            </tr>
+                            @empty
                             <tr>
                                 <th style="width: 10px">id</th>
                                 <th>sku</th>
