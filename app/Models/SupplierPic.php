@@ -42,33 +42,33 @@ class SupplierPic extends Model
     }
 
     public static function updateSupplierPIC($id, $data)
-    {
-        $supplierPic = self::find($id);
+{
+    $supplierPic = self::find($id);
 
-        if (!$supplierPic) {
-            return [
-                'status' => 'error',
-                'message' => 'Supplier PIC tidak ditemukan.',
-                'code' => 404
-            ];
-        }
-
-        $supplierPic->fill($data);
-        if ($supplierPic->save()) {
-            return [
-                'status' => 'success',
-                'message' => 'Supplier PIC berhasil diperbarui.',
-                'data' => $supplierPic,
-                'code' => 200
-            ];
-        } else {
-            return [
-                'status' => 'error',
-                'message' => 'Gagal memperbarui Supplier PIC.',
-                'code' => 500
-            ];
-        }
+    if (!$supplierPic) {
+        return [
+            'status' => 'error',
+            'message' => 'Supplier PIC tidak ditemukan.',
+            'code' => 404
+        ];
     }
+
+    if ($supplierPic->update($data)) {
+        return [
+            'status' => 'success',
+            'message' => 'Supplier PIC berhasil diperbarui.',
+            'data' => $supplierPic,
+            'code' => 200
+        ];
+    } else {
+        return [
+            'status' => 'error',
+            'message' => 'Gagal memperbarui Supplier PIC.',
+            'code' => 500
+        ];
+    }
+}
+
 
     public static function assignmentDuration($pic)
     {

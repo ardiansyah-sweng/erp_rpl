@@ -81,7 +81,7 @@ class SupplierPIController extends Controller
                 'status'  => 'error',
                 'message' => 'Validasi gagal',
                 'errors'  => $validator->errors(),
-            ], 422);
+            ], );
         }
 
         $result = SupplierPICModel::updateSupplierPIC($id, $data);

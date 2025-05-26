@@ -102,6 +102,7 @@ Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::clas
 
 
 # supplier pic route nya
+Route::post('/supplier/pic/detail/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail']);
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
 Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
 Route::get('/supplier/pic/list', function () {
@@ -110,7 +111,6 @@ Route::get('/supplier/pic/list', function () {
 })->name('supplier.pic.list');
 Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplierPic'])->name('supplier.pic.list');
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
-Route::post('/supplier/pic/detail/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail']);
 
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
