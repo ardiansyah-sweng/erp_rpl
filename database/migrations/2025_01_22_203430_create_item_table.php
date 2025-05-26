@@ -22,9 +22,9 @@ return new class extends Migration
             $table->string($column['measurement'], 6);
             $table->integer($column['base_price'])->default(0);
             $table->integer($column['selling_price'])->default(0);
-            $table->tinyInteger($column['purchase_unit'])->default(30); #30 kode unit Pieces di tabel measurement_unit
-            $table->tinyInteger($column['sell_unit'])->default(30);
-            $table->tinyInteger($column['stock_unit'])->default(30);
+            $table->integer($column['purchase_unit'])->default(30); #30 kode unit Pieces di tabel measurement_unit
+            $table->integer($column['sell_unit'])->default(30);
+            $table->integer($column['stock_unit'])->default(0);
             $table->timestamps();
             $table->primary([$column['id'], $column['sku']]);
         });
