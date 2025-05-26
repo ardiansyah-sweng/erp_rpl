@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class SupplierPic extends Model
@@ -13,34 +14,38 @@ class SupplierPic extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-
         $this->table = config('db_constants.table.supplier_pic');
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
     }
 
-    // method untuk ambil data berdasarkan ID
+    /**
+     * Ambil data PIC berdasarkan ID
+     */
     public static function getPICByID($id)
     {
         return self::find($id);
     }
-#gbhb
-    // relasi ke Supplier
-    public function supplier()
-    {
-        return $this->belongsTo(Supplier::class, 'supplier_id');
-    }
 
+    /**
+     * Ambil semua data PIC dengan paginasi
+     */
     public static function getSupplierPICAll($perPage = 10)
     {
         return self::paginate($perPage);
     }
-    
+
+    /**
+     * Tambah data PIC untuk supplier tertentu
+     */
     public static function addSupplierPIC($supplierID, $data)
     {
         $data['supplier_id'] = $supplierID;
         return self::create($data);
-    } 
-    
+    }
+
+    /**
+     * Hitung lama penugasan dari tanggal penugasan hingga sekarang
+     */
     public static function assignmentDuration($pic)
     {
         if (!$pic->assigned_date) {
@@ -57,5 +62,24 @@ class SupplierPic extends Model
             'months' => $diff->m,
             'days' => $diff->d,
         ]);
+    }
+
+    /**
+     * Hitung jumlah PIC berdasarkan supplier_id
+     */
+    public static function countSupplierPIC($supplier_id)
+    {
+        return self::select('supplier_id', DB::raw('COUNT(*) as jumlahnya'))
+            ->where('supplier_id', $supplier_id)
+            ->groupBy('supplier_id')
+            ->first();
+    }
+
+    /**
+     * Relasi ke tabel Supplier
+     */
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id');
     }
 }
