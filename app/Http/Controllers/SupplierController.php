@@ -29,7 +29,16 @@ class SupplierController extends Controller
         ]);
     }
 
-    public function createSupplier(Request $request)
+
+    public function getSupplierById($id)
+    {
+        $sup = (new Supplier())->getSupplierById($id);
+
+        return response()->json($sup);
+    }
+
+
+    public function addSupplier(Request $request)
     {
         $supplier = Supplier::create([
             'supplier_id'   => $request->supplier_id,
