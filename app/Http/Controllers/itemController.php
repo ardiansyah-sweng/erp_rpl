@@ -66,9 +66,29 @@ class ItemController extends Controller
         $items = Item::getAllItems($search);
         return view('item.list', compact('items'));
     }
+
+    public function updateItem(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'id' => 'required|integer',
+            'sku' => 'required|string|max:50',
+            'item_name' => 'required|string|max:100',
+        ]);
+
+         $item = Item::updateItem($id, $validated);
+
+        if (!$item) {
+            return redirect()->back()->with('error', 'Item tidak ditemukan.');
+        }
+
+        return redirect()->back()->with('success', 'Item berhasil diperbarui.');
+    }
+  
+
     
     public function getItemById($id){
         $item = (new item())->getItemById($id);
         return response()->json($item);
     }
+
 }

@@ -57,7 +57,7 @@ class GoodsReceiptNoteSeeder extends Seeder
                                     ->where($colPOD['product_id'], $po->product_id)
                                     ->update(['received_days'=>$receivedDays]);
 
-            print_r($po->product_id.' '. $startTimestamp . "\n");
+            print_r($po->product_id.' '. $receivedDays . "\n");
         }
     }
 }
