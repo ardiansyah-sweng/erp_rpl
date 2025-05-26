@@ -42,21 +42,13 @@ class Supplier extends Model
         return self::count();   
     }
 
-
-
-
+    
     public static function deleteSupplier($id)
     {
         $supplier = static::where('supplier_id', $id)->first();
 
         if (!$supplier) {
             return false;
-        }
-
-        $hasPurchaseOrders = DB::table('purchase_order')->where('supplier_id', $id)->exists();
-
-        if ($hasPurchaseOrders) {
-            return 'Supplier ini tidak bisa dihapus karena sudah memiliki purchase order';
         }
 
         return $supplier->delete();

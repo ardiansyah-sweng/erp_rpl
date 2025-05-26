@@ -100,7 +100,10 @@ class PurchaseOrder extends Model
                     'quantity' => $item['qty'],
                     'amount' => $item['amount'],
                 ]);
+                
             }
+
+            \App\Models\Supplier::deleteSupplier($headerData['supplier_id']);
 
             DB::commit();
             return $purchaseOrder;
