@@ -41,15 +41,6 @@ Route::get('/supplier/add', function () {
     return view('supplier/add');
 });
 
-Route::get('/supplier/detail', function () {
-    $supplier = (object) [
-        'supplier_id' => 'SUP001',
-        'company_name' => 'PT. Sumber Makmur',
-        'address' => 'Jl. Merdeka No.123',
-        'phone_number' => '081234567890',
-    ];
-    return view('supplier.detail', ['supplier' => $supplier]);
-});
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
@@ -142,7 +133,8 @@ Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplie
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
-Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
+Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('supplier.detail');
+Route::put('/supplier/{supplier_id}/update', [SupplierController::class, 'getUpdateSupplier'])->name('supplier.update');
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');

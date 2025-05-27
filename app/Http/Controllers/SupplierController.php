@@ -17,22 +17,23 @@ class SupplierController extends Controller
         ]);
 
         // Update data supplier
-        $updatedSupplier = Supplier::getUpdateSupplier($supplier_id, $request->only(['company_name', 'address']));
+        $updatedSupplier = Supplier::getUpdateSupplier($supplier_id, $request->only(['company_name', 'address', 'phone_number']));
 
         if (!$updatedSupplier) {
-            return response()->json(['message' => 'Data Supplier Tidak Tersedia'], 404);
+            return redirect()->back()->with('error', 'Data Supplier tidak tersedia.');
         }
 
-        return response()->json([
-            'message' => 'Data Supplier berhasil diperbarui',
-            'data' => $updatedSupplier,
-        ]);
+        return redirect()->route('supplier.detail', ['id' => $updatedSupplier->supplier_id])
+                     ->with('success', 'Data Supplier berhasil diperbarui.');
     }
     public function getSupplierById($id)
     {
-        $sup = (new Supplier())->getSupplierById($id);
+        $supplier = Supplier::find($id);
 
-        return response()->json($sup);
+        if (!$supplier) {
+            return redirect()->back()->with('error', 'Data supplier tidak ditemukan.');
+        }
+
+        return view('supplier.detail', compact('supplier'));
     }
 }
-

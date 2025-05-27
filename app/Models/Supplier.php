@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
-    protected $table;
+    protected $table = 'supplier';
     protected $fillable = ['company_name', 'address','phone_number'];
 
     protected $primaryKey = 'supplier_id';
@@ -37,8 +37,4 @@ class Supplier extends Model
     {
         return self::where($this->getKeyName(), $id)->first();
     }
-    public static function countSupplier(){
-        return self::count();   
-    }
-
 }
