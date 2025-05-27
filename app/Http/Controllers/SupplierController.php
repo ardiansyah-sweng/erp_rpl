@@ -14,19 +14,13 @@ class SupplierController extends Controller
             'company_name' => 'required|string|max:100',
             'address' => 'required|string|max:100',
             'phone_number' => 'required|string|max:30',
+            'bank_account' => 'required|string|max:100',
         ]);
 
-        // Update data supplier nama perusahaan, alamat, dan nomor telepon
-        $updatedSupplier = Supplier::updateSupplier($supplier_id, $request->only(['company_name', 'address','phone_number']));//Sudah sesuai pada ERP RPL
+        // Update data supplier nama perusahaan, alamat, nomor telepon dan akun bank
+        $updatedSupplier = Supplier::updateSupplier($supplier_id, $request->only(['company_name','address','phone_number','bank_account']));//Sudah sesuai pada ERP RPL
 
-        if (!$updatedSupplier) {
-            return response()->json(['message' => 'Data Supplier Tidak Tersedia'], 404);
-        }
-
-        return response()->json([
-            'message' => 'Data Supplier berhasil diperbarui',
-            'data' => $updatedSupplier,
-        ]);
+        return $updatedSupplier;
     }
     public function getSupplierById($id)
     {
