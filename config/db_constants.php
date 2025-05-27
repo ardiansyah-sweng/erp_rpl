@@ -14,6 +14,7 @@ return [
         'bom'                       => 'bill_of_material',
         'bom_detail'                => 'bom_detail',
         'assort_prod'               => 'assortment_production',
+        'assort_prodetail'          => 'assortment_production_detail',
         'branch'                    => 'branch',
         'category'                  => $master['category'],
         'cu'                        => 'conversion_unit',
@@ -61,10 +62,22 @@ return [
             'id'                    => 'id',
             'prod_no'               => 'production_number',
             'sku'                   => 'sku', #ambil dari tabel item #harus dari tipe produk finished goods (FG)
+            'branch'                => 'branch_id', #char[4]. FK dari tabel branch
+            'rm_whouse'             => 'rm_whouse_id', #char[4]. FK dari tabel warehouse
+            'fg_whouse'             => 'fg_whouse_id', #char[4]. FK dari tabel warehouse
             'prod_date'             => 'production_date',
-            'bom_id'                => 'bom_id', #char[7]
-            'bom_qty'               => 'bom_quantity',
+            'finished_date'         => 'finished_date', #default null
             'in_production'         => 'in_production',
+            'desc'                  => 'description',
+            'created'               => 'created_at',
+            'updated'               => 'updated_at'
+        ],
+
+        'assort_prodetail' => [
+            'id'                    => 'id',
+            'prod_no'               => 'production_number',
+            'bom_id'                => 'bom_id',
+            'bom_qty'               => 'bom_quantity',
             'desc'                  => 'description',
             'created'               => 'created_at',
             'updated'               => 'updated_at'
@@ -255,6 +268,8 @@ return [
             'name'                  => 'warehouse_name',
             'address'               => 'warehouse_address',
             'phone'                 => 'warehouse_telephone',
+            'is_rm_whouse'          => 'is_rm_whouse', #boolean
+            'is_fg_whouse'          => 'is_fg_whouse', #boolean
             'is_active'             => 'is_active',
             'created'               => 'created_at',
             'updated'               => 'updated_at'

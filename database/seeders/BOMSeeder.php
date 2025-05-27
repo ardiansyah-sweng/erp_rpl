@@ -4,13 +4,19 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Item;
-use App\Models\Product;
+use Illuminate\Support\Facades\DB;
+
+use App\Models\AssortmentProduction;
+use App\Models\AssortmentProductionDetail;
 use App\Models\BillOfMaterial;
 use App\Models\BOMDetail;
-use App\Models\AssortmentProduction;
+use App\Models\Branch;
+use App\Models\Item;
+use App\Models\Product;
+use App\Models\Warehouse;
+
 use Faker\Factory as Faker;
-use Illuminate\Support\Facades\DB;
+
 
 class BOMSeeder extends Seeder
 {
@@ -109,175 +115,52 @@ class BOMSeeder extends Seeder
             echo "\n";
 
             #simpan data produksi
+            $branch = Branch::inRandomOrder()->first();
+            $rmWhouse = Warehouse::where('is_rm_whouse', true)
+                            ->inRandomOrder()
+                            ->first();
+            $fgWhouse = Warehouse::where('is_fg_whouse', true)
+                            ->inRandomOrder()
+                            ->first();
+
+            #ambil seluruh BOM
+            $bomCount = BillOfMaterial::count();
+            
+            #buat produksi assortment detail
+            for ($j=0; $j < $this->faker->numberBetween(1, $bomCount); $j++)
+            {
+                #ambil BOM secara acak
+                $bom = BillOfMaterial::inRandomOrder()->first();
+
+                #buat jumlah bom
+                $bomQty = $this->faker->numberBetween(1, 100);
+
+                #buat deskripsi
+                $desc = 'Produksi Detail untuk BOM '.$bom->bom_id;
+
+                print_r('Prod Detail No: '.$prodNo.' | BOM ID: '.$bom->bom_id.
+                        ' | BOM Qty: '.$bomQty.' | Desc: '.$desc);
+                echo "\n";
+
+                AssortmentProductionDetail::create([
+                    'production_number' => $prodNo,
+                    'bom_id' => $bom->bom_id,
+                    'bom_quantity' => $bomQty,
+                    'description' => $desc,
+                ]);
+            }
+
             AssortmentProduction::create([
                 'production_number' => $prodNo,
                 'sku' => $skuFG->sku,
+                'branch_id' => $branch->id,
+                'rm_whouse_id' => $rmWhouse->id,
+                'fg_whouse_id' => $fgWhouse->id,
                 'production_date' => $prodDate,
-                'bom_id' => $bom->bom_id,
-                'bom_quantity' => $bomQty,
                 'in_production' => $inProduction,
                 'description' => $desc,
             ]);
         }
-        dd('Produksi Assortment BOM selesai dibuat');
-
-        #hitung jumlah produk yang bertipe HFG (half finished goods)
-        $HFG = Item::join('products', 'products.product_id', '=', 'item.product_id')
-                        ->distinct()
-                        ->where('products.product_type', 'HFG')
-                        ->select('item.sku', 'item.measurement_unit');
-        $HFGItemCount =  $HFG->count();
-
-        #dapatkan item bertipe HFG secara acak
-        $HFGItems = $HFG -> inRandomOrder()
-                        ->limit($this->faker->numberBetween(1, $HFGItemCount))
-                        ->get();
-
-        $RM = Item::join('products', 'products.product_id', '=', 'item.product_id')
-                        ->where('products.product_type', 'RM')
-                        ->select('item.sku');
-
-        $i = 1;
-        foreach ($HFGItems as $item)
-        {
-            $RMCount = $RM->count();
-            $RMItems = $RM -> inRandomOrder()
-                            ->limit($this->faker->numberBetween(1, round($RMCount * 0.2)))
-                            ->get();
-
-            $bomID = 'BOM-'.str_pad($i, 3, '0', STR_PAD_LEFT);
-            BillOfMaterial::create([
-                'bom_id' => $bomID,
-                'bom_name' => 'BOM-'.$item['sku'],
-                'sku' => $item['sku'],
-                'measurement_unit' => $item['measurement_unit'],
-            ]);
-
-            print_r($bomID);
-            echo "\n";
-
-            $total = 0;
-            foreach ($RMItems as $rm)
-            {
-                $qty = $this->faker->numberBetween(1, 10);
-                $cost = $this->faker->numberBetween(100, 5800);
-                $total += $cost * $qty;
-                BOMDetail::create([
-                    'bom_id' => 'BOM-'.str_pad($i, 3, '0', STR_PAD_LEFT),
-                    'sku' => $rm['sku'],
-                    'quantity' => $qty,
-                    'cost' => $cost,
-                ]);
-                print_r('rm'. $rm['sku']. ' qty: '.$qty.' cost: '.$cost);
-                echo "\n";
-            }
-
-            BillOfMaterial::where('bom_id', $bomID)->update(['total_cost' => $total]);
-
-            print_r($total);
-            echo "\n";
-            
-            $i++;
-        }
-        //dd('BOM HFG selesai dibuat');
-
-        #-------------------------------------------------------------
-        #PERSIAPAN PEMBUATAN BOM UNTUK FG
-
-        #ambil seluruh item yang berjenis FG
-        $qItemProdFG = Item::join('products', 'products.product_id', '=', 'item.product_id')
-                        ->distinct()
-                        ->where('products.product_type', 'FG')
-                        ->select('item.sku');
-        
-        #tiap FG akan dibuat BOM nya
-        $itemFG = $qItemProdFG->get();
-        foreach ($itemFG as $key => $fg)
-        {
-            print_r('FG '.$fg->sku);
-            echo "\n";
-            #ambil ID terakhir BOM
-            $lastId = BillOfMaterial::max('id');
-            print_r('last ID '. $lastId);
-            echo "\n";
-            #buat BOM ID berikutnya
-            $nextID = $lastId + 1;
-            $nextBOM_ID = 'BOM-'.str_pad($nextID, 3, '0', STR_PAD_LEFT);
-
-            #buat nama BOM
-            $bomName = 'BOM-'.$fg->sku;
-
-            BillOfMaterial::create([
-                'bom_id' => $nextBOM_ID,
-                'bom_name' => $bomName,
-                'sku' => $fg->sku,
-                'measurement_unit' => $item['measurement_unit'],
-            ]);
-
-            #apakah FG ini menggunakan HFG atau tidak?
-            $subTotal = 0;
-            if ($this->faker->boolean())
-            {
-                
-                #ambil item HFG secara acak
-                // $qHFG = Product::where('product_type', 'HFG')
-                //                 ->inRandomOrder()
-                //                 ->pluck('product_id')
-                //                 ->take(1);
-
-                #pilih BOM secara acak
-                // $qBOM = DB::table('bill_of_material')
-                //         ->select(DB::raw('LEFT(sku, 4) as prod_id'), 'bom_id', 'sku', 'total_cost');
-                // $randomSKU = $qBOM -> inRandomOrder()->first();
-
-                #ambil sku tabel bom_detail secara acak
-                $skuBOMDetail = BOMDetail::inRandomOrder()
-                        ->pluck('sku')
-                        ->first();
-                
-                #temukan skuBOMDetail di tabel
-
-                // while ($qHFG[0] != $randomSKU->prod_id)
-                // {
-                //     $randomSKU = $qBOM -> inRandomOrder()->first();
-                // }
-
-                $qty = $this->faker->numberBetween(1, 10);
-                $cost = $qty * $randomSKU->total_cost;
-                print_r($key.' '.'ADAAAA'.' '.$nextBOM_ID.' '.$randomSKU->sku.' '.$qty.' '.$cost);
-                BOMDetail::create([
-                    'bom_id' => $nextBOM_ID,
-                    'sku' => $randomSKU->sku,
-                    'quantity' => $qty,
-                    'cost' => $cost,
-                ]);
-                $subTotal = $cost;
-            }
-            dd();
-            // #insert RM ke BOMDetail
-            // $RMItems = $RM -> inRandomOrder()
-            //                 ->limit($this->faker->numberBetween(1, round($RMCount * 0.05)))
-            //                 ->get();
-
-            // $total = 0;
-            // foreach ($RMItems as $rm)
-            // {
-            //     $qty = $this->faker->numberBetween(1, 10);
-            //     $cost = $this->faker->numberBetween(100, 5800);
-            //     $total += $cost * $qty;
-                
-            //     BOMDetail::create([
-            //         'bom_id' => $nextBOM_ID,
-            //         'sku' => $rm['sku'],
-            //         'quantity' => $qty,
-            //         'cost' => $cost,
-            //     ]);
-                
-            //     #print_r($rm);
-            //     echo "\n";
-            // }
-                
-            // BillOfMaterial::where('bom_id', $nextBOM_ID)->update(['total_cost' => $total + $subTotal]);
-        }
+        print_r('Produksi assortment selesai dibuat');
     }
 }
