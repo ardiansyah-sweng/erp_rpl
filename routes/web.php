@@ -41,6 +41,7 @@ Route::get('/supplier/add', function () {
     return view('supplier/add');
 });
 
+
 Route::get('/supplier/detail', function () {
     return view('supplier/detail');
 });
@@ -49,6 +50,13 @@ Route::get('/branch/add', function () {
 });
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
+});
+Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
+    $id = EncryptionHelper::decrypt($encrypted_id);
+    return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
+})->name('purchase.orders.detail');
+Route::get('/Supplier', function (){
+    return view('Supplier');
 });
 Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
     $id = EncryptionHelper::decrypt($encrypted_id);
@@ -138,6 +146,8 @@ Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSu
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
 
+Route::delete('/delete_supplier/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete'); #:)
+
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
@@ -148,3 +158,6 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
+
+#
