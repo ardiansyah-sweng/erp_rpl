@@ -35,6 +35,11 @@ class SupplierController extends Controller
         return view('supplier.index', compact('suppliers'));
     }
 
+    public function getSupplierById($id)
+    {
+        $sup = (new Supplier())->getSupplierById($id);
 
+        return response()->json($sup);
+    }
 }
 

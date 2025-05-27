@@ -12,7 +12,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
-
+use App\Http\Controllers\WarehouseController;
 
 #Login
 Route::get('/', function () {
@@ -64,6 +64,9 @@ Route::get('/product/add', function () {
 Route::get('/supplier/list', function () {
     return view('supplier.list');
 });
+Route::get('/supplier/material/detail', function () {
+    return view('supplier/material/detail');
+});
 
 
 # Product
@@ -83,6 +86,7 @@ Route::get('/api/branches/{id}', [BranchController::class, 'getBranchById'])->na
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
+Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('branch.delete');
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
 
 # PurchaseOrders
@@ -105,21 +109,18 @@ Route::get('/supplier/pic/list', function () {
     return view('supplier.pic.list', compact('pics')); //implementasi sementara(menunggu controller dari faiz el fayyed)
 })->name('supplier.pic.list');
 
-Route::get('/supplier-pic', function () {
-    $dummySupplierPICs = [
-        ['name' => 'Ahmad Faiz', 'email' => 'faiz@example.com', 'phone' => '0812-3456-7890'],
-        ['name' => 'Budi Santoso', 'email' => 'budi@example.com', 'phone' => '0821-1234-5678'],
-        ['name' => 'Citra Lestari', 'email' => 'citra@example.com', 'phone' => '0856-7890-1234'],
-    ];
-    return view('supplier.pic.index', compact('dummySupplierPICs'));
-});
-
-
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
+
 Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
+Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
+
+Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
+Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
+Route::get('/item/{id}', [itemController::class, 'getItemById']);
+
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
@@ -135,7 +136,13 @@ Route::get('/supplier/pic', [App\Http\Controllers\SupplierPicController::class, 
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
-
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
+#Category
+Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
+Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
+Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
+
+# Warehouse
+Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
