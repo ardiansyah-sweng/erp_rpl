@@ -3,361 +3,347 @@ use App\Helpers\EncryptionHelper;
 @endphp
 <!doctype html>
 <html lang="en">
-  <!--begin::Head-->
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>AdminLTE v4 | Purchase Orders</title>
-    <!--begin::Primary Meta Tags-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="title" content="AdminLTE v4 | Dashboard" />
-    <meta name="author" content="ColorlibHQ" />
-    <meta
-      name="description"
-      content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS."
-    />
-    <meta
-      name="keywords"
-      content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard"
-    />
-    <!--end::Primary Meta Tags-->
-    <!--begin::Fonts-->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
-      integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
-      crossorigin="anonymous"
-    />
-    <!--end::Fonts-->
-    <!-- begin:: Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- end:: Tailwind -->
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css"
-      integrity="sha256-tZHrRjVqNSRyWg2wbppGnT833E/Ys0DHWGwT04GiqQg="
-      crossorigin="anonymous"
-    />
-    <!--end::Third Party Plugin(OverlayScrollbars)-->
-    <!--begin::Third Party Plugin(Bootstrap Icons)-->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-      integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI="
-      crossorigin="anonymous"
-    />
-    <!--end::Third Party Plugin(Bootstrap Icons)-->
-    <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href={{ asset("assets/dist/css/adminlte.css") }} />
-    <!--end::Required Plugin(AdminLTE)-->
-    <!-- apexcharts -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
-      integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
-      crossorigin="anonymous"
-    />
-    <!-- jsvectormap -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"
-      integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
-      crossorigin="anonymous"
-    />
+<!--begin::Head-->
 
-    <!-- Bootstrap Modal Dependencies -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>AdminLTE v4 | Purchase Orders</title>
+  <!--begin::Primary Meta Tags-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="title" content="AdminLTE v4 | Dashboard" />
+  <meta name="author" content="ColorlibHQ" />
+  <meta
+    name="description"
+    content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS." />
+  <meta
+    name="keywords"
+    content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard" />
+  <!--end::Primary Meta Tags-->
+  <!--begin::Fonts-->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+    integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
+    crossorigin="anonymous" />
+  <!--end::Fonts-->
+  <!-- begin:: Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- end:: Tailwind -->
+  <!--begin::Third Party Plugin(OverlayScrollbars)-->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css"
+    integrity="sha256-tZHrRjVqNSRyWg2wbppGnT833E/Ys0DHWGwT04GiqQg="
+    crossorigin="anonymous" />
+  <!--end::Third Party Plugin(OverlayScrollbars)-->
+  <!--begin::Third Party Plugin(Bootstrap Icons)-->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI="
+    crossorigin="anonymous" />
+  <!--end::Third Party Plugin(Bootstrap Icons)-->
+  <!--begin::Required Plugin(AdminLTE)-->
+  <link rel="stylesheet" href={{ asset("assets/dist/css/adminlte.css") }} />
+  <!--end::Required Plugin(AdminLTE)-->
+  <!-- apexcharts -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
+    integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
+    crossorigin="anonymous" />
+  <!-- jsvectormap -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"
+    integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
+    crossorigin="anonymous" />
 
-  </head>
-  <!--end::Head-->
-  <!--begin::Body-->
-  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
-    <!--begin::App Wrapper-->
-    <div class="app-wrapper">
-      <!--begin::Header-->
-      <nav class="app-header navbar navbar-expand bg-body">
-        <!--begin::Container-->
-        <div class="container-fluid">
-          <!--begin::Start Navbar Links-->
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
-                <i class="bi bi-list"></i>
-              </a>
-            </li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
-          </ul>
-          <!--end::Start Navbar Links-->
-          <!--begin::End Navbar Links-->
-          <ul class="navbar-nav ms-auto">
-            <!--begin::Navbar Search-->
-            <li class="nav-item">
-              <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                <i class="bi bi-search"></i>
-              </a>
-            </li>
-            <!--end::Navbar Search-->
-            <!--begin::Messages Dropdown Menu-->
-            <li class="nav-item dropdown">
-              <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                <i class="bi bi-chat-text"></i>
-                <span class="navbar-badge badge text-bg-danger">3</span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <a href="#" class="dropdown-item">
-                  <!--begin::Message-->
-                  <div class="d-flex">
-                    <div class="flex-shrink-0">
-                      <img
-                        src={{asset("assets/dist/assets/img/user1-128x128.jpg")}}
-                        alt="User Avatar"
-                        class="img-size-50 rounded-circle me-3"
-                      />
-                    </div>
-                    <div class="flex-grow-1">
-                      <h3 class="dropdown-item-title">
-                        Brad Diesel
-                        <span class="float-end fs-7 text-danger"
-                          ><i class="bi bi-star-fill"></i
-                        ></span>
-                      </h3>
-                      <p class="fs-7">Call me whenever you can...</p>
-                      <p class="fs-7 text-secondary">
-                        <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
-                      </p>
-                    </div>
+  <!-- Bootstrap Modal Dependencies -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+  <!--begin::App Wrapper-->
+  <div class="app-wrapper">
+    <!--begin::Header-->
+    <nav class="app-header navbar navbar-expand bg-body">
+      <!--begin::Container-->
+      <div class="container-fluid">
+        <!--begin::Start Navbar Links-->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+              <i class="bi bi-list"></i>
+            </a>
+          </li>
+          <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
+          <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
+        </ul>
+        <!--end::Start Navbar Links-->
+        <!--begin::End Navbar Links-->
+        <ul class="navbar-nav ms-auto">
+          <!--begin::Navbar Search-->
+          <li class="nav-item">
+            <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+              <i class="bi bi-search"></i>
+            </a>
+          </li>
+          <!--end::Navbar Search-->
+          <!--begin::Messages Dropdown Menu-->
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-bs-toggle="dropdown" href="#">
+              <i class="bi bi-chat-text"></i>
+              <span class="navbar-badge badge text-bg-danger">3</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+              <a href="#" class="dropdown-item">
+                <!--begin::Message-->
+                <div class="d-flex">
+                  <div class="flex-shrink-0">
+                    <img
+                      src={{asset("assets/dist/assets/img/user1-128x128.jpg")}}
+                      alt="User Avatar"
+                      class="img-size-50 rounded-circle me-3" />
                   </div>
-                  <!--end::Message-->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                  <!--begin::Message-->
-                  <div class="d-flex">
-                    <div class="flex-shrink-0">
-                      <img
-                        src={{ asset("assets/dist/assets/img/user8-128x128.jpg") }}
-                        alt="User Avatar"
-                        class="img-size-50 rounded-circle me-3"
-                      />
-                    </div>
-                    <div class="flex-grow-1">
-                      <h3 class="dropdown-item-title">
-                        John Pierce
-                        <span class="float-end fs-7 text-secondary">
-                          <i class="bi bi-star-fill"></i>
-                        </span>
-                      </h3>
-                      <p class="fs-7">I got your message bro</p>
-                      <p class="fs-7 text-secondary">
-                        <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
-                      </p>
-                    </div>
+                  <div class="flex-grow-1">
+                    <h3 class="dropdown-item-title">
+                      Brad Diesel
+                      <span class="float-end fs-7 text-danger"><i class="bi bi-star-fill"></i></span>
+                    </h3>
+                    <p class="fs-7">Call me whenever you can...</p>
+                    <p class="fs-7 text-secondary">
+                      <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
+                    </p>
                   </div>
-                  <!--end::Message-->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                  <!--begin::Message-->
-                  <div class="d-flex">
-                    <div class="flex-shrink-0">
-                      <img
-                        src={{ asset("assets/dist/assets/img/user3-128x128.jpg") }}
-                        alt="User Avatar"
-                        class="img-size-50 rounded-circle me-3"
-                      />
-                    </div>
-                    <div class="flex-grow-1">
-                      <h3 class="dropdown-item-title">
-                        Nora Silvester
-                        <span class="float-end fs-7 text-warning">
-                          <i class="bi bi-star-fill"></i>
-                        </span>
-                      </h3>
-                      <p class="fs-7">The subject goes here</p>
-                      <p class="fs-7 text-secondary">
-                        <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
-                      </p>
-                    </div>
+                </div>
+                <!--end::Message-->
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <!--begin::Message-->
+                <div class="d-flex">
+                  <div class="flex-shrink-0">
+                    <img
+                      src={{ asset("assets/dist/assets/img/user8-128x128.jpg") }}
+                      alt="User Avatar"
+                      class="img-size-50 rounded-circle me-3" />
                   </div>
-                  <!--end::Message-->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-              </div>
-            </li>
-            <!--end::Messages Dropdown Menu-->
-            <!--begin::Notifications Dropdown Menu-->
-            <li class="nav-item dropdown">
-              <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                <i class="bi bi-bell-fill"></i>
-                <span class="navbar-badge badge text-bg-warning">15</span>
+                  <div class="flex-grow-1">
+                    <h3 class="dropdown-item-title">
+                      John Pierce
+                      <span class="float-end fs-7 text-secondary">
+                        <i class="bi bi-star-fill"></i>
+                      </span>
+                    </h3>
+                    <p class="fs-7">I got your message bro</p>
+                    <p class="fs-7 text-secondary">
+                      <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
+                    </p>
+                  </div>
+                </div>
+                <!--end::Message-->
               </a>
-              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <span class="dropdown-item dropdown-header">15 Notifications</span>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                  <i class="bi bi-envelope me-2"></i> 4 new messages
-                  <span class="float-end text-secondary fs-7">3 mins</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                  <i class="bi bi-people-fill me-2"></i> 8 friend requests
-                  <span class="float-end text-secondary fs-7">12 hours</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                  <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
-                  <span class="float-end text-secondary fs-7">2 days</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer"> See All Notifications </a>
-              </div>
-            </li>
-            <!--end::Notifications Dropdown Menu-->
-            <!--begin::Fullscreen Toggle-->
-            <li class="nav-item">
-              <a class="nav-link" href="#" data-lte-toggle="fullscreen">
-                <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
-                <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <!--begin::Message-->
+                <div class="d-flex">
+                  <div class="flex-shrink-0">
+                    <img
+                      src={{ asset("assets/dist/assets/img/user3-128x128.jpg") }}
+                      alt="User Avatar"
+                      class="img-size-50 rounded-circle me-3" />
+                  </div>
+                  <div class="flex-grow-1">
+                    <h3 class="dropdown-item-title">
+                      Nora Silvester
+                      <span class="float-end fs-7 text-warning">
+                        <i class="bi bi-star-fill"></i>
+                      </span>
+                    </h3>
+                    <p class="fs-7">The subject goes here</p>
+                    <p class="fs-7 text-secondary">
+                      <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
+                    </p>
+                  </div>
+                </div>
+                <!--end::Message-->
               </a>
-            </li>
-            <!--end::Fullscreen Toggle-->
-            <!--begin::User Menu Dropdown-->
-            <li class="nav-item dropdown user-menu">
-              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+            </div>
+          </li>
+          <!--end::Messages Dropdown Menu-->
+          <!--begin::Notifications Dropdown Menu-->
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-bs-toggle="dropdown" href="#">
+              <i class="bi bi-bell-fill"></i>
+              <span class="navbar-badge badge text-bg-warning">15</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+              <span class="dropdown-item dropdown-header">15 Notifications</span>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="bi bi-envelope me-2"></i> 4 new messages
+                <span class="float-end text-secondary fs-7">3 mins</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="bi bi-people-fill me-2"></i> 8 friend requests
+                <span class="float-end text-secondary fs-7">12 hours</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
+                <span class="float-end text-secondary fs-7">2 days</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item dropdown-footer"> See All Notifications </a>
+            </div>
+          </li>
+          <!--end::Notifications Dropdown Menu-->
+          <!--begin::Fullscreen Toggle-->
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-lte-toggle="fullscreen">
+              <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
+              <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
+            </a>
+          </li>
+          <!--end::Fullscreen Toggle-->
+          <!--begin::User Menu Dropdown-->
+          <li class="nav-item dropdown user-menu">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              <img
+                src={{ asset("assets/dist/assets/img/user2-160x160.jpg") }}
+                class="user-image rounded-circle shadow"
+                alt="User Image" />
+              <span class="d-none d-md-inline">Mimin Gantenk</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+              <!--begin::User Image-->
+              <li class="user-header text-bg-primary">
                 <img
                   src={{ asset("assets/dist/assets/img/user2-160x160.jpg") }}
-                  class="user-image rounded-circle shadow"
-                  alt="User Image"
-                />
-                <span class="d-none d-md-inline">Mimin Gantenk</span>
+                  class="rounded-circle shadow"
+                  alt="User Image" />
+                <p>
+                  Alexander Pierce - Web Developer
+                  <small>Member since Nov. 2023</small>
+                </p>
+              </li>
+              <!--end::User Image-->
+              <!--begin::Menu Body-->
+              <li class="user-body">
+                <!--begin::Row-->
+                <div class="row">
+                  <div class="col-4 text-center"><a href="#">Followers</a></div>
+                  <div class="col-4 text-center"><a href="#">Sales</a></div>
+                  <div class="col-4 text-center"><a href="#">Friends</a></div>
+                </div>
+                <!--end::Row-->
+              </li>
+              <!--end::Menu Body-->
+              <!--begin::Menu Footer-->
+              <li class="user-footer">
+                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+              </li>
+              <!--end::Menu Footer-->
+            </ul>
+          </li>
+          <!--end::User Menu Dropdown-->
+        </ul>
+        <!--end::End Navbar Links-->
+      </div>
+      <!--end::Container-->
+    </nav>
+    <!--end::Header-->
+    <!--begin::Sidebar-->
+    <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+      <!--begin::Sidebar Brand-->
+      <div class="sidebar-brand">
+        <!--begin::Brand Link-->
+        <a href="dashboard" class="brand-link">
+          <!--begin::Brand Image-->
+          <img
+            src={{asset("assets/dist/assets/img/LogoRPL.png")}}
+            alt="RPL"
+            class="brand-image opacity-75 shadow" />
+          <!--end::Brand Image-->
+          <!--begin::Brand Text-->
+          <span class="brand-text fw-light">ERP RPL UAD</span>
+          <!--end::Brand Text-->
+        </a>
+        <!--end::Brand Link-->
+      </div>
+      <!--end::Sidebar Brand-->
+      <!--begin::Sidebar Wrapper-->
+      <div class="sidebar-wrapper">
+        <nav class="mt-2">
+          <!--begin::Sidebar Menu-->
+          <ul
+            class="nav sidebar-menu flex-column"
+            data-lte-toggle="treeview"
+            role="menu"
+            data-accordion="false">
+            <li class="nav-item">
+              <a href="dashboard" class="nav-link active">
+                <i class="nav-icon bi bi-speedometer"></i>
+                <p>
+                  Dashboard
+                </p>
               </a>
-              <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <!--begin::User Image-->
-                <li class="user-header text-bg-primary">
-                  <img
-                    src={{ asset("assets/dist/assets/img/user2-160x160.jpg") }}
-                    class="rounded-circle shadow"
-                    alt="User Image"
-                  />
-                  <p>
-                    Alexander Pierce - Web Developer
-                    <small>Member since Nov. 2023</small>
-                  </p>
+            </li>
+            <li class="nav-item">
+              <a href="./generate/theme.html" class="nav-link">
+                <i class="nav-icon bi bi-box-seam-fill"></i>
+                <p>Produk</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon bi bi-person-circle"></i>
+                <p>
+                  Supplier
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/supplier/pic/add" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Tambah PIC supplier</p>
+                  </a>
                 </li>
-                <!--end::User Image-->
-                <!--begin::Menu Body-->
-                <li class="user-body">
-                  <!--begin::Row-->
-                  <div class="row">
-                    <div class="col-4 text-center"><a href="#">Followers</a></div>
-                    <div class="col-4 text-center"><a href="#">Sales</a></div>
-                    <div class="col-4 text-center"><a href="#">Friends</a></div>
-                  </div>
-                  <!--end::Row-->
-                </li>
-                <!--end::Menu Body-->
-                <!--begin::Menu Footer-->
-                <li class="user-footer">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
-                </li>
-                <!--end::Menu Footer-->
               </ul>
             </li>
-            <!--end::User Menu Dropdown-->
-          </ul>
-          <!--end::End Navbar Links-->
-        </div>
-        <!--end::Container-->
-      </nav>
-      <!--end::Header-->
-      <!--begin::Sidebar-->
-      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
-        <!--begin::Sidebar Brand-->
-        <div class="sidebar-brand">
-          <!--begin::Brand Link-->
-          <a href="dashboard" class="brand-link">
-            <!--begin::Brand Image-->
-            <img
-              src={{asset("assets/dist/assets/img/LogoRPL.png")}}
-              alt="RPL"
-              class="brand-image opacity-75 shadow"
-            />
-            <!--end::Brand Image-->
-            <!--begin::Brand Text-->
-            <span class="brand-text fw-light">ERP RPL UAD</span>
-            <!--end::Brand Text-->
-          </a>
-          <!--end::Brand Link-->
-        </div>
-        <!--end::Sidebar Brand-->
-        <!--begin::Sidebar Wrapper-->
-        <div class="sidebar-wrapper">
-          <nav class="mt-2">
-            <!--begin::Sidebar Menu-->
-            <ul
-              class="nav sidebar-menu flex-column"
-              data-lte-toggle="treeview"
-              role="menu"
-              data-accordion="false"
-            >
-              <li class="nav-item">
-                <a href="dashboard" class="nav-link active">
-                  <i class="nav-icon bi bi-speedometer"></i>
-                  <p>
-                    Dashboard
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./generate/theme.html" class="nav-link">
-                  <i class="nav-icon bi bi-box-seam-fill"></i>
-                  <p>Produk</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-person-circle"></i>
-                  <p>
-                    Supplier
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="/supplier/pic/add" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Tambah PIC supplier</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Purchase Orders
-                    <!-- <span class="nav-badge badge text-bg-secondary me-3">6</span>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>
+                  Purchase Orders
+                  <!-- <span class="nav-badge badge text-bg-secondary me-3">6</span>
                     <i class="nav-arrow bi bi-chevron-right"></i> -->
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Branch
-                  </p>
-                </a>                
-              </li>
-              <li class="nav-item">
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('branch.list') }}" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>
+                  Branch
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="{{ route('item.list') }}" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
-                      <p>Item</p>
-                    </a>
-                  </li>
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>Item</p>
+              </a>
+            </li>
             <!--end::Sidebar Menu-->
         </nav>
       </div>
@@ -389,7 +375,7 @@ use App\Helpers\EncryptionHelper;
                   <div class="d-flex align-items-center">
                     <h2 class="card-title mb-0 me-2">Purchase Orders</h2>
                     <!-- <a href="{{ route('purchase_orders.add') }}" class="btn btn-primary btn-sm">Add</a> -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPurchaseOrderModal">  Add </button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPurchaseOrderModal"> Add </button>
                   </div>
 
                   <!-- Modal -->
@@ -420,12 +406,12 @@ use App\Helpers\EncryptionHelper;
                             </div>
                             <!-- Supplier ID dan Nama Supplier -->
                             <div class="form-group">
-                                <label for="supplier_id">ID Supplier</label>
-                                <input type="text" id="supplierSearch" class="form-control" placeholder="Cari Supplier">
-                                <select class="form-control" id="supplier_id" size="5" style="display:none;">
-                                    <option value="SUP001">SUP001 - Penyetor Kaos</option>
-                                    <option value="SUP002">SUP002 - Penyetor Celana</option>
-                                </select>
+                              <label for="supplier_id">ID Supplier</label>
+                              <input type="text" id="supplierSearch" class="form-control" placeholder="Cari Supplier">
+                              <select class="form-control" id="supplier_id" size="5" style="display:none;">
+                                <option value="SUP001">SUP001 - Penyetor Kaos</option>
+                                <option value="SUP002">SUP002 - Penyetor Celana</option>
+                              </select>
                             </div>
                             <div class="form-group">
                               <label for="supplier_name">Nama Supplier</label>
@@ -444,17 +430,17 @@ use App\Helpers\EncryptionHelper;
                                 </tr>
                               </thead>
                               <tbody>
-                              <tr>
-                                <td>
-                                  <input type="text" class="form-control sku-search" placeholder="Cari SKU">
-                                  <select class="form-control sku-dropdown" size="5" style="display:none;"></select>
-                                </td>
-                                <td><input type="text" class="form-control nama-item" readonly></td>
-                                <td><input type="number" class="form-control qty" value="1"></td>
-                                <td><input type="number" class="form-control unit-price" value="0"></td>
-                                <td><input type="number" class="form-control amount" value="0" readonly></td>
-                                <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
-                              </tr>
+                                <tr>
+                                  <td>
+                                    <input type="text" class="form-control sku-search" placeholder="Cari SKU">
+                                    <select class="form-control sku-dropdown" size="5" style="display:none;"></select>
+                                  </td>
+                                  <td><input type="text" class="form-control nama-item" readonly></td>
+                                  <td><input type="number" class="form-control qty" value="1"></td>
+                                  <td><input type="number" class="form-control unit-price" value="0"></td>
+                                  <td><input type="number" class="form-control amount" value="0" readonly></td>
+                                  <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
+                                </tr>
                               </tbody>
                             </table>
                             <button type="button" id="addRow" class="btn btn-info mb-3">Tambah Barang</button>
@@ -806,258 +792,275 @@ use App\Helpers\EncryptionHelper;
   </script>
 
   <script>
-      // Data Dummy untuk Supplier dan Item
-      const suppliers = {
-          "SUP001": "Penyetor Kaos",
-          "SUP002": "Penyetor Celana",
-      };
+    // Data Dummy untuk Supplier dan Item
+    const suppliers = {
+      "SUP001": "Penyetor Kaos",
+      "SUP002": "Penyetor Celana",
+    };
 
-      const items = {
-          "SUP001": {
-              "KAOS-s": { name: "Kaos Kecil", price: 1000 },
-              "KAOS-m": { name: "Kaos Sedang", price: 2000 },
-              "KAOS-l": { name: "Kaos Besar", price: 3000 },
-          },
-          "SUP002": {
-              "CELANA-s": { name: "Celana Kecil", price: 1000 },
-              "CELANA-m": { name: "Celana Sedang", price: 2000 },
-              "CELANA-l": { name: "Celana Besar", price: 3000 },
-          }
-      };
+    const items = {
+      "SUP001": {
+        "KAOS-s": {
+          name: "Kaos Kecil",
+          price: 1000
+        },
+        "KAOS-m": {
+          name: "Kaos Sedang",
+          price: 2000
+        },
+        "KAOS-l": {
+          name: "Kaos Besar",
+          price: 3000
+        },
+      },
+      "SUP002": {
+        "CELANA-s": {
+          name: "Celana Kecil",
+          price: 1000
+        },
+        "CELANA-m": {
+          name: "Celana Sedang",
+          price: 2000
+        },
+        "CELANA-l": {
+          name: "Celana Besar",
+          price: 3000
+        },
+      }
+    };
 
-      document.getElementById('supplierSearch').addEventListener('input', function() {
-          const filter = this.value.toLowerCase();
-          const options = document.getElementById('supplier_id').options;
-          
-          // Menyembunyikan semua option yang tidak sesuai
-          for (let i = 0; i < options.length; i++) {
-              const option = options[i];
-              const text = option.text.toLowerCase();
-              option.style.display = text.includes(filter) ? "" : "none";  // Menyembunyikan yang tidak sesuai
-          }
+    document.getElementById('supplierSearch').addEventListener('input', function() {
+      const filter = this.value.toLowerCase();
+      const options = document.getElementById('supplier_id').options;
 
-          // Menampilkan dropdown jika input ada
-          document.getElementById('supplier_id').style.display = filter ? 'block' : 'none';
-      });
-
-      document.getElementById('supplier_id').addEventListener('change', function() {
-          const selectedOption = this.options[this.selectedIndex];
-          const supplierId = selectedOption.value; // Ambil ID Supplier yang dipilih
-          const supplierName = selectedOption.text.split(' - ')[1]; // Ambil Nama Supplier berdasarkan ID
-
-          // Isi kolom Nama Supplier
-          document.getElementById('supplier_name').value = supplierName;
-
-          // Isi kolom ID Supplier
-          document.getElementById('supplierSearch').value = supplierId; // Isi dengan ID Supplier yang dipilih
-
-          // Sembunyikan dropdown setelah memilih
-          document.getElementById('supplier_id').style.display = 'none';  // Menyembunyikan dropdown setelah memilih
-      });
-
-      // Fungsi untuk menampilkan dropdown SKU berdasarkan supplier
-      function populateSKU(supplierId) {
-          const supplierItems = items[supplierId];
-          $('#itemsTable tbody tr').each(function() {
-              const skuDropdown = $(this).find('.sku');
-              skuDropdown.empty(); // Kosongkan dropdown SKU
-
-              if (supplierItems) {
-                  // Menambah opsi SKU ke dropdown
-                  for (const sku in supplierItems) {
-                      const item = supplierItems[sku];
-                      skuDropdown.append(`<option value="${sku}">${sku} - ${item.name}</option>`);
-                  }
-              }
-              skuDropdown.css('display', supplierItems ? 'block' : 'none'); // Tampilkan dropdown jika ada item
-          });
+      // Menyembunyikan semua option yang tidak sesuai
+      for (let i = 0; i < options.length; i++) {
+        const option = options[i];
+        const text = option.text.toLowerCase();
+        option.style.display = text.includes(filter) ? "" : "none"; // Menyembunyikan yang tidak sesuai
       }
 
-      // Menambahkan event listener untuk menampilkan dropdown SKU berdasarkan supplier
-      document.getElementById('skuSearch').addEventListener('input', function() {
-          const filter = this.value.toLowerCase();
-          const supplierId = document.getElementById('supplier_id').value;
-          const itemsList = items[supplierId] || {}; // Ambil daftar item berdasarkan supplier yang dipilih
-          const skuOptions = document.getElementById('sku_id');
-
-          skuOptions.innerHTML = ''; // Kosongkan semua opsi sebelumnya
-
-          if (filter.length > 0 && itemsList) {
-              for (let sku in itemsList) {
-                  const item = itemsList[sku];
-                  if (item.name.toLowerCase().includes(filter)) {
-                      // Menambahkan option SKU yang sesuai dengan pencarian
-                      skuOptions.innerHTML += `<option value="${sku}">${sku} - ${item.name}</option>`;
-                  }
-              }
-              skuOptions.style.display = filter.length > 0 ? 'block' : 'none'; // Tampilkan dropdown SKU jika ada input
-          } else {
-              skuOptions.style.display = 'none'; // Sembunyikan dropdown jika tidak ada filter
-          }
-      });
-
-      // Ketika SKU dipilih
-      document.getElementById('sku_id').addEventListener('change', function() {
-          const selectedOption = this.options[this.selectedIndex];
-          const sku = selectedOption.value;
-          const supplierId = document.getElementById('supplier_id').value;
-          const item = items[supplierId] ? items[supplierId][sku] : null;
-
-          if (item) {
-              document.getElementById('item_name').value = item.name;  // Isi Nama Item
-              document.getElementById('unit_price').value = item.price;  // Isi Unit Price dengan harga yang sesuai
-          } else {
-              document.getElementById('item_name').value = '';  // Kosongkan Nama Item jika SKU tidak ditemukan
-              document.getElementById('unit_price').value = '';  // Kosongkan Unit Price
-          }
-
-          // Menyembunyikan dropdown SKU setelah memilih SKU
-          document.getElementById('sku_id').style.display = 'none';  // Menyembunyikan dropdown setelah memilih SKU
-      });
-
-      // Ketika ID Supplier diubah
-      $('#supplier_id').on('change', function() {
-          const supplierId = $(this).val();  // Ambil ID Supplier dari input
-          const supplierName = suppliers[supplierId];  // Cari nama supplier berdasarkan ID
-
-          if (supplierName) {
-              $('#supplier_name').val(supplierName);  // Isi nama supplier secara otomatis
-              populateSKU(supplierId);  // Populasi SKU berdasarkan supplier yang dipilih
-          } else {
-              $('#supplier_name').val('');  // Kosongkan nama supplier jika tidak ditemukan
-          }
-      });
-
-      // Fungsi untuk menghitung Amount (Qty * Unit Price)
-      function updateAmount(row) {
-          const qty = parseFloat(row.find('.qty').val()) || 0;  // Ambil Qty, default 0 jika kosong
-          const price = parseFloat(row.find('.unit-price').val()) || 0;  // Ambil Unit Price, default 0 jika kosong
-          const amount = qty * price;  // Hitung Amount (Qty * Unit Price)
-
-          row.find('.amount').val(amount.toFixed(2));  // Tampilkan amount pada kolom Amount (2 angka desimal)
-          updateTotal();  // Update Subtotal dan Tax setelah Amount berubah
-      }
-
-      // Fungsi untuk menghitung Subtotal dan Tax
-      function updateTotal() {
-          let total = 0;
-          $(".amount").each(function () {
-              total += parseFloat($(this).val()) || 0;  // Menjumlahkan semua Amount
-          });
-          $("#subtotal").val(total.toLocaleString("id-ID"));  // Tampilkan Subtotal
-          $("#tax").val(total.toLocaleString("id-ID"));  // Tax sama dengan Subtotal untuk sementara
-      }
-
-      // Update Total ketika Qty atau Unit Price diubah
-      $(document).on('input', '.qty, .unit-price', function() {
-          const row = $(this).closest('tr'); // Ambil baris yang terkait
-          updateAmount(row); // Panggil fungsi untuk update Amount dan Total
-      });
-
-      // Menghapus baris item
-      $(document).on('click', '.remove', function() {
-          $(this).closest('tr').remove();
-          updateTotal();  // Update total setelah menghapus
-      });
-
-  </script>
-
-  <script>
-  $(document).ready(function() {
-    // Disable input SKU saat awal
-    $(".sku-search").prop('disabled', true); 
-    $(".sku-dropdown").hide(); // Sembunyikan dropdown SKU
-
-    // Aktifkan input SKU hanya jika cabang dan supplier terisi
-    $('#branch, #supplier_id').on('input change', function() {
-      if ($('#branch').val() && $('#supplier_id').val()) {
-        $(".sku-search").prop('disabled', false); // Enable SKU search
-      } else {
-        $(".sku-search").prop('disabled', true); // Disable SKU search
-        $(".sku-dropdown").hide(); // Hide dropdown SKU
-      }
+      // Menampilkan dropdown jika input ada
+      document.getElementById('supplier_id').style.display = filter ? 'block' : 'none';
     });
 
-    // Ketika input SKU diklik, pastikan cabang dan supplier terisi
-    $('.sku-search').on('click', function() {
-      if (!$('#branch').val() || !$('#supplier_id').val()) {
-        alert("Pilih Cabang dan Supplier terlebih dahulu!");
-        return false; // Hentikan jika cabang dan supplier belum terisi
-      }
+    document.getElementById('supplier_id').addEventListener('change', function() {
+      const selectedOption = this.options[this.selectedIndex];
+      const supplierId = selectedOption.value; // Ambil ID Supplier yang dipilih
+      const supplierName = selectedOption.text.split(' - ')[1]; // Ambil Nama Supplier berdasarkan ID
+
+      // Isi kolom Nama Supplier
+      document.getElementById('supplier_name').value = supplierName;
+
+      // Isi kolom ID Supplier
+      document.getElementById('supplierSearch').value = supplierId; // Isi dengan ID Supplier yang dipilih
+
+      // Sembunyikan dropdown setelah memilih
+      document.getElementById('supplier_id').style.display = 'none'; // Menyembunyikan dropdown setelah memilih
     });
 
-    // Saat pengguna mulai mengetik SKU, munculkan dropdown SKU
-    $(document).on('input', '.sku-search', function() {
-      const row = $(this).closest('tr');
-      const filter = $(this).val().toLowerCase();
-      const supplierId = $('#supplier_id').val();
-      const itemsList = items[supplierId] || {};
-      const skuDropdown = row.find('.sku-dropdown');
+    // Fungsi untuk menampilkan dropdown SKU berdasarkan supplier
+    function populateSKU(supplierId) {
+      const supplierItems = items[supplierId];
+      $('#itemsTable tbody tr').each(function() {
+        const skuDropdown = $(this).find('.sku');
+        skuDropdown.empty(); // Kosongkan dropdown SKU
 
-      skuDropdown.empty();
-      if (filter.length > 0) {
-        for (let sku in itemsList) {
-          const item = itemsList[sku];
-          if (item.name.toLowerCase().includes(filter)) {
+        if (supplierItems) {
+          // Menambah opsi SKU ke dropdown
+          for (const sku in supplierItems) {
+            const item = supplierItems[sku];
             skuDropdown.append(`<option value="${sku}">${sku} - ${item.name}</option>`);
           }
         }
-        skuDropdown.show();
+        skuDropdown.css('display', supplierItems ? 'block' : 'none'); // Tampilkan dropdown jika ada item
+      });
+    }
+
+    // Menambahkan event listener untuk menampilkan dropdown SKU berdasarkan supplier
+    document.getElementById('skuSearch').addEventListener('input', function() {
+      const filter = this.value.toLowerCase();
+      const supplierId = document.getElementById('supplier_id').value;
+      const itemsList = items[supplierId] || {}; // Ambil daftar item berdasarkan supplier yang dipilih
+      const skuOptions = document.getElementById('sku_id');
+
+      skuOptions.innerHTML = ''; // Kosongkan semua opsi sebelumnya
+
+      if (filter.length > 0 && itemsList) {
+        for (let sku in itemsList) {
+          const item = itemsList[sku];
+          if (item.name.toLowerCase().includes(filter)) {
+            // Menambahkan option SKU yang sesuai dengan pencarian
+            skuOptions.innerHTML += `<option value="${sku}">${sku} - ${item.name}</option>`;
+          }
+        }
+        skuOptions.style.display = filter.length > 0 ? 'block' : 'none'; // Tampilkan dropdown SKU jika ada input
       } else {
-        skuDropdown.hide();
+        skuOptions.style.display = 'none'; // Sembunyikan dropdown jika tidak ada filter
       }
     });
 
-    // Ketika SKU dipilih dari dropdown
-    $(document).on('change', '.sku-dropdown', function() {
-      const row = $(this).closest('tr');
-      const sku = $(this).val();
-      const supplierId = $('#supplier_id').val();
+    // Ketika SKU dipilih
+    document.getElementById('sku_id').addEventListener('change', function() {
+      const selectedOption = this.options[this.selectedIndex];
+      const sku = selectedOption.value;
+      const supplierId = document.getElementById('supplier_id').value;
       const item = items[supplierId] ? items[supplierId][sku] : null;
 
       if (item) {
-        row.find('.sku-search').val(sku);
-        row.find('.nama-item').val(item.name);
-        row.find('.unit-price').val(item.price);
-        updateAmount(row);
+        document.getElementById('item_name').value = item.name; // Isi Nama Item
+        document.getElementById('unit_price').value = item.price; // Isi Unit Price dengan harga yang sesuai
+      } else {
+        document.getElementById('item_name').value = ''; // Kosongkan Nama Item jika SKU tidak ditemukan
+        document.getElementById('unit_price').value = ''; // Kosongkan Unit Price
       }
-      $(this).hide(); // Sembunyikan dropdown SKU setelah memilih
+
+      // Menyembunyikan dropdown SKU setelah memilih SKU
+      document.getElementById('sku_id').style.display = 'none'; // Menyembunyikan dropdown setelah memilih SKU
     });
 
-    // Fungsi untuk menghitung Amount
+    // Ketika ID Supplier diubah
+    $('#supplier_id').on('change', function() {
+      const supplierId = $(this).val(); // Ambil ID Supplier dari input
+      const supplierName = suppliers[supplierId]; // Cari nama supplier berdasarkan ID
+
+      if (supplierName) {
+        $('#supplier_name').val(supplierName); // Isi nama supplier secara otomatis
+        populateSKU(supplierId); // Populasi SKU berdasarkan supplier yang dipilih
+      } else {
+        $('#supplier_name').val(''); // Kosongkan nama supplier jika tidak ditemukan
+      }
+    });
+
+    // Fungsi untuk menghitung Amount (Qty * Unit Price)
     function updateAmount(row) {
-      const qty = parseFloat(row.find('.qty').val()) || 0;
-      const price = parseFloat(row.find('.unit-price').val()) || 0;
-      const amount = qty * price;
-      row.find('.amount').val(amount.toFixed(2));
-      updateTotal();
+      const qty = parseFloat(row.find('.qty').val()) || 0; // Ambil Qty, default 0 jika kosong
+      const price = parseFloat(row.find('.unit-price').val()) || 0; // Ambil Unit Price, default 0 jika kosong
+      const amount = qty * price; // Hitung Amount (Qty * Unit Price)
+
+      row.find('.amount').val(amount.toFixed(2)); // Tampilkan amount pada kolom Amount (2 angka desimal)
+      updateTotal(); // Update Subtotal dan Tax setelah Amount berubah
     }
 
     // Fungsi untuk menghitung Subtotal dan Tax
     function updateTotal() {
       let total = 0;
-      $(".amount").each(function () {
-        total += parseFloat($(this).val()) || 0;
+      $(".amount").each(function() {
+        total += parseFloat($(this).val()) || 0; // Menjumlahkan semua Amount
       });
-      $("#subtotal").val(total.toLocaleString("id-ID"));
-      $("#tax").val(total.toLocaleString("id-ID"));
+      $("#subtotal").val(total.toLocaleString("id-ID")); // Tampilkan Subtotal
+      $("#tax").val(total.toLocaleString("id-ID")); // Tax sama dengan Subtotal untuk sementara
     }
 
     // Update Total ketika Qty atau Unit Price diubah
     $(document).on('input', '.qty, .unit-price', function() {
-      const row = $(this).closest('tr');
-      updateAmount(row);
+      const row = $(this).closest('tr'); // Ambil baris yang terkait
+      updateAmount(row); // Panggil fungsi untuk update Amount dan Total
     });
 
     // Menghapus baris item
     $(document).on('click', '.remove', function() {
       $(this).closest('tr').remove();
-      updateTotal();
+      updateTotal(); // Update total setelah menghapus
     });
+  </script>
 
-    // Menambahkan baris item baru
-    $(document).on('click', '#addRow', function() {
-      const newRow = `
+  <script>
+    $(document).ready(function() {
+      // Disable input SKU saat awal
+      $(".sku-search").prop('disabled', true);
+      $(".sku-dropdown").hide(); // Sembunyikan dropdown SKU
+
+      // Aktifkan input SKU hanya jika cabang dan supplier terisi
+      $('#branch, #supplier_id').on('input change', function() {
+        if ($('#branch').val() && $('#supplier_id').val()) {
+          $(".sku-search").prop('disabled', false); // Enable SKU search
+        } else {
+          $(".sku-search").prop('disabled', true); // Disable SKU search
+          $(".sku-dropdown").hide(); // Hide dropdown SKU
+        }
+      });
+
+      // Ketika input SKU diklik, pastikan cabang dan supplier terisi
+      $('.sku-search').on('click', function() {
+        if (!$('#branch').val() || !$('#supplier_id').val()) {
+          alert("Pilih Cabang dan Supplier terlebih dahulu!");
+          return false; // Hentikan jika cabang dan supplier belum terisi
+        }
+      });
+
+      // Saat pengguna mulai mengetik SKU, munculkan dropdown SKU
+      $(document).on('input', '.sku-search', function() {
+        const row = $(this).closest('tr');
+        const filter = $(this).val().toLowerCase();
+        const supplierId = $('#supplier_id').val();
+        const itemsList = items[supplierId] || {};
+        const skuDropdown = row.find('.sku-dropdown');
+
+        skuDropdown.empty();
+        if (filter.length > 0) {
+          for (let sku in itemsList) {
+            const item = itemsList[sku];
+            if (item.name.toLowerCase().includes(filter)) {
+              skuDropdown.append(`<option value="${sku}">${sku} - ${item.name}</option>`);
+            }
+          }
+          skuDropdown.show();
+        } else {
+          skuDropdown.hide();
+        }
+      });
+
+      // Ketika SKU dipilih dari dropdown
+      $(document).on('change', '.sku-dropdown', function() {
+        const row = $(this).closest('tr');
+        const sku = $(this).val();
+        const supplierId = $('#supplier_id').val();
+        const item = items[supplierId] ? items[supplierId][sku] : null;
+
+        if (item) {
+          row.find('.sku-search').val(sku);
+          row.find('.nama-item').val(item.name);
+          row.find('.unit-price').val(item.price);
+          updateAmount(row);
+        }
+        $(this).hide(); // Sembunyikan dropdown SKU setelah memilih
+      });
+
+      // Fungsi untuk menghitung Amount
+      function updateAmount(row) {
+        const qty = parseFloat(row.find('.qty').val()) || 0;
+        const price = parseFloat(row.find('.unit-price').val()) || 0;
+        const amount = qty * price;
+        row.find('.amount').val(amount.toFixed(2));
+        updateTotal();
+      }
+
+      // Fungsi untuk menghitung Subtotal dan Tax
+      function updateTotal() {
+        let total = 0;
+        $(".amount").each(function() {
+          total += parseFloat($(this).val()) || 0;
+        });
+        $("#subtotal").val(total.toLocaleString("id-ID"));
+        $("#tax").val(total.toLocaleString("id-ID"));
+      }
+
+      // Update Total ketika Qty atau Unit Price diubah
+      $(document).on('input', '.qty, .unit-price', function() {
+        const row = $(this).closest('tr');
+        updateAmount(row);
+      });
+
+      // Menghapus baris item
+      $(document).on('click', '.remove', function() {
+        $(this).closest('tr').remove();
+        updateTotal();
+      });
+
+      // Menambahkan baris item baru
+      $(document).on('click', '#addRow', function() {
+        const newRow = `
         <tr>
           <td>
             <input type="text" class="form-control sku-search" placeholder="Cari SKU">
@@ -1070,49 +1073,49 @@ use App\Helpers\EncryptionHelper;
           <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
         </tr>
       `;
-      $('#itemsTable tbody').append(newRow);
-    });
-
-    // Menyusun data form saat tombol submit ditekan
-    document.getElementById('submitBtn').addEventListener('click', function () {
-      const po_number = document.getElementById('po_number').value;
-      const supplier_id = document.getElementById('supplierSearch').value;
-      const supplier_name = document.getElementById('supplier_name').value;
-      const branch = document.getElementById('branch').value;
-
-      const items = [];
-      document.querySelectorAll('#itemsTable tbody tr').forEach(row => {
-        const sku = row.querySelector('.sku-search')?.value || '';
-        const name = row.querySelector('.nama-item')?.value || '';
-        const qty = row.querySelector('.qty')?.value || '';
-        const unitPrice = row.querySelector('.unit-price')?.value || '';
-        const amount = row.querySelector('.amount')?.value || '';
-
-        items.push({
-          sku,
-          name,
-          qty,
-          unitPrice,
-          amount
-        });
+        $('#itemsTable tbody').append(newRow);
       });
 
-      const subtotal = document.getElementById('subtotal').value;
-      const tax = document.getElementById('tax').value;
+      // Menyusun data form saat tombol submit ditekan
+      document.getElementById('submitBtn').addEventListener('click', function() {
+        const po_number = document.getElementById('po_number').value;
+        const supplier_id = document.getElementById('supplierSearch').value;
+        const supplier_name = document.getElementById('supplier_name').value;
+        const branch = document.getElementById('branch').value;
 
-      const formData = {
-        po_number,
-        supplier_id,
-        supplier_name,
-        branch,
-        items,
-        subtotal,
-        tax
-      };
+        const items = [];
+        document.querySelectorAll('#itemsTable tbody tr').forEach(row => {
+          const sku = row.querySelector('.sku-search')?.value || '';
+          const name = row.querySelector('.nama-item')?.value || '';
+          const qty = row.querySelector('.qty')?.value || '';
+          const unitPrice = row.querySelector('.unit-price')?.value || '';
+          const amount = row.querySelector('.amount')?.value || '';
 
-      console.log("Form Data JSON:", formData);
+          items.push({
+            sku,
+            name,
+            qty,
+            unitPrice,
+            amount
+          });
+        });
+
+        const subtotal = document.getElementById('subtotal').value;
+        const tax = document.getElementById('tax').value;
+
+        const formData = {
+          po_number,
+          supplier_id,
+          supplier_name,
+          branch,
+          items,
+          subtotal,
+          tax
+        };
+
+        console.log("Form Data JSON:", formData);
+      });
     });
-  });
   </script>
 
   <!--end::Script-->
