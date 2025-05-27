@@ -129,7 +129,7 @@ Route::get('/item/{id}', [itemController::class, 'getItemById']);
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.add');
-
+Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
