@@ -103,3 +103,13 @@ Route::get('/supplier/data', [SupplierController::class, 'index'])->name('suppli
 Route::get('/supplier', [SupplierController::class, 'index'])->name('supplier.index');
 Route::get('/supplier/data', [App\Http\Controllers\SupplierController::class, 'index'])->name('supplier.index');
 Route::get('/supplier/pic', [App\Http\Controllers\SupplierPicController::class, 'index'])->name('supplier.pic.index');
+
+#supplierPIC
+Route::get('/supplier-pic', function () {
+    $dummySupplierPICs = [
+        ['name' => 'Ahmad Faiz', 'email' => 'faiz@example.com', 'phone' => '0812-3456-7890'],
+        ['name' => 'Budi Santoso', 'email' => 'budi@example.com', 'phone' => '0821-1234-5678'],
+        ['name' => 'Citra Lestari', 'email' => 'citra@example.com', 'phone' => '0856-7890-1234'],
+    ];
+    return view('supplier.pic.index', compact('dummySupplierPICs'));
+});
