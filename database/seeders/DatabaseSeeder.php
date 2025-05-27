@@ -14,16 +14,17 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            MerkSeeder::class,
-            MeasurementUnitSeeder::class,
-            WarehouseSeeder::class,
-            ProductSeeder::class,
-            ItemSeeder::class,
-            SupplierSeeder::class,
-            BranchSeeder::class,
-            PurchaseOrderSeeder::class,
-            GoodsReceiptNoteSeeder::class,
-            #BOMSeeder::class
+            // MerkSeeder::class,
+            // MeasurementUnitSeeder::class,
+            // WarehouseSeeder::class,
+            // ProductSeeder::class,
+            // ItemSeeder::class,
+            // SupplierSeeder::class,
+            // BranchSeeder::class,
+            // PurchaseOrderSeeder::class,
+            // GoodsReceiptNoteSeeder::class,
+            BOMSeeder::class,
+            //AssortmentProductionSeeder::class,
             // ProductPriceSeeder::class
         ]);
     }

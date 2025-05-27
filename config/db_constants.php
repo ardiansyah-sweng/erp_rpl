@@ -13,7 +13,7 @@ return [
     'table' => [
         'bom'                       => 'bill_of_material',
         'bom_detail'                => 'bom_detail',
-        'bom_prod'                  => 'bom_production',
+        'assort_prod'               => 'assortment_production',
         'branch'                    => 'branch',
         'category'                  => $master['category'],
         'cu'                        => 'conversion_unit',
@@ -57,9 +57,10 @@ return [
             'updated_at'            => 'updated_at'
         ],
 
-        'bom_prod' => [
+        'assort_prod' => [
             'id'                    => 'id',
             'prod_no'               => 'production_number',
+            'sku'                   => 'sku', #ambil dari tabel item #harus dari tipe produk finished goods (FG)
             'prod_date'             => 'production_date',
             'bom_id'                => 'bom_id', #char[7]
             'bom_qty'               => 'bom_quantity',
