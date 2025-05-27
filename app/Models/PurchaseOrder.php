@@ -123,4 +123,21 @@ class PurchaseOrder extends Model
             ->where('status', POStatus::FD->value)
             ->first();
     }
+     //hitung jumlah order dari supplier tertentu untuk rentang waktu tertentu
+    public static function countOrdersByDateSupplier(
+        string $startDate,
+        string $endDate,
+        string $supplierID,
+        ?POStatus $status = null
+     ): int {
+         $query = self::query()
+            ->where('supplier_id', $supplierID)
+            ->whereBetween('order_date', [$startDate, $endDate]);
+
+        if (!is_null($status)) {
+                $query->where('status', $status->value);
+        }
+
+         return $query->count();
+    }
 }

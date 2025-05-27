@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function __construct()
     {
-        $this->table = config('db_constants.table.supplier_product');
+        $this->table = config('db_constants.table.assort_prod');
     }
 
     /**
@@ -16,17 +16,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $col = config('db_constants.column.supplier_product');
-
-        Schema::dropIfExists('supplier_product');
+        $col = config('db_constants.column.assort_prod');
 
         Schema::create($this->table, function (Blueprint $table) use ($col) {
             $table->id();
-            $table->char($col['supplier_id'], 6);
-            $table->string($col['company_name'], 100);
-            $table->char($col['product_id'], 50);
-            $table->string($col['product_name'], 50);
-            $table->integer($col['base_price']);
+            $table->char($col['prod_no'], 9);
+            $table->char($col['sku'], 50);
+            $table->biginteger($col['branch']);
+            $table->biginteger($col['rm_whouse']);
+            $table->biginteger($col['fg_whouse']);
+            $table->date($col['prod_date']);
+            $table->date($col['finished_date'])->default(null)->nullable();
+            $table->boolean($col['in_production']);
+            $table->string($col['desc'], 100);
             $table->timestamps();
         });
     }
