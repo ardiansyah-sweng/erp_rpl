@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer($column['base_price'])->default(0);
             $table->integer($column['quantity']);
             $table->bigInteger($column['amount']); #quantity x base_price
-            $table->tinyInteger($column['received_days'])->default(0);
+            $table->integer($column['received_days'])->default(0);
             $table->timestamps();
 
             $table->primary(['po_number', 'product_id']);
