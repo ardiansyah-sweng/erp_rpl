@@ -418,6 +418,86 @@
                   class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
                   More info <i class="bi bi-link-45deg"></i>
                 </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('product.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-box-seam-fill"></i>
+                  <p>Produk</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-person-circle"></i>
+                  <p>
+                    Supplier
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="/supplier/pic/add" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Tambah PIC supplier</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/supplier/material/add" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Tambah Supplier Material</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/supplier/add" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Tambah Supplier</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('purchase.orders') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Purchase Orders
+                  </p>
+                </a>                
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('branch.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Branch
+                  </p>
+                </a>                
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('item.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Item
+                  </p>
+                </a>                
+              </li>
+            </ul>
+            <!--end::Sidebar Menu-->
+          </nav>
+        </div>
+        <!--end::Sidebar Wrapper-->
+      </aside>
+      <!--end::Sidebar-->
+      <!--begin::App Main-->
+      <main class="app-main">
+        <!--begin::App Content Header-->
+        <div class="app-content-header">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+              <div class="col-sm-6"><h3 class="mb-0">Dashboard</h3></div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                </ol>
               </div>
               <!--end::Small Box Widget 1-->
             </div>
