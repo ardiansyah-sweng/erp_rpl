@@ -84,7 +84,7 @@ class BOMSeeder extends Seeder
         #-------------------------------------------------------------
 
         #Ambil jumlah produksi yang akan dibuat
-        $prodCount = $this->faker->numberBetween(1, 50);
+        $prodCount = $this->faker->numberBetween(10, 100);
 
         for ($i=1; $i <= $prodCount; $i++)
         {
@@ -161,6 +161,21 @@ class BOMSeeder extends Seeder
                 'description' => $desc,
             ]);
         }
-        print_r('Produksi assortment selesai dibuat');
+
+        // updated in_production status ke false
+        // $inProduction = AssortmentProduction::where('in_production', true)
+        //     ->get();
+        // foreach ($inProduction as $prod) {
+        //     if ($this->faker->boolean())
+        //     {
+        //         print_r('Update In Production: '.$prod->production_number);
+        //         echo "\n";
+        //         // update status in_production ke false
+        //         AssortmentProduction::where('production_number', $prod->production_number)
+        //             ->update(['in_production' => false, 'finished_date' => now()]);
+        //     }
+        // }
+        
+        print_r('---SELESAI---');
     }
 }
