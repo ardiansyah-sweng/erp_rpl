@@ -18,17 +18,18 @@ class SupplierController extends Controller
 
         return view('supplier.detail', compact('supplier', 'error'));
     }
+
     public function getUpdateSupplier(Request $request, $supplier_id)
     {
-        // Validasi input
         $request->validate([
             'company_name' => 'required|string|max:100',
             'address' => 'required|string|max:100',
             'phone_number' => 'required|string|max:30',
+            'bank_account' => 'required|string|max:100',
         ]);
-
-        // Update data supplier
+        
         $updatedSupplier = Supplier::getUpdateSupplier($supplier_id, $request->only(['company_name', 'address', 'phone_number']));
+        
         return redirect()->route('supplier.detail', ['id' => $updatedSupplier->supplier_id])
                      ->with('success', 'Data Supplier berhasil diperbarui.');
     }
