@@ -386,39 +386,41 @@
         </div>
       @endif
 
-      @if(session('error'))
+      @if(isset($error))
         <div class="alert alert-danger">
-          {{ session('error') }}
+            {{ $error }}
         </div>
       @endif
-      <form method="POST" action="{{ route('supplier.update', $supplier->supplier_id) }}">
-        @csrf
-        @method('PUT')
+      @if($supplier)
+        <form method="POST" action="{{ route('supplier.update', $supplier->supplier_id) }}">
+            @csrf
+            @method('PUT')
 
-        <div class="mb-3">
-            <label class="form-label">ID Supplier</label>
-            <input type="text" class="form-control" value="{{ $supplier->supplier_id }}" disabled>
-            <input type="hidden" name="supplier_id" value="{{ $supplier->supplier_id }}">
-        </div>
+            <div class="mb-3">
+                <label class="form-label">ID Supplier</label>
+                <input type="text" class="form-control" value="{{ $supplier->supplier_id }}" disabled>
+                <input type="hidden" name="supplier_id" value="{{ $supplier->supplier_id }}">
+            </div>
 
-        <div class="mb-3">
-            <label class="form-label">Nama Perusahaan</label>
-            <input type="text" name="company_name" class="form-control" value="{{ old('company_name', $supplier->company_name) }}" required>
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Nama Perusahaan</label>
+                <input type="text" name="company_name" class="form-control" value="{{ old('company_name', $supplier->company_name) }}" required>
+            </div>
 
-        <div class="mb-3">
-            <label class="form-label">Alamat</label>
-            <input type="text" name="address" class="form-control" value="{{ old('address', $supplier->address) }}" required>
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Alamat</label>
+                <input type="text" name="address" class="form-control" value="{{ old('address', $supplier->address) }}" required>
+            </div>
 
-        <div class="mb-3">
-            <label class="form-label">No. Telepon</label>
-            <input type="text" name="phone_number" class="form-control" value="{{ old('phone_number', $supplier->phone_number) }}" required>
-        </div>
+            <div class="mb-3">
+                <label class="form-label">No. Telepon</label>
+                <input type="text" name="phone_number" class="form-control" value="{{ old('phone_number', $supplier->phone_number) }}" required>
+            </div>
 
-        <button type="submit" class="btn btn-primary">Update</button>
-        <a href="" class="btn btn-secondary">Batal</a>
-      </form>
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="{{ url()->current() }}" class="btn btn-secondary">Batal</a>
+        </form>
+      @endif
           </div>
         </div>
       </main>

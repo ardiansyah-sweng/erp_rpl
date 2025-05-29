@@ -7,6 +7,17 @@ use App\Models\Supplier;
 
 class SupplierController extends Controller
 {
+    public function getSupplierById($id)
+    {
+        $supplier = Supplier::find($id);
+
+        $error = null;
+        if (!$supplier) {
+            $error = 'Data supplier tidak ditemukan.';
+        }
+
+        return view('supplier.detail', compact('supplier', 'error'));
+    }
     public function getUpdateSupplier(Request $request, $supplier_id)
     {
         // Validasi input
@@ -18,22 +29,7 @@ class SupplierController extends Controller
 
         // Update data supplier
         $updatedSupplier = Supplier::getUpdateSupplier($supplier_id, $request->only(['company_name', 'address', 'phone_number']));
-
-        if (!$updatedSupplier) {
-            return redirect()->back()->with('error', 'Data Supplier tidak tersedia.');
-        }
-
         return redirect()->route('supplier.detail', ['id' => $updatedSupplier->supplier_id])
                      ->with('success', 'Data Supplier berhasil diperbarui.');
-    }
-    public function getSupplierById($id)
-    {
-        $supplier = Supplier::find($id);
-
-        if (!$supplier) {
-            return redirect()->back()->with('error', 'Data supplier tidak ditemukan.');
-        }
-
-        return view('supplier.detail', compact('supplier'));
     }
 }
