@@ -19,11 +19,11 @@ class SupplierPic extends Model
     }
 
     /**
-     * Ambil data PIC berdasarkan ID
+     * Ambil data PIC berdasarkan ID + relasi supplier
      */
     public static function getPICByID($id)
     {
-        return self::find($id);
+        return self::with('supplier')->find($id); // relasi langsung tersedia
     }
 
     /**
