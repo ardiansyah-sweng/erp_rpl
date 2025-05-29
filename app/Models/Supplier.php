@@ -5,8 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
-    protected $table;
-    protected $fillable = ['supplier_id','company_name', 'address','phone_number','bank_account','created_at','updated_at'];
+    protected $table = 'supplier';
+    protected $fillable = ['company_name', 'address','phone_number'];
 
     protected $primaryKey = 'supplier_id';
     public $incrementing = false;
@@ -34,8 +34,4 @@ class Supplier extends Model
     {
         return self::where($this->getKeyName(), $id)->first();
     }
-    public static function countSupplier(){
-        return self::count();   
-    }
-
 }

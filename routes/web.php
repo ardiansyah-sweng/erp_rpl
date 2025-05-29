@@ -41,9 +41,6 @@ Route::get('/supplier/add', function () {
     return view('supplier/add');
 });
 
-Route::get('/supplier/detail', function () {
-    return view('supplier/detail');
-});
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
@@ -136,7 +133,8 @@ Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplie
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
-Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
+Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('supplier.detail');
+Route::put('/supplier/{supplier_id}/update', [SupplierController::class, 'getUpdateSupplier'])->name('supplier.update');
 
 #Suppplier Update 
 Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');//Sudah sesuai pada ERP RPL

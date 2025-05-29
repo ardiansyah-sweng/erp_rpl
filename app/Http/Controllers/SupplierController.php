@@ -7,26 +7,30 @@ use App\Models\Supplier;
 
 class SupplierController extends Controller
 {
-    public function updateSupplier(Request $request, $supplier_id)
+    public function getSupplierById($id)
     {
-        // Validasi input
+        $supplier = Supplier::find($id);
+
+        $error = null;
+        if (!$supplier) {
+            $error = 'Data supplier tidak ditemukan.';
+        }
+
+        return view('supplier.detail', compact('supplier', 'error'));
+    }
+
+    public function getUpdateSupplier(Request $request, $supplier_id)
+    {
         $request->validate([
             'company_name' => 'required|string|max:100',
             'address' => 'required|string|max:100',
             'phone_number' => 'required|string|max:30',
             'bank_account' => 'required|string|max:100',
         ]);
-
-        // Update data supplier nama perusahaan, alamat, nomor telepon dan akun bank
-        $updatedSupplier = Supplier::updateSupplier($supplier_id, $request->only(['company_name','address','phone_number','bank_account']));//Sudah sesuai pada ERP RPL
-
-        return $updatedSupplier;
-    }
-    public function getSupplierById($id)
-    {
-        $sup = (new Supplier())->getSupplierById($id);
-
-        return response()->json($sup);
+        
+        $updatedSupplier = Supplier::getUpdateSupplier($supplier_id, $request->only(['company_name', 'address', 'phone_number']));
+        
+        return redirect()->route('supplier.detail', ['id' => $updatedSupplier->supplier_id])
+                     ->with('success', 'Data Supplier berhasil diperbarui.');
     }
 }
-
