@@ -69,4 +69,15 @@ class SupplierPIController extends Controller
 
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
     }    
+
+    public function deleteSupplierPIC($id)
+    {
+        $picDelete = SupplierPic::deleteSupplierPIC($id); 
+
+        if($picDelete){
+            return redirect()->back()->with('success', 'PIC berhasil dihapus!');
+        } else {
+            return redirect()->back()->with('error', 'PIC gagal dihapus.');
+        }
+    }
 }
