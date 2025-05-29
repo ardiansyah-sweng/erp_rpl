@@ -108,8 +108,15 @@ Route::get('/supplier/pic/list', function () {
     $pics = App\Models\SupplierPic::getSupplierPICAll(10);
     return view('supplier.pic.list', compact('pics')); //implementasi sementara(menunggu controller dari faiz el fayyed)
 })->name('supplier.pic.list');
-Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplierPic'])->name('supplier.pic.list');
-Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
+
+Route::get('/supplier-pic', function () {
+    $dummySupplierPICs = [
+        ['name' => 'Ahmad Faiz', 'email' => 'faiz@example.com', 'phone' => '0812-3456-7890'],
+        ['name' => 'Budi Santoso', 'email' => 'budi@example.com', 'phone' => '0821-1234-5678'],
+        ['name' => 'Citra Lestari', 'email' => 'citra@example.com', 'phone' => '0856-7890-1234'],
+    ];
+    return view('supplier.pic.index', compact('dummySupplierPICs'));
+});
 
 
 # Items
@@ -132,12 +139,13 @@ Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('m
 Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
 
 #Supplier
+Route::get('/supplier/data', [SupplierController::class, 'index'])->name('supplier.index');
+Route::get('/supplier', [SupplierController::class, 'index'])->name('supplier.index');
+Route::get('/supplier/data', [App\Http\Controllers\SupplierController::class, 'index'])->name('supplier.index');
+Route::get('/supplier/pic', [App\Http\Controllers\SupplierPicController::class, 'index'])->name('supplier.pic.index');
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
-Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
-Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
-
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
