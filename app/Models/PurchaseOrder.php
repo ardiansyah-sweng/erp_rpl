@@ -123,6 +123,9 @@ class PurchaseOrder extends Model
             ->where('status', POStatus::FD->value)
             ->first();
     }
+charellina_276D
+    
+
      //hitung jumlah order dari supplier tertentu untuk rentang waktu tertentu
     public static function countOrdersByDateSupplier(
         string $startDate,
@@ -140,4 +143,5 @@ class PurchaseOrder extends Model
 
          return $query->count();
     }
+ development
 }
