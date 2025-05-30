@@ -1,10 +1,10 @@
 <?php
 
 $master = [
-    'id' => 'id',
-    'category' => 'category',
-    'created' => 'created_at',
-    'updated' => 'updated_at',
+    'id'        => 'id',
+    'category'  => 'category',
+    'created'   => 'created_at',
+    'updated'   => 'updated_at',
     'po_number' => 'po_number',
     'supplier_id' => 'supplier_id'
 ];
@@ -13,7 +13,8 @@ return [
     'table' => [
         'bom'                       => 'bill_of_material',
         'bom_detail'                => 'bom_detail',
-        'bom_prod'                  => 'bom_production',
+        'assort_prod'               => 'assortment_production',
+        'assort_prodetail'          => 'assortment_production_detail',
         'branch'                    => 'branch',
         'category'                  => $master['category'],
         'cu'                        => 'conversion_unit',
@@ -21,8 +22,9 @@ return [
         'item'                      => 'item',
         'log_avg_base_price'        => 'log_avg_base_price',
         'log_base_price_supplier'   => 'log_base_price_supplier_product',
-        'log_stock'                 => 'log_stock',
         'master_product'            => 'master_product',
+        'log_matory'                => 'log_material_inventory', 
+        'matory'                    => 'material_inventory',
         'merk'                      => 'merks',
         'mu'                        => 'measurement_unit',
         'po'                        => 'purchase_order',
@@ -56,13 +58,26 @@ return [
             'updated_at'            => 'updated_at'
         ],
 
-        'bom_prod' => [
+        'assort_prod' => [
             'id'                    => 'id',
             'prod_no'               => 'production_number',
+            'sku'                   => 'sku', #ambil dari tabel item #harus dari tipe produk finished goods (FG)
+            'branch'                => 'branch_id', #char[4]. FK dari tabel branch
+            'rm_whouse'             => 'rm_whouse_id', #char[4]. FK dari tabel warehouse
+            'fg_whouse'             => 'fg_whouse_id', #char[4]. FK dari tabel warehouse
             'prod_date'             => 'production_date',
-            'bom_id'                => 'bom_id', #char[7]
-            'bom_qty'               => 'bom_quantity',
+            'finished_date'         => 'finished_date', #default null
             'in_production'         => 'in_production',
+            'desc'                  => 'description',
+            'created'               => 'created_at',
+            'updated'               => 'updated_at'
+        ],
+
+        'assort_prodetail' => [
+            'id'                    => 'id',
+            'prod_no'               => 'production_number',
+            'bom_id'                => 'bom_id',
+            'bom_qty'               => 'bom_quantity',
             'desc'                  => 'description',
             'created'               => 'created_at',
             'updated'               => 'updated_at'
@@ -140,14 +155,23 @@ return [
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
-        'log_stock' => [
+
+        'log_matory' => [
             'id'                    => 'id',
-            'log_id'                => 'log_id', #po_number or transaction_id
-            'product_id'            => 'product_id',
+            'log_id'                => 'log_id', #grn_number or production_id
+            'sku'                   => 'sku',
             'old_stock'             => 'old_stock',
             'new_stock'             => 'new_stock',
-            'created_at'            => 'created_at',
-            'updated_at'            => 'updated_at'
+            'created_at'            => $master['created'],
+            'updated_at'            => $master['updated']
+        ],
+
+        'matory' => [
+            'id'                    => 'id',
+            'sku'                   => 'sku', #ambil dari tabel products
+            'stock'                 => 'stock',
+            'created_at'            => $master['created'],
+            'updated_at'            => $master['updated']
         ],
 
         'merk' => [
@@ -244,6 +268,8 @@ return [
             'name'                  => 'warehouse_name',
             'address'               => 'warehouse_address',
             'phone'                 => 'warehouse_telephone',
+            'is_rm_whouse'          => 'is_rm_whouse', #boolean
+            'is_fg_whouse'          => 'is_fg_whouse', #boolean
             'is_active'             => 'is_active',
             'created'               => 'created_at',
             'updated'               => 'updated_at'
