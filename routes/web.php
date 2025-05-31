@@ -12,6 +12,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
+use App\Http\Controllers\GoodsReceiptNoteController;
 
 
 #Login
@@ -50,7 +51,7 @@ Route::get('/branch/add', function () {
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
-Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
+Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
     $id = EncryptionHelper::decrypt($encrypted_id);
     return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
 })->name('purchase.orders.detail');
@@ -91,7 +92,7 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
 })->name('purchase.orders.detail');
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
- 
+
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
@@ -117,3 +118,6 @@ Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSu
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
+
+#GoodsReceiptNoteController
+Route::put('/grn/update/{po_number}', [GoodsReceiptNoteController::class, 'update']);
