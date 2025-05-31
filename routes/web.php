@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
+
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierPIController; // perubahan
@@ -10,9 +11,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController; // tambahkan jika belum
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
+
 
 #Login
 Route::get('/', function () {
@@ -36,6 +37,7 @@ Route::get('/dashboard', function () {
 Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
+
 
 Route::get('/supplier/add', function () {
     return view('supplier/add');
@@ -69,6 +71,7 @@ Route::get('/supplier/material/detail', function () {
 });
 
 
+<<<<<<< HEAD
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 
@@ -76,11 +79,24 @@ Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
+=======
+#API
+Route::get('/products', [APIProductController::class, 'getProducts']);
+Route::get('/prices', [APIProductController::class, 'getAvgBasePrice']);
+Route::get('/branches/{id}', [App\Http\Controllers\BranchController::class, 'getBranchById']);
+Route::get('/supplier-material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialByID']);
+# Product 
+Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
+# Product
+Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+>>>>>>> eaa5452 (Memperbaiki konflik di web.php dan menambahkan SupplierMaterialModel)
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('api.prices');
 Route::get('/api/branches/{id}', [BranchController::class, 'getBranchById'])->name('api.branch.detail');
+Route::get('/supplier-material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialByID'])->name('supplier.material.detail');
+
 
 # Branch
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
@@ -155,3 +171,4 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+

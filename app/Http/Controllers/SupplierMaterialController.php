@@ -14,6 +14,17 @@ class SupplierMaterialController extends Controller
 
         return view('supplier.material.list', ['materials' => $materials]);
     }
+    
+    public function getSupplierMaterialByID($id)
+    {
+        $materials = SupplierMaterial::getSupplierMaterialByID($id);
+
+        if ($materials->isEmpty()) {
+            return response()->json(['message' => 'Supplier not found or has no materials'], 404);
+        }
+
+        return response()->json($materials);
+    }
 
      // Validasi data supplier material
      public function addSupplierMaterial(Request $request)
