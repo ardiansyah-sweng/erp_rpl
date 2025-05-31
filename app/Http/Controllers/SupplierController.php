@@ -11,6 +11,7 @@ class SupplierController extends Controller
     {
         // Validasi input
         $request->validate([
+            'supplier_id' => 'required|string|max:6',
             'company_name' => 'required|string|max:100',
             'address' => 'required|string|max:100',
             'phone_number' => 'required|string|max:30',
