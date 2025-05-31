@@ -12,6 +12,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
+use App\Http\Controllers\GoodsReceiptNoteController;
 
 
 #Login
@@ -145,8 +146,7 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
-#GoodsReceiptNoteController
-Route::put('/grn/update/{po_number}', [GoodsReceiptNoteController::class, 'update']);
+
 
 #Category
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
@@ -158,3 +158,6 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
+#GoodsReceiptNoteController
+Route::put('/grn/update/{po_number}', [GoodsReceiptNoteController::class, 'update']);
