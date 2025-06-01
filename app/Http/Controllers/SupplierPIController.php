@@ -67,13 +67,12 @@ class SupplierPIController extends Controller
 
     public function updateSupplierPICDetail(Request $request, $id)
     {
-          $validator = Validator::make($request->all(), [
-            'id'   => 'required|integer|exists:suppliers,id',
+        $validator = Validator::make($request->all(), [
+            'id'            => 'required|integer|exists:suppliers,id',
             'name'          => 'required|string|max:255',
             'phone_number'  => 'required|string|max:20',
             'email'         => 'required|email|unique:supplier_pics,email,' . $id,
             'assigned_date' => 'required|date'
-
         ]);
 
         if ($validator->fails()) {
@@ -81,9 +80,10 @@ class SupplierPIController extends Controller
                 'status'  => 'error',
                 'message' => 'Validasi gagal',
                 'errors'  => $validator->errors(),
-            ], );
+            ]);
         }
 
+        $data = $request->only(['id', 'name', 'phone_number', 'email', 'assigned_date']);
         $result = SupplierPICModel::updateSupplierPIC($id, $data);
 
         return response()->json([
@@ -91,5 +91,16 @@ class SupplierPIController extends Controller
             'message' => $result['message'],
             'data'    => $result['data'] ?? null,
         ], $result['code']);
+    }
+
+    public function deleteSupplierPIC($id)
+    {
+        $picDelete = SupplierPic::deleteSupplierPIC($id);
+
+        if ($picDelete) {
+            return redirect()->back()->with('success', 'PIC berhasil dihapus!');
+        } else {
+            return redirect()->back()->with('error', 'PIC gagal dihapus.');
+        }
     }
 }
