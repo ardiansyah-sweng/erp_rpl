@@ -31,7 +31,7 @@ class Item extends Model
 
     public static function getAllItems($search = null)
     {
-        $query = self::query();
+        $query = self::with('unit');
 
         if ($search) {
             if (is_numeric($search)) {
@@ -81,6 +81,20 @@ class Item extends Model
         $item->update($data);
     
         return $item;
+    }
+    public function addItem($data)
+    {
+        return self::create($data);
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(MeasurementUnit::class, 'measurement_unit', 'id');
+    }
+
+
+    public static function getItembyId($id){
+        return self::where('id', $id)->first();
     }
 
 }
