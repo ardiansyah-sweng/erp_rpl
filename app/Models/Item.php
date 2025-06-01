@@ -70,7 +70,7 @@ class Item extends Model
     {
         return self::count();
     }
-<<<<<<<<< Temporary merge branch 1
+
     public static function updateItem($id, $data)
     {
         $item = self::find($id);
@@ -82,7 +82,7 @@ class Item extends Model
         $item->update($data);
     
         return $item;
-=========
+    }
 
     public function addItem($data)
     {
@@ -97,7 +97,27 @@ class Item extends Model
 
     public static function getItembyId($id){
         return self::where('id', $id)->first();
->>>>>>>>> Temporary merge branch 2
+    }
+  
+    public static function deleteItem($id)
+    {
+        $item = self::find($id);
+
+        if (!$item) {
+            return ['status' => false, 'message' => 'Item tidak ditemukan.'];
+        }
+
+        $used = \DB::table('purchase_order_detail')
+            ->where('product_id', $id)
+            ->exists();
+
+        if ($used) {
+            return ['status' => false, 'message' => 'Item tidak bisa dihapus karena sudah digunakan di purchase order.'];
+        }
+
+        $item->delete();
+
+        return ['status' => true, 'message' => 'Item berhasil dihapus.'];
     }
 
 }
