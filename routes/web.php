@@ -100,9 +100,7 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
 
-
 # supplier pic route nya
-Route::post('/supplier/pic/detail/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail']);
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
 Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
 Route::get('/supplier/pic/list', function () {
@@ -111,6 +109,7 @@ Route::get('/supplier/pic/list', function () {
 })->name('supplier.pic.list');
 Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplierPic'])->name('supplier.pic.list');
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
+Route::post('/supplier/pic/detail/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail']);
 
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
@@ -138,7 +137,7 @@ Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSu
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
 
-#Suppplier Update 
+#Suppplier Update
 Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');//Sudah sesuai pada ERP RPL
 Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');
 

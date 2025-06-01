@@ -82,8 +82,6 @@ class SupplierPIController extends Controller
                 'errors'  => $validator->errors(),
             ]);
         }
-
-        $data = $request->only(['id', 'name', 'phone_number', 'email', 'assigned_date']);
         $result = SupplierPICModel::updateSupplierPIC($id, $data);
 
         return response()->json([

@@ -7,8 +7,9 @@ use Carbon\Carbon;
 
 class SupplierPic extends Model
 {
-    protected $table;
-    protected $fillable = [];
+    protected $table = 'supplier_pic'; // sesuaikan nama tabel
+    protected $fillable = ['name', 'email', 'phone_number', 'supplier_id'];
+
 
     public function __construct(array $attributes = [])
     {
@@ -41,33 +42,42 @@ class SupplierPic extends Model
         return self::create($data);
     }
 
-    public static function updateSupplierPIC($id, $data)
-{
-    $supplierPic = self::find($id);
+     public static function updateSupplierPIC($id, $data)
+    {
+        try {
+            $supplierPic = self::find($id);
 
-    if (!$supplierPic) {
-        return [
-            'status' => 'error',
-            'message' => 'Supplier PIC tidak ditemukan.',
-            'code' => 404
-        ];
+            if (!$supplierPic) {
+                return [
+                    'status' => 'error',
+                    'message' => 'Supplier PIC tidak ditemukan.',
+                    'code' => 404
+                ];
+            }
+
+            $updated = $supplierPic->update($data);
+
+            return $updated
+                ? [
+                    'status' => 'success',
+                    'message' => 'Supplier PIC berhasil diperbarui.',
+                    'data' => $supplierPic,
+                    'code' => 200
+                ]
+                : [
+                    'status' => 'error',
+                    'message' => 'Gagal memperbarui Supplier PIC.',
+                    'code' => 500
+                ];
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => 'Exception: ' . $e->getMessage(),
+                'code' => 500
+            ];
+        }
     }
 
-    if ($supplierPic->update($data)) {
-        return [
-            'status' => 'success',
-            'message' => 'Supplier PIC berhasil diperbarui.',
-            'data' => $supplierPic,
-            'code' => 200
-        ];
-    } else {
-        return [
-            'status' => 'error',
-            'message' => 'Gagal memperbarui Supplier PIC.',
-            'code' => 500
-        ];
-    }
-}
 
 
     public static function assignmentDuration($pic)
