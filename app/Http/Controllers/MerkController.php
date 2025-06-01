@@ -19,6 +19,11 @@ class MerkController extends Controller
         return view('merk.detail', compact('merk'));
   
     }
+    public function index()
+    {
+        // memanggil fungsi getMerkAll
+        return $this->getMerkAll();
+    }
 
     public function updateMerk(Request $request, $id)
     {
@@ -41,9 +46,12 @@ class MerkController extends Controller
 
     public function getMerkAll()
     {
-        $merks = Merk::getAllMerk();
+         $dataMerk = MerkModel::getMerkAll();
 
-        return response()->json($merks);
+       return response()->json([
+            'status' => 'success',
+            'data' => $dataMerk
+        ]);
     }
 }
 

@@ -19,6 +19,7 @@ class Merk extends Model
         // Tetapkan nama tabel dan kolom
         $this->table = config('db_constants.table.merk');
         $this->fillable = array_values(config('db_constants.column.merk') ?? []);
+        array_values(config('db_constants.column.merk') ?? []);
     }
 
     public static function updateMerk($id, array $data)
