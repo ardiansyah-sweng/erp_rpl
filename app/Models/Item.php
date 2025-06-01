@@ -98,7 +98,6 @@ class Item extends Model
     public static function getItembyId($id){
         return self::where('id', $id)->first();
     }
-  
     public static function deleteItem($id)
     {
         $item = self::find($id);
@@ -107,18 +106,17 @@ class Item extends Model
             return ['status' => false, 'message' => 'Item tidak ditemukan.'];
         }
 
-        $used = \DB::table('purchase_order_detail')
-            ->where('product_id', $id)
+        $skuUsed = \DB::table('purchase_order_detail')
+            ->where('product_id', $item->sku)
             ->exists();
 
-        if ($used) {
-            return ['status' => false, 'message' => 'Item tidak bisa dihapus karena sudah digunakan di purchase order.'];
+        if ($skuUsed) {
+            return ['status' => false, 'message' => 'Item tidak bisa dihapus karena SKU-nya sudah digunakan di purchase order.'];
         }
 
         $item->delete();
 
         return ['status' => true, 'message' => 'Item berhasil dihapus.'];
     }
-
 
 }

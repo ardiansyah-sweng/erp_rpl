@@ -124,12 +124,12 @@ Route::get('/item/{id}', [itemController::class, 'getItemById']);
 
 Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
-Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
-
 
 Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
 Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
 Route::get('/item/{id}', [itemController::class, 'getItemById']);
+Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
+
 
 
 # Merk
