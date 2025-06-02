@@ -83,8 +83,16 @@ class Product extends Model
     
     public function getProductById($id) {
         return self::where('id', $id)->first();
-    }    
-    public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
+      
+    }
+ 
+    public static function addProduct($data){
+        return self::create($data);
+    }
+
+
+     
+    public static function updateProduct($id, array $data)
     {
         $product = self::find($id);
         if (!$product) {
@@ -94,5 +102,4 @@ class Product extends Model
 
         return $product;
     }
-
 }
