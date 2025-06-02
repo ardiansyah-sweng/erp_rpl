@@ -95,11 +95,6 @@ class Item extends Model
         return $this->belongsTo(MeasurementUnit::class, 'measurement_unit', 'id');
     }
 
-       public static function getItemByType($productType)
-    {
-        return self::where('product_type', $productType)->get();
-    }
-
 
     public static function getItembyId($id){
         return self::where('id', $id)->first();
