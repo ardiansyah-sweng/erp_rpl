@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class PurchaseOrderController extends Controller
 {
@@ -79,5 +81,19 @@ class PurchaseOrderController extends Controller
         $statusUpdateDate = Carbon::parse($poData->updated_at);
     
         return intval($orderDate->diffInDays($statusUpdateDate));
+    }
+
+    public function printPurchaseOrderToPDFById($po_number){
+        $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($po_number);
+        if (!$purchaseOrder){
+            return redirect()->back()->with('error', 'Purchase Order tidak ditemukan.');
+        }
+
+        if($purchaseOrder instanceof \Illuminate\Pagination\LengthAwarePaginator || $purchaseOrder instanceof \Illuminate\Support\Collection){
+            $purchaseOrder = $purchaseOrder->first();
+        }
+
+        $pdf = pdf::loadView('purchase_orders.report', compact('purchaseOrder'));
+        return $pdf->download('PurchaseOrder_' . $po_number . '.pdf');
     }
 }
