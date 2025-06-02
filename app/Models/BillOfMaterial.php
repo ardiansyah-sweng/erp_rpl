@@ -17,4 +17,9 @@ class BillOfMaterial extends Model
         $this->table = config('db_constants.table.bom');
         $this->fillable = array_values(config('db_constants.column.bom') ?? []);
     }
+
+    public function addBillOfMaterial($data)
+    {
+        return self::create($data);
+    }
 }
