@@ -13,6 +13,8 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
+use App\Models\AssortmentProduction;
+
 
 #Login
 Route::get('/', function () {
@@ -148,3 +150,7 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
+Route::get('/test-production/{id}', function($id) {
+    return AssortmentProduction::getProductionDetail($id);
+});
