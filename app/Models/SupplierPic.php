@@ -25,7 +25,7 @@ class SupplierPic extends Model
     {
         return self::with('supplier')->find($id); // relasi langsung tersedia
     }
-
+#yfy
     /**
      * Ambil semua data PIC dengan paginasi
      */
