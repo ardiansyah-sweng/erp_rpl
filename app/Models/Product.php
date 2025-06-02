@@ -67,5 +67,15 @@ class Product extends Model
     public function getProductById($id) {
         return self::where('id', $id)->first();
     }    
+    public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
+    {
+        $product = self::find($id);
+        if (!$product) {
+            return null;
+        }
+        $product->update($data);
+
+        return $product;
+    }
 
 }
