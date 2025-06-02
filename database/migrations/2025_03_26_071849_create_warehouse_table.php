@@ -23,7 +23,9 @@ return new class extends Migration
             $table->string($col['name'], 50);
             $table->string($col['address'], 100);
             $table->string($col['phone'], 30);
-            $table->boolean($col['is_active']);
+            $table->boolean($col['is_rm_whouse'])->default(false);
+            $table->boolean($col['is_fg_whouse'])->default(false);
+            $table->boolean($col['is_active'])->default(true);
             $table->timestamps();
         });
     }
