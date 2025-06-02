@@ -47,19 +47,19 @@ class SupplierPIController extends Controller
             'assigned_date' => 'required|date_format:d/m/Y',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // max 2MB
         ]);
-        
-        // Cek duplikat
-        $duplicate = SupplierPic::where('supplier_id', $supplierID)
-            ->where('name', $request->input('name'))
-            ->where('email', $request->input('email'))
-            ->where('phone_number', $request->input('phone_number'))
-            ->exists();
 
-        if ($duplicate) {
+        // Cek duplikat menggunakan method model
+        if (SupplierPic::isDuplicatePIC(
+            $supplierID,
+            $request->input('name'),
+            $request->input('email'),
+            $request->input('phone_number')
+        )) {
             return redirect()->back()
                 ->withErrors(['duplicate' => 'Data PIC dengan informasi yang sama sudah ada dan tidak bisa disimpan.'])
                 ->withInput();
         }
+
 
         // Handle upload foto jika ada
         if ($request->hasFile('photo')) {
