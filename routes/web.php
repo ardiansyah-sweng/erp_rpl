@@ -74,9 +74,15 @@ Route::get('/product/list', [ProductController::class, 'getProductList'])->name(
 
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
+
 #encry
 Route::get('/products/detail/{id}', [ProductController::class, 'detail']);
+
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
+
+#Product Update 
+Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct'); //Sudah sesuai pada ERP RPL
+Route::get('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
