@@ -126,7 +126,7 @@ Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
 Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
 Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
 Route::get('/item/{id}', [itemController::class, 'getItemById']);
-
+Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType'])->name('item.byType');
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
