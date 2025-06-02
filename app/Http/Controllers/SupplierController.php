@@ -9,7 +9,7 @@ class SupplierController extends Controller
 {
     public function getSupplierById($id)
     {
-        $supplier = Supplier::find($id);
+        $supplier = Supplier::getSupplierById($id);
 
         $error = null;
         if (!$supplier) {
@@ -25,12 +25,17 @@ class SupplierController extends Controller
             'company_name' => 'required|string|max:100',
             'address' => 'required|string|max:100',
             'phone_number' => 'required|string|max:30',
-            'bank_account' => 'required|string|max:100',
         ]);
-        
-        $updatedSupplier = Supplier::getUpdateSupplier($supplier_id, $request->only(['company_name', 'address', 'phone_number']));
-        
+
+        $updatedSupplier = Supplier::updateSupplier($supplier_id, $request->only([
+            'company_name', 'address', 'phone_number', 'bank_account'
+        ]));
+
+        if (!$updatedSupplier) {
+            return redirect()->back()->with('error', 'Gagal memperbarui data supplier.');
+        }
+
         return redirect()->route('supplier.detail', ['id' => $updatedSupplier->supplier_id])
-                     ->with('success', 'Data Supplier berhasil diperbarui.');
+                         ->with('success', 'Data Supplier berhasil diperbarui.');
     }
 }

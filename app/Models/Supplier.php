@@ -1,12 +1,14 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Supplier extends Model
 {
     protected $table = 'supplier';
-    protected $fillable = ['company_name', 'address','phone_number'];
+    protected $fillable = ['company_name', 'address', 'phone_number'];
 
     protected $primaryKey = 'supplier_id';
     public $incrementing = false;
@@ -20,18 +22,23 @@ class Supplier extends Model
         $this->fillable = array_values(config('db_constants.column.supplier') ?? []);
     }
 
-    public static function updateSupplier($supplier_id, array $data)//Sudah sesuai pada ERP RPL
+    public static function getSupplierById($id)
     {
-        $supplier = self::find($supplier_id);
-        if (!$supplier) {
-            return null;
-        }
-        $supplier->update($data);
-
-        return $supplier;
+        return DB::table(config('db_constants.table.supplier'))
+            ->where('supplier_id', $id)
+            ->first();
     }
-    public function getSupplierById($id)
+
+    public static function updateSupplier($supplier_id, array $data)
     {
-        return self::where($this->getKeyName(), $id)->first();
+        $affected = DB::table(config('db_constants.table.supplier'))
+            ->where('supplier_id', $supplier_id)
+            ->update($data);
+
+        if ($affected) {
+            return (object) array_merge(['supplier_id' => $supplier_id], $data);
+        }
+
+        return null;
     }
 }
