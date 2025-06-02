@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use App\Models\MeasurementUnit;
 
 class ItemController extends Controller
 {
@@ -30,6 +31,34 @@ class ItemController extends Controller
         }
     }
 
+    public function addItem(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|string|size:4', // ID Produk 4 karakter
+            'sku' => 'required|string',
+            'item_name' => 'required|string|min:3',
+            'measurement_unit' => 'required|string',
+            'selling_price' => 'required|numeric|min:0',
+        ]);
+
+        $item = new Item();
+        $item->addItem([
+            'product_id' => $request->product_id,
+            'sku' => $request->sku,
+            'item_name' => $request->item_name,
+            'measurement_unit' => $request->measurement_unit, // Perbaikan di sini
+            'selling_price' => $request->selling_price, // Perbaikan di sini
+        ]);
+
+        return redirect()->route('item.list')->with('success', 'Item berhasil ditambahkan!');
+    }
+
+    public function showAddForm()
+    {
+        $units = MeasurementUnit::all(); // ambil semua unit
+        return view('item.add', compact('units'));
+    }
+
 
     public function getItemList(Request $request)
     {
@@ -37,5 +66,29 @@ class ItemController extends Controller
         $items = Item::getAllItems($search);
         return view('item.list', compact('items'));
     }
+
+    public function updateItem(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'id' => 'required|integer',
+            'sku' => 'required|string|max:50',
+            'item_name' => 'required|string|max:100',
+        ]);
+
+         $item = Item::updateItem($id, $validated);
+
+        if (!$item) {
+            return redirect()->back()->with('error', 'Item tidak ditemukan.');
+        }
+
+        return redirect()->back()->with('success', 'Item berhasil diperbarui.');
+    }
+  
+
     
+    public function getItemById($id){
+        $item = (new item())->getItemById($id);
+        return response()->json($item);
+    }
+
 }

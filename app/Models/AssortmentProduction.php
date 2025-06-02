@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Warehouse extends Model
+class AssortmentProduction extends Model
 {
     protected $table;
     protected $fillable = [];
@@ -14,12 +14,7 @@ class Warehouse extends Model
         parent::__construct($attributes);
 
         // Tetapkan nama tabel dan kolom
-        $this->table = config('db_constants.table.whouse');
-        $this->fillable = array_values(config('db_constants.column.whouse') ?? []);
-    }
-
-    public function getWarehouseById($id)
-    {
-        return self::where('id', $id)->first();
+        $this->table = config('db_constants.table.assort_prod');
+        $this->fillable = array_values(config('db_constants.column.assort_prod') ?? []);
     }
 }
