@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Warehouse extends Model
 {
+    use HasFactory;
+
     protected $table;
     protected $fillable = [];
 
@@ -22,4 +25,10 @@ class Warehouse extends Model
     {
         return self::where('id', $id)->first();
     }
+
+    public static function countWarehouse()
+    {
+        return self::count();
+    }
+
 }
