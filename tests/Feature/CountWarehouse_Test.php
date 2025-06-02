@@ -12,11 +12,11 @@ class CountWarehouse_Test extends TestCase
 
     public function test_count_warehouse()
     {
-        Warehouse::factory()->count(5)->create();
+        Warehouse::factory()->count(65)->create();
 
         $count = Warehouse::count();
         dump("Jumlah warehouse:", $count);
         
-        $this->assertEquals(5, $count);
+        $this->assertEquals(65, $count);
     }
 }
