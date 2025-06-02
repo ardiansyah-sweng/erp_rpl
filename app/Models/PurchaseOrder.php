@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Enums\POStatus;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class PurchaseOrder extends Model
 {
@@ -140,4 +142,45 @@ class PurchaseOrder extends Model
 
          return $query->count();
     }
+    //.
+    public static function sendMailPurchaseOrder(string $po_number): void
+    {
+        $po = self::getPurchaseOrderByID($po_number);
+
+        if (!$po || $po->isEmpty()) {
+            Log::warning("Email gagal dikirim: PO tidak ditemukan - $po_number");
+            return;
+        }
+
+        $poData = $po->first();
+
+        // Ambil informasi penting dari PO.
+        $supplierName = $poData->supplier->company_name ?? 'Unknown Supplier';
+        $orderDate    = $poData->order_date;
+        $totalAmount  = $poData->total;
+
+        $recipientEmail = $poData->supplier->email ?? 'purchasing@example.com';
+
+        // Format isi email sederhana.
+        $message = "Purchase Order Baru Telah Dibuat\n\n"
+                . "Nomor PO   : $po_number\n"
+                . "Supplier   : $supplierName\n"
+                . "Tanggal    : $orderDate\n"
+                . "Total      : Rp " . number_format($totalAmount, 0, ',', '.') . "\n\n"
+                . "Silakan proses lebih lanjut.";
+
+        try {
+            Mail::raw($message, function ($mail) use ($recipientEmail) {
+                $mail->to($recipientEmail)
+                    ->subject('Notifikasi Purchase Order Baru');
+            });
+
+            Log::info("Email PO berhasil dikirim ke $recipientEmail untuk PO: $po_number");
+
+        } catch (\Exception $e) {
+            Log::error("Gagal mengirim email PO $po_number: " . $e->getMessage());
+        }
+    }
+
+    
 }
