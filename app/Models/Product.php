@@ -24,6 +24,11 @@ class Product extends Model
         'updated_at',
     ];
 
+    protected $casts = [
+    'product_type' => \App\Enums\ProductType::class,
+];
+
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -68,14 +73,7 @@ class Product extends Model
                         ->select($tableItem.'.'.$colItem['sku']);
     }
 
-    public function getProductTypeAttribute($value)
-    {
-        return match ($value) {
-            'RM' => 'Raw Material',
-            'FG' => 'Finished Good',
-            default => $value,
-        };
-    }
+    
     
     public static function countProduct() {
         return self::count();
