@@ -311,34 +311,48 @@
 
               
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-person-circle"></i>
-                  <p>
-                    Supplier
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="./widgets/small-box.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Small Box</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="/supplier/pic/add" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Tambah PIC supplier</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./widgets/cards.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Cards</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
+              <a href="#" class="nav-link">
+                <i class="nav-icon bi bi-person-circle"></i>
+                <p>
+                  Supplier
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/supplier/pic/add" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Tambah PIC supplier</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/supplier/material/add" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Tambah Supplier Item</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/supplier/add" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Tambah Supplier</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/supplier/material/list" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Supplier Material</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/supplier/pic/list" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>List PIC Supplier</p>
+                  <a href="/supplier/list" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>List Supplier</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
               <li class="nav-item">
                 <a href="{{ route('purchase.orders') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
