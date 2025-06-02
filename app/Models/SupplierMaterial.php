@@ -7,6 +7,14 @@ use Illuminate\Support\Facades\DB;
 
 class SupplierMaterial extends Model
 {
+    protected $table = 'supplier_product';
+    protected $fillable = [
+         'supplier_id',
+            'company_name',
+            'product_id',
+            'product_name',
+            'base_price',
+    ];
     public static function getSupplierMaterial()
     {
         return DB::table('supplier_product')->paginate(10);
@@ -42,4 +50,15 @@ class SupplierMaterial extends Model
             ->distinct('p.product_id')
             ->count(DB::raw('DISTINCT p.product_id'));
     }
+
+    public static function addSupplierMaterial($data)
+    {
+        return self::create([
+            'supplier_id' => $data->supplier_id,
+            'company_name' => $data->company_name,
+            'product_id' => $data->product_id,
+            'product_name'=> $data->product_name,
+            'base_price' => $data->base_price,
+        ]);
+    } 
 }

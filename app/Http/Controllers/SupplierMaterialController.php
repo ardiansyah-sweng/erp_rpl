@@ -27,6 +27,7 @@ class SupplierMaterialController extends Controller
             'created_at'    => 'nullable|date',
             'updated_at'    => 'nullable|date',
         ]);
+        SupplierMaterial::addSupplierMaterial((object)$validated);
          return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
      }
 
