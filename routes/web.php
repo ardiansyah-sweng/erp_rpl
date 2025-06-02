@@ -134,7 +134,7 @@ Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSu
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('supplier.detail');
-Route::put('/supplier/{supplier_id}/update', [SupplierController::class, 'getUpdateSupplier'])->name('supplier.update');
+Route::put('/supplier/{supplier_id}/update', [SupplierController::class, 'updateSupplier'])->name('supplier.update');
 
 #Suppplier Update 
 Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');//Sudah sesuai pada ERP RPL
