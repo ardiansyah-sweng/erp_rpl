@@ -18,14 +18,25 @@ class SupplierController extends Controller
         ]);
 
         // Update data supplier nama perusahaan, alamat, nomor telepon dan akun bank
-        $updatedSupplier = Supplier::updateSupplier($supplier_id, $request->only(['company_name','address','phone_number','bank_account']));//Sudah sesuai pada ERP RPL
+        $updatedSupplier = Supplier::updateSupplier(
+            $supplier_id,
+            $request->only([
+                'company_name',
+                'address',
+                'phone_number',
+                'bank_account'
+            ])
+        ); //Sudah sesuai pada ERP RPL
 
+        // return $updatedSupplier;
         return redirect()->route('supplier.detail', ['id' => $supplier_id]);
     }
+
     public function getSupplierById($id)
     {
         $sup = (new Supplier())->getSupplierById($id);
 
+        // return response()->json($sup);
         return view('supplier.detail', compact('sup'));
     }
 }
