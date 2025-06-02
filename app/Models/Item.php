@@ -100,5 +100,12 @@ class Item extends Model
         return self::where('id', $id)->first();
 
     }
+    public static function getItemByType($productType)
+    {
+        return self::join('products', 'items.product_id', '=', 'products.id')
+                    ->where('products.type', $productType)
+                    ->select('items.*', 'products.type as product_type')
+                    ->get();
+    }
 
 }

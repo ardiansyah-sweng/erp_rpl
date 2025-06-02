@@ -90,5 +90,10 @@ class ItemController extends Controller
         $item = (new item())->getItemById($id);
         return response()->json($item);
     }
+    public function getItemByType($productType)
+    {
+        $items = Item::getItemByType($productType); // Memanggil dari model
+        return view('item.by_type', compact('items', 'productType'));
+    }
 
 }
