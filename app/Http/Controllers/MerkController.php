@@ -38,5 +38,12 @@ class MerkController extends Controller
         
         return response()->json([ 'message' => 'Data Merk berhasil diperbarui','data' => $updatedMerk, ]);
     }
+
+    public function getMerkAll()
+    {
+        $merks = Merk::getAllMerk();
+
+        return response()->json($merks);
+    }
 }
 
