@@ -82,6 +82,7 @@ class SupplierPIController extends Controller
                 'errors'  => $validator->errors(),
             ]);
         }
+
         $result = SupplierPICModel::updateSupplierPIC($id, $data);
 
         return response()->json([
