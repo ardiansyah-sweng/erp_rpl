@@ -151,6 +151,3 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
 
-Route::get('/test-production/{id}', function($id) {
-    return AssortmentProduction::getProductionDetail($id);
-});
