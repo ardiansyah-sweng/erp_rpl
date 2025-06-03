@@ -52,10 +52,11 @@ class Category extends Model
         return self::with('parent')->get();
     }
 
-    public static function getCategoryById($id)
+    public static function getCategoryByCategory($category)
     {
-        return self::find($id);
+    return self::where('category', $category)->get();
     }
+
     public static function countByParent()
     {
         $instance = new static;
