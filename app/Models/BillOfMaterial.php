@@ -7,7 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class BillOfMaterial extends Model
 {
     protected $table;
-    protected $fillable = [];
+    protected $fillable = [
+        'bom_id',
+        'bom_name',
+        'measurement_unit',
+        'total_cost',
+        'active',
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -18,8 +24,11 @@ class BillOfMaterial extends Model
         $this->fillable = array_values(config('db_constants.column.bom') ?? []);
     }
 
-    public function addBillOfMaterial($data)
+    public static function addBillOfMaterial($data)
     {
+        if (empty($data)) {
+            throw new \Exception('Data tidak boleh kosong.');
+        }
         return self::create($data);
     }
 }
