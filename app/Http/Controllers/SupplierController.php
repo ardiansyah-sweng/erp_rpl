@@ -21,13 +21,13 @@ class SupplierController extends Controller
         $updatedSupplier = Supplier::updateSupplier($supplier_id, $request->only(['company_name','address','phone_number','bank_account']));//Sudah sesuai pada ERP RPL
 
         // return $updatedSupplier;
-        return redirect()->route('supplier.detail', ['id' => $supplier_id]);
+        return redirect()->route('Supplier.detail', ['id' => $supplier_id]);
     }
     public function getSupplierById($id)
     {
         $sup = (new Supplier())->getSupplierById($id);
 
         // return response()->json($sup);
-        return view('supplier.detail', compact('sup'));
+        return view('Supplier.detail', compact('sup'));
     }
 }
