@@ -9,11 +9,11 @@ class SupplierMaterial extends Model
 {
     protected $table = 'supplier_product';
     protected $fillable = [
-         'supplier_id',
-            'company_name',
-            'product_id',
-            'product_name',
-            'base_price',
+        'supplier_id',
+        'company_name',
+        'product_id',
+        'product_name',
+        'base_price',
     ];
     public static function getSupplierMaterial()
     {
@@ -41,9 +41,10 @@ class SupplierMaterial extends Model
         }
     }
 
-    public static function countSupplierMaterial(){
+    public static function countSupplierMaterial()
+    {
         return DB::table('supplier_product as sp')
-            ->join('products as p', function($join) {
+            ->join('products as p', function ($join) {
                 $join->on(DB::raw('LEFT(sp.product_id, LOCATE("-", sp.product_id) - 1)'), '=', 'p.product_id');
             })
             ->where('p.product_type', '=', 'RM')
@@ -53,12 +54,17 @@ class SupplierMaterial extends Model
 
     public static function addSupplierMaterial($data)
     {
+        if (empty($data)) {
+            throw new \Exception('Data tidak boleh kosong.');
+        }
+
         return self::create([
-            'supplier_id' => $data->supplier_id,
-            'company_name' => $data->company_name,
-            'product_id' => $data->product_id,
-            'product_name'=> $data->product_name,
-            'base_price' => $data->base_price,
+            'supplier_id' => $data['supplier_id'],
+            'company_name' => $data['company_name'],
+            'product_id' => $data['product_id'],
+            'product_name' => $data['product_name'],
+            'base_price' => $data['base_price'],
         ]);
-    } 
+    }
+
 }
