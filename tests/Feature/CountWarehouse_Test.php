@@ -12,7 +12,16 @@ class CountWarehouse_Test extends TestCase
 
     public function test_count_warehouse()
     {
-        Warehouse::factory()->count(65)->create();
+        for ($i = 0; $i < 65; $i++) {
+            Warehouse::create([
+                'warehouse_name' => 'Gudang ' . $i,
+                'warehouse_address' => 'Jl. Contoh No. ' . $i,
+                'warehouse_telephone' => '08123456789',
+                'is_rm_whouse' => 0,
+                'is_fg_whouse' => 1,
+                'is_active' => 1,
+            ]);
+        }
 
         $count = Warehouse::count();
         dump("Jumlah warehouse:", $count);
@@ -20,3 +29,4 @@ class CountWarehouse_Test extends TestCase
         $this->assertEquals(65, $count);
     }
 }
+
