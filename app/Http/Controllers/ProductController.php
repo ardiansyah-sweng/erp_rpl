@@ -61,10 +61,7 @@ class ProductController extends Controller
     }
     public function printProductsByType($type)
     {
-        $products = Product::where('product_type', $type)
-            ->with('category')
-            ->orderBy('product_name')
-            ->get();
+        $products = Product::getProductsByType($type);
 
         $pdf = \PDF::loadView('product.print', compact('products', 'type'));
         
