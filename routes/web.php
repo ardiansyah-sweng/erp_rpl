@@ -148,3 +148,4 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');

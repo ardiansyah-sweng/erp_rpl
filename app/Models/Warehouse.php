@@ -22,4 +22,15 @@ class Warehouse extends Model
     {
         return self::where('id', $id)->first();
     }
+
+    public static function deleteWarehouseById($id)
+    {
+        $warehouse = self::find($id);
+
+        if ($warehouse) {
+            return $warehouse->delete();
+        }
+
+        return false;
+    }
 }
