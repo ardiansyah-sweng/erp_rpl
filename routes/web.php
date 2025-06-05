@@ -13,6 +13,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\BillOfMaterialController;
 
 #Login
 Route::get('/', function () {
@@ -158,3 +159,6 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
+# Bill of Material
+Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial'])->name('billofmaterial.delete');
