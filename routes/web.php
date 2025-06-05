@@ -41,9 +41,6 @@ Route::get('/supplier/add', function () {
     return view('supplier/add');
 });
 
-//Route::get('/supplier/detail', function () {
-    //return view('supplier/detail');
-//});
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
@@ -159,3 +156,4 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+Route::get('/count-warehouse', [WarehouseController::class, 'countWarehouse']);
