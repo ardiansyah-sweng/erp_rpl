@@ -12,7 +12,12 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
+
+use App\Http\Controllers\SupplierPicController;
+use App\Models\SupplierPic;
+
 use App\Http\Controllers\WarehouseController;
+
 
 #Login
 Route::get('/', function () {
@@ -134,6 +139,10 @@ Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.add');
 Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
 
+
+#SupplierPic
+Route::get('/supplierPic/{supplier_id}', [SupplierPicController::class,'getSupplierPicById']);
+
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
@@ -158,3 +167,4 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
