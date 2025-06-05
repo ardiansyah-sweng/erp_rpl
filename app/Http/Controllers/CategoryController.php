@@ -60,11 +60,18 @@ class CategoryController extends Controller
         // dan return response nya di hapus
     }
 
-    public function getCategoryById($id)
+    public function getCategoryByCategory($category)
     {
-        $category = (new Category())->getCategoryById($id);
-        return response()->json($category);
+    $categories = Category::getCategoryByCategory($category);
+
+    if ($categories->isEmpty()) {
+        return response()->json(['message' => 'Kategori tidak ditemukan'], 404);
     }
+
+    return response()->json($categories);
+    }
+
+
 
     // delete category
     public function deleteCategory($id)
