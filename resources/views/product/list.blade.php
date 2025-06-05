@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
@@ -379,7 +378,27 @@
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Produk</h3>
                 <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
+                
+                <div class="btn-group ms-2">
+                  <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-printer-fill"></i> Cetak PDF
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ route('product.print', ['type' => 'FG']) }}">
+                        <i class="bi bi-box-seam"></i> Finished Goods
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('product.print', ['type' => 'HFG']) }}">
+                        <i class="bi bi-boxes"></i> Half Finished Goods
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('product.print', ['type' => 'RM']) }}">
+                        <i class="bi bi-box"></i> Raw Material
+                    </a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{ route('category.print') }}" target="_blank">
+                        <i class="bi bi-tags"></i> Cetak Kategori
+                    </a></li>
+                  </ul>
+                </div>
               </div>
     
     

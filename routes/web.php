@@ -75,6 +75,7 @@ Route::get('/product/list', [ProductController::class, 'getProductList'])->name(
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
+Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print');
 
 #Product Update 
 Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct'); //Sudah sesuai pada ERP RPL

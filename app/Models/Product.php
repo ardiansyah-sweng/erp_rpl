@@ -78,4 +78,12 @@ class Product extends Model
         return $product;
     }
 
+    public static function getProductsByType($type)
+    {
+        return self::where('product_type', $type)
+                  ->with('category')
+                  ->orderBy('product_name')
+                  ->get();
+    }
+
 }

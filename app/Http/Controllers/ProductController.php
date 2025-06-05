@@ -59,5 +59,13 @@ class ProductController extends Controller
 
         return $Updateproduct;
     }
+    public function printProductsByType($type)
+    {
+        $products = Product::getProductsByType($type);
+
+        $pdf = \PDF::loadView('product.print', compact('products', 'type'));
+        
+        return $pdf->download('products-' . strtolower($type) . '.pdf');
+    }
 
 }
