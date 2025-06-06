@@ -18,17 +18,15 @@ class Warehouse extends Model
         $this->fillable = array_values(config('db_constants.column.whouse') ?? []);
     }
 
-    /**
-     * Ambil data warehouse berdasarkan ID
-     */
     public function getWarehouseById($id)
     {
         return self::where('id', $id)->first();
     }
+       public static function countWarehouse()
+    {
+        return self::count();
+    }
 
-    /**
-     * Update data warehouse berdasarkan ID
-     */
     public function updateWarehouse($id, $data)
     {
         $warehouse = $this->getWarehouseById($id);
