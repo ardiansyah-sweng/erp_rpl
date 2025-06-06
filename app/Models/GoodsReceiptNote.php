@@ -16,4 +16,9 @@ class GoodsReceiptNote extends Model
         $this->table = config('db_constants.table.grn');
         $this->fillable = array_values(config('db_constants.column.grn') ?? []);
     }
+
+    public static function getGoodsReceiptNote($po_number)
+    {
+         return self::where('po_number', $po_number)->get();
+    }
 }
