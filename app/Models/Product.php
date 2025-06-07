@@ -19,17 +19,27 @@ class Product extends Model
         'product_name',
         'product_type',
         'product_category',
-        'product_description',
-        'created_at',
-        'updated_at',
+        'product_description'
     ];
+
+    // Maps the column names to their actual DB names
+    protected $columnMap;
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-
         $this->table = config('db_constants.table.products');
-        $this->fillable = array_values(config('db_constants.column.products') ?? []);
+        
+        $colProduct = config('db_constants.column.products');
+        $this->columnMap = [
+            'product_id' => $colProduct['id'],
+            'product_name' => $colProduct['name'],
+            'product_type' => $colProduct['type'],
+            'product_category' => $colProduct['category'],
+            'product_description' => $colProduct['desc'],
+            'created_at' => $colProduct['created'],
+            'updated_at' => $colProduct['updated']
+        ];
     }
 
     public function category()
@@ -37,9 +47,49 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'product_category', 'id');
     }
 
+    public static function getProduct()
+    {
+        $product = new self();
+        return self::with(['category' => function($query) {
+            $query->select('id', 'category');
+        }])
+        ->select(
+            'id',
+            $product->columnMap['product_id'] . ' as product_id',
+            $product->columnMap['product_name'] . ' as product_name',
+            $product->columnMap['product_type'] . ' as product_type',
+            $product->columnMap['product_category'] . ' as product_category',
+            $product->columnMap['product_description'] . ' as product_description',
+            $product->columnMap['created_at'] . ' as created_at',
+            $product->columnMap['updated_at'] . ' as updated_at'
+        )
+        ->orderBy($product->columnMap['created_at'], 'desc')
+        ->paginate(10);
+    }
+
     public static function getAllProducts()
     {
-        return self::with('category')->orderBy('created_at', 'desc')->paginate(10);
+        return self::getProduct();
+    }
+
+    public static function getAllProductsForPDF()
+    {
+        $product = new self();
+        return self::with(['category' => function($query) {
+            $query->select('id', 'category');
+        }])
+        ->select(
+            'id',
+            $product->columnMap['product_id'] . ' as product_id',
+            $product->columnMap['product_name'] . ' as product_name',
+            $product->columnMap['product_type'] . ' as product_type',
+            $product->columnMap['product_category'] . ' as product_category',
+            $product->columnMap['product_description'] . ' as product_description',
+            $product->columnMap['created_at'] . ' as created_at',
+            $product->columnMap['updated_at'] . ' as updated_at'
+        )
+        ->orderBy($product->columnMap['created_at'], 'desc')
+        ->get();
     }
 
     public function getSKURawMaterialItem()
@@ -58,7 +108,6 @@ class Product extends Model
         return self::count();
     }
 
-
     public static function addProduct($data)
     {
         return self::create($data);
@@ -67,5 +116,15 @@ class Product extends Model
     public function getProductById($id) {
         return self::where('id', $id)->first();
     }    
+    public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
+    {
+        $product = self::find($id);
+        if (!$product) {
+            return null;
+        }
+        $product->update($data);
+
+        return $product;
+    }
 
 }

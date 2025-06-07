@@ -46,14 +46,32 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
+    public function updateProduct(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'product_name' => 'required|string|max:35',
+            'product_type' =>  'required|string|max:12',
+            'product_category' => 'required|integer',
+            'product_description' => 'nullable|string|max:255',
+        ]);
 
+        $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
+
+        return $Updateproduct;
+    }
 
 public function generateProductPDF()
 {
-    $products = Product::getAllProducts(); // Use getAllProducts() method
+    $products = Product::getAllProductsForPDF();
 
     $pdf = Pdf::loadView('pdf.product_list', compact('products'));
+    return $pdf->stream('daftar_produk.pdf');
+}
 
-    return $pdf->download('product_list.pdf');
+public function previewProductPDF()
+{
+    $products = Product::getAllProductsForPDF();
+    return view('product.preview-pdf', compact('products'));
 }
 }

@@ -13,6 +13,31 @@
         body { 
             font-family: 'Open Sans', sans-serif;
             margin: 3cm 2cm 2cm 2cm;
+            line-height: 1.6;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 4px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .btn-success {
+            background-color: #198754;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .mx-2 {
+            margin-left: 0.5rem;
+            margin-right: 0.5rem;
+        }
+        .btn-lg {
+            padding: 12px 24px;
+            font-size: 16px;
         }
         .header { 
             position: fixed;

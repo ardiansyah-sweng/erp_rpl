@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
@@ -378,7 +377,12 @@
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Produk</h3>
-                <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm me-2">
+                    <i class="bi bi-plus-circle"></i> Tambah Produk
+                </a>
+                <a href="{{ route('product.pdf.preview') }}" class="btn btn-success btn-sm">
+                    <i class="bi bi-file-pdf"></i> Preview & Cetak PDF
+                </a>
               </div>
     
     
@@ -401,15 +405,15 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th style="width: 10px">id</th>
-                      <th>product_id</th>
-                      <th>product_name</th>
-                      <th>product_type</th>
-                      <th>product_category</th>
-                      <th>product_description</th>
-                      <th>Created At</th>
-                      <th>Updated At </th>
-                      <th>Action </th>
+                      <th style="width: 10px">No</th>
+                      <th>ID Produk</th>
+                      <th>Nama Produk</th>
+                      <th>Tipe Produk</th>
+                      <th>Kategori</th>
+                      <th>Deskripsi</th>
+                      <th>Dibuat Pada</th>
+                      <th>Diperbarui Pada</th>
+                      <th>Aksi</th>
                     </tr>
                   </thead>
                  <tbody>
@@ -424,11 +428,11 @@
                       <td>{{ $product->created_at }}</td>
                       <td>{{ $product->updated_at }}</td>
                       <td>
-                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                          <a href="#" class="btn btn-sm btn-primary">Ubah</a>
                               <form  method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?')">Delete</button>
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">Hapus</button>
                               </form>
                           <a href="#" class="btn btn-sm btn-info">Detail</a>
                       </td>
