@@ -106,7 +106,9 @@ class PurchaseOrder extends Model
                     'quantity' => $item['qty'],
                     'amount' => $item['amount'],
                 ]);
+                
             }
+
 
             DB::commit();
             return $purchaseOrder;
