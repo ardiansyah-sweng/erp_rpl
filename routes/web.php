@@ -12,7 +12,8 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
-use App\Http\Controllers\WarehouseController;
+
+ App\Http\Controllers\WarehouseController;
 
 #Login
 Route::get('/', function () {
@@ -71,9 +72,14 @@ Route::get('/supplier/material/detail', function () {
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
-
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
+
+#encry
+Route::get('/products/detail/{id}', [ProductController::class, 'detail']);
+
+
+
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 
 #Product Update 

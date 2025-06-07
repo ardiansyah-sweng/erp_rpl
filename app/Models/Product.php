@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -37,9 +36,23 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'product_category', 'id');
     }
 
+    public function items()
+    {
+        $tableItem = config('db_constants.table.item');
+        $colItem = config('db_constants.column.item');
+        $colProduct = config('db_constants.column.products');
+
+        return $this->hasMany(Item::class, 'sku', 'product_id');
+    }
+    
     public static function getAllProducts()
     {
-        return self::with('category')->orderBy('created_at', 'desc')->paginate(10);
+        return self::withCount('items') 
+                    ->with('category')  
+                    ->selectRaw('(SELECT COUNT(*) FROM item WHERE item.sku LIKE CONCAT(products.product_id, "%")) AS items_count')
+                    ->orderBy('created_at', 'desc')  
+                    ->paginate(10);  
+                    
     }
 
     public function getSKURawMaterialItem()
@@ -54,18 +67,29 @@ class Product extends Model
                         ->select($tableItem.'.'.$colItem['sku']);
     }
 
+    public function getProductTypeAttribute($value)
+    {
+        return match ($value) {
+            'RM' => 'Raw Material',
+            'FG' => 'Finished Good',
+            default => $value,
+        };
+    }
+    
     public static function countProduct() {
         return self::count();
     }
-
-
-    public static function addProduct($data)
-    {
-        return self::create($data);
-    }
-
+    
     public function getProductById($id) {
         return self::where('id', $id)->first();
+
+    }
+ 
+    public static function addProduct($data){
+        return self::create($data);
+    }
+}
+
     }    
     public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
     {
