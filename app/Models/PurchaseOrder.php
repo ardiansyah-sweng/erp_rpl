@@ -109,8 +109,6 @@ class PurchaseOrder extends Model
                 
             }
 
-            
-            \App\Models\Supplier::deleteSupplier($headerData['supplier_id']);
 
             DB::commit();
             return $purchaseOrder;
