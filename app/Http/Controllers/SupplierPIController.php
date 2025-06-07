@@ -65,6 +65,17 @@ class SupplierPIController extends Controller
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
     }
 
+    public function deleteSupplierPIC($id)
+    {
+        $picDelete = SupplierPic::deleteSupplierPIC($id);
+
+        if ($picDelete) {
+            return redirect()->back()->with('success', 'PIC berhasil dihapus!');
+        } else {
+            return redirect()->back()->with('error', 'PIC gagal dihapus.');
+        }
+    }
+
     public function updateSupplierPICDetail(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -90,16 +101,5 @@ class SupplierPIController extends Controller
             'message' => $result['message'],
             'data'    => $result['data'] ?? null,
         ], $result['code']);
-    }
-
-    public function deleteSupplierPIC($id)
-    {
-        $picDelete = SupplierPic::deleteSupplierPIC($id);
-
-        if ($picDelete) {
-            return redirect()->back()->with('success', 'PIC berhasil dihapus!');
-        } else {
-            return redirect()->back()->with('error', 'PIC gagal dihapus.');
-        }
     }
 }
