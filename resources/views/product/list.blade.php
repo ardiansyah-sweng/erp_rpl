@@ -410,6 +410,7 @@ use App\Helpers\EncryptionHelper;
                       <th>product_type</th>
                       <th>product_category</th>
                       <th>product_description</th>
+                      <th>jumlah_item</th>
                       <th>Created At</th>
                       <th>Updated At </th>
                       <th>Action </th>
@@ -421,7 +422,8 @@ use App\Helpers\EncryptionHelper;
                 <tr class="align-middle">
                     <td>{{ $index + 1 }}</td>
                     <td>
-                        <a href="/products/detail/{{ EncryptionHelper::encrypt($product->product_id) }}" class="text-dark">
+                      <!-- encryp product id -->
+                        <a href="/products/detail/{{ EncryptionHelper::encrypt($product->product_id) }}" class="text-dark"> 
                          {{ $product->product_id }}
                       </a>
                     </td>
