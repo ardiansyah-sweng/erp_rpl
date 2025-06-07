@@ -19,6 +19,11 @@ class MerkController extends Controller
         return view('merk.detail', compact('merk'));
   
     }
+    public function index()
+    {
+        // memanggil fungsi getMerkAll
+        return $this->getMerkAll();
+    }
 
     public function updateMerk(Request $request, $id)
     {
