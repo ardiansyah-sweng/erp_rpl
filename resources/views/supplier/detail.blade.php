@@ -392,7 +392,7 @@
         </div>
       @endif
       @if($sup)
-        <form method="POST" action="{{ route('supplier.update', $sup->supplier_id) }}">
+        <form method="POST" action="{{ route('supplier.updateSupplier', $sup->supplier_id) }}">
             @csrf
             @method('PUT')
 
