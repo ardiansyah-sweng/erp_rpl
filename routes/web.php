@@ -68,10 +68,10 @@ Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
 });
 
-
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
-
+Route::get('/product/pdf/preview', [ProductController::class, 'previewProductPDF'])->name('product.pdf.preview');
+Route::get('/product/pdf', [ProductController::class, 'generateProductPDF'])->name('product.pdf');
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
