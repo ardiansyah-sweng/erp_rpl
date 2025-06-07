@@ -336,13 +336,35 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a href="{{ route('purchase.orders') }}" class="nav-link">
                 <i class="nav-icon bi bi-clipboard-fill"></i>
                 <p>
                   Purchase Orders
                 </p>
               </a>
+            </li> -->
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>
+                  Purchase Orders
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{{ route('purchase.orders') }}" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>List Purchase Orders</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Goods Receipt Note</p>
+                  </a>
+                </li>
+              </ul>
             </li>
             <li class="nav-item">
               <a href="{{ route('branch.list') }}" class="nav-link">
