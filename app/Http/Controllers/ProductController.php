@@ -62,9 +62,14 @@ class ProductController extends Controller
     public function printProductsByType($type)
     {
         $products = Product::getProductsByType($type);
-
-        $pdf = \PDF::loadView('product.print', compact('products', 'type'));
         
+        // Show preview page first
+        if (!request()->has('download')) {
+            return view('product.print-preview', compact('products', 'type'));
+        }
+
+        // If download parameter is present, generate and download PDF
+        $pdf = \PDF::loadView('product.print', compact('products', 'type'));
         return $pdf->download('products-' . strtolower($type) . '.pdf');
     }
 
