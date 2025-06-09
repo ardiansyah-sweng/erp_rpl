@@ -202,7 +202,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('purchase.orders') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Purchase Orders
@@ -257,7 +257,7 @@
                   <div class="card-body">
                     <div class="form-group mb-3">
                       <label for="po_number">PO Number</label>
-                      <input type="text" class="form-control" id="po_number" value="PO0001" readonly>
+                      <input type="text" class="form-control" id="po_number" value="" readonly>
                     </div>
                     <form>
                         <div class="form-group mb-3">
@@ -272,13 +272,8 @@
                             </select>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="supplier_id">ID Supplier</label>
-                            <input type="text" id="supplierSearch" class="form-control" placeholder="Cari Supplier">
-                            <select class="form-control" id="supplier_id" size="5" style="display:none;">
-                              <option value="SUP001">SUP001 - Penyetor Kaos</option>
-                              <option value="SUP002">SUP002 - Penyetor Celana</option>
-                              <option value="SUP003">SUP003 - Penyetor Topi</option>
-                            </select>
+                            <label for="supplier_id">Supplier ID</label>
+                            <input type="text" class="form-control" id="supplier_id" readonly>
                         </div>
                         <div class="form-group mb-3">
                             <label for="supplier_name">Nama Supplier</label>
@@ -301,20 +296,7 @@
                               </tr>
                               </thead>
                               <tbody>
-                              <tr>
-                                  <td>
-                                      <input type="text" class="form-control sku-search" placeholder="Cari SKU">
-                                      <select class="form-control sku-dropdown" size="5" style="display:none; position:absolute; z-index:100;"></select>
-                                  </td>
-                                  <td><input type="text" class="form-control nama-item" readonly></td>
-                                  <td><input type="number" class="form-control qty" value="1" min="1"></td>
-                                  <td><input type="number" class="form-control unit-price" value="0"></td>
-                                  <td><input type="number" class="form-control amount" value="0" readonly></td>
-                                  <td><input type="date" class="form-control delivery-date"></td>
-                                  <td><input type="number" class="form-control delivery-quantity" value="0"></td>
-                                  <td><button type="button" class="btn btn-primary btn-sm comments"><i class="bi bi-chat"></i> Komen</button></td>
-                                  <td><button type="button" class="btn btn-danger btn-sm remove"><i class="bi bi-trash"></i> Hapus</button></td>
-                              </tr>
+                              
                               </tbody>
                           </table>
                         </div>
@@ -388,385 +370,235 @@
 
 
     
-    <script>
-    // Global variable to track current comment button
-    let currentCommentButton = null;
+<script>
+        // --- DATA DUMMY ---
+        const suppliers = {
+            "SUP001": "Penyetor Kaos",
+            "SUP002": "Penyetor Celana",
+            "SUP003": "Penyetor Topi"
+        };
 
-    // --- DATA DUMMY ---
-    const suppliers = {
-        "SUP001": "Penyetor Kaos",
-        "SUP002": "Penyetor Celana",
-    };
-
-    const items = {
-        "SUP001": {
-            "KAOS-s": { name: "Kaos Kecil", price: 1000 },
-            "KAOS-m": { name: "Kaos Sedang", price: 2000 },
-            "KAOS-l": { name: "Kaos Besar", price: 3000 },
-        },
-        "SUP002": {
-            "CELANA-s": { name: "Celana Kecil", price: 1000 },
-            "CELANA-m": { name: "Celana Sedang", price: 2000 },
-            "CELANA-l": { name: "Celana Besar", price: 3000 },
-        },
-        "SUP003": {
-            "TOPI-s": { name: "Topi Kecil", price: 1000 },
-            "TOPI-m": { name: "Topi Sedang", price: 2000 },
-            "TOPI-l": { name: "Topi Besar", price: 3000 },
-        }
-    };
-    // --- AKHIR DATA DUMMY ---
-
-
-    // Function to update amount calculation
-    function updateAmount(rowElement) { 
-        let qty = parseFloat(rowElement.querySelector(".qty").value) || 0;
-        let price = parseFloat(rowElement.querySelector(".unit-price").value) || 0;
-        rowElement.querySelector(".amount").value = (qty * price).toFixed(2); 
-
-    }
-
-
-    function updateTotal() {
-        let total = 0;
-        document.querySelectorAll(".amount").forEach(function(element) {
-            total += parseFloat(element.value) || 0;
-        });
-    
-        console.log("Total:", total); 
-    }
-
-    // Function to update comment button appearance
-    function updateCommentButtonAppearance(button, hasComment) {
-        if (hasComment) {
-            button.classList.remove('btn-primary');
-            button.classList.add('btn-success');
-            button.innerHTML = '<i class="bi bi-chat-fill"></i> Komen ✓';
-            button.setAttribute('title', 'Komentar tersedia - klik untuk edit');
-        } else {
-            button.classList.remove('btn-success');
-            button.classList.add('btn-primary');
-            button.innerHTML = '<i class="bi bi-chat"></i> Komen';
-            button.setAttribute('title', 'Tambah komentar');
-        }
-    }
-
-    // Fungsi untuk menampilkan toast notification (opsional, dari kode Anda)
-    function showToast(message, type = 'info') {
-        let toastContainer = document.getElementById('toastContainer');
-        if (!toastContainer) {
-            toastContainer = document.createElement('div');
-            toastContainer.id = 'toastContainer';
-            toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
-            toastContainer.style.zIndex = '9999';
-            document.body.appendChild(toastContainer);
-        }
-
-        let toastElement = document.createElement('div');
-        toastElement.className = `toast align-items-center text-bg-${type} border-0`;
-        toastElement.setAttribute('role', 'alert');
-        toastElement.innerHTML = `
-            <div class="d-flex">
-                <div class="toast-body">
-                    ${message}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        `;
-
-        toastContainer.appendChild(toastElement);
-        let toast = new bootstrap.Toast(toastElement);
-        toast.show();
-
-        toastElement.addEventListener('hidden.bs.toast', function() {
-            toastElement.remove();
-        });
-    }
-
-
-    // Document ready
-    document.addEventListener('DOMContentLoaded', function() {
-
-        // Event listener untuk input pencarian supplier
-        document.getElementById('supplierSearch').addEventListener('input', function() {
-            const filter = this.value.toLowerCase();
-            const optionsContainer = document.getElementById('supplier_id'); 
-            const options = optionsContainer.options || optionsContainer.children; 
-
-            // Clear existing options if it's a div/ul structure
-            if (optionsContainer.tagName !== 'SELECT') {
-                optionsContainer.innerHTML = '';
+        const items = {
+            "SUP001": {
+                "KAOS-S": { name: "Kaos Kecil", price: 10000 },
+                "KAOS-M": { name: "Kaos Sedang", price: 20000 },
+                "KAOS-L": { name: "Kaos Besar", price: 30000 },
+            },
+            "SUP002": {
+                "CELANA-S": { name: "Celana Kecil", price: 15000 },
+                "CELANA-M": { name: "Celana Sedang", price: 25000 },
+                "CELANA-L": { name: "Celana Besar", price: 35000 },
+            },
+            "SUP003": {
+                "TOPI-S": { name: "Topi Kecil", price: 5000 },
+                "TOPI-M": { name: "Topi Sedang", price: 7500 },
+                "TOPI-L": { name: "Topi Besar", price: 10000 },
             }
+        };
 
-            let hasMatches = false;
-            for (const id in suppliers) {
-                const name = suppliers[id];
-                const text = `${id} - ${name}`.toLowerCase();
-                if (text.includes(filter)) {
-                    hasMatches = true;
-                    if (optionsContainer.tagName === 'SELECT') {
-                        // For select element, add option
-                        const option = document.createElement('option');
-                        option.value = id;
-                        option.textContent = `${id} - ${name}`;
-                        optionsContainer.appendChild(option);
-                    } else {
-                        // For div/ul, create clickable elements
-                        const divOption = document.createElement('div');
-                        divOption.className = 'dropdown-item'; 
-                        divOption.textContent = `${id} - ${name}`;
-                        divOption.dataset.supplierId = id;
-                        divOption.dataset.supplierName = name;
-                        divOption.addEventListener('click', function() {
-                            const selectedId = this.dataset.supplierId;
-                            const selectedName = this.dataset.supplierName;
-                            document.getElementById('supplierSearch').value = selectedId;
-                            document.getElementById('supplier_name').value = selectedName;
-                            document.getElementById('supplier_id').style.display = 'none'; 
-                            populateSKUDropdowns(selectedId); 
-                        });
-                        optionsContainer.appendChild(divOption);
-                    }
+        const purchaseOrders = {
+            "PO0002": {
+                supplierId: "SUP001",
+                branch: "Yogyakarta",
+                items: [
+                    { sku: "KAOS-M", name: "Kaos Sedang", qty: 15, price: 20000, deliveryDate: '2025-06-10', deliveryQuantity: 10 },
+                    { sku: "KAOS-L", name: "Kaos Besar", qty: 10, price: 30000, deliveryDate: null, deliveryQuantity: 0 }
+                ]
+            },
+            "PO0013": {
+                supplierId: "SUP002",
+                branch: "Jakarta",
+                items: [
+                    { sku: "CELANA-S", name: "Celana Kecil", qty: 50, price: 15000, deliveryDate: '2025-06-11', deliveryQuantity: 50 },
+                    { sku: "CELANA-L", name: "Celana Besar", qty: 25, price: 35000, deliveryDate: null, deliveryQuantity: 0 }
+                ]
+            },
+            "PO0006": {
+                supplierId: "SUP003",
+                branch: "Surabaya",
+                items: [
+                    { sku: "TOPI-S", name: "Topi Kecil", qty: 100, price: 5000, deliveryDate: null, deliveryQuantity: 0 }
+                ]
+            }
+        };
+        // --- AKHIR DATA DUMMY ---
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let commentModal = new bootstrap.Modal(document.getElementById('commentModal'));
+            let currentCommentButton = null;
+
+
+            function updateAmount(rowElement) { 
+                let qty = parseFloat(rowElement.querySelector(".qty, .qty-po").value) || 0;
+                let price = parseFloat(rowElement.querySelector(".unit-price, .unit-price-po").value) || 0;
+                const amountInput = rowElement.querySelector(".amount, .amount-po");
+                if (amountInput) {
+                    amountInput.value = (qty * price);
                 }
             }
 
-            // Menampilkan/menyembunyikan dropdown
-            optionsContainer.style.display = hasMatches && filter.length > 0 ? 'block' : 'none';
-
-            // Disable SKU input until supplier is selected
-            if (!document.getElementById('supplier_name').value) {
-                document.querySelectorAll(".sku-search").forEach(el => el.disabled = true);
-                document.querySelectorAll(".sku-dropdown").forEach(el => el.style.display = 'none');
-            }
-        });
-
-        // Event listener untuk pemilihan supplier dari dropdown (jika <select>)
-        document.getElementById('supplier_id').addEventListener('change', function() {
-            const selectedOption = this.options[this.selectedIndex];
-            const supplierId = selectedOption.value;
-            const supplierName = selectedOption.text.split(' - ')[1]; 
-
-            document.getElementById('supplier_name').value = supplierName;
-            document.getElementById('supplierSearch').value = supplierId;
-            this.style.display = 'none'; 
-            populateSKUDropdowns(supplierId); 
-            enableSKUInput(); 
-        });
-
-        // Function to populate SKU dropdowns for all rows
-        function populateSKUDropdowns(supplierId) {
-            const supplierItems = items[supplierId];
-            document.querySelectorAll('#itemsTable tbody tr').forEach(function(row) {
-                const skuDropdown = row.querySelector('.sku-dropdown');
-                skuDropdown.innerHTML = ''; 
-
-                if (supplierItems) {
-                    for (const sku in supplierItems) {
-                        const item = supplierItems[sku];
-                        const option = document.createElement('option');
-                        option.value = sku;
-                        option.textContent = `${sku} - ${item.name}`;
-                        skuDropdown.appendChild(option);
-                    }
-                }
-            });
-        }
-        
-        // Function to enable SKU input
-        function enableSKUInput() {
-            if (document.getElementById('branch').value && document.getElementById('supplierSearch').value) { 
-                document.querySelectorAll(".sku-search").forEach(el => el.disabled = false);
-            }
-        }
-
-        // Handle initial SKU input disable/enable
-        document.getElementById('branch').addEventListener('change', enableSKUInput);
-        document.getElementById('supplierSearch').addEventListener('change', enableSKUInput); 
-
-        // Ketika input SKU di setiap baris diklik, pastikan cabang dan supplier terisi
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('sku-search')) {
-                if (!document.getElementById('branch').value || !document.getElementById('supplierSearch').value) {
-                    alert("Pilih Cabang dan Supplier terlebih dahulu!");
-                    e.preventDefault(); 
-                    return false;
-                }
-            }
-        });
-
-        // Saat pengguna mulai mengetik SKU di setiap baris, munculkan dropdown SKU
-        document.addEventListener('input', function(e) {
-            if (e.target.classList.contains('sku-search')) {
-                const row = e.target.closest('tr');
-                const filter = e.target.value.toLowerCase();
-                const supplierId = document.getElementById('supplierSearch').value;
-                const itemsList = items[supplierId] || {};
-                const skuDropdown = row.querySelector('.sku-dropdown');
-
-                skuDropdown.innerHTML = '';
-                if (filter.length > 0) {
-                    for (let sku in itemsList) {
-                        const item = itemsList[sku];
-                        if (item.name.toLowerCase().includes(filter) || sku.toLowerCase().includes(filter)) {
+            function populateSKUDropdowns(supplierId) {
+                const supplierItems = items[supplierId];
+                document.querySelectorAll('#itemsTable tbody tr .sku-dropdown').forEach(function(skuDropdown) {
+                    skuDropdown.innerHTML = '';
+                    if (supplierItems) {
+                        for (const sku in supplierItems) {
+                            const item = supplierItems[sku];
                             const option = document.createElement('option');
                             option.value = sku;
                             option.textContent = `${sku} - ${item.name}`;
                             skuDropdown.appendChild(option);
                         }
                     }
-                    skuDropdown.style.display = skuDropdown.options.length > 0 ? 'block' : 'none'; 
-                } else {
-                    skuDropdown.style.display = 'none';
-                }
-            }
-        });
-
-        // Ketika SKU dipilih dari dropdown di setiap baris
-        document.addEventListener('change', function(e) {
-            if (e.target.classList.contains('sku-dropdown')) {
-                const row = e.target.closest('tr');
-                const sku = e.target.value;
-                const supplierId = document.getElementById('supplierSearch').value;
-                const item = items[supplierId] ? items[supplierId][sku] : null;
-
-                if (item) {
-                    row.querySelector('.sku-search').value = sku;
-                    row.querySelector('.nama-item').value = item.name;
-                    row.querySelector('.unit-price').value = item.price;
-                    updateAmount(row); 
-                }
-                e.target.style.display = 'none';
-            }
-        });
-
-
-        // Handle qty and price input changes (dari kode Anda)
-        document.addEventListener('input', function(e) {
-            if (e.target.classList.contains('qty') || e.target.classList.contains('unit-price')) {
-                let row = e.target.closest('tr');
-                updateAmount(row);
-            }
-        });
-
-        // Handle add row button
-        document.getElementById('addRow').addEventListener('click', function() {
-            let newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td>
-                    <input type="text" class="form-control sku-search" placeholder="Cari SKU" ${!document.getElementById('branch').value || !document.getElementById('supplierSearch').value ? 'disabled' : ''}>
-                    <select class="form-control sku-dropdown" size="5" style="display:none; position:absolute; z-index:100;"></select>
-                </td>
-                <td><input type="text" class="form-control nama-item" readonly></td>
-                <td><input type="number" class="form-control qty" value="1" min="1"></td>
-                <td><input type="number" class="form-control unit-price" value="0"></td>
-                <td><input type="number" class="form-control amount" value="0" readonly></td>
-                <td><input type="date" class="form-control delivery-date"></td>
-                <td><input type="number" class="form-control delivery-quantity" value="0"></td>
-                <td><button type="button" class="btn btn-primary btn-sm comments"><i class="bi bi-chat"></i> Komen</button></td>
-                <td><button type="button" class="btn btn-danger btn-sm remove"><i class="bi bi-trash"></i> Hapus</button></td>
-            `;
-            document.querySelector('#itemsTable tbody').appendChild(newRow);
-            const currentSupplierId = document.getElementById('supplierSearch').value;
-            if (currentSupplierId) {
-                populateSKUDropdowns(currentSupplierId);
-            }
-        });
-
-        // Handle remove button clicks
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('remove') || e.target.closest('.remove')) {
-                let button = e.target.classList.contains('remove') ? e.target : e.target.closest('.remove');
-                button.closest('tr').remove();
-            }
-        });
-
-        // Handle comment button clicks
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('comments') || e.target.closest('.comments')) {
-                let button = e.target.classList.contains('comments') ? e.target : e.target.closest('.comments');
-                currentCommentButton = button;
-                
-                let currentComment = button.dataset.comment || '';
-                
-                document.getElementById('commentText').value = currentComment;
-                
-                let modal = new bootstrap.Modal(document.getElementById('commentModal'));
-                modal.show();
-            }
-        });
-
-        // Handle save comment button
-        document.getElementById('saveComment').addEventListener('click', function() {
-            let commentText = document.getElementById('commentText').value.trim();
-            
-            if (currentCommentButton) {
-                currentCommentButton.dataset.comment = commentText;
-                updateCommentButtonAppearance(currentCommentButton, commentText !== '');
-                
-                if (commentText !== '') {
-                    console.log('Komentar berhasil disimpan:', commentText);
-                    showToast('Komentar berhasil disimpan!', 'success');
-                }
-            }
-            
-            let modal = bootstrap.Modal.getInstance(document.getElementById('commentModal'));
-            modal.hide();
-            
-            document.getElementById('commentText').value = '';
-            currentCommentButton = null;
-        });
-
-        // Handle modal close event
-        document.getElementById('commentModal').addEventListener('hidden.bs.modal', function() {
-            document.getElementById('commentText').value = '';
-            currentCommentButton = null;
-        });
-        // Disable SKU search on initial load
-        document.querySelectorAll(".sku-search").forEach(el => el.disabled = true);
-        document.querySelectorAll(".sku-dropdown").forEach(el => el.style.display = 'none');
-
-        // Menyusun data form saat tombol submit ditekan (diperbarui)
-        document.getElementById('submitBtn').addEventListener('click', function () {
-            const po_number = document.getElementById('po_number')?.value || '';
-            const supplier_id = document.getElementById('supplierSearch')?.value || '';
-            const supplier_name = document.getElementById('supplier_name')?.value || '';
-            const branch = document.getElementById('branch')?.value || '';
-
-            const itemsData = [];
-            document.querySelectorAll('#itemsTable tbody tr').forEach(row => {
-                const sku = row.querySelector('.sku-search')?.value || '';
-                const name = row.querySelector('.nama-item')?.value || '';
-                const qty = row.querySelector('.qty')?.value || '';
-                const unitPrice = row.querySelector('.unit-price')?.value || '';
-                const amount = row.querySelector('.amount')?.value || '';
-                const deliveryDate = row.querySelector('.delivery-date')?.value || '';
-                const deliveryQuantity = row.querySelector('.delivery-quantity')?.value || '';
-                const comment = row.querySelector('.comments')?.dataset.comment || '';
-
-                itemsData.push({
-                    sku,
-                    name,
-                    qty,
-                    unitPrice,
-                    amount,
-                    deliveryDate, 
-                    deliveryQuantity,
-                    comment
                 });
+            }
+            
+            function enableAddRowButton() {
+                const poId = document.getElementById('po_number').value;
+                document.getElementById('addRow').disabled = !poId;
+            }
+
+            function loadPoData(poId) {
+                const poData = purchaseOrders[poId];
+                if (!poData) {
+                    console.error("Data PO tidak ditemukan untuk ID:", poId);
+                    alert("Data Purchase Order tidak ditemukan!");
+                    return;
+                }
+
+                document.getElementById('branch').value = poData.branch;
+                document.getElementById('supplier_id').value = poData.supplierId;
+                document.getElementById('supplier_name').value = suppliers[poData.supplierId] || '';
+
+                const tableBody = document.querySelector("#itemsTable tbody");
+                tableBody.innerHTML = ''; 
+
+                poData.items.forEach(itemData => {
+                    let newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td><input type="text" class="form-control" value="${itemData.sku}" readonly></td>
+                        <td><input type="text" class="form-control" value="${itemData.name}" readonly></td>
+                        <td><input type="text" class="form-control qty-po" value="${itemData.qty}" readonly></td>
+                        <td><input type="text" class="form-control unit-price-po" value="${itemData.price}" readonly></td>
+                        <td><input type="text" class="form-control amount-po" value="${itemData.qty * itemData.price}" readonly></td>
+                        <td><input type="date" class="form-control delivery-date" value="${itemData.deliveryDate || ''}" required></td>
+                        <td><input type="number" class="form-control delivery-quantity" value="${itemData.deliveryQuantity || 0}" min="0" max="${itemData.qty}" required></td>
+                        <td><button type="button" class="btn btn-info btn-sm comments"><i class="bi bi-chat"></i></button></td>
+                        <td><button type="button" class="btn btn-danger btn-sm remove-row-btn"><i class="bi bi-trash"></i></button></td>
+                    `;
+                    tableBody.appendChild(newRow);
+                });
+                enableAddRowButton();
+            }
+
+            document.getElementById('addRow').addEventListener('click', function() {
+                const poData = purchaseOrders[document.getElementById('po_number').value];
+                if (!poData) {
+                    alert("Pilih Purchase Order yang valid terlebih dahulu.");
+                    return;
+                }
+                let newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>
+                        <input type="text" class="form-control sku-search" placeholder="Cari SKU">
+                        <select class="form-control sku-dropdown" size="5" style="display:none; position:absolute; z-index:100;"></select>
+                    </td>
+                    <td><input type="text" class="form-control nama-item" readonly></td>
+                    <td><input type="number" class="form-control qty" value="1" min="1"></td>
+                    <td><input type="number" class="form-control unit-price" value="0" readonly></td>
+                    <td><input type="number" class="form-control amount" value="0" readonly></td>
+                    <td><input type="date" class="form-control" required></td>
+                    <td><input type="number" class="form-control" value="0" min="0" required></td>
+                    <td><button type="button" class="btn btn-info btn-sm comments"><i class="bi bi-chat"></i></button></td>
+                    <td><button type="button" class="btn btn-danger btn-sm remove-row-btn"><i class="bi bi-trash"></i></button></td>
+                `;
+                document.querySelector('#itemsTable tbody').appendChild(newRow);
+                populateSKUDropdowns(poData.supplierId);
             });
 
-            const formData = {
-                po_number,
-                supplier_id,
-                supplier_name,
-                branch,
-                items: itemsData,
-            };
+            const table = document.getElementById('itemsTable');
+            table.addEventListener('input', function(e) {
+                if (e.target.matches('.qty, .unit-price')) {
+                    updateAmount(e.target.closest('tr'));
+                }
+                if (e.target.matches('.sku-search')) {
+                    const row = e.target.closest('tr');
+                    const filter = e.target.value.toLowerCase();
+                    const poData = purchaseOrders[document.getElementById('po_number').value];
+                    const itemsList = items[poData.supplierId] || {};
+                    const skuDropdown = row.querySelector('.sku-dropdown');
+                    skuDropdown.innerHTML = '';
+                    if (filter.length > 0) {
+                        for (let sku in itemsList) {
+                            if (itemsList.hasOwnProperty(sku)) {
+                                const item = itemsList[sku];
+                                if (item.name.toLowerCase().includes(filter) || sku.toLowerCase().includes(filter)) {
+                                    const option = document.createElement('option');
+                                    option.value = sku;
+                                    option.textContent = `${sku} - ${item.name}`;
+                                    skuDropdown.appendChild(option);
+                                }
+                            }
+                        }
+                    }
+                    skuDropdown.style.display = skuDropdown.options.length > 0 ? 'block' : 'none';
+                }
+            });
+            table.addEventListener('change', function(e) {
+                if (e.target.matches('.sku-dropdown')) {
+                    const row = e.target.closest('tr');
+                    const sku = e.target.value;
+                    const poData = purchaseOrders[document.getElementById('po_number').value];
+                    const item = items[poData.supplierId]?.[sku];
+                    if (item) {
+                        row.querySelector('.sku-search').value = sku;
+                        row.querySelector('.nama-item').value = item.name;
+                        row.querySelector('.unit-price').value = item.price;
+                        updateAmount(row); 
+                    }
+                    e.target.style.display = 'none';
+                }
+            });
+            table.addEventListener('click', function(e) {
+                if (e.target.closest('.remove-row-btn')) {
+                    e.target.closest('tr').remove();
+                }
+                if (e.target.closest('.comments')) {
+                    currentCommentButton = e.target.closest('.comments');
+                    document.getElementById('commentText').value = currentCommentButton.dataset.comment || '';
+                    commentModal.show();
+                }
+            });
 
-            console.log("Form Data JSON:", formData);
+            document.getElementById('saveComment').addEventListener('click', function() {
+                if (currentCommentButton) {
+                    const commentText = document.getElementById('commentText').value;
+                    currentCommentButton.dataset.comment = commentText;
+                    if(commentText.trim() !== '') {
+                        currentCommentButton.classList.replace('btn-info', 'btn-success');
+                        currentCommentButton.innerHTML = '<i class="bi bi-chat-fill"></i>';
+                    } else {
+                        currentCommentButton.classList.replace('btn-success', 'btn-info');
+                        currentCommentButton.innerHTML = '<i class="bi bi-chat"></i>';
+                    }
+                }
+                commentModal.hide();
+            });
+
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const poIdFromUrl = urlParams.get('po_number');
+
+            if (poIdFromUrl) {
+                document.getElementById('po_number').value = poIdFromUrl;
+                loadPoData(poIdFromUrl);
+            } else {
+                console.log("Tidak ada nomor PO yang dipilih dari URL.");
+                alert("URL tidak valid. Harap kembali dan pilih Purchase Order.");
+                document.querySelector("#grn-form").style.display = 'none';
+            }
         });
-    });
-
 </script>
     
   </body>
