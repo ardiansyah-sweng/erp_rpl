@@ -16,4 +16,4 @@ class LaporanController extends Controller
         return $pdf->stream('laporan_daftar_cabang.pdf');
 
     }
-}
+} 
