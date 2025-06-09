@@ -158,3 +158,8 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
+#SupplierMaterialSearch
+Route::get('/supplier/material/search', [SupplierMaterialController::class, 'searchSupplierMaterial'])->name('supplier.material.search');
+Route::post('/supplier-material/add', [SupplierMaterialController::class, 'addSupplierMaterial']);
+
