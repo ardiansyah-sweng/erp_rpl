@@ -156,10 +156,11 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
 
-# Warehouse
-Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
-
 #SupplierMaterialSearch
 Route::get('/supplier/material/search', [SupplierMaterialController::class, 'searchSupplierMaterial'])->name('supplier.material.search');
 Route::post('/supplier-material/add', [SupplierMaterialController::class, 'addSupplierMaterial']);
+
+# Warehouse
+Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
 
