@@ -1,29 +1,23 @@
 <?php
 
-use App\Models\GoodsReceiptNote;
-
-
 namespace App\Http\Controllers;
 
-use App\Models\GoodsReceiptNote;
 use Illuminate\Http\Request;
+use App\Models\GoodsReceiptNote;
 
 class GoodsReceiptNoteController extends Controller
 {
-    public function updateGoodsReceiptNote(Request $request, $po_number)
+    public function updateGoodsReceiptNote(Request $request, $id) //andika
     {
-        $validated = $request->validate([
+        $request->validate([
             'delivery_date' => 'required|date',
-            'delivered_qty' => 'required|numeric|min:1',
+            'delivered_quantity' => 'required|numeric|min:1',
             'comments' => 'nullable|string'
         ]);
 
-        $updated = GoodsReceiptNote::updateGoodsReceiptNote($po_number, $validated);
+        // Update data supplier nama perusahaan, alamat, nomor telepon dan akun bank
+        $updatedgrn = GoodsReceiptNote::updateGoodsReceiptNote($id, $request->only(['delivery_date', 'delivered_quantity', 'comments'])); //Sudah sesuai pada ERP RPL
 
-        if ($updated) {
-            return redirect()->back()->with('success', 'Goods Receipt Note berhasil diperbarui.');
-        } else {
-            return redirect()->back()->with('error', 'Gagal memperbarui data. Pastikan PO Number benar.');
-        }
+        return $updatedgrn;
     }
 }

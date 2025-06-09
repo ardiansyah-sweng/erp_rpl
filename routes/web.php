@@ -13,8 +13,8 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
-use App\Http\Controllers\GoodsReceiptNoteController;
-
+use App\Http\Controllers\GoodsReceiptNoteController; //
+use App\Models\GoodsReceiptNote;
 
 #Login
 Route::get('/', function () {
@@ -78,7 +78,7 @@ Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 
-#Product Update 
+#Product Update
 Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct'); //Sudah sesuai pada ERP RPL
 Route::get('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct');
 
@@ -164,4 +164,4 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
 
 #GoodsReceiptNoteController
-Route::put('/grn/update/{po_number}', [GoodsReceiptNoteController::class, 'update']);
+Route::put('/grn/update/{id}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote'])->name('grn.updateGoodsReceiptNote');
