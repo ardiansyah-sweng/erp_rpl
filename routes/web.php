@@ -162,3 +162,4 @@ Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseB
 #SupplierMaterialSearch
 Route::get('/supplier/material/search', [SupplierMaterialController::class, 'searchSupplierMaterial'])->name('supplier.material.search');
 Route::post('/supplier-material/add', [SupplierMaterialController::class, 'addSupplierMaterial']);
+

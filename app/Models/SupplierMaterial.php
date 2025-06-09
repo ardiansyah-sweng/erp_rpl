@@ -21,6 +21,7 @@ class SupplierMaterial extends Model
             ->orWhere('product_name', 'like', '%' . $keyword . '%')
             ->get();
     }
+<<<<<<< HEAD
 
     public static function updateSupplierMaterial($id, array $data)
     {
@@ -43,3 +44,8 @@ class SupplierMaterial extends Model
             ->count(DB::raw('DISTINCT p.product_id'));
     }
 }
+=======
+    
+}
+
+>>>>>>> dd6127387e3b0554400f5d76e928a1efd013881a
