@@ -48,4 +48,14 @@ class SupplierMaterialController extends Controller
         }
         return redirect()->back()->with('error', 'Gagal memperbarui data supplier material!');
     }
+
+    public function searchSupplierMaterial(Request $request)
+    {
+        $keyword = $request->input('keyword');
+ 
+        $model = new SupplierMaterial();
+        $materials = $model->getSupplierMaterialByKeyword($keyword);
+ 
+        return view('supplier.material.list', ['materials' => $materials, 'keyword' => $keyword]);
+    }
 }
