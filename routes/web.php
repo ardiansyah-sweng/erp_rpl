@@ -158,3 +158,6 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
+#Productions
+Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'index']);
