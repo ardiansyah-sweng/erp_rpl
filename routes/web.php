@@ -154,7 +154,7 @@ Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
 
 #Productions
-Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'index']);
+Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'index']); 
 
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
