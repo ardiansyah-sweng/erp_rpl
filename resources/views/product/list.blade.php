@@ -399,6 +399,13 @@
               <div class="card-header"><h3 class="card-title">List Table</h3></div>
               <!-- /.card-header -->
               <div class="card-body">
+ <div class="d-flex justify-content-end mb-3">
+    <form action="{{ route('product.search') }}" method="GET" class="d-flex" style="max-width: 300px;">
+        <input type="text" name="search" class="form-control" placeholder="Cari produk..." value="{{ request('search') }}">
+        <button type="submit" class="btn btn-primary ms-2">Cari</button>
+    </form>
+</div>
+
                 <table class="table table-bordered">
                   <thead>
                     <tr>
