@@ -22,8 +22,12 @@ class Warehouse extends Model
     {
         return self::where('id', $id)->first();
     }
-
-    public function updateWarehouse($id, $data)
+    public static function countWarehouse()
+    {
+        return self::count();
+    }
+    
+     public function updateWarehouse($id, $data)
     {
         $warehouse = $this->getWarehouseById($id);
 
