@@ -31,4 +31,27 @@ class SupplierPICDuplicateTest extends TestCase
         // Test berhasil jika muncul error validasi 'duplicate'
         $response->assertSessionHasErrors('duplicate');
     }
+
+    /** @test */
+    public function testTidakDuplikat()
+    {
+        $response = $this->post('/supplier/SUP001/add-pic', [
+            'supplier_id' => 'SUP001',
+            'name' => 'Eki Saputra',
+            'email' => 'saputra.eki@gmail.com',
+            'phone_number' => '+62 877-000-0001',
+            'assigned_date' => now()->format('d/m/Y'),
+            'supplier_name' => 'Quantum Selera Tbk',
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+        $response->assertSessionHas('success', 'PIC berhasil ditambahkan!');
+        $this->assertDatabaseHas('supplier_pic', [
+            'supplier_id' => 'SUP001',
+            'name' => 'Eki Saputra',
+            'email' => 'saputra.eki@gmail.com',
+            'phone_number' => '+62 877-000-0001',
+        ]);
+    }
+
 }
