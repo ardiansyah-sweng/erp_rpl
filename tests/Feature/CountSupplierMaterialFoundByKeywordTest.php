@@ -7,8 +7,9 @@ use App\Models\SupplierProduct;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-// use Faker\Factory as Faker;
+
 
 class CountSupplierMaterialFoundByKeywordTest extends TestCase
 {
@@ -29,8 +30,13 @@ class CountSupplierMaterialFoundByKeywordTest extends TestCase
             ]);
         }
 
-        $count = DB::table('supplier_product')->count();
-        dump("Jumlah Supplier Material:", $count);
+        $keyword = 'Medium';
+
+        $count = DB::table('supplier_product')
+            ->where('product_name', 'like', "%$keyword%")
+            ->count();
+
+        dump("Jumlah Supplier Material '$keyword' :", $count);
         
         $this->assertEquals(10, $count);
     }
