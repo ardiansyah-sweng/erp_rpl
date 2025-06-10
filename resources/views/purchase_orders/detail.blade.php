@@ -179,6 +179,7 @@
                     Supplier
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
+                  @include('layouts.sidebar')
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">

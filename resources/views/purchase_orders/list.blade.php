@@ -296,6 +296,7 @@ use App\Helpers\EncryptionHelper;
         <!--end::Sidebar Brand-->
         <!--begin::Sidebar Wrapper-->
         <div class="sidebar-wrapper">
+           @include('layouts.sidebar')
           <nav class="mt-2">
             <!--begin::Sidebar Menu-->
             <ul
@@ -304,63 +305,7 @@ use App\Helpers\EncryptionHelper;
               role="menu"
               data-accordion="false"
             >
-              <li class="nav-item">
-                <a href="dashboard" class="nav-link active">
-                  <i class="nav-icon bi bi-speedometer"></i>
-                  <p>
-                    Dashboard
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./generate/theme.html" class="nav-link">
-                  <i class="nav-icon bi bi-box-seam-fill"></i>
-                  <p>Produk</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-person-circle"></i>
-                  <p>
-                    Supplier
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="/supplier/pic/add" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Tambah PIC supplier</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Purchase Orders
-                    <!-- <span class="nav-badge badge text-bg-secondary me-3">6</span>
-                    <i class="nav-arrow bi bi-chevron-right"></i> -->
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Branch
-                  </p>
-                </a>                
-              </li>
-              <li class="nav-item">
-              <a href="{{ route('item.list') }}" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
-                      <p>Item</p>
-                    </a>
-                  </li>
-            <!--end::Sidebar Menu-->
-        </nav>
-      </div>
+               
       <!--end::Sidebar Wrapper-->
     </aside>
     <!--end::Sidebar-->
