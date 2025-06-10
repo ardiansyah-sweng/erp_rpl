@@ -71,10 +71,10 @@ Route::get('/supplier/material/detail', function () {
 
 Route::get('/warehouse/add', function () {
     return view('warehouse/add');
-});
+})->name('warehouse.add');
 
 #warehouse
-Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
+// Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
 
 
 # Product

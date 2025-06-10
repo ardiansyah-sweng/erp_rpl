@@ -261,18 +261,18 @@
                     <div class="card-body">
                       <div class="form-group">
                         <label for="warehouse_name">Nama Gudang</label>
-                        <input type="text" class="form-control" id="warehouse_name" name="warehouse_name" value="Gudang Yogyakarta" readonly>
+                        <input type="text" class="form-control" id="warehouse_name" name="warehouse_name" value="" readonly>
                       </div>
                       
                       <div class="form-group">
                         <label for="warehouse_address">Alamat</label>
-                        <input type="textarea" class="form-control" id="warehouse_address" name="warehouse_address" value="Jl. Ringroad Selatan, Kragilan, Tamanan, Kec. Banguntapan, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55191" readonly>
+                        <input type="textarea" class="form-control" id="warehouse_address" name="warehouse_address" value="" readonly>
                         <!-- <textarea class="form-control" id="warehouse_address" name="warehouse_address" value readonly></textarea> -->
                       </div>
                       
                       <div class="form-group">
                         <label for="warehouse_telephone">Telepon</label>
-                        <input type="text" class="form-control" id="warehouse_telephone" name="warehouse_telephone" value="021-234568" readonly>
+                        <input type="text" class="form-control" id="warehouse_telephone" name="warehouse_telephone" value="" readonly>
                       </div>
                       
                       <div class="form-group">
