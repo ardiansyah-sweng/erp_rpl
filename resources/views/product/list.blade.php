@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
@@ -377,9 +376,19 @@
             <!--begin::Row-->
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Produk</h3>
-                <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
+                <h3 class="mb-0 me-2">Product</h3>
+                <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Add</a>
+                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Print Category</a>
+                <div class="dropdown ms-2">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="pdfDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Print By Type
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="pdfDropdown">
+                        <li><a class="dropdown-item" href="{{ route('product.pdf', 'finished') }}" target="_blank">Finished Goods</a></li>
+                        <li><a class="dropdown-item" href="{{ route('product.pdf', 'half_finished') }}" target="_blank">Semi-Finished Goods</a></li>
+                        <li><a class="dropdown-item" href="{{ route('product.pdf', 'raw_material') }}" target="_blank">Raw Materials</a></li>
+                    </ul>
+                </div>
               </div>
     
     
@@ -413,7 +422,7 @@
                       <th>Action </th>
                     </tr>
                   </thead>
-                 <tbody>
+                  <tbody>
                   @foreach ($products as $index => $product)
                   <tr class="align-middle">
                       <td>{{ $index + 1 }}</td>

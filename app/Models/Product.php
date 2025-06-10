@@ -54,6 +54,41 @@ class Product extends Model
                         ->select($tableItem.'.'.$colItem['sku']);
     }
 
+    /**
+     * Get products by type for PDF generation
+     */
+    public static function getProductsByType($type)
+    {
+        return self::with('category')
+            ->where('product_type', $type)
+            ->orderBy('product_name')
+            ->get();
+    }
+
+    /**
+     * Get formatted type name for display
+     */
+    public static function getFormattedTypeName($type)
+    {
+        return [
+            'finished' => 'Barang Jadi',
+            'half_finished' => 'Barang Setengah Jadi',
+            'raw_material' => 'Bahan Baku'
+        ][$type] ?? '';
+    }
+
+    /**
+     * Get database type value from route parameter
+     */
+    public static function getTypeValue($type)
+    {
+        return [
+            'finished' => 'FG',
+            'half_finished' => 'HFG',
+            'raw_material' => 'RM'
+        ][$type] ?? null;
+    }
+
     public static function countProduct() {
         return self::count();
     }

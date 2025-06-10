@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Enums\ProductType;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProductController extends Controller
 {
@@ -60,4 +62,23 @@ class ProductController extends Controller
         return $Updateproduct;
     }
 
+    public function generatePDF($type)
+    {
+        $dbType = Product::getTypeValue($type);
+        if (!$dbType) {
+            return abort(404, 'Tipe produk tidak valid');
+        }
+
+        $products = Product::getProductsByType($dbType);
+        $typeName = Product::getFormattedTypeName($type);
+
+        $data = [
+            'products' => $products,
+            'type' => $typeName,
+            'date' => now()->format('d/m/Y H:i:s')
+        ];
+        
+        $pdf = PDF::loadView('product.pdf', $data);
+        return $pdf->stream('products.pdf', ['Attachment' => false]);
+    }
 }
