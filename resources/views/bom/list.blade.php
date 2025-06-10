@@ -427,7 +427,7 @@
                     </div>
                     @endif
 
-                    <!-- BOM Table -->
+                    <!-- Bill Of Material Table -->
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title">Daftar Bill of Materials</h5>

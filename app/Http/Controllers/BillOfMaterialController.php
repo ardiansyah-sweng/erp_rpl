@@ -7,7 +7,7 @@ use App\Models\BillOfMaterialModel;
 
 class BillOfMaterialController extends Controller
 {
-    public function getBOMById($id)
+    public function getBOMById($id)// Mengambil Bill Of Material berdasarkan ID
     {
         $sup = (new BillOfMaterialModel())->getBOMById($id);
         return response()->json($sup);

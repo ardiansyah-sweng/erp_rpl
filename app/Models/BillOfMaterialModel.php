@@ -24,7 +24,7 @@ class BillOfMaterialModel extends Model
 
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
-    // Fungsi Membaca Bill Of Material
+    // Fungsi Membaca Bill Of Material Berdasarkan ID
     public static function getBOMById($id)
     {
         return self::find($id);
