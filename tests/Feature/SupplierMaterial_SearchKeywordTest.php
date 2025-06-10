@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+
 class SupplierMaterial_SearchKeywordTest extends TestCase
 {
     use RefreshDatabase;
@@ -17,9 +18,9 @@ class SupplierMaterial_SearchKeywordTest extends TestCase
             'company_name' => 'PT Murni Subsea Ladangbaja Bukaka',
             'product_id'   => 'P001-ut',
             'product_name' => 'Peach Dalam ut',
-            'base_price'     => 57728,
-            'created_at'   => now()->toDateTimeString(),
-            'updated_at'   => now()->toDateTimeString(),
+            'base_price' => 57728,
+            'created_at' => now()->toDateTimeString(),
+            'updated_at' => now()->toDateTimeString(),
         ]);
 
         $response->assertRedirect();
