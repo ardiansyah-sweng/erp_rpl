@@ -14,7 +14,7 @@ return new class extends Migration
         $column = config('db_constants.column.products');
         Schema::create(config('db_constants.table.products'), function (Blueprint $table) use ($column) {
             $table->id();
-            $table->char($column['id'], 36);
+            $table->char($column['id'], 4);
             $table->string($column['name'], 35);
             $table->string($column['type'], 12);
             $table->tinyInteger($column['category'],);
