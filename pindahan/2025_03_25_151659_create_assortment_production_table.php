@@ -22,12 +22,12 @@ return new class extends Migration
             $table->id();
             $table->char($col['prod_no'], 9); //->collation('utf8mb4_unicode_ci')
             $table->char($col['sku'], 50);
-            $table->biginteger($col['branch']);
-            $table->biginteger($col['rm_whouse']);
-            $table->biginteger($col['fg_whouse']);
+            $table->integer($col['branch']);
+            $table->integer($col['rm_whouse']);
+            $table->integer($col['fg_whouse']);
             $table->date($col['prod_date']);
             $table->date($col['finished_date'])->default(null)->nullable();
-            $table->boolean($col['in_production']);
+            $table->char($col['in_production'], 1)->default('n');
             $table->string($col['desc'], 100);
             $table->timestamps();
         });
