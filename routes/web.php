@@ -71,11 +71,11 @@ Route::get('/supplier/material/detail', function () {
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
-
+Route::get('/product/search', [ProductController::class, 'searchProduct'])->name('product.search');
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
-Route::get('/product/search', [ProductController::class, 'searchProduct'])->name('product.search');
+
 
 
 #Product Update 
