@@ -385,7 +385,7 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="pdfDropdown">
                         <li><a class="dropdown-item" href="{{ route('product.pdf', 'finished') }}" target="_blank">Finished Goods</a></li>
-                        <li><a class="dropdown-item" href="{{ route('product.pdf', 'half_finished') }}" target="_blank">Semi-Finished Goods</a></li>
+                        <li><a class="dropdown-item" href="{{ route('product.pdf', 'half_finished') }}" target="_blank">Half Finished Goods</a></li>
                         <li><a class="dropdown-item" href="{{ route('product.pdf', 'raw_material') }}" target="_blank">Raw Materials</a></li>
                     </ul>
                 </div>

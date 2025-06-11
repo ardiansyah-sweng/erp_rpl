@@ -70,11 +70,12 @@ class Product extends Model
      */
     public static function getFormattedTypeName($type)
     {
-        return [
-            'finished' => 'Barang Jadi',
-            'half_finished' => 'Barang Setengah Jadi',
-            'raw_material' => 'Bahan Baku'
-        ][$type] ?? '';
+        return match($type) {
+            'finished' => ProductType::FG->value,
+            'raw_material' => ProductType::RM->value,
+            'half_finished' => ProductType::HFG->value,
+            default => ''
+        };
     }
 
     /**
@@ -82,11 +83,12 @@ class Product extends Model
      */
     public static function getTypeValue($type)
     {
-        return [
-            'finished' => 'FG',
-            'half_finished' => 'HFG',
-            'raw_material' => 'RM'
-        ][$type] ?? null;
+        return match($type) {
+            'finished' => ProductType::FG->name,
+            'raw_material' => ProductType::RM->name,
+            'half_finished' => ProductType::HFG->name,
+            default => null
+        };
     }
 
     public static function countProduct() {
