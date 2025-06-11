@@ -65,7 +65,7 @@ class ProductController extends Controller
 
     if ($products->isEmpty()) {
         return response()->json([
-            'message' => "Tidak ditemukan produk dengan tipe tersebut {$product_type}"
+            'message' => "Tidak ditemukan produk dengan tipe tersebut: {$product_type}"
         ], 404);
     }
 
