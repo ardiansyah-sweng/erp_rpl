@@ -92,5 +92,4 @@ class BranchController extends Controller
             return redirect()->route('branch.list')->with('error', $e->getMessage());
         }
     }
-main
 }
