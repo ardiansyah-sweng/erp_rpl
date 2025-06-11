@@ -52,7 +52,7 @@ class Category extends Model
         return self::with('parent')->get();
     }
 
-    public static function getCategoryByCategory($category)
+    public static function getCategoryByName($category)
     {
     return self::where('category', $category)->get();
     }

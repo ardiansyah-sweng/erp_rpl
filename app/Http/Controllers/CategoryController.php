@@ -60,9 +60,9 @@ class CategoryController extends Controller
         // dan return response nya di hapus
     }
 
-    public function getCategoryByCategory($category)
+    public function getCategoryByName($category)
     {
-    $categories = Category::getCategoryByCategory($category);
+    $categories = Category::getCategoryByName($category);
 
     if ($categories->isEmpty()) {
         return response()->json(['message' => 'Kategori tidak ditemukan'], 404);
