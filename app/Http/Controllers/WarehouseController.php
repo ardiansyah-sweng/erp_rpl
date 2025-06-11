@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class WarehouseController extends Controller
 {
@@ -18,5 +20,25 @@ class WarehouseController extends Controller
 
         return response()->json($warehouse);
 
+    }
+
+    public function deleteWarehouse($id)
+    {
+        $isUsed = DB::table('assortment_production')
+            ->where('rm_whouse_id', $id)
+            ->orWhere('fg_whouse_id', $id)
+            ->exists();
+
+        if ($isUsed) {
+            return redirect()->back()->with('error', 'Warehouse tidak bisa dihapus karena sedang digunakan di produksi.');
+        }
+        
+        $deleted = Warehouse::deleteWarehouseById($id);
+
+        if ($deleted) {
+            return redirect()->back()->with('success', 'Warehouse berhasil dihapus!');
+        } else {
+            return redirect()->back()->with('error', 'Warehouse tidak ditemukan atau gagal dihapus.');
+        }
     }
 }
