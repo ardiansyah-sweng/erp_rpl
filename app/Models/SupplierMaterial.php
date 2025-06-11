@@ -22,6 +22,11 @@ class SupplierMaterial extends Model
             ->get();
     }
 
+    public static function getSupplierMaterialById($id)
+    {
+        return DB::table('supplier_product')->where('id', $id)->first();
+    }
+
     public static function updateSupplierMaterial($id, array $data)
     {
         try {

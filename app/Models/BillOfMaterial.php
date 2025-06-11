@@ -31,4 +31,9 @@ class BillOfMaterial extends Model
         }
         return self::create($data);
     }
+
+    public static function getBillOfMaterial($id)
+    {
+        return self::where('bom_id',$id)->get();
+    }
 }
