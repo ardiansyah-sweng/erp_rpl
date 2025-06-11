@@ -59,5 +59,16 @@ class ProductController extends Controller
 
         return $Updateproduct;
     }
+   public function getProductByType($product_type)
+    {
+    $products = Product::where('product_type', $product_type)->get();
 
+    if ($products->isEmpty()) {
+        return response()->json([
+            'message' => "Tidak ditemukan produk dengan tipe tersebut {$product_type}"
+        ], 404);
+    }
+
+    return response()->json($products);
+    }  
 }
