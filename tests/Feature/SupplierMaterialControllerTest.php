@@ -47,16 +47,16 @@ class SupplierMaterialControllerTest extends TestCase
         ]);
     }
 
-    public function testAddSupplierMaterialFailsWithEmptyData()
-    {
-        $response = $this->post('/supplier/material/add', []);
+        public function testAddSupplierMaterialFailsWithEmptyData()
+        {
+            $response = $this->post('/supplier/material/add', []);
 
-        $response->assertSessionHasErrors([
-            'supplier_id',
-            'company_name',
-            'product_id',
-            'product_name',
-            'base_price'
-        ]);
-    }
+            $response->assertSessionHasErrors([
+                'supplier_id',
+                'company_name',
+                'product_id',
+                'product_name',
+                'base_price'
+            ]);
+        }
 }

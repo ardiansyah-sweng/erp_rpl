@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class SupplierMaterialTest extends TestCase
 {
     public function testAddSupplierMaterialCreatesSupplierMaterial()
-    {
+    { 
         config(['db_constants.table.supplier' => 'supplier_product']);
         config(['db_constants.column.supplier' => [
             'supplier_id',

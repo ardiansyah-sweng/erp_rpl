@@ -58,6 +58,10 @@ class SupplierMaterial extends Model
             throw new \Exception('Data tidak boleh kosong.');
         }
 
+        if (is_object($data)) {
+        $data = (array) $data;
+    }
+
         return self::create([
             'supplier_id' => $data['supplier_id'],
             'company_name' => $data['company_name'],
