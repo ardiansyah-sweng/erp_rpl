@@ -160,5 +160,5 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
 
-# Bill of Material
-Route::get('/bom', [BillOfMaterialController::class, 'index'])->name('bom.list');//Tampilkan daftar BOM
+# Bill of Material - BOM
+Route::get('/bom', [BillOfMaterialController::class, 'index'])->name('bom.list');//Tampilkan daftar BOM --> Untuk View BOM
