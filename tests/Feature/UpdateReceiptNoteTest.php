@@ -8,22 +8,15 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdateReceiptNoteTest extends TestCase
 {
-    use RefreshDatabase; // supaya migrasi dan database bersih sebelum test
 
     #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_update_goods_receipt_note()
     {
-        // buat data dummy
-        $grn = GoodsReceiptNote::create([
-            'po_number' => 'PO9999',
-            'product_id' => 'P123-test',
-            'delivery_date' => '2025-01-01',
-            'delivered_quantity' => 10,
-            'comments' => 'Initial comment',
-        ]);
+        $grn = GoodsReceiptNote::where('po_number', 'PO0001')->first();
+        $this->assertNotNull($grn, 'Data dengan po_number P0001 tidak ditemukan.');
 
         // update via method static
-        $updatedGrn = GoodsReceiptNote::updateGoodsReceiptNote('PO9999', [
+        $updatedGrn = GoodsReceiptNote::updateGoodsReceiptNote('PO0001', [
             'delivered_quantity' => 50,
             'comments' => 'Updated comment',
         ]);
@@ -34,7 +27,7 @@ class UpdateReceiptNoteTest extends TestCase
 
         // cek juga database ada data yang diupdate
         $this->assertDatabaseHas('goods_receipt_note', [
-            'po_number' => 'PO9999',
+            'po_number' => 'PO0001',
             'delivered_quantity' => 50,
             'comments' => 'Updated comment',
         ]);
