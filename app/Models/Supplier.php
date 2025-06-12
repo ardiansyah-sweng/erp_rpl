@@ -59,7 +59,7 @@ class Supplier extends Model
         } catch (\Illuminate\Database\QueryException $e) {
             // Kalau error foreign key constraint atau error lain, kembalikan pesan error
             return 'Supplier tidak bisa dihapus karena terkait data lain di database.';
-        }
+        } #
     }
 
 }
