@@ -155,5 +155,5 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
 
-#Supplier Material
+#Supplier Material(fadhliakbar)
 route::get('/assortment-production/{id}', [AssortmentProductionController::class, 'show']);
