@@ -12,6 +12,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
+use App\Http\Controllers\AssortmentProductionController;
 
 
 #Login
@@ -153,3 +154,6 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
+
+#Supplier Material
+route::get('/assortment-production/{id}', [AssortmentProductionController::class, 'show']);
