@@ -80,6 +80,9 @@ Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->na
 Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct'); //Sudah sesuai pada ERP RPL
 Route::get('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct');
 
+#Product berdasarkan type
+Route::get('/products/type/{product_type}', [ProductController::class, 'getProductByType']);
+
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('api.prices');
