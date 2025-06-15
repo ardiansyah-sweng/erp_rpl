@@ -148,17 +148,15 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
+Route::get('/items/export/pdf', [ItemController::class, 'exportAllToPdf'])->name('items.export.pdf');
+
 #Category
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
 
-#Supplier Pic
-Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
-
-#Produksi
-Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'index']);
-
-
-# Warehouse
-Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+#cetak pdf item
+Route::get('/items/report', function () {
+    $items = App\Models\Item::all(); // ambil data dari model
+    return view('item.report', compact('items'));
+})->name('item.report');
