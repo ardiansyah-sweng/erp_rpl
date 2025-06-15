@@ -39,42 +39,5 @@ class SupplierPic extends Model
     {
         $data['supplier_id'] = $supplierID;
         return self::create($data);
-    } 
-    
-    public static function assignmentDuration($pic)
-    {
-        if (!$pic->assigned_date) {
-            return 'Tanggal penugasan tidak tersedia';
-        }
-
-        $startDate = Carbon::parse($pic->assigned_date);
-        $now = Carbon::now();
-
-        $diff = $startDate->diff($now);
-
-        return json_encode([
-            'years' => $diff->y,
-            'months' => $diff->m,
-            'days' => $diff->d,
-        ]);
-    }
-
-    public static function deleteSupplierPIC($id)
-    {
-        $pic = self::find($id);
-        if ($pic) {
-            return $pic->delete();
-        }
-        return false;
-    }
-
-    public static function isDuplicatePIC($supplierID, $name, $email, $phone_number)
-    {
-        return self::where('supplier_id', $supplierID)
-            ->where('name', $name)
-            ->where('email', $email)
-            ->where('phone_number', $phone_number)
-            ->exists();
-    }
-
+    }    
 }
