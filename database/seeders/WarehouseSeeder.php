@@ -20,13 +20,15 @@ class WarehouseSeeder extends Seeder
     public function run(): void
     {
         $colWhouse = config('db_constants.column.whouse');
-        $numOfWhouse = $this->faker->numberBetween(1, 10);
+        $numOfWhouse = $this->faker->numberBetween(10, 100);
 
         for ($i=0; $i<$numOfWhouse; $i++)
         {
             Warehouse::create([
                 $colWhouse['name'] => 'Gudang'.' '.$this->faker->word(),
                 $colWhouse['address'] => $this->faker->address(),
+                $colWhouse['is_rm_whouse'] => $this->faker->boolean(),
+                $colWhouse['is_fg_whouse'] => $this->faker->boolean(),
                 $colWhouse['phone'] => $this->faker->phoneNumber(),
                 $colWhouse['is_active'] => $this->faker->boolean(),
             ]);
