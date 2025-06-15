@@ -12,6 +12,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
+use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\WarehouseController;
 
 #Login
@@ -148,3 +149,5 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
+Route::get('/BillOfMaterial',[BillOfMaterialController::class,'index'])->name('billOfMaterial.list');
