@@ -23,6 +23,7 @@ class getBillOfMaterialTest extends TestCase
         $result = BillOfMaterial::getBillOfMaterial();
 
         $this->assertNotEmpty($result);
-        $this->assertGreaterThanOrEqual(1, $result->total());
+        $this->assertTrue($result->total() >= 10);
+        $this->assertEquals(10, $result->count());
     }
 }
