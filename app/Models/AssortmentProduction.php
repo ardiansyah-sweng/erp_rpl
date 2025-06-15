@@ -17,4 +17,9 @@ class AssortmentProduction extends Model
         $this->table = config('db_constants.table.assort_prod');
         $this->fillable = array_values(config('db_constants.column.assort_prod') ?? []);
     }
+
+
+    public static function getProductionDetail($id){
+        return self::where('id', $id)->first();
+    }
 }
