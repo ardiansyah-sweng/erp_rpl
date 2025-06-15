@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('category', 50);
             $table->integer('parent_id')->nullable();
-            $table->boolean('active')->default(1);
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

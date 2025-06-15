@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\HasDynamicColumns;
 use Illuminate\Support\Facades\DB;
 use App\Models\Item;
@@ -11,7 +12,7 @@ use App\Enums\ProductType;
 
 class Product extends Model
 {
-    use HasDynamicColumns;
+    use HasFactory, HasDynamicColumns;
 
     protected $table = 'products';
     protected $fillable = [
@@ -88,9 +89,12 @@ class Product extends Model
         return self::create($data);
     }
 
+    public static function getProductByType($type)
+    {
+         return self::where('product_type', $type)->get();
+    }
 
-     
-    public static function updateProduct($id, array $data)
+    public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
     {
         $product = self::find($id);
         if (!$product) {
