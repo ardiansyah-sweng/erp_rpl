@@ -154,3 +154,9 @@ Route::get('/items/export/pdf', [ItemController::class, 'exportAllToPdf'])->name
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
+
+#cetak pdf item
+Route::get('/items/report', function () {
+    $items = App\Models\Item::all(); // ambil data dari model
+    return view('item.report', compact('items'));
+})->name('item.report');
