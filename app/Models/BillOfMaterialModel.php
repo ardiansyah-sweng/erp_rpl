@@ -24,4 +24,5 @@ class BillOfMaterialModel extends Model
 
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
+
 }

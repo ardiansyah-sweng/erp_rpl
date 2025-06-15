@@ -13,6 +13,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\BillOfMaterialController;//BOM
 
 #Login
 Route::get('/', function () {
@@ -162,3 +163,6 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
+# Bill of Material - BOM
+Route::get('/bom', [BillOfMaterialController::class, 'index'])->name('bom.list');//Tampilkan daftar BOM --> Untuk View BOM
