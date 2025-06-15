@@ -202,7 +202,7 @@
           <div class="container-fluid">
             <div class="card">
               <div class="card-header bg-primary text-white">
-                Informasi From Reina
+                Informasi From Assortmen Production
               </div>
               <div class="card-body">
                 <table class="table table-bordered">
