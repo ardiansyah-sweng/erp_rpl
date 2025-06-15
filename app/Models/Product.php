@@ -27,7 +27,7 @@ class Product extends Model
 
     protected $casts = [
     'product_type' => \App\Enums\ProductType::class,
-];
+    ];
 
 
     public function __construct(array $attributes = [])
