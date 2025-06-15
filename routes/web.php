@@ -162,3 +162,6 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
+# Delete Supplier
+Route::delete('/delete_supplier/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete'); #

@@ -37,5 +37,31 @@ class Supplier extends Model
     public static function countSupplier(){
         return self::count();   
     }
+    public static function deleteSupplier($id)
+    {
+        $supplier = static::where('supplier_id', $id)->first();
+
+        if (!$supplier) {
+            return false;
+        }
+
+        // Cek apakah ada purchase order terkait supplier ini
+        $poExists = DB::table('purchase_order')
+            ->where('supplier_id', $id)
+            ->exists();
+
+        if ($poExists) {
+            return 'Supplier ini tidak bisa dihapus karena sudah memiliki purchase order';
+        }
+
+        // Hapus supplier secara permanen (pastikan tidak pakai SoftDeletes)
+        try {
+            $deleted = $supplier->delete();
+            return $deleted; // true jika berhasil hapus, false jika gagal
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Kalau error foreign key constraint atau error lain, kembalikan pesan error
+            return 'Supplier tidak bisa dihapus karena terkait data lain di database.';
+        }
+    }
 
 }
