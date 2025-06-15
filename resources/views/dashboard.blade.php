@@ -360,6 +360,14 @@
                 </p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{ route('billOfMaterial.list') }}" class="nav-link">
+                <i class="nav-icon bi bi-box-seam"></i>
+                <p>
+                  Material
+                </p>
+              </a>
+            </li>
           </ul>
           <!--end::Sidebar Menu-->
         </nav>
