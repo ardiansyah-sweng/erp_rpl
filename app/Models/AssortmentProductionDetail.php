@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Warehouse extends Model
+class AssortmentProductionDetail extends Model
 {
     protected $table;
     protected $fillable = [];
@@ -14,7 +14,7 @@ class Warehouse extends Model
         parent::__construct($attributes);
 
         // Tetapkan nama tabel dan kolom
-        $this->table = config('db_constants.table.whouse');
-        $this->fillable = array_values(config('db_constants.column.whouse') ?? []);
+        $this->table = config('db_constants.table.assort_prodetail');
+        $this->fillable = array_values(config('db_constants.column.assort_prodetail') ?? []);
     }
 }
