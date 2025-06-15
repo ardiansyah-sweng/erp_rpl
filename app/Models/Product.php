@@ -27,7 +27,7 @@ class Product extends Model
 
     protected $casts = [
     'product_type' => \App\Enums\ProductType::class,
-];
+    ];
 
 
     public function __construct(array $attributes = [])
@@ -95,6 +95,7 @@ class Product extends Model
     }
 
     public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
+
     {
         $product = self::find($id);
         if (!$product) {
