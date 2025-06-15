@@ -86,16 +86,16 @@ class ItemController extends Controller
 
     
    public function exportAllToPdf()
-   {
-      $items = $this->getItemAll(); 
+    {
+        $items = (new Item)->getItem();
 
-      if (empty($items) || count($items) === 0) {
-        return redirect()->back()->with('error', 'Tidak ada data yang tersedia untuk diekspor');
-      }
+        if (empty($items) || count($items) === 0) {
+            return redirect()->back()->with('error', 'Tidak ada data yang tersedia untuk diekspor');
+        }
 
-      $pdf = Pdf::loadView('item.report', compact('items'));
+        $pdf = Pdf::loadView('item.report', compact('items'));
         return $pdf->download('laporan-item.pdf');
-   }
+    }
 
     public function getItemById($id)
     {

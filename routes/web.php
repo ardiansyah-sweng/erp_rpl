@@ -150,3 +150,9 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
+#cetak laporan item pdf
+Route::get('/items/report', function () {
+    $items = App\Models\Item::all(); // ambil data dari model
+    return view('item.report', compact('items'));
+})->name('item.report');

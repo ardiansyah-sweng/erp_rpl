@@ -760,7 +760,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- AdminLTE JS -->
-    <script src={{ asset('assets/dist/js/adminlte.js') }}></script>
+   <script src="{{ asset('assets/dist/js/adminlte.js') }}"></script>
 
     <!-- Custom Sidebar Toggle Script -->
     <script>
