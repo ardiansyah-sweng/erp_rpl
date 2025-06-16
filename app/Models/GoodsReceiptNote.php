@@ -20,14 +20,4 @@ class GoodsReceiptNote extends Model
         $this->table = config('db_constants.table.grn');
         $this->fillable = array_values(config('db_constants.column.grn') ?? []);
     }
-    public static function updateGoodsReceiptNote($id, array $data) //
-    {
-        $grn = self::find($id);
-        if (!$grn) {
-            return null;
-        }
-        $grn->update($data);
-
-        return $grn;
-    }
 }
