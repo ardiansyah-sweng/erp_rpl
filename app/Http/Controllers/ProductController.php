@@ -59,5 +59,16 @@ class ProductController extends Controller
 
         return $Updateproduct;
     }
+    
+    public function searchProduct(Request $request)
+    {
+        $keyword = $request->query('search');
 
-}
+        $products = Product::when($keyword, function ($query, $keyword) {
+            return $query->where('product_name', 'LIKE', "%{$keyword}%");
+        })->paginate(10); 
+
+        return view('product.list', compact('products'));
+    }
+
+    }
