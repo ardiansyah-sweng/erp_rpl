@@ -22,10 +22,27 @@ class Warehouse extends Model
     {
         return self::where('id', $id)->first();
     }
-
     public static function countWarehouse()
     {
         return self::count();
     }
+    
+     public function updateWarehouse($id, $data)
+    {
+        $warehouse = $this->getWarehouseById($id);
 
+        if (!$warehouse) {
+            return false;
+        }
+
+        return $warehouse->update($data);
+    }
+    public function searchWarehouse($keyword)
+    {
+        return self::where(function ($query) use ($keyword) {
+            $query->where('warehouse_name', 'like', "%{$keyword}%")
+                ->orWhere('warehouse_address', 'like', "%{$keyword}%")
+                ->orWhere('warehouse_telephone', 'like', "%{$keyword}%");
+        })->get();
+    }
 }
