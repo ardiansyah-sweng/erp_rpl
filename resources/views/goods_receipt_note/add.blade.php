@@ -257,27 +257,20 @@
                   <div class="card-body">
                     <div class="form-group mb-3">
                       <label for="po_number">PO Number</label>
-                      <input type="text" class="form-control" id="po_number" value="" readonly>
+                      <input type="text" class="form-control" id="po_number" value="POO0002" readonly>
                     </div>
                     <form>
                         <div class="form-group mb-3">
-                            <label for="branch">Cabang</label> 
-                            <select class="form-control" id="branch">
-                                <option value="">Pilih Cabang</option>
-                                <option value="Yogyakarta" selected>Yogyakarta</option>
-                                <option value="Jakarta">Jakarta</option>
-                                <option value="Surakarta">Surakarta</option>
-                                <option value="Bogor">Bogor</option>
-                                <option value="Surabaya">Surabaya</option>
-                            </select>
+                            <label for="branch">Branch</label> 
+                            <input type="text" class="form-control" id="branch" value="Yogyakarta" readonly>
                         </div>
                         <div class="form-group mb-3">
                             <label for="supplier_id">Supplier ID</label>
-                            <input type="text" class="form-control" id="supplier_id" readonly>
+                            <input type="text" class="form-control" id="supplier_id" value="SUUP001" readonly>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="supplier_name">Nama Supplier</label>
-                            <input type="text" class="form-control" id="supplier_name" readonly>
+                            <label for="supplier_name">Name Supplier</label>
+                            <input type="text" class="form-control" id="supplier_name" value="PT. XYZ" readonly>
                         </div>
                         
                         <div class="table-responsive">
@@ -285,25 +278,54 @@
                               <thead class="table-primary text-center">
                               <tr>
                                   <th>SKU</th>
-                                  <th>Nama Item</th>
+                                  <th>Name Item</th>
                                   <th>Qty</th>
                                   <th>Unit Price</th>
                                   <th>Amount</th>
                                   <th>Delivery Date</th>
                                   <th>Delivery Quantity</th>
-                                  <th>Komentar</th>
                                   <th>Action</th>
                               </tr>
                               </thead>
-                              <tbody>
-                              
+                              <tbody class="text-center">
+                                <!-- Dummy Data -->
+                                <tr>
+                                    <td><input type="text" class="form-control" value="KAOS-M" readonly></td>
+                                    <td><input type="text" class="form-control" value="Kaos Sedang" readonly></td>
+                                    <td><input type="text" class="form-control" value="15" readonly></td>
+                                    <td><input type="text" class="form-control" value="20000" readonly></td>
+                                    <td><input type="text" class="form-control" value="300000" readonly></td>
+                                    <td><input type="date" class="form-control" value="2025-06-10" required></td>
+                                    <td><input type="number" class="form-control" value="10" min="0" max="15" required></td>
+                                    <td class="mb-3" style="display: flex; gap: 8px;">
+                                      <button type="button" class="btn btn-info btn-sm comments">
+                                      <i class="bi bi-chat"></i>
+                                      </button>
+                                      <button type="button" class="btn btn-danger btn-sm remove-row-btn">
+                                      <i class="bi bi-trash"></i>
+                                      </button>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" class="form-control sku " value="KAOS-L" readonly></td>
+                                    <td><input type="text" class="form-control name-item" value="Kaos Besar" readonly></td>
+                                    <td><input type="number" class="form-control qty" value="10" readonly></td>
+                                    <td><input type="number" class="form-control unit-price" value="20000" readonly></td>
+                                    <td><input type="number" class="form-control amount" value="300000" readonly></td>
+                                    <td><input type="date" class="form-control delivery-date" value="2025-06-10" required></td>
+                                    <td><input type="number" class="form-control delivery-quantity" value="10" min="0" max="15" required></td>
+                                    <td class="mb-3" style="display: flex; gap: 8px;">
+                                      <button type="button" class="btn btn-info btn-sm comments">
+                                      <i class="bi bi-chat"></i>
+                                      </button>
+                                      <button type="button" class="btn btn-danger btn-sm remove-row-btn">
+                                      <i class="bi bi-trash"></i>
+                                      </button>
+                                    </td>
+                                  </tr>
                               </tbody>
                           </table>
                         </div>
-                        
-                        <button type="button" id="addRow" class="btn btn-info mb-3">
-                          <i class="bi bi-plus-circle"></i> Tambah Barang
-                        </button>
 
                         <div class="form-group">
                           <button type="submit" class="btn btn-primary mb-3">
@@ -313,7 +335,7 @@
                             <i class="bi bi-x-circle"></i> Batal
                           </button>
                         </div>
-                    </form>                 
+                    </form>
                   </div>
                 </div>
               </div>
@@ -367,239 +389,49 @@
     
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/js/adminlte.min.js"></script>
 
-
-    
-<script>
-        // --- DATA DUMMY ---
-        const suppliers = {
-            "SUP001": "Penyetor Kaos",
-            "SUP002": "Penyetor Celana",
-            "SUP003": "Penyetor Topi"
-        };
-
-        const items = {
-            "SUP001": {
-                "KAOS-S": { name: "Kaos Kecil", price: 10000 },
-                "KAOS-M": { name: "Kaos Sedang", price: 20000 },
-                "KAOS-L": { name: "Kaos Besar", price: 30000 },
-            },
-            "SUP002": {
-                "CELANA-S": { name: "Celana Kecil", price: 15000 },
-                "CELANA-M": { name: "Celana Sedang", price: 25000 },
-                "CELANA-L": { name: "Celana Besar", price: 35000 },
-            },
-            "SUP003": {
-                "TOPI-S": { name: "Topi Kecil", price: 5000 },
-                "TOPI-M": { name: "Topi Sedang", price: 7500 },
-                "TOPI-L": { name: "Topi Besar", price: 10000 },
-            }
-        };
-
-        const purchaseOrders = {
-            "PO0002": {
-                supplierId: "SUP001",
-                branch: "Yogyakarta",
-                items: [
-                    { sku: "KAOS-M", name: "Kaos Sedang", qty: 15, price: 20000, deliveryDate: '2025-06-10', deliveryQuantity: 10 },
-                    { sku: "KAOS-L", name: "Kaos Besar", qty: 10, price: 30000, deliveryDate: null, deliveryQuantity: 0 }
-                ]
-            },
-            "PO0013": {
-                supplierId: "SUP002",
-                branch: "Jakarta",
-                items: [
-                    { sku: "CELANA-S", name: "Celana Kecil", qty: 50, price: 15000, deliveryDate: '2025-06-11', deliveryQuantity: 50 },
-                    { sku: "CELANA-L", name: "Celana Besar", qty: 25, price: 35000, deliveryDate: null, deliveryQuantity: 0 }
-                ]
-            },
-            "PO0006": {
-                supplierId: "SUP003",
-                branch: "Surabaya",
-                items: [
-                    { sku: "TOPI-S", name: "Topi Kecil", qty: 100, price: 5000, deliveryDate: null, deliveryQuantity: 0 }
-                ]
-            }
-        };
-        // --- AKHIR DATA DUMMY ---
-
-
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
-            let commentModal = new bootstrap.Modal(document.getElementById('commentModal'));
+            const commentModal = new bootstrap.Modal(document.getElementById('commentModal'));
+            const commentTextArea = document.getElementById('commentText');
             let currentCommentButton = null;
 
+            // Event listener untuk klik di dalam tabel (Hapus dan Komen)
+            document.getElementById('itemsTable').addEventListener('click', function(e) {
+                const targetCommentBtn = e.target.closest('.comments');
+                const targetDeleteBtn = e.target.closest('.remove-row-btn');
 
-            function updateAmount(rowElement) { 
-                let qty = parseFloat(rowElement.querySelector(".qty, .qty-po").value) || 0;
-                let price = parseFloat(rowElement.querySelector(".unit-price, .unit-price-po").value) || 0;
-                const amountInput = rowElement.querySelector(".amount, .amount-po");
-                if (amountInput) {
-                    amountInput.value = (qty * price);
-                }
-            }
-
-            function populateSKUDropdowns(supplierId) {
-                const supplierItems = items[supplierId];
-                document.querySelectorAll('#itemsTable tbody tr .sku-dropdown').forEach(function(skuDropdown) {
-                    skuDropdown.innerHTML = '';
-                    if (supplierItems) {
-                        for (const sku in supplierItems) {
-                            const item = supplierItems[sku];
-                            const option = document.createElement('option');
-                            option.value = sku;
-                            option.textContent = `${sku} - ${item.name}`;
-                            skuDropdown.appendChild(option);
-                        }
-                    }
-                });
-            }
-            
-            function enableAddRowButton() {
-                const poId = document.getElementById('po_number').value;
-                document.getElementById('addRow').disabled = !poId;
-            }
-
-            function loadPoData(poId) {
-                const poData = purchaseOrders[poId];
-                if (!poData) {
-                    console.error("Data PO tidak ditemukan untuk ID:", poId);
-                    alert("Data Purchase Order tidak ditemukan!");
-                    return;
-                }
-
-                document.getElementById('branch').value = poData.branch;
-                document.getElementById('supplier_id').value = poData.supplierId;
-                document.getElementById('supplier_name').value = suppliers[poData.supplierId] || '';
-
-                const tableBody = document.querySelector("#itemsTable tbody");
-                tableBody.innerHTML = ''; 
-
-                poData.items.forEach(itemData => {
-                    let newRow = document.createElement('tr');
-                    newRow.innerHTML = `
-                        <td><input type="text" class="form-control" value="${itemData.sku}" readonly></td>
-                        <td><input type="text" class="form-control" value="${itemData.name}" readonly></td>
-                        <td><input type="text" class="form-control qty-po" value="${itemData.qty}" readonly></td>
-                        <td><input type="text" class="form-control unit-price-po" value="${itemData.price}" readonly></td>
-                        <td><input type="text" class="form-control amount-po" value="${itemData.qty * itemData.price}" readonly></td>
-                        <td><input type="date" class="form-control delivery-date" value="${itemData.deliveryDate || ''}" required></td>
-                        <td><input type="number" class="form-control delivery-quantity" value="${itemData.deliveryQuantity || 0}" min="0" max="${itemData.qty}" required></td>
-                        <td><button type="button" class="btn btn-info btn-sm comments"><i class="bi bi-chat"></i></button></td>
-                        <td><button type="button" class="btn btn-danger btn-sm remove-row-btn"><i class="bi bi-trash"></i></button></td>
-                    `;
-                    tableBody.appendChild(newRow);
-                });
-                enableAddRowButton();
-            }
-
-            document.getElementById('addRow').addEventListener('click', function() {
-                const poData = purchaseOrders[document.getElementById('po_number').value];
-                if (!poData) {
-                    alert("Pilih Purchase Order yang valid terlebih dahulu.");
-                    return;
-                }
-                let newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                    <td>
-                        <input type="text" class="form-control sku-search" placeholder="Cari SKU">
-                        <select class="form-control sku-dropdown" size="5" style="display:none; position:absolute; z-index:100;"></select>
-                    </td>
-                    <td><input type="text" class="form-control nama-item" readonly></td>
-                    <td><input type="number" class="form-control qty" value="1" min="1"></td>
-                    <td><input type="number" class="form-control unit-price" value="0" readonly></td>
-                    <td><input type="number" class="form-control amount" value="0" readonly></td>
-                    <td><input type="date" class="form-control" required></td>
-                    <td><input type="number" class="form-control" value="0" min="0" required></td>
-                    <td><button type="button" class="btn btn-info btn-sm comments"><i class="bi bi-chat"></i></button></td>
-                    <td><button type="button" class="btn btn-danger btn-sm remove-row-btn"><i class="bi bi-trash"></i></button></td>
-                `;
-                document.querySelector('#itemsTable tbody').appendChild(newRow);
-                populateSKUDropdowns(poData.supplierId);
-            });
-
-            const table = document.getElementById('itemsTable');
-            table.addEventListener('input', function(e) {
-                if (e.target.matches('.qty, .unit-price')) {
-                    updateAmount(e.target.closest('tr'));
-                }
-                if (e.target.matches('.sku-search')) {
-                    const row = e.target.closest('tr');
-                    const filter = e.target.value.toLowerCase();
-                    const poData = purchaseOrders[document.getElementById('po_number').value];
-                    const itemsList = items[poData.supplierId] || {};
-                    const skuDropdown = row.querySelector('.sku-dropdown');
-                    skuDropdown.innerHTML = '';
-                    if (filter.length > 0) {
-                        for (let sku in itemsList) {
-                            if (itemsList.hasOwnProperty(sku)) {
-                                const item = itemsList[sku];
-                                if (item.name.toLowerCase().includes(filter) || sku.toLowerCase().includes(filter)) {
-                                    const option = document.createElement('option');
-                                    option.value = sku;
-                                    option.textContent = `${sku} - ${item.name}`;
-                                    skuDropdown.appendChild(option);
-                                }
-                            }
-                        }
-                    }
-                    skuDropdown.style.display = skuDropdown.options.length > 0 ? 'block' : 'none';
-                }
-            });
-            table.addEventListener('change', function(e) {
-                if (e.target.matches('.sku-dropdown')) {
-                    const row = e.target.closest('tr');
-                    const sku = e.target.value;
-                    const poData = purchaseOrders[document.getElementById('po_number').value];
-                    const item = items[poData.supplierId]?.[sku];
-                    if (item) {
-                        row.querySelector('.sku-search').value = sku;
-                        row.querySelector('.nama-item').value = item.name;
-                        row.querySelector('.unit-price').value = item.price;
-                        updateAmount(row); 
-                    }
-                    e.target.style.display = 'none';
-                }
-            });
-            table.addEventListener('click', function(e) {
-                if (e.target.closest('.remove-row-btn')) {
-                    e.target.closest('tr').remove();
-                }
-                if (e.target.closest('.comments')) {
-                    currentCommentButton = e.target.closest('.comments');
-                    document.getElementById('commentText').value = currentCommentButton.dataset.comment || '';
+                if (targetCommentBtn) {
+                    currentCommentButton = targetCommentBtn;
+                    commentTextArea.value = currentCommentButton.dataset.comment || '';
                     commentModal.show();
                 }
+
+                if (targetDeleteBtn) {
+                    targetDeleteBtn.closest('tr').remove();
+                }
             });
 
+            // Event listener untuk menyimpan komentar
             document.getElementById('saveComment').addEventListener('click', function() {
                 if (currentCommentButton) {
-                    const commentText = document.getElementById('commentText').value;
-                    currentCommentButton.dataset.comment = commentText;
-                    if(commentText.trim() !== '') {
+                    const newComment = commentTextArea.value.trim();
+                    currentCommentButton.dataset.comment = newComment;
+                    const icon = currentCommentButton.querySelector('i');
+                    if (newComment) {
                         currentCommentButton.classList.replace('btn-info', 'btn-success');
-                        currentCommentButton.innerHTML = '<i class="bi bi-chat-fill"></i>';
+                        icon.classList.replace('bi-chat', 'bi-chat-fill');
                     } else {
                         currentCommentButton.classList.replace('btn-success', 'btn-info');
-                        currentCommentButton.innerHTML = '<i class="bi bi-chat"></i>';
+                        icon.classList.replace('bi-chat-fill', 'bi-chat');
                     }
                 }
                 commentModal.hide();
             });
-
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const poIdFromUrl = urlParams.get('po_number');
-
-            if (poIdFromUrl) {
-                document.getElementById('po_number').value = poIdFromUrl;
-                loadPoData(poIdFromUrl);
-            } else {
-                console.log("Tidak ada nomor PO yang dipilih dari URL.");
-                alert("URL tidak valid. Harap kembali dan pilih Purchase Order.");
-                document.querySelector("#grn-form").style.display = 'none';
-            }
         });
-</script>
+    </script>
     
   </body>
 </html>
