@@ -1,4 +1,7 @@
 
+@php
+use App\Helpers\EncryptionHelper;
+@endphp
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
@@ -408,6 +411,7 @@
                       <th>product_type</th>
                       <th>product_category</th>
                       <th>product_description</th>
+                      <th>jumlah_item</th>
                       <th>Created At</th>
                       <th>Updated At </th>
                       <th>Action </th>
@@ -417,11 +421,17 @@
                   @foreach ($products as $index => $product)
                   <tr class="align-middle">
                       <td>{{ $index + 1 }}</td>
-                      <td>{{ $product->product_id }}</td>
+                      <td>
+                        <a href="/products/detail/{{ EncryptionHelper::encrypt($product->product_id) }}" class="text-dark"> 
+                         {{ $product->product_id }}
+                      </a>
+                      </td>
+                      
                       <td>{{ $product->product_name }}</td>
-                      <td>{{ $product->product_type }}</td>
+                      <td>{{ $product->product_type->label() }}</td>
                       <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
                       <td>{{ $product->product_description }}</td>
+                      <td>{{ $product->items_count }}</td>
                       <td>{{ $product->created_at }}</td>
                       <td>{{ $product->updated_at }}</td>
                       <td>

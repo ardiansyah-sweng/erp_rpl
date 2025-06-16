@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Helpers\EncryptionHelper;
 
 class ProductController extends Controller
 {
@@ -58,6 +59,13 @@ class ProductController extends Controller
         $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
 
         return $Updateproduct;
+    }
+
+    public function detail($id)
+    {
+        $productId = EncryptionHelper::decrypt($id);
+        $product = Product::where('product_id', $productId)->firstOrFail();
+        return view('product.detail', compact('product'));
     }
 
 }
