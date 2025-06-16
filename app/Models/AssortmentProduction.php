@@ -40,4 +40,8 @@ class AssortmentProduction extends Model
 
         return response()->json($result);
     }
+    public function getProduction()
+    {
+        return self::query()->from('assortment_production')->get();
+    }
 }
