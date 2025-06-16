@@ -13,11 +13,8 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
-<<<<<<< HEAD
-use App\Http\Controllers\AssortmentProductionController;
-=======
+
 use App\Http\Controllers\AssortProductionController;
->>>>>>> 4e5a9c7b00e2bab9707f02dfb0f8ebc8404ecbf8
 
 #Login
 Route::get('/', function () {
@@ -106,13 +103,9 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
 })->name('purchase.orders.detail');
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
-<<<<<<< HEAD
-
-=======
 Route::get('/purchase-orders/report', [PurchaseOrderController::class, 'showReportForm'])->name('purchase_orders.report_form');
 Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePurchaseOrderPDF'])->name('purchase_orders.pdf');
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
->>>>>>> 4e5a9c7b00e2bab9707f02dfb0f8ebc8404ecbf8
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
@@ -173,11 +166,6 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
 
-<<<<<<< HEAD
-#Supplier Material
-route::get('/assortment-production/{id}', [AssortmentProductionController::class, 'show']);
-=======
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
->>>>>>> 4e5a9c7b00e2bab9707f02dfb0f8ebc8404ecbf8
