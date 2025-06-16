@@ -13,7 +13,11 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
+
 use App\Http\Controllers\GoodsReceiptNoteController; //
+
+use App\Http\Controllers\AssortProductionController;
+
 
 #Login
 Route::get('/', function () {
@@ -68,6 +72,9 @@ Route::get('/supplier/list', function () {
 Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
 });
+Route::get('/goods_receipt_note/add', function () {
+    return view('goods_receipt_note/add');
+});
 
 
 # Product
@@ -87,7 +94,6 @@ Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('a
 Route::get('/api/branches/{id}', [BranchController::class, 'getBranchById'])->name('api.branch.detail');
 
 # Branch
-Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
 Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('branch.delete');
@@ -103,7 +109,13 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
 })->name('purchase.orders.detail');
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
+<<<<<<< 2200018237_andika
 
+=======
+Route::get('/purchase-orders/report', [PurchaseOrderController::class, 'showReportForm'])->name('purchase_orders.report_form');
+Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePurchaseOrderPDF'])->name('purchase_orders.pdf');
+Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
+>>>>>>> development
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
@@ -159,9 +171,22 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
 
+#Produksi
+Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'index']);
+
+
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+<<<<<<< 2200018237_andika
 
 #GoodsReceiptNoteController
 Route::put('goods-receipt-notes/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote'])
     ->name('goods-receipt-notes.update');
+=======
+Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
+
+
+#production
+Route::get('/production', [AssortProductionController::class, 'getProduction']);
+
+>>>>>>> development
