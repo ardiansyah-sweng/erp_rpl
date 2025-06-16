@@ -163,4 +163,5 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
 
 #GoodsReceiptNoteController
-Route::put('/grn/update/{id}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote'])->name('grn.updateGoodsReceiptNote');
+Route::put('goods-receipt-notes/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote'])
+    ->name('goods-receipt-notes.update');
