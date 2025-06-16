@@ -172,4 +172,4 @@ Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWare
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
-
+Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
