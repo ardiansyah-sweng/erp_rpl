@@ -16,7 +16,6 @@ class BillOfMaterialController extends Controller
             'active' => 'required|boolean'
         ]);
 
-        $billOfMaterial = new BillOfMaterial();
         $billOfMaterial->create([
             'bom_name' => $request->bom_name,
             'measurement_unit' => $request->measurement_unit,
