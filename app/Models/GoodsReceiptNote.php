@@ -20,4 +20,35 @@ class GoodsReceiptNote extends Model
         $this->table = config('db_constants.table.grn');
         $this->fillable = array_values(config('db_constants.column.grn') ?? []);
     }
+<<<<<<<<< Temporary merge branch 1
+
+    public static function getGoodsReceiptNote($po_number)
+    {
+        return self::where('po_number', $po_number)->first();
+    }
+
+    public static function updateGoodsReceiptNote($po_number, array $data)
+    {
+        $grn = self::getGoodsReceiptNote($po_number);
+
+        if (!$grn) {
+            return null;
+        }
+
+        $fillable = (new self)->getFillable();
+        $filteredData = array_intersect_key($data, array_flip($fillable));
+        $grn->update($filteredData);
+
+=========
+    public static function updateGoodsReceiptNote($id, array $data) //
+    {
+        $grn = self::find($id);
+        if (!$grn) {
+            return null;
+        }
+        $grn->update($data);
+
+>>>>>>>>> Temporary merge branch 2
+        return $grn;
+    }
 }
