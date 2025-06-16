@@ -37,4 +37,12 @@ class Warehouse extends Model
 
         return $warehouse->update($data);
     }
+    public function searchWarehouse($keyword)
+    {
+        return self::where(function ($query) use ($keyword) {
+            $query->where('warehouse_name', 'like', "%{$keyword}%")
+                ->orWhere('warehouse_address', 'like', "%{$keyword}%")
+                ->orWhere('warehouse_telephone', 'like', "%{$keyword}%");
+        })->get();
+    }
 }
