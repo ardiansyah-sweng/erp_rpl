@@ -70,7 +70,7 @@ class Product extends Model
     }
 
     public function getProductById($id) {
-        return self::where('id', $id)->first();
+        return self::where('product_id', $id)->first();
     }    
 
     public static function getProductByType($type)
