@@ -51,7 +51,7 @@ Route::get('/branch/add', function () {
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
-Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
+Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
     $id = EncryptionHelper::decrypt($encrypted_id);
     return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
 })->name('purchase.orders.detail');
@@ -144,7 +144,7 @@ Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
 
 #Suppplier Update 
-Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');//Sudah sesuai pada ERP RPL
+Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier'); //Sudah sesuai pada ERP RPL
 Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');
 
 #Cetak pdf
@@ -168,3 +168,4 @@ Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseB
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
+Route::get('/details', [AssortProductionController::class, 'getProductionDetail']);
