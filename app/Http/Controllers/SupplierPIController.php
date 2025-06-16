@@ -96,7 +96,6 @@ class SupplierPIController extends Controller
             'name'          => 'required|string|max:255',
             'phone_number'  => 'required|string|max:20',
             'email'         => 'required|email|unique:supplier_pics,email,' . $id,
-            'assigned_date' => 'required|date'
         ]);
 
         if ($validator->fails()) {

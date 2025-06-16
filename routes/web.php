@@ -174,5 +174,4 @@ Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWare
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
-# Bill Of Material
-Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
+

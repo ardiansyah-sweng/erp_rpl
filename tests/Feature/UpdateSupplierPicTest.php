@@ -13,7 +13,7 @@ class UpdateSupplierPicTest extends TestCase
 
     public function test_modelUpdateSupplierPic(): void
     {
-        $faker = Faker::create(); // Inisialisasi Faker
+        $faker = Faker::create();
 
         $supplierPic = SupplierPic::inRandomOrder()->first();
 
