@@ -5,13 +5,19 @@ namespace Tests\Unit;
 use App\Models\AssortmentProduction;
 use Tests\TestCase;
 
+
 class AssortmentProductionTest extends TestCase
 {
-    public function test_data()
+    public function testGetProductionDetail()
     {
-        $result = AssortmentProduction::getProductionDetail(1);
+        // Simulasi data yang akan diuji
+        $productionNumber = 'PROD-001';
+        $response = AssortmentProduction::getProductionDetail($productionNumber);
+        $data = $response->getData();
 
-        $this->assertNotNull($result);
-        $this->assertEquals(1, $result->id);
+        dump($data);
+
+        $this->assertEquals($productionNumber, $data->header->production_number);
+        $this->assertNotEmpty($data->details);
     }
 }
