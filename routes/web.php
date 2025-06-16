@@ -14,6 +14,7 @@ use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
+use App\Http\Controllers\AssortmentProductionController;
 
 #Login
 Route::get('/', function () {
@@ -168,3 +169,4 @@ Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseB
 
 #production
 // Route::get('/production', [AssortProductionController::class, 'getProduction']);
+Route::get('/production/{production_number}', [AssortmentProductionController::class, 'showProductionDetail']);
