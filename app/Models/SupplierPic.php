@@ -80,30 +80,42 @@ class SupplierPic extends Model
             ->exists();
     }
 
-    public function updateSupplierPICDetail(Request $request, $id)
+    public static function updateSupplierPIC($id, $data)
     {
-        $validator = Validator::make($request->all(), [
-            'id'            => 'required|integer|exists:suppliers,id',
-            'name'          => 'required|string|max:255',
-            'phone_number'  => 'required|string|max:20',
-            'email'         => 'required|email|unique:supplier_pics,email,' . $id,
-            'assigned_date' => 'required|date'
-        ]);
+        try {
+            $supplierPic = self::find($id);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Validasi gagal',
-                'errors'  => $validator->errors(),
-            ]);
+            if (!$supplierPic) {
+                return [
+                    'status' => 'error',
+                    'message' => 'Supplier PIC tidak ditemukan.',
+                    'code' => 404
+                ];
+            }
+
+            $updated = $supplierPic->update($data);
+
+            return $updated
+                ? [
+                    'status' => 'success',
+                    'message' => 'Supplier PIC berhasil diperbarui.',
+                    'data' => $supplierPic,
+                    'code' => 200
+                ]
+                : [
+                    'status' => 'error',
+                    'message' => 'Gagal memperbarui Supplier PIC.',
+                    'code' => 500
+                ];
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => 'Exception: ' . $e->getMessage(),
+                'code' => 500
+            ];
         }
-
-        $result = SupplierPICModel::updateSupplierPIC($id, $data);
-
-        return response()->json([
-            'status'  => $result['status'],
-            'message' => $result['message'],
-            'data'    => $result['data'] ?? null,
-        ], $result['code']);
     }
+
+
+
 }
