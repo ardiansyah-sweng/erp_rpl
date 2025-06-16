@@ -2,9 +2,20 @@
 
 namespace App\Enums;
 
+//menampilkan product type
 enum ProductType: string
 {
-    case FG = 'Finished Goods';
-    case RM = 'Raw Material';
-    case HFG = 'Half Finished Goods';
+    case FG = 'FG';
+    case RM = 'RM';
+    case HFG = 'HFG';
+
+    public function label(): string
+    {
+        return match($this) {
+            self::RM => 'Raw Material',
+            self::FG => 'Finished Good',
+            self::HFG => 'Half Finished Goods',
+        };
+    }
 }
+
