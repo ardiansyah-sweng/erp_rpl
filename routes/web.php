@@ -68,9 +68,6 @@ Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
 });
 
-Route::get('/assortment_production/detail', function () {
-    return view('assortment_production.detail');
-});
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
@@ -160,6 +157,7 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 
 #Produksi
 Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'index']);
+Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
