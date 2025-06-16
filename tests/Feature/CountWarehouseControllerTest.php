@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Warehouse;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CountWarehouseControllerTest extends TestCase
 {
