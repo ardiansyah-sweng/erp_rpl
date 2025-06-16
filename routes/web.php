@@ -68,6 +68,9 @@ Route::get('/supplier/list', function () {
 Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
 });
+Route::get('/goods_receipt_note/add', function () {
+    return view('goods_receipt_note/add');
+});
 
 
 # Product
