@@ -19,4 +19,13 @@ class WarehouseController extends Controller
         return response()->json($warehouse);
 
     }
+    
+    public function countWarehouse()
+    {
+        $total = Warehouse::countWarehouse();
+
+        return response()->json([
+            'total_warehouse' => $total
+        ]);
+    }
 }
