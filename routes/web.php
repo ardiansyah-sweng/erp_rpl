@@ -13,10 +13,15 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 >>>>>>> 4e5a9c7b00e2bab9707f02dfb0f8ebc8404ecbf8
+=======
+
+ App\Http\Controllers\WarehouseController;
+>>>>>>> 33c81887502c2e3adc171a958b2533d307b4a0dd
 
 #Login
 Route::get('/', function () {
@@ -78,12 +83,20 @@ Route::get('/product/list', [ProductController::class, 'getProductList'])->name(
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 33c81887502c2e3adc171a958b2533d307b4a0dd
 #encry
 Route::get('/products/detail/{id}', [ProductController::class, 'detail']);
 
 
+<<<<<<< HEAD
 =======
 >>>>>>> 4e5a9c7b00e2bab9707f02dfb0f8ebc8404ecbf8
+=======
+
+>>>>>>> 33c81887502c2e3adc171a958b2533d307b4a0dd
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 
 #Product Update 

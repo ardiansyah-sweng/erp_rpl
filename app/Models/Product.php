@@ -84,13 +84,21 @@ class Product extends Model
     public function getProductById($id) {
         return self::where('id', $id)->first();
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 33c81887502c2e3adc171a958b2533d307b4a0dd
     }
  
     public static function addProduct($data){
         return self::create($data);
     }
 }
+<<<<<<< HEAD
 =======
+=======
+
+>>>>>>> 33c81887502c2e3adc171a958b2533d307b4a0dd
     }    
 
     public static function getProductByType($type)
@@ -110,4 +118,7 @@ class Product extends Model
     }
 
 }
+<<<<<<< HEAD
 >>>>>>> 4e5a9c7b00e2bab9707f02dfb0f8ebc8404ecbf8
+=======
+>>>>>>> 33c81887502c2e3adc171a958b2533d307b4a0dd
