@@ -419,6 +419,7 @@
                 </td>
                 <td class="text-center">
                   <div class="d-flex justify-content-center gap-1 flex-wrap">
+                    <a href="/supplier/detail/SUP001" class="btn btn-secondary btn-sm custom-btn">Detail</a>
                     <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
                     <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
                     <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
@@ -437,6 +438,7 @@
                 </td>
                 <td class="text-center">
                   <div class="d-flex justify-content-center gap-1 flex-wrap">
+                    <a href="/supplier/detail/SUP002" class="btn btn-secondary btn-sm custom-btn">Detail</a>
                     <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
                     <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
                     <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
@@ -455,6 +457,7 @@
                 </td>
                 <td class="text-center">
                   <div class="d-flex justify-content-center gap-1 flex-wrap">
+                    <a href="/supplier/detail/SUP003" class="btn btn-secondary btn-sm custom-btn">Detail</a>
                     <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
                     <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
                     <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
