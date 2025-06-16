@@ -6,7 +6,7 @@ use App\Models\Supplier;
 use App\Models\SupplierPIC;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Faker\Factory as Faker;
+use Faker\Factory as Faker; // Import Library Faker untuk menghasilkan data acak
 
 class UpdateSupplierPICDetailTest extends TestCase
 {

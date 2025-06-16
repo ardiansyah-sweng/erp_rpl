@@ -105,13 +105,13 @@ class SupplierPic extends Model
                 : [
                     'status' => 'error',
                     'message' => 'Gagal memperbarui Supplier PIC.',
-                    'code' => 500
+                    'code' => 504
                 ];
         } catch (\Exception $e) {
             return [
                 'status' => 'error',
                 'message' => 'Exception: ' . $e->getMessage(),
-                'code' => 500
+                'code' => 504
             ];
         }
     }

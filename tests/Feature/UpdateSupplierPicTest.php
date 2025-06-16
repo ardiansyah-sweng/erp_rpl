@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\SupplierPic;
-use Faker\Factory as Faker;
+use Faker\Factory as Faker; // Import Library Faker untuk menghasilkan data acak
 
 class UpdateSupplierPicTest extends TestCase
 {

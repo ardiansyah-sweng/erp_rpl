@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasDynamicColumns;
 use Illuminate\Support\Facades\DB;
-use Faker\Factory as Faker; // Import Library Faker untuk menghasilkan data acak
+use Faker\Factory as Faker;
 
 class BillOfMaterialControllerTest  extends TestCase
 {
