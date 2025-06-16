@@ -44,4 +44,18 @@ class AssortmentProduction extends Model
     {
         return self::query()->from('assortment_production')->get();
     }
+
+    public static function deleteProduction($production_number)
+    {
+        $production = self::where('production_number', $production_number)->first();
+
+        if (!$production) {
+            return response()->json(['message' => 'Production not found'], 404);
+        }
+
+        $production->delete();
+
+        return response()->json(['message' => 'Production deleted successfully']);
+    }
+
 }
