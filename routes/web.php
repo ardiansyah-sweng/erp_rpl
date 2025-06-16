@@ -164,6 +164,7 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
 
 
 #production
