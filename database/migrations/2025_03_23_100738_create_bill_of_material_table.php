@@ -22,8 +22,7 @@ return new class extends Migration
             $table->id();
             $table->char($col['bom_id'], 7)->unique();
             $table->string($col['name'], 100);
-            $table->char($col['unit'], 6)->default('pcs');
-            $table->string($col['sku'], 50);
+            $table->tinyinteger($col['unit'])->default(31);
             $table->integer($col['total'])->default(0);
             $table->boolean($col['active'])->default(true);
             $table->timestamps();

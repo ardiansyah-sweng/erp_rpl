@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function __construct()
     {
-        $this->table = config('db_constants.table.supplier_pic');
+        $this->table = config('db_constants.table.assort_prodetail');
     }
 
     /**
@@ -16,17 +16,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $col = config('db_constants.column.supplier_pic');
+        $col = config('db_constants.column.assort_prodetail');
 
         Schema::create($this->table, function (Blueprint $table) use ($col) {
             $table->id();
-            $table->char($col['supplier_id'], 6);
-            $table->string($col['name'], 50);
-            $table->string($col['phone_number'], 30);
-            $table->string($col['email'], 50);
-            $table->boolean($col['active'])->default(true);
-            $table->string($col['avatar'], 100)->default('http://placehold.it/100x100');
-            $table->date($col['assigned_date']);
+            $table->char($col['prod_no'], 9);
+            $table->char($col['bom_id'], 7);
+            $table->integer($col['bom_qty']);
+            $table->string($col['desc'], 100);
             $table->timestamps();
         });
     }
