@@ -44,4 +44,15 @@ class Merk extends Model
     {
         return self::where('id', $id)->first();
     }
+    
+     public static function getAllMerk()
+    {
+        return self::orderBy('created_at', 'asc')->paginate(10);
+    }
+    public static function searchMerk($keyword)
+    {
+        return self::where('merk', 'like', '%' . $keyword . '%')
+                ->orderBy('created_at', 'asc')
+                ->paginate(10);
+    }
 }

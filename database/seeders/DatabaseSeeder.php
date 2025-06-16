@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             BranchSeeder::class,
             PurchaseOrderSeeder::class,
             GoodsReceiptNoteSeeder::class,
-            #BOMSeeder::class
+            BOMSeeder::class,
+            //AssortmentProductionSeeder::class,
             // ProductPriceSeeder::class
         ]);
     }
