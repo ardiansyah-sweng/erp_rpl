@@ -44,4 +44,10 @@ class AssortmentProduction extends Model
     {
         return self::query()->from('assortment_production')->get();
     }
+
+    public static function addProduction($data)
+    {
+        return self::create($data);
+    }
+
 }
