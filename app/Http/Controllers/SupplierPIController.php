@@ -83,6 +83,13 @@ class SupplierPIController extends Controller
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
     }    
 
+    public function getSupplierPICAll()
+    {
+        $supplierPICs = SupplierPICModel::getSupplierPICAll();
+
+        return view('supplier.pic.list', compact('supplierPICs'));
+    }
+
     public function deleteSupplierPIC($id)
     {
         $picDelete = SupplierPic::deleteSupplierPIC($id); 
