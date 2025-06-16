@@ -68,6 +68,9 @@ Route::get('/supplier/list', function () {
 Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
 });
+Route::get('/goods_receipt_note/add', function () {
+    return view('goods_receipt_note/add');
+});
 
 
 # Product
@@ -164,8 +167,10 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
 
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/details', [AssortProductionController::class, 'getProductionDetail']);
+
