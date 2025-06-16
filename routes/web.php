@@ -156,5 +156,9 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
 
+#Produksi
+Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'index']);
+
+
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
