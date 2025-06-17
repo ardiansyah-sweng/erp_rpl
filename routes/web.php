@@ -16,6 +16,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\GoodsReceiptNoteController;
 
+
 #Login
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -176,7 +177,18 @@ Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWare
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
 
+
 Route::put('/goods-receipt-notes/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote']);
+
+
+# Bill of Material
+
+Route::get('/bom/list', function () {
+    return view('bom/list');
+});
+
+#production
+Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
 Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
 
