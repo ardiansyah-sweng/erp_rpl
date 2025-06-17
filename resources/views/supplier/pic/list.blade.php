@@ -342,6 +342,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- Script confirmation delete -->
 <script>
   $(document).ready(function () {
     $('.btn-delete').on('click', function (e) {
