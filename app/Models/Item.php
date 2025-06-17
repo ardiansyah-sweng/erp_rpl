@@ -100,5 +100,11 @@ class Item extends Model
         return self::where('id', $id)->first();
 
     }
+    public static function getItemsWithUnitByProductId($productId)
+    {
+    return self::with('unit')
+                ->where('product_id', $productId)
+                ->get();
+    }
 
 }
