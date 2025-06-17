@@ -57,5 +57,12 @@ class Merk extends Model
             return false;
         }
         return $merk->delete();
+
+    public static function searchMerk($keyword)
+    {
+        return self::where('merk', 'like', '%' . $keyword . '%')
+                ->orderBy('created_at', 'asc')
+                ->paginate(10);
+
     }
 }

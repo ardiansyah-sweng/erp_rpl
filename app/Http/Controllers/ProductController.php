@@ -45,6 +45,31 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
+    public function updateProduct(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'product_name' => 'required|string|max:35',
+            'product_type' =>  'required|string|max:12',
+            'product_category' => 'required|integer',
+            'product_description' => 'nullable|string|max:255',
+        ]);
 
+        $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
+
+        return $Updateproduct;
+    }
+
+    public function searchProduct($keyword)
+    {
+        $products = Product::where('product_id', 'LIKE', "%{$keyword}%")
+            ->orWhere('product_name', 'LIKE', "%{$keyword}%")
+            ->orWhere('product_type', 'LIKE', "%{$keyword}%")
+            ->orWhereRaw('CAST(product_category AS CHAR) LIKE ?', ["%{$keyword}%"])
+            ->orWhere('product_description', 'LIKE', "%{$keyword}%")
+            ->paginate(10);
+
+        return view('product.list', compact('products'));
+    }
 
 }
