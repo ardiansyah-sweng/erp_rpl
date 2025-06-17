@@ -15,6 +15,7 @@ use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 
+
 #Login
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -79,6 +80,7 @@ Route::get('/product/list', [ProductController::class, 'getProductList'])->name(
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
+Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
 
 #Product Update 
 Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct'); //Sudah sesuai pada ERP RPL
@@ -173,3 +175,12 @@ Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWare
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
+# Bill of Material
+
+Route::get('/bom/list', function () {
+    return view('bom/list');
+});
+
+#production
+Route::get('/production', [AssortProductionController::class, 'getProduction']);
+Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
