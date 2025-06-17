@@ -22,7 +22,6 @@ class SupplierController extends Controller
 
         return redirect()->route('Supplier.detail', ['id' => $supplier_id]);
     }
-
     public function getSupplierById($id)
     {
         $sup = (new Supplier())->getSupplierById($id);
