@@ -184,4 +184,4 @@ Route::get('/bom/list', function () {
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
-Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
+Route::get('/details/{id}', [AssortProductionController::class, 'getProductionDetail']);
