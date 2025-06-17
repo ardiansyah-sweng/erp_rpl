@@ -15,6 +15,7 @@ use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 
+
 #Login
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -119,13 +120,6 @@ Route::get('/supplier/pic/list', function () {
 Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplierPic'])->name('supplier.pic.list');
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
 
-use App\Data\DummySupplierPIC;
-
-Route::get('/supplier-pic', function () {
-    $dummySupplierPICs = DummySupplierPIC::getAll();
-    return view('supplier.pic.index', compact('dummySupplierPICs'));
-});
-
 
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
@@ -186,3 +180,6 @@ Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWare
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
+Route::get('/supplier-pic', function () {
+    return view('supplier.pic.index');
+});
