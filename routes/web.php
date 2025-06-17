@@ -175,9 +175,12 @@ Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWare
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
-
 # Bill of Material
 
 Route::get('/bom/list', function () {
     return view('bom/list');
 });
+
+#production
+Route::get('/production', [AssortProductionController::class, 'getProduction']);
+Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
