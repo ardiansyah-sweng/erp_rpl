@@ -15,6 +15,7 @@ use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 
+
 #Login
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -170,6 +171,15 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
 Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
 
+
+#production
+Route::get('/production', [AssortProductionController::class, 'getProduction']);
+
+# Bill of Material
+
+Route::get('/bom/list', function () {
+    return view('bom/list');
+});
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
