@@ -23,12 +23,6 @@ class SupplierController extends Controller
         return redirect()->route('Supplier.detail', ['id' => $supplier_id]);
     }
 
-    public function index()
-    {
-        $suppliers = \App\Models\Supplier::all(); // Pastikan model dan tabelnya benar
-        return view('supplier.index', compact('suppliers'));
-    }
-
     public function getSupplierById($id)
     {
         $sup = (new Supplier())->getSupplierById($id);
