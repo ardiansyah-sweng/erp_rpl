@@ -14,7 +14,7 @@ use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
-
+use App\Http\Controllers\BillOfMaterialController;
 
 #Login
 Route::get('/', function () {
@@ -180,6 +180,7 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/bom/list', function () {
     return view('bom/list');
 });
+Route::get('/bom/detail/{id}', [BillOfMaterialController::class, 'getBomById'])->name('bom.detail');
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
