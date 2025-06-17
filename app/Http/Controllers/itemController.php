@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\MeasurementUnit;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ItemController extends Controller
 {
@@ -89,6 +90,21 @@ class ItemController extends Controller
     public function getItemById($id){
         $item = (new item())->getItemById($id);
         return response()->json($item);
+    }
+    
+    public function printPDFByProductId($productId)
+    {
+        $items = Item::with('unit')
+            ->where('product_id', $productId)
+            ->get();
+
+        if ($items->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada item dengan product ID tersebut.');
+        }
+
+        return PDF::loadView('item.pdf_by_product', compact('items', 'productId'))
+            ->setPaper('A4', 'portrait')
+            ->download("daftar_item_product_{$productId}.pdf");
     }
 
 }
