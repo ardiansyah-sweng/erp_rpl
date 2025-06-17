@@ -169,6 +169,12 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
+
+
+#production
+Route::get('/production', [AssortProductionController::class, 'getProduction']);
+
 
 # Bill of Material
 
