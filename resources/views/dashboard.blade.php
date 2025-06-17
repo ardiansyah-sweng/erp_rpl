@@ -361,12 +361,21 @@
               </a>
             </li>
             <li class="nav-item"><!--Tambah Bill Of Material-->
-              <a href="/bom/list" class="nav-link">
+              <a href="#" class="nav-link">
                 <i class="nav-icon bi bi-clipboard-fill"></i>
                 <p>
-                  Bill of Material
+                  Production
                 </p>
               </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/bom/list" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Bill Of Material</p>
+                  </a>
+                </li>
+              </ul>
+
             </li>
           </ul>
           <!--end::Sidebar Menu-->
