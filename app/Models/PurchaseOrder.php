@@ -149,4 +149,12 @@ class PurchaseOrder extends Model
             ->orderBy('order_date', 'desc')
             ->get();
     }
+
+    public static function countStatusPO()
+    {
+        return self::select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->get()
+            ->keyBy('status');
+    }
 }
