@@ -170,8 +170,13 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
 
+
 # Bill of Material
 
 Route::get('/bom/list', function () {
     return view('bom/list');
 });
+
+#production
+Route::get('/production', [AssortProductionController::class, 'getProduction']);
+Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
