@@ -119,12 +119,10 @@ Route::get('/supplier/pic/list', function () {
 Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplierPic'])->name('supplier.pic.list');
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
 
+use App\Data\DummySupplierPIC;
+
 Route::get('/supplier-pic', function () {
-    $dummySupplierPICs = [
-        ['name' => 'Ahmad Faiz', 'email' => 'faiz@example.com', 'phone' => '0812-3456-7890'],
-        ['name' => 'Budi Santoso', 'email' => 'budi@example.com', 'phone' => '0821-1234-5678'],
-        ['name' => 'Citra Lestari', 'email' => 'citra@example.com', 'phone' => '0856-7890-1234'],
-    ];
+    $dummySupplierPICs = DummySupplierPIC::getAll();
     return view('supplier.pic.index', compact('dummySupplierPICs'));
 });
 
