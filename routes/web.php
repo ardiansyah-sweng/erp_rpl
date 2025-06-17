@@ -174,5 +174,4 @@ Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWare
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
-Route::put('goods-receipt-notes/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote'])
-    ->name('goods-receipt-notes.update');
+Route::put('/goods-receipt-notes/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote']);

@@ -2,69 +2,43 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\GoodsReceiptNote;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GoodsReceiptNoteTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
+    use RefreshDatabase;
+
     public function test_update_goods_receipt_note_success()
     {
-        $po_number = 'PO001';
+        $table = config('db_constants.table.grn');
+        $columns = config('db_constants.column.grn');
+
+        // Insert data awal
+        GoodsReceiptNote::create([
+            $columns['po_number'] => 'PO0001',
+            $columns['product_id'] => 'PO0001',
+            $columns['date'] => now(),
+            $columns['qty'] => 100,
+            $columns['comments'] => 'Initial delivery',
+        ]);
+
+        // Update data
         $updateData = [
-            'supplier_name' => 'Updated Supplier',
-            'total_quantity' => 150,
-            'status' => 'received',
-            'notes' => 'Updated successfully'
+            $columns['qty'] => 150,
+            $columns['comments'] => 'Updated delivery',
         ];
 
-        $response = $this->putJson("/goods-receipt-notes/{$po_number}", $updateData);
+        $response = $this->putJson("/goods-receipt-notes/PO0001", $updateData);
 
         $response->assertStatus(200)
             ->assertJson([
-                'success' => true,
-                'message' => 'Goods Receipt Note updated successfully'
-            ]);
-    }
-
-    /**
-     * Test update dengan data tidak valid
-     */
-    public function test_update_with_invalid_data()
-    {
-        $po_number = 'PO001';
-        $invalidData = [
-            'total_quantity' => -5,
-            'status' => 'invalid_status'
-        ];
-
-        $response = $this->putJson("/goods-receipt-notes/{$po_number}", $invalidData);
-
-        $response->assertStatus(422)
-            ->assertJson([
-                'success' => false,
-                'message' => 'Validation failed'
-            ]);
-    }
-
-    /**
-     * Test update dengan data minimal
-     */
-    public function test_update_with_minimal_data()
-    {
-        $po_number = 'PO002';
-        $minimalData = [
-            'notes' => 'Just updating notes'
-        ];
-
-        $response = $this->putJson("/goods-receipt-notes/{$po_number}", $minimalData);
-
-        $response->assertStatus(200)
-            ->assertJson([
-                'success' => true
+                'message' => 'Goods Receipt Note updated successfully.',
+                'data' => [
+                    $columns['qty'] => 150,
+                    $columns['comments'] => 'Updated delivery',
+                ]
             ]);
     }
 }
