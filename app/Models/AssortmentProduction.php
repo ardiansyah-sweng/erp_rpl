@@ -53,6 +53,10 @@ class AssortmentProduction extends Model
             return response()->json(['message' => 'Production not found'], 404);
         }
 
+        if ($production->in_production != 0) {
+            return response()->json(['message' => 'Cannot delete production that is in progress'], 403);
+        }
+
         $production->delete();
 
         return response()->json(['message' => 'Production deleted successfully']);

@@ -11,13 +11,13 @@ class DeleteProduction extends TestCase
     {
 
         $this->assertDatabaseHas('assortment_production', [
-            'production_number' => 'PROD-002'
+            'production_number' => 'PROD-004'
         ]);
-        $response = AssortmentProduction::deleteProduction('PROD-002');
+        $response = AssortmentProduction::deleteProduction('PROD-004');
 
         $this->assertEquals('Production deleted successfully', $response->getData()->message);
         $this->assertDatabaseMissing('assortment_production', [
-            'production_number' => 'PROD-002'
+            'production_number' => 'PROD-004'
         ]);
     }
 }
