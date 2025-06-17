@@ -360,7 +360,7 @@
                     </a>
               </li>
               <li class="nav-item">
-              <a href="/bom" class="nav-link">
+              <a href="/bom/list" class="nav-link">
               <i class="nav-icon bi bi-clipboard-fill"></i>
                       <p>Bill Of Material</p>
                     </a>
