@@ -281,20 +281,50 @@
                                   <tr>
                                       <th>Product ID</th>
                                       <th>Quantity</th>
+                                      <th>Delivered Date</th>
+                                      <th>Delivered Quantity</th>
+                                      <th>Comment</th>
                                       <th>Amount</th>
                                       <th>Total</th>
                                   </tr>
                               </thead>
                               <tbody>
-                                  @php $grandTotal = 0; @endphp
+                                  @php
+                                      $grandTotal = 0;
+                                      // Prepare varied dummy comments
+                                      $dummyComments = [
+                                          'Diterima dalam kondisi baik.',
+                                          'Sesuai pesanan, pengiriman cepat.',
+                                          'Ada sedikit keterlambatan pengiriman.',
+                                          'Pengiriman sebagian, sisa barang menyusul.',
+                                          'Kuantitas sesuai, kualitas bagus.',
+                                          'Barang diterima, menunggu pengecekan kualitas.',
+                                          'Packing rapi dan aman.',
+                                      ];
+                                  @endphp
+
                                   @foreach($purchaseOrder->first()->details as $detail)
                                       @php
                                           $subtotal = $detail->quantity * $detail->amount;
                                           $grandTotal += $subtotal;
+
+                                          // --- Generate Varied Dummy Data ---
+                                          // 1. Random Delivered Quantity (sometimes full, sometimes partial)
+                                          $deliveredQty = (rand(1, 3) > 1) ? $detail->quantity : mt_rand(1, $detail->quantity - 1);
+                                          if ($deliveredQty < 1) $deliveredQty = 1; // Ensure quantity is at least 1
+
+                                          // 2. Random Delivered Date (within the last 15 days)
+                                          $deliveredDate = \Carbon\Carbon::now()->subDays(rand(1, 15))->format('Y-m-d');
+
+                                          // 3. Random Comment
+                                          $randomComment = $dummyComments[array_rand($dummyComments)];
                                       @endphp
                                       <tr>
                                           <td>{{ $detail->product_id }}</td>
                                           <td>{{ $detail->quantity }}</td>
+                                          <td>{{ $deliveredDate }}</td>
+                                          <td>{{ $deliveredQty }}</td>
+                                          <td>{{ $randomComment }}</td>
                                           <td>Rp {{ number_format($detail->amount, 0, ',', '.') }}</td>
                                           <td>Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
                                       </tr>
@@ -302,7 +332,7 @@
                               </tbody>
                               <tfoot>
                                   <tr>
-                                      <td colspan="3" class="text-end"><strong>Grand Total:</strong></td>
+                                      <td colspan="6" class="text-end"><strong>Grand Total:</strong></td>
                                       <td><strong>Rp {{ number_format($grandTotal, 0, ',', '.') }}</strong></td>
                                   </tr>
                               </tfoot>
