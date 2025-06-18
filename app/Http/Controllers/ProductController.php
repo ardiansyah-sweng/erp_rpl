@@ -62,7 +62,7 @@ class ProductController extends Controller
         return $Updateproduct;
     }
 
-}
+
     public function searchProduct($keyword)
     {
         $products = Product::where('product_id', 'LIKE', "%{$keyword}%")
