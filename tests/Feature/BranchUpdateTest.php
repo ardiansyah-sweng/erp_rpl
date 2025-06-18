@@ -13,12 +13,7 @@ class BranchUpdateTest extends TestCase
     /** @test */
     public function test_update_branch_berhasil()
     {
-        // Buat data cabang awal
-        $branch = Branch::create([
-            'branch_name' => 'Cabang Lama',
-            'branch_address' => 'Alamat Lama',
-            'branch_telephone' => '123456',
-        ]);
+       
 
         // Data yang akan diupdate
         $dataUpdate = [
