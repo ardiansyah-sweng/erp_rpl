@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class BillOfMaterialControllerTest extends TestCase
@@ -15,11 +16,14 @@ class BillOfMaterialControllerTest extends TestCase
 
         $response->assertStatus(200)
                  ->assertJson([
-                     'id' => 1,
-                     'bom_id' => 'BOM-001',
-                     'sku' => 'P006-ex',
-                     'quantity' => 9,
-                     'cost' => 2779,
+                'id' => 1,
+                'bom_id' => 'BOM-001',
+                'bom_name' => 'BOM-BOM-001',
+                'measurement_unit' => 31,
+                'total_cost' => 38489,
+                'active' => 1,
+                'created_at' => '2025-06-17 09:24:24',
+                'updated_at' => '2025-06-17 09:24:24'
                  ]);
     }
 

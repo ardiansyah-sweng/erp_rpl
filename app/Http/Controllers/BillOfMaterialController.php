@@ -13,20 +13,22 @@ class BillOfMaterialController extends Controller
             1 => [
                 'id' => 1,
                 'bom_id' => 'BOM-001',
-                'sku' => 'P006-ex',
-                'quantity' => 9,
-                'cost' => 2779,
-                'created_at' => '2025-06-17 16:57:24',
-                'updated_at' => '2025-06-17 16:57:24'
+                'bom_name' => 'BOM-BOM-001',
+                'measurement_unit' => 31,
+                'total_cost' => 38489,
+                'active' => 1,
+                'created_at' => '2025-06-17 09:24:24',
+                'updated_at' => '2025-06-17 09:24:24'
             ],
             2 => [
                 'id' => 2,
                 'bom_id' => 'BOM-002',
-                'sku' => 'P020-ducimus',
-                'quantity' => 8,
-                'cost' => 2978,
-                'created_at' => '2025-06-17 16:57:24',
-                'updated_at' => '2025-06-17 16:57:24'
+                'bom_name' => 'BOM-BOM-002',
+                'measurement_unit' => 31,
+                'total_cost' => 132370,
+                'active' => 1,
+                'created_at' => '2025-06-17 09:24:24',
+                'updated_at' => '2025-06-17 09:24:24'
             ],
         ];
 
