@@ -31,4 +31,9 @@ class BillOfMaterial extends Model
         }
         return self::create($data);
     }
+
+    public static function getBillOfMaterial()
+    {
+        return self::orderBy('created_at', 'asc')->paginate(10);
+    }
 }

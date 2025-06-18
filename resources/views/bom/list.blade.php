@@ -1,7 +1,4 @@
 
-@php
-use App\Helpers\EncryptionHelper;
-@endphp
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
@@ -298,7 +295,7 @@ use App\Helpers\EncryptionHelper;
               data-accordion="false"
             >
               <li class="nav-item">
-              <a href="dashboard" class="nav-link active">
+                <a href="dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -306,13 +303,11 @@ use App\Helpers\EncryptionHelper;
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+              <a href="{{ route('product.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
               </li>
-
-              
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-person-circle"></i>
@@ -351,7 +346,7 @@ use App\Helpers\EncryptionHelper;
                 </a>                
               </li>
               <li class="nav-item">
-              <a href="{{ route('branch.list') }}" class="nav-link">
+                <a href="{{ route('branch.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -360,10 +355,16 @@ use App\Helpers\EncryptionHelper;
               </li>
               <li class="nav-item">
               <a href="{{ route('item.list') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
+              <i class="nav-icon bi bi-clipboard-fill"></i>
                       <p>Item</p>
                     </a>
-                  </li>
+              </li>
+              <li class="nav-item">
+              <a href="/bom/list" class="nav-link">
+              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>Bill Of Material</p>
+                    </a>
+              </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -380,16 +381,15 @@ use App\Helpers\EncryptionHelper;
             <!--begin::Row-->
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Produk</h3>
-                <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
+                <h3 class="mb-0 me-2">Bill Of Material</h3>
+                <a href="#" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="#" class="btn btn-primary btn-sm ms-2">Cetak Bill Of Material</a>
               </div>
-    
     
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Produk</li>
+                  <li class="breadcrumb-item active" aria-current="page">BOM</li>
                 </ol>
               </div>
             </div>
@@ -399,62 +399,215 @@ use App\Helpers\EncryptionHelper;
         </div>
 
         <div class="card mb-4">
-              <div class="card-header"><h3 class="card-title">List Table</h3></div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th style="width: 10px">id</th>
-                      <th>product_id</th>
-                      <th>product_name</th>
-                      <th>product_type</th>
-                      <th>product_category</th>
-                      <th>product_description</th>
-                      <th>jumlah_item</th>
-                      <th>Created At</th>
-                      <th>Updated At </th>
-                      <th>Action </th>
-                    </tr>
-                  </thead>
-                 <tbody>
-                  @foreach ($products as $index => $product)
-                  <tr class="align-middle">
-                      <td>{{ $index + 1 }}</td>
-                      <td>
-                        <a href="/products/detail/{{ EncryptionHelper::encrypt($product->product_id) }}" class="text-dark"> 
-                         {{ $product->product_id }}
-                      </a>
-                      </td>
-                      
-                      <td>{{ $product->product_name }}</td>
-                      <td>{{ $product->product_type->label() }}</td>
-                      <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
-                      <td>{{ $product->product_description }}</td>
-                      <td>{{ $product->items_count }}</td>
-                      <td>{{ $product->created_at }}</td>
-                      <td>{{ $product->updated_at }}</td>
-                      <td>
-                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <form  method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?')">Delete</button>
-                              </form>
-                          <a href="#" class="btn btn-sm btn-info">Detail</a>
-                      </td>
-                  </tr>
-        @endforeach
-    </tbody>
-</table>
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                {{ $products->links('pagination::bootstrap-4') }}
-              </div>
-            </div>
-    
+              <div class="card-header d-flex justify-content-between align-items-center">
+                      <h3 class="card-title">List Table</h3>
+                      <form action="#" method="GET" class="d-flex ms-auto">
+                        <!-- Search bar berada di ujung kanan -->
+                        <div class="input-group input-group-sm ms-auto" style="width: 450px;">
+                          <input type="text" name="search" class="form-control" placeholder="Search BOM">
+                          <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                              <i class="bi bi-search"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @endif
 
+                    @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                    @endif
+
+                    <!-- Bill Of Material Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Daftar Bill of Materials</h5>
+                    </div>
+                <div class="card-body p-0">
+                  <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                  <th>No</th>
+                                  <th>ID BOM</th>
+                                  <th>Nama BOM</th>
+                                  <th>Measurement Unit</th>
+                                  <th>Total Cost</th>
+                                  <th>Status</th>
+                                  <th>Create</th>
+                                  <th>Aksi</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>1</td>
+                                  <td>BOM001</td>
+                                  <td>Produk A</td>
+                                  <td>100 pcs</td>
+                                  <td>Rp. 200.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>08-06-2024</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>2</td>
+                                  <td>BOM002</td>
+                                  <td>Produk B</td>
+                                  <td>50 Kg</td>
+                                  <td>Rp. 245.000</td>
+                                  <td>
+                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
+                                  </td>
+                                  <td>05-06-2024</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>3</td>
+                                  <td>BOM003</td>
+                                  <td>Produk C</td>
+                                  <td>30 Kg</td>
+                                  <td>Rp. 115.000</td>
+                                  <td>
+                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
+                                  </td>
+                                  <td>11-06-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>4</td>
+                                  <td>BOM004</td>
+                                  <td>Produk D</td>
+                                  <td>1 TON</td>
+                                  <td>Rp. 985.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>01-01-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>5</td>
+                                  <td>BOM005</td>
+                                  <td>Produk E</td>
+                                  <td>1.2 TON</td>
+                                  <td>Rp. 1.225.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>01-04-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>6</td>
+                                  <td>BOM006</td>
+                                  <td>Produk F</td>
+                                  <td>3 Kwintal</td>
+                                  <td>Rp. 950.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>30-05-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>7</td>
+                                  <td>BOM007</td>
+                                  <td>Produk G</td>
+                                  <td>1 Kwintal</td>
+                                  <td>Rp. 350.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>30-11-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>8</td>
+                                  <td>BOM008</td>
+                                  <td>Produk H</td>
+                                  <td>1 Kwintal</td>
+                                  <td>Rp. 150.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>30-05-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>9</td>
+                                  <td>BOM009</td>
+                                  <td>Produk I</td>
+                                  <td>70 Liter</td>
+                                  <td>Rp. 850.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>31-05-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>10</td>
+                                  <td>BOM010</td>
+                                  <td>Produk J</td>
+                                  <td>3.5 Kwintal</td>
+                                  <td>Rp. 550.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>30-03-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <!--Tambah data dummy-->
+                          </tbody>
+                      </table>
+            </div>
+                  </div>
+                  <!-- /.card-body -->
+                  <div class="card-footer clearfix">
+                  
+                  </div>
+
+        </div>
         
       </main>
       <!--end::App Main-->
