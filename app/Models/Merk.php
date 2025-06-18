@@ -55,4 +55,12 @@ class Merk extends Model
                 ->orderBy('created_at', 'asc')
                 ->paginate(10);
     }
+    public static function deleteMerk($id)
+    {
+    $merk = self::find($id);
+    if ($merk) {
+        return $merk->delete();
+    }
+    return false;
+    }
 }
