@@ -335,7 +335,7 @@ use App\Helpers\EncryptionHelper;
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('purchase.orders') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Purchase Orders
@@ -390,6 +390,7 @@ use App\Helpers\EncryptionHelper;
                     <h2 class="card-title mb-0 me-2">Purchase Orders</h2>
                     <!-- <a href="{{ route('purchase_orders.add') }}" class="btn btn-primary btn-sm">Add</a> -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPurchaseOrderModal">  Add </button>
+                    <a href="{{ route('purchase_orders.report_form') }}" class="btn btn-primary ms-2">Cetak PDF</a>
                   </div>
 
                   <!-- Modal -->
@@ -514,7 +515,11 @@ use App\Helpers\EncryptionHelper;
                           <a href="#" class="btn btn-sm btn-primary">Editt</a>
                           <a href="#" class="btn btn-sm btn-danger">Delete</a>
                           <a href="/purchase_orders/detail/{{ EncryptionHelper::encrypt($order->po_number) }}" class="btn btn-sm btn-info">Detail</a>
+
                           <a href="{{ route('purchase-orders.report.pdf', $order->po_number) }}" class="btn btn-sm btn-danger" target="_blank">Export ke PDF</a>
+
+                           <a href="goods_receipt_note/add" class="btn btn-sm btn-warning">GRN</a>
+
                         </td>
                       </tr>
                       @empty
