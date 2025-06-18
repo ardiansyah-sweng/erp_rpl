@@ -23,7 +23,7 @@ class MerkController extends Controller
     {
         // Validasi input
         $request->validate([
-            'id' => 'required|integer',
+            'id' => 'required|string',
             'merk' => 'required|string|max:100',
         ]);
 
@@ -46,7 +46,7 @@ class MerkController extends Controller
 
     public function deleteMerk($id)
     {
-        if (!is_numeric($id)) {
+        if (empty($id)) {
             return redirect()->back()->with('error', 'ID Merk tidak valid.');
         }
 
