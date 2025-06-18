@@ -182,6 +182,7 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/bom/list', function () {
     return view('bom/list');
 });
+Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'destroy'])->name('bill-of-material.destroy');
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
