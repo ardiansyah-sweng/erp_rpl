@@ -22,4 +22,29 @@ class AssortProductionModelTest extends TestCase
 
         $this->assertInstanceOf(\Illuminate\Support\Collection::class, $data);
     }
+
+    public function test_add_production()
+    {
+        $data = [
+            'production_number' => 'PROD-098',
+            'sku' => 'SKU-098',
+            'branch_id' => 2,
+            'rm_whouse_id' => 20,
+            'fg_whouse_id' => 20,
+            'production_date' => now()->format('Y-m-d H:i:s'),
+            'finished_date' => '2025-06-16',
+            'in_production' => 0,
+            'description' => 'Produksi uji 2 model tambah data',
+        ];
+
+        $created = AssortmentProduction::addProduction($data);
+
+        $this->assertDatabaseHas('assortment_production', [
+            'production_number' => 'PROD-098',
+            'sku' => 'SKU-098',
+        ]);
+
+        $this->assertEquals('Produksi uji 2 model tambah data', $created->description);
+    }
+
 }
