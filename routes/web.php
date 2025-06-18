@@ -76,6 +76,7 @@ Route::get('/goods_receipt_note/add', function () {
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']);
 
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');

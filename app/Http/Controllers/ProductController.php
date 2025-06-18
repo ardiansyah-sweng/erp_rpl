@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Helpers\EncryptionHelper;
 
 class ProductController extends Controller
 {
@@ -15,7 +16,8 @@ class ProductController extends Controller
 
     public function getProductById($id)
     {
-        $product = (new Product())->getProductById($id);
+        $productId = EncryptionHelper::decrypt($id);
+        $product = (new Product())->getProductById($productId);
 
         if (!$product) {
             return abort(404, 'Product tidak ditemukan');
