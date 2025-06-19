@@ -5,8 +5,13 @@ use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+
+use Barryvdh\DomPDF\Facade\Pdf;
+
+
 use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class PurchaseOrderController extends Controller
 {
@@ -83,6 +88,21 @@ class PurchaseOrderController extends Controller
         return intval($orderDate->diffInDays($statusUpdateDate));
     }
 
+
+    public function printPurchaseOrderToPDFById($po_number){
+        $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($po_number);
+        if (!$purchaseOrder){
+            return redirect()->back()->with('error', 'Purchase Order tidak ditemukan.');
+        }
+
+        if($purchaseOrder instanceof \Illuminate\Pagination\LengthAwarePaginator || $purchaseOrder instanceof \Illuminate\Support\Collection){
+            $purchaseOrder = $purchaseOrder->first();
+        }
+
+        $pdf = pdf::loadView('purchase_orders.report', compact('purchaseOrder'));
+        return $pdf->download('PurchaseOrder_' . $po_number . '.pdf');
+    }
+
     public function showReportForm()
     {
         $suppliers = Supplier::all(); // dropdown untuk supplier semua
@@ -120,5 +140,6 @@ class PurchaseOrderController extends Controller
         $pdf = Pdf::loadView('purchase_orders.pdf_report', $data);
         return $pdf->stream('laporan_purchase_order_' . $supplier->company_name . '.pdf');
     }
+
 
 }
