@@ -70,6 +70,12 @@ class PurchaseOrder extends Model
         return self::count();
     }
 
+    //Menghitung jumlah purchase order by supplier
+    public static function countPurchaseOrderBySupplier($supplier_id)
+    {
+        return self::where('supplier_id', $supplier_id)->count();
+    }
+    
     /**
      * Fungsi untuk menambahkan Purchase Order baru
      */
@@ -133,5 +139,14 @@ class PurchaseOrder extends Model
         }
 
          return $query->count();
+    }
+
+    public static function getReportBySupplierAndDate($supplierId, $startDate, $endDate)
+    {
+        return self::with(['supplier', 'details'])
+            ->where('supplier_id', $supplierId)
+            ->whereBetween('order_date', [$startDate, $endDate])
+            ->orderBy('order_date', 'desc')
+            ->get();
     }
 }

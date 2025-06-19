@@ -311,7 +311,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/supplier/pic/add" class="nav-link">
+                                    <a href="#" class="nav-link">
                                         <i class="nav-icon bi bi-circle"></i>
                                         <p>Tambah PIC supplier</p>
                                     </a>
@@ -373,7 +373,7 @@
                     <div class="row align-items-center">
                         <div class="col-sm-6 d-flex align-items-center">
                             <h3 class="mb-0 me-2">Item</h3>
-                            <a href="{{ route('item.add') }} " class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="# " class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-end">
@@ -419,25 +419,33 @@
                         <thead class="text-center">
                             <tr>
                                 <th style="width: 10px">id</th>
+                                <th>production number</th>
                                 <th>sku</th>
-                                <th>item_name</th>
-                                <th>unit_name</th>
-                                <th>avg_base_price</th>
-                                <th>selling_price</th>
+                                <th>branch ID</th>
+                                <th>whouseid </th>
+                                <th>fgwhouse id </th>
+                                <th>production_date </th>
+                                <th>finished_date </th>
+                                <th>in_production </th>
+                                <th>description </th>
                                 <th>created_at</th>
                                 <th>updated_at</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody class="text-center">
-                            @forelse($billOfMaterial as $material)
+                            @forelse($production as $material)
                             <tr id="row-{{ $material->id }}">
                                 <td>{{ $material->id }}</td>
-                                <td>{{ $material->bom_id }}</td>
-                                <td>{{ $material->bom_name }}</td>
-                                <td>{{ $material->measurement_unit }}</td>
-                                <td>{{ $material->total_cost }}</td>
-                                <td>{{ $material->active }}</td>
+                                <td>{{ $material->production_number }}</td>
+                                <td>{{ $material->sku }}</td>
+                                <td>{{ $material->branch_id }}</td>
+                                <td>{{ $material->rm_whouse_id }}</td>
+                                <td>{{ $material->fg_whouse_id }}</td>
+                                <td>{{ $material->production_date}}</td>
+                                <td>{{ $material->finished_date ? "FInish" : "Null"}}</td>
+                                <td>{{ $material->in_production}}</td>
+                                <td>{{ $material->description}}</td>
                                 <td>{{ $material->created_at }}</td>
                                 <td>{{ $material->updated_at }}</td>
                                 <td>
@@ -461,7 +469,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer clearfix">
-                    {{ $billOfMaterial->links('pagination::bootstrap-4') }}
+                    {{ $production->links('pagination::bootstrap-4') }}
                 </div>
             </div>
 
