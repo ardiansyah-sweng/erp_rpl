@@ -7,7 +7,7 @@ use App\Models\BillOfMaterialModel;
 
 class BillOfMaterialController extends Controller
 {
-    public function delete($id)
+    public function destroy($id)
     {
         $deleted = BillOfMaterialModel::deleteBillOfMaterial($id);
 

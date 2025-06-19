@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class BillOfMaterialModel extends Model
 {
     protected $table = 'bill_of_material';
+    protected $fillable = [
+        'bom_id',
+        'bom_name',
+        'measurement_unit',
+        'total_cost',
+        'active',
+    ];
 
     public static function SearchOfBillMaterial($keywords = null)
     {

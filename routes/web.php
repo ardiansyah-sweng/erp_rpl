@@ -14,7 +14,7 @@ use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
-
+use App\Http\Controllers\BillOfMaterialController;
 
 #Login
 Route::get('/', function () {
@@ -182,7 +182,7 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/bom/list', function () {
     return view('bom/list');
 });
-Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'destroy'])->name('bill-of-material.destroy');
+Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'destroy']);
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
