@@ -42,4 +42,12 @@ class SupplierMaterial extends Model
             ->distinct('p.product_id')
             ->count(DB::raw('DISTINCT p.product_id'));
     }
+
+    public static function countSupplierMaterialByCategory($kategori, $supplier)
+    {
+        return DB::table('supplier_product');
+        return self::where('category', $kategori)
+                    ->where('supplier_id', $supplier)
+                    ->count();
+    }
 }
