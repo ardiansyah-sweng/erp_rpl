@@ -16,6 +16,7 @@ use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 
+
 #Login
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -69,14 +70,19 @@ Route::get('/supplier/list', function () {
 Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
 });
+Route::get('/goods_receipt_note/add', function () {
+    return view('goods_receipt_note/add');
+});
 
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']);
 
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
+Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
 
 #Product Update 
 Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct'); //Sudah sesuai pada ERP RPL
@@ -164,4 +170,23 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 
 
 # Warehouse
+
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
+Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
+
+
+#production
+Route::get('/production', [AssortProductionController::class, 'getProduction']);
+
+# Bill of Material
+
+Route::get('/bom/list', function () {
+    return view('bom/list');
+});
+
+#production
+Route::get('/production', [AssortProductionController::class, 'getProduction']);
+Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
+
