@@ -56,11 +56,14 @@ class Merk extends Model
                 ->paginate(10);
     }
     public static function deleteMerk($id)
-    {
+{
     $merk = self::find($id);
+
     if ($merk) {
         return $merk->delete();
     }
+
     return false;
-    }
+}
+
 }
