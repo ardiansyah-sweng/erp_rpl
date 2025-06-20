@@ -23,7 +23,7 @@ class BranchController extends Controller
     public function show($id)
     {
     $branch = Branch::findOrFail($id);
-    return view('branch.detail', compact('branch'));
+        return view('branch.detail', compact('branch'));
     }
 
     public function getBranchAll(Request $request)
