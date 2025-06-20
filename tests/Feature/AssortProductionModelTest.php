@@ -47,4 +47,25 @@ class AssortProductionModelTest extends TestCase
         $this->assertEquals('Produksi uji 2 model tambah data', $created->description);
     }
 
+    public function test_update_production_coba()
+    {
+        $id = 1;
+
+        $updateData = [
+            'description' => 'Produksi uji 2 model update data',
+            'in_production' => 1,
+        ];
+
+        $updated = AssortmentProduction::updateProduction($id, $updateData);
+
+        $this->assertNotNull($updated);
+        $this->assertEquals('Produksi uji 2 model update data', $updated->description);
+        $this->assertEquals(1, $updated->in_production);
+
+        $this->assertDatabaseHas('assortment_production', [
+            'id' => $id,
+            'description' => 'Produksi uji 2 model update data',
+        ]);
+    }
+
 }
