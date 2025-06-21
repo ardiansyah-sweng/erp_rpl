@@ -2,14 +2,12 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\AssortProductionModel;
+use App\Models\AssortmentProduction;
 
 class AssortProductionControllerTest extends TestCase
 {
-    // Jika kamu ingin reset database untuk test
-    use RefreshDatabase;
 
     public function testGetProductionReturnsJson()
     {
@@ -20,5 +18,15 @@ class AssortProductionControllerTest extends TestCase
         $response->assertJsonStructure([
             '*' => ['id', 'sku'] // sesuaikan dengan kolom tabel kamu
         ]);
+    }
+    public function testGetProductionDetail()
+    {
+        $id = 3; // ganti dengan id yang ada di database Anda
+        $response = $this->get("/details/{$id}");
+        $response->assertStatus(200);
+
+        $data = $response->decodeResponseJson();
+        dump($data);
+        $this->assertEquals($id, $data['id']);
     }
 }
