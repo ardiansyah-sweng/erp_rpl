@@ -70,6 +70,12 @@ class PurchaseOrder extends Model
         return self::count();
     }
 
+    //Menghitung jumlah purchase order by supplier
+    public static function countPurchaseOrderBySupplier($supplier_id)
+    {
+        return self::where('supplier_id', $supplier_id)->count();
+    }
+    
     /**
      * Fungsi untuk menambahkan Purchase Order baru
      */
@@ -116,5 +122,39 @@ class PurchaseOrder extends Model
         return self::where('po_number', $poNumber)
             ->where('status', POStatus::FD->value)
             ->first();
+    }
+     //hitung jumlah order dari supplier tertentu untuk rentang waktu tertentu
+    public static function countOrdersByDateSupplier(
+        string $startDate,
+        string $endDate,
+        string $supplierID,
+        ?POStatus $status = null
+     ): int {
+         $query = self::query()
+            ->where('supplier_id', $supplierID)
+            ->whereBetween('order_date', [$startDate, $endDate]);
+
+        if (!is_null($status)) {
+                $query->where('status', $status->value);
+        }
+
+         return $query->count();
+    }
+
+    public static function getReportBySupplierAndDate($supplierId, $startDate, $endDate)
+    {
+        return self::with(['supplier', 'details'])
+            ->where('supplier_id', $supplierId)
+            ->whereBetween('order_date', [$startDate, $endDate])
+            ->orderBy('order_date', 'desc')
+            ->get();
+    }
+
+    public static function countStatusPO()
+    {
+        return self::select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->get()
+            ->keyBy('status');
     }
 }

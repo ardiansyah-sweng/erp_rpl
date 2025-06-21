@@ -31,7 +31,7 @@ class Item extends Model
 
     public static function getAllItems($search = null)
     {
-        $query = self::query();
+        $query = self::with('unit');
 
         if ($search) {
             if (is_numeric($search)) {
