@@ -45,8 +45,9 @@ class MerkController extends Controller
 
         return response()->json($merks);
     }
+
     public function deleteMerk($id)
-{
+    {   
     $deleted = Merk::deleteMerk($id);
 
     if ($deleted) {
@@ -54,7 +55,7 @@ class MerkController extends Controller
     }
 
     return response()->json(['message' => 'Merk tidak ditemukan.'], 404);
-}
+    }
 
 }
 

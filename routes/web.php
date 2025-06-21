@@ -187,3 +187,4 @@ Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'destr
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
+Route::put('/assortment_production/update/{id}', [AssortProductionController::class, 'updateProduction'])->name('assortment_production.update');
