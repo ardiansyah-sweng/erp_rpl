@@ -63,11 +63,6 @@ class Product extends Model
         return self::count();
     }
 
-    public static function items() 
-    {
-        return $this->hasMany(Item::class, 'product_id');
-    }
-
     public static function deleteProductById($id)
     {
         $product = self::find($id);
