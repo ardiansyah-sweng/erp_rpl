@@ -43,14 +43,33 @@ class BillOfMaterialController extends Controller
     //     return response()->json($bom);
 
     // }
-        public function getBomById($id)
-            {
-                $bom = DB::table('bill_of_material')->where('id', $id)->first();
+        // public function getBomById($id)
+        //     {
+        //         $bom = DB::table('bill_of_material')->where('id', $id)->first();
 
-                if (!$bom) {
-                    return abort(404, 'Bill of Material tidak ditemukan');
-                }
+        //         if (!$bom) {
+        //             return abort(404, 'Bill of Material tidak ditemukan');
+        //         }
 
-                return response()->json($bom);
-            }
+        //         return response()->json($bom);
+        //     }
+        public function getBomById(Request $request)
+    {
+        $id = $request->input('id'); // contoh: /api/bom?id=1
+        $bom_id = $request->input('bom_id'); // contoh: /api/bom?bom_id=BOM-001
+
+        if ($id) {
+            $bom = DB::table('bill_of_material')->where('id', $id)->first();
+        } elseif ($bom_id) {
+            $bom = DB::table('bill_of_material')->where('bom_id', $bom_id)->first();
+        } else {
+            $bom = DB::table('bill_of_material')->inRandomOrder()->first();
+        }
+
+        if (!$bom) {
+            return abort(404, 'Bill of Material tidak ditemukan');
+        }
+
+        return response()->json($bom);
+    }
 }
