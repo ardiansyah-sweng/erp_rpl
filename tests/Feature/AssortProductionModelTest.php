@@ -49,7 +49,20 @@ class AssortProductionModelTest extends TestCase
 
     public function test_update_production_coba()
     {
-        $id = 1;
+        $production = AssortmentProduction::create([
+            'production_number' => 'CB-01',
+            'sku' => 'SKU-TEST-001',
+            'branch_id' => 1,
+            'rm_whouse_id' => 10,
+            'fg_whouse_id' => 20,
+            'production_date' => now()->format('Y-m-d H:i:s'),
+            'finished_date' => now()->addDays(2)->format('Y-m-d'),
+            'in_production' => 0,
+            'description' => 'Deskripsi awal uji update',
+            'created_at' => now(),
+        ]);
+
+        $id = $production->id;
 
         $updateData = [
             'description' => 'Produksi uji 2 model update data',
