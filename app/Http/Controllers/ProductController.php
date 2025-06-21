@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Helpers\EncryptionHelper;
 
 class ProductController extends Controller
 {
@@ -15,7 +16,8 @@ class ProductController extends Controller
 
     public function getProductById($id)
     {
-        $product = (new Product())->getProductById($id);
+        $productId = EncryptionHelper::decrypt($id);
+        $product = (new Product())->getProductById($productId);
 
         if (!$product) {
             return abort(404, 'Product tidak ditemukan');
@@ -59,10 +61,9 @@ class ProductController extends Controller
 
         return $Updateproduct;
     }
-   public function getProductByType($product_type)
-    {
-    $products = Product::where('product_type', $product_type)->get();
-
+ public function getProductByType($product_type)
+{
+    $products = Product::getProductByType($product_type);
     if ($products->isEmpty()) {
         return response()->json([
             'message' => "Tidak ditemukan produk dengan tipe tersebut: {$product_type}"
@@ -70,5 +71,17 @@ class ProductController extends Controller
     }
 
     return response()->json($products);
-    }  
+}
+
+public function searchProduct($keyword)
+{
+    $products = Product::where('product_id', 'LIKE', "%{$keyword}%")
+        ->orWhere('product_name', 'LIKE', "%{$keyword}%")
+        ->orWhere('product_type', 'LIKE', "%{$keyword}%")
+        ->orWhereRaw('CAST(product_category AS CHAR) LIKE ?', ["%{$keyword}%"])
+        ->orWhere('product_description', 'LIKE', "%{$keyword}%")
+        ->paginate(10);
+
+    return view('product.list', compact('products'));
+}
 }
