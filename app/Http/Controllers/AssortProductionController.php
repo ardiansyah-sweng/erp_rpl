@@ -15,14 +15,4 @@ class AssortProductionController extends Controller
         // Kembalikan data dalam format JSON
         return response()->json($production);
     }
-    public function getProductionDetail($id)
-    {
-        $details = DB::table('assortment_production_detail')
-            ->join('assortment_production', 'assortment_production_detail.production_number', '=', 'assortment_production.production_number')
-            ->select('assortment_production_detail.*', 'assortment_production.*')
-            ->where('assortment_production.id', $id)
-            ->first();
-
-        return response()->json($details);
-    }
 }
