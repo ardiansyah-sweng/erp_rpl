@@ -26,7 +26,7 @@ class AssortProductionController extends Controller
             'branch_id'          => 'required|integer',
             'rm_whouse_id'       => 'required|integer',
             'fg_whouse_id'       => 'required|integer',
-            'production_date'    => 'required|string|max:45', 
+            'production_date'    => 'required|string|max:45',
             'finished_date'      => 'nullable|date',
             'description'        => 'nullable|string|max:45',
         ]);
@@ -40,13 +40,25 @@ class AssortProductionController extends Controller
 
         // Update data
         $updated = DB::table('assortment_production')
-                    ->where('id', $id)
-                    ->update($validatedData);
+            ->where('id', $id)
+            ->update($validatedData);
 
         if ($updated) {
             return response()->json(['message' => 'Data berhasil diperbarui'], 200);
         } else {
             return response()->json(['message' => 'Data tidak mengalami perubahan'], 200);
         }
+    }
+    
+    public function getProductionDetail($id)
+    {
+        $header = \App\Models\AssortmentProduction::find($id);
+
+        if (!$header) {
+            return response()->json(['message' => 'Production not found'], 404);
+        }
+
+        $production_number = $header->production_number;
+        return \App\Models\AssortmentProduction::getProductionDetail($production_number);
     }
 }
