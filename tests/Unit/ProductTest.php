@@ -5,11 +5,12 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Product;
+use App\Models\Item;
 
 
 class ProductTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
 public function test_get_product_by_type()
 {
@@ -27,5 +28,26 @@ public function test_get_product_by_type()
         $this->assertEquals('FG', $product->product_type);
     }
 }
+
+    /** @test */
+    public function delete_product_ketika_tidak_digunakan_di_items()
+    {
+        // Buat produk dengan product_id khusus
+        $product = Product::create([
+            'product_id' => 'ABC1',
+            'product_name' => 'ABC',
+            'name' => 'Test Product',
+            'product_type' => 'FG',
+            'product_category' => 1,
+            'product_description' => 'hanya nyoba'
+        ]);
+
+        $this->assertFalse(Item::where('product_id', 'ABC1')->exists());
+
+        $result = Product::deleteProductById($product->id);
+
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing('products', ['id' => $product->id]);
+    }
 
 }

@@ -71,14 +71,16 @@ class Product extends Model
             return false;
         }
 
-        $itemCount = Item::where('product_id', $id)->count();
-        
-        if ($itemCount > 0) {
+        $product_id = $product->product_id;
+
+        $exists = Item::where('product_id', $product_id)->exists();
+
+        if ($exists) {
             return false;
         }
-        
+
         $product->delete();
-        
+
         return true;
     }
 
