@@ -160,6 +160,23 @@ class PurchaseOrder extends Model
          return $query->count();
     }
 
+    public static function getReportBySupplierAndDate($supplierId, $startDate, $endDate)
+    {
+        return self::with(['supplier', 'details'])
+            ->where('supplier_id', $supplierId)
+            ->whereBetween('order_date', [$startDate, $endDate])
+            ->orderBy('order_date', 'desc')
+            ->get();
+    }
+
+    public static function countStatusPO()
+    {
+        return self::select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->get()
+            ->keyBy('status');
+    }
+
     public static function getPendingDeliveryQuantity($poNumber)
     {
         $poDetails = PurchaseOrderDetail::where('po_number', $poNumber)->get();
