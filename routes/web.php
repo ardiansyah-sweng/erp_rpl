@@ -135,6 +135,7 @@ Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
 Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
 Route::get('/item/{id}', [itemController::class, 'getItemById']);
 
+Route::get('/item/pdf/product/{productId}', [ItemController::class, 'printPDFByProductId']);
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');

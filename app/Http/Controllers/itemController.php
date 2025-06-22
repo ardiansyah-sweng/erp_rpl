@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\MeasurementUnit;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ItemController extends Controller
 {
@@ -84,7 +85,28 @@ class ItemController extends Controller
         return redirect()->back()->with('success', 'Item berhasil diperbarui.');
     }
   
+    public function printPDFByProductId($productId)
+    {
+        // Menggunakan data dummy kerna query asli belum dibuat di model
+        $items = []; //ganti data dummy dengan query asli disini
 
+        if ($productId === 'KAOS') {
+            $items = [
+                ['sku' => 'KAOS-001', 'item_name' => 'Kaos Dummy', 'measurement_unit' => '1', 'selling_price' => 50000]
+            ];
+        } //hapus ini jika query asli sudah ditambahkan
+
+        if (empty($items)) {
+            return redirect()->back()->with('error', 'Tidak ada item dengan product ID tersebut.');
+        }
+
+        return PDF::loadView('item.pdf_by_product', [
+                'items' => $items,
+                'productId' => $productId
+            ])
+            ->setPaper('A4', 'portrait')
+            ->download("Item_berdasarkan_category_{$productId}.pdf");
+    }
     
     public function getItemById($id){
         $item = (new item())->getItemById($id);
