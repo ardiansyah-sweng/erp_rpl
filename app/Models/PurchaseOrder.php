@@ -159,4 +159,40 @@ class PurchaseOrder extends Model
 
          return $query->count();
     }
+
+    public static function getPendingDeliveryQuantity($poNumber)
+    {
+        $poDetails = PurchaseOrderDetail::where('po_number', $poNumber)->get();
+        
+        $pendingDeliveries = [];
+        
+        if ($poDetails->isEmpty()) {
+            return $pendingDeliveries; // Kembalikan array kosong jika tidak ada detail PO
+        }
+
+        // Inisialisasi array untuk menyimpan jumlah pengiriman yang tertunda
+        foreach ($poDetails as $detail) {
+            $orderedQty = $detail->quantity;
+            
+            // Menghitung jumlah yang sudah diterima
+            // Asumsi GoodsReceiptNote adalah model yang menyimpan data penerimaan barang
+            $receivedQty = GoodsReceiptNote::where('po_number', $poNumber)
+                ->where('product_id', $detail->product_id)
+                ->sum('delivered_quantity'); 
+            
+            // Menghitung jumlah yang belum diterima
+            $pendingQty = $orderedQty - $receivedQty;
+            
+            // Hanya tambahkan ke array jika ada jumlah yang tertunda
+            if ($pendingQty > 0) {
+                $pendingDeliveries[] = [
+                    'product_id' => $detail->product_id,
+                    'ordered_qty' => $orderedQty,
+                    'received_qty' => $receivedQty,
+                    'pending_qty' => $pendingQty
+                ];
+            }
+        }
+        return $pendingDeliveries;
+    }
 }
