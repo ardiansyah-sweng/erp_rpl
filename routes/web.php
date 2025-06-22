@@ -143,6 +143,9 @@ Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('m
 Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
 
 #Supplier
+
+#item
+Route::get('/item/detail/{id}', [ItemController::class, 'getItemById'])->name('item.detail');
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
@@ -170,6 +173,7 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
 Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
 
 
@@ -186,3 +190,4 @@ Route::get('/bom/list', function () {
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
 Route::put('/assortment_production/update/{id}', [AssortProductionController::class, 'updateProduction'])->name('assortment_production.update');
+

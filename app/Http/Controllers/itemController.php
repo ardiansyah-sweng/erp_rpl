@@ -67,6 +67,9 @@ class ItemController extends Controller
         return view('item.list', compact('items'));
     }
 
+    
+
+
     public function updateItem(Request $request, $id)
     {
         $validated = $request->validate([
@@ -88,7 +91,8 @@ class ItemController extends Controller
     
     public function getItemById($id){
         $item = (new item())->getItemById($id);
-        return response()->json($item);
-    }
+
+        return view('item.detail', compact('item'));
+    } 
 
 }

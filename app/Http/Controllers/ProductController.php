@@ -26,11 +26,7 @@ class ProductController extends Controller
     }
 
 
-    // $productData = $products[$id];
-    // $productData['category'] = (object)$productData['category'];
-    // $product = (object)$productData;
-
-    // return view('product.detail', compact('product'));
+    
 
 
     public function addProduct(Request $request)
@@ -57,6 +53,8 @@ class ProductController extends Controller
             'product_description' => 'nullable|string|max:255',
         ]);
 
+
+
         $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
 
         return $Updateproduct;
@@ -73,5 +71,6 @@ class ProductController extends Controller
 
         return view('product.list', compact('products'));
     }
+
 
 }
