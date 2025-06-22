@@ -16,21 +16,14 @@ class ProductController extends Controller
 
     public function getProductById($id)
     {
-
-        
-        $product = (new Product())->getProductById($id);
-
         $productId = EncryptionHelper::decrypt($id);
         $product = (new Product())->getProductById($productId);
-
 
         if (!$product) {
             return abort(404, 'Product tidak ditemukan');
         }
        return view('product.detail', compact('product'));
     }
-        
-    
 
 
     
