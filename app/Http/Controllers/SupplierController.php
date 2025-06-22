@@ -31,15 +31,4 @@ class SupplierController extends Controller
         return view('Supplier.detail', compact('sup'));
     }
 
-
-    public function addSupplier(Request $request)
-    {
-        $supplier = Supplier::create([
-            'supplier_id'   => $request->supplier_id,
-            'company_name'  => $request->company_name,
-            'address'       => $request->address,
-            'phone_number'  => $request->phone_number,
-            'bank_account'  => $request->bank_account,
-        ]);
-    }
 }
