@@ -49,4 +49,14 @@ class AssortProductionController extends Controller
             return response()->json(['message' => 'Data tidak mengalami perubahan'], 200);
         }
     }
+
+    public function searchProduction($keyword)
+    {
+        $productions = DB::table('assortment_production')
+            ->where('sku', 'like', "%{$keyword}%")
+            ->get(['id', 'sku']); // ambil hanya kolom yang diperlukan
+
+        return response()->json($productions); // hasilnya array of object
+    }
+
 }
