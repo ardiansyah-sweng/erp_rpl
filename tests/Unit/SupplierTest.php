@@ -21,7 +21,9 @@ class SupplierTest extends TestCase
         $supplier = Supplier::addSupplier($data);
 
         $this->assertDatabaseHas('supplier', [
+
             'supplier_id'  => 'SUP111',
+
             'company_name' => 'PT. Karya Sejahtera',
         ]);
 
