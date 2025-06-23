@@ -62,6 +62,6 @@ class SupplierMaterialController extends Controller
         $supplierName = $materials->first()->company_name;
 
         $pdf = Pdf::loadView('supplier.material.pdf', compact('materials', 'supplierName', 'supplier_id'));
-        return $pdf->download('data_material_' . $supplier_id . '.pdf');
+        return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
 }
