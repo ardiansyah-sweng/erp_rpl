@@ -100,5 +100,13 @@ class Item extends Model
         return self::where('id', $id)->first();
 
     }
+    public static function getItemByType(\App\Enums\ProductType $productType)
+    {
+        return self::with('product')
+            ->join('products', 'items.product_id', '=', 'products.id')
+            ->where('products.product_type', $productType->value)
+            ->select('items.*')
+            ->get();
+    }
 
 }
