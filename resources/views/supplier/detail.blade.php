@@ -1,13 +1,9 @@
-
-@php
-use App\Helpers\EncryptionHelper;
-@endphp
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Dashboard</title>
+    <title>ERP RPL UAD | Filled Form Supplier</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -298,7 +294,7 @@ use App\Helpers\EncryptionHelper;
               data-accordion="false"
             >
               <li class="nav-item">
-              <a href="dashboard" class="nav-link active">
+                <a href="dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -306,13 +302,11 @@ use App\Helpers\EncryptionHelper;
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="./generate/theme.html" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
               </li>
-
-              
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-person-circle"></i>
@@ -348,22 +342,8 @@ use App\Helpers\EncryptionHelper;
                   <p>
                     Purchase Orders
                   </p>
-                </a>                
+                </a>
               </li>
-              <li class="nav-item">
-              <a href="{{ route('branch.list') }}" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Branch
-                  </p>
-                </a>                
-              </li>
-              <li class="nav-item">
-              <a href="{{ route('item.list') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Item</p>
-                    </a>
-                  </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -378,18 +358,12 @@ use App\Helpers\EncryptionHelper;
           <!--begin::Container-->
           <div class="container-fluid">
             <!--begin::Row-->
-            <div class="row align-items-center">
-              <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Produk</h3>
-                <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
-              </div>
-    
-    
+            <div class="row">
+              <div class="col-sm-6"><h3 class="mb-0">Filled Form Supplier</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Produk</li>
+                  <li class="breadcrumb-item active" aria-current="page">Edit Supplier</li>
                 </ol>
               </div>
             </div>
@@ -397,73 +371,66 @@ use App\Helpers\EncryptionHelper;
           </div>
           <!--end::Container-->
         </div>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+                <div class="container">
+                <!-- Filled Form Supplier -->
+                 @if(session('success'))
+        <div class="alert alert-success">
+          {{ session('success') }}
+        </div>
+      @endif
 
-        <div class="card mb-4">
-              <div class="card-header"><h3 class="card-title">List Table</h3></div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th style="width: 10px">id</th>
-                      <th>product_id</th>
-                      <th>product_name</th>
-                      <th>product_type</th>
-                      <th>product_category</th>
-                      <th>product_description</th>
-                      <th>jumlah_item</th>
-                      <th>Created At</th>
-                      <th>Updated At </th>
-                      <th>Action </th>
-                    </tr>
-                  </thead>
-                 <tbody>
-                  @foreach ($products as $index => $product)
-                  <tr class="align-middle">
-                      <td>{{ $index + 1 }}</td>
-                      <td>
-                        <a href="/products/detail/{{ EncryptionHelper::encrypt($product->product_id) }}" class="text-dark"> 
-                         {{ $product->product_id }}
-                      </a>
-                      </td>
-                      
-                      <td>{{ $product->product_name }}</td>
-                      <td>{{ $product->product_type->label() }}</td>
-                      <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
-                      <td>{{ $product->product_description }}</td>
-                      <td>{{ $product->items_count }}</td>
-                      <td>{{ $product->created_at }}</td>
-                      <td>{{ $product->updated_at }}</td>
-                      <td>
-                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <form  method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?')">Delete</button>
-                              </form>
-                          <a href="#" class="btn btn-sm btn-info">Detail</a>
-                      </td>
-                  </tr>
-        @endforeach
-    </tbody>
-</table>
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                {{ $products->links('pagination::bootstrap-4') }}
-              </div>
+      @if(isset($error))
+        <div class="alert alert-danger">
+            {{ $error }}
+        </div>
+      @endif
+      @if($sup)
+        <form method="POST" action="{{ route('supplier.updateSupplier', $sup->supplier_id) }}">
+            @csrf
+            @method('PUT')
+
+            <div class="mb-3">
+                <label class="form-label">ID Supplier</label>
+                <input type="text" class="form-control" value="{{ $sup->supplier_id }}" disabled>
+                <input type="hidden" name="supplier_id" value="{{ $sup->supplier_id }}">
             </div>
-    
 
-        
+            <div class="mb-3">
+                <label class="form-label">Nama Perusahaan</label>
+                <input type="text" name="company_name" class="form-control" value="{{ old('company_name', $sup->company_name) }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Alamat</label>
+                <input type="text" name="address" class="form-control" value="{{ old('address', $sup->address) }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">No. Telepon</label>
+                <input type="text" name="phone_number" class="form-control" value="{{ old('phone_number', $sup->phone_number) }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Bank Account</label>
+                <input type="text" name="bank_account" class="form-control" value="{{ old('bank_account', $sup->bank_account) }}" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="{{ url()->current() }}" class="btn btn-secondary">Batal</a>
+        </form>
+      @endif
+          </div>
+        </div>
       </main>
-      <!--end::App Main-->
-      <!--begin::Footer-->
       <footer class="app-footer">
-        <!--begin::To the end-->
         <div class="float-end d-none d-sm-inline">Anything you want</div>
-        <!--end::To the end-->
-        <!--begin::Copyright-->
         <strong>
           Copyright &copy; 2014-2024&nbsp;
           <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
@@ -473,10 +440,6 @@ use App\Helpers\EncryptionHelper;
       </footer>
       <!--end::Footer-->
     </div>
-    <!--end::App Wrapper-->
-
-    <!--begin::Script-->
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
       integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ="
@@ -534,7 +497,6 @@ use App\Helpers\EncryptionHelper;
           handle: '.card-header',
         });
       });
-
       const cardHeaders = document.querySelectorAll('.connectedSortable .card-header');
       cardHeaders.forEach((cardHeader) => {
         cardHeader.style.cursor = 'move';
@@ -551,7 +513,6 @@ use App\Helpers\EncryptionHelper;
       // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
       // IT'S ALL JUST JUNK FOR DEMO
       // ++++++++++++++++++++++++++++++++++++++++++
-
       const sales_chart_options = {
         series: [
           {
@@ -598,7 +559,6 @@ use App\Helpers\EncryptionHelper;
           },
         },
       };
-
       const sales_chart = new ApexCharts(
         document.querySelector('#revenue-chart'),
         sales_chart_options,
@@ -616,120 +576,10 @@ use App\Helpers\EncryptionHelper;
       integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY="
       crossorigin="anonymous"
     ></script>
-    <!-- jsvectormap -->
-    <script>
-      const visitorsData = {
-        US: 398, // USA
-        SA: 400, // Saudi Arabia
-        CA: 1000, // Canada
-        DE: 500, // Germany
-        FR: 760, // France
-        CN: 300, // China
-        AU: 700, // Australia
-        BR: 600, // Brazil
-        IN: 800, // India
-        GB: 320, // Great Britain
-        RU: 3000, // Russia
-      };
-
-      // World map by jsVectorMap
-      const map = new jsVectorMap({
-        selector: '#world-map',
-        map: 'world',
-      });
-
-      // Sparkline charts
-      const option_sparkline1 = {
-        series: [
-          {
-            data: [1000, 1200, 920, 927, 931, 1027, 819, 930, 1021],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline1 = new ApexCharts(document.querySelector('#sparkline-1'), option_sparkline1);
-      sparkline1.render();
-
-      const option_sparkline2 = {
-        series: [
-          {
-            data: [515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline2 = new ApexCharts(document.querySelector('#sparkline-2'), option_sparkline2);
-      sparkline2.render();
-
-      const option_sparkline3 = {
-        series: [
-          {
-            data: [15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
-      sparkline3.render();
-    </script>
-
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <!-- AdminLTE JS -->
-    <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
-
+    <script src={{ asset("assets/dist/js/adminlte.js")}}></script>
     <!-- Custom Sidebar Toggle Script -->
     <script>
     $(document).ready(function () {
@@ -739,8 +589,7 @@ use App\Helpers\EncryptionHelper;
         });
     });
     </script>
-
-    <!--end::Script-->
+  </script>
+    </script>
   </body>
-  <!--end::Body-->
 </html>
