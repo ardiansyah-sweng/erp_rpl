@@ -45,14 +45,31 @@ class Warehouse extends Model
                 ->orWhere('warehouse_telephone', 'like', "%{$keyword}%");
         })->get();
     }
+    
     public function deleteWarehouse($id)
     {
-        $warehouse = $this->getWarehouseById($id);
+    $warehouse = $this->getWarehouseById($id);
 
-        if (!$warehouse) {
-            return false;
-        }
-
-        return $warehouse->delete();
+    if (!$warehouse) {
+        return false;
     }
+
+    // Cek apakah id warehouse digunakan di tabel assortment_production
+    $usedInAssortment = DB::table('assortment_production')
+        ->where('fm_whouse_id', $id)
+        ->orWhere('fg_whouse_id', $id)
+        ->exists();
+
+    if ($usedInAssortment) {
+        // Warehouse sedang digunakan, tidak bisa dihapus
+        return response()->json([
+            'success' => false,
+            'message' => 'Warehouse tidak dapat dihapus karena sedang digunakan di tabel assortment_production.'
+        ], 400);
+    }
+
+    // Jika tidak digunakan, hapus warehouse
+    return $warehouse->delete();
+    }
+
 }
