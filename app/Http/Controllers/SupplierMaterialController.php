@@ -14,6 +14,7 @@ class SupplierMaterialController extends Controller
         $materials = $model->getSupplierMaterial();
         return view('supplier.material.list', ['materials' => $materials]);
     }
+
     // Validasi data supplier material
     public function addSupplierMaterial(Request $request)
     {
@@ -26,9 +27,7 @@ class SupplierMaterialController extends Controller
             'created_at'    => 'nullable|date',
             'updated_at'    => 'nullable|date',
         ]);
-        
-        return redirect()->back()->with('success', 
-        'Data supplier product berhasil divalidasi!');
+        return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
     }
 
     public function updateSupplierMaterial(Request $request, $id)
