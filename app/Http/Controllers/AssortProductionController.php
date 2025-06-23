@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssortmentProduction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -52,13 +53,8 @@ class AssortProductionController extends Controller
     
     public function getProductionDetail($id)
     {
-        $header = \App\Models\AssortmentProduction::find($id);
-
-        if (!$header) {
-            return response()->json(['message' => 'Production not found'], 404);
-        }
-
+        $header = AssortmentProduction::find($id);
         $production_number = $header->production_number;
-        return \App\Models\AssortmentProduction::getProductionDetail($production_number);
+        return AssortmentProduction::getProductionDetail($production_number);
     }
 }
