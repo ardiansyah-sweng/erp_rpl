@@ -52,7 +52,7 @@ class AssortProductionModelTest extends TestCase
         $production = AssortmentProduction::create([
             'production_number' => 'CB-01',
             'sku' => 'SKU-TEST-001',
-            'branch_id' => 1,
+            'branch_id' => 1,       
             'rm_whouse_id' => 10,
             'fg_whouse_id' => 20,
             'production_date' => now()->format('Y-m-d H:i:s'),
