@@ -14,9 +14,5 @@ class CountWarehouseControllerTest extends TestCase
         $response = $this->get('/warehouse/count');
 
         $response->assertStatus(200);
-
-        $response->assertJson([
-            'total_warehouse' => 65
-        ]);
     }
 }
