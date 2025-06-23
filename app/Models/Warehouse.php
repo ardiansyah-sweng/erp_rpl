@@ -56,7 +56,7 @@ class Warehouse extends Model
         return $warehouse->delete();
     }
      public static function getWarehouseAll()
-{
-    return self::orderBy('created_at', 'asc')->paginate(10);
-}
+    {
+        return self::orderBy('created_at', 'asc')->paginate(10);
+    }
 }

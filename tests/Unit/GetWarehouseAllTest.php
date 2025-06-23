@@ -13,7 +13,7 @@ class GetWarehouseAllTest extends TestCase
         // Hitung jumlah data sebelum test
         $beforeCount = Warehouse::count();
 
-        // Tambah 15 data baru untuk kebutuhan test ini
+        // Tambah 15 data baru untuk kebutuhan test in
         for ($i = 1; $i <= 15; $i++) {
             Warehouse::create([
                 'warehouse_name' => 'GudangBarang ' . $i,
