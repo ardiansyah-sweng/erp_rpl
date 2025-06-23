@@ -9,20 +9,22 @@ class SupplierMaterialControllerTest extends TestCase
 {
     public function test_returns_supplier_materials_by_product_type()
     {
-        // Misal kita uji dengan product_type 'vitca' (atau yang memang ada di tabel `products`)
-        $response = $this->get('/supplier-material/vitca');
+        // Misalnya kita uji dengan product_type 'RM' 
+        $response = $this->get('/supplier-material/RM');
 
-        $response->assertStatus(200); // Pastikan HTTP status = 200 OK
+        // Pastikan responsenya sukses
+        $response->assertStatus(200);
 
-        // Cek struktur JSON yang dikembalikan
+        // Pastikan struktur JSON-nya sesuai
         $response->assertJsonStructure([
             '*' => [
                 'supplier_id',
                 'company_name',
                 'product_id',
                 'product_name',
-                'product_type',
                 'base_price',
+                'product_type',
+                'master_product_name'
             ]
         ]);
     }
