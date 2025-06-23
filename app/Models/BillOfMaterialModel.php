@@ -31,15 +31,39 @@ class BillOfMaterialModel extends Model
 
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
-     public static function deleteBillOfMaterial($id)
+    
+      /**
+     * Fungsi hapus BOM berdasarkan ID.
+     */
+    public static function deleteBillOfMaterial($id)
     {
         $bom = self::find($id);
+        return $bom ? $bom->delete() : false;
+    }
 
-        if ($bom) {
-            return $bom->delete();
-        }
+    /**
+     * Fungsi tambah BOM baru.
+     */
+    public static function createBOM($data)
+    {
+        return self::create($data);
+    }
 
-        return false; // jika tidak ditemukan
+    /**
+     * Fungsi update BOM.
+     */
+    public static function updateBOM($id, $data)
+    {
+        $bom = self::find($id);
+        return $bom ? $bom->update($data) : false;
+    }
+
+    /**
+     * Fungsi ambil data berdasarkan ID.
+     */
+    public static function getById($id)
+    {
+        return self::find($id);
     }
 
 }
