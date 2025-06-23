@@ -14,7 +14,7 @@ use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
-
+use App\Http\Controllers\BillOfMaterialController;
 
 #Login
 Route::get('/', function () {
@@ -188,3 +188,6 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
 Route::put('/assortment_production/update/{id}', [AssortProductionController::class, 'updateProduction'])->name('assortment_production.update');
 Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
+
+#BillOfMaterial
+Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
