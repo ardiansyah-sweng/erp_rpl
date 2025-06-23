@@ -156,6 +156,9 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
+# Cetak PDF kategori berdasarkan parent tertentu, Parameter: {id} = ID dari kategori induk (parent_id)
+Route::get('/category/print/parent/{id}', [CategoryController::class, 'getCategoryByParent'])->name('category.print.byParent');
+
 #Category
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
