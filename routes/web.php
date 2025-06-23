@@ -12,6 +12,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
+use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 
@@ -188,3 +189,4 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
 Route::put('/assortment_production/update/{id}', [AssortProductionController::class, 'updateProduction'])->name('assortment_production.update');
 Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
+Route::get('/coba/material',[AssortProductionController::class,'getProduction'])->name('billOfMaterial.list');
