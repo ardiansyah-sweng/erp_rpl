@@ -165,3 +165,6 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
+
+Route::get('/coba/material',[AssortProductionController::class,'getProduction'])->name('billOfMaterial.list');
