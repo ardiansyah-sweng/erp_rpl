@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Warehouse extends Model
 {
@@ -48,28 +49,34 @@ class Warehouse extends Model
     
     public function deleteWarehouse($id)
     {
-    $warehouse = $this->getWarehouseById($id);
+        $warehouse = $this->getWarehouseById($id);
 
-    if (!$warehouse) {
-        return false;
-    }
+        if (!$warehouse) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Warehouse tidak ditemukan.',
+            ]);
+        }
 
-    // Cek apakah id warehouse digunakan di tabel assortment_production
-    $usedInAssortment = DB::table('assortment_production')
-        ->where('fm_whouse_id', $id)
-        ->orWhere('fg_whouse_id', $id)
-        ->exists();
+        // Cek apakah warehouse digunakan di tabel assortment_production
+        $usedInAssortment = DB::table('assortment_production')
+            ->where('rm_whouse_id', $id)
+            ->orWhere('fg_whouse_id', $id)
+            ->exists();
 
-    if ($usedInAssortment) {
-        // Warehouse sedang digunakan, tidak bisa dihapus
+        if ($usedInAssortment) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Warehouse tidak dapat dihapus karena sedang digunakan di tabel assortment_production.',
+            ], 400);
+        }
+
+        // Lakukan penghapusan
+        $warehouse->delete();
+
         return response()->json([
-            'success' => false,
-            'message' => 'Warehouse tidak dapat dihapus karena sedang digunakan di tabel assortment_production.'
-        ], 400);
+            'success' => true,
+            'message' => 'Warehouse berhasil dihapus.',
+        ]);
     }
-
-    // Jika tidak digunakan, hapus warehouse
-    return $warehouse->delete();
-    }
-
 }
