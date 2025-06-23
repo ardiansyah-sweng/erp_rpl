@@ -455,7 +455,7 @@
 
             <div class="mb-3">
                 <label class="form-label">Parent ID</label>
-                <input type="number" name="parent_id" class="form-control" value="{{ old('parent_id', $category->parent_id) }}" required>
+                <input type="number" name="parent_id" class="form-control" value="{{ old('parent_id', $category->parent_id) }}">
             </div>
 
             <div class="mb-3">
