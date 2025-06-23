@@ -15,7 +15,7 @@ use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
-
+use App\Http\Controllers\BillOfMaterialController;
 
 #Login
 Route::get('/', function () {
@@ -188,5 +188,19 @@ Route::get('/bom/list', function () {
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
 Route::put('/assortment_production/update/{id}', [AssortProductionController::class, 'updateProduction'])->name('assortment_production.update');
+Route::get('/assortment_production/detail/{po_number}', [AssortProductionController::class, 'getProductionDetail']);
+
+
+#Cetak PDF seluruh item/material yang dipasok oleh supplier tertentu
+Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::class, 'cetakPDF']);
+
 Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
+
 Route::get('/coba/material',[AssortProductionController::class,'getProduction'])->name('billOfMaterial.list');
+
+
+
+#BillOfMaterial
+Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
+
+
