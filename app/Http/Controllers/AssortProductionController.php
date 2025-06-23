@@ -10,10 +10,10 @@ class AssortProductionController extends Controller
     public function getProduction()
     {
         // Mengambil data dari tabel 'assortment_production' langsung dari query builder
-        $production = DB::table('assortment_production')->get();
+        $production = DB::table('assortment_production')->paginate(10);
 
         // Kembalikan data dalam format JSON
-        return response()->json($production);
+        return view('billOfMaterial.list', compact('production'));
     }
 
     public function updateProduction(Request $request, $id)

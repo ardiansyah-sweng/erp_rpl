@@ -450,10 +450,9 @@
                                 <td>{{ $material->updated_at }}</td>
                                 <td>
                                     <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                                    <form action="{{ route('item.delete', $material->id) }}" method="POST" style="display: inline;">
+                                    <form action="#" method="POST" style="display: inline;">
                                         @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus item ini?')">Delete</button>
+                                        <button type="submit" class="btn btn-sm btn-danger" >Delete</button>
                                     </form>
                                     <a href="#" class="btn btn-sm btn-info">Detail</a>
                                 </td>
