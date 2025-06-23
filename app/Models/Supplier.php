@@ -64,4 +64,8 @@ class Supplier extends Model
         }
     }
 
+    public static function addSupplier($data)
+    {
+        return self::create($data);
+    }
 }
