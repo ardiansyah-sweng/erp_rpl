@@ -6,11 +6,9 @@ use Tests\TestCase;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
 use App\Models\GoodsReceiptNote;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PurchaseOrderTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected function setUp(): void
     {
