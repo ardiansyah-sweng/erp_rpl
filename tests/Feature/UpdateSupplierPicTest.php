@@ -27,7 +27,6 @@ class UpdateSupplierPicTest extends TestCase
         ];
 
         $supplierPic->update($newData);
-
         $updatedSupplierPic = $supplierPic->fresh();
 
         dump("After Update:", $updatedSupplierPic);

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BillOfMaterial extends Model
 {
-    protected $table;
+    protected $table = 'bill_of_material';
     protected $fillable = [
         'bom_id',
         'bom_name',

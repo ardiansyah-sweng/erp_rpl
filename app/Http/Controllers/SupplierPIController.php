@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SupplierPic;
 use App\Models\SupplierPICModel;
+use Illuminate\Support\Facades\Validator;
 
 
 class SupplierPIController extends Controller
@@ -91,11 +92,13 @@ class SupplierPIController extends Controller
 
     public function updateSupplierPICDetail(Request $request, $id)
     {
+        // 1. Validasi input
         $validator = Validator::make($request->all(), [
-            'id'            => 'required|integer|exists:suppliers,id',
+            'supplier_id'   => 'required|string|exists:supplier,supplier_id',
             'name'          => 'required|string|max:255',
             'phone_number'  => 'required|string|max:20',
-            'email'         => 'required|email|unique:supplier_pics,email,' . $id,
+            'email'         => 'required|email|unique:supplier_pic,email,' . $id,
+            'assigned_date' => 'required|date',
         ]);
 
         if ($validator->fails()) {
@@ -103,15 +106,26 @@ class SupplierPIController extends Controller
                 'status'  => 'error',
                 'message' => 'Validasi gagal',
                 'errors'  => $validator->errors(),
-            ]);
+            ], 422);
         }
 
-        $result = SupplierPICModel::updateSupplierPIC($id, $data);
+        // 2. Ambil data hasil validasi
+        $data = $request->only([
+            'supplier_id',
+            'name',
+            'phone_number',
+            'email',
+            'assigned_date'
+        ]);
 
+        // 3. Panggil method dari MODEL: updateSupplierPIC($id)
+        $result = SupplierPic::updateSupplierPIC($id, $data);
+
+        // 4. Return response JSON
         return response()->json([
             'status'  => $result['status'],
             'message' => $result['message'],
             'data'    => $result['data'] ?? null,
-        ], $result['code']);
+        ], $result['code'] ?? 200);
     }
 }

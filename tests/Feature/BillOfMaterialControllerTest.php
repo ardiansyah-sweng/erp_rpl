@@ -1,46 +1,32 @@
 <?php
 
 namespace Tests\Feature;
+use App\Models\BillOfMaterial;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Database\Eloquent\Model;
-use App\Traits\HasDynamicColumns;
-use Illuminate\Support\Facades\DB;
-use Faker\Factory as Faker; // Import Library Faker untuk menghasilkan data acak
-
-class BillOfMaterialControllerTest  extends TestCase
+class BillOfMaterialControllerTest extends TestCase
 {
-    public function test_update_bill_of_material(): void
+    use WithFaker;
+
+    public function test_controller_add_bill_of_material()
     {
-            $faker = \Faker\Factory::create(); // Inisialisasi Faker
+        $bomName = $this->faker->unique()->words(2, true);
 
-            // Ambil salah satu data Bill of Material secara acak dari database
-            $bom = \App\Models\BillOfMaterial::inRandomOrder()->first();
+        $requestData = [
+            'bom_name' => $bomName,
+            'measurement_unit' => '31',
+            'total_cost' => 100000,
+            'active' => true,
+        ];
 
-            // Dump jika Anda ingin melihat isi data yang dipilih
-            dump($bom);
+        $response = $this->post('/billofmaterial/add', $requestData);
 
-            // Siapkan data baru untuk update
-            $updatedData = [
-                'bom_name' => $faker->unique()->word,
-                'measurement_unit' => $faker->randomElement(['kg', 'meter', 'liter', 'pcs']),
-                'total_cost' => $faker->randomFloat(2, 100, 10000),
-                'active' => $faker->boolean,
-            ];
+        $response->assertRedirect();
+        $response->assertSessionHas('success', 'Bill of Material berhasil ditambahkan!');
 
-            $response = $this->post('/billofmaterial/update/' . $bom->bom_id, $updatedData);
-            $response->assertStatus(302);
-
-            // Cek apakah data di database sudah berubah
-            $this->assertDatabaseHas('bill_of_materials', [
-                'bom_id' => $bom->bom_id,
-                'bom_name' => $updatedData['bom_name'],
-                'measurement_unit' => $updatedData['measurement_unit'],
-                'total_cost' => $updatedData['total_cost'],
-                'active' => $updatedData['active'],
-            ]);
+        $this->assertDatabaseHas('bill_of_material', [
+            'bom_name' => $bomName,
+        ]);
     }
-
 }
