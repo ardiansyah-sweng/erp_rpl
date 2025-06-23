@@ -591,5 +591,54 @@
     </script>
   </script>
     </script>
+
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function (e) {
+      // Ambil nilai input
+      const companyName = form.querySelector('[name="company_name"]');
+      const address = form.querySelector('[name="address"]');
+      const phoneNumber = form.querySelector('[name="phone_number"]');
+      const bankAccount = form.querySelector('[name="bank_account"]');
+
+      let isValid = true;
+      let errorMessages = [];
+
+      // Validasi Nama Perusahaan
+      if (!companyName.value.trim()) {
+        isValid = false;
+        errorMessages.push("Nama Perusahaan wajib diisi.");
+      }
+
+      // Validasi Alamat
+      if (!address.value.trim()) {
+        isValid = false;
+        errorMessages.push("Alamat wajib diisi.");
+      }
+
+      // Validasi Nomor Telepon (harus angka dan minimal 10 digit)
+      const phoneRegex = /^[0-9]{10,}$/;
+      if (!phoneRegex.test(phoneNumber.value)) {
+        isValid = false;
+        errorMessages.push("No. Telepon harus berupa angka dan minimal 10 digit.");
+      }
+
+      // Validasi Bank Account (harus angka dan minimal 8 digit)
+      const bankRegex = /^[0-9]{8,}$/;
+      if (!bankRegex.test(bankAccount.value)) {
+        isValid = false;
+        errorMessages.push("Bank Account harus berupa angka dan minimal 8 digit.");
+      }
+
+      // Tampilkan pesan error jika tidak valid
+      if (!isValid) {
+        e.preventDefault(); // Mencegah form terkirim
+        alert("Form tidak valid:\n\n" + errorMessages.join("\n"));
+      }
+    });
+  });
+</script>
+
   </body>
 </html>
