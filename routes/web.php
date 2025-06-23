@@ -172,6 +172,7 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
 Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
 Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
+Route::get('/warehouse/report',[WarehouseController::class,'exportPdf'])->name('warehouse.report');
 
 
 #production
