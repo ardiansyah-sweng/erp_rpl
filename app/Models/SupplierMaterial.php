@@ -42,4 +42,6 @@ class SupplierMaterial extends Model
             ->distinct('p.product_id')
             ->count(DB::raw('DISTINCT p.product_id'));
     }
+
+    protected $table = 'supplier_product';
 }
