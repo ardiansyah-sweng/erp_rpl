@@ -68,4 +68,14 @@ class AssortmentProduction extends Model
         return self::create($data);
     }
 
+    public static function updateProduction($id, array $data)
+    {
+        $production = self::find($id);
+        if (!$production) {
+            return null;
+        }
+
+        $production->update($data);
+        return $production;
+    }
 }
