@@ -37,5 +37,8 @@ class Supplier extends Model
     public static function countSupplier(){
         return self::count();   
     }
-
+    public static function addSupplier($data)
+    {
+        return self::create($data);
+    }
 }
