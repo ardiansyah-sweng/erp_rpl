@@ -49,7 +49,7 @@ class SupplierMaterialController extends Controller
         return redirect()->back()->with('error', 'Gagal memperbarui data supplier material!');
     }
     public function getSupplierMaterialByProductType($type)
-    {
+{
         $results = DB::table('supplier_product')
             ->join('products', 'supplier_product.product_id', '=', 'products.product_id')
             ->where('products.product_type', $type)
