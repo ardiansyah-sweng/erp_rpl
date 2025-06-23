@@ -10,17 +10,17 @@ class CategoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function it_can_get_category_by_category_name()
+    public function test_it_can_get_category_by_category_name() 
     {
         $category = Category::create([
-            'category' => 'Elektronik',
+            'category' => 'Alat Musik',
             'parent_id' => null,
             'active' => 1,
         ]);
 
-        $result = Category::getCategoryByName('Elektronik');
+        $result = Category::getCategoryByName('Alat Musik');
 
         $this->assertCount(1, $result);
-        $this->assertEquals('Elektronik', $result->first()->category);
+        $this->assertEquals('Alat Musik', $result->first()->category);
     }
 }
