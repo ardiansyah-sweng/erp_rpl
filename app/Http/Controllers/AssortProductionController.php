@@ -51,10 +51,9 @@ class AssortProductionController extends Controller
         }
     }
     
-    public function getProductionDetail($id)
+    public function getProductionDetail($production_number)
     {
-        $header = AssortmentProduction::find($id);
-        $production_number = $header->production_number;
-        return AssortmentProduction::getProductionDetail($production_number);
+        $assortmentProductionFiles = AssortmentProduction::find($production_number);
+        return AssortmentProduction::getProductionDetail($assortmentProductionFiles->production_number);
     }
 }
