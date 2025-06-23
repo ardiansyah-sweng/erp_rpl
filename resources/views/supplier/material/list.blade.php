@@ -426,6 +426,14 @@
                                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
                                 <a href="/supplier/material/detail/" class="btn btn-sm btn-info">Detail</a>
                             </td>
+
+                            <td>
+                                <a href="{{ url('/supplier/' . $material->supplier_id . '/cetak-pdf') }}" 
+                                  class="btn btn-danger btn-sm" 
+                                  target="_blank">
+                                    Cetak PDF
+                                </a>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
