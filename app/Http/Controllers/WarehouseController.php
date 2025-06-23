@@ -21,6 +21,21 @@ class WarehouseController extends Controller
 
     }
 
+    public function searchWarehouse(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $warehouses = (new Warehouse())->searchWarehouse($keyword);
+
+        if ($warehouses->isEmpty()) {
+            return response()->json(['message' => 'Tidak ada warehouse yang ditemukan'], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $warehouses
+        ]);
+    }
+
       public function deleteWarehouse($id)
     {
         $isUsed = DB::table('assortment_production')
