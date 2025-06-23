@@ -28,7 +28,7 @@ class SupplierMaterialController extends Controller
             'updated_at'    => 'nullable|date',
         ]);
          return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
-    }
+     }
 
     public function updateSupplierMaterial(Request $request, $id)
     {
