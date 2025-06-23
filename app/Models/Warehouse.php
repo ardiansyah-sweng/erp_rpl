@@ -45,14 +45,4 @@ class Warehouse extends Model
                 ->orWhere('warehouse_telephone', 'like', "%{$keyword}%");
         })->get();
     }
-    public function deleteWarehouse($id)
-    {
-        $warehouse = $this->getWarehouseById($id);
-
-        if (!$warehouse) {
-            return false;
-        }
-
-        return $warehouse->delete();
-    }
 }
