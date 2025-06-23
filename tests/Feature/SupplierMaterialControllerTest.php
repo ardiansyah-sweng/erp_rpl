@@ -2,15 +2,33 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\DB;
 
 class SupplierMaterialControllerTest extends TestCase
 {
     public function test_returns_supplier_materials_by_product_type()
     {
-        // Misalnya kita uji dengan product_type 'RM' 
-        $response = $this->get('/supplier-material/RM');
+        // Setup: Insert dummy product
+        DB::table('products')->insert([
+            'product_id' => 'P001',
+            'product_name' => 'Bahan Mentah A',
+            'product_type' => 'RM',
+            'product_category' => '1',
+            'product_description' => 'Deskripsi untuk bahan mentah A.'
+        ]);
+
+        // Setup: Insert dummy supplier product
+        DB::table('supplier_product')->insert([
+            'supplier_id' => 'SPL001',
+            'company_name' => 'PT Contoh Supplier',
+            'product_id' => 'P001',
+            'product_name' => 'Bahan Mentah A',
+            'base_price' => 50000
+        ]);
+
+        // Kirim request dengan 2 parameter: supplier_id dan product_type
+        $response = $this->get('/supplier-material/SPL001/RM');
 
         // Pastikan responsenya sukses
         $response->assertStatus(200);
@@ -24,7 +42,6 @@ class SupplierMaterialControllerTest extends TestCase
                 'product_name',
                 'base_price',
                 'product_type',
-                'master_product_name'
             ]
         ]);
     }

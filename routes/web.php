@@ -142,7 +142,7 @@ Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSu
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
-Route::get('/supplier-material/{type}', [SupplierMaterialController::class, 'getSupplierMaterialByProductType'])->name('supplier.material.byType');
+Route::get('/supplier-material/{supplier_id}/{product_type}', [SupplierMaterialController::class, 'getSupplierMaterialByProductType']);
 
 
 #Suppplier Update 

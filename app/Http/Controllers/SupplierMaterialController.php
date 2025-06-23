@@ -48,21 +48,26 @@ class SupplierMaterialController extends Controller
         }
         return redirect()->back()->with('error', 'Gagal memperbarui data supplier material!');
     }
-    public function getSupplierMaterialByProductType($type)
+    public function getSupplierMaterialByProductType($supplier_id, $product_type)
 {
-        $results = DB::table('supplier_product')
-            ->join('products', 'supplier_product.product_id', '=', 'products.product_id')
-            ->where('products.product_type', $type)
-            ->select(
-                'supplier_product.supplier_id',
-                'supplier_product.company_name',
-                'supplier_product.product_id',
-                'products.product_name',
-                'products.product_type',
-                'supplier_product.base_price'
-            )
-            ->get();
-
-        return response()->json($results);
+    if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
+        return response()->json(['error' => 'Invalid product type'], 400);
     }
+
+    $results = DB::table('supplier_product')
+        ->join('products', 'supplier_product.product_id', '=', 'products.product_id')
+        ->where('supplier_product.supplier_id', $supplier_id)
+        ->where('products.product_type', $product_type)
+        ->select(
+            'supplier_product.supplier_id',
+            'supplier_product.company_name',
+            'supplier_product.product_id',
+            'products.product_name',
+            'products.product_type',
+            'supplier_product.base_price'
+        )
+        ->get();
+
+    return response()->json($results);
+}
 }
