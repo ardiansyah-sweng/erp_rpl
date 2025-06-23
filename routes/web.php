@@ -108,15 +108,6 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
 })->name('purchase.orders.detail');
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
-# Test route untuk mengecek jumlah pengiriman yang tertunda -> masukan PO Number dengan status "Partially Delivered"
-# hapus jika tidak diperlukan
-Route::get('purchase_orders/pending-deliver/{poNumber}', function($poNumber) {
-    $pendingDeliveries = App\Models\PurchaseOrder::getPendingDeliveryQuantity($poNumber);
-    return response()->json([
-        'po_number' => $poNumber,
-        'pending_deliveries' => $pendingDeliveries
-    ]);
-});
 Route::get('/purchase-orders/report', [PurchaseOrderController::class, 'showReportForm'])->name('purchase_orders.report_form');
 Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePurchaseOrderPDF'])->name('purchase_orders.pdf');
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');

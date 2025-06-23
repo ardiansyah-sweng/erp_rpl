@@ -184,23 +184,18 @@ class PurchaseOrder extends Model
         $pendingDeliveries = [];
         
         if ($poDetails->isEmpty()) {
-            return $pendingDeliveries; // Kembalikan array kosong jika tidak ada detail PO
+            return $pendingDeliveries; 
         }
 
-        // Inisialisasi array untuk menyimpan jumlah pengiriman yang tertunda
         foreach ($poDetails as $detail) {
             $orderedQty = $detail->quantity;
             
-            // Menghitung jumlah yang sudah diterima
-            // Asumsi GoodsReceiptNote adalah model yang menyimpan data penerimaan barang
             $receivedQty = GoodsReceiptNote::where('po_number', $poNumber)
                 ->where('product_id', $detail->product_id)
                 ->sum('delivered_quantity'); 
             
-            // Menghitung jumlah yang belum diterima
             $pendingQty = $orderedQty - $receivedQty;
             
-            // Hanya tambahkan ke array jika ada jumlah yang tertunda
             if ($pendingQty > 0) {
                 $pendingDeliveries[] = [
                     'product_id' => $detail->product_id,
