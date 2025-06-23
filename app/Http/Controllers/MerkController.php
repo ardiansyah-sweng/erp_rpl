@@ -50,13 +50,14 @@ class MerkController extends Controller
     {
     $deleted = Merk::deleteMerk($id);
 
-    if ($deleted) {
-        return response()->json(['message' => 'Merk berhasil dihapus.']);
+        if ($deleted)
+    {
+        return redirect()->back()->with('success', 'Merk berhasil dihapus.');
+    } 
+        else 
+    {
+        return redirect()->back()->with('error', 'Merk gagal dihapus.');
     }
-    
-    return response()->json(['message' => 'Merk tidak ditemukan.'], 404);
-}
-
-
+    }
 }
 
