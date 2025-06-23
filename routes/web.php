@@ -15,6 +15,7 @@ use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
+use App\Http\Controllers\GoodsReceiptNoteController;
 
 #Login
 Route::get('/', function () {
@@ -199,7 +200,8 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
 
-
+#Goods Receipt Note Controller
+Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'getGoodsReceiptNote']);
 
 # Delete Supplier
 Route::delete('/delete_supplier/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete');
