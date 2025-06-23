@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SupplierMaterial;
+use Illuminate\Support\Facades\DB;
 
 class SupplierMaterialController extends Controller
 {
@@ -15,9 +16,9 @@ class SupplierMaterialController extends Controller
         return view('supplier.material.list', ['materials' => $materials]);
     }
 
-     // Validasi data supplier material
-     public function addSupplierMaterial(Request $request)
-     {
+    // Validasi data supplier material
+    public function addSupplierMaterial(Request $request)
+    {
         $validated = $request->validate([
             'supplier_id'   => 'required|string|size:6',
             'company_name'  => 'required|string|max:255', 
@@ -27,8 +28,8 @@ class SupplierMaterialController extends Controller
             'created_at'    => 'nullable|date',
             'updated_at'    => 'nullable|date',
         ]);
-         return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
-     }
+        return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
+    }
 
     public function updateSupplierMaterial(Request $request, $id)
     {
@@ -47,5 +48,24 @@ class SupplierMaterialController extends Controller
             return redirect()->back()->with('success', 'Data supplier material berhasil diperbarui!');
         }
         return redirect()->back()->with('error', 'Gagal memperbarui data supplier material!');
+    }
+
+    // ✅ Fungsi tambahan untuk tugas kamu: ambil berdasarkan product_type
+    public function getSupplierMaterialByProductType($type)
+    {
+        $results = DB::table('supplier_product')
+            ->join('products', 'supplier_product.product_id', '=', 'products.product_id')
+            ->where('products.product_type', $type)
+            ->select(
+                'supplier_product.supplier_id',
+                'supplier_product.company_name',
+                'supplier_product.product_id',
+                'products.product_name',
+                'products.product_type',
+                'supplier_product.base_price'
+            )
+            ->get();
+
+        return response()->json($results);
     }
 }
