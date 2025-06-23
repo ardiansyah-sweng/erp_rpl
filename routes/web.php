@@ -202,4 +202,4 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
 
-Route::get('/warehouse/report',[WarehouseController::class,'exportPdf'])->name('warehouse.report');
+
