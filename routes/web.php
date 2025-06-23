@@ -127,6 +127,7 @@ Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'add
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
+Route::get('/item/detail/{id}', [ItemController::class, 'getItemById'])->name('item.detail');
 
 Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
