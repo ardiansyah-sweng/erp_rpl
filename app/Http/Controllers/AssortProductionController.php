@@ -56,4 +56,14 @@ class AssortProductionController extends Controller
         $assortmentProductionFiles = AssortmentProduction::find($production_number);
         return AssortmentProduction::getProductionDetail($assortmentProductionFiles->production_number);
     }
+
+    public function searchProduction($keyword)
+    {
+        $productions = DB::table('assortment_production')
+            ->where('sku', 'like', "%{$keyword}%")
+            ->get(['id', 'sku']); // ambil hanya kolom yang diperlukan
+
+        return response()->json($productions); // hasilnya array of object
+    }
+
 }
