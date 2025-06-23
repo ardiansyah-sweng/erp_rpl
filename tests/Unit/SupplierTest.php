@@ -8,11 +8,12 @@ use App\Models\Supplier;
 class SupplierTest extends TestCase
 {
 
+
     /** @test */
     public function add_supplier()
     {
         $data = [
-            'supplier_id'   => 'SUP188',
+            'supplier_id'   => 'SUP212',
             'company_name'  => 'PT. Karya Sejahtera',
             'address'       => 'Jl. Sukamaju No. 45',
             'phone_number'  => '081298765432',
@@ -22,7 +23,7 @@ class SupplierTest extends TestCase
         $supplier = Supplier::addSupplier($data);
 
         $this->assertDatabaseHas('supplier', [
-            'supplier_id'  => 'SUP188',
+            'supplier_id'  => 'SUP212',
             'company_name' => 'PT. Karya Sejahtera',
         ]);
 
