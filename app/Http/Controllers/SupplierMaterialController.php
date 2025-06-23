@@ -15,7 +15,6 @@ class SupplierMaterialController extends Controller
 
         return view('supplier.material.list', ['materials' => $materials]);
     }
-
     // Validasi data supplier material
     public function addSupplierMaterial(Request $request)
     {
@@ -49,8 +48,6 @@ class SupplierMaterialController extends Controller
         }
         return redirect()->back()->with('error', 'Gagal memperbarui data supplier material!');
     }
-
-    // ✅ Fungsi tambahan untuk tugas kamu: ambil berdasarkan product_type
     public function getSupplierMaterialByProductType($type)
     {
         $results = DB::table('supplier_product')
