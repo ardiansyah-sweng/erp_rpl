@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\GoodsReceiptNote;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+
 
 class GoodsReceiptNoteControllerTest extends TestCase
 {
