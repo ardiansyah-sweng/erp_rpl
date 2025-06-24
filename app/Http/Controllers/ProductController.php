@@ -36,10 +36,10 @@ class ProductController extends Controller
     public function addProduct(Request $request)
     {
         $validatedData = $request->validate([
-            'product_id' => 'required|string|unique:products,product_id',
-            'product_name' => 'required|string',
-            'product_type' => 'required|string',
-            'product_category' => 'required|string',
+            'product_id'          => 'required|string|unique:products,product_id',
+            'product_name'        => 'required|string',
+            'product_type'        => 'required|string',
+            'product_category'    => 'required|string',
             'product_description' => 'nullable|string',
         ]);
 
@@ -49,39 +49,39 @@ class ProductController extends Controller
     }
     public function updateProduct(Request $request, $id)
     {
-        // Validasi input
         $request->validate([
-            'product_name' => 'required|string|max:35',
-            'product_type' =>  'required|string|max:12',
-            'product_category' => 'required|integer',
+            'product_name'        => 'required|string|max:35',
+            'product_type'        => 'required|string|max:12',
+            'product_category'    => 'required|integer',
             'product_description' => 'nullable|string|max:255',
         ]);
 
-        $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
+        $Updateproduct = Product::updateProduct($id, $request->only([
+            'product_name',
+            'product_type',
+            'product_category',
+            'product_description'
+        ]));
 
         return $Updateproduct;
     }
- public function getProductByType($product_type)
-{
-    $products = Product::getProductByType($product_type);
-    if ($products->isEmpty()) {
-        return response()->json([
-            'message' => "Tidak ditemukan produk dengan tipe tersebut: {$product_type}"
-        ], 404);
+
+    public function getProductByType($product_type)
+    {
+        $products = Product::getProductByType($product_type);
+
+        if ($products->isEmpty()) {
+            return response()->json([
+                'message' => "Tidak ditemukan produk dengan tipe tersebut: {$product_type}"
+            ], 404);
+        }
+
+        return response()->json($products);
     }
 
-    return response()->json($products);
-}
-
-public function searchProduct($keyword)
-{
-    $products = Product::where('product_id', 'LIKE', "%{$keyword}%")
-        ->orWhere('product_name', 'LIKE', "%{$keyword}%")
-        ->orWhere('product_type', 'LIKE', "%{$keyword}%")
-        ->orWhereRaw('CAST(product_category AS CHAR) LIKE ?', ["%{$keyword}%"])
-        ->orWhere('product_description', 'LIKE', "%{$keyword}%")
-        ->paginate(10);
-
-    return view('product.list', compact('products'));
-}
+    public function searchProduct($keyword)
+    {
+        $products = Product::searchProduct($keyword);
+        return view('product.list', compact('products'));
+    }
 }
