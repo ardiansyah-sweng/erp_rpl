@@ -1,4 +1,7 @@
 
+@php
+use App\Helpers\EncryptionHelper;
+@endphp
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
@@ -378,8 +381,10 @@
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Produk</h3>
-                <a href="#" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
               </div>
+    
     
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
@@ -406,6 +411,7 @@
                       <th>product_type</th>
                       <th>product_category</th>
                       <th>product_description</th>
+                      <th>jumlah_item</th>
                       <th>Created At</th>
                       <th>Updated At </th>
                       <th>Action </th>
@@ -415,16 +421,26 @@
                   @foreach ($products as $index => $product)
                   <tr class="align-middle">
                       <td>{{ $index + 1 }}</td>
-                      <td>{{ $product->product_id }}</td>
+                      <td>
+                        <a href="/products/detail/{{ EncryptionHelper::encrypt($product->product_id) }}" class="text-dark"> 
+                         {{ $product->product_id }}
+                      </a>
+                      </td>
+                      
                       <td>{{ $product->product_name }}</td>
-                      <td>{{ $product->product_type }}</td>
+                      <td>{{ $product->product_type->label() }}</td>
                       <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
                       <td>{{ $product->product_description }}</td>
+                      <td>{{ $product->items_count }}</td>
                       <td>{{ $product->created_at }}</td>
                       <td>{{ $product->updated_at }}</td>
                       <td>
                           <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                          <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                              <form  method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?')">Delete</button>
+                              </form>
                           <a href="#" class="btn btn-sm btn-info">Detail</a>
                       </td>
                   </tr>
