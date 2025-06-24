@@ -278,7 +278,12 @@
                 <td>
                   <a href="/supplier/pic/detail/{{ $pic->id }}" class="btn btn-sm btn-info">Detail</a>
                   <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                  <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                  
+                  <form action="{{ url('/supplier/pic/delete/' . $pic->id) }}" method="POST" class="delete-form d-inline" data-name="{{ $pic->name }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-danger btn-delete" data-name="{{ $pic->name }}">Hapus</button>
+                  </form>
                 </td>
               </tr>
               @empty
@@ -332,6 +337,40 @@
       });
     });
   </script>
+
+<!-- Tambahkan SweetAlert2 di sini -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Script CONFIRMATION DELETE -->
+<script>
+  $(document).ready(function () {
+    $('.btn-delete').on('click', function (e) {
+      e.preventDefault(); // hentikan form dari submit langsung
+
+      const form = $(this).closest('form'); // ambil form terdekat
+      const name = $(this).data('name'); // ambil nama PIC dari data attribute
+
+      Swal.fire({
+        title: 'Yakin ingin menghapus?',
+        text: `Data PIC "${name}" akan dihapus permanen!`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          form.submit(); // jika user setuju, kirim form
+        }
+      });
+    });
+  });
+</script>
+
+
+
   <!--end::Script-->
 </body>
 <!--end::Body-->
