@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah Cabang</title>
+    <title>ERP RPL UAD | Tambah Goods Receipt Note</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
@@ -202,7 +202,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="{{route('purchase.orders')}}" class="nav-link active">
+                <a href="{{ route('purchase.orders') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Purchase Orders
@@ -210,7 +210,7 @@
                 </a>                
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
+                <a href="{{ route('branch.list') }}" class="nav-link active">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -227,102 +227,155 @@
           </nav>
         </div>
       </aside>
+      <!-- Main Content -->
       <main class="app-main">
         <div class="app-content-header">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Detail Order</h3></div>
+              <div class="col-sm-6">
+                <h3 class="mb-0">Add Goods Receipt Note</h3>
+              </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="{{route('purchase.orders')}}">Purchase Orders</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Detail Order</li>
+                  <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                 </ol>
               </div>
             </div>
           </div>
         </div>
+        
         <div class="app-content">
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-12">
                 <div class="card card-primary">
                   <div class="card-header">
-                    <h3 class="card-title"> </h3>
+                    <h3 class="card-title">Form Goods Receipt Note</h3>
                   </div>
-                         
-                <div class="card-body">
-                  <!-- Add a container for the purchase order data -->
-                  <div id="purchase-order-details">
-                      <h6>ID Purchase Order</h6>
-                      <h4>{{ $purchaseOrder->first()->po_number }}</h4>
-                      <h6>Supplier</h6>
-                      <h4>{{ $purchaseOrder->first()->supplier->company_name }}</h4>
-                      <h6>Status</h6>
-                      <h4>{{ $purchaseOrder->first()->status }}</h4>
-                      <h6>Last Updated Status</h6>
-                      @php
-                        $poLength = app()->make('App\Http\Controllers\PurchaseOrderController')
-                                         ->getPOLength($purchaseOrder[0]->po_number, $purchaseOrder[0]->order_date);
-                      @endphp
-                      <h4>{{ $poLength }} Days</h4>
-                      <h6>Order Date</h6>
-                      <h4>{{ $purchaseOrder->first()->order_date }}</h4>
-                      <h6>Updated At</h6>
-                      <h4>{{ Carbon\Carbon::parse($purchaseOrder->first()->updated_at)->format('Y-m-d') }}</h4>                     
-                      
-                      <!-- Add Purchase Order Details Table -->
-                      <h6 class="mt-4">Purchase Order Details</h6>
-                      <div class="table-responsive">
-                          <table class="table table-bordered table-striped">
-                              <thead>
-                                  <tr>
-                                      <th>Product ID</th>
-                                      <th>Quantity</th>
-                                      <th>Amount</th>
-                                      <th>Total</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  @php $grandTotal = 0; @endphp
-                                  @foreach($purchaseOrder->first()->details as $detail)
-                                      @php
-                                          $subtotal = $detail->quantity * $detail->amount;
-                                          $grandTotal += $subtotal;
-                                      @endphp
-                                      <tr>
-                                          <td>{{ $detail->product_id }}</td>
-                                          <td>{{ $detail->quantity }}</td>
-                                          <td>Rp {{ number_format($detail->amount, 0, ',', '.') }}</td>
-                                          <td>Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
-                                      </tr>
-                                  @endforeach
-                              </tbody>
-                              <tfoot>
-                                  <tr>
-                                      <td colspan="3" class="text-end"><strong>Grand Total:</strong></td>
-                                      <td><strong>Rp {{ number_format($grandTotal, 0, ',', '.') }}</strong></td>
-                                  </tr>
-                              </tfoot>
-                          </table>
-                      </div>
-                  </div>
-              </div>
-                  
-                  <div id="debug-output" class="mt-4" style="display: none;">
-                    <div class="card">
-                      <div class="card-body bg-light">
-                        <pre id="dd-content" class="p-3 bg-dark text-light" style="border-radius: 5px;"></pre>
-                      </div>
+
+                  <div class="card-body">
+                    <div class="form-group mb-3">
+                      <label for="po_number">PO Number</label>
+                      <input type="text" class="form-control" id="po_number" value="POO0002" readonly>
                     </div>
+                    <form>
+                        <div class="form-group mb-3">
+                            <label for="branch">Branch</label> 
+                            <input type="text" class="form-control" id="branch" value="Yogyakarta" readonly>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="supplier_id">Supplier ID</label>
+                            <input type="text" class="form-control" id="supplier_id" value="SUUP001" readonly>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="supplier_name">Name Supplier</label>
+                            <input type="text" class="form-control" id="supplier_name" value="PT. XYZ" readonly>
+                        </div>
+                        
+                        <div class="table-responsive">
+                          <table class="table table-bordered" id="itemsTable">
+                              <thead class="table-primary text-center">
+                              <tr>
+                                  <th>SKU</th>
+                                  <th>Name Item</th>
+                                  <th>Qty</th>
+                                  <th>Unit Price</th>
+                                  <th>Amount</th>
+                                  <th>Delivery Date</th>
+                                  <th>Delivery Quantity</th>
+                                  <th>Action</th>
+                              </tr>
+                              </thead>
+                              <tbody class="text-center">
+                                <!-- Dummy Data -->
+                                <tr>
+                                    <td><input type="text" class="form-control" value="KAOS-M" readonly></td>
+                                    <td><input type="text" class="form-control" value="Kaos Sedang" readonly></td>
+                                    <td><input type="text" class="form-control" value="15" readonly></td>
+                                    <td><input type="text" class="form-control" value="20000" readonly></td>
+                                    <td><input type="text" class="form-control" value="300000" readonly></td>
+                                    <td><input type="date" class="form-control" value="2025-06-10" required></td>
+                                    <td><input type="number" class="form-control" value="10" min="0" max="15" required></td>
+                                    <td class="mb-3" style="display: flex; gap: 8px;">
+                                      <button type="button" class="btn btn-info btn-sm comments">
+                                      <i class="bi bi-chat"></i>
+                                      </button>
+                                      <button type="button" class="btn btn-danger btn-sm remove-row-btn">
+                                      <i class="bi bi-trash"></i>
+                                      </button>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" class="form-control sku " value="KAOS-L" readonly></td>
+                                    <td><input type="text" class="form-control name-item" value="Kaos Besar" readonly></td>
+                                    <td><input type="number" class="form-control qty" value="10" readonly></td>
+                                    <td><input type="number" class="form-control unit-price" value="20000" readonly></td>
+                                    <td><input type="number" class="form-control amount" value="300000" readonly></td>
+                                    <td><input type="date" class="form-control delivery-date" value="2025-06-10" required></td>
+                                    <td><input type="number" class="form-control delivery-quantity" value="10" min="0" max="15" required></td>
+                                    <td class="mb-3" style="display: flex; gap: 8px;">
+                                      <button type="button" class="btn btn-info btn-sm comments">
+                                      <i class="bi bi-chat"></i>
+                                      </button>
+                                      <button type="button" class="btn btn-danger btn-sm remove-row-btn">
+                                      <i class="bi bi-trash"></i>
+                                      </button>
+                                    </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                        </div>
+
+                        <div class="form-group">
+                          <button type="submit" class="btn btn-primary mb-3">
+                            <i class="bi bi-check-circle"></i> Tambah
+                          </button>
+                          <button type="button" class="btn btn-danger mb-3">
+                            <i class="bi bi-x-circle"></i> Batal
+                          </button>
+                        </div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
-          </div> 
-        </div> 
+          </div>
+        </div>
       </main>
-      <footer class="app-footer">
+
+      <!-- Comment Modal Start -->
+      <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title" id="commentModalLabel">
+                <i class="bi bi-chat-text"></i> Tambah Komentar
+              </h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="commentText" class="form-label">Komentar:</label>
+                <textarea class="form-control" id="commentText" rows="5" placeholder="Masukkan komentar Anda di sini..."></textarea>
+              </div>
+              <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i>
+                <small>Komentar ini akan disimpan untuk item yang dipilih dalam tabel.</small>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                <i class="bi bi-x-circle"></i> Batal
+              </button>
+              <button type="button" class="btn btn-primary" id="saveComment">
+                <i class="bi bi-check-circle"></i> Simpan
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+       <footer class="app-footer">
         <div class="float-end d-none d-sm-inline">Anything you want</div>
         <strong>
           Copyright &copy; 2014-2024&nbsp;
@@ -331,56 +384,54 @@
         All rights reserved.
       </footer>
     </div>
+    <!-- Comment Modal end -->
+    </div>
     
-    <script
-      src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
-      integrity="sha256-JLMUQfrMvhB/C+XTyqfc/TUlC6gGQE0H2hZFX5FJ1cM="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-      integrity="sha256-whL0tQWoY1Ku1iskqPFvmZ+CHsvmRWx/PIoEvIeWh4I="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-      integrity="sha256-3gQJhtmj7YnV1fmtbVcnAV6TiKH9jKLO9IZ1UCEUkKQ="
-      crossorigin="anonymous"
-    ></script>
-    <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/js/adminlte.min.js"></script>
 
     <script>
-      const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
-      const Default = {
-        scrollbarTheme: 'os-theme-light',
-        scrollbarAutoHide: 'leave',
-        scrollbarClickScroll: true,
-      };
-      document.addEventListener('DOMContentLoaded', function () {
-        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
-        if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
-          OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-            scrollbars: {
-              theme: Default.scrollbarTheme,
-              autoHide: Default.scrollbarAutoHide,
-              clickScroll: Default.scrollbarClickScroll,
-            },
-          });
-        }
-      });
-    </script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const commentModal = new bootstrap.Modal(document.getElementById('commentModal'));
+            const commentTextArea = document.getElementById('commentText');
+            let currentCommentButton = null;
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            // Event listener untuk klik di dalam tabel (Hapus dan Komen)
+            document.getElementById('itemsTable').addEventListener('click', function(e) {
+                const targetCommentBtn = e.target.closest('.comments');
+                const targetDeleteBtn = e.target.closest('.remove-row-btn');
 
-    <script>
-    $(document).ready(function () {
-        $('[data-widget="pushmenu"]').on('click', function (e) {
-            e.preventDefault();
-            $('body').toggleClass('sidebar-collapse');
+                if (targetCommentBtn) {
+                    currentCommentButton = targetCommentBtn;
+                    commentTextArea.value = currentCommentButton.dataset.comment || '';
+                    commentModal.show();
+                }
+
+                if (targetDeleteBtn) {
+                    targetDeleteBtn.closest('tr').remove();
+                }
+            });
+
+            // Event listener untuk menyimpan komentar
+            document.getElementById('saveComment').addEventListener('click', function() {
+                if (currentCommentButton) {
+                    const newComment = commentTextArea.value.trim();
+                    currentCommentButton.dataset.comment = newComment;
+                    const icon = currentCommentButton.querySelector('i');
+                    if (newComment) {
+                        currentCommentButton.classList.replace('btn-info', 'btn-success');
+                        icon.classList.replace('bi-chat', 'bi-chat-fill');
+                    } else {
+                        currentCommentButton.classList.replace('btn-success', 'btn-info');
+                        icon.classList.replace('bi-chat-fill', 'bi-chat');
+                    }
+                }
+                commentModal.hide();
+            });
         });
-    });
     </script>
-
     
   </body>
 </html>

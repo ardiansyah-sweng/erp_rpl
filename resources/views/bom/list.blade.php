@@ -174,7 +174,8 @@
                   <!--end::Message-->
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a></div>
+                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+              </div>
             </li>
             <!--end::Messages Dropdown Menu-->
             <!--begin::Notifications Dropdown Menu-->
@@ -288,164 +289,328 @@
           <nav class="mt-2">
             <!--begin::Sidebar Menu-->
             <ul
-            class="nav sidebar-menu flex-column"
-            data-lte-toggle="treeview"
-            role="menu"
-            data-accordion="false">
-            <li class="nav-item">
-                <a href="{{ route('dashboard') }}" class="nav-link active">
-                    <i class="nav-icon bi bi-speedometer"></i>
-                    <p>
-                        Dashboard
-                    </p>
+              class="nav sidebar-menu flex-column"
+              data-lte-toggle="treeview"
+              role="menu"
+              data-accordion="false"
+            >
+              <li class="nav-item">
+                <a href="dashboard" class="nav-link active">
+                  <i class="nav-icon bi bi-speedometer"></i>
+                  <p>
+                    Dashboard
+                  </p>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('product.list') }}" class="nav-link">
-                    <i class="nav-icon bi bi-box-seam-fill"></i>
-                    <p>
-                        Produk
-                    </p>
+              </li>
+              <li class="nav-item">
+              <a href="{{ route('product.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-box-seam-fill"></i>
+                  <p>Produk</p>
                 </a>
-            </li>
-            <li class="nav-item">
+              </li>
+              <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon bi bi-person-circle"></i>
-                    <p>
-                        Supplier
-                        <i class="nav-arrow bi bi-chevron-right"></i>
-                    </p>
+                  <i class="nav-icon bi bi-person-circle"></i>
+                  <p>
+                    Supplier
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="./widgets/small-box.html" class="nav-link">
-                            <i class="nav-icon bi bi-circle"></i>
-                            <p>Small Box</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/supplier/pic/add" class="nav-link">
-                            <i class="nav-icon bi bi-circle"></i>
-                            <p>Tambah PIC supplier</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/supplier/material/add" class="nav-link">
-                            <i class="nav-icon bi bi-circle"></i>
-                            <p>Tambah Supplier Item</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/supplier/material/list" class="nav-link">
-                            <i class="nav-icon bi bi-circle"></i>
-                            <p>Supplier Material</p>
-                        </a>
-                    </li>
+                  <li class="nav-item">
+                    <a href="./widgets/small-box.html" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Small Box</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/supplier/pic/add" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Tambah PIC supplier</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="./widgets/cards.html" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Cards</p>
+                    </a>
+                  </li>
                 </ul>
-            </li>
-            <li class="nav-item">
+              </li>
+              <li class="nav-item">
                 <a href="{{ route('purchase.orders') }}" class="nav-link">
-                    <i class="nav-icon bi bi-clipboard-fill"></i>
-                    <p>
-                        Purchase Orders
-                    </p>
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Purchase Orders
+                  </p>
                 </a>                
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('item.list') }}" class="nav-link">
-                    <i class="nav-icon bi bi-circle"></i>
-                    <p>
-                        Item
-                    </p>
-                </a>
-            </li>
-        </ul>
-        <!--end::Sidebar Menu-->
-    </nav>
-</div>
-<!--end::Sidebar Wrapper-->
-</aside>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('branch.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Branch
+                  </p>
+                </a>                
+              </li>
+              <li class="nav-item">
+              <a href="{{ route('item.list') }}" class="nav-link">
+              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>Item</p>
+                    </a>
+              </li>
+              <li class="nav-item">
+              <a href="/bom/list" class="nav-link">
+              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>Bill Of Material</p>
+                    </a>
+              </li>
+            </ul>
+            <!--end::Sidebar Menu-->
+          </nav>
+        </div>
+        <!--end::Sidebar Wrapper-->
+      </aside>
       <!--end::Sidebar-->
       <!--begin::App Main-->
       <main class="app-main">
         <!--begin::App Content Header-->
         <div class="app-content-header">
-            <!--begin::Container-->
-            <div class="container-fluid">
-                <!--begin::Row-->
-                <div class="row align-items-center">
-                    <div class="col-sm-6 d-flex align-items-center">
-                        <h3 class="mb-0 me-2">Supplier Material</h3>
-                        <a href="/supplier/material/add" class="btn btn-primary btn-sm">Tambah</a>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Supplier Material</li>
-                        </ol>
-                    </div>
-                </div>
-                <!--end::Row-->
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row align-items-center">
+              <div class="col-sm-6 d-flex align-items-center">
+                <h3 class="mb-0 me-2">Bill Of Material</h3>
+                <a href="#" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="#" class="btn btn-primary btn-sm ms-2">Cetak Bill Of Material</a>
+              </div>
+    
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">BOM</li>
+                </ol>
+              </div>
             </div>
-            <!--end::Container-->
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+
+        <div class="card mb-4">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                      <h3 class="card-title">List Table</h3>
+                      <form action="#" method="GET" class="d-flex ms-auto">
+                        <!-- Search bar berada di ujung kanan -->
+                        <div class="input-group input-group-sm ms-auto" style="width: 450px;">
+                          <input type="text" name="search" class="form-control" placeholder="Search BOM">
+                          <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                              <i class="bi bi-search"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+
+                    @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                    @endif
+
+                    <!-- Bill Of Material Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Daftar Bill of Materials</h5>
+                    </div>
+                <div class="card-body p-0">
+                  <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                  <th>No</th>
+                                  <th>ID BOM</th>
+                                  <th>Nama BOM</th>
+                                  <th>Measurement Unit</th>
+                                  <th>Total Cost</th>
+                                  <th>Status</th>
+                                  <th>Create</th>
+                                  <th>Aksi</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>1</td>
+                                  <td>BOM001</td>
+                                  <td>Produk A</td>
+                                  <td>100 pcs</td>
+                                  <td>Rp. 200.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>08-06-2024</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>2</td>
+                                  <td>BOM002</td>
+                                  <td>Produk B</td>
+                                  <td>50 Kg</td>
+                                  <td>Rp. 245.000</td>
+                                  <td>
+                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
+                                  </td>
+                                  <td>05-06-2024</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>3</td>
+                                  <td>BOM003</td>
+                                  <td>Produk C</td>
+                                  <td>30 Kg</td>
+                                  <td>Rp. 115.000</td>
+                                  <td>
+                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
+                                  </td>
+                                  <td>11-06-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>4</td>
+                                  <td>BOM004</td>
+                                  <td>Produk D</td>
+                                  <td>1 TON</td>
+                                  <td>Rp. 985.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>01-01-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>5</td>
+                                  <td>BOM005</td>
+                                  <td>Produk E</td>
+                                  <td>1.2 TON</td>
+                                  <td>Rp. 1.225.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>01-04-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>6</td>
+                                  <td>BOM006</td>
+                                  <td>Produk F</td>
+                                  <td>3 Kwintal</td>
+                                  <td>Rp. 950.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>30-05-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>7</td>
+                                  <td>BOM007</td>
+                                  <td>Produk G</td>
+                                  <td>1 Kwintal</td>
+                                  <td>Rp. 350.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>30-11-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>8</td>
+                                  <td>BOM008</td>
+                                  <td>Produk H</td>
+                                  <td>1 Kwintal</td>
+                                  <td>Rp. 150.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>30-05-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>9</td>
+                                  <td>BOM009</td>
+                                  <td>Produk I</td>
+                                  <td>70 Liter</td>
+                                  <td>Rp. 850.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>31-05-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>10</td>
+                                  <td>BOM010</td>
+                                  <td>Produk J</td>
+                                  <td>3.5 Kwintal</td>
+                                  <td>Rp. 550.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>30-03-2025</td>
+                                  <td>
+                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <!--Tambah data dummy-->
+                          </tbody>
+                      </table>
+            </div>
+                  </div>
+                  <!-- /.card-body -->
+                  <div class="card-footer clearfix">
+                  
+                  </div>
+
         </div>
         
-        <div class="card mb-4">
-            <div class="card-header"><h3 class="card-title">List Table</h3></div>
-            <!-- /.card-header -->
-             <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th style="width: 10px">id</th>
-                            <th>supplier_id</th>
-                            <th>company_name</th>
-                            <th>product_id</th>
-                            <th>product_name</th>
-                            <th>base_price</th>
-                            <th>Created_at</th>
-                            <th>Updated_at </th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($materials as $index => $material)
-                        <tr class="align-middle">
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $material->supplier_id }}</td>
-                            <td>{{ $material->company_name }}</td>
-                            <td>{{ $material->product_id }}</td>
-                            <td>{{ $material->product_name }}</td>
-                            <td>{{ $material->base_price }}</td>
-                            <td>{{ $material->created_at }}</td>
-                            <td>{{ $material->updated_at }}</td>
-
-                            <td>
-                                <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                                <a href="/supplier/material/detail/" class="btn btn-sm btn-info">Detail</a>
-                            </td>
-
-                            <td>
-                                <a href="{{ url('/supplier/' . $material->supplier_id . '/cetak-pdf') }}" 
-                                  class="btn btn-danger btn-sm" 
-                                  target="_blank">
-                                    Cetak PDF
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.card-body -->
-             <div class="card-footer clearfix">
-                {{ $materials->links('pagination::bootstrap-4') }}
-            </div>
-        </div> 
-    </main>
-    <!--end::App Main-->
+      </main>
+      <!--end::App Main-->
       <!--begin::Footer-->
       <footer class="app-footer">
         <!--begin::To the end-->
