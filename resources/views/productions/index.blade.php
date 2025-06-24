@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Dashboard</title>
+    <title>ERP RPL UAD | Supplier List</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -174,7 +173,8 @@
                   <!--end::Message-->
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a></div>
+                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+              </div>
             </li>
             <!--end::Messages Dropdown Menu-->
             <!--begin::Notifications Dropdown Menu-->
@@ -288,166 +288,324 @@
           <nav class="mt-2">
             <!--begin::Sidebar Menu-->
             <ul
-            class="nav sidebar-menu flex-column"
-            data-lte-toggle="treeview"
-            role="menu"
-            data-accordion="false">
-            <li class="nav-item">
-                <a href="{{ route('dashboard') }}" class="nav-link active">
-                    <i class="nav-icon bi bi-speedometer"></i>
-                    <p>
-                        Dashboard
-                    </p>
+              class="nav sidebar-menu flex-column"
+              data-lte-toggle="treeview"
+              role="menu"
+              data-accordion="false"
+            >
+              <li class="nav-item">
+                <a href="dashboard" class="nav-link active">
+                  <i class="nav-icon bi bi-speedometer"></i>
+                  <p>
+                    Dashboard
+                  </p>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('product.list') }}" class="nav-link">
-                    <i class="nav-icon bi bi-box-seam-fill"></i>
-                    <p>
-                        Produk
-                    </p>
+              </li>
+              <li class="nav-item">
+              <a href="{{ route('product.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-box-seam-fill"></i>
+                  <p>Produk</p>
                 </a>
-            </li>
-            <li class="nav-item">
+              </li>
+              <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon bi bi-person-circle"></i>
-                    <p>
-                        Supplier
-                        <i class="nav-arrow bi bi-chevron-right"></i>
-                    </p>
+                  <i class="nav-icon bi bi-person-circle"></i>
+                  <p>
+                    Supplier
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="./widgets/small-box.html" class="nav-link">
-                            <i class="nav-icon bi bi-circle"></i>
-                            <p>Small Box</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/supplier/pic/add" class="nav-link">
-                            <i class="nav-icon bi bi-circle"></i>
-                            <p>Tambah PIC supplier</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/supplier/material/add" class="nav-link">
-                            <i class="nav-icon bi bi-circle"></i>
-                            <p>Tambah Supplier Item</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/supplier/material/list" class="nav-link">
-                            <i class="nav-icon bi bi-circle"></i>
-                            <p>Supplier Material</p>
-                        </a>
-                    </li>
+                  <li class="nav-item">
+                    <a href="./widgets/small-box.html" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Small Box</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/supplier/pic/add" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Tambah PIC supplier</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="./widgets/cards.html" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Cards</p>
+                    </a>
+                  </li>
                 </ul>
-            </li>
-            <li class="nav-item">
+              </li>
+              <li class="nav-item">
                 <a href="{{ route('purchase.orders') }}" class="nav-link">
-                    <i class="nav-icon bi bi-clipboard-fill"></i>
-                    <p>
-                        Purchase Orders
-                    </p>
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Purchase Orders
+                  </p>
                 </a>                
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('item.list') }}" class="nav-link">
-                    <i class="nav-icon bi bi-circle"></i>
-                    <p>
-                        Item
-                    </p>
-                </a>
-            </li>
-        </ul>
-        <!--end::Sidebar Menu-->
-    </nav>
-</div>
-<!--end::Sidebar Wrapper-->
-</aside>
-      <!--end::Sidebar-->
-      <!--begin::App Main-->
-      <main class="app-main">
-        <!--begin::App Content Header-->
-        <div class="app-content-header">
-            <!--begin::Container-->
-            <div class="container-fluid">
-                <!--begin::Row-->
-                <div class="row align-items-center">
-                    <div class="col-sm-6 d-flex align-items-center">
-                        <h3 class="mb-0 me-2">Supplier Material</h3>
-                        <a href="/supplier/material/add" class="btn btn-primary btn-sm">Tambah</a>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Supplier Material</li>
-                        </ol>
-                    </div>
-                </div>
-                <!--end::Row-->
-            </div>
-            <!--end::Container-->
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('branch.list') }}" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Branch
+                  </p>
+                </a>                
+              </li>
+              <li class="nav-item">
+              <a href="{{ route('item.list') }}" class="nav-link">
+              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>Item</p>
+                    </a>
+                  </li>
+            </ul>
+            <!--end::Sidebar Menu-->
+          </nav>
         </div>
-        
-        <div class="card mb-4">
-            <div class="card-header"><h3 class="card-title">List Table</h3></div>
-            <!-- /.card-header -->
-             <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th style="width: 10px">id</th>
-                            <th>supplier_id</th>
-                            <th>company_name</th>
-                            <th>product_id</th>
-                            <th>product_name</th>
-                            <th>base_price</th>
-                            <th>Created_at</th>
-                            <th>Updated_at </th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($materials as $index => $material)
-                        <tr class="align-middle">
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $material->supplier_id }}</td>
-                            <td>{{ $material->company_name }}</td>
-                            <td>{{ $material->product_id }}</td>
-                            <td>{{ $material->product_name }}</td>
-                            <td>{{ $material->base_price }}</td>
-                            <td>{{ $material->created_at }}</td>
-                            <td>{{ $material->updated_at }}</td>
+        <!--end::Sidebar Wrapper-->
+      </aside>
 
-                            <td>
-                                <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                                <a href="/supplier/material/detail/" class="btn btn-sm btn-info">Detail</a>
-                            </td>
+<main class="content-wrapper">
+  <div class="container-fluid">
+    <div class="mb-4">
+      <h1 class="h3 fw-bold mb-2">Productions</h1>
+      <a href="#" class="btn btn-primary btn-sm">New Production</a>
+    </div>
 
-                            <td>
-                                <a href="{{ url('/supplier/' . $material->supplier_id . '/cetak-pdf') }}" 
-                                  class="btn btn-danger btn-sm" 
-                                  target="_blank">
-                                    Cetak PDF
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.card-body -->
-             <div class="card-footer clearfix">
-                {{ $materials->links('pagination::bootstrap-4') }}
-            </div>
-        </div> 
-    </main>
-    <!--end::App Main-->
-      <!--begin::Footer-->
-      <footer class="app-footer">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <!-- Filter & Search -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="d-flex align-items-center">
+            <span>Show</span>
+            <select id="pageLength" class="form-select mx-2" style="width: auto;">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+            <span>entries</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="me-2">Search:</span>
+            <input type="text" id="productionSearch" class="form-control" style="width: 200px;">
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive">
+          <table id="productionTable" class="table table-bordered table-hover align-middle mb-0">
+            <thead class="table-light text-center">
+              <tr>
+                <th>No</th>
+                <th>ID</th>
+                <th>Nama Produk</th>
+                <th>Tanggal Produksi</th>
+                <th>Jumlah</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Static Data List -->
+              <tr>
+                    <td class="text-center">1</td>
+                    <td>PROD001</td>
+                    <td>Kopi Hitam</td>
+                    <td>2025-06-01</td>
+                    <td>100</td>
+                    <td class="text-center">
+                    <span class="badge bg-success">Selesai</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">2</td>
+                    <td>PROD002</td>
+                    <td>Latte</td>
+                    <td>2025-06-02</td>
+                    <td>80</td>
+                    <td class="text-center">
+                    <span class="badge bg-warning text-dark">Proses</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">3</td>
+                    <td>PROD003</td>
+                    <td>Cappuccino</td>
+                    <td>2025-06-03</td>
+                    <td>120</td>
+                    <td class="text-center">
+                    <span class="badge bg-success">Selesai</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">4</td>
+                    <td>PROD004</td>
+                    <td>Espresso</td>
+                    <td>2025-06-04</td>
+                    <td>90</td>
+                    <td class="text-center">
+                    <span class="badge bg-danger">Batal</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">5</td>
+                    <td>PROD005</td>
+                    <td>Mocha</td>
+                    <td>2025-06-05</td>
+                    <td>110</td>
+                    <td class="text-center">
+                    <span class="badge bg-success">Selesai</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">6</td>
+                    <td>PROD006</td>
+                    <td>Americano</td>
+                    <td>2025-06-06</td>
+                    <td>95</td>
+                    <td class="text-center">
+                    <span class="badge bg-warning text-dark">Proses</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">7</td>
+                    <td>PROD007</td>
+                    <td>Flat White</td>
+                    <td>2025-06-07</td>
+                    <td>85</td>
+                    <td class="text-center">
+                    <span class="badge bg-success">Selesai</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">8</td>
+                    <td>PROD008</td>
+                    <td>Macchiato</td>
+                    <td>2025-06-08</td>
+                    <td>75</td>
+                    <td class="text-center">
+                    <span class="badge bg-warning text-dark">Proses</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">9</td>
+                    <td>PROD009</td>
+                    <td>Chai Latte</td>
+                    <td>2025-06-09</td>
+                    <td>130</td>
+                    <td class="text-center">
+                    <span class="badge bg-success">Selesai</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">10</td>
+                    <td>PROD010</td>
+                    <td>Ice Coffee</td>
+                    <td>2025-06-10</td>
+                    <td>140</td>
+                    <td class="text-center">
+                    <span class="badge bg-success">Selesai</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+              <!-- End Static Data List -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Info -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div>Showing 1 to 3 of 3 entries</div>
+          <nav>
+            <ul class="pagination">
+              <li class="page-item disabled">
+                <a class="page-link" href="#">Previous</a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+              </li>
+              <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Custom CSS -->
+<style>
+.custom-btn {
+  padding: 3px 8px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+</style>
+
+
+<!--begin::Footer-->
+<footer class="app-footer">
         <!--begin::To the end-->
         <div class="float-end d-none d-sm-inline">Anything you want</div>
         <!--end::To the end-->
@@ -464,6 +622,19 @@
     <!--end::App Wrapper-->
 
     <!--begin::Script-->
+
+    <!-- Bootstrap JS & Modal Dependencies (jika belum ada) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function confirmDelete(supplierId) {
+        if (confirm("Apakah Anda yakin ingin menghapus supplier " + supplierId + "?")) {
+          // Lakukan penghapusan data di sini, misalnya:
+          alert("Supplier " + supplierId + " dihapus (simulasi).");
+          // Atau bisa arahkan ke endpoint penghapusan:
+          // window.location.href = '/delete-supplier?id=' + supplierId;
+        }
+      }
+    </script>
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"

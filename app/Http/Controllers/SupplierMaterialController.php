@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SupplierMaterial;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SupplierMaterialController extends Controller
 {
@@ -48,5 +49,20 @@ class SupplierMaterialController extends Controller
             return redirect()->back()->with('success', 'Data supplier material berhasil diperbarui!');
         }
         return redirect()->back()->with('error', 'Gagal memperbarui data supplier material!');
+    }
+
+    #cetak pdf
+    public function cetakPDF($supplier_id)
+    {
+        $materials = SupplierMaterial::where('supplier_id', $supplier_id)->get();
+
+        if ($materials->isEmpty()) {
+            return redirect()->back()->with('error', 'Data supplier tidak ditemukan.');
+        }
+
+        $supplierName = $materials->first()->company_name;
+
+        $pdf = Pdf::loadView('supplier.material.pdf', compact('materials', 'supplierName', 'supplier_id'));
+        return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
 }

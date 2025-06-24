@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Dashboard</title>
+    <title>ERP RPL UAD | Filled Form Supplier</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -174,7 +173,8 @@
                   <!--end::Message-->
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a></div>
+                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+              </div>
             </li>
             <!--end::Messages Dropdown Menu-->
             <!--begin::Notifications Dropdown Menu-->
@@ -288,170 +288,149 @@
           <nav class="mt-2">
             <!--begin::Sidebar Menu-->
             <ul
-            class="nav sidebar-menu flex-column"
-            data-lte-toggle="treeview"
-            role="menu"
-            data-accordion="false">
-            <li class="nav-item">
-                <a href="{{ route('dashboard') }}" class="nav-link active">
-                    <i class="nav-icon bi bi-speedometer"></i>
-                    <p>
-                        Dashboard
-                    </p>
+              class="nav sidebar-menu flex-column"
+              data-lte-toggle="treeview"
+              role="menu"
+              data-accordion="false"
+            >
+              <li class="nav-item">
+                <a href="dashboard" class="nav-link active">
+                  <i class="nav-icon bi bi-speedometer"></i>
+                  <p>
+                    Dashboard
+                  </p>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('product.list') }}" class="nav-link">
-                    <i class="nav-icon bi bi-box-seam-fill"></i>
-                    <p>
-                        Produk
-                    </p>
+              </li>
+              <li class="nav-item">
+                <a href="./generate/theme.html" class="nav-link">
+                  <i class="nav-icon bi bi-box-seam-fill"></i>
+                  <p>Produk</p>
                 </a>
-            </li>
-            <li class="nav-item">
+              </li>
+              <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon bi bi-person-circle"></i>
-                    <p>
-                        Supplier
-                        <i class="nav-arrow bi bi-chevron-right"></i>
-                    </p>
+                  <i class="nav-icon bi bi-person-circle"></i>
+                  <p>
+                    Supplier
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="./widgets/small-box.html" class="nav-link">
-                            <i class="nav-icon bi bi-circle"></i>
-                            <p>Small Box</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/supplier/pic/add" class="nav-link">
-                            <i class="nav-icon bi bi-circle"></i>
-                            <p>Tambah PIC supplier</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/supplier/material/add" class="nav-link">
-                            <i class="nav-icon bi bi-circle"></i>
-                            <p>Tambah Supplier Item</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/supplier/material/list" class="nav-link">
-                            <i class="nav-icon bi bi-circle"></i>
-                            <p>Supplier Material</p>
-                        </a>
-                    </li>
+                  <li class="nav-item">
+                    <a href="./widgets/small-box.html" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Small Box</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/supplier/pic/add" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Tambah PIC supplier</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="./widgets/cards.html" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Cards</p>
+                    </a>
+                  </li>
                 </ul>
-            </li>
-            <li class="nav-item">
+              </li>
+              <li class="nav-item">
                 <a href="{{ route('purchase.orders') }}" class="nav-link">
-                    <i class="nav-icon bi bi-clipboard-fill"></i>
-                    <p>
-                        Purchase Orders
-                    </p>
-                </a>                
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('item.list') }}" class="nav-link">
-                    <i class="nav-icon bi bi-circle"></i>
-                    <p>
-                        Item
-                    </p>
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Purchase Orders
+                  </p>
                 </a>
-            </li>
-        </ul>
-        <!--end::Sidebar Menu-->
-    </nav>
-</div>
-<!--end::Sidebar Wrapper-->
-</aside>
+              </li>
+            </ul>
+            <!--end::Sidebar Menu-->
+          </nav>
+        </div>
+        <!--end::Sidebar Wrapper-->
+      </aside>
       <!--end::Sidebar-->
       <!--begin::App Main-->
       <main class="app-main">
         <!--begin::App Content Header-->
         <div class="app-content-header">
-            <!--begin::Container-->
-            <div class="container-fluid">
-                <!--begin::Row-->
-                <div class="row align-items-center">
-                    <div class="col-sm-6 d-flex align-items-center">
-                        <h3 class="mb-0 me-2">Supplier Material</h3>
-                        <a href="/supplier/material/add" class="btn btn-primary btn-sm">Tambah</a>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Supplier Material</li>
-                        </ol>
-                    </div>
-                </div>
-                <!--end::Row-->
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+              <div class="col-sm-6"><h3 class="mb-0">Filled Form Supplier</h3></div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Edit Supplier</li>
+                </ol>
+              </div>
             </div>
-            <!--end::Container-->
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
         </div>
-        
-        <div class="card mb-4">
-            <div class="card-header"><h3 class="card-title">List Table</h3></div>
-            <!-- /.card-header -->
-             <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th style="width: 10px">id</th>
-                            <th>supplier_id</th>
-                            <th>company_name</th>
-                            <th>product_id</th>
-                            <th>product_name</th>
-                            <th>base_price</th>
-                            <th>Created_at</th>
-                            <th>Updated_at </th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($materials as $index => $material)
-                        <tr class="align-middle">
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $material->supplier_id }}</td>
-                            <td>{{ $material->company_name }}</td>
-                            <td>{{ $material->product_id }}</td>
-                            <td>{{ $material->product_name }}</td>
-                            <td>{{ $material->base_price }}</td>
-                            <td>{{ $material->created_at }}</td>
-                            <td>{{ $material->updated_at }}</td>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+                <div class="container">
+                <!-- Filled Form Supplier -->
+                 @if(session('success'))
+        <div class="alert alert-success">
+          {{ session('success') }}
+        </div>
+      @endif
 
-                            <td>
-                                <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                                <a href="/supplier/material/detail/" class="btn btn-sm btn-info">Detail</a>
-                            </td>
+      @if(isset($error))
+        <div class="alert alert-danger">
+            {{ $error }}
+        </div>
+      @endif
+      @if($sup)
+        <form method="POST" action="{{ route('supplier.updateSupplier', $sup->supplier_id) }}">
+            @csrf
+            @method('PUT')
 
-                            <td>
-                                <a href="{{ url('/supplier/' . $material->supplier_id . '/cetak-pdf') }}" 
-                                  class="btn btn-danger btn-sm" 
-                                  target="_blank">
-                                    Cetak PDF
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="mb-3">
+                <label class="form-label">ID Supplier</label>
+                <input type="text" class="form-control" value="{{ $sup->supplier_id }}" disabled>
+                <input type="hidden" name="supplier_id" value="{{ $sup->supplier_id }}">
             </div>
-            <!-- /.card-body -->
-             <div class="card-footer clearfix">
-                {{ $materials->links('pagination::bootstrap-4') }}
+
+            <div class="mb-3">
+                <label class="form-label">Nama Perusahaan</label>
+                <input type="text" name="company_name" class="form-control" value="{{ old('company_name', $sup->company_name) }}" required>
             </div>
-        </div> 
-    </main>
-    <!--end::App Main-->
-      <!--begin::Footer-->
+
+            <div class="mb-3">
+                <label class="form-label">Alamat</label>
+                <input type="text" name="address" class="form-control" value="{{ old('address', $sup->address) }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">No. Telepon</label>
+                <input type="text" name="phone_number" class="form-control" value="{{ old('phone_number', $sup->phone_number) }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Bank Account</label>
+                <input type="text" name="bank_account" class="form-control" value="{{ old('bank_account', $sup->bank_account) }}" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="{{ url()->current() }}" class="btn btn-secondary">Batal</a>
+        </form>
+      @endif
+          </div>
+        </div>
+      </main>
       <footer class="app-footer">
-        <!--begin::To the end-->
         <div class="float-end d-none d-sm-inline">Anything you want</div>
-        <!--end::To the end-->
-        <!--begin::Copyright-->
         <strong>
           Copyright &copy; 2014-2024&nbsp;
           <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
@@ -461,10 +440,6 @@
       </footer>
       <!--end::Footer-->
     </div>
-    <!--end::App Wrapper-->
-
-    <!--begin::Script-->
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
       integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ="
@@ -522,7 +497,6 @@
           handle: '.card-header',
         });
       });
-
       const cardHeaders = document.querySelectorAll('.connectedSortable .card-header');
       cardHeaders.forEach((cardHeader) => {
         cardHeader.style.cursor = 'move';
@@ -539,7 +513,6 @@
       // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
       // IT'S ALL JUST JUNK FOR DEMO
       // ++++++++++++++++++++++++++++++++++++++++++
-
       const sales_chart_options = {
         series: [
           {
@@ -586,7 +559,6 @@
           },
         },
       };
-
       const sales_chart = new ApexCharts(
         document.querySelector('#revenue-chart'),
         sales_chart_options,
@@ -604,120 +576,10 @@
       integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY="
       crossorigin="anonymous"
     ></script>
-    <!-- jsvectormap -->
-    <script>
-      const visitorsData = {
-        US: 398, // USA
-        SA: 400, // Saudi Arabia
-        CA: 1000, // Canada
-        DE: 500, // Germany
-        FR: 760, // France
-        CN: 300, // China
-        AU: 700, // Australia
-        BR: 600, // Brazil
-        IN: 800, // India
-        GB: 320, // Great Britain
-        RU: 3000, // Russia
-      };
-
-      // World map by jsVectorMap
-      const map = new jsVectorMap({
-        selector: '#world-map',
-        map: 'world',
-      });
-
-      // Sparkline charts
-      const option_sparkline1 = {
-        series: [
-          {
-            data: [1000, 1200, 920, 927, 931, 1027, 819, 930, 1021],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline1 = new ApexCharts(document.querySelector('#sparkline-1'), option_sparkline1);
-      sparkline1.render();
-
-      const option_sparkline2 = {
-        series: [
-          {
-            data: [515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline2 = new ApexCharts(document.querySelector('#sparkline-2'), option_sparkline2);
-      sparkline2.render();
-
-      const option_sparkline3 = {
-        series: [
-          {
-            data: [15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
-      sparkline3.render();
-    </script>
-
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <!-- AdminLTE JS -->
-    <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
-
+    <script src={{ asset("assets/dist/js/adminlte.js")}}></script>
     <!-- Custom Sidebar Toggle Script -->
     <script>
     $(document).ready(function () {
@@ -727,8 +589,7 @@
         });
     });
     </script>
-
-    <!--end::Script-->
+  </script>
+    </script>
   </body>
-  <!--end::Body-->
 </html>
