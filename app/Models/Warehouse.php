@@ -57,6 +57,6 @@ class Warehouse extends Model
     }
      public static function getWarehouseAll()
     {
-        return self::orderBy('created_at', 'asc')->paginate(10);
+        return self::orderBy('created_at', 'asc')->paginate(15);
     }
 }
