@@ -52,4 +52,5 @@ class SupplierMaterial extends Model
             ->orWhere('product_name', 'like', '%' . $keyword . '%')
             ->count();
     }
+    protected $table = 'supplier_product';
 }
