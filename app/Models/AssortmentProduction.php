@@ -44,4 +44,38 @@ class AssortmentProduction extends Model
     {
         return self::query()->from('assortment_production')->get();
     }
+
+    public static function deleteProduction($production_number)
+    {
+        $production = self::where('production_number', $production_number)->first();
+
+        if (!$production) {
+            return response()->json(['message' => 'Production not found'], 404);
+        }
+
+        if ($production->in_production != 0) {
+            return response()->json(['message' => 'Cannot delete production that is in progress'], 403);
+        }
+
+        $production->delete();
+
+        return response()->json(['message' => 'Production deleted successfully']);
+    }
+
+
+    public static function addProduction($data)
+    {
+        return self::create($data);
+    }
+
+    public static function updateProduction($id, array $data)
+    {
+        $production = self::find($id);
+        if (!$production) {
+            return null;
+        }
+
+        $production->update($data);
+        return $production;
+    }
 }

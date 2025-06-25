@@ -1,46 +1,80 @@
 <?php
 
 namespace Tests\Feature;
-use Tests\TestCase;
 
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Database\Eloquent\Model;
-use App\Traits\HasDynamicColumns;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\DB;
-use Faker\Factory as Faker; // Import Library Faker untuk menghasilkan data acak
+use Faker\Factory as Faker;
+use App\Models\BillOfMaterial;
 
-class BillOfMaterialControllerTest  extends TestCase
+class BillOfMaterialControllerTest extends TestCase
 {
+    use WithoutMiddleware; // Agar bisa bypass middleware seperti auth
+    use RefreshDatabase, WithFaker;
+
+    /** @test */
     public function test_update_bill_of_material(): void
     {
-            $faker = \Faker\Factory::create(); // Inisialisasi Faker
+        $faker = Faker::create();
 
-            // Ambil salah satu data Bill of Material secara acak dari database
-            $bom = \App\Models\BillOfMaterial::inRandomOrder()->first();
+        // Insert data dummy untuk diupdate
+        $bom = BillOfMaterial::create([
+            'bom_name' => 'OldName-' . $faker->unique()->word,
+            'measurement_unit' => 'pcs',
+            'total_cost' => 5000,
+            'active' => true,
+        ]);
 
-            // Dump jika Anda ingin melihat isi data yang dipilih
-            dump($bom);
+        // Data update
+        $updatedData = [
+            'bom_name' => $faker->unique()->word,
+            'measurement_unit' => $faker->randomElement(['kg', 'meter', 'liter', 'pcs']),
+            'total_cost' => $faker->randomFloat(2, 100, 10000),
+            'active' => $faker->boolean,
+        ];
 
-            // Siapkan data baru untuk update
-            $updatedData = [
-                'bom_name' => $faker->unique()->word,
-                'measurement_unit' => $faker->randomElement(['kg', 'meter', 'liter', 'pcs']),
-                'total_cost' => $faker->randomFloat(2, 100, 10000),
-                'active' => $faker->boolean,
-            ];
+        $response = $this->post('/billofmaterial/update/' . $bom->bom_id, $updatedData);
+        $response->assertStatus(302); // Redirect sukses
 
-            $response = $this->post('/billofmaterial/update/' . $bom->bom_id, $updatedData);
-            $response->assertStatus(302);
-
-            // Cek apakah data di database sudah berubah
-            $this->assertDatabaseHas('bill_of_materials', [
-                'bom_id' => $bom->bom_id,
-                'bom_name' => $updatedData['bom_name'],
-                'measurement_unit' => $updatedData['measurement_unit'],
-                'total_cost' => $updatedData['total_cost'],
-                'active' => $updatedData['active'],
-            ]);
+        $this->assertDatabaseHas('bill_of_materials', [
+            'bom_id' => $bom->bom_id,
+            'bom_name' => $updatedData['bom_name'],
+            'measurement_unit' => $updatedData['measurement_unit'],
+            'total_cost' => $updatedData['total_cost'],
+            'active' => $updatedData['active'],
+        ]);
     }
 
+    /** @test */
+    public function it_deletes_bill_of_material_by_id()
+    {
+        // Insert data dummy
+        $bom = BillOfMaterial::create([
+            'bom_name' => 'BOM-999',
+            'measurement_unit' => 'kg',
+            'total_cost' => 9999,
+            'active' => true,
+        ]);
+
+        $response = $this->delete('/bill-of-material/' . $bom->bom_id);
+
+        $response->assertStatus(200)
+                 ->assertJson(['message' => 'Bill of Material deleted successfully.']);
+
+        $this->assertDatabaseMissing('bill_of_materials', ['bom_id' => $bom->bom_id]);
+    }
+
+    /** @test */
+    public function it_returns_404_if_bill_of_material_not_found()
+    {
+        $nonExistentId = 999999;
+
+        $response = $this->delete('/bill-of-material/' . $nonExistentId);
+
+        $response->assertStatus(404)
+                 ->assertJson(['message' => 'Bill of Material not found.']);
+    }
 }

@@ -262,10 +262,8 @@
                       <h4>{{ $purchaseOrder->first()->status }}</h4>
                       <h6>Last Updated Status</h6>
                       @php
-                        $poLength = App\Http\Controllers\PurchaseOrderController::getPOLength(
-                          $purchaseOrder[0]->po_number, 
-                          $purchaseOrder[0]->order_date
-                        );
+                        $poLength = app()->make('App\Http\Controllers\PurchaseOrderController')
+                                         ->getPOLength($purchaseOrder[0]->po_number, $purchaseOrder[0]->order_date);
                       @endphp
                       <h4>{{ $poLength }} Days</h4>
                       <h6>Order Date</h6>
