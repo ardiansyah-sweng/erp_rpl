@@ -16,7 +16,7 @@
     </style>
 </head>
 <body>
-    <h2>Laporan Data Cabang</h2>
+    <h2>Laporan Data Gudang</h2>
     <table>
         <thead>
             <tr>
