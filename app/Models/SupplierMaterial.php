@@ -71,6 +71,4 @@ class SupplierMaterial extends Model
         ]);
     }
 
-    protected $table = 'supplier_product';
-
 }
