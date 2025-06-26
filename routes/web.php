@@ -14,7 +14,7 @@ use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
-
+use App\Http\Controllers\BillOfMaterialController;
 
 #Login
 Route::get('/', function () {
@@ -157,7 +157,8 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
 #Category
-Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
+Route::get('/category/edit/{id}', [CategoryController::class, 'updateCategoryById'])->name('category.edit');
+Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.update');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
 
@@ -171,6 +172,7 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
 Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
+Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
 
 
 #production
@@ -185,3 +187,16 @@ Route::get('/bom/list', function () {
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
+Route::put('/assortment_production/update/{id}', [AssortProductionController::class, 'updateProduction'])->name('assortment_production.update');
+Route::get('/assortment_production/detail/{po_number}', [AssortProductionController::class, 'getProductionDetail']);
+
+
+#Cetak PDF seluruh item/material yang dipasok oleh supplier tertentu
+Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::class, 'cetakPDF']);
+
+Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
+
+
+#BillOfMaterial
+Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
+
