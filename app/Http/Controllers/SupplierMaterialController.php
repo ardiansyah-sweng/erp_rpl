@@ -64,4 +64,14 @@ class SupplierMaterialController extends Controller
         $pdf = Pdf::loadView('supplier.material.pdf', compact('materials', 'supplierName', 'supplier_id'));
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
+
+    public function searchSupplierMaterial(Request $request)
+    {
+        $keyword = $request->input('keyword');
+ 
+        $model = new SupplierMaterial();
+        $materials = $model->getSupplierMaterialByKeyword($keyword);
+ 
+        return view('supplier.material.list', ['materials' => $materials, 'keyword' => $keyword]);
+    }
 }
