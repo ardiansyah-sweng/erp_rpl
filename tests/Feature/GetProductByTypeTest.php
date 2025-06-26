@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
+use App\Models\Product;
 
 class GetProductByTypeTest extends TestCase
 {
@@ -13,72 +13,42 @@ class GetProductByTypeTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        DB::table('products')->insert([
-            [
-                'product_id' => 'P001',
-                'product_name' => 'Test FG',
-                'product_type' => 'FG',
-                'product_category' => 1,
-                'product_description' => 'Description FG',
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'product_id' => 'P002',
-                'product_name' => 'Test RM',
-                'product_type' => 'RM',
-                'product_category' => 2,
-                'product_description' => 'Description RM',
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'product_id' => 'P003',
-                'product_name' => 'Test HFG',
-                'product_type' => 'HFG',
-                'product_category' => 3,
-                'product_description' => 'Description HFG',
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-        ]);
+        $this->artisan('db:seed');
     }
 
     public function test_get_product_by_type_fg_returns_data()
     {
-        $response = $this->get('/products/type/FG');
+        $product = Product::where('product_type', 'FG')->first();
+        $this->assertNotNull($product, 'Produk dengan tipe FG tidak ditemukan');
 
+        $response = $this->get('/products/type/FG');
         $response->assertStatus(200);
-        $response->assertJsonFragment([
-            'product_type' => 'FG',
-        ]);
+        $response->assertJsonFragment(['product_type' => 'FG']);
     }
 
     public function test_get_product_by_type_rm_returns_data()
     {
-        $response = $this->get('/products/type/RM');
+        $product = Product::where('product_type', 'RM')->first();
+        $this->assertNotNull($product, 'Produk dengan tipe RM tidak ditemukan');
 
+        $response = $this->get('/products/type/RM');
         $response->assertStatus(200);
-        $response->assertJsonFragment([
-            'product_type' => 'RM',
-        ]);
+        $response->assertJsonFragment(['product_type' => 'RM']);
     }
 
     public function test_get_product_by_type_hfg_returns_data()
     {
-        $response = $this->get('/products/type/HFG');
+        $product = Product::where('product_type', 'HFG')->first();
+        $this->assertNotNull($product, 'Produk dengan tipe HFG tidak ditemukan');
 
+        $response = $this->get('/products/type/HFG');
         $response->assertStatus(200);
-        $response->assertJsonFragment([
-            'product_type' => 'HFG',
-        ]);
+        $response->assertJsonFragment(['product_type' => 'HFG']);
     }
 
     public function test_get_product_by_invalid_type_returns_404()
     {
         $response = $this->get('/products/type/XYZ');
-
         $response->assertStatus(404);
         $response->assertJson([
             'message' => 'Tidak ditemukan produk dengan tipe tersebut: XYZ',
