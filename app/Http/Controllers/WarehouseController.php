@@ -50,4 +50,10 @@ class WarehouseController extends Controller
             return redirect()->back()->with('error', 'Warehouse tidak ditemukan atau gagal dihapus.');
         }
     }
+    public function getWarehouseAll()
+    {
+        $warehouses = Warehouse::getWarehouseAll();
+
+        return response()->json($warehouses);
+    }
 }
