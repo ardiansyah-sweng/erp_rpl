@@ -62,9 +62,20 @@ class CategoryController extends Controller
 
     public function getCategoryById($id)
     {
-        $category = (new Category())->getCategoryById($id);
+        $category = Category::with('parent:id,category')->find($id);
+
+        if (!$category) {
+         return response()->json(['message' => 'Category not found'], 404);
+        }
+        $category->parent_id = optional($category->parent)->category ?? 'Tanpa Induk';
+        unset($category->parent);
+
         return response()->json($category);
-    }
+        //return view('category.detail', compact('category'));
+        //apabila halaman detail kategori sudah ada harap untuk di uncomment return view
+        //dan return response nya di hapus
+    } 
+
 
     // delete category
     public function deleteCategory($id)
