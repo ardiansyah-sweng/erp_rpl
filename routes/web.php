@@ -188,7 +188,17 @@ Route::get('/bom/list', function () {
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
 Route::put('/assortment_production/update/{id}', [AssortProductionController::class, 'updateProduction'])->name('assortment_production.update');
-Route::get('/assortment_production/detail/{po_number}', [AssortProductionController::class, 'getProductionDetail']);
+Route::get('/assortment_production/detail/{po_number}', function($po_number) {
+    $response = app()->make(AssortProductionController::class)->getProductionDetail($po_number);
+    $data = json_decode($response->getContent(), true);
+    
+    if (isset($data['header'])) {
+        $production = (object) $data['header'];
+        return view('assortment_production.detail', compact('production'));
+    } else {
+        return view('assortment_production.detail', ['production' => null]);
+    }
+});
 
 
 #Cetak PDF seluruh item/material yang dipasok oleh supplier tertentu

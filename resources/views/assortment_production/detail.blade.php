@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>ERP RPL UAD | Detail Cabang</title>
+  <title>ERP RPL UAD | Detail Produksi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="title" content="AdminLTE v4 | Dashboard" />
   <meta name="author" content="ColorlibHQ" />
@@ -192,7 +192,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Detail Cabang</h1>
+                <h1>Detail Produksi</h1>
               </div>
             </div>
           </div>
@@ -202,35 +202,58 @@
           <div class="container-fluid">
             <div class="card">
               <div class="card-header bg-primary text-white">
-                Informasi From Assortmen Production
+                <h4 class="mb-0">Informasi Detail Produksi</h4>
               </div>
               <div class="card-body">
-                <table class="table table-bordered">
+                @if(isset($production))
+                <table class="table table-bordered table-striped">
                   <tr>
-                    <th style="width: 30%">Production Number</th>
-                    <td>{{ $assortment->production_number ?? 'PROD-001' }}</td>
+                    <th style="width: 30%">ID</th>
+                    <td>{{ $production->id ?? 'N/A' }}</td>
                   </tr>
                   <tr>
-                    <th>BOM ID</th>
-                    <td>{{ $assortment->bom_id ?? 'BOM-018' }}</td>
+                    <th>Production Number</th>
+                    <td>{{ $production->production_number ?? 'N/A' }}</td>
                   </tr>
                   <tr>
-                    <th>BOM Quantity</th>
-                    <td>{{ $assortment->bom_quantity ?? '55' }}</td>
+                    <th>SKU</th>
+                    <td>{{ $production->sku ?? 'N/A' }}</td>
+                  </tr>
+                  <tr>
+                    <th>Branch ID</th>
+                    <td>{{ $production->branch_id ?? 'N/A' }}</td>
+                  </tr>
+                  <tr>
+                    <th>Production Date</th>
+                    <td>{{ $production->production_date ?? 'N/A' }}</td>
+                  </tr>
+                  <tr>
+                    <th>Finished Date</th>
+                    <td>{{ $production->finished_date ?? 'N/A' }}</td>
+                  </tr>
+                  <tr>
+                    <th>In Production</th>
+                    <td>{{ isset($production->in_production) ? ($production->in_production ? 'Yes' : 'No') : 'N/A' }}</td>
                   </tr>
                   <tr>
                     <th>Description</th>
-                    <td>{{ $assortment->description ?? 'Produksi Detail untuk BOM BOM-018' }}</td>
+                    <td>{{ $production->description ?? 'N/A' }}</td>
                   </tr>
                   <tr>
                     <th>Created At</th>
-                    <td>{{ $assortment->created_at ?? '2025-06-12 07:45:26' }}</td>
+                    <td>{{ $production->created_at ?? 'N/A' }}</td>
                   </tr>
                   <tr>
                     <th>Updated At</th>
-                    <td>{{ $assortment->updated_at ?? '2025-06-12 07:45:26' }}</td>
+                    <td>{{ $production->updated_at ?? 'N/A' }}</td>
                   </tr>
                 </table>
+                @else
+                <div class="alert alert-warning">
+                  <strong>Data tidak ditemukan!</strong>
+                  <p>Detail produksi dengan nomor yang diminta tidak dapat ditemukan.</p>
+                </div>
+                @endif
               </div>
             </div>
           </div>
