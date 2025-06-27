@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class BillOfMaterialModel extends Model
 {
     protected $table = 'bill_of_material';
+    protected $fillable = [
+        'bom_id',
+        'bom_name',
+        'measurement_unit',
+        'total_cost',
+        'active',
+    ];
 
     public static function SearchOfBillMaterial($keywords = null)
     {
@@ -23,6 +30,40 @@ class BillOfMaterialModel extends Model
         }
 
         return $query->orderBy('created_at', 'asc')->paginate(10);
+    }
+    
+      /**
+     * Fungsi hapus BOM berdasarkan ID.
+     */
+    public static function deleteBillOfMaterial($id)
+    {
+        $bom = self::find($id);
+        return $bom ? $bom->delete() : false;
+    }
+
+    /**
+     * Fungsi tambah BOM baru.
+     */
+    public static function createBOM($data)
+    {
+        return self::create($data);
+    }
+
+    /**
+     * Fungsi update BOM.
+     */
+    public static function updateBOM($id, $data)
+    {
+        $bom = self::find($id);
+        return $bom ? $bom->update($data) : false;
+    }
+
+    /**
+     * Fungsi ambil data berdasarkan ID.
+     */
+    public static function getById($id)
+    {
+        return self::find($id);
     }
 
 }
