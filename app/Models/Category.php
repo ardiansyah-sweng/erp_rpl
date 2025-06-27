@@ -74,7 +74,15 @@ class Category extends Model
             });
     }
     
-    public static function updateCategory($category_id, array $data) 
+    // dapatkanKategoriBerdasarkanInduk
+    public static function getCategoryByParent($id)
+    {
+         return self::where('parent_id', $id)->get();
+    }
+    
+
+
+    public static function updateCategory($category_id, array $data)
     {
         $category = self::find($category_id);
         if (!$category) {
