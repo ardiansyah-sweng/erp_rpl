@@ -74,8 +74,8 @@ class Category extends Model
             });
     }
     
-    // dapatkanKategoriBerdasarkan
-    // dapatkan produk dari category id
+
+    // dapatkan produk dari category id.
     public static function getCategoryByParent($id)
     {
          return self::where('parent_id', $id)->get();
