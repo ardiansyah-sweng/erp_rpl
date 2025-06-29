@@ -200,3 +200,8 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
 
+#cetak pdf item
+Route::get('/items/report', function () {
+    $items = App\Models\Item::all(); // ambil data dari model
+    return view('item.report', compact('items'));
+})->name('item.report');
