@@ -50,4 +50,13 @@ class WarehouseController extends Controller
             return redirect()->back()->with('error', 'Warehouse tidak ditemukan atau gagal dihapus.');
         }
     }
+ public function getWarehouseAll()
+    {
+        // Memanggil metode static getWarehouseAll() dari Warehouse Model
+        $warehouses = Warehouse::getWarehouseAll(); // Ini adalah baris pentingnya
+
+        // Mengembalikan data sebagai JSON
+        return response()->json($warehouses);
+    }
+
 }
