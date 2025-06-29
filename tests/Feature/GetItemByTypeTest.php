@@ -3,77 +3,35 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Models\Product;
-use App\Enums\ProductType; // pastikan enum yang digunakan
+use App\Models\Item;
 
 class GetItemByTypeTest extends TestCase
 {
-    use DatabaseTransactions;
+    // JANGAN pakai use RefreshDatabase; jika tidak mau reset isi tabel!
 
-    protected function setUp(): void
+    public function test_can_get_items_by_valid_product_type()
     {
-        parent::setUp();
+        // PASTIKAN ini product_id dan product_type sudah ADA di tabel products
+        $product_id   = 'P001';  // contoh product_id yang sudah ada
+        $product_type = 'RM';    // tipe produk sesuai product_id di atas
 
-        Route::get('api/items', function () {
-            $type = request()->query('type');
-            $items = DB::table('items')
-                ->join('products', 'items.product_id', '=', 'products.id')
-                ->where('products.product_type', $type)
-                ->select('items.*', 'products.product_type')
-                ->get();
-
-            return response()->json(['data' => $items]);
-        });
-    }
-
-    /**
-     * @test
-     * @dataProvider productTypeProvider
-     */
-    public function it_gets_items_by_any_product_type(string $type)
-    {
-        // 1. Buat produk menggunakan enum valid
-        $product = Product::factory()->create([
-            'product_type' => $type
-        ]);
-        $this->assertDatabaseHas('products', [
-            'id'           => $product->id,
-            'product_type' => $type,
+        // Insert ke tabel item
+        $item = Item::create([
+            'product_id'       => $product_id,
+            'sku'              => 'SKU001',
+            'item_name'        => 'Barang Uji',
+            'measurement_unit' => 1,
+            'avg_base_price'   => 0,
+            'selling_price'    => 0,
+            'purchase_unit'    => 0,
+            'sell_unit'        => 0,
+            'stock_unit'       => 0,
         ]);
 
-        // 2. Tambahkan 2 item dummy
-        $itemId1 = DB::table('items')->insertGetId([
-            'product_id' => $product->id, 'name' => 'Item 1', 'qty' => 5,
-            'created_at' => now(), 'updated_at' => now(),
-        ]);
-        $itemId2 = DB::table('items')->insertGetId([
-            'product_id' => $product->id, 'name' => 'Item 2', 'qty' => 8,
-            'created_at' => now(), 'updated_at' => now(),
-        ]);
-
-        // 3. Panggil endpoint dengan parameter dynamic
-        $response = $this->getJson("api/items?type=$type");
-
-        // 4. Verifikasi respon JSON sesuai
-        $response->assertOk()
-                 ->assertJsonCount(2, 'data')
-                 ->assertJsonFragment(['id' => $itemId1])
-                 ->assertJsonFragment(['id' => $itemId2]);
-
-        foreach ($response->json('data') as $item) {
-            $this->assertEquals($type, $item['product_type']);
-        }
-    }
-
-    public static function productTypeProvider(): array
-    {
-        // Ambil semua nilai valid dari enum sebagai string
-        return array_map(
-            fn(ProductType $enum) => [$enum->value],
-            ProductType::cases()
-        );
+        // Test endpoint
+        $response = $this->get('/items/type/' . $product_type);
+        $response->assertStatus(200);
+        $response->assertJsonFragment(['item_name' => $item->item_name]);
+        $response->assertJsonFragment(['product_type' => $product_type]);
     }
 }

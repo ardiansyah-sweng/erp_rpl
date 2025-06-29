@@ -90,17 +90,10 @@ class ItemController extends Controller
         $item = (new item())->getItemById($id);
         return response()->json($item);
     }
+
     public function getItemByType($productType)
     {
-        $enumType = \App\Enums\ProductType::tryFrom($productType);
-        if (!$enumType) {
-            abort(404, 'Product Type tidak valid');
-        }
-
-        $items = Item::getItemByType($enumType);
-        return view('item.by_type', compact('items', 'productType'));
+        $items = Item::getItemByType($productType);
+        return response()->json($items);
     }
-
-
-
 }
