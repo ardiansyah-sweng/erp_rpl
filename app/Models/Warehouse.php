@@ -22,4 +22,10 @@ class Warehouse extends Model
     {
         return self::where('id', $id)->first();
     }
+    public static function getWarehouseAll()
+    {
+        // Menggunakan Eloquent untuk mengambil semua data dari tabel warehouse
+        return self::all();
+    }
+
 }

@@ -19,4 +19,13 @@ class WarehouseController extends Controller
         return response()->json($warehouse);
 
     }
+ public function getWarehouseAll()
+    {
+        // Memanggil metode static getWarehouseAll() dari Warehouse Model
+        $warehouses = Warehouse::getWarehouseAll(); // Ini adalah baris pentingnya
+
+        // Mengembalikan data sebagai JSON
+        return response()->json($warehouses);
+    }
+
 }
