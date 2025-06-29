@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\MeasurementUnit;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ItemController extends Controller
 {
@@ -86,7 +87,20 @@ class ItemController extends Controller
   
 
     
-    public function getItemById($id){
+   public function exportAllToPdf()
+    {
+        $items = (new Item)->getItem();
+
+        if (empty($items) || count($items) === 0) {
+            return redirect()->back()->with('error', 'Tidak ada data yang tersedia untuk diekspor');
+        }
+
+        $pdf = Pdf::loadView('item.report', compact('items'));
+        return $pdf->download('laporan-item.pdf');
+    }
+
+    public function getItemById($id)
+    {
         $item = (new item())->getItemById($id);
         return view('item.detail', compact('item'));
     }
