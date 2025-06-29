@@ -34,4 +34,5 @@ class GetItemByTypeTest extends TestCase
         $response->assertJsonFragment(['item_name' => $item->item_name]);
         $response->assertJsonFragment(['product_type' => $product_type]);
     }
+    
 }

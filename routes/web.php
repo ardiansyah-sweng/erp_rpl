@@ -136,6 +136,7 @@ Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add'
 Route::get('/item/{id}', [itemController::class, 'getItemById']);
 Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']);
 
+
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');

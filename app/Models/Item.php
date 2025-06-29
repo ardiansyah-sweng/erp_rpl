@@ -112,5 +112,5 @@ class Item extends Model
             ->select('item.*', 'products.product_type', 'products.product_name')
             ->get();
     }
-
+    
 }

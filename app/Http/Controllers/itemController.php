@@ -96,4 +96,5 @@ class ItemController extends Controller
         $items = Item::getItemByType($productType);
         return response()->json($items);
     }
+    
 }
