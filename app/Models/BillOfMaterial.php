@@ -32,8 +32,13 @@ class BillOfMaterial extends Model
         return self::create($data);
     }
 
-    public static function getBillOfMaterial($id)
+    public static function getBillOfMaterialById($id)
     {
         return self::where('bom_id',$id)->get();
+    }
+
+    public static function getBillOfMaterial()
+    {
+        return self::orderBy('created_at', 'asc')->paginate(10);
     }
 }
