@@ -70,6 +70,18 @@ class CategoryController extends Controller
         return response()->json($category);
     }
 
+    //Search Category
+    public function searchCategory(Request $request)
+    {
+        $keyword = $request->input('q');
+
+        $category = Category::when($keyword, function ($query) use ($keyword) {
+            $query->where('category', 'like', '%' . $keyword . '%');
+        })->get();
+
+        return view('category.list', compact('category'));
+    }
+
     // delete category
     public function deleteCategory($id)
     {
