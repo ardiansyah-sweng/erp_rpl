@@ -62,4 +62,20 @@ class AssortmentProduction extends Model
         return response()->json(['message' => 'Production deleted successfully']);
     }
 
+
+    public static function addProduction($data)
+    {
+        return self::create($data);
+    }
+
+    public static function updateProduction($id, array $data)
+    {
+        $production = self::find($id);
+        if (!$production) {
+            return null;
+        }
+
+        $production->update($data);
+        return $production;
+    }
 }
