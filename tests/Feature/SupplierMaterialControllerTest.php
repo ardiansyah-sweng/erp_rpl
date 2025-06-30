@@ -37,7 +37,6 @@ class SupplierMaterialControllerTest extends TestCase
         // Pastikan struktur JSON-nya sesuai
         $response->assertJsonStructure([
             '*' => [
-=======
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\SupplierMaterial;
@@ -92,7 +91,6 @@ class SupplierMaterialControllerTest extends TestCase
                 'company_name',
                 'product_id',
                 'product_name',
- SupplierMaterialController-zidane
                 'base_price',
                 'product_type',
             ]
@@ -102,5 +100,4 @@ class SupplierMaterialControllerTest extends TestCase
                 'base_price'
             ]);
         }
- development
 }
