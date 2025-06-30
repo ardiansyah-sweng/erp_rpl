@@ -360,6 +360,14 @@
                 </p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{ url('/bill-of-material/add') }}" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>
+                  Bill Of Material
+                </p>
+              </a>
+            </li>
           </ul>
           <!--end::Sidebar Menu-->
         </nav>
