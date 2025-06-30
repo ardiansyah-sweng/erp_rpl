@@ -83,6 +83,6 @@ class CategoryController extends Controller
     {
         $categories = Category::where('parent_id', $id)->get();
         $pdf = Pdf::loadView('product.category.pdf', compact('categories', 'id'));
-        return $pdf->download('kategori_parent_' . $id . '.pdf');
+        return $pdf->stream('kategori_parent_' . $id . '.pdf');
     }
 }
