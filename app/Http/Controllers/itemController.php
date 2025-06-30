@@ -96,12 +96,6 @@ class ItemController extends Controller
         $pdf = Pdf::loadView('item.report', compact('items'));
         return $pdf->stream('laporan-item.pdf');
     }
-
-    public function reportView()
-    {
-        $items = Item::all(); // ambil data item
-        return view('item.report', compact('items'));
-    }
     
     public function getItemById($id){
         $item = (new item())->getItemById($id);
