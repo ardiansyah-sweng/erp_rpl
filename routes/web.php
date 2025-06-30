@@ -12,6 +12,7 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
+use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
@@ -198,7 +199,11 @@ Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::cla
 
 Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
 
+Route::get('/coba/material',[AssortProductionController::class,'getProduction'])->name('billOfMaterial.list');
+
+
 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
+
 
