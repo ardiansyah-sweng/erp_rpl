@@ -7,32 +7,23 @@ use App\Models\Item;
 
 class GetItemByTypeTest extends TestCase
 {
-    // JANGAN pakai use RefreshDatabase; jika tidak mau reset isi tabel!
-
     public function test_can_get_items_by_valid_product_type()
     {
-        // PASTIKAN ini product_id dan product_type sudah ADA di tabel products
-        $product_id   = 'P001';  // contoh product_id yang sudah ada
-        $product_type = 'RM';    // tipe produk sesuai product_id di atas
+        // Ambil satu data item yang sudah ada dan join ke products
+        $existingItem = Item::join('products', 'item.product_id', '=', 'products.product_id')
+            ->where('products.product_type', 'RM') // GANTI 'RM' sesuai product_type yang pasti ADA di tabelmu
+            ->select('item.*', 'products.product_type', 'products.product_name')
+            ->first();
 
-        // Insert ke tabel item
-        $item = Item::create([
-            'product_id'       => $product_id,
-            'sku'              => 'SKU001',
-            'item_name'        => 'Barang Uji',
-            'measurement_unit' => 1,
-            'avg_base_price'   => 0,
-            'selling_price'    => 0,
-            'purchase_unit'    => 0,
-            'sell_unit'        => 0,
-            'stock_unit'       => 0,
-        ]);
+        // Pastikan memang ada datanya (jangan sampai test berjalan dengan tabel kosong)
+        $this->assertNotNull($existingItem, 'Data item dengan product_type RM tidak ditemukan di database!');
 
-        // Test endpoint
-        $response = $this->get('/items/type/' . $product_type);
+        // Panggil endpoint
+        $response = $this->get('/items/type/' . $existingItem->product_type);
+
+        // Pastikan response OK dan hasilnya mengandung item yang diambil
         $response->assertStatus(200);
-        $response->assertJsonFragment(['item_name' => $item->item_name]);
-        $response->assertJsonFragment(['product_type' => $product_type]);
+        $response->assertJsonFragment(['item_name' => $existingItem->item_name]);
+        $response->assertJsonFragment(['product_type' => $existingItem->product_type]);
     }
-    
 }
