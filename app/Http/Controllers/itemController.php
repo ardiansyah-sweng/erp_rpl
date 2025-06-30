@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\MeasurementUnit;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 class ItemController extends Controller
 {
     public function getItemAll()
@@ -82,13 +82,25 @@ class ItemController extends Controller
         }
 
         return redirect()->back()->with('success', 'Item berhasil diperbarui.');
-    }
-  
-
-    
+    } 
     public function getItemById($id){
         $item = (new item())->getItemById($id);
         return view('item.detail', compact('item'));
+    }
+    public function printPDFByProductId($productId)
+    {
+        // TODO: ambil data item berdasarkan productId dari database
+        $items = []; // placeholder data
+
+        // TODO: jika data kosong, bisa tambahkan validasi di sini nanti
+
+        // Cetak PDF (view dan data akan diisi nanti)
+        return PDF::loadView('item.pdf_by_product', [
+                'items' => $items,
+                'productId' => $productId
+            ])
+            ->setPaper('A4', 'portrait')
+            ->download("daftar_item_product_{$productId}.pdf");
     }
 
     public function getItemByType($productType)
