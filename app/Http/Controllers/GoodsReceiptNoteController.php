@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\GoodsReceiptNote;
 
-
+//grn
 class GoodsReceiptNoteController extends Controller
 {
     public function updateGoodsReceiptNote(Request $request, $po_number)
