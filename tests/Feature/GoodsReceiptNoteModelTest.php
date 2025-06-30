@@ -10,8 +10,8 @@ class GoodsReceiptNoteModelTest extends TestCase
     public function test_add_goods_receipt_note()
     {
         $data = [
-            'po_number' => 'PO0020',
-            'product_id' => 'P002-saya',
+            'po_number' => 'PO0012',
+            'product_id' => 'P010-TEST',
             'delivery_date' => now()->format('Y-m-d'),
             'delivered_quantity' => 15,
             'comments' => 'Testing tambah GRN',
@@ -20,8 +20,8 @@ class GoodsReceiptNoteModelTest extends TestCase
         $created = GoodsReceiptNote::addGoodsReceiptNote($data);
 
         $this->assertDatabaseHas('goods_receipt_note', [
-            'po_number' => 'PO0020',
-            'product_id' => 'P002-saya',
+            'po_number' => 'PO0012',
+            'product_id' => 'P0010-TEST',
         ]);
 
         $this->assertEquals('Testing tambah GRN', $created->comments);
@@ -30,8 +30,8 @@ class GoodsReceiptNoteModelTest extends TestCase
     public function test_update_goods_receipt_note()
     {
         $grn = GoodsReceiptNote::create([
-            'po_number' => 'PO0003',
-            'product_id' => 'P003-TEST',
+            'po_number' => 'PO001',
+            'product_id' => 'P002-TEST',
             'delivery_date' => now()->format('Y-m-d'),
             'delivered_quantity' => 10,
             'comments' => 'Komentar awal',
@@ -54,6 +54,6 @@ class GoodsReceiptNoteModelTest extends TestCase
         $this->assertDatabaseHas('goods_receipt_note', [
             'po_number' => $po_number,
             'comments' => 'Komentar sudah diupdate',
-        ]);
-    }
+        ]);
+    }
 }

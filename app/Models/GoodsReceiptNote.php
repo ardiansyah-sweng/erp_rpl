@@ -41,9 +41,7 @@ class GoodsReceiptNote extends Model
     public static function addGoodsReceiptNote($data)
     {
         return self::create($data);
-    }
-
-    
+    }
     
 }
 
