@@ -9,8 +9,9 @@ class GoodsReceiptNoteModelTest extends TestCase
 {
     public function test_add_goods_receipt_note()
     {
+        $uniquePo = 'PO' . uniqid();
         $data = [
-            'po_number' => 'PO0020',
+            'po_number' => $uniquePo,
             'product_id' => 'P002-saya',
             'delivery_date' => now()->format('Y-m-d'),
             'delivered_quantity' => 15,
@@ -19,41 +20,38 @@ class GoodsReceiptNoteModelTest extends TestCase
 
         $created = GoodsReceiptNote::addGoodsReceiptNote($data);
 
-        $this->assertDatabaseHas('goods_receipt_note', [
-            'po_number' => 'PO0020',
+        $this->assertDatabaseHas('goods_receipt_notes', [
+            'po_number' => $uniquePo,
             'product_id' => 'P002-saya',
         ]);
-
         $this->assertEquals('Testing tambah GRN', $created->comments);
     }
 
     public function test_update_goods_receipt_note()
     {
+        $uniquePo = 'PO' . uniqid();
         $grn = GoodsReceiptNote::create([
-            'po_number' => 'PO0003',
+            'po_number' => $uniquePo,
             'product_id' => 'P003-TEST',
             'delivery_date' => now()->format('Y-m-d'),
             'delivered_quantity' => 10,
             'comments' => 'Komentar awal',
-            'created_at' => now(),
         ]);
-
-        $po_number = $grn->po_number;
 
         $updateData = [
             'comments' => 'Komentar sudah diupdate',
             'delivered_quantity' => 20,
         ];
 
-        $updated = GoodsReceiptNote::updateGoodsReceiptNote($po_number, $updateData);
+        $updated = GoodsReceiptNote::updateGoodsReceiptNote($uniquePo, $updateData);
 
         $this->assertNotNull($updated);
         $this->assertEquals('Komentar sudah diupdate', $updated->comments);
         $this->assertEquals(20, $updated->delivered_quantity);
 
-        $this->assertDatabaseHas('goods_receipt_note', [
-            'po_number' => $po_number,
+        $this->assertDatabaseHas('goods_receipt_notes', [
+            'po_number' => $uniquePo,
             'comments' => 'Komentar sudah diupdate',
-        ]);
-    }
+        ]);
+    }
 }
