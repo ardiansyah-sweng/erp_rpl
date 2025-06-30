@@ -72,7 +72,7 @@ class Product extends Model
         }
 
         $product_id = $product->product_id;
-
+        
         $exists = Item::where('product_id', $product_id)->exists();
 
         if ($exists) {

@@ -32,7 +32,7 @@ public function test_get_product_by_type()
     /** @test */
     public function delete_product_ketika_tidak_digunakan_di_items()
     {
-        // Buat produk dengan product_id khusus
+        //Buat produk dengan product_id khusus
         $product = Product::create([
             'product_id' => 'ABC1',
             'product_name' => 'ABC',
