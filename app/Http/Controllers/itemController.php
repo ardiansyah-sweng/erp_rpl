@@ -94,7 +94,7 @@ class ItemController extends Controller
         }
 
         $pdf = Pdf::loadView('item.report', compact('items'));
-        return $pdf->download('laporan-item.pdf');
+        return $pdf->stream('laporan-item.pdf');
     }
 
     public function reportView()
