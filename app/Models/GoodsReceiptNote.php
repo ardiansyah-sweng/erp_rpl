@@ -1,4 +1,3 @@
-
 <?php
 //andika
 namespace App\Models;
