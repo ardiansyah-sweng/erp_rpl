@@ -7,7 +7,6 @@ use App\Models\SupplierMaterial;
 SupplierMaterialController-zidane
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
-development
 
 class SupplierMaterialController extends Controller
 {
@@ -103,5 +102,4 @@ class SupplierMaterialController extends Controller
         $pdf = Pdf::loadView('supplier.material.pdf', compact('materials', 'supplierName', 'supplier_id'));
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
- development
 }
