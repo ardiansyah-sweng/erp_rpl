@@ -88,7 +88,6 @@ class SupplierMaterialControllerTest extends TestCase
             $response = $this->post('/supplier/material/add', []);
 
             $response->assertSessionHasErrors([
- development
                 'supplier_id',
                 'company_name',
                 'product_id',
