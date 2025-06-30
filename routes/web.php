@@ -7,7 +7,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierPIController; // perubahan
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ItemController; // tambahkan jika belum
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
@@ -135,6 +135,8 @@ Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
 Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
 Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
 Route::get('/item/{id}', [itemController::class, 'getItemById']);
+Route::get('/items/report', [ItemController::class, 'exportAllToPdf'])->name('item.report');
+Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']);
 
 
 # Merk
@@ -145,10 +147,11 @@ Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
-Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
+Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');  
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
+Route::get('/supplier/material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialById'])->name('supplier.material.detail');
 
 #Suppplier Update 
 Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');//Sudah sesuai pada ERP RPL
@@ -158,7 +161,8 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
 #Category
-Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
+Route::get('/category/edit/{id}', [CategoryController::class, 'updateCategoryById'])->name('category.edit');
+Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.update');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
 
@@ -173,6 +177,7 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
 Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
 Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
+Route::get('/warehouse/report',[WarehouseController::class,'exportPdf'])->name('warehouse.report');
 
 
 #production
