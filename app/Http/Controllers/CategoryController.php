@@ -70,7 +70,7 @@ class CategoryController extends Controller
         return response()->json($category);
     }
 
-    //Search Category
+    //Search Category fitur
     public function searchCategory(Request $request)
     {
         $keyword = $request->input('q');
