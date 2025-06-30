@@ -102,4 +102,10 @@ class ItemController extends Controller
         return view('item.detail', compact('item'));
     }
 
+    public function getItemByType($productType)
+    {
+        $items = Item::getItemByType($productType);
+        return response()->json($items);
+    }
+    
 }
