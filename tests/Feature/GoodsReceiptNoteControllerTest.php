@@ -8,7 +8,7 @@ use App\Models\GoodsReceiptNote;
 
 class GoodsReceiptNoteControllerTest extends TestCase
 {
-    use RefreshDatabase;
+
 
     public function test_get_goods_receipt_note_success()
     {
