@@ -45,6 +45,140 @@
       integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
       crossorigin="anonymous"
     />
+    
+<style>
+  @media print {
+    * {
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    .no-print,
+    .app-header,
+    .app-sidebar,
+    .app-footer,
+    .btn,
+    nav,
+    aside,
+    .breadcrumb,
+    .card-header,
+    form > .form-group:last-child {
+      display: none !important;
+    }
+
+    body {
+      background: white !important;
+      color: black !important;
+      font-family: Arial, sans-serif !important;
+      font-size: 11px !important;
+      line-height: 1.4 !important;
+    }
+
+    #printArea {
+      padding: 20px !important;
+      width: 100% !important;
+      background: white !important;
+    }
+
+    .print-header {
+      text-align: center !important;
+      margin-bottom: 20px !important;
+    }
+
+    .print-header h2 {
+      font-size: 16px !important;
+      font-weight: bold !important;
+    }
+
+    .print-info {
+      display: flex !important;
+      justify-content: space-between !important;
+      margin-bottom: 20px !important;
+      font-size: 11px !important;
+    }
+
+    .print-info div {
+      flex: 1 !important;
+      padding: 2px 4px !important;
+    }
+
+    #printArea table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      border: 1px solid #000 !important;
+      table-layout: fixed !important;
+    }
+
+    #printArea th,
+    #printArea td {
+      border: 1px solid #000 !important;
+      padding: 6px 4px !important;
+      text-align: center !important;
+      vertical-align: middle !important;
+      font-size: 10px !important;
+      word-wrap: break-word !important;
+    }
+
+    #printArea th {
+      background-color: #f0f0f0 !important;
+      font-weight: bold !important;
+      font-size: 11px !important;
+    }
+
+    #printArea input {
+      all: unset !important;
+      display: block !important;
+      width: 100% !important;
+      text-align: center !important;
+      font-size: 10px !important;
+      border: none !important;
+    }
+
+    /* Sembunyikan kolom Action */
+    #printArea th:nth-child(8),
+    #printArea td:nth-child(8) {
+      display: none !important;
+    }
+
+    /* Lebar kolom proporsional dan presisi */
+    #printArea th:nth-child(1), #printArea td:nth-child(1) { width: 18% !important; } /* SKU */
+    #printArea th:nth-child(2), #printArea td:nth-child(2) { width: 25% !important; } /* Name Item */
+    #printArea th:nth-child(3), #printArea td:nth-child(3) { width: 10% !important; } /* Qty */
+    #printArea th:nth-child(4), #printArea td:nth-child(4) { width: 15% !important; } /* Unit Price */
+    #printArea th:nth-child(5), #printArea td:nth-child(5) { width: 15% !important; } /* Amount */
+    #printArea th:nth-child(6), #printArea td:nth-child(6) { width: 12% !important; } /* Delivery Date */
+    #printArea th:nth-child(7), #printArea td:nth-child(7) { width: 10% !important; } /* Delivery Quantity */
+
+    @page {
+      size: A4 portrait;
+      margin: 1cm !important;
+    }
+
+    .container-fluid,
+    .row,
+    .col-md-12,
+    .card,
+    .card-body,
+    .table-responsive {
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: white !important;
+    }
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .comments,
+  .remove-row-btn {
+    margin: 2px;
+  }
+</style>
+
+
   </head>
   <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <div class="app-wrapper">
@@ -273,7 +407,7 @@
                             <input type="text" class="form-control" id="supplier_name" value="PT. XYZ" readonly>
                         </div>
                         
-                        <div class="table-responsive">
+                        <div class="table-responsive" id="printArea">
                           <table class="table table-bordered" id="itemsTable">
                               <thead class="table-primary text-center">
                               <tr>
@@ -284,7 +418,7 @@
                                   <th>Amount</th>
                                   <th>Delivery Date</th>
                                   <th>Delivery Quantity</th>
-                                  <th>Action</th>
+                                  <th class="no-print" > Action</th>
                               </tr>
                               </thead>
                               <tbody class="text-center">
@@ -297,7 +431,7 @@
                                     <td><input type="text" class="form-control" value="300000" readonly></td>
                                     <td><input type="date" class="form-control" value="2025-06-10" required></td>
                                     <td><input type="number" class="form-control" value="10" min="0" max="15" required></td>
-                                    <td class="mb-3" style="display: flex; gap: 8px;">
+                                    <td class=" no-print mb-3" style="display: flex; gap: 8px;">
                                       <button type="button" class="btn btn-info btn-sm comments">
                                       <i class="bi bi-chat"></i>
                                       </button>
@@ -333,6 +467,9 @@
                           </button>
                           <button type="button" class="btn btn-danger mb-3">
                             <i class="bi bi-x-circle"></i> Batal
+                          </button>
+                          <button type="button" class="btn btn-success mb-3" onclick="printGRN()">
+                            <i class="bi bi-printer-fill"></i> Cetak
                           </button>
                         </div>
                     </form>
@@ -393,6 +530,17 @@
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/js/adminlte.min.js"></script>
 
     <script>
+    
+        function printGRN() {
+          const printContents = document.getElementById('printArea').innerHTML;
+          const originalContents = document.body.innerHTML;
+      
+          document.body.innerHTML = printContents;
+          window.print();
+          document.body.innerHTML = originalContents;
+          location.reload();
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const commentModal = new bootstrap.Modal(document.getElementById('commentModal'));
             const commentTextArea = document.getElementById('commentText');
