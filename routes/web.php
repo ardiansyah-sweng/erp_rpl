@@ -187,7 +187,7 @@ Route::get('/warehouse/report', [WarehouseController::class, 'exportPdf'])->name
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
 
-Route::put('/goods-receipt-notes/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote']);
+Route::patch('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote']);
 
 # Bill of Material
 

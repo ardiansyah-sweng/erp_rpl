@@ -17,23 +17,34 @@ class GoodsReceiptNote extends Model
         $this->fillable = array_values(config('db_constants.column.grn') ?? []);
     }
 
+    // Accessor agar field pada response API konsisten dengan test
+    public function getReceiptDateAttribute()
+    {
+        return $this->attributes[config('db_constants.column.grn.date')] ?? null;
+    }
+
+    public function getNoteAttribute()
+    {
+        return $this->attributes[config('db_constants.column.grn.comments')] ?? null;
+    }
+
     public static function getGoodsReceiptNote($po_number)
     {
-        return self::where('po_number', $po_number)->first();
+        return self::where(config('db_constants.column.grn.po_number'), $po_number)->first();
     }
 
     public static function updateGoodsReceiptNote($po_number, array $data)
     {
         $grn = self::getGoodsReceiptNote($po_number);
-        
+
         if (!$grn) {
             return null;
         }
-        
+
         $fillable = (new self)->getFillable();
         $filteredData = array_intersect_key($data, array_flip($fillable));
         $grn->update($filteredData);
-        
+
         return $grn;
     }
 }

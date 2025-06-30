@@ -9,34 +9,37 @@ use App\Models\GoodsReceiptNote;
 
 class GoodsReceiptNoteController extends Controller
 {
-    public function updateGoodsReceiptNote(Request $request, string $po_number): JsonResponse
+    public function updateGoodsReceiptNote(Request $request, $po_number)
     {
-        try {
-            // Validasi input berdasarkan kolom di config
-            $validatedData = $request->validate([
-                'product_id'          => 'sometimes|string|max:255',
-                'delivery_date'       => 'sometimes|date',
-                'delivered_quantity'  => 'sometimes|numeric|min:0',
-                'comments'            => 'sometimes|string|max:1000',
-            ]);
+        // Validasi input (misal: tanggal dan catatan, sesuaikan kebutuhan)
+        $validated = $request->validate([
+            'receipt_date' => 'required|date',
+            'note' => 'nullable|string',
+            // tambahkan field lain sesuai kebutuhan
+        ]);
 
-            $updated = GoodsReceiptNote::updateGoodsReceiptNote($po_number, $validatedData);
+        // Cari data berdasarkan po_number
+        $goodsReceiptNote = \App\Models\GoodsReceiptNote::where('po_number', $po_number)->first();
 
-            if (!$updated) {
-                return response()->json([
-                    'message' => 'Goods Receipt Note not found.'
-                ], 404);
-            }
-
+        if (!$goodsReceiptNote) {
+            // Data tidak ditemukan
             return response()->json([
-                'message' => 'Goods Receipt Note updated successfully.',
-                'data' => $updated
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to update Goods Receipt Note.',
-                'error' => $e->getMessage()
-            ], 500);
+                'message' => 'Goods Receipt Note not found.'
+            ], 404);
         }
+
+        // Update data
+        $goodsReceiptNote->update([
+            config('db_constants.column.grn.date') => $validated['receipt_date'],
+            config('db_constants.column.grn.comments') => $validated['note'],
+        ]);
+
+        return response()->json([
+            'message' => 'Goods Receipt Note updated successfully.',
+            'data' => [
+                'receipt_date' => $goodsReceiptNote->fresh()->receipt_date,
+                'note' => $goodsReceiptNote->fresh()->note,
+            ]
+        ]);
     }
 }
