@@ -8,12 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase; // Penting!
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
-{
-    use RefreshDatabase; // 'uses()' versi PHPUnit diletakkan di dalam kelas seperti ini
-
-    /**
-     * SKENARIO 1: Hapus kategori yang TIDAK dipakai -> HARUS BERHASIL
-     */
+{  
+  
     public function test_it_can_delete_an_unused_category_successfully()
     {
         // Arrange
@@ -27,9 +23,7 @@ class CategoryTest extends TestCase
         $this->assertModelMissing($category);
     }
 
-    /**
-     * SKENARIO 2: Coba hapus kategori yang SEDANG DIPAKAI -> HARUS GAGAL
-     */
+    
     public function test_it_fails_to_delete_a_category_that_is_in_use_by_a_product()
     {
         // Arrange
@@ -44,9 +38,7 @@ class CategoryTest extends TestCase
         $this->assertModelExists($category);
     }
 
-    /**
-     * SKENARIO 3: Coba hapus kategori dengan ID yang tidak ada -> HARUS GAGAL
-     */
+    
     public function test_it_returns_false_when_trying_to_delete_a_non_existent_category()
     {
         // Arrange
