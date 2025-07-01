@@ -43,10 +43,9 @@ class GoodsReceiptNote extends Model
         return $grn;
     }
 
+    
     public static function addGoodsReceiptNote($data)
     {
-        $fillable = (new self)->getFillable();
-        $filteredData = array_intersect_key($data, array_flip($fillable));
-        return self::create($filteredData);
+        return self::create($data);
     }
 }
