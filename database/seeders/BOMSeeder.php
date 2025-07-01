@@ -30,6 +30,11 @@ class BOMSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::listen(function ($query) {
+            dump($query->sql);
+            dump($query->bindings);
+        });
+        
         BOMDetail::truncate();
         BillOfMaterial::truncate();
         AssortmentProduction::truncate();
@@ -84,7 +89,7 @@ class BOMSeeder extends Seeder
         #-------------------------------------------------------------
 
         #Ambil jumlah produksi yang akan dibuat
-        $prodCount = $this->faker->numberBetween(1, 50);
+        $prodCount = $this->faker->numberBetween(10, 100);
 
         for ($i=1; $i <= $prodCount; $i++)
         {
@@ -104,14 +109,13 @@ class BOMSeeder extends Seeder
             $desc = 'Produksi untuk BOM '.$bom->bom_id;
 
             #buat status produksi
-            $inProduction = $this->faker->boolean();
+            // $inProduction = $this->faker->boolean(1,2);
 
             $skuFG = $FG -> inRandomOrder()->first();
 
             print_r('BOM ID: '.$bom->bom_id. ' | SKU: '.$skuFG->sku.
                     ' | Prod No: '.$prodNo.' | Prod Date: '.
-                    ' | BOM Qty: '.$bomQty.' | In Production: '.($inProduction ? 'Yes' : 'No').
-                    ' | Desc: '.$desc);
+                    ' | BOM Qty: '.$bomQty.' | Desc: '.$desc);
             echo "\n";
 
             #simpan data produksi
@@ -157,10 +161,23 @@ class BOMSeeder extends Seeder
                 'rm_whouse_id' => $rmWhouse->id,
                 'fg_whouse_id' => $fgWhouse->id,
                 'production_date' => $prodDate,
-                'in_production' => $inProduction,
+                'in_production' => $this->faker->boolean(),
                 'description' => $desc,
             ]);
         }
-        print_r('Produksi assortment selesai dibuat');
+
+        // updated in_production status ke false
+        $inProduction = AssortmentProduction::where('in_production', true)->get();
+        foreach ($inProduction as $prod) {
+            if ($this->faker->boolean()) {
+                echo "Update In Production: {$prod->production_number}\n";
+
+                $prod->in_production = false;
+                $prod->finished_date = now();
+                $prod->save();
+            }
+        }
+        
+        print_r('---SELESAI---');
     }
 }

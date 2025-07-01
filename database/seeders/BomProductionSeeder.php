@@ -52,7 +52,7 @@ class BomProductionSeeder extends Seeder
         $in_production = 0;
         // Menentukan status produksi
         if ($days_difference < 2) {
-            $in_production = true;
+            $in_production = 1;
         }
 
         $qtyBOM = $this->faker->numberBetween(1, 10);
