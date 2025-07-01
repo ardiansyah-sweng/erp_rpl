@@ -75,34 +75,9 @@ class Item extends Model
         return self::count();
     }
 
-    public static function updateItem($id, $data)
+    public function product()
     {
-        $item = self::find($id);
-    
-        if (!$item) {
-            return null;
-        }
-    
-        $item->update($data);
-    
-        return $item;
-       }
-
-
-    public function addItem($data)
-    {
-        return self::create($data);
-    }
-
-    public function unit()
-    {
-        return $this->belongsTo(MeasurementUnit::class, 'measurement_unit', 'id');
-    }
-
-
-    public static function getItembyId($id){
-        return self::where('id', $id)->first();
-
+        return $this->belongsTo(Product::class, 'product_id');
     }
     
     public static function getItemByType($productType)
