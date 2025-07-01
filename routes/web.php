@@ -139,6 +139,7 @@ Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add'
 Route::get('/item/{id}', [itemController::class, 'getItemById']);
 Route::get('/items/report', [ItemController::class, 'exportAllToPdf'])->name('item.report');
 Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']);
+Route::get('/item/pdf/product/{productType}', [ItemController::class, 'exportByProductTypeToPdf']);
 
 
 # Merk
