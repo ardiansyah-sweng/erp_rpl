@@ -371,7 +371,63 @@
       <h1 class="h3 fw-bold mb-2">Productions</h1>
       <a href="#" class="btn btn-primary btn-sm">New Production</a>
     </div>
-
+          <!-- Form Input Produksi dengan Data Dummy -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <strong>Tambah Data Produksi</strong>
+      </div>
+      <div class="card-body">
+        <form action="/productions/add" method="POST">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="production_number" class="form-label">Production Number</label>
+              <input type="text" name="production_number" id="production_number" class="form-control" required value="PROD-TEST">
+            </div>
+            <div class="col-md-4">
+              <label for="sku" class="form-label">SKU</label>
+              <input type="text" name="sku" id="sku" class="form-control" required value="SKU-TEST">
+            </div>
+            <div class="col-md-4">
+              <label for="branch_id" class="form-label">Branch ID</label>
+              <input type="number" name="branch_id" id="branch_id" class="form-control" required value="1">
+            </div>
+            <div class="col-md-4">
+              <label for="rm_whouse_id" class="form-label">RM Warehouse ID</label>
+              <input type="number" name="rm_whouse_id" id="rm_whouse_id" class="form-control" required value="17">
+            </div>
+            <div class="col-md-4">
+              <label for="fg_whouse_id" class="form-label">FG Warehouse ID</label>
+              <input type="number" name="fg_whouse_id" id="fg_whouse_id" class="form-control" required value="100">
+            </div>
+            <div class="col-md-4">
+              <label for="production_date" class="form-label">Production Date</label>
+              <input type="datetime-local" name="production_date" id="production_date" class="form-control" required value="2025-06-23T18:44">
+            </div>
+            <!-- Optional fields -->
+            <div class="col-md-4">
+              <label for="finished_date" class="form-label">Finished Date</label>
+              <input type="datetime-local" name="finished_date" id="finished_date" class="form-control" value="">
+            </div>
+            <div class="col-md-4">
+              <label for="in_production" class="form-label">In Production</label>
+              <select name="in_production" id="in_production" class="form-select">
+                <option value="">--Pilih--</option>
+                <option value="1" selected>Ya</option>
+                <option value="0">Tidak</option>
+              </select>
+            </div>
+            <div class="col-md-12">
+              <label for="description" class="form-label">Description</label>
+              <textarea name="description" id="description" class="form-control">Contoh produksi percobaan untuk testing input data</textarea>
+            </div>
+          </div>
+          <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <div class="card shadow-sm">
       <div class="card-body">
         <!-- Filter & Search -->
