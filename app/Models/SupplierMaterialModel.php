@@ -11,7 +11,7 @@ class SupplierMaterialModel extends Model
 
     public static function getSupplierMaterialByProductType($supplierId, $productType)
     {
-    return DB::table('supplier_product as sp')
+        return DB::table('supplier_product as sp')
         ->join('products as p', DB::raw("SUBSTRING_INDEX(sp.product_id, '-', 1)"), '=', 'p.product_id')
         ->where('sp.supplier_id', $supplierId)
         ->where('p.product_type', $productType)
