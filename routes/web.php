@@ -79,6 +79,7 @@ Route::get('/product/list', [ProductController::class, 'getProductList'])->name(
 Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']);
 
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
+Route::delete('/product/{id}', [ProductController::class, 'deleteProduct'])->name('product.delete');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
