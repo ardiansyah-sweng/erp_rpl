@@ -13,7 +13,7 @@ class BranchUpdateTest extends TestCase
     /** @test */
     public function test_update_branch_berhasil()
     {
-       
+       $branch = Branch::first();
 
         // Data yang akan diupdate
         $dataUpdate = [
