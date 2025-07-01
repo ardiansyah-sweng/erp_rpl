@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-SupplierMaterialController-zidane
 use Tests\TestCase;
 use Illuminate\Support\Facades\DB;
 
