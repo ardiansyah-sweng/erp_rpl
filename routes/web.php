@@ -14,6 +14,7 @@ use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
+use App\Models\SupplierPic;
 
 
 #Login
@@ -121,6 +122,8 @@ Route::get('/supplier/pic/list', function () {
 })->name('supplier.pic.list');
 Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplierPic'])->name('supplier.pic.list');
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
+Route::get('/supplierPic/{supplier_id}', [SupplierPIController::class, 'getSupplierPicById']);
+Route::get('/supplierPic/pdf/{supplier_id}', [SupplierPIController::class, 'exportPdfBySupplierID'])->name('supplier.pic.pdf');
 
 
 # Items

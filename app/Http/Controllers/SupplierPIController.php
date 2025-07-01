@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SupplierPic;
 use App\Models\SupplierPICModel;
+use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class SupplierPIController extends Controller
@@ -92,5 +94,49 @@ class SupplierPIController extends Controller
         } else {
             return redirect()->back()->with('error', 'PIC gagal dihapus.');
         }
+    }
+
+    public function getSupplierPicById($supplier_id)
+    {
+        $supplierPic = (new SupplierPic())->getSupplierPicById($supplier_id);
+
+        if (!$supplierPic) {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+
+        $assignedDate = Carbon::parse($supplierPic->assigned_date)->startOfDay();
+        $now = Carbon::now()->startOfDay();
+        $lamaAssigned = $assignedDate->diffInDays($now);
+
+        return response()->json([
+            'data' => $supplierPic,
+            'lama_assigned' => $lamaAssigned
+        ]);
+    }
+
+    public function exportPdfBySupplierID($supplierID)
+    {
+        $supplierPICs = SupplierPic::where('supplier_id', $supplierID)->get();
+
+        if ($supplierPICs->isEmpty()) {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+
+        // Hitung lama assigned
+        foreach ($supplierPICs as $pic) {
+            if ($pic->assigned_date) {
+                $assignedDate = \Carbon\Carbon::parse($pic->assigned_date)->startOfDay();
+                $pic->lama_assigned = $assignedDate->diffInDays(now()->startOfDay());
+            } else {
+                $pic->lama_assigned = '-';
+            }
+        }
+
+        $pdf = Pdf::loadView('supplier.pic.pdf', [
+            'supplierPICs' => $supplierPICs,
+            'supplierID' => $supplierID,
+        ]);
+
+        return $pdf->download('supplier_pic_' . $supplierID . '.pdf');
     }
 }
