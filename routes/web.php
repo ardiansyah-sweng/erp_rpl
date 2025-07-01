@@ -14,6 +14,7 @@ use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
+use App\Http\Controllers\BillOfMaterialController;
 
 
 #Login
@@ -181,6 +182,7 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/bom/list', function () {
     return view('bom/list');
 });
+Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
