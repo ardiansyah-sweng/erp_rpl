@@ -73,12 +73,7 @@ class Category extends Model
                 ];
             });
     }
-    /// dapatkan produk dari category id.
-    public static function getCategoryByParent($id)
-    {
-         return self::where('parent_id', $id)->get();
-    }
- 
+
     public static function updateCategory($category_id, array $data)
     {
         $category = self::find($category_id);
@@ -102,5 +97,10 @@ class Category extends Model
         }
 
         return false;
+    }
+    // dapatkan produk dari category id.
+    public static function getCategoryByParent($id)
+    {
+         return self::where('parent_id', $id)->get();
     }
 }
