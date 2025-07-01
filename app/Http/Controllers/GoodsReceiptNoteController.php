@@ -9,14 +9,18 @@ class GoodsReceiptNoteController extends Controller
 {
     public function updateGoodsReceiptNote(Request $request, $po_number)
     {
-        // Validasi input
         $validated = $request->validate([
             'receipt_date' => 'required|date',
             'note' => 'nullable|string',
         ]);
 
-        // Panggil method model
-        $updated = GoodsReceiptNote::updateGoodsReceiptNote($po_number, $validated);
+        // Mapping ke kolom database
+        $updateData = [
+            'delivery_date' => $validated['receipt_date'],
+            'comments' => $validated['note'],
+        ];
+
+        $updated = \App\Models\GoodsReceiptNote::updateGoodsReceiptNote($po_number, $updateData);
 
         if (!$updated) {
             return response()->json([
@@ -24,11 +28,14 @@ class GoodsReceiptNoteController extends Controller
             ], 404);
         }
 
+        // Ambil data terbaru dari database
+        $fresh = \App\Models\GoodsReceiptNote::getGoodsReceiptNote($po_number);
+
         return response()->json([
             'message' => 'Goods Receipt Note updated successfully.',
             'data' => [
-                'receipt_date' => $updated->receipt_date,
-                'note' => $updated->note,
+                'receipt_date' => $fresh->delivery_date,
+                'note' => $fresh->comments,
             ]
         ]);
     }
