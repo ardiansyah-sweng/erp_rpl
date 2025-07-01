@@ -28,6 +28,7 @@ public function test_get_product_by_type()
         $this->assertEquals('FG', $product->product_type);
     }
 }
+
     /** @test */
     public function delete_product_ketika_tidak_digunakan_di_items()
     {
