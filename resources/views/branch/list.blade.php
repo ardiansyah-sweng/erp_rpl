@@ -454,9 +454,6 @@
                               <a href="#" class="btn btn-sm btn-danger">Delete</a>
                               <a href="{{ url('/branch/detail/'.$branch->id) }}" class="btn btn-info">Detail</a>
 
-
-                              
-
                             </td>
                             </tr>
                             @empty
