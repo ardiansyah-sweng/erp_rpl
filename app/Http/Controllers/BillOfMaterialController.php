@@ -20,4 +20,15 @@ class BillOfMaterialController extends Controller
             return response()->json(['message' => 'Bill of Material not found.'], 404);
         }
     }
+    public function getBomDetail($id)
+            {
+                $bom = DB::table('bill_of_material')->where('id', $id)->first();
+
+                if (!$bom) {
+                    return abort(404, 'Bill of Material tidak ditemukan');
+                }
+
+                return response()->json($bom);
+
+    }
 }
