@@ -15,8 +15,6 @@ class UpdateGoodsReceiptNoteTest extends TestCase
         $col = config('db_constants.column.grn');
         $po_number = 'PO0001';
 
-
-
         $payload = [
             'receipt_date' => '2025-06-13',
             'note' => 'Update dari test'
