@@ -2,8 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BillOfMaterial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
+class BillOfMaterialController extends Controller
+{
+    public function getBillOfMaterial()
+    {
+        $data = BillOfMaterial::getBillOfMaterial();
+        return response()->json($data);
+    }
+}
 
 class BillOfMaterialController extends Controller
 {
