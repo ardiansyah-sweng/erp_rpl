@@ -81,4 +81,12 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'Kategori tidak ditemukan atau gagal dihapus.');
         }
     }
+
+    // Menampilkan seluruh kategori berdasarkan parent tertentu dalam bentuk PDF
+    public function getCategoryByParent($id)
+    {
+        $categories = Category::where('parent_id', $id)->get();
+        $pdf = Pdf::loadView('product.category.pdf', compact('categories', 'id'));
+        return $pdf->stream('kategori_parent_' . $id . '.pdf');
+    }
 }
