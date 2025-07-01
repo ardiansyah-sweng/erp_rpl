@@ -7,13 +7,12 @@ use App\Models\GoodsReceiptNote;
 
 class GoodsReceiptNoteController extends Controller
 {
-    public function update(Request $request, $po_number)
+    public function updateGoodsReceiptNote(Request $request, $po_number)
     {
         // Validasi input
         $validated = $request->validate([
-            'delivery_date' => 'required|date',
-            'delivered_quantity' => 'nullable|string',
-            // tambahkan field lain sesuai kebutuhan
+            'receipt_date' => 'required|date',
+            'note' => 'nullable|string',
         ]);
 
         // Panggil method model
@@ -28,7 +27,7 @@ class GoodsReceiptNoteController extends Controller
         return response()->json([
             'message' => 'Goods Receipt Note updated successfully.',
             'data' => [
-                'delivery_date' => $updated->delivery_date,
+                'receipt_date' => $updated->receipt_date,
                 'note' => $updated->note,
             ]
         ]);
