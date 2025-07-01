@@ -198,6 +198,7 @@ Route::put('/assortment_production/update/{id}', [AssortProductionController::cl
 Route::get('/assortment_production/detail/{po_number}', [AssortProductionController::class, 'getProductionDetail']);
 Route::get('/productions/detail', function () {return view('productions/detail');});
 
+
 #Cetak PDF seluruh item/material yang dipasok oleh supplier tertentu
 Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::class, 'cetakPDF']);
 
