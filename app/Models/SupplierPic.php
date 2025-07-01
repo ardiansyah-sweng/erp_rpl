@@ -77,4 +77,8 @@ class SupplierPic extends Model
             ->exists();
     }
 
+    public function getSupplierPIC($supplier_id)
+    {
+        return self::where('supplier_id', $supplier_id)->first();
+    }
 }
