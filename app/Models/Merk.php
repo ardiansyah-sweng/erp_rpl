@@ -58,11 +58,12 @@ class Merk extends Model
 
     public static function deleteMerk($id)
     {
-     $merk = self::find($id);
+        $merk = self::find($id);
 
         if ($merk) {
-        return $merk->delete();
-     }
+            return $merk->delete();
+        }
+        
         return false;
     }
 }
