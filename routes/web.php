@@ -7,7 +7,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierPIController; // perubahan
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ItemController; // tambahkan jika belum
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
@@ -72,6 +72,9 @@ Route::get('/supplier/material/detail', function () {
 Route::get('/goods_receipt_note/add', function () {
     return view('goods_receipt_note/add');
 });
+Route::get('/goods_receipt_note/detail', function () {
+    return view('goods_receipt_note/detail');
+});
 
 
 # Product
@@ -134,6 +137,8 @@ Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
 Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
 Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
 Route::get('/item/{id}', [itemController::class, 'getItemById']);
+Route::get('/items/report', [ItemController::class, 'exportAllToPdf'])->name('item.report');
+Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']);
 
 
 # Merk
@@ -148,6 +153,7 @@ Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSu
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
+Route::get('/supplier/material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialById'])->name('supplier.material.detail');
 
 #Suppplier Update 
 Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');//Sudah sesuai pada ERP RPL
@@ -201,4 +207,3 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
-
