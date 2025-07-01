@@ -54,7 +54,7 @@ class BillOfMaterialControllerTest extends TestCase
 public function it_returns_bom_by_id_if_exists()
 {
     // Hapus bom_id yang sama jika sudah ada (hindari duplicate)
-    DB::table('bill_of_material')->where('bom_id', 'BOM-001')->delete();
+    DB::table('bill_of_material')->where('bom_id', 'BOM-001')->first();
 
     // Insert dummy
     $id = DB::table('bill_of_material')->insertGetId([
@@ -82,7 +82,7 @@ public function it_returns_bom_by_id_if_exists()
              ]);
 
     // Bersihkan setelah test (opsional)
-    DB::table('bill_of_material')->where('id', $id)->delete();
+    DB::table('bill_of_material')->where('id', $id)->first();
 }
 
 }
