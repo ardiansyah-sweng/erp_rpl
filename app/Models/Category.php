@@ -98,7 +98,7 @@ class Category extends Model
 
         return false;
     }
-    //. dapatkan produk dari parent
+    //.. dapatkan produk dari parent
     public static function getCategoryByParent($id)
     {
          return self::where('parent_id', $id)->get();
