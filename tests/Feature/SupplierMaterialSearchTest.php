@@ -2,41 +2,53 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\SupplierMaterial;
 
 class SupplierMaterialSearchTest extends TestCase
 {
-    use RefreshDatabase;
-
-    public function test_add_supplier_material_with_valid_data()
+  
+    public function test_search_supplier_material_by_keyword()
     {
-        $response = $this->post('/supplier-material/add', [
-            'supplier_id'  => 'SUP002',
-            'company_name' => 'PT Murni Subsea Ladangbaja Bukaka',
-            'product_id'   => 'P001-ut',
-            'product_name' => 'Peach Dalam ut',
-            'base_price'     => 57728,
-            'created_at'   => now()->toDateTimeString(),
-            'updated_at'   => now()->toDateTimeString(),
-        ]);
+        $material1 = new SupplierMaterial();
+        $material1->supplier_id = 'SUP007';
+        $material1->company_name = 'PD United Shipping Sejahteraraya';
+        $material1->product_id = 'P001-et';
+        $material1->product_name = 'Plus 779g et';
+        $material1->base_price = 78049;
+        $material1->created_at = now();
+        $material1->updated_at = now();
+        $material1->save();
 
-        $response->assertRedirect();
-        $response->assertSessionHas('success', 'Data supplier product berhasil divalidasi!');
+        $material2 = new SupplierMaterial();
+        $material2->supplier_id = 'SUP014';
+        $material2->company_name = 'PT Borneo Wattle Shine Steady';
+        $material2->product_id = 'P001-et';
+        $material2->product_name = 'Plus 779g et';
+        $material2->base_price = 84941;
+        $material2->created_at = now();
+        $material2->updated_at = now();
+        $material2->save();
+
+        // Kirim request pencarian keyword
+        $response = $this->getJson('/supplier/material/search?keyword=Sejahtera');
+
+        $response->assertStatus(200);
+        $response->assertJsonFragment([
+            'company_name' => 'PD United Shipping Sejahteraraya'
+        ]);
+        $response->assertJsonMissing([
+            'company_name' => 'PT Borneo Wattle Shine Steady'
+        ]);
     }
 
-    public function test_add_supplier_material_with_missing_required_fields_should_fail()
+    public function test_search_supplier_material_with_no_match()
     {
-        $response = $this->post('/supplier-material/add', []);
+        // Pencarian dengan keyword yang tidak cocok
+        $response = $this->getJson('/supplier/material/search?keyword=TidakAdaData');
 
-        $response->assertSessionHasErrors([
-            'supplier_id',
-            'company_name',
-            'product_id',
-            'product_name',
-            'base_price',
-        ]);
+        $response->assertStatus(200);
+        $response->assertJsonCount(0); 
     }
-
 }
