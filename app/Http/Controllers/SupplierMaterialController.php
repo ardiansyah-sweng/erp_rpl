@@ -28,32 +28,32 @@ class SupplierMaterialController extends Controller
         return view('supplier.material.detail', ['material' => $material]);
     }
 
-     // Validasi data supplier material
-     public function addSupplierMaterial(Request $request)
-     {
+    // Validasi data supplier material
+    public function addSupplierMaterial(Request $request)
+    {
         $validated = $request->validate([
-            'supplier_id'   => 'required|string|size:6',
-            'company_name'  => 'required|string|max:255', 
-            'product_id'    => 'required|string|max:50',
-            'product_name'  => 'required|string|max:255',
-            'base_price'    => 'required|integer|min:0',
-            'created_at'    => 'nullable|date',
-            'updated_at'    => 'nullable|date',
+            'supplier_id' => 'required|string|size:6',
+            'company_name' => 'required|string|max:255',
+            'product_id' => 'required|string|max:50',
+            'product_name' => 'required|string|max:255',
+            'base_price' => 'required|integer|min:0',
+            'created_at' => 'nullable|date',
+            'updated_at' => 'nullable|date',
         ]);
-        SupplierMaterial::addSupplierMaterial((object)$validated);
-         return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!'); 
-     }
+        SupplierMaterial::addSupplierMaterial((object) $validated);
+        return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
+    }
 
     public function updateSupplierMaterial(Request $request, $id)
     {
         $validated = $request->validate([
-            'product_id'    => 'required|string|max:50',
-            'product_name'  => 'required|string|max:255',
-            'base_price'    => 'required|integer|min:0'
+            'product_id' => 'required|string|max:50',
+            'product_name' => 'required|string|max:255',
+            'base_price' => 'required|integer|min:0'
         ]);
 
         $validated['updated_at'] = now();
-        
+
         $model = new SupplierMaterial();
         $result = $model->updateSupplierMaterial($id, $validated);
 
@@ -77,4 +77,19 @@ class SupplierMaterialController extends Controller
         $pdf = Pdf::loadView('supplier.material.pdf', compact('materials', 'supplierName', 'supplier_id'));
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
+
+    public function getSupplierMaterialByCategory($product_name, $supplier_id)
+    {
+        $materials = SupplierMaterial::getSupplierMaterialByCategory($product_name, $supplier_id);
+        if ($materials->isEmpty()) {
+            return response()->json(['message' => 'Tidak ada data material ditemukan untuk kategori dan supplier ini.'], 404);
+        }
+
+        return response()->json([
+            'supplier_id' => $supplier_id,
+            'product_name' => $product_name,
+            'materials' => $materials
+        ]);
+    }
+
 }
