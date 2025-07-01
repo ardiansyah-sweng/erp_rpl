@@ -107,5 +107,31 @@ class PurchaseOrderController extends Controller
         $pdf = Pdf::loadView('purchase_orders.pdf_report', $data);
         return $pdf->stream('laporan_purchase_order_' . $supplier->company_name . '.pdf');
     }
+    public function getPurchaseOrderByStatus($status)
+    {
+        //data dummy
+        $purchaseOrders = collect([
+            ['id' => 1, 'status' => 'pending', 'supplier' => 'Supplier A', 'total' => 500000],
+            ['id' => 2, 'status' => 'approved', 'supplier' => 'Supplier B', 'total' => 750000],
+            ['id' => 3, 'status' => 'pending', 'supplier' => 'Supplier C', 'total' => 300000],
+            ['id' => 4, 'status' => 'completed', 'supplier' => 'Supplier A', 'total' => 1500000],
+        ]);
+
+        //filter status
+        $filtered = $purchaseOrders->where('status', $status)->values();
+
+        //kalo hasilnya gaada
+        if ($filtered->isEmpty()) {
+            return response()->json([
+                'message' => 'No purchase orders found with status: ' . $status,
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => $status,
+            'count' => $filtered->count(),
+            'data' => $filtered
+        ], 200);
+    }
 
 }
