@@ -3,41 +3,88 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Models\Warehouse;
 use Illuminate\Support\Facades\DB;
+use App\Models\Warehouse;
 
 class DeleteWarehouseModelTest extends TestCase
 {
-    public function test_delete_existing_warehouse()
+    /**
+     * Test gagal hapus warehouse karena digunakan di rm_whouse_id
+     */
+    public function testGagalHapusKarenaDipakaiDiRmWhouse()
     {
-        // Ambil warehouse pertama dari database
-        $model = new Warehouse();
-        $warehouse = $model->first();
+        $usedRmId = 17; // berdasarkan data: dipakai di PROD-001 dan PROD-002
 
-        // Jika tidak ada data, skip test
-        if (!$warehouse) {
-            $this->markTestSkipped('Tidak ada data warehouse di database.');
-        }
+        $warehouse = new Warehouse();
+        $result = $warehouse->deleteWarehouse($usedRmId);
+        $data = $result->getData(true);
 
-        // Jalankan fungsi deleteWarehouse
-        $result = $model->deleteWarehouse($warehouse->id);
-
-        // Assert
-        $this->assertTrue($result);
-        $this->assertDatabaseMissing($model->getTable(), ['id' => $warehouse->id]);
+        $this->assertFalse($data['success']);
+        $this->assertEquals(
+            'Warehouse tidak dapat dihapus karena sedang digunakan di tabel assortment_production.',
+            $data['message']
+        );
     }
 
-    public function test_delete_non_existing_warehouse()
+    /**
+     * Test gagal hapus warehouse karena digunakan di fg_whouse_id
+     */
+    public function testGagalHapusKarenaDipakaiDiFgWhouse()
     {
-        $model = new Warehouse();
+        $usedFgId = 8; // berdasarkan data: dipakai di PROD-001
 
-        // Pastikan ID ini tidak ada di database
-        $nonExistingId = 999999;
+        $warehouse = new Warehouse();
+        $result = $warehouse->deleteWarehouse($usedFgId);
+        $data = $result->getData(true);
 
-        // Jalankan fungsi deleteWarehouse
-        $result = $model->deleteWarehouse($nonExistingId);
+        $this->assertFalse($data['success']);
+        $this->assertEquals(
+            'Warehouse tidak dapat dihapus karena sedang digunakan di tabel assortment_production.',
+            $data['message']
+        );
+    }
 
-        // Assert
-        $this->assertFalse($result);
+    /**
+     * Test gagal hapus warehouse karena ID tidak ditemukan
+     */
+    public function testGagalHapusWarehouseTidakDitemukan()
+    {
+        $notExistId = 999999; // ID besar yang hampir pasti tidak ada
+
+        $warehouse = new Warehouse();
+        $result = $warehouse->deleteWarehouse($notExistId);
+        $data = $result->getData(true);
+
+        $this->assertFalse($data['success']);
+        $this->assertEquals('Warehouse tidak ditemukan.', $data['message']);
+    }
+
+    /**
+     * Test sukses hapus warehouse yang tidak digunakan
+     */
+    public function testBerhasilHapusWarehouseYangTidakDipakai()
+    {
+        // Ambil ID warehouse yang tidak digunakan di rm_whouse_id atau fg_whouse_id
+        $usedIds = DB::table('assortment_production')
+            ->select('rm_whouse_id')
+            ->union(DB::table('assortment_production')->select('fg_whouse_id'))
+            ->pluck('rm_whouse_id')
+            ->toArray();
+
+        $availableWarehouse = DB::table('warehouse')
+            ->whereNotIn('id', $usedIds)
+            ->first();
+
+        if (!$availableWarehouse) {
+            $this->markTestSkipped('Tidak ada warehouse yang tidak sedang digunakan.');
+        }
+
+        $warehouse = new Warehouse();
+        $result = $warehouse->deleteWarehouse($availableWarehouse->id);
+        $data = $result->getData(true);
+
+        $this->assertTrue($data['success']);
+        $this->assertEquals('Warehouse berhasil dihapus.', $data['message']);
+        $this->assertDatabaseMissing('warehouse', ['id' => $availableWarehouse->id]);
     }
 }
