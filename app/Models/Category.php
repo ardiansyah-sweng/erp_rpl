@@ -73,7 +73,7 @@ class Category extends Model
                 ];
             });
     }
-    // dapatkan produk dari category id.
+    /// dapatkan produk dari category id.
     public static function getCategoryByParent($id)
     {
          return self::where('parent_id', $id)->get();
@@ -92,7 +92,7 @@ class Category extends Model
 
         return $category;
     }
-     // .delete category
+     // delete category
     public static function deleteCategoryById($id)
     {
         $category = self::find($id);

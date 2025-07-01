@@ -91,7 +91,7 @@ class SupplierPic extends Model
             ->where('phone_number', $phone_number)
             ->exists();
     }
-
+    //
     public static function countPICByStatus($supplier_id)   
     {
     $data = self::select('active', \DB::raw('COUNT(*) as total'))
