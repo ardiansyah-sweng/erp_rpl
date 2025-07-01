@@ -62,7 +62,7 @@ class SupplierMaterialController extends Controller
         }
         return redirect()->back()->with('error', 'Gagal memperbarui data supplier material!');
     }
- SupplierMaterialController-zidane
+
     public function getSupplierMaterialByProductType($supplier_id, $product_type)
 {
     if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
