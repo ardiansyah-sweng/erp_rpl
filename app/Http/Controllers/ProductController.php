@@ -74,4 +74,16 @@ class ProductController extends Controller
         return view('product.list', compact('products'));
     }
 
+    public function deleteProduct($id)
+    {
+        // Panggil fungsi deleteProductById dari model Product
+        $deleted = Product::deleteProductById($id);
+        // Redirect kembali ke halaman list dengan pesan sukses atau gagal
+        if ($deleted) {
+            return redirect()->back()->with('success', 'Produk berhasil dihapus!');
+        } else {
+            return redirect()->back()->with('error', 'Produk tidak ditemukan atau gagal dihapus.');
+        }
+    }
+
 }

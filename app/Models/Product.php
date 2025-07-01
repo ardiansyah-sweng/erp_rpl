@@ -63,6 +63,26 @@ class Product extends Model
         return self::count();
     }
 
+    public static function deleteProductById($id)
+    {
+        $product = self::find($id);
+
+        if (!$product) {
+            return false;
+        }
+
+        $product_id = $product->product_id;
+        
+        $exists = Item::where('product_id', $product_id)->exists();
+
+        if ($exists) {
+            return false;
+        }
+
+        $product->delete();
+
+        return true;
+    }
 
     public static function addProduct($data)
     {
@@ -96,6 +116,23 @@ class Product extends Model
         $colProduct = config('db_constants.column.products');
 
         return $this->hasMany(Item::class, 'sku', 'product_id');
+    }
+
+    public static function deleteProductById($id)
+    {
+        $product = self::find($id);
+        if (!$product) {
+            return false;
+        }
+
+        // Cek apakah ada item dengan product_id terkait
+        $exists = Item::where('product_id', $product->product_id)->exists();
+        if ($exists) {
+            return false;
+        }
+
+        $product->delete();
+        return true;
     }
 
 }
