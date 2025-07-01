@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
 
 class BillOfMaterialControllerTest extends TestCase
 {
@@ -48,4 +50,39 @@ class BillOfMaterialControllerTest extends TestCase
         $response->assertStatus(404)
                  ->assertJson(['message' => 'Bill of Material not found.']);
     }
+/** @test */
+public function it_returns_bom_by_id_if_exists()
+{
+    // Hapus bom_id yang sama jika sudah ada (hindari duplicate)
+    DB::table('bill_of_material')->where('bom_id', 'BOM-001')->delete();
+
+    // Insert dummy
+    $id = DB::table('bill_of_material')->insertGetId([
+        'bom_id'           => 'BOM-001',
+        'bom_name'         => 'BOM-BOM-001',
+        'measurement_unit' => 31,
+        'total_cost'       => 38489,
+        'active'           => 1,
+        'created_at'       => now(),
+        'updated_at'       => now(),
+    ]);
+
+    // Akses endpoint
+    $response = $this->get("/bom/detail/{$id}");
+
+    // Validasi response
+    $response->assertStatus(200)
+             ->assertJson([
+                 'id'               => $id,
+                 'bom_id'           => 'BOM-001',
+                 'bom_name'         => 'BOM-BOM-001',
+                 'measurement_unit' => 31,
+                 'total_cost'       => 38489,
+                 'active'           => 1,
+             ]);
+
+    // Bersihkan setelah test (opsional)
+    DB::table('bill_of_material')->where('id', $id)->delete();
+}
+
 }
