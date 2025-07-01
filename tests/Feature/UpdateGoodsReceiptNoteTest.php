@@ -13,7 +13,7 @@ class UpdateGoodsReceiptNoteTest extends TestCase
     public function test_update_goods_receipt_note_success()
     {
         $col = config('db_constants.column.grn');
-        $po_number = 'PO0001'; // Pastikan ini ADA di database
+        $po_number = 'PO0001';
 
 
 
