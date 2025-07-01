@@ -206,4 +206,4 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
-Route::get('/bom/detail/{id}', [BillOfMaterialController::class, 'getBomDetail']);
+Route::get('/bill-of-material/{id}', [BillOfMaterialController::class, 'getBomDetail']);
