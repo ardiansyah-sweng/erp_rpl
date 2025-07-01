@@ -14,9 +14,7 @@ use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
-
 use App\Http\Controllers\GoodsReceiptNoteController;
-
 use App\Http\Controllers\BillOfMaterialController;
 
 
