@@ -8,6 +8,7 @@ use App\Models\Category;
 //
 class GetcategoryByparentId extends TestCase
 {
+
     public function test_model_getCategoryByParent(): void
     {
         $parentCategory = Category::inRandomOrder()->first();
@@ -20,4 +21,4 @@ class GetcategoryByparentId extends TestCase
             $this->assertEquals($parentCategory->id, $child->parent_id);
         }
     }
-}/
+}

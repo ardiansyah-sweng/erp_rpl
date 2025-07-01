@@ -9,7 +9,7 @@ class CountSupplierPicTest extends TestCase
 {
     public function test_model_countPICByStatus(): void
     {
-        // Ambil salah satu PIC secara acak dari database
+        //. Ambil salah satu PIC secara acak dari database
         $pic = SupplierPic::inRandomOrder()->first();
         $this->assertNotNull($pic, 'Tidak ada data PIC di tabel supplier_pics');
 
