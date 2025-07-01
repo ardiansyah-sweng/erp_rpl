@@ -371,6 +371,9 @@
     <div class="mb-4">
       <h1 class="h3 fw-bold mb-2">Suppliers</h1>
       <a href="#" class="btn btn-primary btn-sm">New Supplier</a>
+      <a href="{{ route('supplier.print-pdf') }}" class="btn btn-primary btn-sm" target="_blank">
+      <i class="fa fa-file-pdf-o"></i> Cetak PDF </a>
+
     </div>
 
     <div class="card shadow-sm">
