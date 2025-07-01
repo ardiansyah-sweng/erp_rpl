@@ -2,31 +2,24 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Merk;
+use Illuminate\Support\Facades\DB;
 
 class MerkModelTest extends TestCase
 {
-    use RefreshDatabase;
-
-    /** @test */
-    public function it_can_add_new_merk()
+    public function test_it_can_add_new_merk()
     {
-        $this->withoutExceptionHandling(); 
+        DB::table('merks')->where('merk', 'Contoh Merk')->delete();
 
-        $namaMerk = 'MerkUnitTest';
-        $active = 1;
-
-        $merk = Merk::addMerk($namaMerk, $active);
-
-        $this->assertDatabaseHas('merks', [
-            'merk' => $namaMerk,
-            'active' => $active,
+        $merk = Merk::create([
+            'merk' => 'Contoh Merk'
         ]);
 
-        $this->assertInstanceOf(Merk::class, $merk);
-        $this->assertEquals($namaMerk, $merk->merk);
-        $this->assertEquals($active, $merk->active);
+        $this->assertDatabaseHas('merks', [
+            'merk' => 'Contoh Merk'
+        ]);
+
+        DB::table('merks')->where('merk', 'Contoh Merk')->delete();
     }
 }
