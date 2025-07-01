@@ -75,8 +75,6 @@ Route::get('/supplier/material/detail', function () {
 
 
 
-# Product 
-Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list'); 
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');

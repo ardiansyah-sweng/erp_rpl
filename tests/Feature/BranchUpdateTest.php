@@ -8,7 +8,7 @@ use App\Models\Branch;
 
 class BranchUpdateTest extends TestCase
 {
-    use RefreshDatabase;
+    
 
     /** @test */
     public function test_update_branch_berhasil()
