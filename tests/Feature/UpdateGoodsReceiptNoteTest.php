@@ -15,8 +15,7 @@ class UpdateGoodsReceiptNoteTest extends TestCase
         $col = config('db_constants.column.grn');
         $po_number = 'PO0001'; // Pastikan ini ADA di database
 
-        // Tambahkan baris ini untuk debug:
-        dump(GoodsReceiptNote::pluck('po_number'));
+
 
         $payload = [
             'receipt_date' => '2025-06-13',
