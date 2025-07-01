@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class Item extends Model
@@ -103,7 +104,7 @@ class Item extends Model
 
     public static function countItemByProductType(?string $productType = null): int
     {
-        $query = self::query(); // Menggunakan query() untuk memulai builder
+        $query = self::query();
 
         if ($productType !== null) {
             $query->where('product_type', $productType);
@@ -112,12 +113,6 @@ class Item extends Model
         return $query->count();
     }
 
-    /**
-     * Mengambil jumlah item untuk setiap product_type yang berbeda.
-     * Asumsi 'product_type' adalah kolom di tabel 'item'.
-     *
-     * @return \Illuminate\Support\Collection Kumpulan objek dengan product_type dan count.
-     */
     public static function countAllItemProductTypes(): \Illuminate\Support\Collection
     {
         return self::select('product_type', \DB::raw('count(*) as total'))
