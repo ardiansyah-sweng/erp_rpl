@@ -58,4 +58,23 @@ class SupplierPic extends Model
             'days' => $diff->d,
         ]);
     }
+
+    public static function deleteSupplierPIC($id)
+    {
+        $pic = self::find($id);
+        if ($pic) {
+            return $pic->delete();
+        }
+        return false;
+    }
+
+    public static function isDuplicatePIC($supplierID, $name, $email, $phone_number)
+    {
+        return self::where('supplier_id', $supplierID)
+            ->where('name', $name)
+            ->where('email', $email)
+            ->where('phone_number', $phone_number)
+            ->exists();
+    }
+
 }
