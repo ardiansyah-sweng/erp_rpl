@@ -1118,6 +1118,24 @@ use App\Helpers\EncryptionHelper;
       };
 
       console.log("Form Data JSON:", formData);
+
+      fetch('/send-po-email', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': '{{ csrf_token() }}'
+          },
+          body: JSON.stringify(formData)
+      })
+      .then(res => res.json())
+      .then(data => {
+          console.log(data);
+          alert('Email berhasil dikirim!');
+      })
+      .catch(err => {
+          console.error(err);
+          alert('Gagal kirim email!');
+      });
     });
   });
   </script>

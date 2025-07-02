@@ -125,6 +125,15 @@ Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::clas
 Route::get('/purchase-orders/report', [PurchaseOrderController::class, 'showReportForm'])->name('purchase_orders.report_form');
 Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePurchaseOrderPDF'])->name('purchase_orders.pdf');
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
+#email
+Route::post('/send-po-email', function (\Illuminate\Http\Request $request) {
+    $data = $request->all();
+    Mail::send('purchase_orders.email', ['data' => $data], function ($message) {
+        $message->to('syah.ykm@gmail.com')->subject('Notifikasi PO');
+    });
+    return response()->json(['message' => 'Email berhasil dikirim']);
+});
+
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);

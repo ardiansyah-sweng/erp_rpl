@@ -12,7 +12,7 @@
               <label for="po_number">PO Number</label>
               <input type="text" class="form-control" id="po_number" value="PO0001" readonly>
     </div>
-    <form>
+    <form id="formAddPO">
         <div class="form-group">
             <label for="branch">Cabang</label>
             <input type="text" class="form-control" id="branch" placeholder="Masukkan nama cabang">
@@ -59,7 +59,7 @@
             <input type="text" class="form-control" id="tax" readonly>
         </div>
 
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary" id="submitBtn">Add</button>
         <button type="button" class="btn btn-danger">Cancel</button>
     </form>
 </div>
