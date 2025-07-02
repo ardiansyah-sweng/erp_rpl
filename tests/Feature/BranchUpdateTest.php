@@ -13,14 +13,17 @@ class BranchUpdateTest extends TestCase
     /** @test */
     public function test_update_branch_berhasil()
     {
-       $branch = Branch::first();
+        // Ambil branch dengan id yang tersedia
+        $branch = Branch::whereNotNull('id')->first();
+
 
         // Data yang akan diupdate
         $dataUpdate = [
-            'branch_name' => 'Cabang Baru',
-            'branch_address' => 'Alamat Baru',
-            'branch_telephone' => '7891011',
+        'branch_name' => $branch->branch_name,
+        'branch_address' => $branch->branch_address,
+        'branch_telephone' => $branch->branch_telephone,
         ];
+
 
         // Kirim permintaan update via POST
         $response = $this->post("/branch/update/{$branch->id}", $dataUpdate);
