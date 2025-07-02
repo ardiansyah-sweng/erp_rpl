@@ -85,9 +85,8 @@ class SupplierPIController extends Controller
 
     public function getSupplierPICAll()
     {
-        $supplierPICs = SupplierPICModel::getSupplierPICAll();
-
-        return view('supplier.pic.list', compact('supplierPICs'));
+        $supplierPICs = SupplierPic::getSupplierPICAll(); // ini method dari model kamu
+        return view('supplier.pic.list', ['pics' => $supplierPICs]);
     }
 
     public function deleteSupplierPIC($id)
