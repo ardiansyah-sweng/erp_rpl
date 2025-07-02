@@ -11,13 +11,13 @@ class BranchController extends Controller
 {
     public function getBranchById($id)
     {
-    $branch = (new Branch())->getBranchByID($id);
+        $branch = (new Branch())->getBranchByID($id);
 
-    if (!$branch) {
-        return abort(404, 'Cabang tidak ditemukan');
-    }
+        if (!$branch) {
+            return abort(404, 'Cabang tidak ditemukan');
+        }
 
-    return view('branch.detail', compact('branch'));
+        return view('branch.detail', compact('branch'));
     }
 
     public function getBranchAll(Request $request)

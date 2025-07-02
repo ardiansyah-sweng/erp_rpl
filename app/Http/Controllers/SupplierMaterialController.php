@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SupplierMaterial;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SupplierMaterialController extends Controller
 {
@@ -13,6 +14,18 @@ class SupplierMaterialController extends Controller
         $model = new SupplierMaterial();
         $materials = $model->getSupplierMaterial();
         return view('supplier.material.list', ['materials' => $materials]);
+    }
+
+    public function getSupplierMaterialById($id)
+    {
+        $model = new SupplierMaterial();
+        $material = $model->getSupplierMaterialById($id);
+
+        if (!$material) {
+            abort(404, 'Supplier material not found');
+        }
+
+        return view('supplier.material.detail', ['material' => $material]);
     }
 
      // Validasi data supplier material
@@ -27,7 +40,8 @@ class SupplierMaterialController extends Controller
             'created_at'    => 'nullable|date',
             'updated_at'    => 'nullable|date',
         ]);
-         return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
+        SupplierMaterial::addSupplierMaterial((object)$validated);
+         return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!'); 
      }
 
     public function updateSupplierMaterial(Request $request, $id)
@@ -70,4 +84,19 @@ class SupplierMaterialController extends Controller
 
     return response()->json($results);
 }
+
+    #cetak pdf
+    public function cetakPDF($supplier_id)
+    {
+        $materials = SupplierMaterial::where('supplier_id', $supplier_id)->get();
+
+        if ($materials->isEmpty()) {
+            return redirect()->back()->with('error', 'Data supplier tidak ditemukan.');
+        }
+
+        $supplierName = $materials->first()->company_name;
+
+        $pdf = Pdf::loadView('supplier.material.pdf', compact('materials', 'supplierName', 'supplier_id'));
+        return $pdf->stream('data_material_' . $supplier_id . '.pdf');
+    }
 }
