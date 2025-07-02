@@ -13,7 +13,8 @@ class PurchaseOrderController extends Controller
     public function getPurchaseOrder()
     {
         $purchaseOrders = PurchaseOrder::getAllPurchaseOrders();
-        return view('purchase_orders.list', compact('purchaseOrders'));
+        $countPurchaseOrder = PurchaseOrder::countPurchaseOrder();
+        return view('purchase_orders.list', compact('purchaseOrders', 'countPurchaseOrder'));
     }
 
     public function getPurchaseOrderByID($po_number)
