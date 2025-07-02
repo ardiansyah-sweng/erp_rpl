@@ -99,4 +99,12 @@ class Category extends Model
 
         return false;
     }
+
+    //search category
+    public static function searchCategory($keyword)
+    {
+        return self::where('category', 'like', '%' . $keyword . '%')
+                ->orderBy('created_at', 'asc')
+                ->paginate(10);
+    }
 }
