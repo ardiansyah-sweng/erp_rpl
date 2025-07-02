@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Warehouse;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
@@ -45,13 +46,13 @@ Route::get('/supplier/pic/add', function () {
 Route::get('/supplier/add', function () {
     return view('supplier/add');
 });
-
 Route::get('/supplier/detail', function () {
     return view('supplier/detail');
 });
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
+
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
@@ -79,6 +80,13 @@ Route::get('/goods_receipt_note/detail', function () {
     return view('goods_receipt_note/detail');
 });
 
+Route::get('/warehouse/add', function () {
+    return view('warehouse/add');
+})->name('warehouse.add');
+
+#warehouse
+// Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
+
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
@@ -103,6 +111,9 @@ Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.l
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
 Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('branch.delete');
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
+Route::get('/branch/detail/{id}', [BranchController::class, 'getBranchByID']);
+
+
 
 # PurchaseOrders
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
@@ -142,6 +153,7 @@ Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add'
 Route::get('/item/{id}', [itemController::class, 'getItemById']);
 Route::get('/items/report', [ItemController::class, 'exportAllToPdf'])->name('item.report');
 Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']);
+Route::get('/item/search/{keyword}', [ItemController::class, 'searchItem']);
 
 
 # Merk
@@ -212,5 +224,4 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 
 
 #BillOfMaterial
-Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
