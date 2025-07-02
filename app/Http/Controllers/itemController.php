@@ -108,6 +108,7 @@ class ItemController extends Controller
         return response()->json($items);
     }
     
+
     public function exportByProductTypeToPdf($productType)
     {
     $items = Item::getItemByType($productType);
@@ -123,5 +124,21 @@ class ItemController extends Controller
 
     return $pdf->stream("Item_berdasarkan_product_type_{$productType}.pdf");
     }
+
+
+    //search
+    public function searchItem($keyword)
+    {
+    $items = Item::where('item_name', 'like', '%' . $keyword . '%')->paginate(10);
+
+    if ($items->isEmpty()) {
+        return redirect()->back()->with('error', 'Tidak ada item yang ditemukan untuk kata kunci: ' . $keyword);
+    }
+
+    return view('item.list', compact('items'));
+    }
+
+
+
 
 }
