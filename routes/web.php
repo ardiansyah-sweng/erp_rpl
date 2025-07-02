@@ -139,7 +139,11 @@ Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add'
 Route::get('/item/{id}', [itemController::class, 'getItemById']);
 Route::get('/items/report', [ItemController::class, 'exportAllToPdf'])->name('item.report');
 Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']);
+
 Route::get('/item/pdf/product/{productType}', [ItemController::class, 'exportByProductTypeToPdf']);
+
+Route::get('/item/search/{keyword}', [ItemController::class, 'searchItem']);
+
 
 
 # Merk
@@ -207,3 +211,4 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
+Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
