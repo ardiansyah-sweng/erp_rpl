@@ -108,4 +108,18 @@ class ItemController extends Controller
         return response()->json($items);
     }
     
+    //search
+    public function searchItem($keyword)
+    {
+    $items = Item::where('item_name', 'like', '%' . $keyword . '%')->paginate(10);
+
+    if ($items->isEmpty()) {
+        return redirect()->back()->with('error', 'Tidak ada item yang ditemukan untuk kata kunci: ' . $keyword);
+    }
+
+    return view('item.list', compact('items'));
+    }
+
+
+
 }
