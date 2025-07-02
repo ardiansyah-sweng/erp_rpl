@@ -388,7 +388,7 @@
                     <h3 class="card-title">Form Goods Receipt Note</h3>
                   </div>
 
-                  <div class="card-body">
+                  <div class="card-body" id="printArea">
                     <div class="form-group mb-3">
                       <label for="po_number">PO Number</label>
                       <input type="text" class="form-control" id="po_number" value="POO0002" readonly>
