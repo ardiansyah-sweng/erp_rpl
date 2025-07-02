@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseOrderController extends Controller
 {
