@@ -37,6 +37,7 @@ class GoodsReceiptNote extends Model
 
         $fillable = (new self)->getFillable();
         $filteredData = array_intersect_key($data, array_flip($fillable));
+        $grn->update($filteredData);
         $grn->fill($filteredData);
         $grn->save();
 
