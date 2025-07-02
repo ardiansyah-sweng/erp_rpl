@@ -59,4 +59,25 @@ class SupplierMaterialControllerTest extends TestCase
                 'base_price'
             ]);
         }
+        
+        public function test_returns_supplier_materials_by_product_type()
+{
+    // Kirim request langsung tanpa insert dummy data
+    $response = $this->get('/supplier-material/SUP005/RM');
+
+    // Pastikan responsenya sukses
+    $response->assertStatus(200);
+
+    // Pastikan struktur JSON-nya sesuai
+    $response->assertJsonStructure([
+        '*' => [
+            'supplier_id',
+            'company_name',
+            'product_id',
+            'product_name',
+            'base_price',
+            'product_type',
+        ]
+    ]);
+    }
 }
