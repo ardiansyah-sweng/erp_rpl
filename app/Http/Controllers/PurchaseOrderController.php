@@ -109,18 +109,11 @@ class PurchaseOrderController extends Controller
     }
     public function getPurchaseOrderByStatus($status)
     {
-        //data dummy
-        $purchaseOrders = collect([
-            ['id' => 1, 'status' => 'pending', 'supplier' => 'Supplier A', 'total' => 500000],
-            ['id' => 2, 'status' => 'approved', 'supplier' => 'Supplier B', 'total' => 750000],
-            ['id' => 3, 'status' => 'pending', 'supplier' => 'Supplier C', 'total' => 300000],
-            ['id' => 4, 'status' => 'completed', 'supplier' => 'Supplier A', 'total' => 1500000],
-        ]);
+        $filtered = DB::table('purchase_order')
+                    ->where('status', $status)
+                    ->get();
 
-        //filter status
-        $filtered = $purchaseOrders->where('status', $status)->values();
-
-        //kalo hasilnya gaada
+        //data kosong
         if ($filtered->isEmpty()) {
             return response()->json([
                 'message' => 'No purchase orders found with status: ' . $status,

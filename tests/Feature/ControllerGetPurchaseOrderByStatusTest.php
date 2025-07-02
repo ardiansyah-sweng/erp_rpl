@@ -2,37 +2,47 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class ControllerGetPurchaseOrderByStatusTest extends TestCase
 {
-    /** @test */
-    public function it_returns_purchase_orders_with_valid_status()
+    public function test_all_existing_statuses_return_success()
     {
-        $response = $this->get('/purchase-orders/status/pending');
+        $statuses = DB::table('purchase_order')->distinct()->pluck('status');
 
-        $response->assertStatus(200);
-        $response->assertJson([
-            'status' => 'pending',
-            'count' => 2,
-        ]);
-        $response->assertJsonStructure([
-            'status',
-            'count',
-            'data' => [
-                ['id', 'status', 'supplier', 'total'],
-            ]
-        ]);
+        foreach ($statuses as $status) {
+            $response = $this->get("/purchase-order/status/{$status}");
+
+            $response->assertStatus(200, "Status '{$status}' seharusnya mengembalikan 200 OK");
+            $response->assertJson([
+                'status' => $status,
+            ]);
+            $response->assertJsonStructure([
+                'status',
+                'count',
+                'data' => [
+                    '*' => ['supplier_id', 'status', 'total']
+                ]
+            ]);
+        }
     }
 
-    /** @test */
-    public function it_returns_404_when_status_not_found()
+    public function test_unknown_status_returns_404()
     {
-        $response = $this->get('/purchase-orders/status/nonexistent');
+        $unknownStatus = 'this_status_does_not_exist';
+
+        // Pastikan status ini tidak ada di tabel
+        $this->assertFalse(
+            DB::table('purchase_order')->where('status', $unknownStatus)->exists(),
+            "Status '{$unknownStatus}' harus tidak ada di database untuk test ini."
+        );
+
+        $response = $this->get("/purchase-order/status/{$unknownStatus}");
 
         $response->assertStatus(404);
         $response->assertJson([
-            'message' => 'No purchase orders found with status: nonexistent',
+            'message' => "No purchase orders found with status: {$unknownStatus}"
         ]);
     }
 }
