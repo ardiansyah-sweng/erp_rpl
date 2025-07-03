@@ -399,48 +399,40 @@
               <div class="card-header"><h3 class="card-title">List Table</h3></div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th style="width: 10px">id</th>
-                      <th>product_id</th>
-                      <th>product_name</th>
-                      <th>product_type</th>
-                      <th>product_category</th>
-                      <th>product_description</th>
-                      <th>Created At</th>
-                      <th>Updated At </th>
-                      <th>Action </th>
-                    </tr>
-                  </thead>
-                 <tbody>
-                  @foreach ($products as $index => $product)
-                  <tr class="align-middle">
-                      <td>{{ $index + 1 }}</td>
-                      <td>{{ $product->product_id }}</td>
-                      <td>{{ $product->product_name }}</td>
-                      <td>{{ $product->product_type }}</td>
-                      <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
-                      <td>{{ $product->product_description }}</td>
-                      <td>{{ $product->created_at }}</td>
-                      <td>{{ $product->updated_at }}</td>
-                      <td>
-                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <form  method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?')">Delete</button>
-                              </form>
-                          <a href="#" class="btn btn-sm btn-info">Detail</a>
-                      </td>
-                  </tr>
+                <table id="datatable" class="table table-bordered">
+    <thead style="background-color: #f4c9b1;">
+        <tr>
+            <th>No</th>
+            <th>Kode</th>
+            <th>Nama Kategori Produk</th>
+            <th>Aktif</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($categories as $index => $category)
+        <tr>
+            <td>{{ $index + 1 }}</td> <!-- No -->
+            <<td>{{ str_pad($category->id, 3, '0', STR_PAD_LEFT) }}</td> <!-- Kode -->
+            <td>{{ $category->category }}</td> <!-- Nama Kategori -->
+            <td>{{ $category->active ? 'v' : 'x' }}</td> <!-- Aktif -->
+            <td>
+                <a href="#" class="text-primary">Edit</a> |
+                <form method="POST" style="display: inline;">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="text-danger border-0 bg-transparent p-0" onclick="return confirm('Yakin ingin hapus?')">Hapus</button>
+                </form>
+            </td>
+        </tr>
         @endforeach
     </tbody>
 </table>
+
+
               </div>
               <!-- /.card-body -->
               <div class="card-footer clearfix">
-                {{ $products->links('pagination::bootstrap-4') }}
+                {{ $categories->links('pagination::bootstrap-4') }}
               </div>
             </div>
     
