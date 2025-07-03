@@ -38,4 +38,8 @@ class Supplier extends Model
         return self::count();   
     }
 
+    public static function getSupplierByKeywords($keywords)
+    {
+        return self::where('company_name', 'like', '%' . $keywords . '%')->get();
+    }
 }
