@@ -7,8 +7,12 @@ use Exception;
 
 class Item extends Model
 {
-    protected $table;
-    protected $fillable = [];
+    protected $table = 'item';
+    protected $fillable = [
+        'product_id', 'sku', 'item_name', 'measurement_unit',
+        'avg_base_price', 'selling_price', 'purchase_unit',
+        'sell_unit', 'stock_unit'
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -31,7 +35,7 @@ class Item extends Model
 
     public static function getAllItems($search = null)
     {
-        $query = self::query();
+        $query = self::with('unit');
 
         if ($search) {
             if (is_numeric($search)) {
@@ -70,4 +74,43 @@ class Item extends Model
     {
         return self::count();
     }
+
+    public static function updateItem($id, $data)
+    {
+        $item = self::find($id);
+    
+        if (!$item) {
+            return null;
+        }
+    
+        $item->update($data);
+    
+        return $item;
+       }
+
+
+    public function addItem($data)
+    {
+        return self::create($data);
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(MeasurementUnit::class, 'measurement_unit', 'id');
+    }
+
+
+    public static function getItembyId($id){
+        return self::where('id', $id)->first();
+
+    }
+    
+    public static function getItemByType($productType)
+    {
+        return self::join('products', 'item.product_id', '=', 'products.product_id')
+            ->where('products.product_type', $productType)
+            ->select('item.*', 'products.product_type', 'products.product_name')
+            ->get();
+    }
+    
 }
