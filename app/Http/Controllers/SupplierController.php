@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SupplierController extends Controller
 {
@@ -28,5 +29,13 @@ class SupplierController extends Controller
 
         return view('Supplier.detail', compact('sup'));
     }
+
+    public function printPDF()
+    {
+        $suppliers = Supplier::all();
+        $pdf = Pdf::loadView('supplier.pdf', compact('suppliers'));
+        return $pdf->stream('daftar_supplier.pdf');
+    }
+    
 }
 
