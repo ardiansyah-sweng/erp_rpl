@@ -194,6 +194,8 @@ Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
 Route::get('/warehouse/report',[WarehouseController::class,'exportPdf'])->name('warehouse.report');
 
 
+// Route untuk delete production
+Route::delete('/production/{id}', [AssortProductionController::class, 'deleteProduction'])->name('production.delete');
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 

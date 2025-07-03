@@ -8,6 +8,22 @@ use Illuminate\Support\Facades\DB;
 
 class AssortProductionController extends Controller
 {
+    public function deleteProduction($id)
+    {
+        // Cek apakah data dengan ID tersebut ada
+        $exists = DB::table('assortment_production')->where('id', $id)->exists();
+        if (!$exists) {
+            return response()->json(['message' => 'Data dengan ID tersebut tidak ditemukan'], 404);
+        }
+
+        // Hapus data
+        $deleted = DB::table('assortment_production')->where('id', $id)->delete();
+        if ($deleted) {
+            return response()->json(['message' => 'Data berhasil dihapus'], 200);
+        } else {
+            return response()->json(['message' => 'Gagal menghapus data'], 500);
+        }
+    }
     public function getProduction()
     {
         // Mengambil data dari tabel 'assortment_production' langsung dari query builder
