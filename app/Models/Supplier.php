@@ -41,5 +41,8 @@ class Supplier extends Model
     public static function getSupplierByKeywords($keywords)
     {
         return self::where('company_name', 'like', '%' . $keywords . '%')->get();
+    public static function addSupplier($data)
+    {
+        return self::create($data);
     }
 }

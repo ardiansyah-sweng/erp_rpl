@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah Cabang</title>
+    <title>ERP RPL UAD | Tambah Gudang</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
@@ -202,7 +202,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="{{route('purchase.orders')}}" class="nav-link active">
+                <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Purchase Orders
@@ -210,7 +210,7 @@
                 </a>                
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
+                <a href="{{ route('branch.list') }}" class="nav-link active">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -223,6 +223,12 @@
                       <p>Item</p>
                     </a>
                   </li>
+              <li class="nav-item">
+              <a href="{{ route('warehouse.add') }}" class="nav-link">
+              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>warehouse</p>
+                    </a>
+                  </li>
             </ul>
           </nav>
         </div>
@@ -231,12 +237,12 @@
         <div class="app-content-header">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Detail Order</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Tambah Gudang</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="{{route('purchase.orders')}}">Purchase Orders</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Detail Order</li>
+                  <li class="breadcrumb-item"><a href="/warehouse/add">warehouse</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                 </ol>
               </div>
             </div>
@@ -248,66 +254,40 @@
               <div class="col-md-12">
                 <div class="card card-primary">
                   <div class="card-header">
-                    <h3 class="card-title"> </h3>
+                    <h3 class="card-title">Tambah Gudang</h3>
                   </div>
-                         
-                <div class="card-body">
-                  <!-- Add a container for the purchase order data -->
-                  <div id="purchase-order-details">
-                      <h6>ID Purchase Order</h6>
-                      <h4>{{ $purchaseOrder->first()->po_number }}</h4>
-                      <h6>Supplier</h6>
-                      <h4>{{ $purchaseOrder->first()->supplier->company_name }}</h4>
-                      <h6>Status</h6>
-                      <h4>{{ $purchaseOrder->first()->status }}</h4>
-                      <h6>Last Updated Status</h6>
-                      @php
-                        $poLength = app()->make('App\Http\Controllers\PurchaseOrderController')
-                                         ->getPOLength($purchaseOrder[0]->po_number, $purchaseOrder[0]->order_date);
-                      @endphp
-                      <h4>{{ $poLength }} Days</h4>
-                      <h6>Order Date</h6>
-                      <h4>{{ $purchaseOrder->first()->order_date }}</h4>
-                      <h6>Updated At</h6>
-                      <h4>{{ Carbon\Carbon::parse($purchaseOrder->first()->updated_at)->format('Y-m-d') }}</h4>                     
-                      
-                      <!-- Add Purchase Order Details Table -->
-                      <h6 class="mt-4">Purchase Order Details</h6>
-                      <div class="table-responsive">
-                          <table class="table table-bordered table-striped">
-                              <thead>
-                                  <tr>
-                                      <th>Product ID</th>
-                                      <th>Quantity</th>
-                                      <th>Amount</th>
-                                      <th>Total</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  @php $grandTotal = 0; @endphp
-                                  @foreach($purchaseOrder->first()->details as $detail)
-                                      @php
-                                          $subtotal = $detail->quantity * $detail->amount;
-                                          $grandTotal += $subtotal;
-                                      @endphp
-                                      <tr>
-                                          <td>{{ $detail->product_id }}</td>
-                                          <td>{{ $detail->quantity }}</td>
-                                          <td>Rp {{ number_format($detail->amount, 0, ',', '.') }}</td>
-                                          <td>Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
-                                      </tr>
-                                  @endforeach
-                              </tbody>
-                              <tfoot>
-                                  <tr>
-                                      <td colspan="3" class="text-end"><strong>Grand Total:</strong></td>
-                                      <td><strong>Rp {{ number_format($grandTotal, 0, ',', '.') }}</strong></td>
-                                  </tr>
-                              </tfoot>
-                          </table>
+                  {{-- warehouse list belum di buat --}}
+                  <form action="{{ route('warehouse.add') }}" method="get" id="warehouseForm"> 
+                    @csrf
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="warehouse_name">Nama Gudang</label>
+                        <input type="text" class="form-control" id="warehouse_name" name="warehouse_name" value="">
                       </div>
-                  </div>
-              </div>
+                      
+                      <div class="form-group">
+                        <label for="warehouse_address">Alamat</label>
+                        <input type="textarea" class="form-control" id="warehouse_address" name="warehouse_address" value="">
+                        <!-- <textarea class="form-control" id="warehouse_address" name="warehouse_address" value readonly></textarea> -->
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="warehouse_telephone">Telepon</label>
+                        <input type="text" class="form-control" id="warehouse_telephone" name="warehouse_telephone" value="">
+                      </div>
+                      
+                      <div class="form-group">
+                        <div class="custom-control custom-switch">
+                          <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" checked>
+                          <label class="custom-control-label" for="is_active">Aktif</label>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                  </form>
                   
                   <div id="debug-output" class="mt-4" style="display: none;">
                     <div class="card">
@@ -319,8 +299,8 @@
                 </div>
               </div>
             </div>
-          </div> 
-        </div> 
+          </div>
+        </div>
       </main>
       <footer class="app-footer">
         <div class="float-end d-none d-sm-inline">Anything you want</div>
@@ -380,7 +360,5 @@
         });
     });
     </script>
-
-    
   </body>
 </html>
