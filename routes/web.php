@@ -223,6 +223,3 @@ Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMate
 
 #Goods Receipt Note Controller
 Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'getGoodsReceiptNote']);
-
-# Delete Supplier
-Route::delete('/delete_supplier/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete');
