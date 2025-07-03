@@ -25,7 +25,7 @@ class BillOfMaterialModel extends Model
                   ->orWhere('updated_at', 'LIKE', "%{$keywords}%");
         }
 
-        return $query->orderBy('created_at', 'asc')->paginate(10);
+    return $query->orderBy('created_at', 'asc')->paginate(10);
     }
      public static function countBillOfMaterial()
     {
