@@ -24,12 +24,12 @@ class BillOfMaterialModel extends Model
                   ->orWhere('created_at', 'LIKE', "%{$keywords}%")
                   ->orWhere('updated_at', 'LIKE', "%{$keywords}%");
         }
-
+        
     return $query->orderBy('created_at', 'asc')->paginate(10);
     }
      public static function countBillOfMaterial()
     {
-        return self::count();
+    return self::count();
     }
      public static function countItemInBom($bom_id): int
     {
