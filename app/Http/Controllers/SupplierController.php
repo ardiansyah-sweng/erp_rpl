@@ -28,6 +28,5 @@ class SupplierController extends Controller
 
         return view('Supplier.detail', compact('sup'));
     }
-    
 }
 
