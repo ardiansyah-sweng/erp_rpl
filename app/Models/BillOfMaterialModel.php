@@ -31,8 +31,8 @@ class BillOfMaterialModel extends Model
     {
         return self::count();
     }
- public static function countItemInBom($bom_id): int
-{
+     public static function countItemInBom($bom_id): int
+    {
     return DB::table('bill_of_material_item')
         ->where('bom_id', $bom_id)
         ->count();
