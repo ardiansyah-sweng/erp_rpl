@@ -134,6 +134,7 @@ Route::post('/send-po-email', function (\Illuminate\Http\Request $request) {
     return response()->json(['message' => 'Email berhasil dikirim']);
 });
 
+Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);

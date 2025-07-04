@@ -437,7 +437,11 @@
                             @forelse($branches as $branch)
                             <tr>
                             <td>{{ $branch->id }}</td>
-                            <td>{{ $branch->branch_name }}</td>
+                            <td>
+                                <a href="{{ route('branch.detail', ['id' => $branch->id]) }}">
+                                    {{ $branch->branch_name }}
+                                </a>
+                            </td>
                             <td>{{ $branch->branch_address }}</td>
                             <td>{{ $branch->branch_telephone }}</td>
                             <td class="text-center">
