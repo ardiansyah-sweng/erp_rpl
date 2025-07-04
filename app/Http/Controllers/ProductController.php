@@ -74,5 +74,21 @@ class ProductController extends Controller
 
         return view('product.list', compact('products'));
     }
+   
+public function getProductByCategory($product_category)
+{
+    $products = Product::where('product_category', $product_category)->get();
+
+    if ($products->isEmpty()) {
+        return response()->json([
+            'message' => 'Produk dengan kategori tersebut tidak ditemukan'
+        ], 404);
+    }
+
+    return response()->json([
+        'message' => 'Produk ditemukan',
+        'data' => $products
+    ]);
+}
 
 }
