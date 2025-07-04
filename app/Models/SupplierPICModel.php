@@ -31,9 +31,5 @@ class SupplierPICModel extends Model
 
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
-    public static function getSupplierPICAll()
-    {
-        return self::with('supplier')->orderBy('created_at', 'asc')->paginate(10);
-    }
 
 }
