@@ -11,6 +11,7 @@ class Merk extends Model
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
+    public $timestamps = true;
 
     public function __construct(array $attributes = [])
     {
@@ -65,5 +66,15 @@ class Merk extends Model
         }
         
         return false;
+
+    public static function addMerk($namaMerk, $active = 1)
+    {
+        $merk = new self();
+        $merk->merk = $namaMerk;
+        $merk->active = $active; 
+        $merk->save();
+
+        return $merk;
+
     }
 }
