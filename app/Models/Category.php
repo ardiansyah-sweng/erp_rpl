@@ -54,7 +54,20 @@ class Category extends Model
 
     public static function getCategoryById($id)
     {
-        return self::find($id);
+        $category = self::with('parent:id,category')->find($id);
+
+    if (!$category) {
+        return null;
+    }
+
+    // Ubah parent_id menjadi nama kategori induk
+    $category->parent_id = optional($category->parent)->category ?? 'Tanpa Induk';
+
+    // Hapus field yang tidak diperlukan
+    unset($category->parent);
+    unset($category->parent_name); // jika sebelumnya menggunakan accessor
+
+    return $category;
     }
     public static function countByParent()
     {
