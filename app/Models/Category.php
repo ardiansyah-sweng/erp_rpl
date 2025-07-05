@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
 
 class Category extends Model
 {
@@ -91,6 +92,13 @@ class Category extends Model
     // delete category
     public static function deleteCategoryById($id)
     {
+        // Cek apakah kategori digunakan di tabel produk
+        $isUsed = Product::where('product_category', $id)->exists();
+
+        if ($isUsed) {
+            return false;
+        }
+
         $category = self::find($id);
 
         if ($category) {
