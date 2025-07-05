@@ -154,7 +154,7 @@ Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSu
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
 Route::get('/supplier/material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialById'])->name('supplier.material.detail');
-Route::get('/supplier-materials/{product_name}/{supplier_id}', [SupplierMaterialController::class, 'getSupplierMaterialByCategory']);
+Route::get('/supplier-materials/{category}/{supplier_id}', [SupplierMaterialController::class, 'getSupplierMaterialByCategory']);
 
 #Suppplier Update 
 Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');//Sudah sesuai pada ERP RPL
@@ -195,7 +195,8 @@ Route::get('/bom/list', function () {
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/assortment_production/detail', function () {
-    return view('assortment_production.detail'); });
+    return view('assortment_production.detail');
+});
 Route::put('/assortment_production/update/{id}', [AssortProductionController::class, 'updateProduction'])->name('assortment_production.update');
 Route::get('/assortment_production/detail/{po_number}', [AssortProductionController::class, 'getProductionDetail']);
 

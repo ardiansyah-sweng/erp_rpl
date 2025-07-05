@@ -78,16 +78,16 @@ class SupplierMaterialController extends Controller
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
 
-    public function getSupplierMaterialByCategory($product_name, $supplier_id)
+    public function getSupplierMaterialByCategory($category, $supplier_id)
     {
-        $materials = SupplierMaterial::getSupplierMaterialByCategory($product_name, $supplier_id);
+        $materials = SupplierMaterial::getSupplierMaterialByCategory($category, $supplier_id);
         if ($materials->isEmpty()) {
             return response()->json(['message' => 'Tidak ada data material ditemukan untuk kategori dan supplier ini.'], 404);
         }
 
         return response()->json([
             'supplier_id' => $supplier_id,
-            'product_name' => $product_name,
+            'category' => $category,
             'materials' => $materials
         ]);
     }

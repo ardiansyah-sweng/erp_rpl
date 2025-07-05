@@ -13,28 +13,28 @@ class GetSupplierMaterialByCategoryTest extends TestCase
      */
     public function test_get_supplier_material_by_category_returns_data_when_exists(): void
     {
-        $productName = 'Characters 247g saepe';
+        $category = 'RM';
         $supplierId = 'SUP001';
-
-        $response = $this->getJson("/supplier-materials/{$productName}/{$supplierId}");
+        $response = $this->getJson("/supplier-materials/{$category}/{$supplierId}");
 
         $response->assertStatus(200)
             ->assertJsonFragment([
-                'product_name' => $productName,
+                'category' => $category,
                 'supplier_id' => $supplierId,
             ]);
     }
 
     public function test_get_supplier_material_by_category_returns_404_when_data_not_found(): void
     {
-        $productName = 'ProdukTidakAda';
+        $category = 'INVALID_CATEGORY';
         $supplierId = 'SUP999';
 
-        $response = $this->getJson("/supplier-materials/{$productName}/{$supplierId}");
+        $response = $this->getJson("/supplier-materials/{$category}/{$supplierId}");
 
         $response->assertStatus(404)
             ->assertJson([
                 'message' => 'Tidak ada data material ditemukan untuk kategori dan supplier ini.',
             ]);
     }
+
 }
