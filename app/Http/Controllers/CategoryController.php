@@ -41,23 +41,27 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'category' => 'required|string|min:3',
-            'parent_id' => 'nullable|integer|exists:categories,id',
+            'parent_id' => 'nullable|integer|exists:category,id',
+            'active' => 'required|boolean'
         ]);
 
-        $updatedCategory = Category::updateCategory($id, $request->only(['category', 'parent_id']));
+        $updatedCategory = Category::updateCategory($id, $request->only(['category', 'parent_id', 'active']));
 
         if (!$updatedCategory) {
             return response()->json(['message' => 'Kategori tidak ditemukan'], 404);
         }
 
-        return response()->json([
-            'message' => 'Kategori berhasil diupdate',
-            'data' => $updatedCategory
-        ]);
+        return redirect()->route('category.edit', $id)->with('success', 'Kategori berhasil diupdate');
+    }
 
-        // return view('category.detail', compact('category')); 
-        // apabila halaman detail kategori sudah ada harap untuk di uncomment return view
-        // dan return response nya di hapus
+    public function updateCategoryById($id)
+    {
+        $category = Category::getCategoryById($id);
+        if (!$category) {
+            return response()->json(['message' => 'Kategori tidak ditemukan'], 404);
+        }
+
+        return view('category.edit', compact('category'));
     }
 
     public function getCategoryById($id)

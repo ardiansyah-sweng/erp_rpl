@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\MeasurementUnit;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ItemController extends Controller
 {
@@ -84,11 +85,41 @@ class ItemController extends Controller
         return redirect()->back()->with('success', 'Item berhasil diperbarui.');
     }
   
+    public function exportAllToPdf()
+    {
+        $items = (new Item)->getItem();
 
+        if (empty($items) || count($items) === 0) {
+            return redirect()->back()->with('error', 'Tidak ada data yang tersedia untuk diekspor');
+        }
+
+        $pdf = Pdf::loadView('item.report', compact('items'));
+        return $pdf->stream('laporan-item.pdf');
+    }
     
     public function getItemById($id){
         $item = (new item())->getItemById($id);
         return view('item.detail', compact('item'));
     }
+
+    public function getItemByType($productType)
+    {
+        $items = Item::getItemByType($productType);
+        return response()->json($items);
+    }
+    
+    //search
+    public function searchItem($keyword)
+    {
+    $items = Item::where('item_name', 'like', '%' . $keyword . '%')->paginate(10);
+
+    if ($items->isEmpty()) {
+        return redirect()->back()->with('error', 'Tidak ada item yang ditemukan untuk kata kunci: ' . $keyword);
+    }
+
+    return view('item.list', compact('items'));
+    }
+
+
 
 }
