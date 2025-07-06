@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AssortmentProduction;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use App\Models\AssortmentProduction;
 
 class AssortProductionController extends Controller
 {
@@ -32,7 +33,7 @@ class AssortProductionController extends Controller
             'description'        => 'nullable|string|max:45',
         ]);
 
-        // Memastikan data ID ada 
+        // Memastikan data ID ada
         $exists = DB::table('assortment_production')->where('id', $id)->exists();
 
         if (!$exists) {
@@ -50,7 +51,7 @@ class AssortProductionController extends Controller
             return response()->json(['message' => 'Data tidak mengalami perubahan'], 200);
         }
     }
-    
+
     public function getProductionDetail($production_number)
     {
         return AssortmentProduction::getProductionDetail($production_number);
@@ -63,6 +64,11 @@ class AssortProductionController extends Controller
             ->get(['id', 'sku']); // ambil hanya kolom yang diperlukan
 
         return response()->json($productions); // hasilnya array of object
+    }
+
+    public function deleteProduction(string $production_number): JsonResponse
+    {
+        return AssortmentProduction::deleteProduction($production_number);
     }
 
 }

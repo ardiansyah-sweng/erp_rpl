@@ -52,7 +52,7 @@ class AssortProductionModelTest extends TestCase
         $production = AssortmentProduction::create([
             'production_number' => 'CB-01',
             'sku' => 'SKU-TEST-001',
-            'branch_id' => 1,       
+            'branch_id' => 1,
             'rm_whouse_id' => 10,
             'fg_whouse_id' => 20,
             'production_date' => now()->format('Y-m-d H:i:s'),
@@ -81,4 +81,26 @@ class AssortProductionModelTest extends TestCase
         ]);
     }
 
+    public function test_delete_production()
+    {
+        $production = AssortmentProduction::create([
+            'production_number' => 'DEL-OK-01',
+            'sku' => 'SKU-DEL-01',
+            'branch_id' => 2,
+            'rm_whouse_id' => 10,
+            'fg_whouse_id' => 20,
+            'in_production' => 0,
+            'production_date' => now(),
+            'description' => 'Test delete success'
+        ]);
+
+        $response = AssortmentProduction::deleteProduction($production->production_number);
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(['message' => 'Production deleted successfully'], $response->getData(true));
+
+        $this->assertDatabaseMissing('assortment_production', [
+            'production_number' => 'DEL-OK-01',
+        ]);
+    }
 }

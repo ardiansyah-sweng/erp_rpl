@@ -67,6 +67,15 @@ class SupplierMaterial extends Model
             ->count();
     }
 
+    public function addBasePrice(array $data)
+    {
+        if (empty($data)) {
+            throw new \Exception('Data untuk menambah harga dasar tidak boleh kosong.');
+        }
+
+        return $this->create($data);
+    }
+
     public static function addSupplierMaterial($data)
     {
         if (empty($data)) {
