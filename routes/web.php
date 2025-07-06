@@ -224,6 +224,9 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
 
 
-Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote']);
+
 
 Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
+
+
+Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote']);
