@@ -22,27 +22,21 @@ class GoodsReceiptNote extends Model
             'comments'
         ]));
     }
-
     public static function getGoodsReceiptNote($po_number)
     {
         return self::where('po_number', $po_number)->first();
     }
-
     public static function updateGoodsReceiptNote($po_number, array $data)
     {
         $grn = self::getGoodsReceiptNote($po_number);
         if (!$grn) {
             return null;
         }
-
         $fillable = (new self)->getFillable();
         $filteredData = array_intersect_key($data, array_flip($fillable));
         $grn->update($filteredData);
-
         return $grn;
     }
-
-    
     public static function addGoodsReceiptNote($data)
     {
         return self::create($data);
