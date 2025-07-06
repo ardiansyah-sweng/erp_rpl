@@ -11,6 +11,7 @@ class Merk extends Model
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
+    public $timestamps = true;
 
     public function __construct(array $attributes = [])
     {
@@ -43,5 +44,25 @@ class Merk extends Model
     public function getMerkById($id)
     {
         return self::where('id', $id)->first();
+    }
+    
+     public static function getAllMerk()
+    {
+        return self::orderBy('created_at', 'asc')->paginate(10);
+    }
+    public static function searchMerk($keyword)
+    {
+        return self::where('merk', 'like', '%' . $keyword . '%')
+                ->orderBy('created_at', 'asc')
+                ->paginate(10);
+    }
+    public static function addMerk($namaMerk, $active = 1)
+    {
+        $merk = new self();
+        $merk->merk = $namaMerk;
+        $merk->active = $active; 
+        $merk->save();
+
+        return $merk;
     }
 }

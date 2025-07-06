@@ -48,6 +48,19 @@ class SupplierPIController extends Controller
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // max 2MB
         ]);
 
+        // Cek duplikat menggunakan method model
+        if (SupplierPic::isDuplicatePIC(
+            $supplierID,
+            $request->input('name'),
+            $request->input('email'),
+            $request->input('phone_number')
+        )) {
+            return redirect()->back()
+                ->withErrors(['duplicate' => 'Data PIC dengan informasi yang sama sudah ada dan tidak bisa disimpan.'])
+                ->withInput();
+        }
+
+
         // Handle upload foto jika ada
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
@@ -69,4 +82,15 @@ class SupplierPIController extends Controller
 
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
     }    
+
+    public function deleteSupplierPIC($id)
+    {
+        $picDelete = SupplierPic::deleteSupplierPIC($id); 
+
+        if($picDelete){
+            return redirect()->back()->with('success', 'PIC berhasil dihapus!');
+        } else {
+            return redirect()->back()->with('error', 'PIC gagal dihapus.');
+        }
+    }
 }
