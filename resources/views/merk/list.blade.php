@@ -269,7 +269,7 @@
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
-          <a href="dashboard" class="brand-link">
+          <a href="/dashboard" class="brand-link">
             <!--begin::Brand Image-->
             <img
               src={{asset("assets/dist/assets/img/LogoRPL.png")}}
@@ -295,7 +295,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-              <a href="dashboard" class="nav-link active">
+              <a href="/dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -361,6 +361,12 @@
                       <p>Item</p>
                     </a>
                   </li>
+                        <li class="nav-item">
+              <a href="{{ route('merk.list') }}" class="nav-link">
+                      <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>Merk</p>
+                    </a>
+                  </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -378,7 +384,9 @@
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Merk</h3>
-                <a href="#" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="/merk/add" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="/merk/print" class="btn btn-primary btn-sm ms-2">Cetak Merk</a>
+
               </div>
 
               <div class="col-sm-6">
@@ -420,9 +428,9 @@
                      <td>{{ $merk->updated_at }}</td>
 
                       <td>
-                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                          <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                          <a href="#" class="btn btn-sm btn-info">Detail</a>
+                          <a href="/merk/update/{{$merk->id}}" class="btn btn-sm btn-primary">Edit</a>
+                          <a href="/merk/delete/{{$merk->id}}" class="btn btn-sm btn-danger">Delete</a>
+                          <a href="/merk/{{$merk->id}}" class="btn btn-sm btn-info">Detail</a>
                       </td>
                   </tr>
 

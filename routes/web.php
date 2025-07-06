@@ -162,7 +162,8 @@ Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('m
 
 Route::get('/merk/list',[MerkController::class,'getMerkAll'])->name('merk.list');
 
-Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
+Route::get('/merk', [MerkController::class, 'getMerkAll'])->name('merk.list');
+Route::get('/merks/list',[MerkController::class,'getMerkAll'])->name('merk.list');
 
 
 #Supplier
