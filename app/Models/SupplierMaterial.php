@@ -58,6 +58,7 @@ class SupplierMaterial extends Model
     }
 
 
+
     public static function getSupplierMaterialByCategory($productID = null, $productName = null)
     {
         $query = self::query();
@@ -76,6 +77,18 @@ class SupplierMaterial extends Model
 
 
     protected $table = 'supplier_product';
+
+
+    public static function countSupplierMaterialFoundByKeyword($keyword)
+    {
+        return DB::table('supplier_product')
+            ->where('supplier_id', 'like', '%' . $keyword . '%')
+            ->orWhere('company_name', 'like', '%' . $keyword . '%')
+            ->orWhere('product_id', 'like', '%' . $keyword . '%')
+            ->orWhere('product_name', 'like', '%' . $keyword . '%')
+            ->count();
+    }
+
 
     public static function addSupplierMaterial($data)
     {
