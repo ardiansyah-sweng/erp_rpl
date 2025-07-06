@@ -152,6 +152,9 @@ Route::get('/items/report', [ItemController::class, 'exportAllToPdf'])->name('it
 Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']);
 Route::get('/item/search/{keyword}', [ItemController::class, 'searchItem']);
 
+Route::get('/item/export/category/{id}', [ItemController::class, 'exportByCategoryToPdf'])->name('item.export.category');
+
+
 
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');

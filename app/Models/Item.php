@@ -113,4 +113,12 @@ class Item extends Model
             ->get();
     }
     
+    public static function getItemByCategory($categoryId)
+    {
+        return self::join('products', 'item.product_id', '=', 'products.product_id')
+            ->where('products.product_category', $categoryId)
+            ->select('item.*', 'products.product_name', 'products.product_category')
+            ->get();
+    }
+
 }
