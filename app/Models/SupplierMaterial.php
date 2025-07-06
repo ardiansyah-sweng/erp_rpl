@@ -86,4 +86,13 @@ class SupplierMaterial extends Model
         ]);
     }
 
+    public function addBasePrice(array $data)
+    {
+        if (empty($data)) {
+            throw new \Exception('Data untuk menambah harga dasar tidak boleh kosong.');
+        }
+
+        return $this->create($data);
+    }
+
 }
