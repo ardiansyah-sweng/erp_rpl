@@ -262,7 +262,7 @@
                             </tr>
                             <tr>
                                 <th>Produk Type</th>
-                                <td>{{ $product->product_type ?? 'Tidak ada data' }}</td>
+                                <td>{{ $product->product_type->label() ?? 'Tidak ada data' }}</td>
                             </tr>
                             <tr>
                                 <th>Produk Catecory</th>
