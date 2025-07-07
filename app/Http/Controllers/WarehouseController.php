@@ -13,7 +13,7 @@ class WarehouseController extends Controller
     {
         $warehouse = (new Warehouse())->getWarehouseByID($id);
 
-        if (!$warehouse) 
+        if (!$warehouse)
         {
             return abort(404, 'Warehouse tidak ditemukan');
         }
@@ -21,7 +21,7 @@ class WarehouseController extends Controller
         return response()->json($warehouse);
 
     }
-    
+
     public function countWarehouse()
     {
         $total = Warehouse::countWarehouse();
@@ -31,7 +31,7 @@ class WarehouseController extends Controller
         ]);
     }
 
-      public function deleteWarehouse($id)
+    public function deleteWarehouse($id)
     {
         $isUsed = DB::table('assortment_production')
             ->where('rm_whouse_id', $id)
@@ -42,7 +42,6 @@ class WarehouseController extends Controller
             return redirect()->back()->with('error', 'Warehouse tidak bisa dihapus karena sedang digunakan di produksi.');
         }
 
-        // Hapus langsung dari tabel warehouse
         $deleted = DB::table('warehouse')->where('id', $id)->delete();
 
         if ($deleted) {
@@ -51,7 +50,8 @@ class WarehouseController extends Controller
             return redirect()->back()->with('error', 'Warehouse tidak ditemukan atau gagal dihapus.');
         }
     }
-      public function exportPdf(){
+
+    public function exportPdf(){
         $warehouse = [
             [
                 'id' => 1,
