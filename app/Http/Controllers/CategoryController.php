@@ -25,7 +25,7 @@ class CategoryController extends Controller
 
         return redirect()->route('category.list')->with('success', 'Kategori berhasil ditambahkan!');
     }
-    public function getCategoryList() 
+    public function getCategoryList()
     {
         $category = Category::getAllCategory();
         return view('category.list', compact('category'));
@@ -34,10 +34,10 @@ class CategoryController extends Controller
     {
         $categories = Category::getCategory(); // kita tambahkan method ini di bawah
         $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
-        return $pdf->stream('laporan_kategori.pdf'); 
+        return $pdf->stream('laporan_kategori.pdf');
     }
 
-    public function updateCategory(Request $request, $id) 
+    public function updateCategory(Request $request, $id)
     {
         $validated = $request->validate([
             'category' => 'required|string|min:3',
@@ -68,15 +68,15 @@ class CategoryController extends Controller
     {
         $category = Category::getCategoryById($id);
 
-    if (!$category) {
-        return response()->json(['message' => 'Category not found'], 404);
-    }
+        if (!$category) {
+            return response()->json(['message' => 'Category not found'], 404);
+        }
 
-    return response()->json($category);
+        return response()->json($category);
         //return view('category.detail', compact('category'));
         //apabila halaman detail kategori sudah ada harap untuk di uncomment return view
         //dan return response nya di hapus
-    } 
+    }
 
 
     // delete category

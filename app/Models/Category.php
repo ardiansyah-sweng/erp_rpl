@@ -56,18 +56,16 @@ class Category extends Model
     {
         $category = self::with('parent:id,category')->find($id);
 
-    if (!$category) {
-        return null;
-    }
+        if (!$category) {
+            return null;
+        }
 
-    // Ubah parent_id menjadi nama kategori induk
-    $category->parent_id = optional($category->parent)->category ?? 'Tanpa Induk';
+        $category->parent_id = optional($category->parent)->category ?? 'Tanpa Induk';
 
-    // Hapus field yang tidak diperlukan
-    unset($category->parent);
-    unset($category->parent_name); // jika sebelumnya menggunakan accessor
+        unset($category->parent);
+        unset($category->parent_name);
 
-    return $category;
+        return $category;
     }
     public static function countByParent()
     {
@@ -86,8 +84,8 @@ class Category extends Model
                 ];
             });
     }
-    
-    public static function updateCategory($category_id, array $data) 
+
+    public static function updateCategory($category_id, array $data)
     {
         $category = self::find($category_id);
         if (!$category) {
