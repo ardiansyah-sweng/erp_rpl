@@ -31,14 +31,16 @@ class SupplierController extends Controller
 
     public function searchSuppliers(Request $request)
     {
-            $keywords = $request->input('keywords');
+        $keywords = $request->input('keywords');
 
-            $results = Supplier::where('company_name', 'like', '%' . $keywords . '%')->get();
+    // Gunakan method yang sudah didefinisikan di model
+        $results = Supplier::getSupplierByKeywords($keywords);
 
-            return response()->json([
-                'status' => 'success',
-                'data' => $results
+        return response()->json([
+            'status' => 'success',
+            'data' => $results
         ]);
     }
+
 }
 
