@@ -183,7 +183,7 @@ Route::get('/warehouse/search', [WarehouseController::class, 'searchWarehouse'])
 Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
 Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
 Route::get('/warehouse/report',[WarehouseController::class,'exportPdf'])->name('warehouse.report');
-
+Route::get('/warehouse/list', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.list');
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
