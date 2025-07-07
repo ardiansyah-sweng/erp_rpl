@@ -17,13 +17,10 @@ use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
-use App\Http\Controllers\ProductionController; // Ditambahkan untuk konsistensi
-
-
 
 #Login & Dashboard
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return redirect()->route('login');
 });
 
 Route::get('/login', function () {
@@ -181,6 +178,3 @@ Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::cla
 
 Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
 
-
-#BillOfMaterial
-Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
