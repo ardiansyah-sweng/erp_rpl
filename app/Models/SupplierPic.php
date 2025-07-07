@@ -67,6 +67,7 @@ class SupplierPic extends Model
     /**
      * Hitung jumlah PIC berdasarkan supplier_id
      */
+    //
     public static function countSupplierPIC($supplier_id)
     {
         return self::select('supplier_id', DB::raw('COUNT(*) as jumlahnya'))
@@ -74,7 +75,7 @@ class SupplierPic extends Model
             ->groupBy('supplier_id')
             ->first();
     }
-
+    
     /**
      * Relasi ke tabel Supplier
      */
@@ -91,7 +92,7 @@ class SupplierPic extends Model
             ->where('phone_number', $phone_number)
             ->exists();
     }
-    //
+    ///
     public static function countPICByStatus($supplier_id)   
     {
     $data = self::select('active', \DB::raw('COUNT(*) as total'))
