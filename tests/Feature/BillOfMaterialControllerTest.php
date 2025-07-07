@@ -3,11 +3,10 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Support\Facades\DB;
-<<<<<<< HEAD
 use Faker\Factory as Faker;
 use App\Models\BillOfMaterial;
 
@@ -48,16 +47,6 @@ class BillOfMaterialControllerTest extends TestCase
             'active' => $updatedData['active'],
         ]);
     }
-=======
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-class BillOfMaterialControllerTest extends TestCase
-{
-    // Optional: agar tidak perlu login/middleware saat testing
-    use WithoutMiddleware;
-    use RefreshDatabase;
->>>>>>> 1f65af8fbff160c4733d0731db5a11855d304e3a
 
     /** @test */
     public function it_deletes_bill_of_material_by_id()
@@ -88,10 +77,8 @@ class BillOfMaterialControllerTest extends TestCase
         $response->assertStatus(404)
                  ->assertJson(['message' => 'Bill of Material not found.']);
     }
-<<<<<<< HEAD
-}
-=======
 
+    /** @test */
     public function test_get_bill_of_material_returns_paginated_data()
     {
         for ($i = 0; $i < 15; $i++) {
@@ -107,8 +94,6 @@ class BillOfMaterialControllerTest extends TestCase
         }
 
         // Panggil endpoint
-        $response = $this->get('/bill-of-material', ['Accept' => 'application/json']);
-        
         $response = $this->get('/bill-of-material');
 
         $response->assertStatus(200);
@@ -134,4 +119,3 @@ class BillOfMaterialControllerTest extends TestCase
         $this->assertCount(10, $response->json('data'));
     }
 }
->>>>>>> 1f65af8fbff160c4733d0731db5a11855d304e3a
