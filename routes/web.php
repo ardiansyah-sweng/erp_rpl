@@ -51,6 +51,12 @@ Route::get('/branch/add', function () {
     return view('branch/add');
 });
 
+
+Route::get('/branch/update', function () {
+    return view('branch/update');
+});
+
+
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
@@ -86,6 +92,8 @@ Route::get('/warehouse/add', function () {
 // Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
 
 
+
+
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']);
@@ -109,6 +117,7 @@ Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.l
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
 Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('branch.delete');
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
+Route::post('/branch/update/{id}', [BranchController::class, 'updateBranch'])->name('branch.update');
 Route::get('/branch/detail/{id}', [BranchController::class, 'getBranchByID']);
 
 
