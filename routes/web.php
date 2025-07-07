@@ -210,7 +210,7 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
 Route::put('/assortment_production/update/{id}', [AssortProductionController::class, 'updateProduction'])->name('assortment_production.update');
 Route::get('/assortment_production/detail/{po_number}', [AssortProductionController::class, 'getProductionDetail']);
-
+Route::post('/assortment_production/add', [AssortProductionController::class, 'addProduction']);
 
 #Cetak PDF seluruh item/material yang dipasok oleh supplier tertentu
 Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::class, 'cetakPDF']);

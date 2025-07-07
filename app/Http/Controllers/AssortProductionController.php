@@ -65,4 +65,26 @@ class AssortProductionController extends Controller
         return response()->json($productions); // hasilnya array of object
     }
 
+    public function addProduction(Request $request)
+    {
+        // Validasi data sesuai kebutuhan
+        $validatedData = $request->validate([
+            'in_production'      => 'required|boolean',
+            'production_number'  => 'required|string|max:9',
+            'sku'                => 'required|string|max:50',
+            'branch_id'          => 'required|integer',
+            'rm_whouse_id'       => 'required|integer',
+            'fg_whouse_id'       => 'required|integer',
+            'production_date'    => 'required|string|max:45',
+            'finished_date'      => 'nullable|date',
+            'description'        => 'nullable|string|max:45',
+        ]);
+
+        // Panggil fungsi static pada model
+        $production = AssortmentProduction::addProduction($validatedData);
+
+        return response()->json($production);
+
+      
+    }
 }
