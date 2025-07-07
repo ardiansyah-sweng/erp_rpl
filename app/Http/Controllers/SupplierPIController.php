@@ -68,5 +68,13 @@ class SupplierPIController extends Controller
         SupplierPic::addSupplierPIC($supplierID, $validatedData);
 
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
-    }    
+    } 
+    
+    public function delete($id)
+    {
+        $pic = SupplierPic::findOrFail($id);
+        $pic->delete();
+
+        return redirect()->route('supplier.pic.list')->with('success', 'Data PIC berhasil dihapus.');
+    }
 }
