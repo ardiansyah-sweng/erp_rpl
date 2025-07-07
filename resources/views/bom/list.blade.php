@@ -365,6 +365,12 @@
                       <p>Bill Of Material</p>
                     </a>
               </li>
+              <li class="nav-item">
+              <a href="{/category/list" class="nav-link">
+              <i class="nav-icon bi bi-box-seam-fill"></i>
+                      <p>Kategori</p>
+                    </a>
+              </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
