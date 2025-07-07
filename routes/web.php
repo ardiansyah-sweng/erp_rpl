@@ -17,14 +17,7 @@ use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\ProductionController; // Ditambahkan untuk konsistensi
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Di sini Anda bisa mendaftarkan semua route untuk aplikasi Anda.
-|
-*/
+
 
 #Login & Dashboard
 Route::get('/', function () {
