@@ -39,4 +39,13 @@ class BillOfMaterialController extends Controller
             return response()->json(['message' => 'Bill of Material not found.'], 404);
         }
     }
-}
+
+
+        public function getBillOfMaterial()
+        {
+            $data = BillOfMaterial::getBillOfMaterial();
+            return response()->json($data);
+        }
+
+    }
+
