@@ -86,7 +86,7 @@ class CategoryController extends Controller
     public function getCategoryByParent($id)
     {
         $categories = Category::where('parent_id', $id)->get();
-        $parent = Category::find($id);
+        $parent = Category::getCategoryById($id);
         $pdf = Pdf::loadView('product.category.pdf', compact('categories', 'parent'));
         return $pdf->stream('kategori_parent_' . $id . '.pdf');
     }
