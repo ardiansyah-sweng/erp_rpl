@@ -22,7 +22,6 @@ class SupplierController extends Controller
         return redirect()->route('Supplier.detail', ['id' => $supplier_id]);
     }
 
-<<<<<<< HEAD
     public function addSupplier(Request $requset){
         $requset->validate([
             'supplier_name' => 'required|string|max:6',
@@ -31,8 +30,6 @@ class SupplierController extends Controller
             'phone_number' => 'required|string|max:12',
             'bank_account' => 'required|string|max:50',
         ]);
-=======
         return view('Supplier.detail', compact('sup'));
->>>>>>> 618566893595d23aa1950413ee7758c8c769634f
     }
 }
