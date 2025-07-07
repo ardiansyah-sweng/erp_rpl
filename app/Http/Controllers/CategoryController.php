@@ -77,8 +77,7 @@ class CategoryController extends Controller
         //apabila halaman detail kategori sudah ada harap untuk di uncomment return view
         //dan return response nya di hapus
     }
-
-    //Search Category fitur
+ //Search Category 
     public function searchCategory(Request $request)
     {
         $keyword = $request->input('q');
@@ -89,6 +88,7 @@ class CategoryController extends Controller
 
         return view('category.list', compact('category'));
     }
+
 
     // delete category
     public function deleteCategory($id)
