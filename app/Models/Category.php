@@ -110,4 +110,13 @@ class Category extends Model
 
         return false;
     }
+
+    //search
+    public static function searchCategory($keyword)
+    {
+        return self::where('category', 'LIKE', '%' . $keyword . '%')
+                    ->with('parent')
+                    ->get();
+    }
+
 }
