@@ -8,6 +8,12 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class CategoryController extends Controller
 {
+    // Mendapatkan daftar kategori berdasarkan parent_id tertentu
+    public function getCategoryByParent($id)
+    {
+        $categories = Category::where('parent_id', $id)->get();
+        return response()->json($categories);
+    }
 
     public function addCategory(Request $request)
     {
