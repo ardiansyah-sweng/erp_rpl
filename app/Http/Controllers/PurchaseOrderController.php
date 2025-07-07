@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseOrderController extends Controller
 {
@@ -106,6 +107,25 @@ class PurchaseOrderController extends Controller
 
         $pdf = Pdf::loadView('purchase_orders.pdf_report', $data);
         return $pdf->stream('laporan_purchase_order_' . $supplier->company_name . '.pdf');
+    }
+    public function getPurchaseOrderByStatus($status)
+    {
+        $filtered = DB::table('purchase_order')
+                    ->where('status', $status)
+                    ->get();
+
+        //data kosong
+        if ($filtered->isEmpty()) {
+            return response()->json([
+                'message' => 'No purchase orders found with status: ' . $status,
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => $status,
+            'count' => $filtered->count(),
+            'data' => $filtered
+        ], 200);
     }
 
 }
