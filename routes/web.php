@@ -20,7 +20,7 @@ use App\Http\Controllers\GoodsReceiptNoteController;
 
 #Login
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return redirect()->route('login');
 });
 
 Route::get('/login', function () {
