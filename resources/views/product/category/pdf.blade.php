@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-    <h2>Laporan Daftar Kategori</h2>
+    <h2>Laporan Daftar Kategori {{ $parent->category }}:</h2>
     <table>
         <thead>
             <tr>

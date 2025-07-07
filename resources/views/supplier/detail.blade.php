@@ -591,5 +591,50 @@
     </script>
   </script>
     </script>
+
+  <!-- ... Filed Form Validation Update ... -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.querySelector('form');
+      if (!form) return;
+
+      form.addEventListener('submit', function (e) {
+        const companyName = form.querySelector('[name="company_name"]');
+        const address = form.querySelector('[name="address"]');
+        const phoneNumber = form.querySelector('[name="phone_number"]');
+        const bankAccount = form.querySelector('[name="bank_account"]');
+
+        let isValid = true;
+        let errorMessages = [];
+
+        if (!companyName.value.trim()) {
+          isValid = false;
+          errorMessages.push("Nama Perusahaan wajib diisi.");
+        }
+
+        if (!address.value.trim()) {
+          isValid = false;
+          errorMessages.push("Alamat wajib diisi.");
+        }
+
+        const phoneRegex = /^[0-9]{10,}$/;
+        if (!phoneRegex.test(phoneNumber.value.trim())) {
+          isValid = false;
+          errorMessages.push("No. Telepon harus berupa angka dan minimal 10 digit.");
+        }
+
+        const bankRegex = /^[0-9]{8,}$/;
+        if (!bankRegex.test(bankAccount.value.trim())) {
+          isValid = false;
+          errorMessages.push("Bank Account harus berupa angka dan minimal 8 digit.");
+        }
+
+        if (!isValid) {
+          e.preventDefault();
+          alert("Form tidak valid:\n\n" + errorMessages.join("\n"));
+        }
+      });
+    });
+  </script>
   </body>
 </html>
