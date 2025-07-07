@@ -66,8 +66,16 @@ class CategoryController extends Controller
 
     public function getCategoryById($id)
     {
-        $category = (new Category())->getCategoryById($id);
+        $category = Category::getCategoryById($id);
+
+        if (!$category) {
+            return response()->json(['message' => 'Category not found'], 404);
+        }
+
         return response()->json($category);
+        //return view('detail.blade', compact('category'));
+        //apabila halaman detail kategori sudah ada harap untuk di uncomment return view
+        //dan return response nya di hapus
     }
 
     //Search Category fitur
