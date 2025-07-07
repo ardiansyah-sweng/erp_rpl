@@ -54,7 +54,18 @@ class Category extends Model
 
     public static function getCategoryById($id)
     {
-        return self::find($id);
+        $category = self::with('parent:id,category')->find($id);
+
+        if (!$category) {
+            return null;
+        }
+
+        $category->parent_id = optional($category->parent)->category ?? 'Tanpa Induk';
+
+        unset($category->parent);
+        unset($category->parent_name);
+
+        return $category;
     }
     public static function countByParent()
     {
@@ -73,8 +84,8 @@ class Category extends Model
                 ];
             });
     }
-    
-    public static function updateCategory($category_id, array $data) 
+
+    public static function updateCategory($category_id, array $data)
     {
         $category = self::find($category_id);
         if (!$category) {
