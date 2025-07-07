@@ -145,6 +145,8 @@ Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
+Route::get('/categories/by-parent/{id}', [CategoryController::class, 'getCategoryByParent']);
+
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
