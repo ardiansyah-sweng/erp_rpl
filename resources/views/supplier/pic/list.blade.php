@@ -226,6 +226,12 @@
             <div class="col-sm-6 d-flex align-items-center">
               <h3 class="mb-0 me-2">Daftar PIC Supplier</h3>
               <a href="/supplier/pic/add" class="btn btn-primary btn-sm">Tambah</a>
+              <a href="{{ url('/supplier-pic/cetak-pdf') }}" 
+   class="btn btn-danger btn-sm" 
+   target="_blank">
+   Cetak Semua PDF PIC
+</a>
+
             </div>
 
             <div class="col-sm-6">

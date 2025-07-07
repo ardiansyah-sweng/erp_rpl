@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SupplierPic;
 use App\Models\SupplierPICModel;
+use App\Models\Supplier;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class SupplierPIController extends Controller
@@ -93,4 +95,18 @@ class SupplierPIController extends Controller
             return redirect()->back()->with('error', 'PIC gagal dihapus.');
         }
     }
+    public function cetakPdf()
+    {
+        $pics = SupplierPic::with('supplier')->get();
+    
+        $data = [
+            'pics' => $pics
+        ];
+    
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('supplier.pic.pdfpic', $data)
+            ->setPaper('a4', 'landscape');
+    
+        return $pdf->stream('PIC-Supplier-Semua.pdf');
+    }
+    
 }

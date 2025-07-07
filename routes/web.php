@@ -185,6 +185,10 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
+#email
+Route::get('/send-po-email/{po_number}', [PurchaseOrderController::class, 'sendPurchaseOrderEmail'])->name('purchase_orders.email');
+
+
 #Category
 Route::get('/category/edit/{id}', [CategoryController::class, 'updateCategoryById'])->name('category.edit');
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.update');
@@ -193,6 +197,9 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
+#cetak semua pdf pic
+Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
+
 
 #Produksi
 Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'index']);
