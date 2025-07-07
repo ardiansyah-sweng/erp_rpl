@@ -66,7 +66,7 @@ class Merk extends Model
         }
         
         return false;
-
+    }
     public static function addMerk($namaMerk, $active = 1)
     {
         $merk = new self();

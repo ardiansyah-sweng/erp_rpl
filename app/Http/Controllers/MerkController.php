@@ -50,8 +50,7 @@ class MerkController extends Controller
     {
         $deleted = Merk::deleteMerk($id);
 
-        if ($deleted)
-        {
+        if ($deleted) {
         return redirect()->back()->with('success', 'Merk berhasil dihapus.');
         } 
         else {
