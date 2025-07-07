@@ -181,6 +181,7 @@ Route::get('/category/edit/{id}', [CategoryController::class, 'updateCategoryByI
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.update');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
+Route::get('/category/parent/{parentId}', [CategoryController::class, 'getCategoryByParent']);
 
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
