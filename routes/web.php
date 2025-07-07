@@ -19,7 +19,7 @@ use App\Http\Controllers\BillOfMaterialController;
 
 #Login
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return redirect()->route('login');
 });
 
 Route::get('/login', function () {
