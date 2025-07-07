@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SupplierPic;
 use App\Models\SupplierPICModel;
-
+use Illuminate\Support\Facades\Validator;
 
 class SupplierPIController extends Controller
 {

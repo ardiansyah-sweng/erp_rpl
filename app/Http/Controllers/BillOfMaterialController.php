@@ -9,6 +9,24 @@ use App\Models\BillOfMaterial;
 
 class BillOfMaterialController extends Controller
 {
+    // Fungsi untuk menghapus Bill of Material berdasarkan id
+    public function deleteBillOfMaterial($id)
+    {
+        $deleted = DB::table('bill_of_materials')->where('id', $id)->delete();
+
+        if ($deleted) {
+            return response()->json(['message' => 'Bill of Material deleted successfully.'], 200);
+        } else {
+            return response()->json(['message' => 'Bill of Material not found.'], 404);
+        }
+    }
+
+    public function getBillOfMaterial()
+        {
+            $data = BillOfMaterial::getBillOfMaterial();
+            return response()->json($data);
+        }
+
     public function addBillOfMaterial(Request $request)
     {
         $validatedData = $request->validate([
@@ -28,24 +46,6 @@ class BillOfMaterialController extends Controller
         return redirect()->back()->with('success', 'Bill of Material berhasil ditambahkan!');
     }
 
-    // Fungsi untuk menghapus Bill of Material berdasarkan id
-    public function deleteBillOfMaterial($id)
-    {
-        $deleted = DB::table('bill_of_materials')->where('id', $id)->delete();
 
-        if ($deleted) {
-            return response()->json(['message' => 'Bill of Material deleted successfully.'], 200);
-        } else {
-            return response()->json(['message' => 'Bill of Material not found.'], 404);
-        }
-    }
-
-
-        public function getBillOfMaterial()
-        {
-            $data = BillOfMaterial::getBillOfMaterial();
-            return response()->json($data);
-        }
-
-    }
+}
 

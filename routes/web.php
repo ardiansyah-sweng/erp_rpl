@@ -198,7 +198,6 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 #Produksi
 Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'index']);
 
-
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
 Route::get('/warehouse/search', [WarehouseController::class, 'searchWarehouse'])->name('warehouse.search');
@@ -226,7 +225,6 @@ Route::get('/assortment_production/detail/{po_number}', [AssortProductionControl
 Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::class, 'cetakPDF']);
 
 Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
-
 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);

@@ -115,7 +115,4 @@ class SupplierPic extends Model
             ];
         }
     }
-
-
-
 }
