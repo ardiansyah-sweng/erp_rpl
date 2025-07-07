@@ -204,6 +204,9 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/bom/list', function () {
     return view('bom/list');
 });
+Route::get('/bom/edit/{id}', function ($id) {
+    return view('bom/edit', compact('id'));
+});
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
