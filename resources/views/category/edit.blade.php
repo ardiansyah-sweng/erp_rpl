@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Dashboard</title>
+    <title>ERP RPL UAD | Filled Form Category</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -269,7 +268,7 @@
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
-          <a href="dashboard" class="brand-link">
+          <a href="{{ route('dashboard') }}" class="brand-link">
             <!--begin::Brand Image-->
             <img
               src={{asset("assets/dist/assets/img/LogoRPL.png")}}
@@ -288,79 +287,111 @@
         <div class="sidebar-wrapper">
           <nav class="mt-2">
             <!--begin::Sidebar Menu-->
-            <ul
-              class="nav sidebar-menu flex-column"
-              data-lte-toggle="treeview"
-              role="menu"
-              data-accordion="false"
-            >
-              <li class="nav-item">
-                <a href="dashboard" class="nav-link active">
-                  <i class="nav-icon bi bi-speedometer"></i>
-                  <p>
-                    Dashboard
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
+          <ul
+            class="nav sidebar-menu flex-column"
+            data-lte-toggle="treeview"
+            role="menu"
+            data-accordion="false">
+            <li class="nav-item">
+              <a href="/dashboard" class="nav-link active">
+                <i class="nav-icon bi bi-speedometer"></i>
+                <p>
+                  Dashboard
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="{{ route('product.list') }}" class="nav-link">
-                  <i class="nav-icon bi bi-box-seam-fill"></i>
-                  <p>Produk</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-person-circle"></i>
-                  <p>
-                    Supplier
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="./widgets/small-box.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Small Box</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="/supplier/pic/add" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Tambah PIC supplier</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./widgets/cards.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Cards</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('purchase.orders') }}" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Purchase Orders
-                  </p>
-                </a>                
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Branch
-                  </p>
-                </a>                
-              </li>
-              <li class="nav-item">
+                <i class="nav-icon bi bi-box-seam-fill"></i>
+                <p>Produk</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon bi bi-person-circle"></i>
+                <p>
+                  Supplier
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/supplier/pic/add" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Tambah PIC supplier</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/supplier/material/add" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Tambah Supplier Item</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/supplier/add" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Tambah Supplier</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/supplier/material/list" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Supplier Material</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/supplier/pic/list" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>List PIC Supplier</p>
+                  <a href="/supplier/list" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>List Supplier</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('purchase.orders') }}" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>
+                  Purchase Orders
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('branch.list') }}" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>
+                  Branch
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="{{ route('item.list') }}" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
-                      <p>Item</p>
-                    </a>
-                  </li>
-            </ul>
-            <!--end::Sidebar Menu-->
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>
+                  Item
+                </p>
+              </a>
+            </li>
+            <li class="nav-item"><!--Tambah Bill Of Material-->
+              <a href="#" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>
+                  Production
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/bom/list" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Bill Of Material</p>
+                  </a>
+                </li>
+              </ul>
+
+            </li>
+          </ul>
+          <!--end::Sidebar Menu-->
           </nav>
         </div>
         <!--end::Sidebar Wrapper-->
@@ -373,17 +404,12 @@
           <!--begin::Container-->
           <div class="container-fluid">
             <!--begin::Row-->
-            <div class="row align-items-center">
-              <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Branch</h3>
-                <a href="{{ route('branch.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="{{ route('branch.list', ['export' => 'pdf']) }}" class="btn btn-primary btn-sm ms-2">Cetak Branch</a>
-              </div>
-    
+            <div class="row">
+              <div class="col-sm-6"><h3 class="mb-0">Filled Form Category</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Branch</li>
+                  <li class="breadcrumb-item active" aria-current="page">Edit Category</li>
                 </ol>
               </div>
             </div>
@@ -391,98 +417,61 @@
           </div>
           <!--end::Container-->
         </div>
-
-        <div class="card mb-4">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                      <h3 class="card-title">List Table</h3>
-                      <form action="{{ route('branch.list') }}" method="GET" class="d-flex ms-auto">
-                        <!-- Search bar berada di ujung kanan -->
-                        <div class="input-group input-group-sm ms-auto" style="width: 450px;">
-                          <input type="text" name="search" class="form-control" placeholder="Search Branch">
-                          <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
-                              <i class="bi bi-search"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                    @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                    @endif
-
-                    @if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                    @endif
-                    <table class="table table-bordered">
-                      <thead class="text-center">
-                        <tr>
-                          <th style="width: 10px">id</th>
-                          <th>Branch Name</th>
-                          <th>Branch Address</th>
-                          <th>Branch Telephone</th>
-                          <th>Aktif</th>
-                          <th>Created At</th>
-                          <th>Updated At </th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                            @forelse($branches as $branch)
-                            <tr>
-                            <td>{{ $branch->id }}</td>
-                            <td>
-                                <a href="{{ route('branch.detail', ['id' => $branch->id]) }}">
-                                    {{ $branch->branch_name }}
-                                </a>
-                            </td>
-                            <td>{{ $branch->branch_address }}</td>
-                            <td>{{ $branch->branch_telephone }}</td>
-                            <td class="text-center">
-                                 @if($branch->branch_status == 1)
-                                        <i class="bi bi-check-circle-fill text-success"></i>
-                                @else
-                                        <i class="bi bi-x-circle-fill text-danger"></i>
-                                  @endif
-                           </td>
-                            <td>{{ $branch->created_at }}</td>
-                            <td>{{ $branch->updated_at }}</td>
-                            <td>
-                              <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                              <a href="{{ url('/branch/detail/'.$branch->id) }}" class="btn btn-info">Detail</a>
-
-                            </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="7" class="text-center">No data available in table</td>
-                            </tr>
-                            @endforelse
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- /.card-body -->
-                  <div class="card-footer clearfix">
-                  {{ $branches->links('pagination::bootstrap-4') }}
-                  </div>
-
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+                <div class="container">
+                <!-- Filled Form Supplier -->
+                 @if(session('success'))
+        <div class="alert alert-success">
+          {{ session('success') }}
         </div>
-        
+      @endif
+
+      @if(isset($error))
+        <div class="alert alert-danger">
+            {{ $error }}
+        </div>
+      @endif
+      @if($category)
+        <form method="POST" action="{{ route('category.update', $category->id) }}">
+            @csrf
+            @method('PUT')
+
+            <div class="mb-3">
+                <label class="form-label">Category ID</label>
+                <input type="number" class="form-control" value="{{ $category->id }}" disabled>
+                <input type="hidden" name="id" value="{{ $category->id }}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Category Name</label>
+                <input type="text" name="category" class="form-control" value="{{ old('category', $category->category) }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Parent ID</label>
+                <input type="number" name="parent_id" class="form-control" value="{{ old('parent_id', $category->parent_id) }}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Active</label>
+                <input type="boolean" name="active" class="form-control" value="{{ old('active', $category->active) }}" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="{{ url()->current() }}" class="btn btn-secondary">Batal</a>
+        </form>
+      @endif
+          </div>
+        </div>
       </main>
-      <!--end::App Main-->
-      <!--begin::Footer-->
       <footer class="app-footer">
-        <!--begin::To the end-->
         <div class="float-end d-none d-sm-inline">Anything you want</div>
-        <!--end::To the end-->
-        <!--begin::Copyright-->
         <strong>
           Copyright &copy; 2014-2024&nbsp;
           <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
@@ -492,10 +481,6 @@
       </footer>
       <!--end::Footer-->
     </div>
-    <!--end::App Wrapper-->
-
-    <!--begin::Script-->
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
       integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ="
@@ -553,7 +538,6 @@
           handle: '.card-header',
         });
       });
-
       const cardHeaders = document.querySelectorAll('.connectedSortable .card-header');
       cardHeaders.forEach((cardHeader) => {
         cardHeader.style.cursor = 'move';
@@ -570,7 +554,6 @@
       // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
       // IT'S ALL JUST JUNK FOR DEMO
       // ++++++++++++++++++++++++++++++++++++++++++
-
       const sales_chart_options = {
         series: [
           {
@@ -617,7 +600,6 @@
           },
         },
       };
-
       const sales_chart = new ApexCharts(
         document.querySelector('#revenue-chart'),
         sales_chart_options,
@@ -635,120 +617,10 @@
       integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY="
       crossorigin="anonymous"
     ></script>
-    <!-- jsvectormap -->
-    <script>
-      const visitorsData = {
-        US: 398, // USA
-        SA: 400, // Saudi Arabia
-        CA: 1000, // Canada
-        DE: 500, // Germany
-        FR: 760, // France
-        CN: 300, // China
-        AU: 700, // Australia
-        BR: 600, // Brazil
-        IN: 800, // India
-        GB: 320, // Great Britain
-        RU: 3000, // Russia
-      };
-
-      // World map by jsVectorMap
-      const map = new jsVectorMap({
-        selector: '#world-map',
-        map: 'world',
-      });
-
-      // Sparkline charts
-      const option_sparkline1 = {
-        series: [
-          {
-            data: [1000, 1200, 920, 927, 931, 1027, 819, 930, 1021],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline1 = new ApexCharts(document.querySelector('#sparkline-1'), option_sparkline1);
-      sparkline1.render();
-
-      const option_sparkline2 = {
-        series: [
-          {
-            data: [515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline2 = new ApexCharts(document.querySelector('#sparkline-2'), option_sparkline2);
-      sparkline2.render();
-
-      const option_sparkline3 = {
-        series: [
-          {
-            data: [15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
-      sparkline3.render();
-    </script>
-
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <!-- AdminLTE JS -->
-    <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
-
+    <script src={{ asset("assets/dist/js/adminlte.js")}}></script>
     <!-- Custom Sidebar Toggle Script -->
     <script>
     $(document).ready(function () {
@@ -758,8 +630,7 @@
         });
     });
     </script>
-
-    <!--end::Script-->
+  </script>
+    </script>
   </body>
-  <!--end::Body-->
 </html>
