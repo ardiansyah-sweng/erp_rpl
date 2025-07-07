@@ -35,4 +35,22 @@ class GoodsReceiptNoteController extends Controller
             ], 500);
         }
     }
+    public function getGoodsReceiptNote($po_number): JsonResponse
+    {
+        $grn = GoodsReceiptNote::getGoodsReceiptNote($po_number);
+
+        if (!$grn) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Goods Receipt Note tidak ditemukan.',
+                'data' => null
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Goods Receipt Note ditemukan.',
+            'data' => $grn
+        ], 200);
+    }
 }

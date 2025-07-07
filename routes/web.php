@@ -17,7 +17,6 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
-use App\Http\Controllers\GoodsReceiptNoteController;
 
 #Login
 Route::get('/', function () {
