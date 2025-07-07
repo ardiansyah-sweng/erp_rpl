@@ -210,6 +210,6 @@ class PurchaseOrder extends Model
 
     public static function getPurchaseOrderByStatus($status)
     {
-        return self::where('status', $status)->first();
+        return self::where('status', $status);
     }
 }
