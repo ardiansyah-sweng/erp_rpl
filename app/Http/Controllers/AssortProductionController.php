@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AssortmentProduction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AssortProductionController extends Controller
 {
@@ -69,4 +70,21 @@ class AssortProductionController extends Controller
 
         return response()->json($productions); // hasilnya array of object
     }
+    public function  deleteProduction($id)
+    {
+        // Validasi ID
+        if (!is_numeric($id)) {
+            return response()->json(['message' => 'ID tidak valid'], 400);
+        }
+        // Cek apakah data ada
+        $exists = DB::table('assortment_production')->where('id', $id)->exists();
+        if (!$exists) {
+            return response()->json(['message' => 'Data dengan ID tersebut tidak ditemukan'], 404);
+        }
+        // Hapus data
+        DB::table('assortment_production')->where('id', $id)->delete();
+        return response()->json(['message' => 'Data berhasil dihapus'], 200);
+    }
+ 	
+
 }
