@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Warehouse;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierPIController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
+
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
@@ -32,20 +34,49 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-# Halaman Statis (Form Tambah, dsb)
-Route::get('/branches', fn() => view('branches.index'))->name('branches.index');
-Route::get('/supplier/pic/add', fn() => view('supplier/pic/add'));
-Route::get('/supplier/add', fn() => view('supplier/add'));
-Route::get('/supplier/detail', fn() => view('supplier/detail'));
-Route::get('/branch/add', fn() => view('branch/add'));
-Route::get('/supplier/material/add', fn() => view('supplier/material/add'));
-Route::get('/product/add', fn() => view('product/add'));
-Route::get('/supplier/list', fn() => view('supplier.list'));
-Route::get('/supplier/material/detail', fn() => view('supplier/material/detail'));
-Route::get('/goods_receipt_note/add', fn() => view('goods_receipt_note/add'));
-Route::get('/product/category/add', fn() => view('product.category.add'));
-Route::get('/bom/list', fn() => view('bom/list'));
-Route::get('/assortment_production/detail', fn() => view('assortment_production.detail'));
+Route::get('/branches', function () {
+    return view('branches.index');
+})->name('branches.index');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+Route::get('/supplier/pic/add', function () {
+    return view('supplier/pic/add');
+});
+
+Route::get('/supplier/add', function () {
+    return view('supplier/add');
+});
+
+Route::get('/supplier/detail', function () {
+    return view('supplier/detail');
+});
+Route::get('/branch/add', function () {
+    return view('branch/add');
+});
+Route::get('/supplier/material/add', function () {
+    return view('supplier/material/add');
+});
+Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
+    $id = EncryptionHelper::decrypt($encrypted_id);
+    return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
+})->name('purchase.orders.detail');
+Route::get('/item/add', function () {
+    return view('item/add');
+});
+// Dikonfirmasi oleh chiqitita_C_163 - route form tambah produk sudah tersedia
+Route::get('/product/add', function () {
+    return view('product/add');
+});
+Route::get('/supplier/list', function () {
+    return view('supplier.list');
+});
+Route::get('/supplier/material/detail', function () {
+    return view('supplier/material/detail');
+});
+Route::get('/goods_receipt_note/add', function () {
+    return view('goods_receipt_note/add');
+});
 
 
 # Product
@@ -65,6 +96,9 @@ Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.l
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
 Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('branch.delete');
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
+Route::get('/branch/detail/{id}', [BranchController::class, 'getBranchByID']);
+
+
 
 # Purchase Orders
 Route::get('/purchase-orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
@@ -94,10 +128,14 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list');
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
-Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add.form'); // DIPERBAIKI: Nama route unik untuk GET
-Route::post('/item/add', [ItemController::class, 'store'])->name('item.store'); // DIPERBAIKI: Nama route unik untuk POST
-Route::put('/item/update/{id}', [ItemController::class, 'updateItem'])->name('item.update');
-Route::get('/item/{id}', [ItemController::class, 'getItemById']); // DIPERBAIKI: Typo 'itemController'
+
+Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
+Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
+
+Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
+Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
+Route::get('/item/{id}', [itemController::class, 'getItemById']);
+
 
 # Merk
 Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
@@ -137,5 +175,12 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 Route::put('/assortment_production/update/{id}', [AssortProductionController::class, 'updateProduction'])->name('assortment_production.update');
 Route::get('/assortment_production/detail/{po_number}', [AssortProductionController::class, 'getProductionDetail']);
 
-# Bill of Material
-Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']); // DIPERBAIKI: Menambahkan titik koma (;)
+
+#Cetak PDF seluruh item/material yang dipasok oleh supplier tertentu
+Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::class, 'cetakPDF']);
+
+Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
+
+
+#BillOfMaterial
+Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
