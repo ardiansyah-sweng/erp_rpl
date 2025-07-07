@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\AssortProductionModel;
+use App\Models\AssortmentProductionModel;
 
 class AssortProductionControllerTest extends TestCase
 {

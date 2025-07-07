@@ -17,10 +17,11 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
+use App\Http\Controllers\GoodsReceiptNoteController;
 
 #Login
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return redirect()->route('login');
 });
 
 Route::get('/login', function () {
@@ -50,6 +51,12 @@ Route::get('/supplier/detail', function () {
 Route::get('/branch/add', function () {
     return view('branch/add');
 });
+
+
+Route::get('/branch/update', function () {
+    return view('branch/update');
+});
+
 
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
@@ -86,6 +93,8 @@ Route::get('/warehouse/add', function () {
 // Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
 
 
+
+
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']);
@@ -109,6 +118,7 @@ Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.l
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
 Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('branch.delete');
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
+Route::post('/branch/update/{id}', [BranchController::class, 'updateBranch'])->name('branch.update');
 Route::get('/branch/detail/{id}', [BranchController::class, 'getBranchByID']);
 
 
@@ -126,6 +136,7 @@ Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::clas
 Route::get('/purchase-orders/report', [PurchaseOrderController::class, 'showReportForm'])->name('purchase_orders.report_form');
 Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePurchaseOrderPDF'])->name('purchase_orders.pdf');
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
+Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
@@ -190,6 +201,7 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+Route::get('/warehouse/search', [WarehouseController::class, 'searchWarehouse'])->name('warehouse.search');
 Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
 Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
 Route::get('/warehouse/report',[WarehouseController::class,'exportPdf'])->name('warehouse.report');
@@ -221,5 +233,7 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
 Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
 
+#Goods Receipt Notes
+Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote']);
 #Goods Receipt Note Controller
 Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'getGoodsReceiptNote']);
