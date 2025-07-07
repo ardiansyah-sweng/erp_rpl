@@ -74,14 +74,15 @@ Route::get('/supplier/material/detail', function () {
 Route::get('/goods_receipt_note/add', function () {
     return view('goods_receipt_note/add');
 });
+Route::get('/product/category/detail', function () {
+    return view('product/category/detail');
+});
 Route::get('/goods_receipt_note/detail', function () {
     return view('goods_receipt_note/detail');
 });
-
 Route::get('/warehouse/add', function () {
     return view('warehouse/add');
 })->name('warehouse.add');
-
 #warehouse
 // Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
 
@@ -89,7 +90,7 @@ Route::get('/warehouse/add', function () {
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']);
-
+Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
