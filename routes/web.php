@@ -173,7 +173,7 @@ Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
-Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');  
+Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
@@ -230,11 +230,9 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
-<<<<<<< HEAD
-Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
-=======
 Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
+Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
 
 #Goods Receipt Notes
 Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote']);
->>>>>>> 1f65af8fbff160c4733d0731db5a11855d304e3a
+
