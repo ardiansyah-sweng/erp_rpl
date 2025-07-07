@@ -2,46 +2,44 @@
 
 namespace Tests\Feature;
 
-use App\Models\Supplier;
-use App\Models\SupplierPIC;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\SupplierPic;
 use Tests\TestCase;
 use Faker\Factory as Faker;
 
 class UpdateSupplierPICDetailTest extends TestCase
 {
-    use RefreshDatabase;
-
-    public function test_controllerUpdateSupplierPIC(): void
+    public function test_controller_update_supplier_pic(): void
     {
-        $faker = Faker::create(); // Inisialisasi Faker
+        $faker = Faker::create();
 
-        // Ambil satu SupplierPIC secara acak
-        $pic = SupplierPIC::inRandomOrder()->first();
+        // 1. Ambil satu data SupplierPic secara acak dari database
+        $pic = SupplierPic::inRandomOrder()->first();
 
-        // Tampilkan data awal
-        dump("Before Update:", $pic->toArray());
+        // 2. Jika tidak ditemukan, skip test dengan pesan
+        if (!$pic) {
+            $this->markTestSkipped('Tidak ada data SupplierPic di database untuk diuji.');
+        }
 
-        // Siapkan data baru untuk update
+        // 3. Siapkan data update
         $newData = [
-            'id'            => $pic->supplier_id,
+            'supplier_id'   => $pic->supplier_id, // harus valid di tabel supplier
             'name'          => $faker->name,
             'phone_number'  => $faker->numerify('08##########'),
             'email'         => $faker->unique()->safeEmail,
             'assigned_date' => now()->toDateString(),
         ];
 
-        // Kirim POST request ke endpoint update sesuai route Anda
+        // 4. Kirim request ke endpoint update
         $response = $this->post('/supplier-pic/update/' . $pic->id, $newData);
 
-        // Tampilkan response
-        dump("After Update Response:", $response->json());
+        // 5. Debug respons (opsional)
+        dump('After Update Response:', $response->json());
 
-        // Cek respons sukses dan hasil update
+        // 6. Cek response sukses dan data terupdate
         $response->assertStatus(200)
                  ->assertJsonFragment(['name' => $newData['name']]);
 
-        $this->assertDatabaseHas('supplier_pics', [
+        $this->assertDatabaseHas('supplier_pic', [
             'id'    => $pic->id,
             'email' => $newData['email'],
         ]);

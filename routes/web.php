@@ -122,7 +122,7 @@ Route::get('/supplier/pic/list', function () {
 })->name('supplier.pic.list');
 Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplierPic'])->name('supplier.pic.list');
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
-Route::post('/supplier-pic/update/{id}', [SupplierPICController::class, 'updateSupplierPICDetail'])->name('supplier.pic.update');
+Route::post('/supplier-pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])->name('supplier.pic.update');
 
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
@@ -198,4 +198,4 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
-
+Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
