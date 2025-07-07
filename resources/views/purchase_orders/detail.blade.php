@@ -305,6 +305,8 @@
                                   </tr>
                               </tfoot>
                           </table>
+                          <a href="{{ route('purchase_orders.email', ['po_number' => $purchaseOrder->first()->po_number]) }}" class="btn btn-success btn-sm">Kirim Email</a>
+
                       </div>
                   </div>
               </div>

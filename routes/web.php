@@ -176,7 +176,8 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
 #email
-Route::get('/send-po-email/{po_number}', [PurchaseOrderController::class, 'sendPurchaseOrderEmail']);
+Route::get('/send-po-email/{po_number}', [PurchaseOrderController::class, 'sendPurchaseOrderEmail'])->name('purchase_orders.email');
+
 
 #Category
 Route::get('/category/edit/{id}', [CategoryController::class, 'updateCategoryById'])->name('category.edit');
