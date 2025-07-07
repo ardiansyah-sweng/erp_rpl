@@ -51,7 +51,17 @@ class WarehouseController extends Controller
             return redirect()->back()->with('error', 'Warehouse tidak ditemukan atau gagal dihapus.');
         }
     }
-      public function exportPdf(){
+ 
+    public function getWarehouseAll()
+    {
+       
+        $warehouses = Warehouse::getWarehouseAll();
+
+        
+        return response()->json($warehouses);
+    }
+
+    public function exportPdf(){
         $warehouse = [
             [
                 'id' => 1,
@@ -82,7 +92,8 @@ class WarehouseController extends Controller
             ],
         ];
 
-        $pdf = Pdf::loadView('warehouse.report',compact('warehouse'));
+      
+        $pdf = Pdf::loadView('warehouse.report', compact('warehouse'));
         return $pdf->stream('warehouse_report.pdf');
     }
 }

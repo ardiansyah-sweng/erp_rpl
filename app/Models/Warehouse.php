@@ -79,4 +79,10 @@ class Warehouse extends Model
             'message' => 'Warehouse berhasil dihapus.',
         ]);
     }
+
+        public static function getWarehouseAll()
+    {
+        // Menggunakan Eloquent untuk mengambil semua data dari tabel warehouse
+        return self::all();
+    }
 }
