@@ -30,7 +30,7 @@ class AssortProductionController extends Controller
             'description'        => 'nullable|string|max:45',
         ]);
 
-        // Memastikan data ID ada 
+        // Memastikan data ID ada
         $exists = DB::table('assortment_production')->where('id', $id)->exists();
 
         if (!$exists) {
@@ -48,10 +48,17 @@ class AssortProductionController extends Controller
             return response()->json(['message' => 'Data tidak mengalami perubahan'], 200);
         }
     }
-    
+
     public function getProductionDetail($production_number)
     {
-        return AssortmentProduction::getProductionDetail($production_number);
+        $productionDetail = AssortmentProduction::getProductionDetail($production_number);
+        $data = $productionDetail->getData();
+
+        if (!$data) {
+            abort(404, 'Production not found');
+        }
+
+        return view('assortment_production.detail', compact('data'));
     }
 
     public function searchProduction($keyword)
@@ -62,5 +69,4 @@ class AssortProductionController extends Controller
 
         return response()->json($productions); // hasilnya array of object
     }
-
 }
