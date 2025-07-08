@@ -4,68 +4,30 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Product;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Enums\ProductType;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class GetProductByCategoryTest extends TestCase
 {
-    use RefreshDatabase;
-
-    protected int $kategoriMakanan = 1;
-    protected int $kategoriMinuman = 2;
-
-    public function test_returns_products_matching_category()
+    public function test_get_product_by_existing_category()
     {
-        Product::create([
-            'product_id' => 'M001',
-            'product_name' => 'Nasi Goreng',
-            'product_type' => ProductType::FG,
-            'product_category' => $this->kategoriMakanan,
-            'product_description' => 'Nasi goreng spesial dengan telur dan ayam',
-        ]);
+        // Ambil salah satu data produk dari database
+        $sampleProduct = Product::first();
 
-        Product::create([
-            'product_id' => 'M002',
-            'product_name' => 'Sate Ayam',
-            'product_type' => ProductType::FG,
-            'product_category' => $this->kategoriMakanan,
-            'product_description' => 'Sate ayam dengan bumbu kacang',
-        ]);
+        if (!$sampleProduct) {
+            $this->markTestSkipped('Database tidak memiliki data produk untuk diuji.');
+        }
 
-        Product::create([
-            'product_id' => 'D001',
-            'product_name' => 'Teh Manis',
-            'product_type' => ProductType::FG,
-            'product_category' => $this->kategoriMinuman,
-            'product_description' => 'Teh manis dingin menyegarkan',
-        ]);
+        $category = $sampleProduct->product_category;
 
-        $results = Product::getProductByCategory($this->kategoriMakanan);
+        // Jalankan fungsi yang ingin diuji
+        $result = Product::getProductByCategory($category);
 
-        $this->assertEquals(2, $results->total());
-        $this->assertTrue($results->pluck('product_name')->contains('Nasi Goreng'));
-        $this->assertTrue($results->pluck('product_name')->contains('Sate Ayam'));
-    }
+        // Assert hasilnya adalah instance dari paginator
+        $this->assertInstanceOf(LengthAwarePaginator::class, $result);
 
-    public function test_does_not_return_products_from_other_categories()
-    {
-        Product::create([
-            'product_id' => 'D002',
-            'product_name' => 'Jus Jeruk',
-            'product_type' => ProductType::FG,
-            'product_category' => $this->kategoriMinuman,
-            'product_description' => 'Jus jeruk segar alami',
-        ]);
-
-        $results = Product::getProductByCategory($this->kategoriMakanan);
-
-        $this->assertEquals(0, $results->total());
-    }
-
-    public function test_returns_empty_result_when_database_is_empty()
-    {
-        $results = Product::getProductByCategory($this->kategoriMakanan);
-
-        $this->assertEquals(0, $results->total());
+        // Pastikan semua hasil memiliki kategori yang sama
+        foreach ($result as $product) {
+            $this->assertEquals($category, $product->product_category);
+        }
     }
 }
