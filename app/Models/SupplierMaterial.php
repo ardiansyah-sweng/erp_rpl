@@ -30,6 +30,11 @@ class SupplierMaterial extends Model
             ->get();
     }
 
+    public static function getSupplierMaterialById($id)
+    {
+        return DB::table('supplier_product')->where('id', $id)->first();
+    }
+
     public static function updateSupplierMaterial($id, array $data)
     {
         try {
@@ -50,6 +55,16 @@ class SupplierMaterial extends Model
             ->where('p.product_type', '=', 'RM')
             ->distinct('p.product_id')
             ->count(DB::raw('DISTINCT p.product_id'));
+    }
+
+    public static function countSupplierMaterialFoundByKeyword($keyword)
+    {
+        return DB::table('supplier_product')
+            ->where('supplier_id', 'like', '%' . $keyword . '%')
+            ->orWhere('company_name', 'like', '%' . $keyword . '%')
+            ->orWhere('product_id', 'like', '%' . $keyword . '%')
+            ->orWhere('product_name', 'like', '%' . $keyword . '%')
+            ->count();
     }
 
     public static function addSupplierMaterial($data)
