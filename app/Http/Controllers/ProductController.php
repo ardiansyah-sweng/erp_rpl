@@ -28,7 +28,6 @@ class ProductController extends Controller
     // $productData = $products[$id];
     // $productData['category'] = (object)$productData['category'];
     // $product = (object)$productData;
-
     // return view('product.detail', compact('product'));
 
     public function addProduct(Request $request)
@@ -67,23 +66,27 @@ class ProductController extends Controller
 
     public function getProductByType($product_type)
     {
-        
         $products = Product::getProductByType($product_type);
 
-        
         if ($products->isEmpty()) {
             return response()->json([
                 'message' => "Tidak ditemukan produk dengan tipe tersebut: {$product_type}"
             ], 404);
         }
 
-        
         return response()->json($products);
     }
 
     public function searchProduct($keyword)
     {
-        $products = Product::searchProduct($keyword);
+
+        $products = Product::where('product_id', 'LIKE', "%{$keyword}%")
+            ->orWhere('product_name', 'LIKE', "%{$keyword}%")
+            ->orWhere('product_type', 'LIKE', "%{$keyword}%")
+            ->orWhereRaw('CAST(product_category AS CHAR) LIKE ?', ["%{$keyword}%"])
+            ->orWhere('product_description', 'LIKE', "%{$keyword}%")
+            ->paginate(10);
+
         return view('product.list', compact('products'));
     }
 }
