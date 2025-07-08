@@ -120,6 +120,22 @@ class ItemController extends Controller
     return view('item.list', compact('items'));
     }
 
+    //cetak pdf
+    public function exportByProductTypeToPdf($productType)
+    {
+        $items = Item::getItemByType($productType);
+
+        if (empty($items) || count($items) === 0) {
+            return redirect()->back()->with('error', 'Tidak ada item dengan product type tersebut.');
+        }
+
+        $pdf = Pdf::loadView('item.pdf_by_product', [
+            'items' => $items,
+            'productType' => $productType,
+        ])->setPaper('A4', 'portrait');
+
+            return $pdf->stream("Item_berdasarkan_product_type_{$productType}.pdf");
+    }
 
 
 }
