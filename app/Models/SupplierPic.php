@@ -67,7 +67,7 @@ class SupplierPic extends Model
     /**
      * Hitung jumlah PIC berdasarkan supplier_id
      */
-    //
+    ///
     public static function countSupplierPIC($supplier_id)
     {
         return self::select('supplier_id', DB::raw('COUNT(*) as jumlahnya'))
