@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\BillOfMaterial;
 
 class BillOfMaterialController extends Controller
 {
@@ -20,6 +21,7 @@ class BillOfMaterialController extends Controller
             return response()->json(['message' => 'Bill of Material not found.'], 404);
         }
     }
+
 
     public function getBomDetail($id)
     {
@@ -46,4 +48,11 @@ class BillOfMaterialController extends Controller
             'details'          => $details,
         ]);
     }
+
+    public function getBillOfMaterial()
+    {
+        $data = BillOfMaterial::getBillOfMaterial();
+        return response()->json($data);
+    }
+
 }
