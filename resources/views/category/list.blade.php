@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @extends('layouts.app') <!-- Ganti dengan layout utama Anda -->
 
 @section('title', 'Daftar Kategori Produk')
@@ -70,3 +71,21 @@
   </div>
 </div>
 @endsection
+=======
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daftar Kategori</title>
+</head>
+<body>
+    <h1>Daftar Kategori</h1>
+    <ul>
+        @forelse ($category as $item)
+            <li>{{ $item->category }}</li>
+        @empty
+            <li>Tidak ada kategori ditemukan.</li>
+        @endforelse
+    </ul>
+</body>
+</html>
+>>>>>>> 16bb8d3c9a112da28235b7b677973a7eb0432539

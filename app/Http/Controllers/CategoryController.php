@@ -77,6 +77,18 @@ class CategoryController extends Controller
         //apabila halaman detail kategori sudah ada harap untuk di uncomment return view
         //dan return response nya di hapus
     }
+ //Search Category 
+    public function searchCategory(Request $request)
+    {
+        $keyword = $request->input('q');
+
+        $category = Category::when($keyword, function ($query) use ($keyword) {
+            $query->where('category', 'like', '%' . $keyword . '%');
+        })->get();
+
+        return view('category.list', compact('category'));
+    }
+
 
     // delete category
     public function deleteCategory($id)
