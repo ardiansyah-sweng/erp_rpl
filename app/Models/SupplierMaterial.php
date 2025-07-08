@@ -76,10 +76,10 @@ class SupplierMaterial extends Model
         ]);
     }
 
-    public static function countSupplierMaterialByCategory($kategori, $supplier)
+    public static function countSupplierMaterialByCategory($product_name, $supplierId)
     {
-        return self::where('category', $kategori)
-               ->where('supplier_id', $supplier)
+        return self::where('product_name', $product_name)
+               ->where('supplier_id', $supplierId)
                ->count();
     }
 }
