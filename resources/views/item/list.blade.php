@@ -370,6 +370,21 @@
               ">
                 Cetak Item
               </a>
+              <div class="btn-group">
+    <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Cetak PDF per Kategori
+    </button>
+    <ul class="dropdown-menu">
+        @foreach($categories as $category)
+            <li>
+                <a class="dropdown-item" href="{{ route('item.exportByCategory', ['productType' => $category]) }}">
+                    Cetak PDF {{ $category }}
+                </a>
+            </li>
+        @endforeach
+    </ul>
+</div>
+
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-end">
