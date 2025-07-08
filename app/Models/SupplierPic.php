@@ -94,7 +94,6 @@ class SupplierPic extends Model
             }
 
             $updated = $supplierPic->update($data);
-
             return $updated
                 ? [
                     'status' => 'success',

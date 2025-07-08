@@ -33,7 +33,6 @@ class UpdateSupplierPicTest extends TestCase
 
         $this->assertEquals($newData['name'], $updatedSupplierPic->name);
         $this->assertEquals($newData['phone_number'], $updatedSupplierPic->phone_number);
-
         $this->assertEquals($newData['email'], $updatedSupplierPic->email);
         $this->assertEquals($newData['assigned_date'], $updatedSupplierPic->assigned_date);
     }

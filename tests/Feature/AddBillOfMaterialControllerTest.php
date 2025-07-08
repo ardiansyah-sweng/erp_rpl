@@ -21,7 +21,6 @@ class AddBillOfMaterialControllerTest extends TestCase
         ];
 
         $response = $this->post('/billofmaterial/add', $requestData);
-
         $response->assertRedirect();
         $response->assertSessionHas('success', 'Bill of Material berhasil ditambahkan!');
 

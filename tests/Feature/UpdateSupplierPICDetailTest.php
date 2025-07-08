@@ -14,8 +14,7 @@ class UpdateSupplierPICDetailTest extends TestCase
 
         $pic = SupplierPic::inRandomOrder()->first();
 
-        if (!$pic)
-        {
+        if (!$pic) {
             $this->markTestSkipped('Tidak ada data SupplierPic di database untuk diuji.');
         }
 
