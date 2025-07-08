@@ -264,6 +264,7 @@
                 <th>Nama PIC</th>
                 <th>Email</th>
                 <th>Telephone</th>
+                <th>Durasi Penugasan</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -275,6 +276,16 @@
                 <td>{{ $pic->name }}</td>
                 <td>{{ $pic->email }}</td>
                 <td>{{ $pic->phone_number }}</td>
+                <td>
+                  @php
+                    $duration = json_decode(\App\Models\SupplierPic::assignmentDuration($pic));
+                  @endphp
+                  @if(is_object($duration))
+                    {{ $duration->years }} tahun, {{ $duration->months }} bulan, {{ $duration->days }} hari
+                  @else
+                    Tanggal belum tersedia
+                  @endif
+                </td>
                 <td>
                   <a href="/supplier/pic/detail/{{ $pic->id }}" class="btn btn-sm btn-info">Detail</a>
                   <a href="#" class="btn btn-sm btn-primary">Edit</a>
