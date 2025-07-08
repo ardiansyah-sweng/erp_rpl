@@ -22,16 +22,14 @@ class ProductController extends Controller
         if (!$product) {
             return abort(404, 'Product tidak ditemukan');
         }
-       return view('product.detail', compact('product'));
+        return view('product.detail', compact('product'));
     }
-
 
     // $productData = $products[$id];
     // $productData['category'] = (object)$productData['category'];
     // $product = (object)$productData;
 
     // return view('product.detail', compact('product'));
-
 
     public function addProduct(Request $request)
     {
@@ -47,6 +45,7 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
+
     public function updateProduct(Request $request, $id)
     {
         $request->validate([
@@ -68,14 +67,17 @@ class ProductController extends Controller
 
     public function getProductByType($product_type)
     {
+        
         $products = Product::getProductByType($product_type);
 
+        
         if ($products->isEmpty()) {
             return response()->json([
                 'message' => "Tidak ditemukan produk dengan tipe tersebut: {$product_type}"
             ], 404);
         }
 
+        
         return response()->json($products);
     }
 
