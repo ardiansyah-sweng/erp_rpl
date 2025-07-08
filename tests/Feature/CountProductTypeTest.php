@@ -17,7 +17,7 @@ class CountProductTypeTest extends TestCase
         $actualCount = Item::countItemByProductType();
 
         dd([
-            'actual' => $actualCount
+            'actual' => $actualCount 
         ]);
         $this->assertEquals( $actualCount, "Jumlah produk tidak sesuai dengan fungsi countItemByProductType()");
     }
