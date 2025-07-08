@@ -101,4 +101,8 @@ class Item extends Model
 
     }
 
+    public static function countItemByProductType(){
+        return self::count();
+    }
+
 }
