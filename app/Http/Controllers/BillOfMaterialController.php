@@ -28,4 +28,32 @@ class BillOfMaterialController extends Controller
         return response()->json($data);
     }
 
+    public function getBomDetail($id)
+    {
+        $bom = DB::table('bill_of_material')->where('id', $id)->first();
+
+        if (!$bom) {
+            return abort(404, 'Bill of Material tidak ditemukan');
+        }
+
+        $details = DB::table('bom_detail')
+            ->where('bom_id', $bom->bom_id)
+            ->select('id', 'bom_id', 'sku', 'quantity', 'cost', 'created_at', 'updated_at')
+            ->get();
+
+        return response()->json([
+            'id'               => $bom->id,
+            'bom_id'           => $bom->bom_id,
+            'bom_name'         => $bom->bom_name,
+            'measurement_unit' => $bom->measurement_unit,
+            'total_cost'       => $bom->total_cost,
+            'active'           => $bom->active,
+            'created_at'       => $bom->created_at,
+            'updated_at'       => $bom->updated_at,
+            'details'          => $details,
+        ]);
+    }
+
+
+
 }
