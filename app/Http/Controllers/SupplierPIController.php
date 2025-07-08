@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SupplierPic;
 use App\Models\SupplierPICModel;
+
 use Carbon\Carbon;
+
+
+use Illuminate\Support\Facades\Validator;
 
 
 class SupplierPIController extends Controller
@@ -21,11 +25,6 @@ class SupplierPIController extends Controller
         $supplier = $pic->supplier;
         $pic->supplier_name = $supplier ? $supplier->name : null;
         return view('supplier.pic.detail', ['pic' => $pic, 'supplier' => $supplier]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        // method update disini untuk update
     }
 
     public function searchSupplierPic(Request $request)
@@ -95,6 +94,7 @@ class SupplierPIController extends Controller
         }
     }
 
+
     public function getSupplierPicById($supplier_id)
     {
         $supplierPic = (new SupplierPic())->getSupplierPicById($supplier_id);
@@ -111,5 +111,44 @@ class SupplierPIController extends Controller
             'data' => $supplierPic,
             'lama_assigned' => $lamaAssigned
         ]);
+
+    public function updateSupplierPICDetail(Request $request, $id)
+    {
+        // 1. Validasi input
+        $validator = Validator::make($request->all(), [
+            'supplier_id'   => 'required|string|exists:supplier,supplier_id',
+            'name'          => 'required|string|max:255',
+            'phone_number'  => 'required|string|max:20',
+            'email'         => 'required|email|unique:supplier_pic,email,' . $id,
+            'assigned_date' => 'required|date',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Validasi gagal',
+                'errors'  => $validator->errors(),
+            ], 422);
+        }
+
+        // 2. Ambil data hasil validasi
+        $data = $request->only([
+            'supplier_id',
+            'name',
+            'phone_number',
+            'email',
+            'assigned_date'
+        ]);
+
+        // 3. Panggil method dari MODEL: updateSupplierPIC($id)
+        $result = SupplierPic::updateSupplierPIC($id, $data);
+
+        // 4. Return response JSON
+        return response()->json([
+            'status'  => $result['status'],
+            'message' => $result['message'],
+            'data'    => $result['data'] ?? null,
+        ], $result['code'] ?? 200);
+
     }
 }
