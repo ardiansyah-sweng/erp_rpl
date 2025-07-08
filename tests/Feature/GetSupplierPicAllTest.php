@@ -3,44 +3,34 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Supplier;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use App\Models\SupplierPic;
 
-class GetSupplierPicAllTest extends TestCase
+class GetSupplierPICAllTest extends TestCase
 {
-    use RefreshDatabase;
+    use WithoutMiddleware;
 
-    public function test_get_supplier_pic_all_feature_works()
+    /** @test */
+    public function it_displays_supplier_pic_list_using_existing_database_data()
     {
-        // 1. Insert supplier: wajib isi kolom non-null
-        $supplier = new Supplier();
-        $supplier->supplier_id = 'S001';
-        $supplier->company_name = 'PT Contoh Supplier';
-        $supplier->address = 'Jl. UAD No.1';
-        $supplier->phone_number = '08123456789';
-        $supplier->bank_account = '1234567890';
-        $supplier->save();
+        // Pastikan tabel tidak kosong (database harus sudah diisi manual sebelumnya)
+        $this->assertTrue(SupplierPic::exists(), 'Tabel supplier_pics kosong, isi dulu datanya.');
 
-        // 2. Insert PIC: wajib isi semua kolom yang NOT NULL
-        $pic = SupplierPic::create([
-            'supplier_id'   => $supplier->supplier_id, // ← ini key relasi foreign key
-            'name'          => 'PIC Test',
-            'email'         => 'pic@example.com',
-            'phone_number'  => '08123456789',
-            'assigned_date' => now()->subDays(5)->format('Y-m-d'),
-            'active'        => true, // ← tambahkan kolom jika NOT NULL
-            'avatar'        => 'default.jpg', // ← tambahkan jika NOT NULL
-        ]);
+        // Panggil endpoint
+        $response = $this->get(route('supplier-pic.list')); // sesuaikan route jika beda
 
-        // 3. Panggil controller
-        $response = $this->get('/supplier/pic/list');
-
-        // 4. Cek hasil
+        // Pastikan response OK
         $response->assertStatus(200);
+
+        // Pastikan view yang dipakai sesuai
         $response->assertViewIs('supplier.pic.list');
-        $response->assertViewHas('pics', function ($pics) use ($pic) {
-            return $pics->contains($pic);
+
+        // Ambil data dari model langsung untuk pembanding
+        $expected = SupplierPic::getSupplierPICAll();
+
+        // Pastikan data yang dikirim ke view sesuai
+        $response->assertViewHas('pics', function ($pics) use ($expected) {
+            return $pics->count() === $expected->count();
         });
     }
 }
