@@ -117,5 +117,5 @@ class Category extends Model
         return self::where('category', 'LIKE', '%' . $keyword . '%')
                     ->with('parent')
                     ->get();
-    }
+    }   
 }
