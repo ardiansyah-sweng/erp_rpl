@@ -234,3 +234,5 @@ Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMate
 
 #Goods Receipt Notes
 Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote']);
+
+
