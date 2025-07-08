@@ -112,5 +112,10 @@ class Item extends Model
             ->select('item.*', 'products.product_type', 'products.product_name')
             ->get();
     }
+
+    public static function searchItem($keyword)
+    {
+        return self::where('item_name', 'like', '%' . $keyword . '%')->paginate(10);
+    }
     
 }
