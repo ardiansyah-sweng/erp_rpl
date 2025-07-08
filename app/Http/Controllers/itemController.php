@@ -120,6 +120,16 @@ class ItemController extends Controller
     return view('item.list', compact('items'));
     }
 
+    public function exportByCategoryToPdf($categoryId)
+    {
+        $items = Item::getItemByCategory($categoryId);
+
+        if ($items->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada item untuk kategori tersebut.');
+        }
+
+        $pdf = Pdf::loadView('item.report_by_category', compact('items', 'categoryId'));
+        return $pdf->stream('laporan-item-kategori-' . $categoryId . '.pdf');
     //cetak pdf
     public function exportByProductTypeToPdf($productType)
     {
