@@ -101,4 +101,5 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'Kategori tidak ditemukan atau gagal dihapus.');
         }
     }
+   
 }

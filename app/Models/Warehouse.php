@@ -79,4 +79,8 @@ class Warehouse extends Model
             'message' => 'Warehouse berhasil dihapus.',
         ]);
     }
+     public static function getWarehouseAll()
+    {
+        return self::orderBy('created_at', 'asc')->paginate(10);
+    }
 }
