@@ -8,7 +8,6 @@ use App\Models\BillOfMaterial;
 
 class SearchOfBillMaterialTest extends TestCase
 {
-
     public function test_search_bill_of_material(): void
     {
         $sample = BillOfMaterial::inRandomOrder()->first();
@@ -16,8 +15,6 @@ class SearchOfBillMaterialTest extends TestCase
         $keyword = substr($sample->bom_name, 0, 3); 
         $result = BillOfMaterial::SearchOfBillMaterial($keyword);
         dump($result);
-
-    
         $this->assertTrue($result->count() > 0, 'Tidak ada hasil yang ditemukan dengan keyword: ' . $keyword);
     }
 }

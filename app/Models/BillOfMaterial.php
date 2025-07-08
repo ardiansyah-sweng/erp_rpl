@@ -13,6 +13,8 @@ class BillOfMaterial extends Model
         'measurement_unit',
         'total_cost',
         'active',
+        'created_at',
+        'updated_at',
     ];
 
     public function __construct(array $attributes = [])
