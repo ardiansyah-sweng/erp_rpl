@@ -200,6 +200,7 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
 
+
 #SupplierMaterialSearch
 Route::get('/supplier/material/search', [SupplierMaterialController::class, 'searchSupplierMaterial'])->name('supplier.material.search');
 Route::post('/supplier-material/add', [SupplierMaterialController::class, 'addSupplierMaterial']);

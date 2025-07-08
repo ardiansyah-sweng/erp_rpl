@@ -33,7 +33,6 @@ class SupplierMaterialSearchTest extends TestCase
 
         // Kirim request pencarian keyword
         $response = $this->getJson('/supplier/material/search?keyword=Sejahtera');
-
         $response->assertStatus(200);
         $response->assertJsonFragment([
             'company_name' => 'PD United Shipping Sejahteraraya'

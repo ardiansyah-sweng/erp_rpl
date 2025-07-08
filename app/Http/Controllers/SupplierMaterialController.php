@@ -65,16 +65,6 @@ class SupplierMaterialController extends Controller
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
 
-    // public function searchSupplierMaterial(Request $request)
-    // {
-    //     $keyword = $request->input('keyword');
- 
-    //     $model = new SupplierMaterial();
-    //     $materials = $model->getSupplierMaterialByKeyword($keyword);
- 
-    //     return view('supplier.material.list', ['materials' => $materials, 'keyword' => $keyword]);
-    // }
-
     public function searchSupplierMaterial(Request $request)
     {
         $keyword = $request->input('keyword');
