@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use App\Models\GoodsReceiptNote;
 
 class UpdateGoodsReceiptNoteTest extends TestCase
 {
@@ -12,12 +11,11 @@ class UpdateGoodsReceiptNoteTest extends TestCase
 
     public function test_update_goods_receipt_note_success()
     {
-        $col = config('db_constants.column.grn');
         $po_number = 'PO0001';
 
         $payload = [
-            'receipt_date' => '2025-06-13',
-            'note' => 'Update dari test'
+            'delivery_date' => '2025-06-13',
+            'comments' => 'Update dari test'
         ];
 
         $response = $this->putJson("/goods-receipt-note/{$po_number}", $payload);
@@ -26,8 +24,8 @@ class UpdateGoodsReceiptNoteTest extends TestCase
             ->assertJson([
                 'message' => 'Goods Receipt Note updated successfully.',
                 'data' => [
-                    'receipt_date' => $payload['receipt_date'],
-                    'note' => $payload['note'],
+                    'delivery_date' => $payload['delivery_date'],
+                    'comments' => $payload['comments'],
                 ]
             ]);
     }
