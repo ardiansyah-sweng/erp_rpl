@@ -13,9 +13,13 @@ class SupplierPic extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-
         $this->table = config('db_constants.table.supplier_pic');
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
+    }
+
+    public function getSupplierPicById($supplier_id)
+    {
+        return self::where('supplier_id', $supplier_id)->first();
     }
 
     // method untuk ambil data berdasarkan ID
@@ -34,13 +38,13 @@ class SupplierPic extends Model
     {
         return self::paginate($perPage);
     }
-    
+
     public static function addSupplierPIC($supplierID, $data)
     {
         $data['supplier_id'] = $supplierID;
         return self::create($data);
-    } 
-    
+    }
+
     public static function assignmentDuration($pic)
     {
         if (!$pic->assigned_date) {
@@ -76,5 +80,4 @@ class SupplierPic extends Model
             ->where('phone_number', $phone_number)
             ->exists();
     }
-
 }

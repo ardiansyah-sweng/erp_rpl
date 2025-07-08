@@ -13,10 +13,13 @@ use App\Http\Controllers\MerkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
+use App\Http\Controllers\SupplierPicController;
+use App\Models\SupplierPic;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
+
 
 #Login
 Route::get('/', function () {
@@ -60,7 +63,7 @@ Route::get('/branch/update', function () {
 Route::get('/supplier/material/add', function () {
     return view('supplier/material/add');
 });
-Route::get('/purchase_orders/detail/{encrypted_id}', function($encrypted_id) {
+Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
     $id = EncryptionHelper::decrypt($encrypted_id);
     return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
 })->name('purchase.orders.detail');
@@ -172,6 +175,11 @@ Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.add');
 Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
 
+
+#SupplierPic
+Route::get('/supplierPic/{supplier_id}', [SupplierPicController::class, 'getSupplierPicById']);
+
+
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');  
@@ -180,8 +188,9 @@ Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
 Route::get('/supplier/material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialById'])->name('supplier.material.detail');
 
+
 #Suppplier Update 
-Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');//Sudah sesuai pada ERP RPL
+Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier'); //Sudah sesuai pada ERP RPL
 Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');
 
 #Cetak pdf
@@ -220,7 +229,9 @@ Route::get('/bom/list', function () {
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
-Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
+Route::get('/assortment_production/detail', function () {
+    return view('assortment_production.detail');
+});
 Route::put('/assortment_production/update/{id}', [AssortProductionController::class, 'updateProduction'])->name('assortment_production.update');
 Route::get('/assortment_production/detail/{po_number}', [AssortProductionController::class, 'getProductionDetail']);
 
