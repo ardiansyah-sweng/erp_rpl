@@ -36,7 +36,6 @@ class BillOfMaterialController extends Controller
             'active'            => 'required|boolean',
         ]);
 
-        // Generate bom_id dengan format BOM001, BOM002, dst.
         $lastBom = BillOfMaterial::orderBy('id', 'desc')->first();
         $nextId = $lastBom ? ((int)substr($lastBom->bom_id, -3) + 1) : 1;
         $validatedData['bom_id'] = 'BOM' . str_pad($nextId, 3, '0', STR_PAD_LEFT);

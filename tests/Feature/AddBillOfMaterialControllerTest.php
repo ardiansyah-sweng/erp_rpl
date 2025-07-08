@@ -13,7 +13,6 @@ class AddBillOfMaterialControllerTest extends TestCase
     public function test_controller_add_bill_of_material()
     {
         $bomName = $this->faker->unique()->words(2, true);
-
         $requestData = [
             'bom_name' => $bomName,
             'measurement_unit' => '31',

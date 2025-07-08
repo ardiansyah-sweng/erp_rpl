@@ -19,7 +19,7 @@ class UpdateSupplierPICDetailTest extends TestCase
         }
 
         $newData = [
-            'supplier_id'   => $pic->supplier_id, // harus valid di tabel supplier
+            'supplier_id'   => $pic->supplier_id,
             'name'          => $faker->name,
             'phone_number'  => $faker->numerify('08##########'),
             'email'         => $faker->unique()->safeEmail,
