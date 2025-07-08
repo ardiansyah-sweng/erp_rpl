@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SupplierPic;
 use App\Models\SupplierPICModel;
+use Carbon\Carbon;
 
 
 class SupplierPIController extends Controller
@@ -81,16 +82,34 @@ class SupplierPIController extends Controller
         SupplierPic::addSupplierPIC($supplierID, $validatedData);
 
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
-    }    
+    }
 
     public function deleteSupplierPIC($id)
     {
-        $picDelete = SupplierPic::deleteSupplierPIC($id); 
+        $picDelete = SupplierPic::deleteSupplierPIC($id);
 
-        if($picDelete){
+        if ($picDelete) {
             return redirect()->back()->with('success', 'PIC berhasil dihapus!');
         } else {
             return redirect()->back()->with('error', 'PIC gagal dihapus.');
         }
+    }
+
+    public function getSupplierPicById($supplier_id)
+    {
+        $supplierPic = (new SupplierPic())->getSupplierPicById($supplier_id);
+
+        if (!$supplierPic) {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+
+        $assignedDate = Carbon::parse($supplierPic->assigned_date)->startOfDay();
+        $now = Carbon::now()->startOfDay();
+        $lamaAssigned = $assignedDate->diffInDays($now);
+
+        return response()->json([
+            'data' => $supplierPic,
+            'lama_assigned' => $lamaAssigned
+        ]);
     }
 }

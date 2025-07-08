@@ -57,6 +57,26 @@ class SupplierMaterial extends Model
             ->count(DB::raw('DISTINCT p.product_id'));
     }
 
+    public static function getSupplierMaterialByCategory($productID = null, $productName = null)
+    {
+        $query = self::query();
+
+        if (!is_null($productID) && $productID !== '') {
+            $query->where('product_id', $productID);
+        }
+
+        if (!is_null($productName) && $productName !== '') {
+            $query->where('product_name', $productName);
+        }
+
+        return $query->get();
+    }
+
+
+
+    protected $table = 'supplier_product';
+
+
     public static function countSupplierMaterialFoundByKeyword($keyword)
     {
         return DB::table('supplier_product')
@@ -74,8 +94,8 @@ class SupplierMaterial extends Model
         }
 
         if (is_object($data)) {
-        $data = (array) $data;
-    }
+            $data = (array) $data;
+        }
 
         return self::create([
             'supplier_id' => $data['supplier_id'],
@@ -85,5 +105,4 @@ class SupplierMaterial extends Model
             'base_price' => $data['base_price'],
         ]);
     }
-
 }

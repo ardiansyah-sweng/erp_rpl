@@ -34,13 +34,13 @@ class SupplierPic extends Model
     {
         return self::paginate($perPage);
     }
-    
+
     public static function addSupplierPIC($supplierID, $data)
     {
         $data['supplier_id'] = $supplierID;
         return self::create($data);
-    } 
-    
+    }
+
     public static function assignmentDuration($pic)
     {
         if (!$pic->assigned_date) {
@@ -77,4 +77,8 @@ class SupplierPic extends Model
             ->exists();
     }
 
+    public function getSupplierPicById($supplier_id)
+    {
+        return self::where('supplier_id', $supplier_id)->first();
+    }
 }

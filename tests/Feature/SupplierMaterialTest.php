@@ -7,6 +7,7 @@ use App\Models\SupplierMaterial;
 
 class SupplierMaterialTest extends TestCase
 {
+
     public function test_get_supplier_material_list()
     {
         $response = $this->get('/supplier/material');
@@ -24,7 +25,6 @@ class SupplierMaterialTest extends TestCase
         $this->assertNotNull($first->supplier_id ?? null, 'First material supplier_id should not be null.');
         $this->assertNotNull($first->company_name ?? null, 'First material company_name should not be null.');
     }
-
     public function test_get_supplier_material_by_id()
     {
         $material = SupplierMaterial::getSupplierMaterial()->first();
@@ -40,7 +40,7 @@ class SupplierMaterialTest extends TestCase
         $response->assertViewIs('supplier.material.detail');
         $response->assertViewHas('material');
 
-         $materialFromView = $response->viewData('material');
+        $materialFromView = $response->viewData('material');
 
         // Tampilkan isi data berdasarkan ID
         dump("Data dari /supplier/material/{$material->id}:", $materialFromView);
