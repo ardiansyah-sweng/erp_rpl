@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+
 class BillOfMaterialControllerTest extends TestCase
 {
     // Optional: agar tidak perlu login/middleware saat testing
@@ -50,6 +51,72 @@ class BillOfMaterialControllerTest extends TestCase
         $response->assertStatus(404)
                  ->assertJson(['message' => 'Bill of Material not found.']);
     }
+
+
+   /** @test */
+    public function test_get_bom_detail_with_join()
+    {
+        // Insert Bill of Material
+        $bomId = DB::table('bill_of_material')->insertGetId([
+            'bom_id' => 'BOM-123',
+            'bom_name' => 'Test BOM',
+            'measurement_unit' => 1,
+            'total_cost' => 5000,
+            'active' => true,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Insert 2 bom_detail rows
+        DB::table('bom_detail')->insert([
+            [
+                'bom_id' => 'BOM-123',
+                'sku' => 'SKU-001',
+                'quantity' => 10,
+                'cost' => 2500,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'bom_id' => 'BOM-123',
+                'sku' => 'SKU-002',
+                'quantity' => 5,
+                'cost' => 2500,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        ]);
+
+        // Hit endpoint
+        $response = $this->get("/bill-of-material/{$bomId}");
+
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure([
+            'id',
+            'bom_id',
+            'bom_name',
+            'measurement_unit',
+            'total_cost',
+            'active',
+            'created_at',
+            'updated_at',
+            'details' => [
+                '*' => [
+                    'id',
+                    'bom_id',
+                    'sku',
+                    'quantity',
+                    'cost',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+        ]);
+
+        $this->assertCount(2, $response->json('details'));
+    }
+
 
     public function test_get_bill_of_material_returns_paginated_data()
     {
