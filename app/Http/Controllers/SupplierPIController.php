@@ -117,7 +117,6 @@ class SupplierPIController extends Controller
             'assigned_date'
         ]);
 
-        // 3. Panggil method dari MODEL: updateSupplierPIC($id)
         $result = SupplierPic::updateSupplierPIC($id, $data);
 
         return response()->json([

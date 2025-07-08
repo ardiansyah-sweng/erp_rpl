@@ -27,7 +27,9 @@ class BillOfMaterialController extends Controller
             return response()->json($data);
         }
 
-    public function addBillOfMaterial(Request $request)
+
+
+        public function addBillOfMaterial(Request $request)
     {
         $validatedData = $request->validate([
             'bom_name'          => 'required|string|min:3|unique:bill_of_material,bom_name',
@@ -44,7 +46,5 @@ class BillOfMaterialController extends Controller
 
         return redirect()->back()->with('success', 'Bill of Material berhasil ditambahkan!');
     }
-
-
 }
 
