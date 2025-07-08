@@ -1,32 +1,35 @@
 <?php
 
-namespace Tests\Feature;
+namespace App\Http\Controllers;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Http\Request;
+use App\Models\GoodsReceiptNote;
 
-class UpdateGoodsReceiptNoteTest extends TestCase
+class GoodsReceiptNoteController extends Controller
 {
-    use WithoutMiddleware;
-
-    public function test_update_goods_receipt_note_success()
+    public function updateGoodsReceiptNote(Request $request, $po_number)
     {
-        $po_number = 'PO0001';
+        $validated = $request->validate([
+            'delivery_date' => 'required|date',
+            'comments' => 'nullable|string|max:255',
+        ]);
 
-        $payload = [
-            'delivery_date' => '2025-06-13',
-            'comments' => 'Update dari test'
-        ];
+        $note = GoodsReceiptNote::where('po_number', $po_number)->first();
 
-        $response = $this->putJson("/goods-receipt-note/{$po_number}", $payload);
+        if (!$note) {
+            return response()->json([
+                'message' => 'Goods Receipt Note not found.'
+            ], 404);
+        }
 
-        $response->assertStatus(200)
-            ->assertJson([
-                'message' => 'Goods Receipt Note updated successfully.',
-                'data' => [
-                    'delivery_date' => $payload['delivery_date'],
-                    'comments' => $payload['comments'],
-                ]
-            ]);
+        $note->update($validated);
+
+        return response()->json([
+            'message' => 'Goods Receipt Note updated successfully.',
+            'data' => [
+                'delivery_date' => $note->delivery_date,
+                'comments' => $note->comments,
+            ]
+        ]);
     }
 }
