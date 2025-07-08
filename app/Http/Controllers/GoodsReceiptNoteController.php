@@ -7,32 +7,29 @@ use App\Models\GoodsReceiptNote;
 
 class GoodsReceiptNoteController extends Controller
 {
-    public function addGoodsReceiptNote(Request $request)
+    public function updateGoodsReceiptNote(Request $request, $po_number)
     {
-        // Validasi input sesuai kolom pada tabel
         $validated = $request->validate([
-            'po_number'          => 'required|string',
-            'product_id'         => 'required|string',
-            'delivery_date'      => 'required|date',
-            'delivered_quantity' => 'required|integer|min:1',
-            'comments'           => 'nullable|string',
+            'delivery_date' => 'required|date',
+            'comments' => 'nullable|string|max:255',
         ]);
 
-        // Panggil method insert dari model
-        $result = GoodsReceiptNote::addGoodsReceiptNote($validated);
+        $note = GoodsReceiptNote::where('po_number', $po_number)->first();
 
-        // Return response
-        if ($result) {
+        if (!$note) {
             return response()->json([
-                'success' => true,
-                'message' => 'Goods Receipt Note berhasil ditambahkan',
-                'data'    => $result
-            ], 201);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Gagal menambahkan Goods Receipt Note'
-            ], 500);
+                'message' => 'Goods Receipt Note not found.'
+            ], 404);
         }
+
+        $note->update($validated);
+
+        return response()->json([
+            'message' => 'Goods Receipt Note updated successfully.',
+            'data' => [
+                'delivery_date' => $note->delivery_date,
+                'comments' => $note->comments,
+            ]
+        ]);
     }
 }
