@@ -14,7 +14,7 @@ class GetProductByKeywordTest extends TestCase
     public function it_returns_filtered_products_when_keyword_is_provided()
     {
         // Ganti keyword ini sesuai dengan data nyata di database kamu
-        $keyword = 'PROD'; // Contoh: bagian dari product_id atau product_name yang sudah ada
+        $keyword = 'Water'; // Contoh: bagian dari product_id atau product_name yang sudah ada
 
         $results = Product::getProductByKeyword($keyword);
 
