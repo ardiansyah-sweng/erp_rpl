@@ -3,15 +3,18 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Support\Facades\Schema;
-use App\Models\SupplierMaterial; 
+use App\Models\SupplierMaterial;
 
 class CountSupplierMaterialTest extends TestCase
 {
-    public function test_count_supplier_material_by_category_does_not_crash()
+    public function test_count_supplier_material_by_category()
     {
-        $count = SupplierMaterial::countSupplierMaterialByCategory('Logam', 1);
+        $category = 'dolor';       // Sesuaikan kata kunci dari product_name
+        $supplierId = 'SUP013';
 
+        $count = SupplierMaterial::countSupplierMaterialByCategory($category, $supplierId);
+
+        $this->assertGreaterThan(0, $count);
         $this->assertIsInt($count);
     }
 }
