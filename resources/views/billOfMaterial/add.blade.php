@@ -255,17 +255,17 @@
                     <div class="card-body">
                       
                       <div class="form-group">
-                        <label for="bom_id">Kode BOM</label>
+                        <label for="bom_id">BOM ID</label>
                         <input type="text" class="form-control" id="bom_id" name="bom_id" placeholder="Contoh: BOM-001" value="{{ old('bom_id') }}">
                       </div>
                   
                       <div class="form-group">
-                        <label for="bom_name">Nama BOM</label>
+                        <label for="bom_name">BOM Name</label>
                         <input type="text" class="form-control" id="bom_name" name="bom_name" placeholder="Contoh: BOM-BOM-001" value="{{ old('bom_name') }}">
                       </div>
                   
                       <div class="form-group">
-                        <label for="measurement_unit">Satuan Produksi</label>
+                        <label for="measurement_unit">Measurement Unit</label>
                         <select class="form-control" id="measurement_unit" name="measurement_unit">
                           <option value="">-- Pilih Satuan --</option>
                           {{-- Contoh satuan bisa ditarik dari tabel measurement_unit --}}
@@ -276,7 +276,7 @@
                       </div>
                   
                       <div class="form-group">
-                        <label for="total_cost">Total Biaya Produksi (HPP)</label>
+                        <label for="total_cost">Total Cost</label>
                         <input type="number" class="form-control" id="total_cost" name="total_cost" placeholder="Contoh: 279763" value="{{ old('total_cost') }}">
                       </div>
                   
