@@ -79,7 +79,7 @@ class SupplierMaterialController extends Controller
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
 
-     public function getSupplierMaterialByProductType($supplier_id, $product_type)
+    public function getSupplierMaterialByProductType($supplier_id, $product_type)
 {
     if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
         return response()->json(['error' => 'Invalid product type'], 400);
@@ -100,5 +100,5 @@ class SupplierMaterialController extends Controller
         ->get();
 
     return response()->json($results);
-    }
+ }
 }
