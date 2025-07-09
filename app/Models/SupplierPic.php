@@ -80,6 +80,11 @@ class SupplierPic extends Model
             ->exists();
     }
 
+
+    public function getSupplierPicById($supplier_id)
+    {
+        return self::where('supplier_id', $supplier_id)->first();
+
     public static function updateSupplierPIC($id, $data)
     {
         try {
@@ -113,5 +118,6 @@ class SupplierPic extends Model
                 'code' => 500
             ];
         }
+
     }
 }
