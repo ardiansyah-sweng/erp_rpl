@@ -27,8 +27,8 @@ class Warehouse extends Model
     {
         return self::count();
     }
-    
-     public function updateWarehouse($id, $data)
+
+    public function updateWarehouse($id, $data)
     {
         $warehouse = $this->getWarehouseById($id);
 
@@ -46,7 +46,7 @@ class Warehouse extends Model
                 ->orWhere('warehouse_telephone', 'like', "%{$keyword}%");
         })->get();
     }
-    
+
     public function deleteWarehouse($id)
     {
         $warehouse = $this->getWarehouseById($id);
@@ -85,4 +85,23 @@ class Warehouse extends Model
     return self::orderBy('id', 'asc')->paginate(10);
 }
 
+    public static function addWarehouse($data)
+    {
+        if (empty($data)) {
+            throw new \Exception('Data tidak boleh kosong.');
+        }
+
+        if (is_object($data)) {
+            $data = (array) $data;
+        }
+
+        return self::create([
+            'warehouse_name' => $data['warehouse_name'],
+            'warehouse_address' => $data['warehouse_address'],
+            'warehouse_telephone' => $data['warehouse_telephone'],
+            'is_rm_whouse' => $data['is_rm_whouse'],
+            'is_fg_whouse' => $data['is_fg_whouse'],
+            'is_active' => $data['is_active'],
+        ]);
+    }
 }

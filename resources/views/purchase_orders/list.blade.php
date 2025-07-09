@@ -1121,7 +1121,66 @@ use App\Helpers\EncryptionHelper;
     });
   });
   </script>
+  <script>
+    $(document).ready(function() {
+        // Menambahkan event listener baru pada tombol submit
+        $('#submitBtn').on('click', function() {
+            // Beri jeda singkat agar script lama (jika ada) berjalan lebih dulu
+            setTimeout(function() {
+                // Mengambil semua data dari form di dalam modal
+                const dataForEmail = {
+                    header: {
+                        po_number: $('#po_number').val(),
+                        branch: $('#branch').val(),
+                        supplier_name: $('#supplier_name').val(),
+                        supplier_id: $('#supplierSearch').val(),
+                        order_date: new Date().toISOString().slice(0, 10)
+                    },
+                    items: [],
+                    subtotal: $('#subtotal').val().replace(/[^0-9]/g, ''),
+                    tax: $('#tax').val().replace(/[^0-9]/g, '')
+                };
 
+                $('#itemsTable tbody tr').each(function() {
+                    const row = $(this);
+                    const sku = row.find('.sku-search').val();
+                    if (sku) {
+                        dataForEmail.items.push({
+                            sku: sku,
+                            name: row.find('.nama-item').val(),
+                            qty: row.find('.qty').val(),
+                            unitPrice: row.find('.unit-price').val(),
+                            amount: row.find('.amount').val()
+                        });
+                    }
+                });
+
+                // Jika tidak ada item, batalkan pengiriman
+                if (dataForEmail.items.length === 0) {
+                    return;
+                }
+
+                // Kirim data ke controller menggunakan AJAX
+                $.ajax({
+                    url: '{{ route("purchase_orders.send_email") }}',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(dataForEmail),
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    success: function(response) {
+                        console.log('Email Terkirim:', response.success);
+                        // Jika ingin menampilkan notifikasi, bisa pakai alert:
+                        alert(response.success);
+                    },
+                    error: function(xhr) {
+                        console.error('Gagal Kirim Email:', xhr.responseJSON.error);
+                        alert('Gagal mengirim email: ' + xhr.responseJSON.error);
+                    }
+                });
+            }, 500); // Jeda 0.5 detik
+        });
+    });
+  </script>
   <!--end::Script-->
 </body>
 <!--end::Body-->
