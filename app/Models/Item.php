@@ -117,5 +117,9 @@ class Item extends Model
             ->select('item.*', 'products.product_type', 'products.product_name')
             ->get();
     }
+
+    public static function countItemByCategory($category){
+        return self::where('product_id', $category)->count();
+    }
     
 }
