@@ -14,7 +14,7 @@ class DeleteBillOfMaterialTest extends TestCase
     public function it_deletes_existing_bom()
     {
         // Simulasi data yang valid dengan bom_id unik
-        $bomId = 'BOM' . uniqid(); // bom_id dijamin unik
+        $bomId = 'BOM' . mt_rand(1000, 9999); // ID pendek, aman
         $id = DB::table('bill_of_material')->insertGetId([
             'bom_id' => $bomId,
             'bom_name' => 'Test BOM',
