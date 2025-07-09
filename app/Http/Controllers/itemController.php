@@ -154,5 +154,22 @@ public function exportByProductTypeToPdf($productType)
     return $pdf->stream("Item_berdasarkan_product_type_{$productType}.pdf");
 }
 
+    public function exportItemByCategoryToPdf($categoryId)
+    {
+        $items = Item::getItemByCategory($categoryId);
 
+        if ($items->isEmpty()) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan untuk kategori ini.');
+        }
+
+        // Ambil nama kategori dari item pertama (karena semua dari 1 kategori)
+        $categoryName = $items->first()->category_name ?? 'Kategori Tidak Dikenal';
+
+        $pdf = Pdf::loadView('item.report_by_category', [
+            'items' => $items,
+            'categoryName' => $categoryName,
+        ]);
+
+        return $pdf->stream("item-kategori-{$categoryName}.pdf");
+    }
 }

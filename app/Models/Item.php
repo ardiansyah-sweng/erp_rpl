@@ -118,4 +118,18 @@ class Item extends Model
             ->get();
     }
     
+    public static function getItemByCategory($categoryId)
+    {
+        return self::join('products', 'item.product_id', '=', 'products.product_id')
+            ->join('category', 'products.product_category', '=', 'category.id')
+            ->where('category.id', $categoryId)
+            ->select(
+                'item.*',
+                'products.product_name',
+                'products.product_category',
+                'category.category as category_name'
+            )
+            ->get();
+    }
+
 }
