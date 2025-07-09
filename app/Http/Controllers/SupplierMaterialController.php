@@ -80,25 +80,25 @@ class SupplierMaterialController extends Controller
     }
 
     public function getSupplierMaterialByProductType($supplier_id, $product_type)
-{
-    if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
-        return response()->json(['error' => 'Invalid product type'], 400);
+    {
+        if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
+            return response()->json(['error' => 'Invalid product type'], 400);
+            }
+
+        $results = DB::table('supplier_product')
+            ->join('products', 'supplier_product.product_id', '=', 'products.product_id')
+            ->where('supplier_product.supplier_id', $supplier_id)
+            ->where('products.product_type', $product_type)
+            ->select(
+                'supplier_product.supplier_id',
+                'supplier_product.company_name',
+                'supplier_product.product_id',
+                'products.product_name',
+                'products.product_type',
+                'supplier_product.base_price'
+            )
+            ->get();
+
+        return response()->json($results);
     }
-
-    $results = DB::table('supplier_product')
-        ->join('products', 'supplier_product.product_id', '=', 'products.product_id')
-        ->where('supplier_product.supplier_id', $supplier_id)
-        ->where('products.product_type', $product_type)
-        ->select(
-            'supplier_product.supplier_id',
-            'supplier_product.company_name',
-            'supplier_product.product_id',
-            'products.product_name',
-            'products.product_type',
-            'supplier_product.base_price'
-        )
-        ->get();
-
-    return response()->json($results);
- }
 }
