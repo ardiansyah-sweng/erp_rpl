@@ -100,4 +100,10 @@ class WarehouseController extends Controller
         $pdf = Pdf::loadView('warehouse.report',compact('warehouse'));
         return $pdf->stream('warehouse_report.pdf');
     }
+
+        public function getWarehouseAll()
+    {
+        $warehouses = Warehouse::getWarehouseAll();
+        return view('warehouse.list', compact('warehouses'));
+    }
 }

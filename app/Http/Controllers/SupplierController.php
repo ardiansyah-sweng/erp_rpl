@@ -9,7 +9,6 @@ class SupplierController extends Controller
 {
     public function updateSupplier(Request $request, $supplier_id)
     {
-        // Validasi input
         $request->validate([
             'company_name' => 'required|string|max:100',
             'address' => 'required|string|max:100',
@@ -22,11 +21,15 @@ class SupplierController extends Controller
 
         return redirect()->route('Supplier.detail', ['id' => $supplier_id]);
     }
-    public function getSupplierById($id)
-    {
-        $sup = (new Supplier())->getSupplierById($id);
 
+    public function addSupplier(Request $requset){
+        $requset->validate([
+            'supplier_name' => 'required|string|max:6',
+            'company_name' => 'required|string|max:50',
+            'address' => 'required|string|max:100',
+            'phone_number' => 'required|string|max:12',
+            'bank_account' => 'required|string|max:50',
+        ]);
         return view('Supplier.detail', compact('sup'));
     }
 }
-

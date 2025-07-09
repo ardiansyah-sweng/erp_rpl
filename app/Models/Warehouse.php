@@ -28,7 +28,7 @@ class Warehouse extends Model
         return self::count();
     }
 
-     public function updateWarehouse($id, $data)
+    public function updateWarehouse($id, $data)
     {
         $warehouse = $this->getWarehouseById($id);
 
@@ -79,6 +79,11 @@ class Warehouse extends Model
             'message' => 'Warehouse berhasil dihapus.',
         ]);
     }
+
+    public static function getWarehouseAll()
+{
+    return self::orderBy('id', 'asc')->paginate(10);
+}
 
     public static function addWarehouse($data)
     {
