@@ -104,6 +104,11 @@ class Item extends Model
         return self::where('id', $id)->first();
 
     }
+
+    public static function countItemByProductType(){
+        return self::count(); 
+    }
+
     
     public static function getItemByType($productType)
     {
