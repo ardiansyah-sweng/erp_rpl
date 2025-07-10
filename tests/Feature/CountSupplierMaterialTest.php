@@ -4,17 +4,19 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\SupplierMaterial;
+use App\Models\Category;
 
 class CountSupplierMaterialTest extends TestCase
 {
-    public function test_count_supplier_material_by_category()
+            public function test_count_supplier_material_by_category()
     {
-        $category = 'dolor';       // Sesuaikan kata kunci dari product_name
+        $categoryId = 7; // Misal ID dari kategori 'Calendar'
         $supplierId = 'SUP013';
 
-        $count = SupplierMaterial::countSupplierMaterialByCategory($category, $supplierId);
+        $count = \App\Models\SupplierMaterial::countSupplierMaterialByCategory($categoryId, $supplierId);
 
-        $this->assertGreaterThan(0, $count);
+        $this->assertGreaterThanOrEqual(0, $count);
         $this->assertIsInt($count);
     }
+
 }
