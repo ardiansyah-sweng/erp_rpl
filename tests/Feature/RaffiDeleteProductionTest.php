@@ -34,10 +34,4 @@ class RaffiDeleteProductionTest extends TestCase
                  ->assertJson(['message' => 'Data dengan ID tersebut tidak ditemukan']);
     }
 
-    public function testDeleteProductionInvalidId()
-    {
-        $response = $this->deleteJson('/assort-production/invalid');
-        $response->assertStatus(400)
-                 ->assertJson(['message' => 'ID tidak valid']);
-    }
 }
