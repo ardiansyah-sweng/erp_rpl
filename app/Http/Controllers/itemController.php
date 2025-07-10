@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\MeasurementUnit;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ItemController extends Controller
 {
@@ -84,11 +85,74 @@ class ItemController extends Controller
         return redirect()->back()->with('success', 'Item berhasil diperbarui.');
     }
   
+    public function exportAllToPdf()
+    {
+        $items = (new Item)->getItem();
 
+        if (empty($items) || count($items) === 0) {
+            return redirect()->back()->with('error', 'Tidak ada data yang tersedia untuk diekspor');
+        }
+
+        $pdf = Pdf::loadView('item.report', compact('items'));
+        return $pdf->stream('laporan-item.pdf');
+    }
     
     public function getItemById($id){
         $item = (new item())->getItemById($id);
-        return response()->json($item);
+        return view('item.detail', compact('item'));
     }
+
+    public function getItemByType($productType)
+    {
+        $items = Item::getItemByType($productType);
+        return response()->json($items);
+    }
+    
+    //search
+    public function searchItem($keyword)
+    {
+    $items = Item::where('item_name', 'like', '%' . $keyword . '%')->paginate(10);
+
+    if ($items->isEmpty()) {
+        return redirect()->back()->with('error', 'Tidak ada item yang ditemukan untuk kata kunci: ' . $keyword);
+    }
+
+    return view('item.list', compact('items'));
+    }
+
+// Fungsi cetak pdf pada controllernya
+public function exportByProductTypeToPdf($productType)
+{
+    $items = Item::getItemByType($productType);
+
+    if (empty($items) || count($items) === 0) {
+        return redirect()->back()->with('error', 'Tidak ada item dengan product type tersebut.');
+    }
+
+    // --- Perubahan dimulai di sini ---
+    $displayProductType = $productType; // Inisialisasi dengan nilai asli
+    switch (strtoupper($productType)) {
+        case 'RM':
+            $displayProductType = 'Raw Material';
+            break;
+        case 'FG':
+            $displayProductType = 'Finished Goods';
+            break;
+        case 'HFG':
+            $displayProductType = 'Half-Finished Goods'; // Atau 'Semi-Finished Goods'
+            break;
+        // Anda bisa menambahkan case lain jika ada singkatan product type lain
+    }
+    // --- Perubahan berakhir di sini ---
+
+    $pdf = Pdf::loadView('item.pdf_by_product', [
+        'items' => $items,
+        'productType' => $displayProductType, // Menggunakan variabel baru untuk tampilan
+    ])->setPaper('A4', 'portrait');
+
+    // Nama file PDF tetap bisa menggunakan singkatan asli jika diinginkan untuk identifikasi
+    return $pdf->stream("Item_berdasarkan_product_type_{$productType}.pdf");
+}
+
 
 }
