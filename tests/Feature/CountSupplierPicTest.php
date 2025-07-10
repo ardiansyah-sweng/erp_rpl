@@ -23,7 +23,7 @@ class CountSupplierPicTest extends TestCase
         echo "Active: {$counts['active']}\n";
         echo "Inactive: {$counts['inactive']}\n";
         echo "Total: {$counts['total']}\n";
-        //
+        ///
         $this->assertGreaterThanOrEqual(0, $counts['active']);
         $this->assertGreaterThanOrEqual(0, $counts['inactive']);
         $this->assertEquals($counts['active'] + $counts['inactive'], $counts['total']);

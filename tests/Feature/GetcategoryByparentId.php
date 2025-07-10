@@ -13,7 +13,7 @@ class GetcategoryByparentId extends TestCase
     {
         $parentCategory = Category::inRandomOrder()->first();
         $this->assertNotNull($parentCategory);
-        //
+        ///
         $childCategories = Category::getCategoryByParent($parentCategory->id);
 
         $this->assertNotNull($childCategories);
