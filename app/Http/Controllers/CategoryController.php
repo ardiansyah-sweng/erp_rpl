@@ -9,15 +9,10 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class CategoryController extends Controller
 {
 
-    public function getCategoryByParent($id)
+    public static function getCategory()
     {
-        // Ambil semua kategori yang parent_id-nya sama dengan $id
-        $categories = Category::where('parent_id', $id)->get();
-
-        // Kembalikan dalam bentuk JSON (misalnya untuk API / AJAX)
-        return response()->json($categories);
+    return self::with('parent')->get();
     }
-
 
     public function addCategory(Request $request)
     {
