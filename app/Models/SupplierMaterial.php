@@ -85,5 +85,16 @@ class SupplierMaterial extends Model
             'base_price' => $data['base_price'],
         ]);
     }
+    public static function searchSupplierMaterial($keyword)
+    {
+        return DB::table('supplier_product')
+            ->where(function ($query) use ($keyword) {
+                $query->where('supplier_id', 'like', '%' . $keyword . '%')
+                    ->orWhere('company_name', 'like', '%' . $keyword . '%')
+                    ->orWhere('product_id', 'like', '%' . $keyword . '%')
+                    ->orWhere('product_name', 'like', '%' . $keyword . '%');
+            })
+            ->paginate(10);
+    }
 
 }
