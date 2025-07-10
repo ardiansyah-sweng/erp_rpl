@@ -165,6 +165,8 @@ Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']
 Route::get('/item/search/{keyword}', [ItemController::class, 'searchItem']);
 Route::get('/item/pdf/product/{productType}', [ItemController::class, 'exportByProductTypeToPdf']);
 
+Route::get('/item/export/category/{id}', [ItemController::class, 'exportItemByCategoryToPdf'])->name('item.export.category');
+
 # Merk
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
