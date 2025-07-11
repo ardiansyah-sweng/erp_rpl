@@ -79,15 +79,6 @@ class SupplierPIController extends Controller
 
     } 
     
-    public function delete($id)
-    {
-        $pic = SupplierPic::findOrFail($id);
-        $pic->delete();
-
-        return redirect()->route('supplier.pic.list')->with('success', 'Data PIC berhasil dihapus.');
-
-    }
-
     public function deleteSupplierPIC($id)
     {
         $picDelete = SupplierPic::deleteSupplierPIC($id);
