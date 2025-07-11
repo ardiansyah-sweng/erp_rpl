@@ -335,7 +335,7 @@ use App\Helpers\EncryptionHelper;
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('purchase.orders') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Purchase Orders
@@ -390,6 +390,7 @@ use App\Helpers\EncryptionHelper;
                     <h2 class="card-title mb-0 me-2">Purchase Orders</h2>
                     <!-- <a href="{{ route('purchase_orders.add') }}" class="btn btn-primary btn-sm">Add</a> -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPurchaseOrderModal">  Add </button>
+                    <a href="{{ route('purchase_orders.report_form') }}" class="btn btn-primary ms-2">Cetak PDF</a>
                   </div>
 
                   <!-- Modal -->
@@ -476,14 +477,18 @@ use App\Helpers\EncryptionHelper;
                     </div>
                   </div>
                   <!--begin::Start Search Bar-->
-                  <div class="relative p-1 border border-gray-200 rounded-lg w-full max-w-lg ms-auto">
-                    <input type="text" class="rounded-md p-1 w-full" placeholder="Search Purchase Orders">
-                    <button type="submit" class="absolute right-6 top-1/2 transform -translate-y-1/2 flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                      </svg>
-                    </button>
-                  </div>
+                  <form action="{{ route('purchase_orders.search') }}" method="GET" class="d-flex ms-auto">
+                      <div class="input-group input-group-sm ms-auto" style="width: 450px;">
+                          <input type="text" name="keyword" class="form-control" placeholder="Search Purchase Order" value="{{ request('keyword') }}">
+                          <div class="input-group-append">
+                              <button type="submit" class="btn btn-default">
+                                  <i class="bi bi-search"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </form>
+
+
                   <!--end::Start Search Bar-->
                 </div>
                 <div class="card-body">
@@ -514,6 +519,8 @@ use App\Helpers\EncryptionHelper;
                           <a href="#" class="btn btn-sm btn-primary">Edit</a>
                           <a href="#" class="btn btn-sm btn-danger">Delete</a>
                           <a href="/purchase_orders/detail/{{ EncryptionHelper::encrypt($order->po_number) }}" class="btn btn-sm btn-info">Detail</a>
+                           <a href="goods_receipt_note/add" class="btn btn-sm btn-warning">GRN</a>
+                           <a href="goods_receipt_note/detail" class="btn btn-sm btn-success">Detail GRN</a>
                         </td>
                       </tr>
                       @empty
@@ -1114,7 +1121,66 @@ use App\Helpers\EncryptionHelper;
     });
   });
   </script>
+  <script>
+    $(document).ready(function() {
+        // Menambahkan event listener baru pada tombol submit
+        $('#submitBtn').on('click', function() {
+            // Beri jeda singkat agar script lama (jika ada) berjalan lebih dulu
+            setTimeout(function() {
+                // Mengambil semua data dari form di dalam modal
+                const dataForEmail = {
+                    header: {
+                        po_number: $('#po_number').val(),
+                        branch: $('#branch').val(),
+                        supplier_name: $('#supplier_name').val(),
+                        supplier_id: $('#supplierSearch').val(),
+                        order_date: new Date().toISOString().slice(0, 10)
+                    },
+                    items: [],
+                    subtotal: $('#subtotal').val().replace(/[^0-9]/g, ''),
+                    tax: $('#tax').val().replace(/[^0-9]/g, '')
+                };
 
+                $('#itemsTable tbody tr').each(function() {
+                    const row = $(this);
+                    const sku = row.find('.sku-search').val();
+                    if (sku) {
+                        dataForEmail.items.push({
+                            sku: sku,
+                            name: row.find('.nama-item').val(),
+                            qty: row.find('.qty').val(),
+                            unitPrice: row.find('.unit-price').val(),
+                            amount: row.find('.amount').val()
+                        });
+                    }
+                });
+
+                // Jika tidak ada item, batalkan pengiriman
+                if (dataForEmail.items.length === 0) {
+                    return;
+                }
+
+                // Kirim data ke controller menggunakan AJAX
+                $.ajax({
+                    url: '{{ route("purchase_orders.send_email") }}',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(dataForEmail),
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    success: function(response) {
+                        console.log('Email Terkirim:', response.success);
+                        // Jika ingin menampilkan notifikasi, bisa pakai alert:
+                        alert(response.success);
+                    },
+                    error: function(xhr) {
+                        console.error('Gagal Kirim Email:', xhr.responseJSON.error);
+                        alert('Gagal mengirim email: ' + xhr.responseJSON.error);
+                    }
+                });
+            }, 500); // Jeda 0.5 detik
+        });
+    });
+  </script>
   <!--end::Script-->
 </body>
 <!--end::Body-->

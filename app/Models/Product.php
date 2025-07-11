@@ -23,8 +23,14 @@ class Product extends Model
         'product_description'
     ];
 
+<<<<<<< HEAD
     // Maps the column names to their actual DB names
     protected $columnMap;
+=======
+    protected $casts = [
+    'product_type' => \App\Enums\ProductType::class,
+    ];
+>>>>>>> origin/development
 
     public function __construct(array $attributes = [])
     {
@@ -70,6 +76,7 @@ class Product extends Model
 
     public static function getAllProducts()
     {
+<<<<<<< HEAD
         return self::getProduct();
     }
 
@@ -91,6 +98,9 @@ class Product extends Model
         )
         ->orderBy($product->columnMap['created_at'], 'desc')
         ->get();
+=======
+        return self::withCount('items')->with('category')->selectRaw('(SELECT COUNT(*) FROM item WHERE item.sku LIKE CONCAT(products.product_id, "%")) AS items_count')->orderBy('created_at', 'desc')->paginate(10);
+>>>>>>> origin/development
     }
 
     public function getSKURawMaterialItem()
@@ -115,14 +125,21 @@ class Product extends Model
     }
 
     public function getProductById($id) {
-        return self::where('id', $id)->first();
+        return self::where('product_id', $id)->first();
     }    
+
+    public static function countProductByProductType($shortType)
+    {
+        $colProduct = config('db_constants.column.products');
+
+        return self::where($colProduct['type'], $shortType)->count();
+    }
 
     public static function getProductByType($type)
     {
          return self::where('product_type', $type)->get();
     }
-
+    
     public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
     {
         $product = self::find($id);
@@ -132,6 +149,15 @@ class Product extends Model
         $product->update($data);
 
         return $product;
+    }
+
+    public function items()
+    {
+        $tableItem = config('db_constants.table.item');
+        $colItem = config('db_constants.column.item');
+        $colProduct = config('db_constants.column.products');
+
+        return $this->hasMany(Item::class, 'sku', 'product_id');
     }
 
 }

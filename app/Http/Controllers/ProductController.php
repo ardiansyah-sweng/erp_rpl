@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+<<<<<<< HEAD
 use Barryvdh\DomPDF\Facade\Pdf;
+=======
+use App\Helpers\EncryptionHelper;
+>>>>>>> origin/development
 
 class ProductController extends Controller
 {
@@ -16,7 +20,8 @@ class ProductController extends Controller
 
     public function getProductById($id)
     {
-        $product = (new Product())->getProductById($id);
+        $productId = EncryptionHelper::decrypt($id);
+        $product = (new Product())->getProductById($productId);
 
         if (!$product) {
             return abort(404, 'Product tidak ditemukan');
@@ -61,6 +66,7 @@ class ProductController extends Controller
         return $Updateproduct;
     }
 
+<<<<<<< HEAD
 public function generateProductPDF()
 {
     $products = Product::getAllProductsForPDF();
@@ -74,4 +80,19 @@ public function previewProductPDF()
     $products = Product::getAllProductsForPDF();
     return view('product.preview-pdf', compact('products'));
 }
+=======
+
+    public function searchProduct($keyword)
+    {
+        $products = Product::where('product_id', 'LIKE', "%{$keyword}%")
+            ->orWhere('product_name', 'LIKE', "%{$keyword}%")
+            ->orWhere('product_type', 'LIKE', "%{$keyword}%")
+            ->orWhereRaw('CAST(product_category AS CHAR) LIKE ?', ["%{$keyword}%"])
+            ->orWhere('product_description', 'LIKE', "%{$keyword}%")
+            ->paginate(10);
+
+        return view('product.list', compact('products'));
+    }
+
+>>>>>>> origin/development
 }
