@@ -104,6 +104,11 @@ class Item extends Model
         return self::where('id', $id)->first();
 
     }
+
+    public static function countItemByProductType(){
+        return self::count(); 
+    }
+
     
     public static function getItemByType($productType)
     {
@@ -113,4 +118,18 @@ class Item extends Model
             ->get();
     }
     
+    public static function getItemByCategory($categoryId)
+    {
+        return self::join('products', 'item.product_id', '=', 'products.product_id')
+            ->join('category', 'products.product_category', '=', 'category.id')
+            ->where('category.id', $categoryId)
+            ->select(
+                'item.*',
+                'products.product_name',
+                'products.product_category',
+                'category.category as category_name'
+            )
+            ->get();
+    }
+
 }
