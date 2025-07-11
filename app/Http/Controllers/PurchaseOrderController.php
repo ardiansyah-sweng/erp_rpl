@@ -151,4 +151,38 @@ class PurchaseOrderController extends Controller
             return response()->json(['error' => 'Server gagal mengirim email: ' . $e->getMessage()], 500);
         }
     }
+    public function sendSamplePurchaseOrder()
+{
+    try {
+        $poData = PurchaseOrder::with(['supplier', 'details'])->first();
+
+        if (!$poData || $poData->details->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada Purchase Order atau detail yang tersedia.');
+        }
+
+        $subtotal = $poData->details->sum(fn($item) => $item->quantity * $item->amount);
+        $tax = $subtotal * 0.1;
+
+        $formData = [
+            'po_number'     => $poData->po_number,
+            'branch'        => $poData->branch_name ?? 'Unknown Branch',
+            'supplier_id'   => $poData->supplier_id ?? 'Unknown Supplier ID',
+            'supplier_name' => $poData->supplier->company_name ?? 'Unknown Supplier',
+            'items'         => $poData->details->map(fn($item) => [
+                'product_id' => $item->product_id,
+                'quantity'   => $item->quantity,
+                'amount'     => $item->amount,
+            ])->toArray(),
+            'subtotal' => $subtotal,
+            'tax'      => $tax,
+        ];
+
+        Mail::to('tes@dummy.com')->send(new \App\Mail\PurchaseOrderEmail($formData));
+
+        return redirect()->back()->with('success', 'Email Purchase Order berhasil dikirim.');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Gagal mengirim email: ' . $e->getMessage());
+    }
+}
+
 }
