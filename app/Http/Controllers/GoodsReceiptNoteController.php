@@ -42,15 +42,13 @@ class GoodsReceiptNoteController extends Controller
             'comments' => 'nullable|string|max:255',
         ]);
 
-        $note = GoodsReceiptNote::where('po_number', $po_number)->first();
+        $note = GoodsReceiptNote::updateGoodsReceiptNote($po_number, $validated);
 
         if (!$note) {
             return response()->json([
                 'message' => 'Goods Receipt Note not found.'
             ], 404);
         }
-
-        $note->update($validated);
 
         return response()->json([
             'message' => 'Goods Receipt Note updated successfully.',
