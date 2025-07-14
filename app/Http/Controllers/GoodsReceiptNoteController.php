@@ -58,7 +58,7 @@ class GoodsReceiptNoteController extends Controller
             ]
         ]);
     }
-}
+
 
     public function getGoodsReceiptNote($po_number): JsonResponse
     {
