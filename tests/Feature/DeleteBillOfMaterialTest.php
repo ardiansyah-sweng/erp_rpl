@@ -2,21 +2,17 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Illuminate\Support\Facades\DB;
+use Tests\TestCase;
 
 class DeleteBillOfMaterialTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_deletes_existing_bom()
     {
-        // Simulasi data yang valid dengan bom_id unik
-        $bomId = 'BOM' . mt_rand(1000, 9999); // ID pendek, aman
+        // Insert data langsung ke DB
         $id = DB::table('bill_of_material')->insertGetId([
-            'bom_id' => $bomId,
+            'bom_id' => 'BOM' . mt_rand(1000, 9999),
             'bom_name' => 'Test BOM',
             'measurement_unit' => 1,
             'total_cost' => 1000,
@@ -25,24 +21,24 @@ class DeleteBillOfMaterialTest extends TestCase
             'updated_at' => now(),
         ]);
 
-        // Jalankan permintaan DELETE ke endpoint
+        // Jalankan request DELETE
         $response = $this->delete("/bill-of-material/{$id}");
 
-        // Pastikan response berhasil
+        // Cek response sukses
         $response->assertStatus(200);
         $response->assertJson(['message' => 'Bill of Material deleted successfully.']);
 
-        // Pastikan data benar-benar terhapus dari database
+        // Pastikan datanya terhapus
         $this->assertDatabaseMissing('bill_of_material', ['id' => $id]);
     }
 
     /** @test */
     public function it_handles_nonexistent_id()
     {
-        // ID 999 kemungkinan besar tidak ada
-        $response = $this->delete('/bill-of-material/999');
+        // Delete ID yang tidak ada
+        $response = $this->delete('/bill-of-material/9999');
 
-        // Response harus 404 Not Found
+        // Cek responsenya 404
         $response->assertStatus(404);
         $response->assertJson(['message' => 'Bill of Material not found.']);
     }
@@ -50,10 +46,8 @@ class DeleteBillOfMaterialTest extends TestCase
     /** @test */
     public function it_handles_invalid_id_format()
     {
-        // Kirim ID tidak valid (non-numeric)
-        $response = $this->delete('/bill-of-material/abc');
+        $response = $this->delete('/bill-of-material/invalid');
 
-        // Bisa 404 jika route tidak match atau 500 jika error di controller
         $this->assertTrue(
             in_array($response->status(), [404, 500]),
             'Expected status code 404 or 500 for invalid ID format'
