@@ -25,4 +25,15 @@ class BillOfMaterialModel extends Model
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
 
+    public static function deleteBom($id)
+    {
+        $bom = self::find($id);
+
+        if ($bom) {
+        return $bom->delete();
+        }
+
+        return false;
+    }
+
 }
