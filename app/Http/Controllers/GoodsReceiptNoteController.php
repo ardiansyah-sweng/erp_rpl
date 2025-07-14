@@ -35,6 +35,31 @@ class GoodsReceiptNoteController extends Controller
             ], 500);
         }
     }
+    public function updateGoodsReceiptNote(Request $request, $po_number)
+    {
+        $validated = $request->validate([
+            'delivery_date' => 'required|date',
+            'comments' => 'nullable|string|max:255',
+        ]);
+
+        $note = GoodsReceiptNote::updateGoodsReceiptNote($po_number, $validated);
+
+        if (!$note) {
+            return response()->json([
+                'message' => 'Goods Receipt Note not found.'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Goods Receipt Note updated successfully.',
+            'data' => [
+                'delivery_date' => $note->delivery_date,
+                'comments' => $note->comments,
+            ]
+        ]);
+    }
+}
+
     public function getGoodsReceiptNote($po_number): JsonResponse
     {
         $grn = GoodsReceiptNote::getGoodsReceiptNote($po_number);
