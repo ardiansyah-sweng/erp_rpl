@@ -349,7 +349,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('billOfMaterial.list') }}" class="nav-link active">
+                            <a href="#" class="nav-link active">
                                 <i class="nav-icon bi bi-box-seam"></i>
                                 <p>
                                     Material
@@ -434,20 +434,20 @@
                             </tr>
                         </thead>
                         <tbody class="text-center">
-                            @forelse($production as $material)
-                            <tr id="row-{{ $material->id }}">
-                                <td>{{ $material->id }}</td>
-                                <td>{{ $material->production_number }}</td>
-                                <td>{{ $material->sku }}</td>
-                                <td>{{ $material->branch_id }}</td>
-                                <td>{{ $material->rm_whouse_id }}</td>
-                                <td>{{ $material->fg_whouse_id }}</td>
-                                <td>{{ $material->production_date}}</td>
-                                <td>{{ $material->finished_date ? "FInish" : "Null"}}</td>
-                                <td>{{ $material->in_production}}</td>
-                                <td>{{ $material->description}}</td>
-                                <td>{{ $material->created_at }}</td>
-                                <td>{{ $material->updated_at }}</td>
+                            @forelse($production as $produksi)
+                            <tr id="row-{{ $produksi->id }}">
+                                <td>{{ $produksi->id }}</td>
+                                <td>{{ $produksi->production_number }}</td>
+                                <td>{{ $produksi->sku }}</td>
+                                <td>{{ $produksi->branch_id }}</td>
+                                <td>{{ $produksi->rm_whouse_id }}</td>
+                                <td>{{ $produksi->fg_whouse_id }}</td>
+                                <td>{{ $produksi->production_date}}</td>
+                                <td>{{ $produksi->finished_date ? "FInish" : "Null"}}</td>
+                                <td>{{ $produksi->in_production}}</td>
+                                <td>{{ $produksi->description}}</td>
+                                <td>{{ $produksi->created_at }}</td>
+                                <td>{{ $produksi->updated_at }}</td>
                                 <td>
                                     <a href="#" class="btn btn-sm btn-primary">Edit</a>
                                     <form action="#" method="POST" style="display: inline;">

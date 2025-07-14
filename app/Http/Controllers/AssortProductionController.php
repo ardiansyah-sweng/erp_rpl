@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\AssortmentProduction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AssortProductionController extends Controller
 {
     public function getProduction()
     {
         $model = new AssortmentProduction();
-        $production = $model->getProduction();
+        $production = $model->getProduction()->paginate(10);
 
-        return response()->json($production);
+        return view("assortment_production.list", compact("production"));
     }
 
     public function updateProduction(Request $request, $id)
