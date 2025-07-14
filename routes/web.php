@@ -146,6 +146,8 @@ Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
 Route::get('/categories/by-parent/{id}', [CategoryController::class, 'getCategoryByParent']);
+Route::get('/categories', [CategoryController::class, 'getCategory']);
+
 
 
 # Warehouse
