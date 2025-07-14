@@ -78,28 +78,28 @@ class SupplierMaterialController extends Controller
         $pdf = Pdf::loadView('supplier.material.pdf', compact('materials', 'supplierName', 'supplier_id'));
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
-       public function getSupplierMaterialByProductType($supplier_id, $product_type)
+    public function getSupplierMaterialByProductType($supplier_id, $product_type)
     {
-    // Validasi hanya menerima product_type tertentu
-    if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
-        return response()->json(['error' => 'Invalid product type'], 400);
+        // Validasi hanya menerima product_type tertentu
+        if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
+            return response()->json(['error' => 'Invalid product type'], 400);
+        }
+
+        $results = DB::table('supplier_product')
+        ->join('products', DB::raw("SUBSTRING_INDEX(supplier_product.product_id, '-', 1)"), '=', 'products.product_id')
+        ->where('supplier_product.supplier_id', $supplier_id)
+        ->where('products.product_type', $product_type)
+        ->select(
+            'supplier_product.supplier_id',
+            'supplier_product.company_name',
+            'supplier_product.product_id',
+            'products.product_name',
+            'products.product_type',
+            'supplier_product.base_price'
+        )
+        ->get();
+
+        return response()->json($results);
     }
-
-    $results = DB::table('supplier_product')
-    ->join('products', DB::raw("SUBSTRING_INDEX(supplier_product.product_id, '-', 1)"), '=', 'products.product_id')
-    ->where('supplier_product.supplier_id', $supplier_id)
-    ->where('products.product_type', $product_type)
-    ->select(
-        'supplier_product.supplier_id',
-        'supplier_product.company_name',
-        'supplier_product.product_id',
-        'products.product_name',
-        'products.product_type',
-        'supplier_product.base_price'
-    )
-    ->get();
-
-    return response()->json($results);
-}
 
 }
