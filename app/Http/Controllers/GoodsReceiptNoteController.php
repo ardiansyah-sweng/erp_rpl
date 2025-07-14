@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\GoodsReceiptNote;
+use Illuminate\Http\JsonResponse;
 
 class GoodsReceiptNoteController extends Controller
 {

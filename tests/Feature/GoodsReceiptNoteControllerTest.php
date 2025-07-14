@@ -5,7 +5,7 @@ use Tests\TestCase;
 use App\Models\GoodsReceiptNote;
 use PHPUnit\Framework\Attributes\Test;
 
-class GetGoodsReceiptNoteControllerTest extends TestCase
+class GoodsReceiptNoteControllerTest extends TestCase
 {
     #[Test]
     public function it_can_add_goods_receipt_note()

@@ -2,58 +2,40 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\GoodsReceiptNote;
 
-class GoodsReceiptNoteControllerTest extends TestCase
+class GetGoodsReceiptNoteControllerTest extends TestCase
 {
-    // Jika ingin membersihkan dan reset DB tiap test, bisa aktifkan ini:
-    // use RefreshDatabase;
-
     /** @test */
     public function it_returns_goods_receipt_note_when_it_exists()
     {
-        // Asumsikan data sudah ada di database
-        $existingGRN = GoodsReceiptNote::first();
+        // Ambil satu data nyata dari database
+        $grn = GoodsReceiptNote::first();
 
-        // Jika tidak ada data sama sekali, skip test dengan pesan
-        if (!$existingGRN) {
-            $this->markTestSkipped('No Goods Receipt Note record found in the database.');
-            return;
+        // Jika tidak ada data, skip test
+        if (!$grn) {
+            $this->markTestSkipped('Data GRN tidak ditemukan di database.');
         }
 
-        // Panggil endpoint
-        $response = $this->getJson("/api/goods-receipt-note/{$existingGRN->po_number}");
+        // Panggil endpoint tanpa getJson(), gunakan get() + header JSON
+        $response = $this->get(
+            "/goods-receipt-note/{$grn->po_number}",
+            ['Accept' => 'application/json']
+        );
 
-        // Cek respons
+        // Verifikasi bahwa respons 200 dan data sesuai
         $response->assertStatus(200)
                  ->assertJson([
                      'success' => true,
                      'message' => 'Goods Receipt Note ditemukan.',
                      'data' => [
-                         'po_number' => $existingGRN->po_number,
-                         'product_id' => $existingGRN->product_id,
-                         'delivery_date' => $existingGRN->delivery_date,
-                         'delivered_quantity' => $existingGRN->delivered_quantity,
-                         'comments' => $existingGRN->comments,
+                         'po_number' => $grn->po_number,
+                         'product_id' => $grn->product_id,
+                         'delivery_date' => $grn->delivery_date,
+                         'delivered_quantity' => $grn->delivered_quantity,
+                         'comments' => $grn->comments,
                      ],
                  ]);
     }
-
-    // /** @test */
-    // public function it_returns_404_when_goods_receipt_note_not_found()
-    // {
-    //     // Gunakan nomor PO yang dijamin tidak ada
-    //     $nonExistingPoNumber = 'PO-NOT-EXIST-' . uniqid();
-
-    //     $response = $this->getJson("/api/goods-receipt-note/{$nonExistingPoNumber}");
-
-    //     $response->assertStatus(404)
-    //              ->assertJson([
-    //                  'success' => false,
-    //                  'message' => 'Goods Receipt Note tidak ditemukan.',
-    //                  'data' => null,
-    //              ]);
-    // }
 }
