@@ -3,20 +3,22 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use Illuminate\Support\Facades\DB;
 use App\Models\SupplierMaterial;
-use App\Models\Category;
 
 class CountSupplierMaterialTest extends TestCase
 {
-            public function test_count_supplier_material_by_category()
+    public function test_count_supplier_material_by_category()
     {
-        $categoryId = 7; // Misal ID dari kategori 'Calendar'
-        $supplierId = 'SUP013';
+        // Pastikan kategori, produk, dan supplier_product sudah ada di database nyata
+        $categoryId = 7; // ID kategori yang memang sudah ada di database
+        $supplierId = 'SUP013'; // ID supplier yang juga sudah ada
 
-        $count = \App\Models\SupplierMaterial::countSupplierMaterialByCategory($categoryId, $supplierId);
+        // Jalankan fungsi yang diuji
+        $count = SupplierMaterial::countSupplierMaterialByCategory($categoryId, $supplierId);
 
-        $this->assertGreaterThanOrEqual(0, $count);
+        // Assertion
         $this->assertIsInt($count);
+        $this->assertGreaterThanOrEqual(0, $count);
     }
-
 }
