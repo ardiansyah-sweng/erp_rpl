@@ -135,7 +135,7 @@ class SupplierPIController extends Controller
 
     public function cetakPdf()
     {
-        $pics = SupplierPic::with('supplier')->get();
+        $pics = SupplierPic::getSupplierPICAll();
 
         $data = [
             'pics' => $pics
