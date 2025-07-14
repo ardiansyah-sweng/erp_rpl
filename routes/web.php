@@ -204,7 +204,15 @@ Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'i
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+
+
+
+Route::get('/bill-of-material/add', function () {
+    return view('billOfmaterial.add');
+});
+
 Route::get('/warehouse/search', [WarehouseController::class, 'searchWarehouse'])->name('warehouse.search');
+
 Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
 Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
 Route::get('/warehouse/report',[WarehouseController::class,'exportPdf'])->name('warehouse.report');
@@ -231,9 +239,14 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
+
+
+
 Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
+
 Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
 
 #Goods Receipt Notes
 Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote']);
+
 
