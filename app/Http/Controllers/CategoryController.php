@@ -9,9 +9,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class CategoryController extends Controller
 {
 
-    public static function getCategory()
+     public function getCategory()
     {
-    return self::with('parent')->get();
+        return Category::getCategory();
     }
 
     public function addCategory(Request $request)
