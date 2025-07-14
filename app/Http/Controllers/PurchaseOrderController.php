@@ -152,7 +152,7 @@ class PurchaseOrderController extends Controller
         }
     }
     public function sendSamplePurchaseOrder()
-{
+    {
     try {
         $poData = PurchaseOrder::with(['supplier', 'details'])->first();
 
@@ -183,6 +183,6 @@ class PurchaseOrderController extends Controller
     } catch (\Exception $e) {
         return redirect()->back()->with('error', 'Gagal mengirim email: ' . $e->getMessage());
     }
-}
+    }
 
 }
