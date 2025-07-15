@@ -261,3 +261,6 @@ Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoods
 
 
 Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote']);
+
+#Goods Receipt Note Controller
+Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'getGoodsReceiptNote']);
