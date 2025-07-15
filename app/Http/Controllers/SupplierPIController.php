@@ -76,14 +76,18 @@ class SupplierPIController extends Controller
         SupplierPic::addSupplierPIC($supplierID, $validatedData);
 
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
-    }
 
+<<<<<<< HEAD
     public function getSupplierPICAll()
     {
         $supplierPICs = SupplierPic::getSupplierPICAll(); // ini method dari model kamu
         return view('supplier.pic.list', ['pics' => $supplierPICs]);
     }
 
+=======
+    } 
+    
+>>>>>>> 42501a5151f830e86fed468ce5b802409676b2a4
     public function deleteSupplierPIC($id)
     {
         $picDelete = SupplierPic::deleteSupplierPIC($id);
@@ -132,5 +136,6 @@ class SupplierPIController extends Controller
             'message' => $result['message'],
             'data'    => $result['data'] ?? null,
         ], $result['code'] ?? 200);
+
     }
 }
