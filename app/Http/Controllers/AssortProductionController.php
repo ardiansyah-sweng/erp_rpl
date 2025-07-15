@@ -14,7 +14,7 @@ class AssortProductionController extends Controller
         $model = new AssortmentProduction();
         $production = $model->getProduction();
 
-        return response()->json($production);
+         return view('assortment_production.list', compact('production'));
     }
 
     public function updateProduction(Request $request, $id)
