@@ -6,19 +6,30 @@ use Tests\TestCase;
 
 class SupplierSearchTest extends TestCase
 {
-    public function test_can_search_supplier_product_by_keyword()
+    public function test_can_search_supplier_by_keyword()
     {
-        // Contoh kata kunci dari data yang memang ada di DB kamu
-        $response = $this->get('/suppliers/search?keywords=Sawit');
+        // Kirim request dengan keyword yang umum seperti "CV"
+        $response = $this->get('/suppliers/search?keywords=CV');
 
+        // Periksa status HTTP
         $response->assertStatus(200);
+
+        // Periksa bahwa status = success
         $response->assertJsonFragment([
             'status' => 'success',
         ]);
 
-        // Contoh validasi fragment yang ada di tabel supplier_product
-        $response->assertJsonFragment([
-            'company_name' => 'PD Budi Sawit Interfood',
-        ]);
+        // Periksa bahwa respons mengandung minimal 1 supplier
+        $responseData = $response->json();
+        $this->assertIsArray($responseData['data']);
+        $this->assertNotEmpty($responseData['data']);
+
+        // Periksa bahwa field-field penting tersedia di satu data (sample)
+        $sample = $responseData['data'][0];
+        $this->assertArrayHasKey('supplier_id', $sample);
+        $this->assertArrayHasKey('company_name', $sample);
+        $this->assertArrayHasKey('address', $sample);
+        $this->assertArrayHasKey('phone_number', $sample);
+        $this->assertArrayHasKey('bank_account', $sample);
     }
 }
