@@ -53,4 +53,5 @@ class Supplier extends Model
 
             return $query->get();
     }
+    
 }
