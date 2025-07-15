@@ -11,6 +11,34 @@ class WarehouseTest extends TestCase
     use RefreshDatabase;
 
     #[\PHPUnit\Framework\Attributes\Test]
+    public function test_add_warehouse_if_valid_data()
+    {
+        $data = [
+            'warehouse_name'      => 'Gudang Utama',
+            'warehouse_address'   => 'Jl. Industri No. 123',
+            'warehouse_telephone' => '081234567890',
+            'is_rm_whouse'        => true,
+            'is_fg_whouse'        => false,
+            'is_active'           => true,
+        ];
+
+        $warehouse = Warehouse::addWarehouse($data);
+
+        $this->assertInstanceOf(Warehouse::class, $warehouse);
+        $this->assertEquals('Gudang Utama', $warehouse->warehouse_name);
+        $this->assertDatabaseHas('warehouse', $data);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function test_add_warehouse_if_empty_data()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Data tidak boleh kosong.');
+
+        Warehouse::addWarehouse([]);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_update_existing_warehouse()
     {
         // Arrange: Buat warehouse awal
