@@ -103,17 +103,22 @@ class CategoryController extends Controller
     }
    
 
-    public function getCategoryByParent($parentId)
+   public function getCategoryByParent($parentId)
     {
-    $categories = Category::where('parent_id', $parentId)->get();
+    // Panggil method yang diizinkan
+    $allCategories = Category::getCategory();
 
-    if ($categories->isEmpty()) {
+    // Filter data yang parent_id-nya sesuai
+    $filtered = $allCategories->where('parent_id', $parentId)->values(); 
+
+    if ($filtered->isEmpty()) {
         return response()->json([
             'message' => 'Tidak ada kategori dengan parent ID tersebut'
         ], 404);
-         }
+    }
 
-    return response()->json($categories, 200);
+    return response()->json($filtered, 200);
 }
+
 
 }
