@@ -118,4 +118,5 @@ class BillOfMaterialControllerTest extends TestCase
 
         $this->assertCount(10, $response->json('data'));
     }
+    
 }
