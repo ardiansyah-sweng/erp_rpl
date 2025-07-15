@@ -7,6 +7,16 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
+    public function createCategory()
+    {
+        return view('product.category.add'); // Sesuaikan dengan path file blade Anda
+    }
+
+    public function storeCategory(Request $request)
+    {
+        return redirect()->route('some.success.route')->with('success', 'Kategori berhasil ditambahkan!');
+    }
+
     public function getProductList()
     {
         $products = Product::getAllProducts();
