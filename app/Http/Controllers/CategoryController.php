@@ -32,8 +32,8 @@ class CategoryController extends Controller
     }
     public function getCategoryList() 
     {
-        $category = Category::getAllCategory();
-        return view('category.list', compact('category'));
+        $category = Category::with('parent')->paginate(10);
+        return view('product.category.list', compact('category'));
     }
     public function printCategoryPDF()
     {
@@ -46,30 +46,54 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'category' => 'required|string|min:3',
-            'parent_id' => 'nullable|integer|exists:categories,id',
+            'parent_id' => 'nullable|integer|exists:category,id',
+            'active' => 'required|boolean'
         ]);
 
-        $updatedCategory = Category::updateCategory($id, $request->only(['category', 'parent_id']));
+        $updatedCategory = Category::updateCategory($id, $request->only(['category', 'parent_id', 'active']));
 
         if (!$updatedCategory) {
             return response()->json(['message' => 'Kategori tidak ditemukan'], 404);
         }
 
-        return response()->json([
-            'message' => 'Kategori berhasil diupdate',
-            'data' => $updatedCategory
-        ]);
+        return redirect()->route('category.edit', $id)->with('success', 'Kategori berhasil diupdate');
+    }
 
-        // return view('category.detail', compact('category')); 
-        // apabila halaman detail kategori sudah ada harap untuk di uncomment return view
-        // dan return response nya di hapus
+    public function updateCategoryById($id)
+    {
+        $category = Category::getCategoryById($id);
+        if (!$category) {
+            return response()->json(['message' => 'Kategori tidak ditemukan'], 404);
+        }
+
+        return view('category.edit', compact('category'));
     }
 
     public function getCategoryById($id)
     {
-        $category = (new Category())->getCategoryById($id);
+        $category = Category::getCategoryById($id);
+
+        if (!$category) {
+            return response()->json(['message' => 'Category not found'], 404);
+        }
+
         return response()->json($category);
+        //return view('detail.blade', compact('category'));
+        //apabila halaman detail kategori sudah ada harap untuk di uncomment return view
+        //dan return response nya di hapus
     }
+ //Search Category 
+    public function searchCategory(Request $request)
+    {
+        $keyword = $request->input('q');
+
+        $category = Category::when($keyword, function ($query) use ($keyword) {
+            $query->where('category', 'like', '%' . $keyword . '%');
+        })->get();
+
+        return view('category.list', compact('category'));
+    }
+
 
     // delete category
     public function deleteCategory($id)
@@ -82,4 +106,5 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'Kategori tidak ditemukan atau gagal dihapus.');
         }
     }
+
 }
