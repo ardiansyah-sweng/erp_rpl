@@ -433,7 +433,7 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody class="text-center"> 
                             @forelse($production as $produksi)
                             <tr id="row-{{ $produksi->id }}">
                                 <td>{{ $produksi->id }}</td>
