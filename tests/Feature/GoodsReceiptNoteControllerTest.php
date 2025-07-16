@@ -45,4 +45,5 @@ class GoodsReceiptNoteControllerTest extends TestCase
             'delivered_quantity'
         ]);
     }
+    
 }
