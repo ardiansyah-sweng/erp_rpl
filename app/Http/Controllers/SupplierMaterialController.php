@@ -72,7 +72,6 @@ class SupplierMaterialController extends Controller
         $model = new SupplierMaterial();
         $materials = $model->getSupplierMaterialByKeyword($keyword);
 
-        // Jika request dari test (expects JSON), kirim data mentah
         if ($request->expectsJson()) {
             return response()->json($materials);
         }

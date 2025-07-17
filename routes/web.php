@@ -203,4 +203,5 @@ Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'delet
 
 #SupplierMaterialSearch
 Route::get('/supplier/material/search', [SupplierMaterialController::class, 'searchSupplierMaterial'])->name('supplier.material.search');
-Route::post('/supplier-material/add', [SupplierMaterialController::class, 'addSupplierMaterial']);
+Route::get('/supplier/material/search', [SupplierMaterialController::class, 'search']);
+Route::get('/supplier/material/search', [SupplierMaterialController::class, 'searchSupplierMaterial']);
