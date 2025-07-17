@@ -114,4 +114,37 @@ class SupplierPic extends Model
             ];
         }
     }
+    
+    public static function countSupplierPIC($supplier_id)
+    {
+        return self::select('supplier_id', DB::raw('COUNT(*) as jumlahnya'))
+            ->where('supplier_id', $supplier_id)
+            ->groupBy('supplier_id')
+            ->first();
+    }
+    
+    public static function countPICByStatus($supplier_id)   
+    {
+    $data = self::select('active', \DB::raw('COUNT(*) as total'))
+        ->where('supplier_id', $supplier_id)
+        ->groupBy('active')
+        ->get();
+
+    $active = 0;
+    $inactive = 0;
+
+    foreach ($data as $row) {
+        if ((int) $row->active === 1) {
+            $active = $row->total;
+        } elseif ((int) $row->active === 0) {
+            $inactive = $row->total;
+        }
+    }
+
+    return [
+        'active' => $active,
+        'inactive' => $inactive,
+        'total' => $active + $inactive,
+    ];
+    }
 }
