@@ -257,6 +257,7 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
 Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
 Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
+Route::get('/bill-of-material/search/{keyword?}', [BillOfMaterialController::class, 'searchBillOfMaterial']);
 Route::get('/bill-of-material/{id}', [BillOfMaterialController::class, 'getBomDetail']);
 
 #Goods Receipt Notes
