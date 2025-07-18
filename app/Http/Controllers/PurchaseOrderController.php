@@ -151,4 +151,26 @@ class PurchaseOrderController extends Controller
             return response()->json(['error' => 'Server gagal mengirim email: ' . $e->getMessage()], 500);
         }
     }
+    /**
+     * Mencetak Purchase Order sebagai PDF
+     *
+     * @param string $id ID Purchase Order yang akan dicetak
+     * @return \Illuminate\Http\Response
+     */
+    public function printPurchaseOrderToPDF($id)
+    {
+        $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($id);
+        
+        if ($purchaseOrder->isEmpty()) {
+            return redirect()->back()->with('error', 'Purchase Order tidak ditemukan.');
+        }
+        
+        $data = [
+            'purchaseOrder' => $purchaseOrder->first(),
+            'generatedAt' => Carbon::now()->format('d-m-Y H:i:s')
+        ];
+        
+        $pdf = Pdf::loadView('purchase_orders.pdf', $data);
+        return $pdf->stream('purchase_order_' . $id . '.pdf');
+    }
 }
