@@ -13,6 +13,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\WarehouseController;
+use App\Models\PurchaseOrder;
 
 #Login
 Route::get('/', function () {
@@ -99,6 +100,8 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
 })->name('purchase.orders.detail');
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
+Route::get('/purchase-order/{po_number}/report.pdf', [PurchaseOrderController::class, 'printPurchaseOrderToPDFById'])
+    ->name('purchase-orders.report.pdf');
  
 
 # supplier pic route nya
