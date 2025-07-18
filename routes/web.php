@@ -202,9 +202,15 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
 #Category
+
+// Mendapatkan kategori berdasarkan parent_id
+Route::get('/category/parent/{id}', [CategoryController::class, 'getCategoryByParent'])->name('category.byparent');
+Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
+
 Route::get('/category/search', [CategoryController::class, 'searchCategory']);
 Route::get('/category/edit/{id}', [CategoryController::class, 'updateCategoryById'])->name('category.edit');
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.update');
+
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
 Route::get('/category', [CategoryController::class, 'getCategoryList'])->name('category.list');
