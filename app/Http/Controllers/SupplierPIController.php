@@ -81,8 +81,14 @@ class SupplierPIController extends Controller
         SupplierPic::addSupplierPIC($supplierID, $validatedData);
 
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
-    }
+    } 
 
+    public function getSupplierPICAll()
+    {
+        $supplierPICs = SupplierPic::getSupplierPICAll(); // ini method dari model kamu
+        return view('supplier.pic.list', ['pics' => $supplierPICs]);
+    }
+    
     public function deleteSupplierPIC($id)
     {
         $picDelete = SupplierPic::deleteSupplierPIC($id);
@@ -131,6 +137,7 @@ class SupplierPIController extends Controller
             'message' => $result['message'],
             'data'    => $result['data'] ?? null,
         ], $result['code'] ?? 200);
+
     }
 
     public function cetakPdf()
