@@ -57,6 +57,16 @@ class SupplierMaterial extends Model
             ->count(DB::raw('DISTINCT p.product_id'));
     }
 
+    public static function countSupplierMaterialFoundByKeyword($keyword)
+    {
+        return DB::table('supplier_product')
+            ->where('supplier_id', 'like', '%' . $keyword . '%')
+            ->orWhere('company_name', 'like', '%' . $keyword . '%')
+            ->orWhere('product_id', 'like', '%' . $keyword . '%')
+            ->orWhere('product_name', 'like', '%' . $keyword . '%')
+            ->count();
+    }
+
     public static function addSupplierMaterial($data)
     {
         if (empty($data)) {
@@ -74,6 +84,17 @@ class SupplierMaterial extends Model
             'product_name' => $data['product_name'],
             'base_price' => $data['base_price'],
         ]);
+    }
+    public static function searchSupplierMaterial($keyword)
+    {
+        return DB::table('supplier_product')
+            ->where(function ($query) use ($keyword) {
+                $query->where('supplier_id', 'like', '%' . $keyword . '%')
+                    ->orWhere('company_name', 'like', '%' . $keyword . '%')
+                    ->orWhere('product_id', 'like', '%' . $keyword . '%')
+                    ->orWhere('product_name', 'like', '%' . $keyword . '%');
+            })
+            ->paginate(10);
     }
 
 }

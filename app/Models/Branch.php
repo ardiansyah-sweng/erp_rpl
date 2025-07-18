@@ -51,6 +51,19 @@ class Branch extends Model
         return self::create($data);
     }
 
+
+    public static function updateBranch($id, $data)
+    {
+        $branch = self::find($id);
+        if ($branch) {
+            $branch->update($data);
+            return true;
+        }
+        return false;
+    }
+    
+
+
     public static function findBranch($id)
     {
         $branch = self::find($id);

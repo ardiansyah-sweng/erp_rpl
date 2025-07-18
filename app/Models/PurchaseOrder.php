@@ -207,4 +207,9 @@ class PurchaseOrder extends Model
         }
         return $pendingDeliveries;
     }
+
+    public static function getPurchaseOrderByStatus($status)
+    {
+        return self::where('status', $status)->get();
+    }
 }

@@ -360,6 +360,14 @@
                 </p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{ route('category.list') }}" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>
+                  category product
+                </p>
+              </a>
+            </li>
             <li class="nav-item"><!--Tambah Bill Of Material-->
               <a href="#" class="nav-link">
                 <i class="nav-icon bi bi-clipboard-fill"></i>
