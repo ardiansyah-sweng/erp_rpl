@@ -27,8 +27,8 @@ class CategoryController extends Controller
     }
     public function getCategoryList() 
     {
-        $category = Category::getAllCategory();
-        return view('category.list', compact('category'));
+        $category = Category::with('parent')->paginate(10);
+        return view('product.category.list', compact('category'));
     }
     public function printCategoryPDF()
     {
@@ -101,4 +101,5 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'Kategori tidak ditemukan atau gagal dihapus.');
         }
     }
+
 }
