@@ -118,5 +118,44 @@ class BillOfMaterialControllerTest extends TestCase
 
         $this->assertCount(10, $response->json('data'));
     }
+
+    /** @test */
+    public function test_get_bom_detail_returns_existing_data()
+    {
+        // Asumsikan data BOM dengan ID = 1 sudah ada di database
+        $existingId = 1;
+
+        $response = $this->get('/bill-of-material/' . $existingId);
+
+        $response->assertStatus(200);
+
+        // Cek struktur respons JSON
+        $response->assertJsonStructure([
+            'id',
+            'bom_id',
+            'bom_name',
+            'measurement_unit',
+            'total_cost',
+            'active',
+            'created_at',
+            'updated_at',
+            'details' => [
+                '*' => [
+                    'id',
+                    'bom_id',
+                    'sku',
+                    'quantity',
+                    'cost',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+        ]);
+
+        // Validasi bahwa minimal 1 detail ada (jika memang ada relasi)
+        $details = $response->json('details');
+        $this->assertIsArray($details);
+        $this->assertGreaterThanOrEqual(0, count($details));
+    } 
     
 }

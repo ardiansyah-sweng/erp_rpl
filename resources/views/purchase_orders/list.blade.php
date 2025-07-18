@@ -476,6 +476,25 @@ use App\Helpers\EncryptionHelper;
                       </div>
                     </div>
                   </div>
+                  
+                  <div class="d-flex align-items-center ">
+                      <label for="statusFilter" class="form-label me-2 mb-0 fw-normal"></label>
+                      <div style="width: 220px;">
+                          <select id="statusFilter" class="form-select form-select-sm">
+                              <option value="">Pilih Status...</option>
+                              <option value="all">Tampilkan Semua</option>
+                              @php
+                                  $statuses = ['Submitted', 'Approved', 'In Review', 'Revised', 'Closed', 'Cancelled', 'Draft', 'Fully Delivered'];
+                              @endphp
+                              @foreach ($statuses as $stat)
+                                  <option value="{{ $stat }}" {{ (isset($status) && $status == $stat) ? 'selected' : '' }}>
+                                      {{ $stat }}
+                                  </option>
+                              @endforeach
+                          </select>
+                      </div>
+                  </div>
+
                   <!--begin::Start Search Bar-->
                   <form action="{{ route('purchase_orders.search') }}" method="GET" class="d-flex ms-auto">
                       <div class="input-group input-group-sm ms-auto" style="width: 450px;">
@@ -1179,6 +1198,31 @@ use App\Helpers\EncryptionHelper;
                 });
             }, 500); // Jeda 0.5 detik
         });
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusFilter = document.getElementById('statusFilter');
+
+        if (statusFilter) {
+            statusFilter.addEventListener('change', function() {
+                const selectedStatus = this.value;
+
+                // Jangan lakukan apa-apa jika user memilih opsi default
+                if (!selectedStatus) {
+                    return;
+                }
+
+                // Jika memilih "Tampilkan Semua", arahkan ke route daftar PO utama
+                if (selectedStatus === 'all') {
+                    window.location.href = "{{ route('purchase.orders') }}";
+                } else {
+                    // Jika memilih status lain, arahkan ke URL yang sesuai dengan route Anda
+                    // Contoh URL yang akan dibuat: /purchase-order/status/Approved
+                    window.location.href = `/purchase-order/status/${selectedStatus}`;
+                }
+            });
+        }
     });
   </script>
   <!--end::Script-->
