@@ -101,24 +101,20 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'Kategori tidak ditemukan atau gagal dihapus.');
         }
     }
-   
-
    public function getCategoryByParent($parentId)
     {
-    // Panggil method yang diizinkan
-    $allCategories = Category::getCategory();
+         // Panggil method yang diizinkan
+         $allCategories = Category::getCategory();
+         // Filter data yang parent_id-nya sesuai
+         $filtered = $allCategories->where('parent_id', $parentId)->values(); 
 
-    // Filter data yang parent_id-nya sesuai
-    $filtered = $allCategories->where('parent_id', $parentId)->values(); 
-
-    if ($filtered->isEmpty()) {
-        return response()->json([
+         if ($filtered->isEmpty()) {
+            return response()->json([
             'message' => 'Tidak ada kategori dengan parent ID tersebut'
-        ], 404);
-    }
+            ], 404);
+        }
 
-    return response()->json($filtered, 200);
+        return response()->json($filtered, 200);
 }
-
 
 }
