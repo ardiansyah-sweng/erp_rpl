@@ -8,6 +8,10 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class CategoryController extends Controller
 {
+    public function getCategory()
+    {
+        return Category::getCategory();
+    }
 
     public function addCategory(Request $request)
     {
