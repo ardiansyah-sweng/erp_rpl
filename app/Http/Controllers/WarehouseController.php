@@ -48,7 +48,7 @@ class WarehouseController extends Controller
 
     public function deleteWarehouse($id)
     {
-        $warehouse = Warehouse::find($id);
+        $warehouse = Warehouse::getWarehouseById($id);
 
         if (!$warehouse) {
             return response()->json([
