@@ -76,8 +76,13 @@ class SupplierPIController extends Controller
         SupplierPic::addSupplierPIC($supplierID, $validatedData);
 
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
-
     } 
+
+    public function getSupplierPICAll()
+    {
+        $supplierPICs = SupplierPic::getSupplierPICAll(); // ini method dari model kamu
+        return view('supplier.pic.list', ['pics' => $supplierPICs]);
+    }
     
     public function deleteSupplierPIC($id)
     {
