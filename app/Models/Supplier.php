@@ -2,9 +2,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Supplier extends Model
 {
+    use HasFactory;
     protected $table = 'supplier';
     protected $fillable = ['supplier_id','company_name', 'address','phone_number','bank_account','created_at','updated_at'];
 
@@ -42,4 +44,17 @@ class Supplier extends Model
     {
         return self::create($data);
     }
+    //relasi ke order
+    public function orders()
+    {
+    return $this->hasMany(PurchaseOrder::class, 'supplier_id', 'supplier_id');
+    }
+
+    //mendapat getsupplier
+    public static function getSupplier()
+    {
+    return self::withCount('orders')->get();
+    }
+
+
 }
