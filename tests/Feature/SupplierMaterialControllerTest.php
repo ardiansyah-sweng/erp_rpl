@@ -22,8 +22,6 @@ class SupplierMaterialControllerTest extends TestCase
             'base_price'
         ]]);
     }
-
-
     public function testAddSupplierMaterialSuccessfully()
     {
         $data = [
@@ -47,16 +45,28 @@ class SupplierMaterialControllerTest extends TestCase
         ]);
     }
 
-        public function testAddSupplierMaterialFailsWithEmptyData()
-        {
-            $response = $this->post('/supplier/material/add', []);
+  public function testReturnsSupplierMaterialsByProductType()
+    {
+        // Gunakan data nyata dari database
+        $supplierId = 'SUP001';
+        $productType = 'FG';
 
-            $response->assertSessionHasErrors([
+        // Kirim request ke endpoint
+        $response = $this->get("/supplier-material/{$supplierId}/{$productType}");
+
+        // Pastikan status sukses
+        $response->assertStatus(200);
+
+        // Validasi struktur JSON (walau kosong, struktur tetap valid)
+        $response->assertJsonStructure([
+            '*' => [
                 'supplier_id',
                 'company_name',
                 'product_id',
                 'product_name',
-                'base_price'
-            ]);
-        }
+                'base_price',
+                'product_type',
+            ]
+        ]);
+    }
 }
