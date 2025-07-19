@@ -114,4 +114,23 @@ class SupplierPic extends Model
             ];
         }
     }
+    //count supplier PIC
+    public static function countSupplierPIC($supplier_id)
+    
+    {
+    $data = self::select('active', \DB::raw('COUNT(*) as total'))
+        ->where('supplier_id', $supplier_id)
+        ->groupBy('active')
+        ->pluck('total', 'active');
+
+    $active = $data[1] ?? 0;
+    $inactive = $data[0] ?? 0;
+    $total = $active + $inactive;
+
+    return [
+        'active' => $active,
+        'inactive' => $inactive,
+        'total' => $total,
+    ];
+    }
 }
