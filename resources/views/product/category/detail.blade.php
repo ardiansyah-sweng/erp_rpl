@@ -241,7 +241,7 @@
         </section>
 
         <section class="content">
-            <div class="container mt-4">
+            <div class="container-fluid mt-4 ps-4">
     <div class="card">
         <div class="card-header bg-primary text-white">
             Detail Kategori
