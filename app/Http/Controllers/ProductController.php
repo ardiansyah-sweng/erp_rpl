@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProductController extends Controller
 {
@@ -11,6 +12,14 @@ class ProductController extends Controller
     {
         $products = Product::getAllProducts();
         return view('product.list', compact('products'));
+    }
+
+    public function generatePDF()
+    {
+    $products = Product::getAllProducts(); // Gunakan method buatan Wahyu Dwiyanto
+
+    $pdf = Pdf::loadView('product.pdf', compact('products'));
+    return $pdf->stream('daftar-produk.pdf');
     }
 
     public function getProductById($id)

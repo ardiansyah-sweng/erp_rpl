@@ -378,8 +378,9 @@
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Produk</h3>
-                <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
+                  <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
+                  <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
+                  <a href="{{ route('product.pdf') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Seluruh Produk</a>
               </div>
     
     

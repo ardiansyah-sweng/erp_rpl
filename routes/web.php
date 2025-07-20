@@ -76,6 +76,7 @@ Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
+Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('product.pdf');
 
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
