@@ -105,9 +105,6 @@ Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduc
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory'])->name('product.byCategory');
 
 
-
-
-
 #Product Update 
 
 #Product Update

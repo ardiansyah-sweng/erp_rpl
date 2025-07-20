@@ -14,16 +14,16 @@ class GetProductByCategoryControllerTest extends TestCase
     #[Test]
     public function can_get_products_by_category_through_controller(): void
     {
-        // Arrange: Buat data produk dummy dengan kategori tertentu
+        // Arrange : Buat data produk dummy dengan kategori tertentu
         $category = 1;
         Product::factory()->count(5)->create([
             'product_category' => $category
         ]);
 
-        // Act: Kirim request GET ke route controller
+        // Act : Kirim request GET ke route controller
         $response = $this->get("/products/category/{$category}");
 
-        // Assert: Status sukses dan isi data sesuai
+        // Assert : Status sukses dan isi data sesuai
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'data',         // karena pakai paginate
