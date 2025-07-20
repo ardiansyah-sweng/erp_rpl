@@ -5,8 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
-    protected $table;
-    protected $fillable = ['company_name', 'address','phone_number'];
+    protected $table = 'supplier';
+    protected $fillable = ['supplier_id','company_name', 'address','phone_number','bank_account','created_at','updated_at'];
 
     protected $primaryKey = 'supplier_id';
     public $incrementing = false;
@@ -20,16 +20,13 @@ class Supplier extends Model
         $this->fillable = array_values(config('db_constants.column.supplier') ?? []);
     }
 
-    public static function getUpdateSupplier($supplier_id, array $data)
+    public static function updateSupplier($supplier_id, array $data)//Sudah sesuai pada ERP RPL
     {
         $supplier = self::find($supplier_id);
         if (!$supplier) {
             return null;
         }
-
-        $fillable = (new self)->getFillable();
-        $filteredData = array_intersect_key($data, array_flip($fillable));
-        $supplier->update($filteredData);
+        $supplier->update($data);
 
         return $supplier;
     }
@@ -41,4 +38,8 @@ class Supplier extends Model
         return self::count();   
     }
 
+    public static function addSupplier($data)
+    {
+        return self::create($data);
+    }
 }
