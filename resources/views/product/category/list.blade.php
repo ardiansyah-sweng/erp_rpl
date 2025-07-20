@@ -1,4 +1,7 @@
 
+@php
+use App\Helpers\EncryptionHelper;
+@endphp
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
@@ -295,7 +298,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="dashboard" class="nav-link active">
+              <a href="dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -303,11 +306,13 @@
                 </a>
               </li>
               <li class="nav-item">
-              <a href="{{ route('product.list') }}" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
               </li>
+
+              
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-person-circle"></i>
@@ -346,7 +351,7 @@
                 </a>                
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
+              <a href="{{ route('branch.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -355,7 +360,7 @@
               </li>
               <li class="nav-item">
               <a href="{{ route('item.list') }}" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <i class="nav-icon bi bi-circle"></i>
                       <p>Item</p>
                     </a>
                   </li>
@@ -375,13 +380,16 @@
             <!--begin::Row-->
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Category Product</h3>
+                <h3 class="mb-0 me-2">Produk</h3>
+                <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
               </div>
+    
     
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Category Product</li>
+                  <li class="breadcrumb-item active" aria-current="page">Produk</li>
                 </ol>
               </div>
             </div>
@@ -391,70 +399,57 @@
         </div>
 
         <div class="card mb-4">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                      <h3 class="card-title">List Table</h3>
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                    @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                    @endif
+              <div class="card-header"><h3 class="card-title">List Table</h3></div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">id</th>
+                      <th>product_id</th>
+                      <th>product_name</th>
+                      <th>product_type</th>
+                      <th>product_category</th>
+                      <th>product_description</th>
+                      <th>Created At</th>
+                      <th>Updated At </th>
+                      <th>Action </th>
+                    </tr>
+                  </thead>
+                 <tbody>
+                  @foreach ($products as $index => $product)
+                  <tr class="align-middle">
+                      <td>{{ $index + 1 }}</td>
+                      <td>{{ $product->product_id }}</td>
+                      <td>{{ $product->product_name }}</td>
+                      <td>{{ $product->product_type }}</td>
+                      <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
+                      <td>{{ $product->product_description }}</td>
+                      <td>{{ $product->created_at }}</td>
+                      <td>{{ $product->updated_at }}</td>
+                      <td>
+                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                              <form  method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?')">Delete</button>
+                              </form>
+                          <a href="#" class="btn btn-sm btn-info">Detail</a>
+                      </td>
+                  </tr>
+        @endforeach
+    </tbody>
+</table>
 
-                    @if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                    @endif
-                    <table class="table table-bordered">
-                      <thead class="text-center">
-                        <tr>
-                            <th style="width: 10px">No</th>
-                            <th>Kode</th>
-                            <th>Nama Kategori</th>
-                            <th>Aktif</th>
-                            <th>Aksi</th>
-                        </tr>
-                      </thead>
 
-                      <tbody>
-                            @forelse($category as $kategori)
-                                <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $kategori->id }}</td>
-                                <td>{{ $kategori->category }}</td>
-                                <td class="text-center">
-                                    @if($kategori->active)
-                                    <i class="bi bi-check-circle-fill text-success"></i>
-                                    @else
-                                    <i class="bi bi-x-circle-fill text-danger"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    <a href="{{ route('category.edit', $kategori->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                    <form action="{{ route('category.delete', $kategori->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                                    </form>
-                                </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                <td colspan="7" class="text-center">Tidak ada data</td>
-                                </tr>
-                            @endforelse
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer clearfix">
+                {{ $categories->links('pagination::bootstrap-4') }}
+              </div>
+            </div>
+    
 
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- /.card-body -->
-                  <div class="card-footer clearfix">
-                  {{ $category->links('pagination::bootstrap-4') }}
-                  </div>
-
-        </div>
         
       </main>
       <!--end::App Main-->

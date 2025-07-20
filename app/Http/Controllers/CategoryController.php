@@ -27,6 +27,11 @@ class CategoryController extends Controller
     }
     public function getCategoryList() 
     {
+        // $category = Category::getAllCategory();
+        // return view('category.list', compact('category'));
+        $categories = Category::with('parent')->paginate(10);
+        return view('product.category.list', compact('categories'));
+
         $category = Category::with('parent')->paginate(10);
         return view('product.category.list', compact('category'));
     }
