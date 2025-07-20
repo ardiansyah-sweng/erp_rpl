@@ -22,24 +22,21 @@ class ProductController extends Controller
         if (!$product) {
             return abort(404, 'Product tidak ditemukan');
         }
-       return view('product.detail', compact('product'));
+        return view('product.detail', compact('product'));
     }
-
 
     // $productData = $products[$id];
     // $productData['category'] = (object)$productData['category'];
     // $product = (object)$productData;
-
     // return view('product.detail', compact('product'));
-
 
     public function addProduct(Request $request)
     {
         $validatedData = $request->validate([
-            'product_id' => 'required|string|unique:products,product_id',
-            'product_name' => 'required|string',
-            'product_type' => 'required|string',
-            'product_category' => 'required|string',
+            'product_id'          => 'required|string|unique:products,product_id',
+            'product_name'        => 'required|string',
+            'product_type'        => 'required|string',
+            'product_category'    => 'required|string',
             'product_description' => 'nullable|string',
         ]);
 
@@ -47,24 +44,42 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
+
     public function updateProduct(Request $request, $id)
     {
-        // Validasi input
         $request->validate([
-            'product_name' => 'required|string|max:35',
-            'product_type' =>  'required|string|max:12',
-            'product_category' => 'required|integer',
+            'product_name'        => 'required|string|max:35',
+            'product_type'        => 'required|string|max:12',
+            'product_category'    => 'required|integer',
             'product_description' => 'nullable|string|max:255',
         ]);
 
-        $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
+        $Updateproduct = Product::updateProduct($id, $request->only([
+            'product_name',
+            'product_type',
+            'product_category',
+            'product_description'
+        ]));
 
         return $Updateproduct;
     }
 
+    public function getProductByType($product_type)
+    {
+        $products = Product::getProductByType($product_type);
+
+        if ($products->isEmpty()) {
+            return response()->json([
+                'message' => "Tidak ditemukan produk dengan tipe tersebut: {$product_type}"
+            ], 404);
+        }
+
+        return response()->json($products);
+    }
 
     public function searchProduct($keyword)
     {
+
         $products = Product::where('product_id', 'LIKE', "%{$keyword}%")
             ->orWhere('product_name', 'LIKE', "%{$keyword}%")
             ->orWhere('product_type', 'LIKE', "%{$keyword}%")
@@ -74,5 +89,4 @@ class ProductController extends Controller
 
         return view('product.list', compact('products'));
     }
-
 }
