@@ -102,6 +102,9 @@ Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
+Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory'])->name('product.byCategory');
+
+
 
 
 
