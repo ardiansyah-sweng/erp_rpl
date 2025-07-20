@@ -32,6 +32,8 @@ class CategoryController extends Controller
         $categories = Category::with('parent')->paginate(10);
         return view('product.category.list', compact('categories'));
 
+        $category = Category::with('parent')->paginate(10);
+        return view('product.category.list', compact('category'));
     }
     public function printCategoryPDF()
     {
@@ -69,9 +71,29 @@ class CategoryController extends Controller
 
     public function getCategoryById($id)
     {
-        $category = (new Category())->getCategoryById($id);
+        $category = Category::getCategoryById($id);
+
+        if (!$category) {
+            return response()->json(['message' => 'Category not found'], 404);
+        }
+
         return response()->json($category);
+        //return view('detail.blade', compact('category'));
+        //apabila halaman detail kategori sudah ada harap untuk di uncomment return view
+        //dan return response nya di hapus
     }
+ //Search Category 
+    public function searchCategory(Request $request)
+    {
+        $keyword = $request->input('q');
+
+        $category = Category::when($keyword, function ($query) use ($keyword) {
+            $query->where('category', 'like', '%' . $keyword . '%');
+        })->get();
+
+        return view('category.list', compact('category'));
+    }
+
 
     // delete category
     public function deleteCategory($id)
@@ -84,4 +106,5 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'Kategori tidak ditemukan atau gagal dihapus.');
         }
     }
+
 }
