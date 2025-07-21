@@ -28,7 +28,6 @@ class SupplierController extends Controller
 
         return view('Supplier.detail', compact('sup'));
     }
-
     public function index()
     {
     $suppliers = Supplier::withCount('orders')->get();
