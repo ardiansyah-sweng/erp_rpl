@@ -114,9 +114,7 @@ class SupplierPic extends Model
             ];
         }
     }
-    //count supplier PIC
     public static function countSupplierPIC($supplier_id)
-    
     {
     $data = self::select('active', \DB::raw('COUNT(*) as total'))
         ->where('supplier_id', $supplier_id)
