@@ -88,6 +88,10 @@ Route::get('/warehouse/add', function () {
     return view('warehouse/add');
 })->name('warehouse.add');
 
+Route::get('product/category/detail', function () {
+    return view('product/category/detail');
+});
+
 #warehouse
 // Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
 
@@ -186,11 +190,12 @@ Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSu
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
-
+Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete'])->name('supplier.pic.delete');
 
 
 Route::get('/supplier/material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialById'])->name('supplier.material.detail');
+Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
 Route::get('/supplier-material/{supplier_id}/{product_type}', [SupplierMaterialController::class, 'getSupplierMaterialByProductType']);
 
 #Suppplier Update
@@ -212,6 +217,9 @@ Route::get('/category', [CategoryController::class, 'getCategoryList'])->name('c
 
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
+
+#cetak semua pdf pic
+Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
 
 #Produksi
 Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'index']);
