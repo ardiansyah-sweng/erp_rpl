@@ -88,6 +88,10 @@ Route::get('/warehouse/add', function () {
     return view('warehouse/add');
 })->name('warehouse.add');
 
+Route::get('product/category/detail', function () {
+    return view('product/category/detail');
+});
+
 #warehouse
 // Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
 
