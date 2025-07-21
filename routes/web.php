@@ -142,6 +142,9 @@ Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 
 #Category
+Route::get('/product/category/add', function () {
+    return view('product.category.add');
+})->name('product.category.add');
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.detail');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
