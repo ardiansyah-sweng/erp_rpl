@@ -28,5 +28,20 @@ class SupplierController extends Controller
 
         return view('Supplier.detail', compact('sup'));
     }
+
+    public function searchSuppliers(Request $request)
+    {
+        $keywords = $request->input('keywords');
+
+    // Gunakan method yang sudah didefinisikan di model
+        $results = Supplier::getSupplierByKeywords($keywords);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $results
+        ]);
+    }
+
+
 }
 
