@@ -61,4 +61,9 @@ class BillOfMaterial extends Model
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
 
+    public static function getLastBillOfMaterial()
+    {
+        return self::orderBy('id', 'desc')->first();
+    }
+
 }
