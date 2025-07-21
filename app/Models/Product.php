@@ -104,4 +104,25 @@ class Product extends Model
         return $this->hasMany(Item::class, 'sku', 'product_id');
     }
 
+    public static function getProductByKeyword($keywords = null)
+    {
+        $query = self::query();
+
+        if ($keywords) {
+            $query->where('product_id', 'LIKE', "%{$keywords}%")
+                  ->orWhere('product_name', 'LIKE', "%{$keywords}%")
+                  ->orWhere('product_type', 'LIKE', "%{$keywords}%")
+                  ->orWhere('product_category', 'LIKE', "%{$keywords}%")
+                  ->orWhere('product_description', 'LIKE', "%{$keywords}%");
+        }
+
+        return $query->orderBy('created_at', 'asc')->paginate(10);
+    }
+
+    public static function getProductByCategory($product_category)
+    {
+        return self::where('product_category', $product_category)
+                    ->paginate(10);
+    }
+
 }

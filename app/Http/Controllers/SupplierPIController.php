@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\SupplierPic;
 use App\Models\SupplierPICModel;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Supplier;
+use Barryvdh\DomPDF\Facade\Pdf;
+		
+
+
 
 class SupplierPIController extends Controller
 {
@@ -76,8 +81,13 @@ class SupplierPIController extends Controller
         SupplierPic::addSupplierPIC($supplierID, $validatedData);
 
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
-
     } 
+
+    public function getSupplierPICAll()
+    {
+        $supplierPICs = SupplierPic::getSupplierPICAll(); // ini method dari model kamu
+        return view('supplier.pic.list', ['pics' => $supplierPICs]);
+    }
     
     public function deleteSupplierPIC($id)
     {
@@ -129,4 +139,20 @@ class SupplierPIController extends Controller
         ], $result['code'] ?? 200);
 
     }
+
+    public function cetakPdf()
+    {
+        $pics = SupplierPic::getSupplierPICAll();
+        $pics->load('supplier'); 
+
+        $data = [
+            'pics' => $pics
+        ];
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('supplier.pic.pdfpic', $data)
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->stream('PIC-Supplier-Semua.pdf');
+    }
+
 }
