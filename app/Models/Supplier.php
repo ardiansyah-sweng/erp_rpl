@@ -56,5 +56,14 @@ class Supplier extends Model
     return self::withCount('orders')->get();
     }
 
+    public static function getSupplierByKeywords($keywords = null)
+    {
+            $query = self::query();
 
+            if (!empty($keywords)) {
+                $query->where('company_name', 'like', "%{$keywords}%");
+            }
+
+            return $query->get();
+    }
 }

@@ -28,12 +28,22 @@ class SupplierController extends Controller
 
         return view('Supplier.detail', compact('sup'));
     }
-
     public function index()
     {
     $suppliers = Supplier::withCount('orders')->get();
     return view('supplier.index', compact('suppliers'));
     }
+    public function searchSuppliers(Request $request)
+    {
+        $keywords = $request->input('keywords');
 
+    // Gunakan method yang sudah didefinisikan di model
+        $results = Supplier::getSupplierByKeywords($keywords);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $results
+        ]);
+    }
 }
 
