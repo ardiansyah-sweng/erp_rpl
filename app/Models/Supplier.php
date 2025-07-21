@@ -42,4 +42,15 @@ class Supplier extends Model
     {
         return self::create($data);
     }
+
+    public function supplierPic()
+    {
+        return $this->hasMany(SupplierPic::class);
+    }
+
+    public function purchaseOrder()
+    {
+        return $this->hasMany(PurchaseOrder::class);
+    }
+    
 }
