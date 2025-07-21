@@ -19,7 +19,7 @@ class BillOfMaterialController extends Controller
         ]);
 
         // Generate bom_id dengan format BOM001, BOM002, dst.
-        $lastBom = BillOfMaterialModel::orderBy('id', 'desc')->first();
+        $lastBom = BillOfMaterialModel::getLastBillOfMaterial();
         $nextId = $lastBom ? ((int)substr($lastBom->bom_id, -3) + 1) : 1;
         $validatedData['bom_id'] = 'BOM' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
 
@@ -48,7 +48,6 @@ class BillOfMaterialController extends Controller
     public function searchBillOfMaterial($keyword = null)
     {
         $data = BillOfMaterialModel::SearchOfBillMaterial($keyword);
-
         return response()->json([
             'success' => true,
             'message' => 'Data Bill of Material berhasil ditemukan.',
