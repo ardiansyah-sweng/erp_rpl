@@ -16,11 +16,13 @@ class ProductController extends Controller
 
     public function generatePDF()
     {
-    $products = Product::getAllProducts(); // Gunakan method buatan Wahyu Dwiyanto
+        $products = Product::getAllProducts();
 
-    $pdf = Pdf::loadView('product.pdf', compact('products'));
-    return $pdf->stream('daftar-produk.pdf');
+        $pdf = Pdf::loadView('product.pdf', compact('products'));
+
+        return $pdf->stream('daftar-produk.pdf');
     }
+
 
     public function getProductById($id)
     {
