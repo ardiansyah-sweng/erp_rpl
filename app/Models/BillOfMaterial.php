@@ -61,4 +61,14 @@ class BillOfMaterial extends Model
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
 
+    public static function updateBillOfMaterial($bom_id, array $data)
+    {
+        $bom = self::find($bom_id);
+        if (!$bom) {
+            return null;
+        }
+        $bom->update($data);
+
+        return $bom;
+    }
 }
