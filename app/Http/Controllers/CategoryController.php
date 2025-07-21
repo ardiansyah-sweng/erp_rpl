@@ -13,6 +13,12 @@ class CategoryController extends Controller
         return Category::getCategory();
     }
 
+    public function getCategoryByParent($id)
+    {
+        return response()->json(['id' => $id]);
+    }
+
+
     public function addCategory(Request $request)
     {
         $request->validate([

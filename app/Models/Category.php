@@ -12,6 +12,7 @@ class Category extends Model
     protected $table;
     protected $fillable = [];
 
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
