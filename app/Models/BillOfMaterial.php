@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class BillOfMaterial extends Model
 {
+    protected $primaryKey = 'bom_id';
+    public $incrementing = false; 
+    protected $keyType = 'string';
     protected $table;
     protected $fillable = [
         'bom_id',
@@ -59,6 +62,17 @@ class BillOfMaterial extends Model
         }
 
         return $query->orderBy('created_at', 'asc')->paginate(10);
+    }
+    
+    public static function updateBillOfMaterial($id, array $data)
+    {
+        $bom = BillOfMaterial::where('bom_id', $id)->first();
+        if (!$bom) {
+            return null;
+        }
+
+        $bom->update($data);
+        return $bom;
     }
 
 }
