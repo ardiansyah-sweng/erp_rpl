@@ -476,6 +476,25 @@ use App\Helpers\EncryptionHelper;
                       </div>
                     </div>
                   </div>
+                  
+                  <div class="d-flex align-items-center ">
+                      <label for="statusFilter" class="form-label me-2 mb-0 fw-normal"></label>
+                      <div style="width: 220px;">
+                          <select id="statusFilter" class="form-select form-select-sm">
+                              <option value="">Pilih Status...</option>
+                              <option value="all">Tampilkan Semua</option>
+                              @php
+                                  $statuses = ['Submitted', 'Approved', 'In Review', 'Revised', 'Closed', 'Cancelled', 'Draft', 'Fully Delivered'];
+                              @endphp
+                              @foreach ($statuses as $stat)
+                                  <option value="{{ $stat }}" {{ (isset($status) && $status == $stat) ? 'selected' : '' }}>
+                                      {{ $stat }}
+                                  </option>
+                              @endforeach
+                          </select>
+                      </div>
+                  </div>
+
                   <!--begin::Start Search Bar-->
                   <form action="{{ route('purchase_orders.search') }}" method="GET" class="d-flex ms-auto">
                       <div class="input-group input-group-sm ms-auto" style="width: 450px;">
@@ -1121,7 +1140,91 @@ use App\Helpers\EncryptionHelper;
     });
   });
   </script>
+  <script>
+    $(document).ready(function() {
+        // Menambahkan event listener baru pada tombol submit
+        $('#submitBtn').on('click', function() {
+            // Beri jeda singkat agar script lama (jika ada) berjalan lebih dulu
+            setTimeout(function() {
+                // Mengambil semua data dari form di dalam modal
+                const dataForEmail = {
+                    header: {
+                        po_number: $('#po_number').val(),
+                        branch: $('#branch').val(),
+                        supplier_name: $('#supplier_name').val(),
+                        supplier_id: $('#supplierSearch').val(),
+                        order_date: new Date().toISOString().slice(0, 10)
+                    },
+                    items: [],
+                    subtotal: $('#subtotal').val().replace(/[^0-9]/g, ''),
+                    tax: $('#tax').val().replace(/[^0-9]/g, '')
+                };
 
+                $('#itemsTable tbody tr').each(function() {
+                    const row = $(this);
+                    const sku = row.find('.sku-search').val();
+                    if (sku) {
+                        dataForEmail.items.push({
+                            sku: sku,
+                            name: row.find('.nama-item').val(),
+                            qty: row.find('.qty').val(),
+                            unitPrice: row.find('.unit-price').val(),
+                            amount: row.find('.amount').val()
+                        });
+                    }
+                });
+
+                // Jika tidak ada item, batalkan pengiriman
+                if (dataForEmail.items.length === 0) {
+                    return;
+                }
+
+                // Kirim data ke controller menggunakan AJAX
+                $.ajax({
+                    url: '{{ route("purchase_orders.send_email") }}',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(dataForEmail),
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    success: function(response) {
+                        console.log('Email Terkirim:', response.success);
+                        // Jika ingin menampilkan notifikasi, bisa pakai alert:
+                        alert(response.success);
+                    },
+                    error: function(xhr) {
+                        console.error('Gagal Kirim Email:', xhr.responseJSON.error);
+                        alert('Gagal mengirim email: ' + xhr.responseJSON.error);
+                    }
+                });
+            }, 500); // Jeda 0.5 detik
+        });
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusFilter = document.getElementById('statusFilter');
+
+        if (statusFilter) {
+            statusFilter.addEventListener('change', function() {
+                const selectedStatus = this.value;
+
+                // Jangan lakukan apa-apa jika user memilih opsi default
+                if (!selectedStatus) {
+                    return;
+                }
+
+                // Jika memilih "Tampilkan Semua", arahkan ke route daftar PO utama
+                if (selectedStatus === 'all') {
+                    window.location.href = "{{ route('purchase.orders') }}";
+                } else {
+                    // Jika memilih status lain, arahkan ke URL yang sesuai dengan route Anda
+                    // Contoh URL yang akan dibuat: /purchase-order/status/Approved
+                    window.location.href = `/purchase-order/status/${selectedStatus}`;
+                }
+            });
+        }
+    });
+  </script>
   <!--end::Script-->
 </body>
 <!--end::Body-->

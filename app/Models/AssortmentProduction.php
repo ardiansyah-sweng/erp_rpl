@@ -20,7 +20,7 @@ class AssortmentProduction extends Model
         $this->fillable = array_values(config('db_constants.column.assort_prod') ?? []);
     }
 
-    
+
 
 
     public static function getProductionDetail($production_number)
@@ -77,5 +77,17 @@ class AssortmentProduction extends Model
 
         $production->update($data);
         return $production;
+    }
+    public static function countProduction()
+    {
+        $inProduction = self::where('in_production', 1)->count();
+        $doneProduction = self::where('in_production', 0)->count();
+        $totalProduction = self::count();
+
+        return [
+            'in_production' => $inProduction,
+            'done_production' => $doneProduction,
+            'total_production' => $totalProduction,
+        ];
     }
 }
