@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BillOfMaterialModel;
+use App\Models\BillOfMaterial;
 
 class BillOfMaterialController extends Controller
 {
@@ -69,6 +70,30 @@ class BillOfMaterialController extends Controller
             'created_at'       => $bom->created_at,
             'updated_at'       => $bom->updated_at,
             'details'          => $details,
+        ]);
+    }
+    public function update(Request $request, $id)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'bom_name' => 'sometimes|required|string|max:255',
+            'measurement_unit' => 'sometimes|required|string|max:50',
+            'total_cost' => 'sometimes|required|numeric',
+            'active' => 'sometimes|required|boolean',
+        ]);
+
+        // Proses update via model
+        $updated = BillOfMaterial::updateBillOfMaterial($id, $validated);
+
+        // Jika data tidak ditemukan
+        if (!$updated) {
+            return response()->json(['message' => 'Data tidak ditemukan.'], 404);
+        }
+
+        // Berhasil
+        return response()->json([
+            'message' => 'Data berhasil diperbarui.',
+            'data' => $updated
         ]);
     }
 
