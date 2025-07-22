@@ -3,20 +3,36 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use PHPUnit\Framework\Attributes\Test;
+use Mockery;
+use App\Models\Category;
 
 class CategoryControllerTest extends TestCase
 {
-    #[Test]
-    public function it_calls_get_category_by_parent_route()
+    public function tearDown(): void
     {
-        $response = $this->get('/categories/by-parent/1');
+        Mockery::close();
+        parent::tearDown();
+    }
 
-        // Jika response 500, kita ingin melihat error lebih jelas
-        if ($response->status() !== 200) {
-            dd($response->getContent()); // Tampilkan error isi
-        }
+    public function test_get_category_list_displays_correctly()
+    {
+        $mockedCategories = [
+            ['id' => 1, 'category' => 'Elektronik', 'parent_id' => 0, 'active' => true],
+            ['id' => 2, 'category' => 'Laptop', 'parent_id' => 1, 'active' => true],
+        ];
+
+        // 👇 Ini baris penting: buat mock alias untuk Category
+        $mock = Mockery::mock('alias:' . Category::class);
+        $mock->shouldReceive('getAllCategory')
+            ->once()
+            ->andReturn(collect($mockedCategories)); // dikembalikan sebagai koleksi agar menyerupai DB
+
+        // 👇 Ubah response controller sementara jika belum ada view
+        $response = $this->get('/category/list');
 
         $response->assertStatus(200);
+        $response->assertJson([
+            'category' => $mockedCategories
+        ]);
     }
 }

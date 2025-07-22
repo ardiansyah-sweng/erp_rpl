@@ -81,6 +81,7 @@ Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->na
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('api.prices');
 Route::get('/api/branches/{id}', [BranchController::class, 'getBranchById'])->name('api.branch.detail');
+Route::get('/category/list', [CategoryController::class, 'getCategoryList']);
 
 # Branch
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
@@ -147,6 +148,8 @@ Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
 Route::get('/categories', [CategoryController::class, 'getCategory']);
 Route::get('/categories/by-parent/{id}', [CategoryController::class, 'getCategoryByParent'])->name('getCategoryByParent');
+Route::get('/category/list', [CategoryController::class, 'getCategoryList'])->name('category.list');
+
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);

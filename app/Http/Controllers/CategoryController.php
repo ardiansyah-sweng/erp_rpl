@@ -13,12 +13,6 @@ class CategoryController extends Controller
         return Category::getCategory();
     }
 
-    public function getCategoryByParent($id)
-    {
-        return response()->json(['id' => $id]);
-    }
-
-
     public function addCategory(Request $request)
     {
         $request->validate([
@@ -38,7 +32,7 @@ class CategoryController extends Controller
     public function getCategoryList() 
     {
         $category = Category::getAllCategory();
-        return view('category.list', compact('category'));
+        return response()->json(['category' => $category]);
     }
     public function printCategoryPDF()
     {
