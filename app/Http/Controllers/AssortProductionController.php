@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\AssortmentProduction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
 
 class AssortProductionController extends Controller
 {
@@ -12,7 +14,7 @@ class AssortProductionController extends Controller
         $model = new AssortmentProduction();
         $production = $model->getProduction();
 
-        return response()->json($production);
+         return view('assortment_production.list', compact('production'));
     }
 
     public function updateProduction(Request $request, $id)
@@ -69,4 +71,25 @@ class AssortProductionController extends Controller
 
         return response()->json($productions); // hasilnya array of object
     }
+   
+    public function deleteProduction($id)
+    {
+        // Cari production berdasarkan ID untuk mendapatkan production_number
+        $production = AssortmentProduction::find($id);
+        if (!$production) {
+            return response()->json(['message' => 'Data dengan ID tersebut tidak ditemukan'], 404);
+        }
+
+        // Panggil method deleteProduction yang sudah ada di Model
+        // Method ini menggunakan production_number sebagai parameter
+        $result = AssortmentProduction::deleteProduction($production->production_number);
+
+        // Return response dari Model (pastikan method di model return boolean)
+        if ($result) {
+            return response()->json(['message' => 'Data berhasil dihapus'], 200);
+        } else {
+            return response()->json(['message' => 'Gagal menghapus data'], 500);
+        }
+    }
+
 }

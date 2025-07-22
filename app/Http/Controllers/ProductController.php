@@ -61,4 +61,11 @@ class ProductController extends Controller
         return $Updateproduct;
     }
 
+
+    public function searchProduct($keyword)
+    {
+        $products = Product::getProductByKeyword($keyword);
+        return view('product.list', compact('products'));
+    }
+
 }
