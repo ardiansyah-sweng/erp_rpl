@@ -7,8 +7,11 @@ use Carbon\Carbon;
 
 class SupplierPic extends Model
 {
-    protected $table;
-    protected $fillable = [];
+    protected $table = 'supplier_pic'; // sesuaikan nama tabel
+    protected $fillable = ['name', 'email', 'phone_number', 'supplier_id'];
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     public function __construct(array $attributes = [])
     {
@@ -34,13 +37,13 @@ class SupplierPic extends Model
     {
         return self::paginate($perPage);
     }
-    
+
     public static function addSupplierPIC($supplierID, $data)
     {
         $data['supplier_id'] = $supplierID;
         return self::create($data);
-    } 
-    
+    }
+
     public static function assignmentDuration($pic)
     {
         if (!$pic->assigned_date) {
@@ -57,5 +60,58 @@ class SupplierPic extends Model
             'months' => $diff->m,
             'days' => $diff->d,
         ]);
+    }
+
+    public static function deleteSupplierPIC($id)
+    {
+        $pic = self::find($id);
+        if ($pic) {
+            return $pic->delete();
+        }
+        return false;
+    }
+
+    public static function isDuplicatePIC($supplierID, $name, $email, $phone_number)
+    {
+        return self::where('supplier_id', $supplierID)
+            ->where('name', $name)
+            ->where('email', $email)
+            ->where('phone_number', $phone_number)
+            ->exists();
+    }
+
+    public static function updateSupplierPIC($id, $data)
+    {
+        try {
+            $supplierPic = self::find($id);
+
+            if (!$supplierPic) {
+                return [
+                    'status' => 'error',
+                    'message' => 'Supplier PIC tidak ditemukan.',
+                    'code' => 404
+                ];
+            }
+
+            $updated = $supplierPic->update($data);
+            return $updated
+                ? [
+                    'status' => 'success',
+                    'message' => 'Supplier PIC berhasil diperbarui.',
+                    'data' => $supplierPic,
+                    'code' => 200
+                ]
+                : [
+                    'status' => 'error',
+                    'message' => 'Gagal memperbarui Supplier PIC.',
+                    'code' => 500
+                ];
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => 'Exception: ' . $e->getMessage(),
+                'code' => 500
+            ];
+        }
     }
 }

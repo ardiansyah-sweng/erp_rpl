@@ -29,7 +29,7 @@
                 <td>{{ $product->product_id }}</td>
                 <td>{{ $product->product_name }}</td>
                 <td>{{ $product->product_type }}</td>
-                <td>{{ $product->product_category }}</td>
+                <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td>
                 <td>{{ $product->product_description }}</td>
             </tr>
             @endforeach
