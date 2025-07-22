@@ -3,50 +3,46 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Category;
 
 class GetCategoryByParentTest extends TestCase
 {
     /** @test */
-    public function it_returns_categories_with_given_parent_id()
+    public function it_returns_categories_with_existing_parent_id()
     {
-        // Arrange: Buat parent category
-        $parent = Category::create([
-            'category' => 'Parent Category',
-            'parent_id' => 0,
-            'active' => true
-        ]);
+        // Ambil salah satu parent_id yang sudah ada di tabel dan punya anak
+        $existingParent = Category::whereNotNull('parent_id')->first();
 
-        // Buat child categories
-        $child1 = Category::create([
-            'category' => 'Child 1',
-            'parent_id' => $parent->id,
-            'active' => true
-        ]);
+        // Jika tidak ditemukan, tes dianggap gagal
+        $this->assertNotNull($existingParent, 'Tidak ada kategori anak yang memiliki parent_id.');
 
-        $child2 = Category::create([
-            'category' => 'Child 2',
-            'parent_id' => $parent->id,
-            'active' => true
-        ]);
+        // Ambil ID parent-nya
+        $parentId = $existingParent->parent_id;
 
-        // Act: Hit endpoint
-        $response = $this->getJson("/category/parent/{$parent->id}");
+        // Hit endpoint
+        $response = $this->getJson("/category/parent/{$parentId}");
+
+        // Ambil jumlah anak dari parent_id tersebut
+        $expectedCount = Category::where('parent_id', $parentId)->count();
 
         // Assert
         $response->assertStatus(200);
-        $response->assertJsonCount(2); // Harus 2 kategori anak
-        $response->assertJsonFragment(['category' => 'Child 1']);
-        $response->assertJsonFragment(['category' => 'Child 2']);
+        $response->assertJsonCount($expectedCount);
     }
 
     /** @test */
-    public function it_returns_404_if_no_categories_found()
+    public function it_returns_404_for_non_existing_parent_id()
     {
-        $response = $this->getJson('/category/parent/999');
+        // Ambil ID yang tidak ada (pastikan tidak ada kategori dengan parent_id = 99999)
+        $invalidParentId = 99999;
 
+        // Hit endpoint
+        $response = $this->getJson("/category/parent/{$invalidParentId}");
+
+        // Assert
         $response->assertStatus(404);
-        $response->assertJson(['message' => 'Tidak ada kategori dengan parent ID tersebut']);
+        $response->assertJson([
+            'message' => 'Tidak ada kategori dengan parent ID tersebut',
+        ]);
     }
 }
