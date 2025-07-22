@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Warehouse;
+use App\Http\Controllers\WarehouseController;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -23,5 +24,17 @@ class SearchWarehouseTest extends TestCase
             $results->pluck('warehouse_name')->contains('Gudang dolores'),
             'Search result should contain warehouse with name "Gudang dolores"'
         );
+    }
+
+    #[Test]
+    public function test_controllerSearchWarehouse_returns_matching_results(): void
+    {
+        $response = $this->get('/warehouse/search?keyword=maxime');
+
+        // Periksa responsenya adalah 200 OK
+        $response->assertStatus(200);
+
+        // Periksa responsenya mengandung data yang dicari
+        $response->assertSeeText('Gudang maxime');
     }
 }

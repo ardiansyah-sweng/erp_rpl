@@ -63,7 +63,6 @@ class Product extends Model
         return self::count();
     }
 
-
     public static function addProduct($data)
     {
         return self::create($data);
@@ -73,11 +72,18 @@ class Product extends Model
         return self::where('product_id', $id)->first();
     }    
 
+    public static function countProductByProductType($shortType)
+    {
+        $colProduct = config('db_constants.column.products');
+
+        return self::where($colProduct['type'], $shortType)->count();
+    }
+
     public static function getProductByType($type)
     {
          return self::where('product_type', $type)->get();
     }
-
+    
     public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
     {
         $product = self::find($id);
@@ -96,6 +102,27 @@ class Product extends Model
         $colProduct = config('db_constants.column.products');
 
         return $this->hasMany(Item::class, 'sku', 'product_id');
+    }
+
+    public static function getProductByKeyword($keywords = null)
+    {
+        $query = self::query();
+
+        if ($keywords) {
+            $query->where('product_id', 'LIKE', "%{$keywords}%")
+                  ->orWhere('product_name', 'LIKE', "%{$keywords}%")
+                  ->orWhere('product_type', 'LIKE', "%{$keywords}%")
+                  ->orWhere('product_category', 'LIKE', "%{$keywords}%")
+                  ->orWhere('product_description', 'LIKE', "%{$keywords}%");
+        }
+
+        return $query->orderBy('created_at', 'asc')->paginate(10);
+    }
+
+    public static function getProductByCategory($product_category)
+    {
+        return self::where('product_category', $product_category)
+                    ->paginate(10);
     }
 
 }

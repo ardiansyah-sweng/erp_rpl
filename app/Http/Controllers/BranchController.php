@@ -11,13 +11,13 @@ class BranchController extends Controller
 {
     public function getBranchById($id)
     {
-    $branch = (new Branch())->getBranchByID($id);
+        $branch = (new Branch())->getBranchByID($id);
 
-    if (!$branch) {
-        return abort(404, 'Cabang tidak ditemukan');
-    }
+        if (!$branch) {
+            return abort(404, 'Cabang tidak ditemukan');
+        }
 
-    return view('branch.detail', compact('branch'));
+        return view('branch.detail', compact('branch'));
     }
 
     public function getBranchAll(Request $request)
@@ -51,6 +51,31 @@ class BranchController extends Controller
 
         return redirect()->route('branch.list')->with('success', 'Cabang berhasil ditambahkan!');
     }
+
+
+    public function updateBranch(Request $request, $id)
+    {
+        // Validasi data input
+        $request->validate([
+            'branch_name' => 'required|string|min:3',
+            'branch_address' => 'required|string|min:3',
+            'branch_telephone' => 'required|string|min:3',
+        ]);
+    
+        // Panggil model untuk update data
+        $branch = new Branch();
+        $branch->updateBranch($id, [
+            'branch_name' => $request->branch_name,
+            'branch_address' => $request->branch_address,
+            'branch_telephone' => $request->branch_telephone,
+        ]);
+    
+        // Redirect kembali ke list dengan pesan sukses
+        return redirect()->route('branch.list')->with('success', 'Cabang berhasil diupdate!');
+    }
+
+
+    
 
     public function deleteBranch($id)
     {
