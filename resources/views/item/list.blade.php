@@ -365,6 +365,7 @@
           <div class="row align-items-center">
             <div class="col-sm-6 d-flex align-items-center">
               <h3 class="mb-0 me-2">Item</h3>
+
               <a href="{{ route('item.add') }} " class="btn btn-primary btn-sm">Tambah</a>
               <a href="{{ route('item.report') }}" class="btn btn-primary btn-sm m-2"
               ">
@@ -384,6 +385,24 @@
         @endforeach
     </ul>
 </div>
+
+
+              <a href="{{ route('item.add') }}" class="btn btn-primary btn-sm">Tambah</a>
+              
+              <!-- Dropdown button untuk opsi cetak PDF -->
+              <div class="dropdown ms-2">
+                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="printOptionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-printer-fill me-1"></i> Cetak PDF
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="printOptionsDropdown">
+                  <li><a class="dropdown-item" href="{{ route('item.report') }}">Semua Item</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><p class="dropdown-header">Berdasarkan Tipe Produk</p></li>
+                  <li><a class="dropdown-item" href="{{ url('/item/pdf/product/FG') }}">Finished Goods (FG)</a></li>
+                  <li><a class="dropdown-item" href="{{ url('/item/pdf/product/HFG') }}">Half-Finished Goods (HFG)</a></li>
+                  <li><a class="dropdown-item" href="{{ url('/item/pdf/product/RM') }}">Raw Materials (RM)</a></li>
+                </ul>
+              </div>
 
             </div>
             <div class="col-sm-6">
