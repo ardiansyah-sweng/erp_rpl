@@ -61,4 +61,15 @@ class BillOfMaterial extends Model
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
 
+    public static function updateBillOfMaterial($bom_id, array $data)//Sudah sesuai pada ERP RPL
+    {
+        $bom = self::find($bom_id);
+        if (!$bom) {
+            return null;
+        }
+        $bom->update($data);
+
+        return $bom;
+    }
+
 }
