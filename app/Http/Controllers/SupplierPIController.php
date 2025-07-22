@@ -144,6 +144,9 @@ class SupplierPIController extends Controller
     {
         $pics = SupplierPic::getSupplierPICAll();
 
+        $pics->load('supplier'); 
+
+
         $data = [
             'pics' => $pics
         ];
@@ -153,4 +156,5 @@ class SupplierPIController extends Controller
 
         return $pdf->stream('PIC-Supplier-Semua.pdf');
     }
+
 }

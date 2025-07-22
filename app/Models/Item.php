@@ -118,10 +118,17 @@ class Item extends Model
             ->get();
     }
 
+
     public static function getAllProductTypes()
 {
     return \DB::table('products')->distinct()->pluck('product_type');
 }
+
+    public static function searchItem($keyword)
+    {
+        return self::where('item_name', 'like', '%' . $keyword . '%')->paginate(10);
+    }
+
     
     public static function getItemByCategory($categoryId)
     {

@@ -72,8 +72,8 @@ class CategoryController extends Controller
             return response()->json(['message' => 'Category not found'], 404);
         }
 
-        return response()->json($category);
-        //return view('detail.blade', compact('category'));
+        //return response()->json($category);
+        return view('product.category.detail', compact('category'));
         //apabila halaman detail kategori sudah ada harap untuk di uncomment return view
         //dan return response nya di hapus
     }
