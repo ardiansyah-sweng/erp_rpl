@@ -2,15 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Models\SupplierMaterial;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\SupplierProduct;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 
 class CountSupplierMaterialFoundByKeywordTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     public function test_countSupplierMaterialFoundByKeyword(): void
     {
