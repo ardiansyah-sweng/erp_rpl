@@ -16,7 +16,6 @@ class SupplierController extends Controller
             'phone_number' => 'required|string|max:30',
             'bank_account' => 'required|string|max:100',
         ]);
-
         // Update data supplier nama perusahaan, alamat, nomor telepon dan akun bank
         $updatedSupplier = Supplier::updateSupplier($supplier_id, $request->only(['company_name','address','phone_number','bank_account']));//Sudah sesuai pada ERP RPL
 
@@ -37,9 +36,9 @@ class SupplierController extends Controller
     {
         $keywords = $request->input('keywords');
 
-    // Gunakan method yang sudah didefinisikan di model
+        // Gunakan method yang sudah didefinisikan di model
         $results = Supplier::getSupplierByKeywords($keywords);
-
+        
         return response()->json([
             'status' => 'success',
             'data' => $results
