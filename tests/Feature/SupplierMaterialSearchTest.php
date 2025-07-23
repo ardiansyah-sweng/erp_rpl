@@ -9,6 +9,7 @@ use Illuminate\Testing\TestResponse;
 
 class SupplierMaterialSearchTest extends TestCase
 {
+    
     /** @test */
     public function it_directly_calls_controller_method_and_returns_json()
     {

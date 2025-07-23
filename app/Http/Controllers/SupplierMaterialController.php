@@ -50,23 +50,6 @@ class SupplierMaterialController extends Controller
         return redirect()->back()->with('error', 'Gagal memperbarui data supplier material!');
     }
 
-    public function searchSupplierMaterial(Request $request)
-    {
-        $keyword = $request->input('keyword');
-
-        $model = new SupplierMaterial();
-        $materials = $model->getSupplierMaterialByKeyword($keyword);
-
-        if ($request->expectsJson()) {
-            return response()->json($materials);
-        }
-
-        return view('supplier.material.list', [
-            'materials' => $materials,
-            'keyword' => $keyword
-        ]);
-    }
-
     #cetak pdf
     public function cetakPDF($supplier_id)
     {
@@ -80,6 +63,24 @@ class SupplierMaterialController extends Controller
 
         $pdf = Pdf::loadView('supplier.material.pdf', compact('materials', 'supplierName', 'supplier_id'));
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
+    }
+
+    public function searchSupplierMaterial(Request $request)
+    {
+        $keyword = $request->input('keyword');
+
+        $model = new SupplierMaterial();
+        $materials = $model->getSupplierMaterialByKeyword($keyword);
+
+        // Jika request dari test (expects JSON), kirim data mentah
+        if ($request->expectsJson()) {
+            return response()->json($materials);
+        }
+
+        return view('supplier.material.list', [
+            'materials' => $materials,
+            'keyword' => $keyword
+        ]);
     }
 
     
