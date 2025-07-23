@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\BillOfMaterial;
-// use Test\TestCase;
 
 class BillOfMaterialController extends Controller
 {
@@ -29,67 +28,62 @@ class BillOfMaterialController extends Controller
         return redirect()->back()->with('success', 'Bill of Material berhasil ditambahkan!');
     }
 
-
-    // Fungsi untuk menghapus Bill of Material berdasarkan id
     public function show($id)
     {
-        // Hapus data berdasarkan id
-        $bomData= $this->getBillOfMaterial($id);
+        $bomData = $this->getBillOfMaterialById($id);
 
-        if ($bomData->isEmpty()){
-            return response()->json(['message'=>'Data not found.'],404);
+        if ($bomData->isEmpty()) {
+            return response()->json(['message' => 'Data not found.'], 404);
         }
 
         return response()->json($bomData);
     }
 
-    private function getBillOfMaterial($id)
+    private function getBillOfMaterialById($id)
     {
-        return BillOfMaterial::where('id',$id)->get();
+        return BillOfMaterial::where('id', $id)->get();
     }
 
-    //fungsi untuk menghapus Bill of Material berdasarkan id
     public function deleteBillOfMaterial($id)
     {
-        //hapus data berdasarkan id
-        $deleted=DB::table('bill_of_material')->where('id',$id)->delete();
-        //response JSON 
-        if ($deleted){
-            return response()->json(['message'=> 'Bill of Material deleted successfully.'],200);
-        }else{
-            return response()->json(['message'=> 'Bill of Material not found.'],404);
+        $deleted = DB::table('bill_of_material')->where('id', $id)->delete();
+
+        if ($deleted) {
+            return response()->json(['message' => 'Bill of Material deleted successfully.'], 200);
+        } else {
+            return response()->json(['message' => 'Bill of Material not found.'], 404);
         }
     }
-    
-//     public function getBillOfMaterial()
-//         {
-//             $data = BillOfMaterial::getBillOfMaterial();
-//             return response()->json($data);
-//         }
 
-//     public function getBomDetail($id)
-//     {
-//         $bom = DB::table('bill_of_material')->where('id', $id)->first();
+    public function getBillOfMaterial()
+    {
+        $data = BillOfMaterial::getBillOfMaterial();
+        return response()->json($data);
+    }
 
-//         if (!$bom) {
-//             return abort(404, 'Bill of Material tidak ditemukan');
-//         }
+    public function getBomDetail($id)
+    {
+        $bom = DB::table('bill_of_material')->where('id', $id)->first();
 
-//         $details = DB::table('bom_detail')
-//             ->where('bom_id', $bom->bom_id)
-//             ->select('id', 'bom_id', 'sku', 'quantity', 'cost', 'created_at', 'updated_at')
-//             ->get();
+        if (!$bom) {
+            return abort(404, 'Bill of Material tidak ditemukan');
+        }
 
-//         return response()->json([
-//             'id'               => $bom->id,
-//             'bom_id'           => $bom->bom_id,
-//             'bom_name'         => $bom->bom_name,
-//             'measurement_unit' => $bom->measurement_unit,
-//             'total_cost'       => $bom->total_cost,
-//             'active'           => $bom->active,
-//             'created_at'       => $bom->created_at,
-//             'updated_at'       => $bom->updated_at,
-//             'details'          => $details,
-//         ]);
-//     }
-}   
+        $details = DB::table('bom_detail')
+            ->where('bom_id', $bom->bom_id)
+            ->select('id', 'bom_id', 'sku', 'quantity', 'cost', 'created_at', 'updated_at')
+            ->get();
+
+        return response()->json([
+            'id'               => $bom->id,
+            'bom_id'           => $bom->bom_id,
+            'bom_name'         => $bom->bom_name,
+            'measurement_unit' => $bom->measurement_unit,
+            'total_cost'       => $bom->total_cost,
+            'active'           => $bom->active,
+            'created_at'       => $bom->created_at,
+            'updated_at'       => $bom->updated_at,
+            'details'          => $details,
+        ]);
+    }
+}
