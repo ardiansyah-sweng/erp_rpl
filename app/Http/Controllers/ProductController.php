@@ -69,4 +69,14 @@ class ProductController extends Controller
         return view('product.list', compact('products'));
     }
 
+    public function getProductByCategory($product_category)
+    {
+        $products = Product::where('product_category', $product_category)->paginate(10);
+
+        // return JSON untuk sementara waktu untuk test file
+        // return response()->json($products);
+
+        return view('products.by_category', compact('products', 'product_category'));
+    }
+
 }
