@@ -8,18 +8,18 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class WarehouseTest extends TestCase
 {
-   // use RefreshDatabase;
+    use RefreshDatabase;
 
     #[\PHPUnit\Framework\Attributes\Test]
     public function test_add_warehouse_if_valid_data()
     {
         $data = [
-            'warehouse_name' => 'Gudang Utama',
-            'warehouse_address' => 'Jl. Industri No. 123',
+            'warehouse_name'      => 'Gudang Utama',
+            'warehouse_address'   => 'Jl. Industri No. 123',
             'warehouse_telephone' => '081234567890',
-            'is_rm_whouse' => true,
-            'is_fg_whouse' => false,
-            'is_active' => true,
+            'is_rm_whouse'        => true,
+            'is_fg_whouse'        => false,
+            'is_active'           => true,
         ];
 
         $warehouse = Warehouse::addWarehouse($data);
@@ -43,15 +43,15 @@ class WarehouseTest extends TestCase
     {
         // Arrange: Buat warehouse awal
         $warehouse = Warehouse::create([
-            'warehouse_name' => 'Gudang Lama',
-            'warehouse_address' => 'Jl. Raya No. 1',
+            'warehouse_name'     => 'Gudang Lama',
+            'warehouse_address'  => 'Jl. Raya No. 1',
             'warehouse_telephone' => '021-12345678',
         ]);
 
         // Act: Lakukan update
         $data = [
-            'warehouse_name' => 'Gudang Baru',
-            'warehouse_address' => 'Jl. Baru No. 2',
+            'warehouse_name'     => 'Gudang Baru',
+            'warehouse_address'  => 'Jl. Baru No. 2',
             'warehouse_telephone' => '021-87654321',
         ];
 
@@ -60,9 +60,9 @@ class WarehouseTest extends TestCase
         // Assert
         $this->assertTrue($result);
         $this->assertDatabaseHas('warehouse', [
-            'id' => $warehouse->id,
-            'warehouse_name' => 'Gudang Baru',
-            'warehouse_address' => 'Jl. Baru No. 2',
+            'id'                 => $warehouse->id,
+            'warehouse_name'     => 'Gudang Baru',
+            'warehouse_address'  => 'Jl. Baru No. 2',
             'warehouse_telephone' => '021-87654321',
         ]);
     }
@@ -76,17 +76,16 @@ class WarehouseTest extends TestCase
         // Assert
         $this->assertNull($warehouse);
     }
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function it_returns_paginated_warehouses()
+      public function it_returns_paginated_warehouses()
     {
         for ($i = 1; $i <= 15; $i++) {
             Warehouse::create([
-                'warehouse_name' => 'GudangBarang ' . $i,
-                'warehouse_address' => 'Alamat ' . $i,
+                'warehouse_name'      => 'GudangBarang ' . $i,
+                'warehouse_address'   => 'Alamat ' . $i,
                 'warehouse_telephone' => '0812345678' . str_pad($i, 2, '0', STR_PAD_LEFT),
-                'is_rm_whouse' => 0,
-                'is_fg_whouse' => 1,
-                'is_active' => 1,
+                'is_rm_whouse'        => 0,
+                'is_fg_whouse'        => 1,
+                'is_active'           => 1,
             ]);
         }
 

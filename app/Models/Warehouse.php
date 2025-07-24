@@ -103,5 +103,4 @@ class Warehouse extends Model
     {
         return self::orderBy('created_at', 'asc')->paginate(10);
     }
-
 }
