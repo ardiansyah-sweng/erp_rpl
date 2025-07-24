@@ -146,6 +146,8 @@ Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePu
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
 Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderController::class, 'sendMailPurchaseOrder'])->name('purchase_orders.send_email');
+Route::get('/purchase-orders/{po_number}/report-pdf', [PurchaseOrderController::class, 'printPurchaseOrderToPDFById'])
+    ->name('purchase-orders.report.pdf');
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);

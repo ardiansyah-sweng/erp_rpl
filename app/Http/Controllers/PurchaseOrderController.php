@@ -141,23 +141,17 @@ class PurchaseOrderController extends Controller
         }
     }
 
-    public function printPurchaseOrderToPDF($id)
-    {
-        // Ambil data purchase order berdasarkan po_number
-        $purchaseOrder = PurchaseOrder::where('po_number', $id)->first();
-
-        // Cek apakah data ditemukan
-        if (!$purchaseOrder) {
-        return redirect()->back()->with('error', 'Purchase Order tidak ditemukan.');
+     public function printPurchaseOrderToPDFById($po_number){
+        $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($po_number);
+        if (!$purchaseOrder){
+            return redirect()->back()->with('error', 'Purchase Order tidak ditemukan.');
         }
 
-        // Kirim data ke view PDF
-        $pdf = PDF::loadView('pdf.purchase_order', compact('purchaseOrder'));
+        if($purchaseOrder instanceof \Illuminate\Pagination\LengthAwarePaginator || $purchaseOrder instanceof \Illuminate\Support\Collection){
+            $purchaseOrder = $purchaseOrder->first();
+        }
 
-        // Nama file PDF
-        $fileName = 'PurchaseOrder_' . $purchaseOrder->po_number . '.pdf';
-
-        // Download PDF
-        return $pdf->download($fileName);
+        $pdf = pdf::loadView('purchase_orders.report', compact('purchaseOrder'));
+        return $pdf->download('PurchaseOrder_' . $po_number . '.pdf');
     }
 }
