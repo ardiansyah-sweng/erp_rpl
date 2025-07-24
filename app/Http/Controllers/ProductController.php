@@ -65,13 +65,7 @@ class ProductController extends Controller
 
     public function searchProduct($keyword)
     {
-        $products = Product::where('product_id', 'LIKE', "%{$keyword}%")
-            ->orWhere('product_name', 'LIKE', "%{$keyword}%")
-            ->orWhere('product_type', 'LIKE', "%{$keyword}%")
-            ->orWhereRaw('CAST(product_category AS CHAR) LIKE ?', ["%{$keyword}%"])
-            ->orWhere('product_description', 'LIKE', "%{$keyword}%")
-            ->paginate(10);
-
+        $products = Product::getProductByKeyword($keyword);
         return view('product.list', compact('products'));
     }
 

@@ -12,7 +12,7 @@ class AssortProductionController extends Controller
     public function getProduction()
     {
         $model = new AssortmentProduction();
-        $production = $model->getProduction();
+        $production = AssortmentProduction::paginate();
 
          return view('assortment_production.list', compact('production'));
     }
