@@ -109,7 +109,7 @@ Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduc
 
 
 
-#Product Update 
+#Product Update
 
 #Product Update
 
@@ -226,7 +226,7 @@ Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf'])
 Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'index']);
 
 # Warehouse
-Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById'])->name('warehouse.detail');
 Route::get('/warehouse/search', [WarehouseController::class, 'searchWarehouse'])->name('warehouse.search');
 Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
 Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
