@@ -276,3 +276,8 @@ Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 
 #Goods Receipt Note Controller
 Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'getGoodsReceiptNote']);
+
+#SupplierMaterialSearch
+Route::get('/supplier/material/search', [SupplierMaterialController::class, 'searchSupplierMaterial'])->name('supplier.material.search');
+Route::get('/supplier/material/search', [SupplierMaterialController::class, 'search']);
+Route::get('/supplier/material/search', [SupplierMaterialController::class, 'searchSupplierMaterial']);
