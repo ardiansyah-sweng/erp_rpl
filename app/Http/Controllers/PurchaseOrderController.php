@@ -111,22 +111,11 @@ class PurchaseOrderController extends Controller
     }
     public function getPurchaseOrderByStatus($status)
     {
-        $filtered = DB::table('purchase_order')
-                    ->where('status', $status)
-                    ->get();
+        $purchaseOrders = \App\Models\PurchaseOrder::where('status', $status)
+                                      ->latest('order_date')
+                                      ->paginate(10);
 
-        //data kosong
-        if ($filtered->isEmpty()) {
-            return response()->json([
-                'message' => 'No purchase orders found with status: ' . $status,
-            ], 404);
-        }
-
-        return response()->json([
-            'status' => $status,
-            'count' => $filtered->count(),
-            'data' => $filtered
-        ], 200);
+        return view('purchase_orders.list', compact('purchaseOrders', 'status'));
     }
     public function sendMailPurchaseOrder(Request $request)
     {
