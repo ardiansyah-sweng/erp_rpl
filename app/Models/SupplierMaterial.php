@@ -107,7 +107,6 @@ class SupplierMaterial extends Model
             ->where('supplier_id', $supplierId)
             ->count();
     }
-}
 
     public static function countSupplierMaterialByType($type, $supplierId)
     {

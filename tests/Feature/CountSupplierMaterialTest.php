@@ -20,9 +20,6 @@ class CountSupplierMaterialTest extends TestCase
         $this->assertIsInt($count, "Hasil count harus berupa integer.");
         $this->assertGreaterThanOrEqual(0, $count, "Hasil count minimal 0.");
     }
-}
-class CountSupplierMaterialTest extends TestCase
-{
     /** @test */
     public function testCountSupplierMaterialByType()
     {
