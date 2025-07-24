@@ -212,6 +212,7 @@ Route::get('/category/edit/{id}', [CategoryController::class, 'updateCategoryByI
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.update');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
+Route::get('/category/parent/{parentId}', [CategoryController::class, 'getCategoryByParent']);
 Route::get('/category', [CategoryController::class, 'getCategoryList'])->name('category.list');
 
 
