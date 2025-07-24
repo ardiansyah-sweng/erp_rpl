@@ -390,6 +390,81 @@
             <input type="text" id="productionSearch" class="form-control" style="width: 200px;">
           </div>
         </div>
+        <!-- Form Input Produksi dan Material -->
+        <div class="card p-4 mb-4 shadow-sm" style="max-width: 700px; margin: auto; border-radius: 16px; background: #fff;">
+          <form id="productionInputForm" class="mb-3">
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Nomor Produksi</label>
+                <input type="text" class="form-control" id="nomorProduksi" placeholder="">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">SKU</label>
+                <input type="text" class="form-control" id="sku" placeholder="">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Cabang</label>
+                <select class="form-select" id="cabang">
+                  <option value="">Pilih Cabang</option>
+                  <option value="A">Cabang A</option>
+                  <option value="B">Cabang B</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Gudang Finished Goods</label>
+                <input type="date" class="form-control" id="gudangFG">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Gudang Raw Material</label>
+                <select class="form-select" id="gudangRM">
+                  <option value="">Pilih Gudang</option>
+                  <option value="RM1">Gudang RM1</option>
+                  <option value="RM2">Gudang RM2</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Tanggal Produksi</label>
+                <input type="date" class="form-control" id="tanggalProduksi">
+              </div>
+            </div>
+          </form>
+          <div class="table-responsive mb-4">
+            <table id="materialTable" class="table table-bordered align-middle mb-0" style="border-radius: 8px; overflow: hidden;">
+              <thead class="table-light text-center">
+                <tr>
+                  <th>Nama Item</th>
+                  <th>Quantity</th>
+                  <th>Satuan</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Baris material akan ditambah lewat JS -->
+              </tbody>
+            </table>
+          </div>
+          <!-- Form Add Material -->
+          <form id="addMaterialForm" class="mb-4">
+            <div class="row g-2 mb-2">
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="materialName" placeholder="Nama Item" required>
+              </div>
+              <div class="col-md-3">
+                <input type="number" class="form-control" id="materialQty" placeholder="Quantity" min="1" required>
+              </div>
+              <div class="col-md-3">
+                <select class="form-select" id="materialUnit">
+                  <option value="PCS">PCS</option>
+                  <option value="KG">KG</option>
+                  <option value="L">L</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-success w-100">Tambah Material</button>
+              </div>
+            </div>
+          </form>
+        </div>
 
         <!-- Table -->
         <div class="table-responsive">
@@ -486,88 +561,6 @@
                         <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
                     </div>
                     </td>
-                </tr>
-                <tr>
-                    <td class="text-center">6</td>
-                    <td>PROD006</td>
-                    <td>Americano</td>
-                    <td>2025-06-06</td>
-                    <td>95</td>
-                    <td class="text-center">
-                    <span class="badge bg-warning text-dark">Proses</span>
-                    </td>
-                    <td class="text-center">
-                    <div class="d-flex justify-content-center gap-1 flex-wrap">
-                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
-                    </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">7</td>
-                    <td>PROD007</td>
-                    <td>Flat White</td>
-                    <td>2025-06-07</td>
-                    <td>85</td>
-                    <td class="text-center">
-                    <span class="badge bg-success">Selesai</span>
-                    </td>
-                    <td class="text-center">
-                    <div class="d-flex justify-content-center gap-1 flex-wrap">
-                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
-                    </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">8</td>
-                    <td>PROD008</td>
-                    <td>Macchiato</td>
-                    <td>2025-06-08</td>
-                    <td>75</td>
-                    <td class="text-center">
-                    <span class="badge bg-warning text-dark">Proses</span>
-                    </td>
-                    <td class="text-center">
-                    <div class="d-flex justify-content-center gap-1 flex-wrap">
-                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
-                    </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">9</td>
-                    <td>PROD009</td>
-                    <td>Chai Latte</td>
-                    <td>2025-06-09</td>
-                    <td>130</td>
-                    <td class="text-center">
-                    <span class="badge bg-success">Selesai</span>
-                    </td>
-                    <td class="text-center">
-                    <div class="d-flex justify-content-center gap-1 flex-wrap">
-                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
-                    </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">10</td>
-                    <td>PROD010</td>
-                    <td>Ice Coffee</td>
-                    <td>2025-06-10</td>
-                    <td>140</td>
-                    <td class="text-center">
-                    <span class="badge bg-success">Selesai</span>
-                    </td>
-                    <td class="text-center">
-                    <div class="d-flex justify-content-center gap-1 flex-wrap">
-                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
-                    </div>
-                    </td>
-                </tr>
-              <!-- End Static Data List -->
             </tbody>
           </table>
         </div>
@@ -900,6 +893,30 @@
     </script>
 
     <!--end::Script-->
+    <script>
+    // Script Add Material ke tabel
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('addMaterialForm');
+      const tableBody = document.querySelector('#materialTable tbody');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const name = document.getElementById('materialName').value;
+        const qty = document.getElementById('materialQty').value;
+        const unit = document.getElementById('materialUnit').value;
+        if (name && qty) {
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${name}</td><td>${qty}</td><td>${unit}</td><td><button type='button' class='btn btn-outline-danger btn-sm btn-hapus'>Hapus</button></td>`;
+          tableBody.appendChild(row);
+          form.reset();
+        }
+      });
+      tableBody.addEventListener('click', function (e) {
+        if (e.target.classList.contains('btn-hapus')) {
+          e.target.closest('tr').remove();
+        }
+      });
+    });
+    </script>
   </body>
   <!--end::Body-->
 </html>
