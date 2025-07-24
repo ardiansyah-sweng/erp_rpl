@@ -29,19 +29,19 @@ class SupplierController extends Controller
         return view('Supplier.detail', compact('sup'));
     }
 
-    public function searchSuppliers(Request $request)
+    public function getSupplier()
     {
-        $keywords = $request->input('keywords');
-
-    // Gunakan method yang sudah didefinisikan di model
-        $results = Supplier::getSupplierByKeywords($keywords);
+        $suppliers = Supplier::withCount([
+            'supplierPic as pic_count',
+            'purchaseOrder as po_count'
+        ])->get();
 
         return response()->json([
-            'status' => 'success',
-            'data' => $results
+            'status' => true,
+            'message' => 'List supplier berhasil diambil',
+            'data' => $suppliers
         ]);
     }
-
 
 }
 

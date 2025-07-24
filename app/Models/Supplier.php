@@ -43,15 +43,14 @@ class Supplier extends Model
         return self::create($data);
     }
 
-    public static function getSupplierByKeywords($keywords = null)
+    public function supplierPic()
     {
-            $query = self::query();
-
-            if (!empty($keywords)) {
-                $query->where('company_name', 'like', "%{$keywords}%");
-            }
-
-            return $query->get();
+        return $this->hasMany(SupplierPic::class);
     }
-    
+
+    public function purchaseOrder()
+    {
+        return $this->hasMany(PurchaseOrder::class);
+    }
+
 }
