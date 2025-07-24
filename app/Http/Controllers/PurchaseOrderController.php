@@ -140,4 +140,24 @@ class PurchaseOrderController extends Controller
             return response()->json(['error' => 'Server gagal mengirim email: ' . $e->getMessage()], 500);
         }
     }
+
+    public function printPurchaseOrderToPDF($id)
+    {
+        // Ambil data purchase order berdasarkan po_number
+        $purchaseOrder = PurchaseOrder::where('po_number', $id)->first();
+
+        // Cek apakah data ditemukan
+        if (!$purchaseOrder) {
+        return redirect()->back()->with('error', 'Purchase Order tidak ditemukan.');
+        }
+
+        // Kirim data ke view PDF
+        $pdf = PDF::loadView('pdf.purchase_order', compact('purchaseOrder'));
+
+        // Nama file PDF
+        $fileName = 'PurchaseOrder_' . $purchaseOrder->po_number . '.pdf';
+
+        // Download PDF
+        return $pdf->download($fileName);
+    }
 }
