@@ -372,6 +372,7 @@
         scrollbarAutoHide: 'leave',
         scrollbarClickScroll: true,
       };
+      
       document.addEventListener('DOMContentLoaded', function () {
         const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
         if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
