@@ -444,7 +444,13 @@
                                 <td>{{ $produksi->fg_whouse_id }}</td>
                                 <td>{{ $produksi->production_date}}</td>
                                 <td>{{ $produksi->finished_date ? "FInish" : "Null"}}</td>
-                                <td>{{ $produksi->in_production}}</td>
+                                <td>
+                                    @if($produksi->in_production == 1)
+                                        <span class="badge bg-success">Aktif</span>
+                                    @else
+                                        <span class="badge bg-secondary">NonAktif</span>
+                                    @endif
+                                </td>
                                 <td>{{ $produksi->description}}</td>
                                 <td>{{ $produksi->created_at }}</td>
                                 <td>{{ $produksi->updated_at }}</td>
