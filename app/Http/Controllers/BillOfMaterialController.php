@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\BillOfMaterialModel;
+use App\Models\BillOfMaterial;
 use Illuminate\Support\Facades\DB;
 
 class BillOfMaterialController extends Controller
@@ -19,11 +19,11 @@ class BillOfMaterialController extends Controller
         ]);
 
         // Generate bom_id dengan format BOM001, BOM002, dst.
-        $lastBom = BillOfMaterialModel::orderBy('id', 'desc')->first();
+        $lastBom = BillOfMaterial::orderBy('id', 'desc')->first();
         $nextId = $lastBom ? ((int)substr($lastBom->bom_id, -3) + 1) : 1;
         $validatedData['bom_id'] = 'BOM' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
 
-        BillOfMaterialModel::addBillOfMaterial($validatedData);
+        BillOfMaterial::addBillOfMaterial($validatedData);
 
         return redirect()->back()->with('success', 'Bill of Material berhasil ditambahkan!');
     }
@@ -32,7 +32,7 @@ class BillOfMaterialController extends Controller
     // Fungsi untuk menghapus Bill of Material berdasarkan id
     public function deleteBillOfMaterial($id)
     {
-        $deleted = BillOfMaterialModel::deleteBom($id); 
+        $deleted = BillOfMaterial::deleteBom($id); 
 
         if ($deleted) {
             return response()->json(['message' => 'Bill of Material deleted successfully.'], 200);
@@ -42,7 +42,7 @@ class BillOfMaterialController extends Controller
     }
     public function getBillOfMaterial()
         {
-            $data = BillOfMaterialModel::getBillOfMaterial();
+            $data = BillOfMaterial::getBillOfMaterial();
             return response()->json($data);
         }
 
@@ -74,7 +74,7 @@ class BillOfMaterialController extends Controller
     }
     public function searchBillOfMaterial($keyword = null)
     {
-        $data = BillOfMaterialModel::SearchOfBillMaterial($keyword);
+        $data = BillOfMaterial::SearchOfBillMaterial($keyword);
         return response()->json([
             'success' => true,
             'message' => 'Data Bill of Material berhasil ditemukan.',
