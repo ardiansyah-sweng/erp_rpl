@@ -125,4 +125,11 @@ class Product extends Model
                     ->paginate(10);
     }
 
+    public static function countProductByCategory()
+    {
+        return DB::table('products')
+            ->select('product_category', DB::raw('COUNT(*) as total'))
+            ->groupBy('product_category')
+            ->get();
+    }
 }
