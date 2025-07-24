@@ -207,4 +207,20 @@ class PurchaseOrder extends Model
         }
         return $pendingDeliveries;
     }
+
+    public static function getPurchaseOrderByStatus($status)
+    {
+        return self::where('status', $status)->get();
+    }
+    public static function getPurchaseOrderBySupplierId($supplierId = null)
+    {
+        $query = self::with('supplier');
+
+        if ($supplierId) {
+        $query->where('supplier_id', $supplierId);
+        }
+
+        return $query->get();
+    }
+
 }
