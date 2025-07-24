@@ -19,7 +19,7 @@ class Warehouse extends Model
         $this->fillable = array_values(config('db_constants.column.whouse') ?? []);
     }
 
-     public function getWarehouseById($id)
+    public function getWarehouseById($id)
     {
         return self::where('id', $id)->first();
     }
@@ -28,7 +28,7 @@ class Warehouse extends Model
         return self::count();
     }
 
-    public function updateWarehouse($id, $data)
+     public function updateWarehouse($id, $data)
     {
         $warehouse = $this->getWarehouseById($id);
 
