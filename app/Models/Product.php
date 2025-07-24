@@ -39,7 +39,7 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'product_category', 'id');
+        return $this->belongsTo(Category::class, config('db_constants.column.products.category', 'product_category'), config('db_constants.column.category.id', 'id'));
     }
 
     public static function getAllProducts()

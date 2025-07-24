@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Helpers\EncryptionHelper;
+use App\Enums\ProductType;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProductController extends Controller
 {
@@ -28,6 +30,26 @@ class ProductController extends Controller
 
     // $productData = $products[$id];
     // $productData['category'] = (object)$productData['category'];
+
+    public function printProductsByType($type)
+    {
+        $productType = ProductType::from($type);
+        $products = Product::where('product_type', $type)
+            ->withCount('items')
+            ->with(['category' => function($query) {
+                $query->select(['id', 'category', config('db_constants.column.category.id', 'id')]);
+            }])
+            ->select(['*'])
+            ->selectRaw('(SELECT COUNT(*) FROM item WHERE item.sku LIKE CONCAT(products.product_id, "%")) AS items_count')
+            ->get();
+        
+        $pdf = PDF::loadView('product.pdf.by-type', [
+            'products' => $products,
+            'type' => $productType->label()
+        ]);
+        
+        return $pdf->download('products-' . strtolower($type) . '.pdf');
+    }
     // $product = (object)$productData;
 
     // return view('product.detail', compact('product'));

@@ -382,6 +382,16 @@ use App\Helpers\EncryptionHelper;
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Produk</h3>
                 <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
+                <div class="dropdown ms-2">
+                  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Cetak PDF
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ route('products.print.by-type', 'FG') }}" target="_blank">Finished Goods</a></li>
+                    <li><a class="dropdown-item" href="{{ route('products.print.by-type', 'RM') }}" target="_blank">Raw Materials</a></li>
+                    <li><a class="dropdown-item" href="{{ route('products.print.by-type', 'HFG') }}" target="_blank">Half Finished Goods</a></li>
+                  </ul>
+                </div>
                 <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
               </div>
     
