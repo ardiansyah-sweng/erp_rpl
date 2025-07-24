@@ -19,7 +19,7 @@ class Warehouse extends Model
         $this->fillable = array_values(config('db_constants.column.whouse') ?? []);
     }
 
-    public function getWarehouseById($id)
+     public function getWarehouseById($id)
     {
         return self::where('id', $id)->first();
     }
