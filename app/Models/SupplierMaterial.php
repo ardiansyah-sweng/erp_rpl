@@ -98,15 +98,15 @@ class SupplierMaterial extends Model
             ->count();
     }
 
-
-
     public static function countSupplierMaterialByCategory($categoryId, $supplierId)
     {
-        
         return DB::table('supplier_product')
-            ->where('supplier_id', $supplierId)
+            ->join('products', 'supplier_product.product_id', '=', 'products.id')
+            ->where('supplier_product.supplier_id', $supplierId)
+            ->where('products.product_category', $categoryId) 
             ->count();
     }
+
 
     public static function countSupplierMaterialByType($type, $supplierId)
     {
