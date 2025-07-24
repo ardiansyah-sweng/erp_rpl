@@ -365,6 +365,28 @@
           <div class="row align-items-center">
             <div class="col-sm-6 d-flex align-items-center">
               <h3 class="mb-0 me-2">Item</h3>
+
+              <a href="{{ route('item.add') }} " class="btn btn-primary btn-sm">Tambah</a>
+              <a href="{{ route('item.report') }}" class="btn btn-primary btn-sm m-2"
+              ">
+                Cetak Item
+              </a>
+              <div class="btn-group">
+    <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Cetak PDF per Kategori
+    </button>
+    <ul class="dropdown-menu">
+        @foreach($categories as $category)
+            <li>
+                <a class="dropdown-item" href="{{ route('item.exportByCategory', ['productType' => $category]) }}">
+                    Cetak PDF {{ $category }}
+                </a>
+            </li>
+        @endforeach
+    </ul>
+</div>
+
+
               <a href="{{ route('item.add') }}" class="btn btn-primary btn-sm">Tambah</a>
               
               <!-- Dropdown button untuk opsi cetak PDF -->
@@ -381,6 +403,7 @@
                   <li><a class="dropdown-item" href="{{ url('/item/pdf/product/RM') }}">Raw Materials (RM)</a></li>
                 </ul>
               </div>
+
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-end">

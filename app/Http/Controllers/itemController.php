@@ -65,7 +65,10 @@ class ItemController extends Controller
     {
         $search = $request->input('search');
         $items = Item::getAllItems($search);
-        return view('item.list', compact('items'));
+
+        $categories = Item::getAllProductTypes(); // ambil kategori unik
+
+        return view('item.list', compact('items', 'categories'));
     }
 
     public function updateItem(Request $request, $id)
@@ -172,4 +175,5 @@ public function exportByProductTypeToPdf($productType)
 
         return $pdf->stream("item-kategori-{$categoryName}.pdf");
     }
+
 }

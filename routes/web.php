@@ -261,6 +261,9 @@ Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::cla
 
 Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
 
+#cetakitemberdasarkan category
+Route::get('/item/export/pdf/{productType}', [ItemController::class, 'exportByProductTypeToPdf'])->name('item.exportByCategory');
+
 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
