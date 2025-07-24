@@ -61,7 +61,7 @@ class MerkController extends Controller
 
     public function cetakPdf()
     {
-        $data = Merk::all();
+        $data = Merk::getAllMerk();
         $pdf = Pdf::loadView('merk.pdf', compact('data'))->setPaper('A4', 'portrait');
         return $pdf->stream('daftar-merk.pdf');
     }
