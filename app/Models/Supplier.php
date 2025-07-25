@@ -66,4 +66,17 @@ class Supplier extends Model
 
             return $query->get();
     }
+
+    public static function deleteSupplier($id)
+    {
+        $supplier = self::find($id);
+
+        if (!$supplier) {
+            return ['success' => false, 'message' => 'Supplier tidak ditemukan.'];
+        }
+
+        $supplier->delete();
+
+        return ['success' => true, 'message' => 'Supplier berhasil dihapus.'];
+    }
 }
