@@ -14,11 +14,13 @@ class WarehouseController extends Controller
     {
         $warehouse = (new Warehouse())->getWarehouseByID($id);
 
-        if (!$warehouse) {
+        if (!$warehouse)
+        {
             return abort(404, 'Warehouse tidak ditemukan');
         }
 
-        return response()->json($warehouse);
+        return view('warehouse.filled-form', compact('warehouse'));
+
     }
 
     public function countWarehouse()
