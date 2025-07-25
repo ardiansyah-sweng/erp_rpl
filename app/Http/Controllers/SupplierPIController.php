@@ -155,4 +155,26 @@ class SupplierPIController extends Controller
         return $pdf->stream('PIC-Supplier-Semua.pdf');
     }
 
+    public function cetakPdfBySupplierID($supplierID)
+    {
+        $pics = SupplierPic::getSupplierPIC($supplierID);
+        if ($pics->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada data PIC untuk supplier ini.');
+        }
+
+        $pics->load('supplier');
+        $supplier = $pics->first()->supplier;
+
+        // Debug
+        // dd($supplier, $pics);
+
+        $pdf = Pdf::loadView('supplier.pic.pdfpicbysupplier', [
+            'pics' => $pics,
+            'supplier' => $supplier,
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->stream('PIC-Supplier-' . $supplierID . '.pdf');
+    }
+
+
 }

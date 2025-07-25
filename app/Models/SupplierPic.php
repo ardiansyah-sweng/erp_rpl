@@ -114,4 +114,9 @@ class SupplierPic extends Model
             ];
         }
     }
+
+    public static function getSupplierPIC($supplierID)
+    {
+        return self::where('supplier_id', $supplierID)->get();
+    }
 }
