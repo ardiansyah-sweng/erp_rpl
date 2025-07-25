@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Item;
 use App\Helpers\EncryptionHelper;
 use App\Enums\ProductType;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -34,14 +35,11 @@ class ProductController extends Controller
     public function printProductsByType($type)
     {
         $productType = ProductType::from($type);
-        $products = Product::where('product_type', $type)
-            ->withCount('items')
-            ->with(['category' => function($query) {
-                $query->select(['id', 'category', config('db_constants.column.category.id', 'id')]);
-            }])
-            ->select(['*'])
-            ->selectRaw('(SELECT COUNT(*) FROM item WHERE item.sku LIKE CONCAT(products.product_id, "%")) AS items_count')
-            ->get();
+        $products = Product::getProductByType($type)
+            ->load(['category'])
+            ->each(function ($product) {
+                $product->items_count = Item::where('sku', 'LIKE', $product->product_id . '%')->count();
+            });
         
         $pdf = PDF::loadView('product.pdf.by-type', [
             'products' => $products,
