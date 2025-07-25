@@ -83,4 +83,3 @@ class BillOfMaterialController extends Controller
     }
 
 }
-
