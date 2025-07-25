@@ -41,10 +41,23 @@ class SupplierController extends Controller
             'data' => $results
         ]);
     }
+
     public function listSuppliers()
     {
         $suppliers = Supplier::all();
         return view('supplier.list', compact('suppliers'));
     }
+
+
+    public function deleteSupplierByID($id)
+    {
+        $result = Supplier::deleteSupplier($id);
+
+        return response()->json([
+            'status' => $result['success'] ? 'success' : 'error',
+            'message' => $result['message']
+        ], $result['success'] ? 200 : 404);
+    }
+
 }
 
