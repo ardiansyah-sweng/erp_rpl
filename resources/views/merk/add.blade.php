@@ -280,10 +280,9 @@
                         <button type="button" class="btn btn-primary" onclick="validateForm()">Simpan</button>
                         <button type="reset" class="btn btn-secondary">Batal</button>
                       </div>
-                      <div>
-                        <a href="{{ route('merk.cetak.pdf') }}" target="_blank" class="btn btn-danger" >
-                          <i class="bi bi-file-earmark-pdf"></i> Cetak PDF
-                        </a>
+                      <a href="{{ route('merk.cetak.pdf') }}" target="_blank" class="btn btn-danger" >
+                        <i class="bi bi-file-earmark-pdf"></i> Cetak PDF
+                      </a>
                     </div>
                   </form>
                 </div>
