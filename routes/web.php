@@ -99,6 +99,7 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
 })->name('purchase.orders.detail');
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
+    
  
 
 # supplier pic route nya
