@@ -151,7 +151,7 @@ class PurchaseOrderController extends Controller
         $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($id);
         
         if ($purchaseOrder->isEmpty()) {
-            return redirect()->back()->with('error', 'Purchase Order tidak ditemukan.');
+            return redirect()->back()->with('error', 'Purchase Order tidak ditemukan');
         }
         
         $data = [
