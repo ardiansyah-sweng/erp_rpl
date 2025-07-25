@@ -78,6 +78,7 @@ class SupplierMaterialController extends Controller
         $pdf = Pdf::loadView('supplier.material.pdf', compact('materials', 'supplierName', 'supplier_id'));
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
+
         public function getSupplierMaterialByProductType($supplier_id, $product_type)
     {
         // Validasi hanya menerima product_type tertentu
@@ -105,5 +106,6 @@ class SupplierMaterialController extends Controller
 
         return response()->json($results);
     }
+
 
 }
