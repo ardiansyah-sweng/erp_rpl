@@ -239,6 +239,8 @@ Route::get('/bom/list', function () {
     return view('bom/list');
 });
 
+Route::get('/bom/{id}', [BillOfMaterialController::class, 'show']);
+
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/assortment_production/detail', function () {

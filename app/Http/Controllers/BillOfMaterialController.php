@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\BillOfMaterialModel;
+use Illuminate\Support\Facades\DB;
+use App\Models\BillOfMaterial;
 
 class BillOfMaterialController extends Controller
 {
@@ -27,11 +28,25 @@ class BillOfMaterialController extends Controller
         return redirect()->back()->with('success', 'Bill of Material berhasil ditambahkan!');
     }
 
+    public function show($id)
+    {
+        $bomData = $this->getBillOfMaterialById($id);
 
-    // Fungsi untuk menghapus Bill of Material berdasarkan id
+        if ($bomData->isEmpty()) {
+            return response()->json(['message' => 'Data not found.'], 404);
+        }
+
+        return response()->json($bomData);
+    }
+
+    private function getBillOfMaterialById($id)
+    {
+        return BillOfMaterial::where('id', $id)->get();
+    }
+
     public function deleteBillOfMaterial($id)
     {
-        $deleted = BillOfMaterialModel::deleteBom($id); 
+        $deleted = DB::table('bill_of_material')->where('id', $id)->delete();
 
         if ($deleted) {
             return response()->json(['message' => 'Bill of Material deleted successfully.'], 200);
@@ -39,12 +54,12 @@ class BillOfMaterialController extends Controller
             return response()->json(['message' => 'Bill of Material not found.'], 404);
         }
     }
-    public function getBillOfMaterial()
-        {
-            $data = BillOfMaterial::getBillOfMaterial();
-            return response()->json($data);
-        }
 
+    public function getBillOfMaterial()
+    {
+        $data = BillOfMaterial::getBillOfMaterial();
+        return response()->json($data);
+    }
 
     public function getBomDetail($id)
     {
@@ -71,6 +86,4 @@ class BillOfMaterialController extends Controller
             'details'          => $details,
         ]);
     }
-
 }
-
