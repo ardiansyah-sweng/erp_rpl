@@ -17,6 +17,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
+use App\Models\SupplierPic;
 
 #Login
 Route::get('/', function () {
@@ -158,6 +159,8 @@ Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplier
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
 Route::get('/supplier/pic/list', [SupplierPIController::class, 'getSupplierPICAll'])->name('supplier-pic.list');
 Route::post('/supplier-pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])->name('supplier.pic.update');
+Route::get('/supplierPic/{supplier_id}', [SupplierPIController::class, 'getSupplierPIC']);
+Route::get('/supplierPic/pdf/{supplier_id}', [SupplierPIController::class, 'exportPdfBySupplierID'])->name('supplier.pic.pdf');
 
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
