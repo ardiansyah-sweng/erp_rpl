@@ -372,7 +372,7 @@
                     <!--begin::Row-->
                     <div class="row align-items-center">
                         <div class="col-sm-6 d-flex align-items-center">
-                            <h3 class="mb-0 me-2">produk</h3> 
+                            <h3 class="mb-0 me-2">Productions</h3> 
                             <a href="# " class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                         <div class="col-sm-6">
@@ -446,9 +446,9 @@
                                 <td>{{ $produksi->finished_date ? "FInish" : "Null"}}</td>
                                 <td>
                                     @if($produksi->in_production == 1)
-                                        <span class="badge bg-success">Aktif</span>
+                                        <span class="badge bg-success">YES</span>
                                     @else
-                                        <span class="badge bg-secondary">NonAktif</span>
+                                        <span class="badge bg-danger">NO</span>
                                     @endif
                                 </td>
                                 <td>{{ $produksi->description}}</td>
