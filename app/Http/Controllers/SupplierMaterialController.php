@@ -106,6 +106,28 @@ class SupplierMaterialController extends Controller
 
         return response()->json($results);
     }
+    
+    public function getByCategory(Request $request)
+    {
+        // Ambil parameter dari query string (?category=KAOS&supplier=SUP001)
+        $category = $request->input('category');
+        $supplier = $request->input('supplier');
 
+        // Validasi sederhana
+        if (!$category || !$supplier) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Kategori dan Supplier wajib diisi.'
+            ], 400);
+        }
+
+        // Panggil fungsi dari model
+        $data = SupplierMaterial::getSupplierMaterialByCategory($category, $supplier);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ]);
+    }
 
 }

@@ -121,5 +121,34 @@ class SupplierMaterial extends Model
             ->distinct('p.product_id')
             ->count(DB::raw('DISTINCT p.product_id'));
     }
+    public static function getSupplierMaterialByCategory($category, $supplier)
+{
+    return DB::table('supplier_product as sp')
+        // join ke tabel produk: ambil kode produk utama dari product_id seperti KAOS dari KAOS-xxx
+        ->join('products as p', DB::raw("LEFT(sp.product_id, LOCATE('-', sp.product_id) - 1)"), '=', 'p.product_id')
+        
+        // join ke tabel item berdasarkan product_id
+        ->join('item as i', 'sp.product_id', '=', 'i.sku')
+
+        // filter berdasarkan supplier dan kategori
+        ->where('sp.supplier_id', $supplier)
+        ->where('i.product_id', $category)
+
+        // pilih kolom yang relevan
+        ->select(
+            'sp.supplier_id',
+            'sp.company_name',
+            'sp.product_id',
+            'p.product_name',
+            'p.product_type',
+            'sp.base_price',
+            'i.item_name',
+            'i.product_id as category',
+            'i.sku',
+            'i.avg_base_price',
+            'i.selling_price'
+        )
+        ->get();
+}
 
 }

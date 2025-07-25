@@ -258,6 +258,7 @@ Route::delete('/assort-production/{id}', [AssortProductionController::class, 'de
 Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::class, 'cetakPDF']);
 
 Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
+Route::get('/supplier-material/category', [SupplierMaterialController::class, 'getByCategory']);
 
 
 #BillOfMaterial
