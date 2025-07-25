@@ -8,10 +8,11 @@ use Carbon\Carbon;
 
 class PurchaseOrderController extends Controller
 {
-    public function getPurchaseOrder()
+    public function getPurchaseOrder(Request $request)
     {
-        $purchaseOrders = PurchaseOrder::getAllPurchaseOrders();
-        return view('purchase_orders.list', compact('purchaseOrders'));
+        $status = $request->input('status');
+        $purchaseOrders = PurchaseOrder::getAllPurchaseOrders($status);
+        return view('purchase_orders.list', compact('purchaseOrders', 'status'));
     }
 
     public function getPurchaseOrderByID($po_number)
