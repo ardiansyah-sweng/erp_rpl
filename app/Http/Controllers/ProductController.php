@@ -18,7 +18,7 @@ class ProductController extends Controller
 
     public function generatePDF()
     {
-        $products = Product::getAllProducts();
+        $products = Product::with('category')->get();
 
         $pdf = Pdf::loadView('product.pdf', compact('products'));
 
