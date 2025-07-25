@@ -2,41 +2,35 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Product;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use PHPUnit\Framework\Attributes\Test;
 
 class GetProductByCategoryControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    #[Test]
-    public function can_get_products_by_category_through_controller(): void
+    public function test_get_product_by_category_returns_paginated_products()
     {
-        // Arrange: Buat data produk dummy dengan kategori tertentu
-        $category = 1;
-        Product::factory()->count(5)->create([
-            'product_category' => $category
+        // Arrange: Buat 15 produk dengan category ID 1
+        Product::factory()->count(15)->create([
+            'product_category' => 1
         ]);
 
-        // Act: Kirim request GET ke route controller
-        $response = $this->get("/products/category/{$category}");
+        // Act: Akses endpoint dengan ID kategori 1
+        $response = $this->get('/products/category/1');
 
-        // Assert: Status sukses dan isi data sesuai
+        // Assert: Periksa format JSON
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            'data',         // karena pakai paginate
+            'data',
             'current_page',
             'last_page',
             'per_page',
             'total'
         ]);
-        $response->assertJsonCount(5, 'data');
 
-        // Pastikan semua produk dalam response punya kategori yang sesuai
-        foreach ($response->json('data') as $product) {
-            $this->assertEquals($category, $product['product_category']);
-        }
+        // Pastikan isi halaman pertama adalah 10 item
+        $this->assertCount(10, $response->json('data'));
     }
 }

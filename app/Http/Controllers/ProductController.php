@@ -77,7 +77,7 @@ class ProductController extends Controller
 
     public function getProductByCategory($product_category)
     {
-        $products = Product::where('product_category', $product_category)->paginate(10);
+         $products = Product::getProductByCategory($product_category); // ← panggil langsung method model
 
         // return JSON untuk sementara waktu test file
         return response()->json($products);
