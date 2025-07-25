@@ -69,4 +69,14 @@ class ProductController extends Controller
         return view('product.list', compact('products'));
     }
 
+    public function getProductByCategory($product_category)
+    {
+         $products = Product::getProductByCategory($product_category); // ← panggil langsung method model
+
+        // return JSON untuk sementara waktu test file
+        return response()->json($products);
+
+        //return view('products.by_category', compact('products', 'product_category'));
+    }
+
 }
