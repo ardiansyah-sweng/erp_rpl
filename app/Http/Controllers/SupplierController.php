@@ -41,7 +41,10 @@ class SupplierController extends Controller
             'data' => $results
         ]);
     }
-
-
+    public function listSuppliers()
+    {
+        $suppliers = Supplier::all();
+        return view('supplier.list', compact('suppliers'));
+    }
 }
 
