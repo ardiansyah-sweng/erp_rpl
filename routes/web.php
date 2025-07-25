@@ -224,8 +224,6 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 #cetak semua pdf pic
 Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
 
-#Produksi
-Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'index']);
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
