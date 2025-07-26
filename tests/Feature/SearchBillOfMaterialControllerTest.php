@@ -8,8 +8,8 @@ class SearchBillOfMaterialControllerTest extends TestCase
 {
     public function test_search_bill_of_material_endpoint_returns_expected_data()
     {
-        // Gunakan keyword yang sudah ada di database
-        $keyword = 'debitis';
+        // Gunakan keyword sesuai data nyata di database
+        $keyword = 'BOM-BOM';
 
         // Kirim request ke endpoint pencarian
         $response = $this->get("/bill-of-material/search/{$keyword}");
@@ -40,17 +40,14 @@ class SearchBillOfMaterialControllerTest extends TestCase
             "bom_name tidak mengandung keyword '{$keyword}'"
         );
 
-        // Cek ulang dengan assertTrue jika perlu
+        // Validasi ulang secara eksplisit
         $found = collect($json['data']['data'])->contains(function ($item) use ($keyword) {
             return stripos($item['bom_name'], $keyword) !== false;
         });
 
         $this->assertTrue($found, "Tidak ditemukan bom_name yang mengandung keyword '{$keyword}'");
 
-        // Tampilkan pesan jika berhasil
-        echo "✅ Test pencarian BOM dengan keyword '{$keyword}' berhasil.\n";
-
-        // Pastikan struktur JSON hasil sesuai
+        // Validasi struktur JSON
         $response->assertJsonStructure([
             'success',
             'message',
