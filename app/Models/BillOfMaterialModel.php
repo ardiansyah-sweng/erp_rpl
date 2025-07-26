@@ -35,7 +35,8 @@ class BillOfMaterialModel extends Model
 
         return false;
     }
-public static function countBillOfMaterial()
+    
+    public static function countBillOfMaterial()
     {
         return self::count();
     }
