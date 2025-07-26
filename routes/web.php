@@ -275,3 +275,7 @@ Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 #Goods Receipt Note Controller
 Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'getGoodsReceiptNote']);
 
+#Get Product By Category Controller
+Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
+
+

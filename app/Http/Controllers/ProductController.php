@@ -68,5 +68,23 @@ class ProductController extends Controller
         $products = Product::getProductByKeyword($keyword);
         return view('product.list', compact('products'));
     }
+    public function getProductByCategory($product_category)
+    {
+        $products = Product::getProductByCategory($product_category);
+
+        // PERBAIKAN: cek apakah tidak ada data
+        if ($products->total() === 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak ada produk untuk kategori tersebut.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Produk berdasarkan kategori ditemukan.',
+            'data' => $products,
+        ]);
+    }
 
 }
