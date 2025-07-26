@@ -240,7 +240,7 @@ Route::get('/bom/list', function () {
     return view('bom/list');
 });
 
-Route::get('/bom/{id}', [BillOfMaterialController::class, 'show']);
+Route::get('/bom/{id}', [BillOfMaterialController::class, 'getBillOfMaterialById']);
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);

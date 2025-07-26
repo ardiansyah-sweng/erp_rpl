@@ -28,9 +28,9 @@ class BillOfMaterialController extends Controller
         return redirect()->back()->with('success', 'Bill of Material berhasil ditambahkan!');
     }
 
-    public function show($id)
+    public function getBillOfMaterialById($id)
     {
-        $bomData = $this->getBillOfMaterialById($id);
+        $bomData = BillOfMaterial::where('id', $id)->get();
 
         if ($bomData->isEmpty()) {
             return response()->json(['message' => 'Data not found.'], 404);
@@ -39,10 +39,6 @@ class BillOfMaterialController extends Controller
         return response()->json($bomData);
     }
 
-    private function getBillOfMaterialById($id)
-    {
-        return BillOfMaterial::where('id', $id)->get();
-    }
 
     public function deleteBillOfMaterial($id)
     {
