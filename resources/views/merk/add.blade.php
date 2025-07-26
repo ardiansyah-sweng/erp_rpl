@@ -275,9 +275,14 @@
             </div>
         </div>
                     
-                    <div class="card-footer">
-                      <button type="button" class="btn btn-primary" onclick="validateForm()">Simpan</button>
-                      <button type="reset" class="btn btn-secondary">Batal</button>
+                    <div class="card-footer d-flex justify-content-between">
+                      <div>
+                        <button type="button" class="btn btn-primary" onclick="validateForm()">Simpan</button>
+                        <button type="reset" class="btn btn-secondary">Batal</button>
+                      </div>
+                      <a href="{{ route('merk.cetak.pdf') }}" target="_blank" class="btn btn-danger" >
+                        <i class="bi bi-file-earmark-pdf"></i> Cetak PDF
+                      </a>
                     </div>
                   </form>
                 </div>

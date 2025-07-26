@@ -183,6 +183,7 @@ Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.add');
 Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
 Route::delete('/merk/delete/{id}', [MerkController::class, 'deleteMerk'])->name('merk.delete');
+Route::get('/merk/cetak-pdf', [MerkController::class, 'cetakPdf'])->name('merk.cetak.pdf');
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');

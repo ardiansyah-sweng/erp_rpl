@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Merk;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class MerkController extends Controller
 {
@@ -56,6 +57,13 @@ class MerkController extends Controller
         else {
         return redirect()->back()->with('error', 'Merk gagal dihapus.');
         }
+    }
+
+    public function cetakPdf()
+    {
+        $data = Merk::getAllMerk();
+        $pdf = Pdf::loadView('merk.pdf', compact('data'))->setPaper('A4', 'portrait');
+        return $pdf->stream('daftar-merk.pdf');
     }
 }
 
