@@ -390,7 +390,6 @@ use App\Helpers\EncryptionHelper;
                     <h2 class="card-title mb-0 me-2">Purchase Orders</h2>
                     <!-- <a href="{{ route('purchase_orders.add') }}" class="btn btn-primary btn-sm">Add</a> -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPurchaseOrderModal">  Add </button>
-                    <a class="btn btn-outline-dark ms-2" disabled> Total PO: {{ $totalPO }} </a>
                   </div>
 
                   <!-- Modal -->
