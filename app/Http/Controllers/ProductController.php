@@ -25,7 +25,7 @@ class ProductController extends Controller
             ->orderBy('created_at', 'desc');
 
         // Ambil semua data tanpa pagination
-        $products = $query->get(); // <= inilah bedanya
+        $products = Product::getAllProducts(); // <= inilah bedanya
 
         // Buat PDF dari view
         $pdf = Pdf::loadView('product.pdf', compact('products'));
