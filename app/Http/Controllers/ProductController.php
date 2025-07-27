@@ -18,11 +18,20 @@ class ProductController extends Controller
 
     public function generatePDF()
     {
-        $products = Product::with('category')->get();
+        // Panggil query dari getAllProducts()
+        $query = Product::withCount('items')
+            ->with('category')
+            ->selectRaw('(SELECT COUNT(*) FROM item WHERE item.sku LIKE CONCAT(products.product_id, "%")) AS items_count')
+            ->orderBy('created_at', 'desc');
 
+        // Ambil semua data tanpa pagination
+        $products = $query->get(); // <= inilah bedanya
+
+        // Buat PDF dari view
         $pdf = Pdf::loadView('product.pdf', compact('products'));
 
-        return $pdf->stream('daftar-produk.pdf');
+        // Tampilkan PDF di browser
+        return $pdf->stream('daftar_produk.pdf');
     }
 
 
