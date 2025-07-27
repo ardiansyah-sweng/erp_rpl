@@ -48,33 +48,7 @@ class WarehouseController extends Controller
 
     public function deleteWarehouse($id)
     {
-        $warehouse = Warehouse::find($id);
-
-        if (!$warehouse) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Warehouse tidak ditemukan.',
-            ]);
-        }      
-
-        $usedInAssortment = DB::table('assortment_production')
-            ->where('rm_whouse_id', $id)
-            ->orWhere('fg_whouse_id', $id)
-            ->exists();
-
-        if ($usedInAssortment) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Warehouse tidak dapat dihapus karena sedang digunakan di tabel assortment_production.',
-            ], 400);
-        }
-
-        $warehouse->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Warehouse berhasil dihapus.',
-        ]);
+        return (new Warehouse)->deleteWarehouse($id);
     }
 
       public function exportPdf(){
