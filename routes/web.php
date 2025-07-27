@@ -192,7 +192,7 @@ Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete'])->name('supplier.pic.delete');
-
+Route::get('/supplier/list', [SupplierController::class, 'listSuppliers'])->name('supplier.list');
 
 Route::get('/supplier/material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialById'])->name('supplier.material.detail');
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
@@ -265,6 +265,7 @@ Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'delet
 Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
 Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
 Route::get('/bill-of-material/{id}', [BillOfMaterialController::class, 'getBomDetail']);
+Route::get('/bill-of-material/search/{keyword?}', [BillOfMaterialController::class, 'searchBillOfMaterial']);
 
 #Goods Receipt Notes
 Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote']);
@@ -277,6 +278,9 @@ Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 
 //get suppierpicid
 Route::get('/supplier/{supplierID}/pic', [SupplierPIController::class, 'getSupplierPIC'])->name('supplier.pic.bySupplier');
+
+#Get Product By Category Controller
+Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
 
 
 

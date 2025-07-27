@@ -114,7 +114,6 @@ class SupplierPic extends Model
             ];
         }
     }
-    
     // method untuk menhitung jumlah Pic bedasarkan staus aktif
     public static function countSupplierPIC($supplier_id)
     {
@@ -132,5 +131,21 @@ class SupplierPic extends Model
         'inactive' => $inactive,
         'total' => $total,
     ];
+    public static function searchSupplierPic($keywords = null)
+    {
+        // Eager load relasi 'supplier' untuk akses company_name
+        $query = self::with('supplier');
+
+        if ($keywords) {
+            $query->where('supplier_id', 'LIKE', "%{$keywords}%")
+                  ->orWhere('name', 'LIKE', "%{$keywords}%")
+                  ->orWhere('phone_number', 'LIKE', "%{$keywords}%")
+                  ->orWhere('email', 'LIKE', "%{$keywords}%")
+                  ->orWhere('assigned_date', 'LIKE', "%{$keywords}%")
+                  ->orWhere('created_at', 'LIKE', "%{$keywords}%")
+                  ->orWhere('updated_at', 'LIKE', "%{$keywords}%");
+        }
+
+        return $query->orderBy('created_at', 'asc')->paginate(10);
     }
 }

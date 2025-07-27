@@ -42,6 +42,13 @@ class SupplierController extends Controller
         ]);
     }
 
+    public function listSuppliers()
+    {
+        $suppliers = Supplier::all();
+        return view('supplier.list', compact('suppliers'));
+    }
+
+
     public function deleteSupplierByID($id)
     {
         $result = Supplier::deleteSupplier($id);
