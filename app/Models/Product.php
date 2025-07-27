@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\HasDynamicColumns;
 use Illuminate\Support\Facades\DB;
 use App\Models\Item;
@@ -11,7 +12,7 @@ use App\Enums\ProductType;
 
 class Product extends Model
 {
-    use HasDynamicColumns;
+    use HasFactory, HasDynamicColumns;
 
     protected $table = 'products';
     protected $fillable = [
@@ -22,6 +23,10 @@ class Product extends Model
         'product_description',
         'created_at',
         'updated_at',
+    ];
+
+    protected $casts = [
+    'product_type' => \App\Enums\ProductType::class,
     ];
 
     public function __construct(array $attributes = [])
@@ -39,7 +44,7 @@ class Product extends Model
 
     public static function getAllProducts()
     {
-        return self::with('category')->orderBy('created_at', 'desc')->paginate(10);
+        return self::withCount('items')->with('category')->selectRaw('(SELECT COUNT(*) FROM item WHERE item.sku LIKE CONCAT(products.product_id, "%")) AS items_count')->orderBy('created_at', 'desc')->paginate(10);
     }
 
     public function getSKURawMaterialItem()
@@ -58,14 +63,73 @@ class Product extends Model
         return self::count();
     }
 
-
     public static function addProduct($data)
     {
         return self::create($data);
     }
 
     public function getProductById($id) {
-        return self::where('id', $id)->first();
+        return self::where('product_id', $id)->first();
     }    
 
+    public static function countProductByProductType($shortType)
+    {
+        $colProduct = config('db_constants.column.products');
+
+        return self::where($colProduct['type'], $shortType)->count();
+    }
+
+    public static function getProductByType($type)
+    {
+         return self::where('product_type', $type)->get();
+    }
+    
+    public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
+    {
+        $product = self::find($id);
+        if (!$product) {
+            return null;
+        }
+        $product->update($data);
+
+        return $product;
+    }
+
+    public function items()
+    {
+        $tableItem = config('db_constants.table.item');
+        $colItem = config('db_constants.column.item');
+        $colProduct = config('db_constants.column.products');
+
+        return $this->hasMany(Item::class, 'sku', 'product_id');
+    }
+
+    public static function getProductByKeyword($keywords = null)
+    {
+        $query = self::query();
+
+        if ($keywords) {
+            $query->where('product_id', 'LIKE', "%{$keywords}%")
+                  ->orWhere('product_name', 'LIKE', "%{$keywords}%")
+                  ->orWhere('product_type', 'LIKE', "%{$keywords}%")
+                  ->orWhere('product_category', 'LIKE', "%{$keywords}%")
+                  ->orWhere('product_description', 'LIKE', "%{$keywords}%");
+        }
+
+        return $query->orderBy('created_at', 'asc')->paginate(10);
+    }
+
+    public static function getProductByCategory($product_category)
+    {
+        return self::where('product_category', $product_category)
+                    ->paginate(10);
+    }
+
+    public static function countProductByCategory()
+    {
+        return DB::table('products')
+            ->select('product_category', DB::raw('COUNT(*) as total'))
+            ->groupBy('product_category')
+            ->get();
+    }
 }

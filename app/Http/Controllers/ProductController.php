@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Helpers\EncryptionHelper;
 
 class ProductController extends Controller
 {
@@ -15,7 +16,8 @@ class ProductController extends Controller
 
     public function getProductById($id)
     {
-        $product = (new Product())->getProductById($id);
+        $productId = EncryptionHelper::decrypt($id);
+        $product = (new Product())->getProductById($productId);
 
         if (!$product) {
             return abort(404, 'Product tidak ditemukan');
@@ -45,6 +47,44 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
+    public function updateProduct(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'product_name' => 'required|string|max:35',
+            'product_type' =>  'required|string|max:12',
+            'product_category' => 'required|integer',
+            'product_description' => 'nullable|string|max:255',
+        ]);
 
+        $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
+
+        return $Updateproduct;
+    }
+
+
+    public function searchProduct($keyword)
+    {
+        $products = Product::getProductByKeyword($keyword);
+        return view('product.list', compact('products'));
+    }
+    public function getProductByCategory($product_category)
+    {
+        $products = Product::getProductByCategory($product_category);
+
+        // PERBAIKAN: cek apakah tidak ada data
+        if ($products->total() === 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak ada produk untuk kategori tersebut.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Produk berdasarkan kategori ditemukan.',
+            'data' => $products,
+        ]);
+    }
 
 }
