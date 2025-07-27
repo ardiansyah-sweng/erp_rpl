@@ -18,12 +18,6 @@ class ProductController extends Controller
 
     public function generatePDF()
     {
-        // Panggil query dari getAllProducts()
-        $query = Product::withCount('items')
-            ->with('category')
-            ->selectRaw('(SELECT COUNT(*) FROM item WHERE item.sku LIKE CONCAT(products.product_id, "%")) AS items_count')
-            ->orderBy('created_at', 'desc');
-
         // Ambil semua data tanpa pagination
         $products = Product::getAllProducts(); // <= inilah bedanya
 
