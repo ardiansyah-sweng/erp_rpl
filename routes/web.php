@@ -105,6 +105,7 @@ Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
+Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('product.pdf');
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
 
 
