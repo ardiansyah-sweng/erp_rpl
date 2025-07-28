@@ -3,79 +3,35 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Faker\Factory as Faker;
-use App\Models\SupplierMaterial;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class GetSupplierMaterialByProductTypeTest extends TestCase
 {
-    protected $faker;
-    protected $testProductId;
-    protected $supplierId;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->faker = Faker::create();
-
-        //  Gunakan ID maksimal 6 karakter
-        $this->testProductId = 'RM' . rand(10, 99); // contoh: RM45
-        $this->supplierId = rand(1000, 9999);
-
-        DB::table('products')->insert([
-            'product_id' => $this->testProductId,
-            'product_name' => $this->faker->word,
-            'product_type' => 'RM',
-            'product_category' => $this->faker->numberBetween(1, 9),
-            'product_description' => $this->faker->sentence, 
-        ]);
-
-        DB::table('item')->insert([
-            'product_id'       => $this->testProductId,
-            'item_name'        => $this->faker->word,
-            'measurement_unit' => 'kg',
-            'stock_unit'       => $this->faker->numberBetween(1, 100),
-            'sku'              => $this->faker->unique()->bothify('SKU-####'), 
-        ]);
-
-
-        DB::table('supplier_product')->insert([
-            'supplier_id'   => $this->supplierId, 
-            'company_name'  => $this->faker->company,
-            'product_id'    => $this->testProductId,
-            'product_name'  => $this->faker->words(2, true),
-            'base_price'    => $this->faker->numberBetween(1000, 10000),
-        ]);
-
-
-    }
-
-    protected function tearDown(): void
-    {
-        DB::table('supplier_product')->where('product_id', $this->testProductId)->delete();
-        DB::table('item')->where('product_id', $this->testProductId)->delete();
-        DB::table('products')->where('product_id', $this->testProductId)->delete();
-
-        parent::tearDown();
-    }
+    use WithoutMiddleware;
 
     public function test_get_data_with_valid_product_type()
     {
-        $model = new SupplierMaterial();
-        $results = $model->getSupplierMaterialByProductType($this->supplierId, 'RM');
+        $supplier_id = 'SUP001'; // Ganti sesuai ID supplier yang ada di DB kamu
+        $product_type = 'FG'; // 'RM' atau 'HFG' jika tidak ada 'FG'
 
-        $this->assertNotEmpty($results);
-        $this->assertEquals($this->testProductId, $results[0]->product_id);
-        $this->assertEquals($this->supplierId, $results[0]->supplier_id);
+        $response = $this->getJson("/supplier-material/{$supplier_id}/{$product_type}");
+
+        $response->assertStatus(200);
+
+        // Pastikan respon berupa array JSON
+        $this->assertIsArray($response->json());
     }
 
-    public function test_get_data_with_invalid_product_type_returns_empty()
+    public function test_get_data_with_invalid_product_type_returns_400()
     {
-        $model = new SupplierMaterial();
-        $results = $model->getSupplierMaterialByProductType($this->supplierId, 'INVALID');
+        $supplier_id = 1;
+        $invalidProductType = 'ABC';
 
-        $this->assertTrue($results->isEmpty());
+        $response = $this->getJson("/supplier-material/{$supplier_id}/{$invalidProductType}");
+
+        $response->assertStatus(400);
+        $response->assertJson([
+            'error' => 'Invalid product type',
+        ]);
     }
 }
