@@ -137,4 +137,11 @@ class Item extends Model
             ->get();
     }
 
+     public static function countItemByCategory($category)
+    {
+    return DB::table('products')
+        ->where('product_category', $category)
+        ->count();
+    }
+
 }
