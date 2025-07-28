@@ -122,7 +122,7 @@ class SupplierMaterial extends Model
             ->count(DB::raw('DISTINCT p.product_id'));
     }
     
-        public static function getSupplierMaterialByCategory($category, $supplier)
+    public static function getSupplierMaterialByCategory($category, $supplier)
     {
         return DB::table('supplier_product as sp')
             // join ke tabel produk: ambil kode produk utama dari product_id seperti KAOS dari KAOS-xxx
