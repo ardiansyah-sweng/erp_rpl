@@ -38,4 +38,10 @@ class SupplierPICModel extends Model
                     ->paginate(10);
     }
 
+    public static function countSupplierPIC($supplierID)
+    {
+        return self::where('supplier_id', $supplierID)->count();
+    }
+    
+
 }
