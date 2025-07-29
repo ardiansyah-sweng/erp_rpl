@@ -33,42 +33,52 @@ class BillOfMaterialModelTest extends TestCase
         $this->assertDatabaseMissing('bill_of_material', ['id' => $id]);
     }
 
+    #[Test]
+    public function it_returns_false_if_bom_not_found()
+    {
+        $deleted = BillOfMaterialModel::deleteBom(999999); // ID fiktif
+        $this->assertFalse($deleted);
+    }
+
     //test getBomDetail($id)
     #[Test]
-public function it_can_return_bom_detail_data()
-{
-    $bomId = 'BOM' . mt_rand(1000, 9999);
+    public function it_can_return_bom_detail_data()
+    {
+        $bomId = 'BOM' . mt_rand(1000, 9999);
 
-    $id = DB::table('bill_of_material')->insertGetId([
-        'bom_id' => $bomId,
-        'bom_name' => 'Model Detail Test',
-        'measurement_unit' => '1',
-        'total_cost' => 5000,
-        'active' => 1,
-        'created_at' => now(),
-        'updated_at' => now(),
-    ]);
+        $id = DB::table('bill_of_material')->insertGetId([
+            'bom_id' => $bomId,
+            'bom_name' => 'Model Detail Test',
+            'measurement_unit' => '1',
+            'total_cost' => 5000,
+            'active' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-    DB::table('bom_detail')->insert([
-        'bom_id' => $bomId,
-        'sku' => 'SKU001',
-        'quantity' => 2,
-        'cost' => 2500,
-        'created_at' => now(),
-        'updated_at' => now(),
-    ]);
+        DB::table('bom_detail')->insert([
+            'bom_id' => $bomId,
+            'sku' => 'SKU001',
+            'quantity' => 2,
+            'cost' => 2500,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-    $result = BillOfMaterialModel::getBomDetail($id);
+        $result = BillOfMaterialModel::getBomDetail($id);
 
-    $this->assertNotNull($result);
-    $this->assertEquals($bomId, $result['bom_id']);
-    $this->assertEquals('Model Detail Test', $result['bom_name']);
+        $this->assertNotNull($result);
+        $this->assertEquals($bomId, $result['bom_id']);
+        $this->assertEquals('Model Detail Test', $result['bom_name']);
 
-    $this->assertInstanceOf(\Illuminate\Support\Collection::class, $result['details']);
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $result['details']);
 
-    $this->assertCount(1, $result['details']);
-    $this->assertEquals('SKU001', $result['details'][0]->sku);
+        $this->assertCount(1, $result['details']);
+        $this->assertEquals('SKU001', $result['details'][0]->sku);
+    }
+
 }
 
-}
+
+
 

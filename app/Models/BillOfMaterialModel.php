@@ -43,6 +43,7 @@ class BillOfMaterialModel extends Model
         return self::count();
     }
 
+    
     public static function getBomDetail($id)
     {
         $bom = DB::table('bill_of_material')->where('id', $id)->first();

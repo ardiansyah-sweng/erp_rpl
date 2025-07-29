@@ -46,7 +46,6 @@ class BillOfMaterialController extends Controller
             return response()->json($data);
         }
 
-
     public function getBomDetail($id)
     {
         $bom = BillOfMaterialModel::getBomDetail($id);
