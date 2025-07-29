@@ -501,7 +501,6 @@
       @endif
           </div>
         </div>
-<<<<<<< HEAD:resources/views/productions/index.blade.php
         <!-- Form Input Produksi dan Material -->
         <div class="card p-4 mb-4 shadow-sm" style="max-width: 700px; margin: auto; border-radius: 16px; background: #fff;">
           <form id="productionInputForm" class="mb-3">
