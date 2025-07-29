@@ -34,6 +34,7 @@ public static function getWarehouseAll()
     }
 
     public function updateWarehouse($id, $data)
+     public function updateWarehouse($id, $data)
     {
         $warehouse = $this->getWarehouseById($id);
 
@@ -81,6 +82,26 @@ public static function getWarehouseAll()
         return response()->json([
             'success' => true,
             'message' => 'Warehouse berhasil dihapus.',
+        ]);
+    }
+
+    public static function addWarehouse($data)
+    {
+        if (empty($data)) {
+            throw new \Exception('Data tidak boleh kosong.');
+        }
+
+        if (is_object($data)) {
+            $data = (array) $data;
+        }
+
+        return self::create([
+            'warehouse_name' => $data['warehouse_name'],
+            'warehouse_address' => $data['warehouse_address'],
+            'warehouse_telephone' => $data['warehouse_telephone'],
+            'is_rm_whouse' => $data['is_rm_whouse'],
+            'is_fg_whouse' => $data['is_fg_whouse'],
+            'is_active' => $data['is_active'],
         ]);
     }
 }

@@ -120,6 +120,56 @@ class ItemController extends Controller
     return view('item.list', compact('items'));
     }
 
+// Fungsi cetak pdf pada controllernya
+public function exportByProductTypeToPdf($productType)
+{
+    $items = Item::getItemByType($productType);
 
+    if (empty($items) || count($items) === 0) {
+        return redirect()->back()->with('error', 'Tidak ada item dengan product type tersebut.');
+    }
 
+    // --- Perubahan dimulai di sini ---
+    $displayProductType = $productType; // Inisialisasi dengan nilai asli
+    switch (strtoupper($productType)) {
+        case 'RM':
+            $displayProductType = 'Raw Material';
+            break;
+        case 'FG':
+            $displayProductType = 'Finished Goods';
+            break;
+        case 'HFG':
+            $displayProductType = 'Half-Finished Goods'; // Atau 'Semi-Finished Goods'
+            break;
+        // Anda bisa menambahkan case lain jika ada singkatan product type lain
+    }
+    // --- Perubahan berakhir di sini ---
+
+    $pdf = Pdf::loadView('item.pdf_by_product', [
+        'items' => $items,
+        'productType' => $displayProductType, // Menggunakan variabel baru untuk tampilan
+    ])->setPaper('A4', 'portrait');
+
+    // Nama file PDF tetap bisa menggunakan singkatan asli jika diinginkan untuk identifikasi
+    return $pdf->stream("Item_berdasarkan_product_type_{$productType}.pdf");
+}
+
+    public function exportItemByCategoryToPdf($categoryId)
+    {
+        $items = Item::getItemByCategory($categoryId);
+
+        if ($items->isEmpty()) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan untuk kategori ini.');
+        }
+
+        // Ambil nama kategori dari item pertama (karena semua dari 1 kategori)
+        $categoryName = $items->first()->category_name ?? 'Kategori Tidak Dikenal';
+
+        $pdf = Pdf::loadView('item.report_by_category', [
+            'items' => $items,
+            'categoryName' => $categoryName,
+        ]);
+
+        return $pdf->stream("item-kategori-{$categoryName}.pdf");
+    }
 }
