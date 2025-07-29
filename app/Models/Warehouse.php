@@ -99,4 +99,8 @@ class Warehouse extends Model
             'is_active' => $data['is_active'],
         ]);
     }
+    public static function getWarehouseAll()
+    {
+        return self::orderBy('created_at', 'asc')->paginate(10);
+    }
 }
