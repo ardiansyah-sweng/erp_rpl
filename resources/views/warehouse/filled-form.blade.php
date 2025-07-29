@@ -3,7 +3,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Supplier List</title>
+    <title>ERP RPL UAD | Filled Form Warehouse</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -288,106 +288,217 @@
           <nav class="mt-2">
             <!--begin::Sidebar Menu-->
             <ul
-              class="nav sidebar-menu flex-column"
-              data-lte-toggle="treeview"
-              role="menu"
-              data-accordion="false"
-            >
-              <li class="nav-item">
+            class="nav sidebar-menu flex-column"
+            data-lte-toggle="treeview"
+            role="menu"
+            data-accordion="false">
+                <li class="nav-item">
                 <a href="dashboard" class="nav-link active">
-                  <i class="nav-icon bi bi-speedometer"></i>
-                  <p>
+                    <i class="nav-icon bi bi-speedometer"></i>
+                    <p>
                     Dashboard
-                  </p>
+                    </p>
                 </a>
-              </li>
-              <li class="nav-item">
-              <a href="{{ route('product.list') }}" class="nav-link">
-                  <i class="nav-icon bi bi-box-seam-fill"></i>
-                  <p>Produk</p>
+                </li>
+                <li class="nav-item">
+                <a href="{{ route('product.list') }}" class="nav-link">
+                    <i class="nav-icon bi bi-box-seam-fill"></i>
+                    <p>Produk</p>
                 </a>
-              </li>
-              <li class="nav-item">
+                </li>
+                <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-person-circle"></i>
-                  <p>
+                    <i class="nav-icon bi bi-person-circle"></i>
+                    <p>
                     Supplier
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
+                    </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="./widgets/small-box.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Small Box</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
+                    <li class="nav-item">
                     <a href="/supplier/pic/add" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Tambah PIC supplier</p>
+                        <i class="nav-icon bi bi-circle"></i>
+                        <p>Tambah PIC supplier</p>
                     </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./widgets/cards.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Cards</p>
+                    </li>
+                    <li class="nav-item">
+                    <a href="/supplier/material/add" class="nav-link">
+                        <i class="nav-icon bi bi-circle"></i>
+                        <p>Tambah Supplier Item</p>
                     </a>
-                  </li>
+                    </li>
+                    <li class="nav-item">
+                    <a href="/supplier/add" class="nav-link">
+                        <i class="nav-icon bi bi-circle"></i>
+                        <p>Tambah Supplier</p>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a href="/supplier/material/list" class="nav-link">
+                        <i class="nav-icon bi bi-circle"></i>
+                        <p>Supplier Material</p>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a href="/supplier/pic/list" class="nav-link">
+                        <i class="nav-icon bi bi-circle"></i>
+                        <p>List PIC Supplier</p>
+                    <a href="/supplier/list" class="nav-link">
+                        <i class="nav-icon bi bi-circle"></i>
+                        <p>List Supplier</p>
+                    </a>
+                    </li>
                 </ul>
-              </li>
-              <li class="nav-item">
+                </li>
+                <li class="nav-item">
                 <a href="{{ route('purchase.orders') }}" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
+                    <i class="nav-icon bi bi-clipboard-fill"></i>
+                    <p>
                     Purchase Orders
-                  </p>
-                </a>                
-              </li>
-              <li class="nav-item">
+                    </p>
+                </a>
+                </li>
+                <li class="nav-item">
                 <a href="{{ route('branch.list') }}" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
+                    <i class="nav-icon bi bi-clipboard-fill"></i>
+                    <p>
                     Branch
-                  </p>
-                </a>                
-              </li>
-              <li class="nav-item">
-              <a href="{{ route('item.list') }}" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
-                      <p>Item</p>
+                    </p>
+                </a>
+                </li>
+                <li class="nav-item">
+                <a href="{{ route('item.list') }}" class="nav-link">
+                    <i class="nav-icon bi bi-clipboard-fill"></i>
+                    <p>
+                    Item
+                    </p>
+                </a>
+                </li>
+                <li class="nav-item">
+                <a href="{{ route('category.list') }}" class="nav-link">
+                    <i class="nav-icon bi bi-clipboard-fill"></i>
+                    <p>
+                    category product
+                    </p>
+                </a>
+                </li>
+                <li class="nav-item"><!--Tambah Bill Of Material-->
+                <a href="#" class="nav-link">
+                    <i class="nav-icon bi bi-clipboard-fill"></i>
+                    <p>
+                    Production
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <a href="/bom/list" class="nav-link">
+                        <i class="nav-icon bi bi-circle"></i>
+                        <p>Bill Of Material</p>
                     </a>
-                  </li>
+                    </li>
+                </ul>
+
+                </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
         </div>
         <!--end::Sidebar Wrapper-->
       </aside>
-
-<main class="content-wrapper">
-  <div class="container-fluid">
-    <div class="mb-4">
-      <h1 class="h3 fw-bold mb-2">Productions</h1>
-      <a href="#" class="btn btn-primary btn-sm">New Production</a>
-    </div>
-
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <!-- Filter & Search -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <div class="d-flex align-items-center">
-            <span>Show</span>
-            <select id="pageLength" class="form-select mx-2" style="width: auto;">
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-            </select>
-            <span>entries</span>
+      <!--end::Sidebar-->
+      <!--begin::App Main-->
+      <main class="app-main">
+        <!--begin::App Content Header-->
+        <div class="app-content-header">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+              <div class="col-sm-6"><h3 class="mb-0">Filled Form Warehouse</h3></div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Edit Warehouse</li>
+                </ol>
+              </div>
+            </div>
+            <!--end::Row-->
           </div>
-          <div class="d-flex align-items-center">
-            <span class="me-2">Search:</span>
-            <input type="text" id="productionSearch" class="form-control" style="width: 200px;">
+          <!--end::Container-->
+        </div>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+                <div class="container">
+                <!-- Filled Form Supplier -->
+                 @if(session('success'))
+        <div class="alert alert-success">
+          {{ session('success') }}
+        </div>
+      @endif
+
+      @if(isset($error))
+        <div class="alert alert-danger">
+            {{ $error }}
+        </div>
+      @endif
+      @if($warehouse)
+        <form method="POST" action="#">
+            @csrf
+            @method('PUT')
+
+            <div class="mb-3">
+                <label class="form-label">ID Warehouse</label>
+                <input type="text" class="form-control" value="{{ $warehouse->id }}" disabled>
+                <input type="hidden" name="warehouse_id" value="{{ $warehouse->id }}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Nama Gudang</label>
+                <input type="text" name="warehouse_name" class="form-control" value="{{ old('warehouse_name', $warehouse->warehouse_name) }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Alamat Gudang</label>
+                <input type="text" name="warehouse_address" class="form-control" value="{{ old('warehouse_address', $warehouse->warehouse_address) }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">No. Telepon Gudang</label>
+                <input type="text" name="warehouse_telephone" class="form-control" value="{{ old('warehouse_telephone', $warehouse->warehouse_telephone) }}" required>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3 form-check">
+                        <input type="hidden" name="is_rm_whouse" value="0">
+                        <input type="checkbox" name="is_rm_whouse" id="is_rm_whouse" class="form-check-input" value="1" {{ old('is_rm_whouse', $warehouse->is_rm_whouse) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_rm_whouse">Gudang Bahan Baku (RM)</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3 form-check">
+                        <input type="hidden" name="is_fg_whouse" value="0">
+                        <input type="checkbox" name="is_fg_whouse" id="is_fg_whouse" class="form-check-input" value="1" {{ old('is_fg_whouse', $warehouse->is_fg_whouse) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_fg_whouse">Gudang Barang Jadi (FG)</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3 form-check">
+                        <input type="hidden" name="is_active" value="0">
+                        <input type="checkbox" name="is_active" id="is_active" class="form-check-input" value="1" {{ old('is_active', $warehouse->is_active) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_active">Aktif</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="{{ url()->current() }}" class="btn btn-secondary">Batal</a>
+        </form>
+      @endif
           </div>
         </div>
         <!-- Form Input Produksi dan Material -->
@@ -600,9 +711,11 @@
 <!--begin::Footer-->
 <footer class="app-footer">
         <!--begin::To the end-->
+
+      </main>
+      <footer class="app-footer">
+
         <div class="float-end d-none d-sm-inline">Anything you want</div>
-        <!--end::To the end-->
-        <!--begin::Copyright-->
         <strong>
           Copyright &copy; 2014-2024&nbsp;
           <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
@@ -612,23 +725,19 @@
       </footer>
       <!--end::Footer-->
     </div>
-    <!--end::App Wrapper-->
 
-    <!--begin::Script-->
-
-    <!-- Bootstrap JS & Modal Dependencies (jika belum ada) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      function confirmDelete(supplierId) {
-        if (confirm("Apakah Anda yakin ingin menghapus supplier " + supplierId + "?")) {
-          // Lakukan penghapusan data di sini, misalnya:
-          alert("Supplier " + supplierId + " dihapus (simulasi).");
-          // Atau bisa arahkan ke endpoint penghapusan:
-          // window.location.href = '/delete-supplier?id=' + supplierId;
-        }
-      }
-    </script>
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
+      </main>
+      <footer class="app-footer">
+        <div class="float-end d-none d-sm-inline">Anything you want</div>
+        <strong>
+          Copyright &copy; 2014-2024&nbsp;
+          <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+        </strong>
+        All rights reserved.
+        <!--end::Copyright-->
+      </footer>
+      <!--end::Footer-->
+    </div>
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
       integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ="
@@ -686,7 +795,6 @@
           handle: '.card-header',
         });
       });
-
       const cardHeaders = document.querySelectorAll('.connectedSortable .card-header');
       cardHeaders.forEach((cardHeader) => {
         cardHeader.style.cursor = 'move';
@@ -703,7 +811,6 @@
       // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
       // IT'S ALL JUST JUNK FOR DEMO
       // ++++++++++++++++++++++++++++++++++++++++++
-
       const sales_chart_options = {
         series: [
           {
@@ -750,7 +857,6 @@
           },
         },
       };
-
       const sales_chart = new ApexCharts(
         document.querySelector('#revenue-chart'),
         sales_chart_options,
@@ -768,120 +874,10 @@
       integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY="
       crossorigin="anonymous"
     ></script>
-    <!-- jsvectormap -->
-    <script>
-      const visitorsData = {
-        US: 398, // USA
-        SA: 400, // Saudi Arabia
-        CA: 1000, // Canada
-        DE: 500, // Germany
-        FR: 760, // France
-        CN: 300, // China
-        AU: 700, // Australia
-        BR: 600, // Brazil
-        IN: 800, // India
-        GB: 320, // Great Britain
-        RU: 3000, // Russia
-      };
-
-      // World map by jsVectorMap
-      const map = new jsVectorMap({
-        selector: '#world-map',
-        map: 'world',
-      });
-
-      // Sparkline charts
-      const option_sparkline1 = {
-        series: [
-          {
-            data: [1000, 1200, 920, 927, 931, 1027, 819, 930, 1021],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline1 = new ApexCharts(document.querySelector('#sparkline-1'), option_sparkline1);
-      sparkline1.render();
-
-      const option_sparkline2 = {
-        series: [
-          {
-            data: [515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline2 = new ApexCharts(document.querySelector('#sparkline-2'), option_sparkline2);
-      sparkline2.render();
-
-      const option_sparkline3 = {
-        series: [
-          {
-            data: [15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
-      sparkline3.render();
-    </script>
-
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <!-- AdminLTE JS -->
-    <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
-
+    <script src={{ asset("assets/dist/js/adminlte.js")}}></script>
     <!-- Custom Sidebar Toggle Script -->
     <script>
     $(document).ready(function () {
@@ -916,7 +912,8 @@
         }
       });
     });
+  </script>
+
     </script>
   </body>
-  <!--end::Body-->
 </html>
