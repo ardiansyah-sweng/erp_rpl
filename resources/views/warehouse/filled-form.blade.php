@@ -712,10 +712,10 @@
 <!--begin::Footer-->
 <footer class="app-footer">
         <!--begin::To the end-->
-=======
+
       </main>
       <footer class="app-footer">
->>>>>>> origin/development:resources/views/warehouse/filled-form.blade.php
+
         <div class="float-end d-none d-sm-inline">Anything you want</div>
         <strong>
           Copyright &copy; 2014-2024&nbsp;
@@ -888,7 +888,6 @@
         });
     });
     </script>
-<<<<<<< HEAD:resources/views/productions/index.blade.php
 
     <!--end::Script-->
     <script>
@@ -914,9 +913,8 @@
         }
       });
     });
-=======
   </script>
->>>>>>> origin/development:resources/views/warehouse/filled-form.blade.php
+
     </script>
   </body>
 </html>
