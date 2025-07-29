@@ -3,11 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\SupplierMaterial;
-use App\Models\SupplierProduct;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 

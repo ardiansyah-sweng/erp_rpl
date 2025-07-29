@@ -122,6 +122,23 @@ class Item extends Model
         return self::where('product_id', $category)->count();
     }
 
-   
+    public static function searchItem($keyword)
+    {
+        return self::where('item_name', 'like', '%' . $keyword . '%')->paginate(10);
+    }
     
+    public static function getItemByCategory($categoryId)
+    {
+        return self::join('products', 'item.product_id', '=', 'products.product_id')
+            ->join('category', 'products.product_category', '=', 'category.id')
+            ->where('category.id', $categoryId)
+            ->select(
+                'item.*',
+                'products.product_name',
+                'products.product_category',
+                'category.category as category_name'
+            )
+            ->get();
+    }
+
 }
