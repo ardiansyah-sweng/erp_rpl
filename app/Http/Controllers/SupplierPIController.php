@@ -155,4 +155,6 @@ class SupplierPIController extends Controller
         return $pdf->stream('PIC-Supplier-Semua.pdf');
     }
 
+    
+
 }

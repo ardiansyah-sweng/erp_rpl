@@ -17,6 +17,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
+use App\Http\Controllers\SupplierPICController;
 
 #Login
 Route::get('/', function () {
@@ -211,6 +212,7 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
+Route::get('/supplier-pic/pdf/{supplierId}', [SupplierPICController::class, 'exportPDF'])->name('supplier.pic.pdf');
 
 #Category
 Route::get('/category/search', [CategoryController::class, 'searchCategory']);
@@ -255,7 +257,7 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
 Route::get('/assortment_production/detail', function () {return view('assortment_production.detail');});
 
-=======
+
 Route::get('/assortment_production/detail', function () {
     return view('assortment_production.detail');
 });
