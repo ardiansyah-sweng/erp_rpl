@@ -63,7 +63,6 @@ class Product extends Model
         return self::count();
     }
 
-
     public static function addProduct($data)
     {
         return self::create($data);
@@ -73,11 +72,18 @@ class Product extends Model
         return self::where('product_id', $id)->first();
     }    
 
+    public static function countProductByProductType($shortType)
+    {
+        $colProduct = config('db_constants.column.products');
+
+        return self::where($colProduct['type'], $shortType)->count();
+    }
+
     public static function getProductByType($type)
     {
          return self::where('product_type', $type)->get();
     }
-
+    
     public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
     {
         $product = self::find($id);
@@ -98,4 +104,27 @@ class Product extends Model
         return $this->hasMany(Item::class, 'sku', 'product_id');
     }
 
+    public static function deleteProductById($id)
+    {
+        $product = self::find($id);
+        if (!$product) {
+            return false;
+        }
+
+        $used = Item::where('product_id', $product->product_id)->exists();
+        if ($used) {
+            return false;
+        }
+
+        $product->delete();
+        return true;
+    }
+
+    public static function countProductByCategory()
+    {
+        return DB::table('products')
+            ->select('product_category', DB::raw('COUNT(*) as total'))
+            ->groupBy('product_category')
+            ->get();
+    }
 }
