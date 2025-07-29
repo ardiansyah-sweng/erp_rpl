@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 class BillOfMaterial extends Model
 {
     protected $table;
@@ -71,5 +71,33 @@ class BillOfMaterial extends Model
 
         return $bom;
     }
+    public static function getBomDetail($id)
+    {
+    $bom = self::where('id', $id)->first();
+
+    if (!$bom) {
+        return null;
+    }
+
+    // Ambil detail dari tabel bom_detail
+    $details = DB::table('bom_detail')
+        ->where('bom_id', $bom->bom_id)
+        ->select('id', 'bom_id', 'sku', 'quantity', 'cost', 'created_at', 'updated_at')
+        ->get();
+
+    // Gabungkan data utama dan detail
+    return [
+        'id'               => $bom->id,
+        'bom_id'           => $bom->bom_id,
+        'bom_name'         => $bom->bom_name,
+        'measurement_unit' => $bom->measurement_unit,
+        'total_cost'       => $bom->total_cost,
+        'active'           => $bom->active,
+        'created_at'       => $bom->created_at,
+        'updated_at'       => $bom->updated_at,
+        'details'          => $details,
+    ];
+    }
+    
 
 }
