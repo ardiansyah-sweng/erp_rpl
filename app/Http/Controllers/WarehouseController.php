@@ -46,26 +46,11 @@ class WarehouseController extends Controller
         ]);
     }
 
-      public function deleteWarehouse($id)
+    public function deleteWarehouse($id)
     {
-        $isUsed = DB::table('assortment_production')
-            ->where('rm_whouse_id', $id)
-            ->orWhere('fg_whouse_id', $id)
-            ->exists();
-
-        if ($isUsed) {
-            return redirect()->back()->with('error', 'Warehouse tidak bisa dihapus karena sedang digunakan di produksi.');
-        }
-
-        // Hapus langsung dari tabel warehouse
-        $deleted = DB::table('warehouse')->where('id', $id)->delete();
-
-        if ($deleted) {
-            return redirect()->back()->with('success', 'Warehouse berhasil dihapus!');
-        } else {
-            return redirect()->back()->with('error', 'Warehouse tidak ditemukan atau gagal dihapus.');
-        }
+        return (new Warehouse)->deleteWarehouse($id);
     }
+
       public function exportPdf(){
         $warehouse = [
             [
