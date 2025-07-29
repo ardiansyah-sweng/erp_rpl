@@ -32,4 +32,10 @@ class SupplierPICModel extends Model
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
 
+     public static function getSupplierPic($supplier_id)
+    {
+        return self::where('supplier_id', $supplier_id)
+                    ->paginate(10);
+    }
+
 }

@@ -104,25 +104,27 @@ class Product extends Model
         return $this->hasMany(Item::class, 'sku', 'product_id');
     }
 
-    public static function getProductByKeyword($keywords = null)
+    public static function deleteProductById($id)
     {
-        $query = self::query();
-
-        if ($keywords) {
-            $query->where('product_id', 'LIKE', "%{$keywords}%")
-                  ->orWhere('product_name', 'LIKE', "%{$keywords}%")
-                  ->orWhere('product_type', 'LIKE', "%{$keywords}%")
-                  ->orWhere('product_category', 'LIKE', "%{$keywords}%")
-                  ->orWhere('product_description', 'LIKE', "%{$keywords}%");
+        $product = self::find($id);
+        if (!$product) {
+            return false;
         }
 
-        return $query->orderBy('created_at', 'asc')->paginate(10);
+        $used = Item::where('product_id', $product->product_id)->exists();
+        if ($used) {
+            return false;
+        }
+
+        $product->delete();
+        return true;
     }
 
-    public static function getProductByCategory($product_category)
+    public static function countProductByCategory()
     {
-        return self::where('product_category', $product_category)
-                    ->paginate(10);
+        return DB::table('products')
+            ->select('product_category', DB::raw('COUNT(*) as total'))
+            ->groupBy('product_category')
+            ->get();
     }
-
 }
