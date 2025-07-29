@@ -377,6 +377,7 @@
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Branch</h3>
                 <a href="{{ route('branch.add') }}" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="{{ route('branch.list', ['export' => 'pdf']) }}" class="btn btn-primary btn-sm ms-2">Cetak Branch</a>
               </div>
     
               <div class="col-sm-6">
@@ -408,6 +409,17 @@
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
+                    @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+
+                    @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                    @endif
                     <table class="table table-bordered">
                       <thead class="text-center">
                         <tr>
@@ -439,7 +451,11 @@
                             <td>{{ $branch->updated_at }}</td>
                             <td>
                               <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                              <form action="{{ route('branch.delete', $branch->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus branch {{ $branch->branch_name }}?')">Delete</button>
+                              </form>
                               <a href="#" class="btn btn-sm btn-info">Detail</a>
                             </td>
                             </tr>
@@ -455,6 +471,7 @@
                   <div class="card-footer clearfix">
                   {{ $branches->links('pagination::bootstrap-4') }}
                   </div>
+
         </div>
         
       </main>

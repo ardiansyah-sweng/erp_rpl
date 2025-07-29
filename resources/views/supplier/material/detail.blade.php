@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Detail Supplier (Filled Form) </title>
+    <title>ERP RPL UAD | Tambah Cabang</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
@@ -116,7 +116,7 @@
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
-                <span class="d-none d-md-inline">Mimin Gantenks</span>
+                <span class="d-none d-md-inline">Admin</span>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <li class="user-header text-bg-primary">
@@ -126,7 +126,7 @@
                     alt="User Image"
                   />
                   <p>
-                    Alexander Pierce - Web Developer
+                    Admin - Web Developer
                     <small>Member since Jan. 2024</small>
                   </p>
                 </li>
@@ -202,7 +202,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('purchase.orders')}}" class="nav-link active">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Purchase Orders
@@ -210,7 +210,7 @@
                 </a>                
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link active">
+                <a href="{{ route('branch.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -227,66 +227,95 @@
           </nav>
         </div>
       </aside>
-      <!-- Content -->
-      <div class="app-wrapper d-flex flex-column">
-    <div class="content-wrapper">
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Detail Supplier</h1>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="content">
-            <div class="container-fluid">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        Informasi Supplier
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th style="width: 30%">ID Supplier</th>
-                                <td>{{ $supplier->supplier_id ?? 'Tidak ada data' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Nama Supplier</th>
-                                <td>{{ $supplier->company_name ?? 'Tidak ada data' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Alamat Supplier</th>
-                                <td>{{ $supplier->address ?? 'Tidak ada data' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Telephone</th>
-                                <td>{{ $supplier->phone_number ?? 'Tidak ada data' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Rekening Bank</th>
-                                <td>{{ $supplier->bank_account ?? 'Tidak ada data' }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Footer -->
-    <footer class="app-footer">
-        <div class="float-end d-none d-sm-inline">Anything you want</div>
-        <div class="text-left ms-3">
-            <strong>
-                Copyright &copy; 2014-2024&nbsp;
-                <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
-            </strong>
-            All rights reserved.
+      <main class="app-main">
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class="mb-0">Detail Material</h3>
         </div>
-    </footer>
+
+        <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Supplier Material</li>
+                        </ol>
+                    </div>
+      </div>
+    </div>
+  </div>
+  <div class="app-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              
+            </div>
+            <div class="card-body">
+            <div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3>Detail Material</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th>Supplier ID</th>
+                    <td>SUP-001</td>
+                </tr>
+                <tr>
+                    <th>Company Name</th>
+                    <td>PT. Bangun Jaya</td>
+                </tr>
+                <tr>
+                    <th>Product ID</th>
+                    <td>PRD-1001</td>
+                </tr>
+                <tr>
+                    <th>Product Name</th>
+                    <td>Pasir Halus</td>
+                </tr>
+                <tr>
+                    <th>Base Price</th>
+                    <td>Rp 250.000</td>
+                </tr>
+                <tr>
+                    <th>Created At</th>
+                    <td>2025-05-05 08:30:00</td>
+                </tr>
+                <tr>
+                    <th>Updated At</th>
+                    <td>2025-05-05 10:15:00</td>
+                </tr>
+            </table>
+            <a href="/supplier/material" class="btn btn-secondary">Kembali ke Daftar</a>
+        </div>
+    </div>
 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+      <footer class="app-footer">
+        <div class="float-end d-none d-sm-inline">Anything you want</div>
+        <strong>
+          Copyright &copy; 2014-2024&nbsp;
+          <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+        </strong>
+        All rights reserved.
+      </footer>
+    </div>
+    
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
       integrity="sha256-JLMUQfrMvhB/C+XTyqfc/TUlC6gGQE0H2hZFX5FJ1cM="
@@ -334,6 +363,53 @@
             $('body').toggleClass('sidebar-collapse');
         });
     });
+    </script>
+    <script>
+      document.getElementById("materialForm").addEventListener("submit", function(event) {
+        const supplierId = document.getElementById("supplierId").value.trim();
+        const productId = document.getElementById("productId").value.trim();
+        const companyName = document.getElementById("companyName").value.trim();
+        const productName = document.getElementById("productName").value.trim();
+        const basePrice = parseFloat(document.getElementById("basePrice").value);
+
+        const idFormat = /^[A-Z]{3}-\d+$/;
+
+        // Validasi jika form kosong dan tidak diisi
+        if (!supplierId || !productId || !companyName || !productName || isNaN(basePrice)) {
+          alert("Semua field wajib diisi!");
+          event.preventDefault();
+          return;
+        }
+
+         // Validasi companyName
+        if (!idFormat.test(supplierId)) {
+          alert("Supplier ID harus dalam format SUP-001");
+          event.preventDefault();
+          return;
+        }
+       // Validasi Supplier
+        if (!idFormat.test(supplierId)) {
+          alert("Supplier ID harus dalam format SUP-001");
+          event.preventDefault();
+          return;
+        }
+        // Validasi Product Id
+        if (!idFormat.test(productId)) {
+          alert("Product ID harus dalam format PRD-1001");
+          event.preventDefault();
+          return;
+        }
+
+        // Validasi base price
+        if (basePrice <= 0) {
+          alert("Base Price harus lebih dari 0");
+          event.preventDefault();
+          return;
+        }
+
+        // Jika semua valid
+        alert("Data berhasil valid ");
+      });
     </script>
 
     
