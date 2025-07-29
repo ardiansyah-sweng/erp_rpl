@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Exception;
+
 
 class Item extends Model
 {
@@ -135,6 +137,13 @@ class Item extends Model
                 'category.category as category_name'
             )
             ->get();
+    }
+
+    public static function countItemByCategory($category)
+    {
+        return DB::table('Item')
+            ->where('product_id', $category)
+            ->count();
     }
 
 }
