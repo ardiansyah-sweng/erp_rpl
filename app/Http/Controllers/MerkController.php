@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Merk;
 use Illuminate\Http\Request;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 class MerkController extends Controller
 {
     public function getMerkById($id)
@@ -54,10 +54,21 @@ class MerkController extends Controller
 
         if ($deleted) {
         return redirect()->back()->with('success', 'Merk berhasil dihapus.');
-        } 
+        }
         else {
         return redirect()->back()->with('error', 'Merk gagal dihapus.');
         }
+    }
+
+    public function printMerkPDF()
+    {
+        // Ambil semua data tanpa pagination
+        $merks = Merk::all(); // <= inilah bedanya
+        // Buat PDF dari view
+        $pdf = Pdf::loadView('merk.pdf', compact('merks'));
+
+        // Tampilkan PDF di browser
+        return $pdf->stream('daftar_merk.pdf');
     }
 }
 
