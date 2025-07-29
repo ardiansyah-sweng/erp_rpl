@@ -379,12 +379,14 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div class="d-flex align-items-center">
             <span>Show</span>
-            <select id="pageLength" class="form-select mx-2" style="width: auto;">
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-            </select>
-            <span>entries</span>
+            <form method="GET" id="pageLengthForm" class="d-flex align-items-center">
+    <select name="pageLength" id="pageLength" class="form-select mx-2" style="width: auto;" onchange="document.getElementById('pageLengthForm').submit()">
+        <option value="10" {{ request('pageLength') == 10 ? 'selected' : '' }}>10</option>
+        <option value="20" {{ request('pageLength') == 20 ? 'selected' : '' }}>20</option>
+        <option value="50" {{ request('pageLength') == 50 ? 'selected' : '' }}>50</option>
+    </select>
+    <span>entries</span>
+</form>
           </div>
           <div class="d-flex align-items-center">
             <span class="me-2">Search:</span>
@@ -393,76 +395,56 @@
         </div>
 
         <!-- Table -->
+        @php
+            $pageLength = request('pageLength', 10);
+            $suppliersToShow = $suppliers->slice(0, $pageLength);
+        @endphp
+
         <div class="table-responsive">
           <table id="supplierTable" class="table table-bordered table-hover align-middle mb-0">
             <thead class="table-light text-center">
               <tr>
                 <th>No</th>
                 <th>ID Supplier</th>
-                <th>Name</th>
+                <th>Company Name</th>
                 <th>Address</th>
-                <th>Telephone</th>
+                <th>Phone Number</th>
+                <th>Bank Account</th>
+                <th>Created At</th>
+                <th>Updated At</th>
                 <th>PiC</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              <!-- Static Data List -->
+              @forelse($suppliersToShow as $index => $supplier)
               <tr>
-                <td class="text-center">1</td>
-                <td>SUP001</td>
-                <td>PT. Sumber Makmur</td>
-                <td>Jl. Merdeka No.123</td>
-                <td>081234567890</td>
-                <td class="text-center">
-                  <span class="badge bg-info text-dark">0</span>
-                </td>
-                <td class="text-center">
-                  <div class="d-flex justify-content-center gap-1 flex-wrap">
-                    <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
-                    <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
-                    <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
-                    <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('SUP001')">Delete</button>
-                  </div>
-                </td>
+                  <td class="text-center">{{ $index + 1 }}</td>
+                  <td>{{ $supplier->supplier_id }}</td>
+                  <td>{{ $supplier->company_name }}</td>
+                  <td>{{ $supplier->address }}</td>
+                  <td>{{ $supplier->phone_number }}</td>
+                  <td>{{ $supplier->bank_account }}</td>
+                  <td>{{ $supplier->created_at }}</td>
+                  <td>{{ $supplier->updated_at }}</td>
+                  <td class="text-center">
+                      <span class="badge bg-info text-dark">{{ $supplier->pic_count ?? 0 }}</span>
+                  </td>
+                  <td class="text-center">
+                      <div class="d-flex justify-content-center gap-1 flex-wrap">
+                          <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                          <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
+                          <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
+                          <a href="{{ route('Supplier.detail', ['id' => $supplier->supplier_id]) }}" class="btn btn-success btn-sm custom-btn">Detail</a>
+                          <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('{{ $supplier->supplier_id }}')">Delete</button>
+                      </div>
+                  </td>
               </tr>
+              @empty
               <tr>
-                <td class="text-center">2</td>
-                <td>SUP002</td>
-                <td>CV. Maju Jaya</td>
-                <td>Jl. Sudirman No.45</td>
-                <td>082134567891</td>
-                <td class="text-center">
-                  <span class="badge bg-info text-dark">0</span>
-                </td>
-                <td class="text-center">
-                  <div class="d-flex justify-content-center gap-1 flex-wrap">
-                    <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
-                    <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
-                    <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
-                    <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('SUP002')">Delete</button>
-                  </div>
-                </td>
+                  <td colspan="10" class="text-center">No data available in table</td>
               </tr>
-              <tr>
-                <td class="text-center">3</td>
-                <td>SUP003</td>
-                <td>UD. Berkah Abadi</td>
-                <td>Jl. Diponegoro No.78</td>
-                <td>083134567892</td>
-                <td class="text-center">
-                  <span class="badge bg-info text-dark">0</span>
-                </td>
-                <td class="text-center">
-                  <div class="d-flex justify-content-center gap-1 flex-wrap">
-                    <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
-                    <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
-                    <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
-                    <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('SUP003')">Delete</button>
-                  </div>
-                </td>
-              </tr>
-              <!-- End Static Data List -->
+              @endforelse
             </tbody>
           </table>
         </div>

@@ -105,12 +105,13 @@ Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
+Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('product.pdf');
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
 Route::get('/products/print/{type}', [ProductController::class, 'printProductsByType'])->name('products.print.by-type');
 
 
 
-#Product Update 
+#Product Update
 
 #Product Update
 
@@ -193,7 +194,7 @@ Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete'])->name('supplier.pic.delete');
-
+Route::get('/supplier/list', [SupplierController::class, 'listSuppliers'])->name('supplier.list');
 
 Route::get('/supplier/material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialById'])->name('supplier.material.detail');
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
@@ -213,6 +214,7 @@ Route::get('/category/edit/{id}', [CategoryController::class, 'updateCategoryByI
 Route::put('/category/update/{id}', [CategoryController::class, 'updateCategory'])->name('category.update');
 Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
+Route::get('/category/parent/{parentId}', [CategoryController::class, 'getCategoryByParent']);
 Route::get('/category', [CategoryController::class, 'getCategoryList'])->name('category.list');
 
 
@@ -222,11 +224,9 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 #cetak semua pdf pic
 Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
 
-#Produksi
-Route::get('/productions', [App\Http\Controllers\ProductionController::class, 'index']);
 
 # Warehouse
-Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById'])->name('warehouse.detail');
 Route::get('/warehouse/search', [WarehouseController::class, 'searchWarehouse'])->name('warehouse.search');
 Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
 Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
@@ -267,6 +267,7 @@ Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'delet
 Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
 Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
 Route::get('/bill-of-material/{id}', [BillOfMaterialController::class, 'getBomDetail']);
+Route::get('/bill-of-material/search/{keyword?}', [BillOfMaterialController::class, 'searchBillOfMaterial']);
 
 #Goods Receipt Notes
 Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote']);
@@ -276,3 +277,8 @@ Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 
 #Goods Receipt Note Controller
 Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'getGoodsReceiptNote']);
+
+#Get Product By Category Controller
+Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
+
+
