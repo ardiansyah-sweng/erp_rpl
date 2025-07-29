@@ -93,7 +93,7 @@ class AssortProductionController extends Controller
     }
     public function addProduction(Request $request)
     {
-        // Validasi input berdasarkan kolom yang terlihat dari database kamu
+        // Validasi input
         $validated = $request->validate([
             'in_production'     => 'required|boolean',
             'production_number' => 'required|string|max:50|unique:assortment_production,production_number',

@@ -235,6 +235,7 @@ Route::get('/warehouse/report', [WarehouseController::class, 'exportPdf'])->name
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::post('/assort-production', [AssortProductionController::class, 'addProduction']);
 
+
 # Bill of Material
 
 Route::get('/bom/list', function () {

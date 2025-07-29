@@ -21,7 +21,7 @@ class AddProductionControllerTest extends TestCase
                 $data = [
             'in_production' => 0,
             'production_number' => $this->faker->unique()->bothify('P#######'), // max 9 chars
-            'sku' => strtoupper($this->faker->bothify('SKU-##')), // sesuaikan panjang juga jika SKU dibatasi
+            'sku' => strtoupper($this->faker->bothify('SKU-##')), 
             'branch_id' => 53,
             'rm_whouse_id' => 99,
             'fg_whouse_id' => 18,
