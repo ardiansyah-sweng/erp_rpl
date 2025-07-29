@@ -202,7 +202,7 @@ Route::get('/supplier-material/{supplier_id}/{product_type}', [SupplierMaterialC
 #Suppplier Update
 Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier'); //Sudah sesuai pada ERP RPL
 Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');
-
+Route::get('/supplier/joined-data', [\App\Http\Controllers\SupplierMaterialController::class, 'showSupplierWithItem']);
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
