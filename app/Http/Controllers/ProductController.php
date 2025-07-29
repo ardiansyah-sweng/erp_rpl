@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 use App\Helpers\EncryptionHelper;
 
 class ProductController extends Controller
@@ -33,7 +34,8 @@ class ProductController extends Controller
     // return view('product.detail', compact('product'));
 
 
-    public function addProduct(Request $request)
+
+   public function store(Request $request)
     {
         $validatedData = $request->validate([
             'product_id' => 'required|string|unique:products,product_id',
@@ -68,5 +70,11 @@ class ProductController extends Controller
         $products = Product::getProductByKeyword($keyword);
         return view('product.list', compact('products'));
     }
+    
+   public function create()
+    {
+    $categories = Category::with('parent')->get(); 
+    return view('product.add', compact('categories'));
+}
 
 }

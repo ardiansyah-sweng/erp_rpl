@@ -101,15 +101,11 @@ Route::get('product/category/detail', function () {
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']);
-
+Route::get('/product/add', [ProductController::class, 'create']);
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
-
-
-
-#Product Update 
 
 #Product Update
 
