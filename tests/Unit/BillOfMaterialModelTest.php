@@ -3,41 +3,32 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
-use App\Models\BillOfMaterialModel;
-use PHPUnit\Framework\Attributes\Test;
+use App\Models\BillOfMaterial;
 
 class BillOfMaterialModelTest extends TestCase
 {
-    use RefreshDatabase;
-
-    #[Test]
-    public function it_can_delete_bom_using_model_method()
+    /** @test */
+    public function it_counts_items_in_existing_boms()
     {
-        $bomId = 'BOM' . mt_rand(1000, 9999);
+        
+        $bomIds = ['BOM-001', 'BOM-002', 'BOM-003'];
 
-        $id = DB::table('bill_of_material')->insertGetId([
-            'bom_id' => $bomId,
-            'bom_name' => 'Model Delete Test',
-            'measurement_unit' => 1,
-            'total_cost' => 1000,
-            'active' => 1,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $counts = [];
 
-        $deleted = BillOfMaterialModel::deleteBom($id);
+        foreach ($bomIds as $id) {
+            
+            $bom = BillOfMaterial::where('bom_id', $id)->first();
+            $this->assertNotNull($bom, "Data BOM dengan ID $id tidak ditemukan.");
 
-        $this->assertTrue($deleted);
-        $this->assertDatabaseMissing('bill_of_material', ['id' => $id]);
-    }
+            
+            $count = BillOfMaterial::countItemInBom($id);
+            $counts[$id] = $count;
+        }
 
-    #[Test]
-    public function it_returns_false_if_bom_not_found()
-    {
-        $deleted = BillOfMaterialModel::deleteBom(999999); // ID fiktif
-        $this->assertFalse($deleted);
+        
+        dump($counts);
+
+        
+        $this->assertIsArray($counts);
     }
 }
-

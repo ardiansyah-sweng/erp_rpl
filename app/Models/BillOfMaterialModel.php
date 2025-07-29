@@ -40,4 +40,19 @@ class BillOfMaterialModel extends Model
     {
         return self::count();
     }
+
+    public function items()
+    {
+    return $this->hasMany(BillOfMaterialDetail::class, 'bom_id', 'bom_id');
+    }
+
+    public static function countItemInBom($id)
+    {
+    $bomDetailTable = config('db_constants.table.bom_detail');
+
+    return \DB::table($bomDetailTable)
+              ->where('bom_id', $id)
+              ->count();
+    }
+
 }
