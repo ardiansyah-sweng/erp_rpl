@@ -1,13 +1,9 @@
-
-@php
-use App\Helpers\EncryptionHelper;
-@endphp
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Dashboard</title>
+    <title>ERP RPL UAD | Supplier List</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -298,7 +294,7 @@ use App\Helpers\EncryptionHelper;
               data-accordion="false"
             >
               <li class="nav-item">
-              <a href="dashboard" class="nav-link active">
+                <a href="dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -306,13 +302,11 @@ use App\Helpers\EncryptionHelper;
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+              <a href="{{ route('product.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
               </li>
-
-              
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-person-circle"></i>
@@ -351,7 +345,7 @@ use App\Helpers\EncryptionHelper;
                 </a>                
               </li>
               <li class="nav-item">
-              <a href="{{ route('branch.list') }}" class="nav-link">
+                <a href="{{ route('branch.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -360,7 +354,7 @@ use App\Helpers\EncryptionHelper;
               </li>
               <li class="nav-item">
               <a href="{{ route('item.list') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
+              <i class="nav-icon bi bi-clipboard-fill"></i>
                       <p>Item</p>
                     </a>
                   </li>
@@ -370,97 +364,266 @@ use App\Helpers\EncryptionHelper;
         </div>
         <!--end::Sidebar Wrapper-->
       </aside>
-      <!--end::Sidebar-->
-      <!--begin::App Main-->
-      <main class="app-main">
-        <!--begin::App Content Header-->
-        <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row align-items-center">
-              <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Produk</h3>
-                  <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-                  <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
-                  <a href="{{ route('product.pdf') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Seluruh Produk</a>
+
+<main class="content-wrapper">
+  <div class="container-fluid">
+    <div class="mb-4">
+      <h1 class="h3 fw-bold mb-2">Productions</h1>
+      <a href="#" class="btn btn-primary btn-sm">New Production</a>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <!-- Filter & Search -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="d-flex align-items-center">
+            <span>Show</span>
+            <select id="pageLength" class="form-select mx-2" style="width: auto;">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+            <span>entries</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="me-2">Search:</span>
+            <input type="text" id="productionSearch" class="form-control" style="width: 200px;">
+          </div>
+        </div>
+        <!-- Form Input Produksi dan Material -->
+        <div class="card p-4 mb-4 shadow-sm" style="max-width: 700px; margin: auto; border-radius: 16px; background: #fff;">
+          <form id="productionInputForm" class="mb-3">
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Nomor Produksi</label>
+                <input type="text" class="form-control" id="nomorProduksi" placeholder="">
               </div>
-    
-    
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Produk</li>
-                </ol>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">SKU</label>
+                <input type="text" class="form-control" id="sku" placeholder="">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Cabang</label>
+                <select class="form-select" id="cabang">
+                  <option value="">Pilih Cabang</option>
+                  <option value="A">Cabang A</option>
+                  <option value="B">Cabang B</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Gudang Finished Goods</label>
+                <input type="date" class="form-control" id="gudangFG">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Gudang Raw Material</label>
+                <select class="form-select" id="gudangRM">
+                  <option value="">Pilih Gudang</option>
+                  <option value="RM1">Gudang RM1</option>
+                  <option value="RM2">Gudang RM2</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Tanggal Produksi</label>
+                <input type="date" class="form-control" id="tanggalProduksi">
               </div>
             </div>
-            <!--end::Row-->
+          </form>
+          <div class="table-responsive mb-4">
+            <table id="materialTable" class="table table-bordered align-middle mb-0" style="border-radius: 8px; overflow: hidden;">
+              <thead class="table-light text-center">
+                <tr>
+                  <th>Nama Item</th>
+                  <th>Quantity</th>
+                  <th>Satuan</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Baris material akan ditambah lewat JS -->
+              </tbody>
+            </table>
           </div>
-          <!--end::Container-->
+          <!-- Form Add Material -->
+          <form id="addMaterialForm" class="mb-4">
+            <div class="row g-2 mb-2">
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="materialName" placeholder="Nama Item" required>
+              </div>
+              <div class="col-md-3">
+                <input type="number" class="form-control" id="materialQty" placeholder="Quantity" min="1" required>
+              </div>
+              <div class="col-md-3">
+                <select class="form-select" id="materialUnit">
+                  <option value="PCS">PCS</option>
+                  <option value="KG">KG</option>
+                  <option value="L">L</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-success w-100">Tambah Material</button>
+              </div>
+            </div>
+          </form>
         </div>
 
-        <div class="card mb-4">
-              <div class="card-header"><h3 class="card-title">List Table</h3></div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th style="width: 10px">id</th>
-                      <th>product_id</th>
-                      <th>product_name</th>
-                      <th>product_type</th>
-                      <th>product_category</th>
-                      <th>product_description</th>
-                      <th>jumlah_item</th>
-                      <th>Created At</th>
-                      <th>Updated At </th>
-                      <th>Action </th>
-                    </tr>
-                  </thead>
-                 <tbody>
-                  @foreach ($products as $index => $product)
-                  <tr class="align-middle">
-                      <td>{{ $index + 1 }}</td>
-                      <td>
-                        <a href="/products/detail/{{ EncryptionHelper::encrypt($product->product_id) }}" class="text-dark"> 
-                         {{ $product->product_id }}
-                      </a>
-                      </td>
-                      
-                      <td>{{ $product->product_name }}</td>
-                      <td>{{ $product->product_type->label() }}</td>
-                      <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
-                      <td>{{ $product->product_description }}</td>
-                      <td>{{ $product->items_count }}</td>
-                      <td>{{ $product->created_at }}</td>
-                      <td>{{ $product->updated_at }}</td>
-                      <td>
-                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <form  method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?')">Delete</button>
-                              </form>
-                          <a href="#" class="btn btn-sm btn-info">Detail</a>
-                      </td>
-                  </tr>
-        @endforeach
-    </tbody>
-</table>
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                {{ $products->links('pagination::bootstrap-4') }}
-              </div>
-            </div>
-    
+        <!-- Table -->
+        <div class="table-responsive">
+          <table id="productionTable" class="table table-bordered table-hover align-middle mb-0">
+            <thead class="table-light text-center">
+              <tr>
+                <th>No</th>
+                <th>ID</th>
+                <th>Nama Produk</th>
+                <th>Tanggal Produksi</th>
+                <th>Jumlah</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Static Data List -->
+              <tr>
+                    <td class="text-center">1</td>
+                    <td>PROD001</td>
+                    <td>Kopi Hitam</td>
+                    <td>2025-06-01</td>
+                    <td>100</td>
+                    <td class="text-center">
+                    <span class="badge bg-success">Selesai</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">2</td>
+                    <td>PROD002</td>
+                    <td>Latte</td>
+                    <td>2025-06-02</td>
+                    <td>80</td>
+                    <td class="text-center">
+                    <span class="badge bg-warning text-dark">Proses</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">3</td>
+                    <td>PROD003</td>
+                    <td>Cappuccino</td>
+                    <td>2025-06-03</td>
+                    <td>120</td>
+                    <td class="text-center">
+                    <span class="badge bg-success">Selesai</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">4</td>
+                    <td>PROD004</td>
+                    <td>Espresso</td>
+                    <td>2025-06-04</td>
+                    <td>90</td>
+                    <td class="text-center">
+                    <span class="badge bg-danger">Batal</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">5</td>
+                    <td>PROD005</td>
+                    <td>Mocha</td>
+                    <td>2025-06-05</td>
+                    <td>110</td>
+                    <td class="text-center">
+                    <span class="badge bg-success">Selesai</span>
+                    </td>
+                    <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1 flex-wrap">
+                        <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm custom-btn">Delete</a>
+                    </div>
+                    </td>
+            </tbody>
+          </table>
+        </div>
 
-        
-      </main>
-      <!--end::App Main-->
-      <!--begin::Footer-->
-      <footer class="app-footer">
+        <!-- Pagination Info -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div>Showing 1 to 3 of 3 entries</div>
+          <nav>
+            <ul class="pagination">
+              <li class="page-item disabled">
+                <a class="page-link" href="#">Previous</a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+              </li>
+              <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// Script Add Material ke tabel
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('addMaterialForm');
+  const tableBody = document.querySelector('#materialTable tbody');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const name = document.getElementById('materialName').value;
+    const qty = document.getElementById('materialQty').value;
+    const unit = document.getElementById('materialUnit').value;
+    if (name && qty) {
+      const row = document.createElement('tr');
+      row.innerHTML = `<td>${name}</td><td>${qty}</td><td>${unit}</td><td><button type='button' class='btn btn-outline-danger btn-sm btn-hapus'>Hapus</button></td>`;
+      tableBody.appendChild(row);
+      form.reset();
+    }
+  });
+  tableBody.addEventListener('click', function (e) {
+    if (e.target.classList.contains('btn-hapus')) {
+      e.target.closest('tr').remove();
+    }
+  });
+});
+</script>
+
+<!-- Custom CSS -->
+<style>
+.custom-btn {
+  padding: 3px 8px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+</style>
+
+
+<!--begin::Footer-->
+<footer class="app-footer">
         <!--begin::To the end-->
         <div class="float-end d-none d-sm-inline">Anything you want</div>
         <!--end::To the end-->
@@ -477,6 +640,19 @@ use App\Helpers\EncryptionHelper;
     <!--end::App Wrapper-->
 
     <!--begin::Script-->
+
+    <!-- Bootstrap JS & Modal Dependencies (jika belum ada) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function confirmDelete(supplierId) {
+        if (confirm("Apakah Anda yakin ingin menghapus supplier " + supplierId + "?")) {
+          // Lakukan penghapusan data di sini, misalnya:
+          alert("Supplier " + supplierId + " dihapus (simulasi).");
+          // Atau bisa arahkan ke endpoint penghapusan:
+          // window.location.href = '/delete-supplier?id=' + supplierId;
+        }
+      }
+    </script>
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
@@ -742,6 +918,30 @@ use App\Helpers\EncryptionHelper;
     </script>
 
     <!--end::Script-->
+    <script>
+    // Script Add Material ke tabel
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('addMaterialForm');
+      const tableBody = document.querySelector('#materialTable tbody');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const name = document.getElementById('materialName').value;
+        const qty = document.getElementById('materialQty').value;
+        const unit = document.getElementById('materialUnit').value;
+        if (name && qty) {
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${name}</td><td>${qty}</td><td>${unit}</td><td><button type='button' class='btn btn-outline-danger btn-sm btn-hapus'>Hapus</button></td>`;
+          tableBody.appendChild(row);
+          form.reset();
+        }
+      });
+      tableBody.addEventListener('click', function (e) {
+        if (e.target.classList.contains('btn-hapus')) {
+          e.target.closest('tr').remove();
+        }
+      });
+    });
+    </script>
   </body>
   <!--end::Body-->
 </html>
