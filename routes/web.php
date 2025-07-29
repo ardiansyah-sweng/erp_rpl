@@ -226,7 +226,8 @@ Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
 Route::get('/category/parent/{parentId}', [CategoryController::class, 'getCategoryByParent']);
 Route::get('/category', [CategoryController::class, 'getCategoryList'])->name('category.list');
-
+Route::post('/categorys/add', [CategoryController::class, 'addCategory'])->name('category.add');
+Route::get('/categorys/add', [CategoryController::class, 'showAddCategoryForm'])->name('category.form');
 
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');

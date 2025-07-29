@@ -77,7 +77,7 @@ class CategoryController extends Controller
         //apabila halaman detail kategori sudah ada harap untuk di uncomment return view
         //dan return response nya di hapus
     }
-    //Search Category 
+    //Search Category
     public function searchCategory(Request $request)
     {
         $keyword = $request->input('q');
@@ -115,6 +115,11 @@ class CategoryController extends Controller
         }
 
         return response()->json($filtered, 200);
+    }
+    public function showAddCategoryForm()
+    {
+        $parentCategories = Category::getCategory();
+        return view('product.category.add', compact('parentCategories'));
     }
 
 }
