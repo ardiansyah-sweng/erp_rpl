@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\BillOfMaterialModel;
+use App\Models\BillOfMaterial;
+use Illuminate\Support\Facades\DB;
 
 class BillOfMaterialController extends Controller
 {
@@ -31,7 +32,7 @@ class BillOfMaterialController extends Controller
     // Fungsi untuk menghapus Bill of Material berdasarkan id
     public function deleteBillOfMaterial($id)
     {
-        $deleted = BillOfMaterialModel::deleteBom($id); 
+        $deleted = BillOfMaterial::deleteBom($id); 
 
         if ($deleted) {
             return response()->json(['message' => 'Bill of Material deleted successfully.'], 200);
@@ -71,6 +72,14 @@ class BillOfMaterialController extends Controller
             'details'          => $details,
         ]);
     }
+    public function searchBillOfMaterial($keyword = null)
+    {
+        $data = BillOfMaterial::SearchOfBillMaterial($keyword);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Bill of Material berhasil ditemukan.',
+            'data' => $data
+        ], 200);
+    }
 
 }
-

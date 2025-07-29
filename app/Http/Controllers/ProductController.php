@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\EncryptionHelper;
+
 
 class ProductController extends Controller
 {
@@ -13,6 +15,19 @@ class ProductController extends Controller
         $products = Product::getAllProducts();
         return view('product.list', compact('products'));
     }
+
+    public function generatePDF()
+    {
+        // Ambil semua data tanpa pagination
+        $products = Product::getAllProducts(); // <= inilah bedanya
+
+        // Buat PDF dari view
+        $pdf = Pdf::loadView('product.pdf', compact('products'));
+
+        // Tampilkan PDF di browser
+        return $pdf->stream('daftar_produk.pdf');
+    }
+
 
     public function getProductById($id)
     {
