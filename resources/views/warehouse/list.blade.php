@@ -127,7 +127,7 @@
                   <div class="d-flex">
                     <div class="flex-shrink-0">
                       <img
-                        src={{ asset("assets/dist/assets/img/user8-128x128.jpg") }}
+                        src={{ asset("assets/dist/assets/img/user8-128x128.jpg") }} 
                         alt="User Avatar"
                         class="img-size-50 rounded-circle me-3"
                       />

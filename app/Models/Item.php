@@ -121,5 +121,7 @@ class Item extends Model
     public static function countItemByCategory($category){
         return self::where('product_id', $category)->count();
     }
+
+   
     
 }
