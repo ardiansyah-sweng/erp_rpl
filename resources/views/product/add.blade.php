@@ -433,7 +433,7 @@
                         </div>
                         <div class="d-flex justify-content-start mt-4">
                             <div>
-                                <button type="button" class="btn btn-primary" onclick="validateForm()">Tambah</button>
+                                <button type="button" class="btn btn-primary" onclick="onTambahClick()">Tambah</button>
                                 <button type="reset" class="btn btn-secondary ms-2">Batal</button>
                             </div>
                         </div>
@@ -563,6 +563,12 @@
         }
 
         return isValid;
+      }
+
+      function onTambahClick() {
+        if (validateForm()) {
+          window.location.href = '/product/list';
+        }
       }
     </script>
     
