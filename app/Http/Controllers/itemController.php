@@ -123,7 +123,6 @@ public function exportByProductTypeToPdf($productType)
     {
         $items = Item::getItemByCategory($categoryId);
 
-
         if ($items->isEmpty()) {
             return redirect()->back()->with('error', 'Data tidak ditemukan untuk kategori ini.');
         }

@@ -77,7 +77,6 @@ Route::get('/supplier/list', function () {
 Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
 });
-
 Route::get('/goods_receipt_note/add', function () {
     return view('goods_receipt_note/add');
 });
@@ -92,9 +91,9 @@ Route::get('/warehouse/add', function () {
 Route::get('product/category/detail', function () {
     return view('product/category/detail');
 });
-
 #warehouse
 // Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
+
 
 # Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
