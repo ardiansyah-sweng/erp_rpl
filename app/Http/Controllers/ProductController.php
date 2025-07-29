@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\EncryptionHelper;
+
 
 class ProductController extends Controller
 {
@@ -13,6 +15,19 @@ class ProductController extends Controller
         $products = Product::getAllProducts();
         return view('product.list', compact('products'));
     }
+
+    public function generatePDF()
+    {
+        // Ambil semua data tanpa pagination
+        $products = Product::getAllProducts(); // <= inilah bedanya
+
+        // Buat PDF dari view
+        $pdf = Pdf::loadView('product.pdf', compact('products'));
+
+        // Tampilkan PDF di browser
+        return $pdf->stream('daftar_produk.pdf');
+    }
+
 
     public function getProductById($id)
     {
@@ -65,14 +80,26 @@ class ProductController extends Controller
 
     public function searchProduct($keyword)
     {
-        $products = Product::where('product_id', 'LIKE', "%{$keyword}%")
-            ->orWhere('product_name', 'LIKE', "%{$keyword}%")
-            ->orWhere('product_type', 'LIKE', "%{$keyword}%")
-            ->orWhereRaw('CAST(product_category AS CHAR) LIKE ?', ["%{$keyword}%"])
-            ->orWhere('product_description', 'LIKE', "%{$keyword}%")
-            ->paginate(10);
-
+        $products = Product::getProductByKeyword($keyword);
         return view('product.list', compact('products'));
+    }
+    public function getProductByCategory($product_category)
+    {
+        $products = Product::getProductByCategory($product_category);
+
+        // PERBAIKAN: cek apakah tidak ada data
+        if ($products->total() === 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak ada produk untuk kategori tersebut.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Produk berdasarkan kategori ditemukan.',
+            'data' => $products,
+        ]);
     }
 
 }

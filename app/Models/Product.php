@@ -104,4 +104,27 @@ class Product extends Model
         return $this->hasMany(Item::class, 'sku', 'product_id');
     }
 
+    public static function deleteProductById($id)
+    {
+        $product = self::find($id);
+        if (!$product) {
+            return false;
+        }
+
+        $used = Item::where('product_id', $product->product_id)->exists();
+        if ($used) {
+            return false;
+        }
+
+        $product->delete();
+        return true;
+    }
+
+    public static function countProductByCategory()
+    {
+        return DB::table('products')
+            ->select('product_category', DB::raw('COUNT(*) as total'))
+            ->groupBy('product_category')
+            ->get();
+    }
 }

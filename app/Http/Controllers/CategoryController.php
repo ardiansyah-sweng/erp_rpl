@@ -25,7 +25,7 @@ class CategoryController extends Controller
 
         return redirect()->route('category.list')->with('success', 'Kategori berhasil ditambahkan!');
     }
-    public function getCategoryList() 
+    public function getCategoryList()
     {
         $category = Category::with('parent')->paginate(10);
         return view('product.category.list', compact('category'));
@@ -34,10 +34,10 @@ class CategoryController extends Controller
     {
         $categories = Category::getCategory(); // kita tambahkan method ini di bawah
         $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
-        return $pdf->stream('laporan_kategori.pdf'); 
+        return $pdf->stream('laporan_kategori.pdf');
     }
 
-    public function updateCategory(Request $request, $id) 
+    public function updateCategory(Request $request, $id)
     {
         $validated = $request->validate([
             'category' => 'required|string|min:3',
@@ -72,12 +72,12 @@ class CategoryController extends Controller
             return response()->json(['message' => 'Category not found'], 404);
         }
 
-        return response()->json($category);
-        //return view('detail.blade', compact('category'));
+        //return response()->json($category);
+        return view('product.category.detail', compact('category'));
         //apabila halaman detail kategori sudah ada harap untuk di uncomment return view
         //dan return response nya di hapus
     }
- //Search Category 
+    //Search Category 
     public function searchCategory(Request $request)
     {
         $keyword = $request->input('q');
@@ -100,6 +100,21 @@ class CategoryController extends Controller
         } else {
             return redirect()->back()->with('error', 'Kategori tidak ditemukan atau gagal dihapus.');
         }
+    }
+    public function getCategoryByParent($parentId)
+    {
+        // Panggil method yang diizinkan
+        $allCategories = Category::getCategory();
+        // Filter data yang parent_id-nya sesuai
+        $filtered = $allCategories->where('parent_id', $parentId)->values();
+
+        if ($filtered->isEmpty()) {
+            return response()->json([
+                'message' => 'Tidak ada kategori dengan parent ID tersebut'
+            ], 404);
+        }
+
+        return response()->json($filtered, 200);
     }
 
 }

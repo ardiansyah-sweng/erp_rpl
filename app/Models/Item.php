@@ -120,6 +120,10 @@ class Item extends Model
 
     public static function countItemByCategory($category){
         return self::where('product_id', $category)->count();
+
+    public static function searchItem($keyword)
+    {
+        return self::where('item_name', 'like', '%' . $keyword . '%')->paginate(10);
     }
     
     public static function getItemByCategory($categoryId)
