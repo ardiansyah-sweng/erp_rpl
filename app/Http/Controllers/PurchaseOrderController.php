@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class PurchaseOrderController extends Controller
 {
@@ -110,22 +111,33 @@ class PurchaseOrderController extends Controller
     }
     public function getPurchaseOrderByStatus($status)
     {
-        $filtered = DB::table('purchase_order')
-                    ->where('status', $status)
-                    ->get();
+        $purchaseOrders = \App\Models\PurchaseOrder::where('status', $status)
+                                      ->latest('order_date')
+                                      ->paginate(10);
 
-        //data kosong
-        if ($filtered->isEmpty()) {
-            return response()->json([
-                'message' => 'No purchase orders found with status: ' . $status,
-            ], 404);
+        return view('purchase_orders.list', compact('purchaseOrders', 'status'));
+    }
+    public function sendMailPurchaseOrder(Request $request)
+    {
+        $data = $request->all();
+
+        if (empty($data['header']) || empty($data['items'])) {
+            return response()->json(['error' => 'Data tidak lengkap untuk mengirim email.'], 400);
         }
 
-        return response()->json([
-            'status' => $status,
-            'count' => $filtered->count(),
-            'data' => $filtered
-        ], 200);
-    }
+        try {
+            $emailTujuan = 'syah.ykm@gmail.com'; // Ganti dengan email Anda jika perlu
+            $dataUntukEmail = ['data' => $data];
 
+            Mail::send('purchase_orders.email', $dataUntukEmail, function ($message) use ($emailTujuan, $data) {
+                $message->to($emailTujuan)
+                        ->subject('Purchase Order Baru: ' . $data['header']['po_number']);
+            });
+
+            return response()->json(['success' => 'Email pesanan berhasil dikirim.']);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Server gagal mengirim email: ' . $e->getMessage()], 500);
+        }
+    }
 }

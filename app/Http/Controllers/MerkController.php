@@ -47,5 +47,17 @@ class MerkController extends Controller
         //ini saya ubah jadi view agar bisa berjalan di view merk/list
         return view('merk.list',compact('merks'));
     }
+
+     public function deleteMerk($id)
+    {
+        $deleted = Merk::deleteMerk($id);
+
+        if ($deleted) {
+        return redirect()->back()->with('success', 'Merk berhasil dihapus.');
+        } 
+        else {
+        return redirect()->back()->with('error', 'Merk gagal dihapus.');
+        }
+    }
 }
 
