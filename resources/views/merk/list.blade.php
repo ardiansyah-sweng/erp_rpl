@@ -423,7 +423,9 @@
                     <tr class="align-middle">
                      <td>{{ $merk->id }}</td>
                      <td>{{ $merk->merk }}</td>
-                     <td>{{ $merk->active }}</td>
+                    <td style="color: {{ $merk->active == 0 ? 'green' : 'red' }}">
+                        {{ $merk->active == 0 ? 'Aktif' : 'Non Aktif' }}
+                    </td>
                      <td>{{ $merk->created_at}}</td>
                      <td>{{ $merk->updated_at }}</td>
 
