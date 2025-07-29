@@ -114,7 +114,7 @@ class SupplierPic extends Model
             ];
         }
     }
-    // method untuk menhitung jumlah Pic bedasarkan staus aktif
+    // method untuk menghitung jumlah suplier Pic bedasarkan status aktif dan non aktif
     public static function countSupplierPIC($supplier_id)
     {
     $data = self::select('active', \DB::raw('COUNT(*) as total'))
