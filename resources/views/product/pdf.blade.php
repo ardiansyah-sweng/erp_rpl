@@ -1,16 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Daftar Produk</title>
+    <title>Laporan Produk - {{ $type }}</title>
     <style>
-        body { font-family: sans-serif; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        body { 
+            font-family: sans-serif; 
+            font-size: 14px; 
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+        }
+        th, td { 
+            border: 1px solid #333; 
+            padding: 8px; 
+            text-align: left; 
+            font-size: 12px;
+        }
+        th { 
+            background-color: #f5f5f5; 
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <h2>Daftar Produk</h2>
+    <h2>Laporan Daftar Produk - {{ $type }}</h2>
     <table>
         <thead>
             <tr>
@@ -30,10 +50,18 @@
                 <td>{{ $product->product_name }}</td>
                 <td>{{ $product->product_type }}</td>
                 <td>{{ $product->category ? $product->category->category : '-' }}</td>
-                <td>{{ $product->product_description }}</td>
+                <td>{{ $product->product_description ?: '-' }}</td>
             </tr>
             @endforeach
+            @if(count($products) === 0)
+                <tr>
+                    <td colspan="6" style="text-align: center;">Tidak ada produk untuk tipe ini</td>
+                </tr>
+            @endif
         </tbody>
     </table>
+    <div style="margin-top: 30px; font-size: 12px; text-align: right;">
+        Dicetak pada: {{ now()->format('d/m/Y H:i') }}
+    </div>
 </body>
 </html>

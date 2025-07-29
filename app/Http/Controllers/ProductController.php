@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\EncryptionHelper;
+use App\Enums\ProductType;
 
 
 class ProductController extends Controller
@@ -46,24 +47,32 @@ class ProductController extends Controller
 
     public function printProductsByType($type)
     {
-        $productType = ProductType::from($type);
-        $products = Product::getProductByType($type)
-            ->load(['category'])
-            ->each(function ($product) {
-                $product->items_count = Item::where('sku', 'LIKE', $product->product_id . '%')->count();
-            });
-        
-        $pdf = PDF::loadView('product.pdf.by-type', [
+        if ($type === 'ALL') {
+            // Get all products
+            $products = Product::with('category')->get();
+            $typeLabel = 'Semua Tipe';
+        } else {
+            // Get the enum case based on the type parameter
+            $productType = ProductType::tryFrom($type);
+            if (!$productType) {
+                abort(404, 'Invalid product type');
+            }
+
+            // Get products of the specified type
+            $products = Product::getProductByType($type)
+                ->load(['category']);
+            $typeLabel = $productType->value;
+        }
+
+        // Load the PDF view
+        $pdf = PDF::loadView('product.pdf', [
             'products' => $products,
-            'type' => $productType->label()
+            'type' => $typeLabel
         ]);
-        
-        return $pdf->download('products-' . strtolower($type) . '.pdf');
+
+        // Stream the PDF to the browser
+        return $pdf->stream("products_{$type}.pdf");
     }
-    // $product = (object)$productData;
-
-    // return view('product.detail', compact('product'));
-
 
     public function addProduct(Request $request)
     {
