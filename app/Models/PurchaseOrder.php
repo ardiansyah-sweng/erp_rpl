@@ -255,6 +255,9 @@ class PurchaseOrder extends Model
         $dompdf->render();
 
         return $dompdf->output(); // return sebagai string (bukan stream langsung)
+    public static function GetPOcountByStatus($status)
+    {
+        return self::where('status', $status)->count();
     }
 
 }
