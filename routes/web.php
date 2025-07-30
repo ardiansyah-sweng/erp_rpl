@@ -107,6 +107,7 @@ Route::post('/product/add', [ProductController::class, 'addProduct'])->name('pro
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('product.pdf');
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
+Route::get('/products/print/{type}', [ProductController::class, 'printProductsByType'])->name('products.print.by-type');
 
 
 
@@ -206,6 +207,7 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
+Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
 
 #Category
 Route::get('/category/search', [CategoryController::class, 'searchCategory']);
