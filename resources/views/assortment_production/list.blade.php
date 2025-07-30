@@ -373,7 +373,7 @@
                     <div class="row align-items-center">
                         <div class="col-sm-6 d-flex align-items-center">
                             <h3 class="mb-0 me-2">Productions</h3> 
-                            <a href="# " class="btn btn-primary btn-sm">Tambah</a>
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahProduksi">Tambah</button>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-end">
@@ -383,84 +383,94 @@
                         </div>
                     </div>
                     <!--end::Row-->
-                    <!-- Form Input Material -->
-                    <div class="card p-4 mb-4 shadow-sm" style="max-width: 900px; margin: auto; border-radius: 16px; background: #fff;">
-                      <!-- Form Produksi -->
-                      <form id="productionInputForm" class="mb-3">
-                        <div class="row g-3 mb-3">
-                          <div class="col-md-6">
-                            <label class="form-label fw-semibold">Nomor Produksi</label>
-                            <input type="text" class="form-control" id="nomorProduksi" placeholder="">
+                    <!-- Modal Tambah Produksi & Material -->
+                    <div class="modal fade" id="modalTambahProduksi" tabindex="-1" aria-labelledby="modalTambahProduksiLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="modalTambahProduksiLabel">Tambah Produksi & Material</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
-                          <div class="col-md-6">
-                            <label class="form-label fw-semibold">SKU</label>
-                            <input type="text" class="form-control" id="sku" placeholder="">
-                          </div>
-                          <div class="col-md-6">
-                            <label class="form-label fw-semibold">Cabang</label>
-                            <select class="form-select" id="cabang">
-                              <option value="">Pilih Cabang</option>
-                              <option value="A">Cabang A</option>
-                              <option value="B">Cabang B</option>
-                            </select>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="form-label fw-semibold">Gudang Finished Goods</label>
-                            <input type="date" class="form-control" id="gudangFG">
-                          </div>
-                          <div class="col-md-6">
-                            <label class="form-label fw-semibold">Gudang Raw Material</label>
-                            <select class="form-select" id="gudangRM">
-                              <option value="">Pilih Gudang</option>
-                              <option value="RM1">Gudang RM1</option>
-                              <option value="RM2">Gudang RM2</option>
-                            </select>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="form-label fw-semibold">Tanggal Produksi</label>
-                            <input type="date" class="form-control" id="tanggalProduksi">
+                          <div class="modal-body">
+                            <!-- Form Produksi -->
+                            <form id="productionInputForm" class="mb-3">
+                              <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                  <label class="form-label fw-semibold">Nomor Produksi</label>
+                                  <input type="text" class="form-control" id="nomorProduksi" placeholder="">
+                                </div>
+                                <div class="col-md-6">
+                                  <label class="form-label fw-semibold">SKU</label>
+                                  <input type="text" class="form-control" id="sku" placeholder="">
+                                </div>
+                                <div class="col-md-6">
+                                  <label class="form-label fw-semibold">Cabang</label>
+                                  <select class="form-select" id="cabang">
+                                    <option value="">Pilih Cabang</option>
+                                    <option value="A">Cabang A</option>
+                                    <option value="B">Cabang B</option>
+                                  </select>
+                                </div>
+                                <div class="col-md-6">
+                                  <label class="form-label fw-semibold">Gudang Finished Goods</label>
+                                  <input type="date" class="form-control" id="gudangFG">
+                                </div>
+                                <div class="col-md-6">
+                                  <label class="form-label fw-semibold">Gudang Raw Material</label>
+                                  <select class="form-select" id="gudangRM">
+                                    <option value="">Pilih Gudang</option>
+                                    <option value="RM1">Gudang RM1</option>
+                                    <option value="RM2">Gudang RM2</option>
+                                  </select>
+                                </div>
+                                <div class="col-md-6">
+                                  <label class="form-label fw-semibold">Tanggal Produksi</label>
+                                  <input type="date" class="form-control" id="tanggalProduksi">
+                                </div>
+                              </div>
+                            </form>
+                            <div class="table-responsive mb-4">
+                              <table id="materialTable" class="table table-bordered align-middle mb-0" style="border-radius: 8px; overflow: hidden;">
+                                <thead class="table-light text-center">
+                                  <tr>
+                                    <th>Nama Item</th>
+                                    <th>Quantity</th>
+                                    <th>Satuan</th>
+                                    <th>Aksi</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <!-- Baris material akan ditambah lewat JS -->
+                                </tbody>
+                              </table>
+                            </div>
+                            <!-- Form Add Material -->
+                            <form id="addMaterialForm" class="mb-4">
+                              <div class="row align-items-end g-2 mb-2">
+                                <div class="col-md-4">
+                                  <label for="materialName" class="form-label fw-semibold">Nama Item</label>
+                                  <input type="text" class="form-control" id="materialName" placeholder="Nama Item" required>
+                                </div>
+                                <div class="col-md-3">
+                                  <label for="materialQty" class="form-label fw-semibold">Quantity</label>
+                                  <input type="number" class="form-control" id="materialQty" placeholder="Quantity" min="1" required>
+                                </div>
+                                <div class="col-md-3">
+                                  <label for="materialUnit" class="form-label fw-semibold">Satuan</label>
+                                  <select class="form-select" id="materialUnit">
+                                    <option value="PCS">PCS</option>
+                                    <option value="KG">KG</option>
+                                    <option value="L">L</option>
+                                  </select>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-end">
+                                  <button type="submit" class="btn btn-success w-100" style="height: 38px;">Tambah Material</button>
+                                </div>
+                              </div>
+                            </form>
                           </div>
                         </div>
-                      </form>
-                      <div class="table-responsive mb-4">
-                        <table id="materialTable" class="table table-bordered align-middle mb-0" style="border-radius: 8px; overflow: hidden;">
-                          <thead class="table-light text-center">
-                            <tr>
-                              <th>Nama Item</th>
-                              <th>Quantity</th>
-                              <th>Satuan</th>
-                              <th>Aksi</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <!-- Baris material akan ditambah lewat JS -->
-                          </tbody>
-                        </table>
                       </div>
-                      <!-- Form Add Material -->
-                      <form id="addMaterialForm" class="mb-4">
-                        <div class="row align-items-end g-2 mb-2">
-                          <div class="col-md-4">
-                            <label for="materialName" class="form-label fw-semibold">Nama Item</label>
-                            <input type="text" class="form-control" id="materialName" placeholder="Nama Item" required>
-                          </div>
-                          <div class="col-md-3">
-                            <label for="materialQty" class="form-label fw-semibold">Quantity</label>
-                            <input type="number" class="form-control" id="materialQty" placeholder="Quantity" min="1" required>
-                          </div>
-                          <div class="col-md-3">
-                            <label for="materialUnit" class="form-label fw-semibold">Satuan</label>
-                            <select class="form-select" id="materialUnit">
-                              <option value="PCS">PCS</option>
-                              <option value="KG">KG</option>
-                              <option value="L">L</option>
-                            </select>
-                          </div>
-                          <div class="col-md-2 d-flex align-items-end">
-                            <button type="submit" class="btn btn-success w-100" style="height: 38px;">Tambah Material</button>
-                          </div>
-                        </div>
-                      </form>
                     </div>
                 </div>
                 <!--end::Container-->
