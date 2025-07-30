@@ -17,6 +17,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
+use App\Models\BillOfMaterial;
 
 #Login
 Route::get('/', function () {
@@ -282,4 +283,12 @@ Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 #Get Product By Category Controller
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
 
+Route::get('/bomdetail/{id}', function ($id) {
+    $data = BillOfMaterial::getBomDetail($id);
 
+    if (!$data) {
+        return response()->json(['message' => 'Bill of Material tidak ditemukan'], 404);
+    }
+
+    return response()->json($data);
+});
