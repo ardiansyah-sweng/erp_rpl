@@ -63,14 +63,11 @@ class MerkController extends Controller
 
     public function printMerkPDF()
     {
-        // Ambil semua data tanpa pagination
-        $merks = Merk::all(); // <= inilah bedanya
-        // Buat PDF dari view
+        
+        $merks = Merk::all(); 
         $pdf = Pdf::loadView('merk.pdf', compact('merks'));
-
-        // Tampilkan PDF di browser
         return $pdf->stream('daftar_merk.pdf');
-}
+    }
     public function addMerk(Request $request)
     {
         // Validasi input
