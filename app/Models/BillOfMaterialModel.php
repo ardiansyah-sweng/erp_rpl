@@ -43,7 +43,7 @@ class BillOfMaterialModel extends Model
 
     public function items()
     {
-    return $this->hasMany(BillOfMaterialDetail::class, 'bom_id', 'bom_id');
+        return $this->hasMany(BillOfMaterialDetail::class, 'bom_id', 'bom_id');
     }
 
     public static function countItemInBom($id)
