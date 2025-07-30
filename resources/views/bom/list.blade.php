@@ -401,11 +401,11 @@
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">BOM ID</label>
-                              <input type="text" class="form-control" id="bomID" placeholder="Satuan">
+                              <input type="text" class="form-control" id="bomID" placeholder="BOM ID">
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Measurement Unit</label>
-                              <input type="text" class="form-control" id="bomMeasurement" placeholder="Measuremmet Unit">
+                              <input type="text" class="form-control" id="bomMeasurement" placeholder="Satuan Ukuran">
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Total Cost</label>
