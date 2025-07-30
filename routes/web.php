@@ -291,5 +291,4 @@ Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 
 #Get Product By Category Controller
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
-
-
+Route::put('/bill-of-material/{id}', [BillOfMaterialController::class, 'updateBillOfMaterial'])->name('bill-of-material.update');
