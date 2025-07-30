@@ -35,17 +35,27 @@ class ProductController extends Controller
 
     public function addProduct(Request $request)
     {
-        $validatedData = $request->validate([
-            'product_id' => 'required|string|unique:products,product_id',
-            'product_name' => 'required|string',
-            'product_type' => 'required|string',
-            'product_category' => 'required|string',
-            'product_description' => 'nullable|string',
+        // Validasi data
+        $request->validate([
+            'product_id' => 'required',
+            'product_name' => 'required',
+            'product_type' => 'required',
+            'category' => 'required',
+            // dst
         ]);
 
-        Product::addProduct($validatedData);
+        // Simpan ke database
+        Product::create([
+            'product_id' => $request->product_id,
+            'product_name' => $request->product_name,
+            'product_type' => $request->product_type,
+            'category' => $request->category,
+            'product_description' => $request->product_description,
+            // dst
+        ]);
 
-        return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
+        // Redirect atau tampilkan pesan sukses
+        return redirect()->route('product.list')->with('success', 'Produk berhasil ditambahkan!');
     }
     public function updateProduct(Request $request, $id)
     {
