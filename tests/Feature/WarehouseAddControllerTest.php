@@ -31,7 +31,7 @@ class WarehouseAddControllerTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('warehouse', [
-            'warehouse_name' => 'Gudang Coba',
+            'warehouse_name' => $data['warehouse_name'],
         ]);
     }
 
