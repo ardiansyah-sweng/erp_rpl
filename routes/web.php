@@ -283,3 +283,4 @@ Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
 
 
+Route::post('/assort-production/add', [AssortProductionController::class, 'addProduction'])->name('assort-production.add');
