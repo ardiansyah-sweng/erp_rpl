@@ -64,4 +64,17 @@ class Supplier extends Model
         return $this->hasMany(PurchaseOrder::class, 'supplier_id', 'supplier_id');
     }
     
+    public static function deleteSupplier($id)
+    {
+        $supplier = self::find($id);
+
+        if (!$supplier) {
+            return ['success' => false, 'message' => 'Supplier tidak ditemukan.'];
+        }
+
+        $supplier->delete();
+
+        return ['success' => true, 'message' => 'Supplier berhasil dihapus.'];
+    }
+
 }
