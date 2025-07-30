@@ -223,4 +223,9 @@ class PurchaseOrder extends Model
         return $query->get();
     }
 
+    public static function GetPOcountByStatus($status)
+    {
+        return self::where('status', $status)->count();
+    }
+
 }
