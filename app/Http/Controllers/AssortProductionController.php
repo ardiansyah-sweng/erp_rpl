@@ -91,5 +91,27 @@ class AssortProductionController extends Controller
             return response()->json(['message' => 'Gagal menghapus data'], 500);
         }
     }
+    public function addProduction(Request $request)
+    {
+        // Validasi input berdasarkan kolom yang terlihat dari database kamu
+        $validated = $request->validate([
+            'in_production'     => 'required|boolean',
+            'production_number' => 'required|string|max:50|unique:assortment_production,production_number',
+            'sku'               => 'required|string|max:100',
+            'branch_id'         => 'required|integer',
+            'rm_whouse_id'      => 'required|integer',
+            'fg_whouse_id'      => 'required|integer',
+            'production_date'   => 'required|date',
+            'finished_date'     => 'nullable|date',
+            'description'       => 'nullable|string|max:255',
+        ]);
 
+        // Gunakan method dari model
+        $production = AssortmentProduction::addProduction($validated);
+
+        return response()->json([
+            'message' => 'Data produksi berhasil ditambahkan.',
+            'data'    => $production,
+        ], 201);
+    }
 }
