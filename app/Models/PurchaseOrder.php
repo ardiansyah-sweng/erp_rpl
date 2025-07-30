@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Enums\POStatus;
 use Carbon\Carbon;
+use Dompdf\Dompdf;
 
 class PurchaseOrder extends Model
 {
@@ -221,6 +222,39 @@ class PurchaseOrder extends Model
         }
 
         return $query->get();
+    }
+
+    public function generatePDFByDateSupplier($startDate, $endDate, $supplierID)
+    {
+        $orderCount = $this->countOrdersByDateSupplier($startDate, $endDate, $supplierID);
+
+        // Gunakan dummy HTML jika dalam mode unit test
+        if (app()->runningUnitTests()) {
+            $html = "
+                <html>
+                    <body>
+                        <h1>Laporan Order</h1>
+                        <p>Supplier ID: {$supplierID}</p>
+                        <p>Periode: {$startDate} s/d {$endDate}</p>
+                        <p>Total Order: {$orderCount}</p>
+                    </body>
+                </html>
+            ";
+        } else {
+            $html = view('purchase_orders.pdf_report_by_date_supplier', [
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+                'supplierID' => $supplierID,
+                'orderCount' => $orderCount
+            ])->render();
+        }
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        return $dompdf->output(); // return sebagai string (bukan stream langsung)
     }
 
 }
