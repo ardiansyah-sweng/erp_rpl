@@ -48,11 +48,11 @@ class BillOfMaterialModel extends Model
 
     public static function countItemInBom($id)
     {
-    $bomDetailTable = config('db_constants.table.bom_detail');
+        $bomDetailTable = config('db_constants.table.bom_detail');
 
-    return \DB::table($bomDetailTable)
-              ->where('bom_id', $id)
-              ->count();
+        return \DB::table($bomDetailTable)
+                  ->where('bom_id', $id)
+                  ->count();
     }
 
 }
