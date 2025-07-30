@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class BillOfMaterial extends Model
 {
@@ -36,7 +37,7 @@ class BillOfMaterial extends Model
 
     public static function getBillOfMaterialById($id)
     {
-        return self::where('bom_id',$id)->get();
+        return self::where('bom_id', $id)->get();
     }
 
     public static function getBillOfMaterial()
@@ -50,18 +51,18 @@ class BillOfMaterial extends Model
 
         if ($keywords) {
             $query->where('bom_id', 'LIKE', "%{$keywords}%")
-                  ->orWhere('bom_name', 'LIKE', "%{$keywords}%")
-                  ->orWhere('measurement_unit', 'LIKE', "%{$keywords}%")
-                  ->orWhere('total_cost', 'LIKE', "%{$keywords}%")
-                  ->orWhere('active', 'LIKE', "%{$keywords}%")
-                  ->orWhere('created_at', 'LIKE', "%{$keywords}%")
-                  ->orWhere('updated_at', 'LIKE', "%{$keywords}%");
+                ->orWhere('bom_name', 'LIKE', "%{$keywords}%")
+                ->orWhere('measurement_unit', 'LIKE', "%{$keywords}%")
+                ->orWhere('total_cost', 'LIKE', "%{$keywords}%")
+                ->orWhere('active', 'LIKE', "%{$keywords}%")
+                ->orWhere('created_at', 'LIKE', "%{$keywords}%")
+                ->orWhere('updated_at', 'LIKE', "%{$keywords}%");
         }
 
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
 
-    public static function updateBillOfMaterial($bom_id, array $data)//Sudah sesuai pada ERP RPL
+    public static function updateBillOfMaterial($bom_id, array $data) //Sudah sesuai pada ERP RPL
     {
         $bom = self::find($bom_id);
         if (!$bom) {
@@ -71,5 +72,31 @@ class BillOfMaterial extends Model
 
         return $bom;
     }
+    public static function getBomDetail($id)
+    {
+        $bom = self::where('id', $id)->first();
 
+        if (!$bom) {
+            return null;
+        }
+
+        // Ambil detail dari tabel bom_detail
+        $details = DB::table('bom_detail')
+            ->where('bom_id', $bom->bom_id)
+            ->select('id', 'bom_id', 'sku', 'quantity', 'cost', 'created_at', 'updated_at')
+            ->get();
+
+        // Gabungkan data utama dan detail
+        return [
+            'id'               => $bom->id,
+            'bom_id'           => $bom->bom_id,
+            'bom_name'         => $bom->bom_name,
+            'measurement_unit' => $bom->measurement_unit,
+            'total_cost'       => $bom->total_cost,
+            'active'           => $bom->active,
+            'created_at'       => $bom->created_at,
+            'updated_at'       => $bom->updated_at,
+            'details'          => $details,
+        ];
+    }
 }

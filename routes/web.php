@@ -17,6 +17,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
+use App\Models\BillOfMaterial;
 
 #Login
 Route::get('/', function () {
@@ -269,6 +270,15 @@ Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMate
 Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
 Route::get('/bill-of-material/{id}', [BillOfMaterialController::class, 'getBomDetail']);
 Route::get('/bill-of-material/search/{keyword?}', [BillOfMaterialController::class, 'searchBillOfMaterial']);
+Route::get('/bom/detail/{id}', function ($id) {
+    $bom = BillOfMaterial::getBomDetail($id);
+
+    if (!$bom) {
+        abort(404, 'Bill of Material tidak ditemukan');
+    }
+
+    return response()->json($bom);
+})->name('bom.detail');
 
 #Goods Receipt Notes
 Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote']);
