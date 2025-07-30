@@ -99,4 +99,9 @@ class Warehouse extends Model
             'is_active' => $data['is_active'],
         ]);
     }
+        public function getWareHouseAll()
+    {
+        return self::all();
+    }
+
 }
