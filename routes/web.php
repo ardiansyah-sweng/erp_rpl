@@ -17,6 +17,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
+use App\Models\BillOfMaterial;
 
 #Login
 Route::get('/', function () {
@@ -107,6 +108,7 @@ Route::post('/product/add', [ProductController::class, 'addProduct'])->name('pro
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('product.pdf');
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
+Route::get('/products/print/{type}', [ProductController::class, 'printProductsByType'])->name('products.print.by-type');
 
 #Product Update
 
@@ -217,6 +219,7 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
+Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
 
 #Category
 Route::get('/category/search', [CategoryController::class, 'searchCategory']);
@@ -279,6 +282,15 @@ Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMate
 Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
 Route::get('/bill-of-material/{id}', [BillOfMaterialController::class, 'getBomDetail']);
 Route::get('/bill-of-material/search/{keyword?}', [BillOfMaterialController::class, 'searchBillOfMaterial']);
+Route::get('/bom/detail/{id}', function ($id) {
+    $bom = BillOfMaterial::getBomDetail($id);
+
+    if (!$bom) {
+        abort(404, 'Bill of Material tidak ditemukan');
+    }
+
+    return response()->json($bom);
+})->name('bom.detail');
 
 #Goods Receipt Notes
 Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote']);
@@ -293,3 +305,4 @@ Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
 
 
+Route::post('/assort-production/add', [AssortProductionController::class, 'addProduction'])->name('assort-production.add');
