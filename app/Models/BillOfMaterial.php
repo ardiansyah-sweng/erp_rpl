@@ -116,5 +116,5 @@ class BillOfMaterial extends Model
     {
         return $this->hasMany(BillOfMaterialDetail::class, 'bom_id', 'bom_id');
     }
-
+ 
 }

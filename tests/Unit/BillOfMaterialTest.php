@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Models\BillOfMaterial;
 
-class BillOfMaterialModelTest extends TestCase
+class BillOfMaterialTest extends TestCase
 {
     /** @test */
     public function it_counts_items_in_existing_boms()
