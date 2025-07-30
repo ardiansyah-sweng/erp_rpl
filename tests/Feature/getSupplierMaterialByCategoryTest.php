@@ -8,9 +8,9 @@ use App\Models\SupplierMaterial;
 class getSupplierMaterialByCategoryTest extends TestCase
 {
     /** @test */
-    public function getSupplierMaterialByCategory_returns_valid_data()
+    public function getSupplierMaterialByCategorysupplier_returns_valid_data()
     {
-        $results = SupplierMaterial::getSupplierMaterialByCategory();
+        $results = SupplierMaterial::getSupplierMaterialByCategorysupplier();
 
         // Pastikan hasil tidak null dan berupa iterable
         $this->assertNotNull($results, 'Hasil join tidak boleh null');
