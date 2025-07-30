@@ -76,7 +76,6 @@ class BillOfMaterialModelTest extends TestCase
         $this->assertCount(1, $result['details']);
         $this->assertEquals('SKU001', $result['details'][0]->sku);
     }
-
 }
 
 
