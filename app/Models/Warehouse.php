@@ -7,10 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class Warehouse extends Model
 {
-    public function getWareHouseAll()
-    {
-        return self::all();
-    }
     protected $table;
     protected $fillable = [];
 
