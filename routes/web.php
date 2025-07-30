@@ -294,3 +294,5 @@ Route::get('/products/category/{product_category}', [ProductController::class, '
 
 
 Route::post('/assort-production/add', [AssortProductionController::class, 'addProduction'])->name('assort-production.add');
+
+Route::get('/warehouse/all', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.all');
