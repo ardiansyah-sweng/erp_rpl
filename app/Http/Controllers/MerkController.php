@@ -60,6 +60,7 @@ class MerkController extends Controller
         }
     }
 
+
     public function printMerkPDF()
     {
         // Ambil semua data tanpa pagination
@@ -69,6 +70,25 @@ class MerkController extends Controller
 
         // Tampilkan PDF di browser
         return $pdf->stream('daftar_merk.pdf');
+}
+    public function addMerk(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'merk' => 'required|string|max:100',
+            'active' => 'nullable|boolean',
+        ]);
+
+        $namaMerk = $request->input('merk');
+        $active = $request->input('active', 1); // default aktif
+
+        $newMerk = Merk::addMerk($namaMerk, $active);
+
+        return response()->json([
+            'message' => 'Merk berhasil ditambahkan',
+            'data' => $newMerk,
+        ]);
+
     }
 }
 
