@@ -109,7 +109,7 @@ class SupplierMaterialController extends Controller
 
     public function showSupplierWithItem()
     {
-        $data = SupplierMaterial::getJoinedSupplierItemData();
+        $data = SupplierMaterial::getJoiSupplierMaterialByCategoryy();
         return response()->json($data); // atau kamu bisa return ke view nanti
     }
 
