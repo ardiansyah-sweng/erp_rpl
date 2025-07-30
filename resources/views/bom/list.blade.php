@@ -401,10 +401,10 @@
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">BOM ID</label>
-                              <input type="text" class="form-control" id="bomID" placeholder="PCS">
+                              <input type="text" class="form-control" id="bomID" placeholder="Satuan">
                             </div>
                             <div class="col-md-6">
-                              <label class="form-label fw-semibold">Measurement</label>
+                              <label class="form-label fw-semibold">Measurement Unit</label>
                               <input type="text" class="form-control" id="bomMeasurement" placeholder="Measuremmet Unit">
                             </div>
                             <div class="col-md-6">
