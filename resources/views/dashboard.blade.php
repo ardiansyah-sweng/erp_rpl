@@ -383,6 +383,14 @@
                   </a>
                 </li>
               </ul>
+                          <li class="nav-item">
+              <a href="/warehouse/list" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>
+                  Warehouse
+                </p>
+              </a>
+            </li>
 
             </li>
           </ul>

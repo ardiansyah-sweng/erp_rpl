@@ -86,7 +86,7 @@ class Item extends Model
         $item->update($data);
     
         return $item;
-       }
+    }
 
 
     public function addItem($data)
@@ -118,6 +118,8 @@ class Item extends Model
             ->get();
     }
 
+    public static function countItemByCategory($category){
+        return self::where('product_id', $category)->count();
     public static function searchItem($keyword)
     {
         return self::where('item_name', 'like', '%' . $keyword . '%')->paginate(10);
@@ -136,5 +138,4 @@ class Item extends Model
             )
             ->get();
     }
-
 }

@@ -92,11 +92,8 @@ Route::get('/warehouse/add', function () {
 Route::get('product/category/detail', function () {
     return view('product/category/detail');
 });
-
 #warehouse
 // Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
-
-
 
 
 # Product
@@ -127,7 +124,6 @@ Route::get('/api/branches/{id}', [BranchController::class, 'getBranchById'])->na
 # Branch
 Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
-Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('branch.delete');
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
 Route::post('/branch/update/{id}', [BranchController::class, 'updateBranch'])->name('branch.update');
 Route::get('/branch/detail/{id}', [BranchController::class, 'getBranchByID']);
@@ -157,6 +153,7 @@ Route::get('/supplier/pic/list', function () {
     $pics = App\Models\SupplierPic::getSupplierPICAll(10);
     return view('supplier.pic.list', compact('pics')); //implementasi sementara(menunggu controller dari faiz el fayyed)
 })->name('supplier.pic.list');
+
 Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplierPic'])->name('supplier.pic.list');
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
 Route::get('/supplier/pic/list', [SupplierPIController::class, 'getSupplierPICAll'])->name('supplier-pic.list');
@@ -191,11 +188,12 @@ Route::delete('/merk/delete/{id}', [MerkController::class, 'deleteMerk'])->name(
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
-Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('Supplier.detail');
+
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete'])->name('supplier.pic.delete');
 Route::get('/supplier/list', [SupplierController::class, 'listSuppliers'])->name('supplier.list');
+
 
 Route::get('/supplier/material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialById'])->name('supplier.material.detail');
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
@@ -209,6 +207,8 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
+
+Route::get('item/category-count',[ItemController::class,'countItemByCategory']);
 
 #Category
 Route::get('/category/search', [CategoryController::class, 'searchCategory']);
@@ -233,6 +233,9 @@ Route::get('/warehouse/search', [WarehouseController::class, 'searchWarehouse'])
 Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
 Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
 Route::get('/warehouse/report', [WarehouseController::class, 'exportPdf'])->name('warehouse.report');
+
+Route::get('/warehouse/list', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.list');
+
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
