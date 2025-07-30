@@ -401,7 +401,7 @@
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">BOM ID</label>
-                              <input type="text" class="form-control" id="bomID" placeholder="bom001">
+                              <input type="text" class="form-control" id="bomID" placeholder="PCS">
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Measurement</label>
