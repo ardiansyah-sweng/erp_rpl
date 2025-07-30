@@ -132,4 +132,26 @@ class SupplierPic extends Model
 
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
+
+    // Menghitung semua PIC untuk supplier tertentu (aktif + nonaktif)
+    public static function countSupplierPIC($supplierID)
+    {
+        return self::where('supplier_id', $supplierID)->count();
+    }
+
+    // Menghitung hanya PIC yang aktif
+    public static function countActivePIC($supplierID)
+    {
+        return self::where('supplier_id', $supplierID)
+                    ->where('active', 1)
+                    ->count();
+    }
+
+    // Menghitung hanya PIC yang nonaktif
+    public static function countNonActivePIC($supplierID)
+    {
+        return self::where('supplier_id', $supplierID)
+                    ->where('active', 0)
+                    ->count();
+    }
 }
