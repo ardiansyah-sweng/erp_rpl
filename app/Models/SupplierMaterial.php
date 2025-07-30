@@ -121,5 +121,28 @@ class SupplierMaterial extends Model
             ->distinct('p.product_id')
             ->count(DB::raw('DISTINCT p.product_id'));
     }
+    
+    public function getSupplierMaterialByProductType($supplier_id, $product_type)
+    {
+        if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
+            return collect();
+        }
 
+        return DB::table('supplier_product')
+            ->join('products', DB::raw("SUBSTRING_INDEX(supplier_product.product_id, '-', -1)"), '=', 'products.product_id')
+            ->join('item', 'products.product_id', '=', 'item.product_id')
+            ->where('supplier_product.supplier_id', $supplier_id)
+            ->where('products.product_type', $product_type)
+            ->select(
+                'supplier_product.supplier_id',
+                'supplier_product.company_name',
+                'supplier_product.product_id',
+                'products.product_type',
+                'supplier_product.base_price',
+                'item.item_name',
+                'item.measurement_unit',
+                'item.stock_unit'
+            )
+            ->get();
+    }
 }
