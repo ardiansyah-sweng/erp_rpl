@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BillOfMaterial;
-use App\Models\BillOfMaterialModel;
+
 
 class BillOfMaterialController extends Controller
 {
@@ -48,7 +48,7 @@ class BillOfMaterialController extends Controller
 
     public function getBomDetail($id)
     {
-        $bom = BillOfMaterialModel::getBomDetail($id);
+        $bom = BillOfMaterial::getBomDetail($id);
 
         if (!$bom) {
             return abort(404, 'Bill of Material tidak ditemukan');
