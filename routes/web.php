@@ -107,7 +107,6 @@ Route::post('/product/add', [ProductController::class, 'addProduct'])->name('pro
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('product.pdf');
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
-Route::get('/products/print/{type}', [ProductController::class, 'printProductsByType'])->name('products.print.by-type');
 
 
 
@@ -207,7 +206,7 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
-Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
+Route::get('/supplier-pic/pdf/{supplier_id}', [SupplierPIController::class, 'cetakPdfBySupplierID'])->name('supplier.pic.pdf.by_supplier');
 
 #Category
 Route::get('/category/search', [CategoryController::class, 'searchCategory']);
@@ -224,7 +223,7 @@ Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete
 
 #cetak semua pdf pic
 Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
-
+Route::get('/supplier-pic/pdf/{supplier_id}', [SupplierPIController::class, 'cetakPdfBySupplierID'])->name('supplier.pic.pdf.by_supplier');
 
 # Warehouse
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById'])->name('warehouse.detail');
