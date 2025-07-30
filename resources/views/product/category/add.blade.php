@@ -280,7 +280,7 @@
                   <div class="card-header">
                     <h3 class="card-title">Tambah Kategori</h3>
                   </div>
-                  <form action="/kategori/store" method="POST" id="categoryForm"> {{-- Adjust action URL --}}
+                  <form action="{{ route('category.add') }}" method="POST"> {{-- Adjust action URL --}}
                     @csrf {{-- Laravel CSRF token --}}
                     <div class="card-body">
                         {{-- Checkbox for Sub Kategori --}}
@@ -328,7 +328,7 @@
                     </div>
                     
                     <div class="card-footer">
-                        <button type="button" class="btn btn-primary" onclick="validateCategoryForm()">Add</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
                         <button type="reset" class="btn btn-secondary">Cancel</button>
                     </div>
                   </form>

@@ -107,8 +107,9 @@ Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->na
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
 Route::get('/product/category/add', function () {
     return view('product.category.add');
-}
-)->name('product.category.add');
+})->name('product.category.add');
+Route::post('/product/category/add', [CategoryController::class, 'addCategory'])
+    ->name('category.add');
 
 #Product Update 
 
