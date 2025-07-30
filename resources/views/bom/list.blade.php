@@ -400,12 +400,16 @@
                               <input type="text" class="form-control" id="bomName" placeholder="Nama Bill of Material">
                             </div>
                             <div class="col-md-6">
-                              <label class="form-label fw-semibold">Deskripsi</label>
-                              <input type="text" class="form-control" id="bomDesc" placeholder="Deskripsi">
+                              <label class="form-label fw-semibold">BOM ID</label>
+                              <input type="text" class="form-control" id="bomID" placeholder="bom001">
                             </div>
                             <div class="col-md-6">
-                              <label class="form-label fw-semibold">Tanggal Dibuat</label>
-                              <input type="date" class="form-control" id="bomDate">
+                              <label class="form-label fw-semibold">Measurement</label>
+                              <input type="text" class="form-control" id="bomMeasurement" placeholder="Measuremmet Unit">
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label fw-semibold">Total Cost</label>
+                              <input type="text" class="form-control" id="bomTotalCost" placeholder="Total Cost">
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Status</label>
