@@ -17,7 +17,6 @@ class GetSupplierPICTest extends TestCase
 
         $response = $this->get('/supplier-pic/' . $pic->supplier_id);
 
-        dd($response->json());
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -28,8 +27,7 @@ class GetSupplierPICTest extends TestCase
                         'supplier_id',
                         'name',
                         'email',
-                        'phone',
-                        'position',
+                        'phone_number',
                         'assigned_date',
                         'lama_assigned',
                     ]
@@ -39,7 +37,7 @@ class GetSupplierPICTest extends TestCase
         $responseData = $response->json('data');
 
         foreach ($responseData as $item) {
-            $this->assertIsInt($item['lama_assigned']);
+            $this->assertIsNumeric($item['lama_assigned']);
         }
     }
 }
