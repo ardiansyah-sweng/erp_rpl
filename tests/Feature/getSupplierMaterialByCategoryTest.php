@@ -5,12 +5,12 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\SupplierMaterial;
 
-class SupplierMaterialJoinTest extends TestCase
+class getSupplierMaterialByCategoryTest extends TestCase
 {
     /** @test */
-    public function test_getJoiSupplierMaterialByCategoryy_returns_valid_data()
+    public function getSupplierMaterialByCategory_returns_valid_data()
     {
-        $results = SupplierMaterial::getJoiSupplierMaterialByCategoryy();
+        $results = SupplierMaterial::getSupplierMaterialByCategory();
 
         // Pastikan hasil tidak null dan berupa iterable
         $this->assertNotNull($results, 'Hasil join tidak boleh null');

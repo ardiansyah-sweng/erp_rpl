@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class SupplierMaterialJoinHttpTest extends TestCase
+class SupplierMaterialControllerByCategoryTest extends TestCase
 {
     /** @test */
     public function test_supplier_item_join_endpoint_returns_data()
