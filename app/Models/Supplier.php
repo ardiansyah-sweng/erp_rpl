@@ -56,12 +56,12 @@ class Supplier extends Model
 
     public function supplierPic()
     {
-        return $this->hasMany(SupplierPic::class);
+        return $this->hasMany(SupplierPic::class, 'supplier_id', 'supplier_id');
     }
 
     public function purchaseOrder()
     {
-        return $this->hasMany(PurchaseOrder::class);
+        return $this->hasMany(PurchaseOrder::class, 'supplier_id', 'supplier_id');
     }
     
 }

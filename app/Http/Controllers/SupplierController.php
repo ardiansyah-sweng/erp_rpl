@@ -42,18 +42,14 @@ class SupplierController extends Controller
         ]);
     }
 
-     public function getSupplier()
+    public function getSupplier()
     {
         $suppliers = Supplier::withCount([
             'supplierPic as pic_count',
             'purchaseOrder as po_count'
         ])->get();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'List supplier berhasil diambil',
-            'data' => $suppliers
-        ]);
+        return view('supplier.list', compact('suppliers'));
     }
 
 }
