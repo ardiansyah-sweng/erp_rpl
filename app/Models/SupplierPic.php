@@ -114,6 +114,7 @@ class SupplierPic extends Model
             ];
         }
     }
+    
     // method untuk menghitung jumlah suplier Pic bedasarkan status aktif dan non aktif
     public static function countSupplierPIC($supplier_id)
     {
