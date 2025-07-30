@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class SupplierPdfTest extends TestCase
+class SupplierPIControllerTest extends TestCase
 {
     /**
      * Test generate PDF by supplier ID (real data in DB)
