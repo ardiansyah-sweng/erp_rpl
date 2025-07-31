@@ -99,4 +99,21 @@ class BillOfMaterial extends Model
             'details'          => $details,
         ];
     }
+
+    // Accessor untuk menampilkan measurement unit dalam format yang readable
+    public function getMeasurementUnitTextAttribute()
+    {
+        $units = [
+            'PCS' => 'pcs',
+            'KG' => 'Kg',
+            'L' => 'Liter',
+            'M' => 'Meter',
+            'TON' => 'TON',
+            'KWINTAL' => 'Kwintal',
+            'SET' => 'Set',
+            'PACK' => 'Pack'
+        ];
+
+        return $units[strtoupper($this->measurement_unit)] ?? $this->measurement_unit;
+    }
 }
