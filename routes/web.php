@@ -295,3 +295,4 @@ Route::get('/products/category/{product_category}', [ProductController::class, '
 
 
 Route::post('/assort-production/add', [AssortProductionController::class, 'addProduction'])->name('assort-production.add');
+Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);

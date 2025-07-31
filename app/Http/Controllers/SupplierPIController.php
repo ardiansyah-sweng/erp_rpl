@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\SupplierPic;
 use App\Models\SupplierPICModel;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
 
+
 use Carbon\Carbon;
+
 
 
 
@@ -156,6 +159,7 @@ class SupplierPIController extends Controller
         return $pdf->stream('PIC-Supplier-Semua.pdf');
     }
 
+
     public function getSupplierPicById($supplier_id)
     {
         $supplierPic = (new SupplierPic())->getSupplierPicById($supplier_id);
@@ -171,6 +175,24 @@ class SupplierPIController extends Controller
         return response()->json([
             'data' => $supplierPic,
             'lama_assigned' => $lamaAssigned
+
+    public function getSupplierPIC($supplierID)
+    {
+        $pics = DB::table('supplier_pic')
+            ->where('supplier_id', $supplierID)
+            ->get()
+            ->map(function ($pic) {
+                $assignedDate = \Carbon\Carbon::parse($pic->assigned_date);
+                $now = \Carbon\Carbon::now();
+                $lamaAssigned = round($assignedDate->floatDiffInDays($now), 2);
+
+                return (array) $pic + ['lama_assigned' => $lamaAssigned];
+            });
+
+        return response()->json([
+            'message' => 'PIC list retrieved successfully.',
+            'data' => $pics
+
         ]);
     }
 }
