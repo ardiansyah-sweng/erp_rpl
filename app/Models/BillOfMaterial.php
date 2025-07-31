@@ -101,7 +101,7 @@ class BillOfMaterial extends Model
         ];
     }
   
-     public static function countItemInBom($bomId)
+     public static function countItemsInBillOfMaterial($bomId)
     {
         $bomDetailTable = config('db_constants.table.bom_detail', 'bom_detail');
 

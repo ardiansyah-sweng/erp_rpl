@@ -21,7 +21,7 @@ class BillOfMaterialTest extends TestCase
             $this->assertNotNull($bom, "Data BOM dengan ID $id tidak ditemukan.");
 
             
-            $count = BillOfMaterial::countItemInBom($id);
+            $count = BillOfMaterial::countItemsInBillOfMaterial($id);
             $counts[$id] = $count;
         }
 
