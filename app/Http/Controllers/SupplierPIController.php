@@ -157,7 +157,7 @@ class SupplierPIController extends Controller
 
     public function getSupplierPIC($supplierID)
     {
-        $pics = DB::table('supplier_pic')
+        $pics = SupplierPIC::where('supplier_pic')
             ->where('supplier_id', $supplierID)
             ->get()
             ->map(function ($pic) {
