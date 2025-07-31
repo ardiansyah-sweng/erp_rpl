@@ -396,16 +396,24 @@
                         <form id="billOfMaterialForm">
                           <div class="row g-3 mb-3">
                             <div class="col-md-6">
-                              <label class="form-label fw-semibold">Nama Bill of Material</label>
-                              <input type="text" class="form-control" id="bomName" placeholder="Nama Bill of Material">
+                              <label class="form-label fw-semibold">BOM ID</label>
+                              <input type="text" class="form-control" id="bomID" placeholder="BOM001">
                             </div>
                             <div class="col-md-6">
-                              <label class="form-label fw-semibold">BOM ID</label>
-                              <input type="text" class="form-control" id="bomID" placeholder="BOM ID">
+                              <label class="form-label fw-semibold">Nama BOM</label>
+                              <input type="text" class="form-control" id="bomNama" placeholder="Nama BOM">
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Measurement Unit</label>
-                              <input type="text" class="form-control" id="bomMeasurement" placeholder="Satuan Ukuran">
+                              <select class="form-select" id="bomMeasurement">
+                                <option value="">Pilih Measurement Unit</option>
+                                <option value="PCS">PCS</option>
+                                <option value="KG">KG</option>
+                                <option value="L">L</option>
+                                <option value="Meter">Meter</option>
+                                <option value="Set">Set</option>
+                                <option value="Pack">Pack</option>
+                              </select>
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Total Cost</label>
