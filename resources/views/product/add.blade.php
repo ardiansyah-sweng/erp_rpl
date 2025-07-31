@@ -385,7 +385,8 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="container">
-                    <form id="productForm">
+                    <form id="productForm" method="POST" action="{{ route('product.store') }}">
+                        @csrf
                         <div class="mb-3">
                             <label for="product_id" class="form-label">ID Produk</label>
                             <input type="text" class="form-control" id="product_id" name="product_id" required>
@@ -415,16 +416,15 @@
                             <div class="invalid-feedback">Jenis produk harus dipilih.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="category" class="form-label">Kategori</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="category" name="category" required>
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#">Makanan</a></li>
-                                    <li><a class="dropdown-item" href="#">Minuman</a></li>
-                                    <li><a class="dropdown-item" href="#">Snack</a></li>
-                                </ul>
-                            </div>
+                            <label for="category_id" class="form-label">Kategori</label>
+                            <select class="form-select" id="category_id" name="category_id" required>
+                                <option value="">Pilih Kategori</option>
+                                @if(isset($categories))
+                                    @foreach($categories as $cat)
+                                        <option value="{{ $cat->id }}">{{ $cat->category }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
                             <div class="invalid-feedback">Kategori harus diisi.</div>
                         </div>
                         <div class="mb-3">
@@ -433,7 +433,7 @@
                         </div>
                         <div class="d-flex justify-content-start mt-4">
                             <div>
-                                <button type="button" class="btn btn-primary" onclick="validateForm()">Tambah</button>
+                                <button type="submit" class="btn btn-primary">Tambah</button>
                                 <button type="reset" class="btn btn-secondary ms-2">Batal</button>
                             </div>
                         </div>
