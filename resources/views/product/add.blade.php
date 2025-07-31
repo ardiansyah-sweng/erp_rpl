@@ -424,6 +424,9 @@
                                     <li><a class="dropdown-item" href="#">Minuman</a></li>
                                     <li><a class="dropdown-item" href="#">Snack</a></li>
                                 </ul>
+                                </div>
+                            <div class="invalid-feedback">Kategori harus diisi.</div>
+                        </div>
                             </div>
                             <div class="invalid-feedback">Kategori harus diisi.</div>
                         </div>
