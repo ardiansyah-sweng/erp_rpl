@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Validator;
 
 class WarehouseController extends Controller
 {
+    public function getWarehouseAll()
+    {
+        $warehouses = Warehouse::getWarehouseAll();
+        return view('warehouse.list', compact('warehouses'));
+    }
+    
     public function getWarehouseById($id)
     {
         $warehouse = (new Warehouse())->getWarehouseByID($id);

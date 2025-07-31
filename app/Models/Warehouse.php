@@ -80,6 +80,12 @@ class Warehouse extends Model
         ]);
     }
 
+    public static function getWarehouseAll()
+    {
+    return self::orderBy('id', 'asc')->paginate(10);
+    }
+
+
     public static function addWarehouse($data)
     {
         if (empty($data)) {
