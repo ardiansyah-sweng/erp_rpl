@@ -15,7 +15,7 @@ class WarehouseAddControllerTest extends TestCase
     {
 
         $data = [
-            'warehouse_name' => 'Gudang Coba Aja',
+            'warehouse_name' => 'Gudang Coba',
             'warehouse_address' => 'Jl. Baru',
             'warehouse_telephone' => '0822',
             'is_rm_whouse' => false,
