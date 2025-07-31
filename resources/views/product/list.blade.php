@@ -379,23 +379,75 @@ use App\Helpers\EncryptionHelper;
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row align-items-center">
-                            <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Produk</h3>
-                <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
-                <div class="dropdown d-inline-block ms-2">
-                  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="printProductsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Cetak PDF Produk
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="printProductsDropdown">
-                    <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'ALL']) }}" target="_blank">Semua Produk</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'FG']) }}" target="_blank">Finished Goods</a></li>
-                    <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'RM']) }}" target="_blank">Raw Material</a></li>
-                    <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'HFG']) }}" target="_blank">Half Finished Goods</a></li>
-                  </ul>
+                <div class="col-sm-6 d-flex align-items-center">
+                  <h3 class="mb-0 me-2">Produk</h3>
+                  <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
+                  <button type="button" class="btn btn-primary btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#modalTambahKategori">Tambah Kategori</button>
+                  <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
+                  <div class="dropdown d-inline-block ms-2">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="printProductsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                      Cetak PDF Produk
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="printProductsDropdown">
+                      <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'ALL']) }}" target="_blank">Semua Produk</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'FG']) }}" target="_blank">Finished Goods</a></li>
+                      <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'RM']) }}" target="_blank">Raw Material</a></li>
+                      <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'HFG']) }}" target="_blank">Half Finished Goods</a></li>
+                    </ul>
+                  </div>
                 </div>
+        <!-- Modal Tambah Kategori (static, tanpa data dinamis) -->
+        <div class="modal fade" id="modalTambahKategori" tabindex="-1" aria-labelledby="modalTambahKategoriLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalTambahKategoriLabel">Tambah Kategori</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
+              <div class="modal-body">
+                <form id="formKategori" method="POST" action="#">
+                  <div class="row g-3 mb-3">
+                    <div class="col-md-12">
+                      <label class="form-label fw-semibold">Nama Grup Kategori Produk</label>
+                      <input type="text" class="form-control" name="group_name" id="groupName" placeholder="Nama Grup Kategori Produk">
+                    </div>
+                    <div class="col-md-12 d-flex align-items-center mt-2">
+                      <input class="form-check-input me-2" type="checkbox" id="isSubKategori" name="is_subkategori" onchange="toggleSubKategori()">
+                      <label class="form-check-label fw-semibold" for="isSubKategori">Sub Kategori</label>
+                    </div>
+                    <div class="col-md-12" id="subKategoriSection" style="display:none;">
+                      <label class="form-label fw-semibold">Nama Sub Kategori Produk</label>
+                      <input type="text" class="form-control" name="sub_name" id="subName" placeholder="Nama Sub Kategori Produk">
+                      <label class="form-label fw-semibold mt-2">Grup Kategori Produk</label>
+                      <select class="form-select" name="group_id" id="groupSelect">
+                        <option value="">Elektronik</option>
+                        <option value="1">Elektronik</option>
+                        <option value="2">Lainnya</option>
+                      </select>
+                    </div>
+                    <div class="col-md-12 d-flex align-items-center mt-2">
+                      <input class="form-check-input me-2" type="checkbox" id="isActive" name="is_active" checked>
+                      <label class="form-check-label fw-semibold" for="isActive">Aktif</label>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success">Add</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+        function toggleSubKategori() {
+          var check = document.getElementById('isSubKategori').checked;
+          document.getElementById('subKategoriSection').style.display = check ? '' : 'none';
+          document.getElementById('groupName').disabled = check;
+        }
+        </script>
     
     
               <div class="col-sm-6">
