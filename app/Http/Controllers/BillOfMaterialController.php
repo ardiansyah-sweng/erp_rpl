@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BillOfMaterialModel;
+use App\Models\BillOfMaterial;
+use Illuminate\Support\Facades\DB;
 
 class BillOfMaterialController extends Controller
 {
@@ -42,7 +44,7 @@ class BillOfMaterialController extends Controller
     public function getBillOfMaterial()
         {
             $data = BillOfMaterial::getBillOfMaterial();
-            return response()->json($data);
+            return $data;
         }
 
 
@@ -70,6 +72,18 @@ class BillOfMaterialController extends Controller
             'updated_at'       => $bom->updated_at,
             'details'          => $details,
         ]);
+    }
+    public function index(Request $request)
+    {
+        $search = $request->get('search');
+        
+        if ($search) {
+            $billOfMaterials = BillOfMaterial::SearchOfBillMaterial($search);
+        } else {
+            $billOfMaterials = BillOfMaterial::getBillOfMaterial();
+        }
+        
+        return view('bom.list', compact('billOfMaterials'));
     }
 
 }

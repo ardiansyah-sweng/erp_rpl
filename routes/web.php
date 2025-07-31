@@ -237,9 +237,7 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
 # Bill of Material
 
-Route::get('/bom/list', function () {
-    return view('bom/list');
-});
+Route::get('/bom/list', [BillOfMaterialController::class, 'index'])->name('bom.list');
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);

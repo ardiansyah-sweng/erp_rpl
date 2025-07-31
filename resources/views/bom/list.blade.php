@@ -4,7 +4,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Dashboard</title>
+    <title>ERP RPL UAD | Bill Of Material</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -360,7 +360,7 @@
                     </a>
               </li>
               <li class="nav-item">
-              <a href="/bom/list" class="nav-link">
+              <a href="{{ route('bom.list') }}" class="nav-link">
               <i class="nav-icon bi bi-clipboard-fill"></i>
                       <p>Bill Of Material</p>
                     </a>
@@ -401,10 +401,10 @@
         <div class="card mb-4">
               <div class="card-header d-flex justify-content-between align-items-center">
                       <h3 class="card-title">List Table</h3>
-                      <form action="#" method="GET" class="d-flex ms-auto">
+                      <form action="{{ route('bom.list') }}" method="GET" class="d-flex ms-auto">
                         <!-- Search bar berada di ujung kanan -->
                         <div class="input-group input-group-sm ms-auto" style="width: 450px;">
-                          <input type="text" name="search" class="form-control" placeholder="Search BOM">
+                          <input type="text" name="search" class="form-control" placeholder="Search BOM" value="{{ request('search') }}">
                           <div class="input-group-append">
                             <button type="submit" class="btn btn-default">
                               <i class="bi bi-search"></i>
@@ -447,156 +447,37 @@
                               </tr>
                           </thead>
                           <tbody>
+                              @forelse ($billOfMaterials as $index => $bom)
                               <tr>
-                                  <td>1</td>
-                                  <td>BOM001</td>
-                                  <td>Produk A</td>
-                                  <td>100 pcs</td>
-                                  <td>Rp. 200.000</td>
+                                  <td>{{ $billOfMaterials->firstItem() + $index }}</td>
+                                  <td>{{ $bom->bom_id }}</td>
+                                  <td>{{ $bom->bom_name }}</td>
+                                  <td>{{ $bom->measurement_unit_text }}</td>
+                                  <td>Rp. {{ number_format($bom->total_cost, 0, ',', '.') }}</td>
                                   <td>
-                                      <span class="badge bg-success">A K T I F</span>
+                                      @if($bom->active)
+                                          <span class="badge bg-success">A K T I F</span>
+                                      @else
+                                          <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
+                                      @endif
                                   </td>
-                                  <td>08-06-2024</td>
+                                  <td>{{ \Carbon\Carbon::parse($bom->created_at)->format('d-m-Y') }}</td>
                                   <td>
                                       <a href="#" class="btn btn-sm btn-info">Lihat</a>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
+                              @empty
                               <tr>
-                                  <td>2</td>
-                                  <td>BOM002</td>
-                                  <td>Produk B</td>
-                                  <td>50 Kg</td>
-                                  <td>Rp. 245.000</td>
-                                  <td>
-                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
-                                  </td>
-                                  <td>05-06-2024</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  <td colspan="8" class="text-center">
+                                      @if(request('search'))
+                                          Tidak ada data BOM yang cocok dengan pencarian "{{ request('search') }}"
+                                      @else
+                                          Belum ada data BOM
+                                      @endif
                                   </td>
                               </tr>
-                              <tr>
-                                  <td>3</td>
-                                  <td>BOM003</td>
-                                  <td>Produk C</td>
-                                  <td>30 Kg</td>
-                                  <td>Rp. 115.000</td>
-                                  <td>
-                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
-                                  </td>
-                                  <td>11-06-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>4</td>
-                                  <td>BOM004</td>
-                                  <td>Produk D</td>
-                                  <td>1 TON</td>
-                                  <td>Rp. 985.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>01-01-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>5</td>
-                                  <td>BOM005</td>
-                                  <td>Produk E</td>
-                                  <td>1.2 TON</td>
-                                  <td>Rp. 1.225.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>01-04-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>6</td>
-                                  <td>BOM006</td>
-                                  <td>Produk F</td>
-                                  <td>3 Kwintal</td>
-                                  <td>Rp. 950.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-05-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>7</td>
-                                  <td>BOM007</td>
-                                  <td>Produk G</td>
-                                  <td>1 Kwintal</td>
-                                  <td>Rp. 350.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-11-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>8</td>
-                                  <td>BOM008</td>
-                                  <td>Produk H</td>
-                                  <td>1 Kwintal</td>
-                                  <td>Rp. 150.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-05-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>9</td>
-                                  <td>BOM009</td>
-                                  <td>Produk I</td>
-                                  <td>70 Liter</td>
-                                  <td>Rp. 850.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>31-05-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>10</td>
-                                  <td>BOM010</td>
-                                  <td>Produk J</td>
-                                  <td>3.5 Kwintal</td>
-                                  <td>Rp. 550.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-03-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
+                              @endforelse
                               <!--Tambah data dummy-->
                           </tbody>
                       </table>
@@ -604,7 +485,9 @@
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer clearfix">
-                  
+                      @if($billOfMaterials->hasPages())
+                          {{ $billOfMaterials->appends(request()->query())->links('pagination::bootstrap-4') }}
+                      @endif
                   </div>
 
         </div>

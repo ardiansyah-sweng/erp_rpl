@@ -72,4 +72,23 @@ class BillOfMaterial extends Model
         return $bom;
     }
 
+    // Accessor untuk mengkonversi measurement_unit dari angka ke text
+    public function getMeasurementUnitTextAttribute()
+    {
+        $measurementUnits = [
+            31 => 'Pcs', // Default untuk pieces
+            32 => 'Kg',
+            33 => 'Liter', 
+            34 => 'Meter',
+            35 => 'Box',
+            36 => 'Karton',
+            37 => 'Dus',
+            38 => 'Gram',
+            39 => 'Ton',
+            40 => 'Kwintal'
+        ];
+
+        return $measurementUnits[$this->measurement_unit] ?? 'Unit';
+    }
+
 }
