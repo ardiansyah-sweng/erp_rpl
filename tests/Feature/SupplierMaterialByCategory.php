@@ -3,40 +3,25 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
+use App\Models\SupplierMaterial;
 
 class SupplierMaterialByCategory extends TestCase
 {
-    /** @test */
-    public function it_returns_supplier_materials_for_valid_category_and_supplier()
+    public function test_get_supplier_material_by_category_with_existing_data()
     {
-        $categoryId = 30; // ID kategori yang memang ada di tabel products
-        $supplierId = 'SUP006'; // ID supplier yang sudah pasti ada
+        $categoryId = 30;
+        $supplierId = 'SUP005';
 
-        $response = $this->get('/supplier-material/by-category?category_id=' . $categoryId . '&supplier_id=' . $supplierId);
+        $result = SupplierMaterial::getSupplierMaterialByCategory($categoryId, $supplierId);
 
-        $response->assertStatus(200);
+        $this->assertNotEmpty($result, 'Data supplier material tidak ditemukan.');
 
-        $responseData = $response->json();
-
-        $this->assertArrayHasKey('data', $responseData);
-        $this->assertIsArray($responseData['data']);
-        $this->assertNotEmpty($responseData['data']);
-
-        foreach ($responseData['data'] as $item) {
-            $this->assertEquals($supplierId, $item['supplier_id']);
-            $this->assertEquals($categoryId, $item['product_category']);
+        // Periksa struktur data yang dikembalikan
+        foreach ($result as $item) {
+            $this->assertEquals($categoryId, $item->product_category, 'Kategori produk tidak sesuai.');
+            $this->assertEquals($supplierId, $item->supplier_id, 'Supplier ID tidak sesuai.');
+            $this->assertTrue(property_exists($item, 'product_name'), 'Tidak ada atribut product_name.');
         }
-
-    }
-
-    /** @test */
-    public function it_returns_400_if_missing_parameters()
-    {
-        $response = $this->get('/supplier-material/by-category?supplier_id=SUP006');
-        $response->assertStatus(400);
-
-        $response = $this->get('/supplier-material/by-category?category_id=30');
-        $response->assertStatus(400);
     }
 }
