@@ -9,7 +9,7 @@ class WarehouseControllerTest extends TestCase
     /** @test */
     public function it_returns_warehouses_if_exist()
     {
-        $response = $this->get('/warehouse/all');
+        $response = $this->get('/warehouse');
 
         if ($response->status() === 404) {
             $response->assertJson([
