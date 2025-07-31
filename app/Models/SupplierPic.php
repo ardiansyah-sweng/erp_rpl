@@ -153,5 +153,10 @@ class SupplierPic extends Model
         return self::where('supplier_id', $supplierID)
                     ->where('active', 0)
                     ->count();
+
+    
+    public static function getSupplierPIC($supplierID)
+    {
+        return self::where('supplier_id', $supplierID)->get();
     }
 }
