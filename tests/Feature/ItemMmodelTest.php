@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Item; 
 
-class ItemModellTest extends TestCase
+class ItemMmodelTest extends TestCase
 {
     /** @test */
     public function it_counts_items_by_category()
