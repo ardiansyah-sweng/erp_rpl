@@ -384,7 +384,7 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-                <div class="container">
+                <div class="container">.
                     <form id="productForm">
                         <div class="mb-3">
                             <label for="product_id" class="form-label">ID Produk</label>
