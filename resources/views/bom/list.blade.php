@@ -447,104 +447,220 @@
                               </tr>
                           </thead>
                           <tbody>
-                               @php
-                                  $boms = [
-                                      ['id' => 1, 'bom_id' => 'BOM001', 'bom_name' => 'Produk A', 'measurement_unit' => '100 pcs', 'total_cost' => 200000, 'active' => 1, 'created_at' => '2024-06-08'],
-                                      ['id' => 2, 'bom_id' => 'BOM002', 'bom_name' => 'Produk B', 'measurement_unit' => '50 Kg',   'total_cost' => 245000, 'active' => 0, 'created_at' => '2024-06-05'],
-                                      ['id' => 3, 'bom_id' => 'BOM003', 'bom_name' => 'Produk C', 'measurement_unit' => '30 Kg',   'total_cost' => 115000, 'active' => 0, 'created_at' => '2025-06-11'],
-                                      ['id' => 4, 'bom_id' => 'BOM004', 'bom_name' => 'Produk D', 'measurement_unit' => '1 TON',   'total_cost' => 985000, 'active' => 1, 'created_at' => '2025-01-01'],
-                                      ['id' => 5, 'bom_id' => 'BOM005', 'bom_name' => 'Produk E', 'measurement_unit' => '250 pcs', 'total_cost' => 310000, 'active' => 1, 'created_at' => '2024-06-15'],
-                                      ['id' => 6, 'bom_id' => 'BOM006', 'bom_name' => 'Produk F', 'measurement_unit' => '10 Liter','total_cost' => 120000, 'active' => 0, 'created_at' => '2024-06-20'],
-                                      ['id' => 7, 'bom_id' => 'BOM007', 'bom_name' => 'Produk G', 'measurement_unit' => '15 Kg',   'total_cost' => 80000,  'active' => 1, 'created_at' => '2024-07-01'],
-                                      ['id' => 8, 'bom_id' => 'BOM008', 'bom_name' => 'Produk H', 'measurement_unit' => '5 TON',   'total_cost' => 2000000,'active' => 0, 'created_at' => '2024-06-29'],
-                                      ['id' => 9, 'bom_id' => 'BOM009', 'bom_name' => 'Produk I', 'measurement_unit' => '30 pcs',  'total_cost' => 50000,  'active' => 1, 'created_at' => '2024-07-05'],
-                                      ['id' => 10,'bom_id' => 'BOM010','bom_name' => 'Produk J', 'measurement_unit' => '1 Kg',    'total_cost' => 15000,  'active' => 1, 'created_at' => '2024-07-07'],
-                                  ];
-                              @endphp
-
-                              @foreach($boms as $i => $bom)
                               <tr>
-                                  <td>{{ $i + 1 }}</td>
-                                  <td>{{ $bom['bom_id'] }}</td>
-                                  <td>{{ $bom['bom_name'] }}</td>
-                                  <td>{{ $bom['measurement_unit'] }}</td>
-                                  <td>Rp. {{ number_format($bom['total_cost'], 0, ',', '.') }}</td>
+                                  <td>1</td>
+                                  <td>BOM001</td>
+                                  <td>Produk A</td>
+                                  <td>100 pcs</td>
+                                  <td>Rp. 200.000</td>
                                   <td>
-                                      @if($bom['active'])
-                                          <span class="badge bg-success">A K T I F</span>
-                                      @else
-                                          <span class="badge bg-secondary">T I D A K - A K T I F</span>
-                                      @endif
+                                      <span class="badge bg-success">A K T I F</span>
                                   </td>
-                                  <td>{{ \Carbon\Carbon::parse($bom['created_at'])->format('d-m-Y') }}</td>
+                                  <td>08-06-2024</td>
                                   <td>
-                                      <a href="#" class="btn btn-sm btn-info" onclick="getDetail({{ $bom['id'] }})">Lihat</a>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
-                              @endforeach
+                              <tr>
+                                  <td>2</td>
+                                  <td>BOM002</td>
+                                  <td>Produk B</td>
+                                  <td>50 Kg</td>
+                                  <td>Rp. 245.000</td>
+                                  <td>
+                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
+                                  </td>
+                                  <td>05-06-2024</td>
+                                  <td>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>3</td>
+                                  <td>BOM003</td>
+                                  <td>Produk C</td>
+                                  <td>30 Kg</td>
+                                  <td>Rp. 115.000</td>
+                                  <td>
+                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
+                                  </td>
+                                  <td>11-06-2025</td>
+                                  <td>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>4</td>
+                                  <td>BOM004</td>
+                                  <td>Produk D</td>
+                                  <td>1 TON</td>
+                                  <td>Rp. 985.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>01-01-2025</td>
+                                  <td>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>5</td>
+                                  <td>BOM005</td>
+                                  <td>Produk E</td>
+                                  <td>1.2 TON</td>
+                                  <td>Rp. 1.225.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>01-04-2025</td>
+                                  <td>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>6</td>
+                                  <td>BOM006</td>
+                                  <td>Produk F</td>
+                                  <td>3 Kwintal</td>
+                                  <td>Rp. 950.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>30-05-2025</td>
+                                  <td>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>7</td>
+                                  <td>BOM007</td>
+                                  <td>Produk G</td>
+                                  <td>1 Kwintal</td>
+                                  <td>Rp. 350.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>30-11-2025</td>
+                                  <td>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>8</td>
+                                  <td>BOM008</td>
+                                  <td>Produk H</td>
+                                  <td>1 Kwintal</td>
+                                  <td>Rp. 150.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>30-05-2025</td>
+                                  <td>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>9</td>
+                                  <td>BOM009</td>
+                                  <td>Produk I</td>
+                                  <td>70 Liter</td>
+                                  <td>Rp. 850.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>31-05-2025</td>
+                                  <td>
+                                     <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>10</td>
+                                  <td>BOM010</td>
+                                  <td>Produk J</td>
+                                  <td>3.5 Kwintal</td>
+                                  <td>Rp. 550.000</td>
+                                  <td>
+                                      <span class="badge bg-success">A K T I F</span>
+                                  </td>
+                                  <td>30-03-2025</td>
+                                  <td>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  </td>
+                              </tr>
+                              <!--Tambah data dummy-->
                           </tbody>
                       </table>
-                  </div>
-
-                  <!-- Modal Detail -->
-                  <div class="modal fade" id="detailModal" tabindex="-1">
+            </div>
+ 
+                  <!-- Modal Detail BOM -->
+                  <div class="modal fade" id="bomModal" tabindex="-1" aria-labelledby="bomModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 id="modalTitle" class="modal-title">Detail BOM</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          <h5 class="modal-title" id="bomModalLabel">Detail Bill of Material</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                         </div>
-                        <div class="modal-body" id="modalContent">
-                          <!-- akan diisi oleh JS -->
+                        <div class="modal-body">
+                          <p><strong>Nama BOM:</strong> <span id="bom_name"></span></p>
+                          <p><strong>Satuan:</strong> <span id="measurement_unit"></span></p>
+                          <p><strong>Total Biaya:</strong> <span id="total_cost"></span></p>
+                          <p><strong>Status:</strong> <span id="active_status"></span></p>
+
+                          <h5>Detail Komponen</h5>
+                          <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>No</th>
+                                <th>SKU</th>
+                                <th>Quantity</th>
+                                <th>Cost</th>
+                              </tr>
+                            </thead>
+                            <tbody id="bom_details"></tbody>
+                          </table>
                         </div>
                       </div>
                     </div>
                   </div>
-
+            
                   <script>
                   function getDetail(id) {
-                      fetch(`/bill-of-material/${id}`)
-                          .then(response => {
-                              if (!response.ok) {
-                                  throw new Error('Data tidak ditemukan');
-                              }
-                              return response.json();
-                          })
-                          .then(data => {
-                              let html = `
-                                  <p><strong>ID BOM:</strong> ${data.bom_id}</p>
-                                  <p><strong>Nama BOM:</strong> ${data.bom_name}</p>
-                                  <p><strong>Measurement Unit:</strong> ${data.measurement_unit}</p>
-                                  <p><strong>Total Cost:</strong> Rp. ${parseInt(data.total_cost).toLocaleString()}</p>
-                                  <p><strong>Status:</strong> ${data.active ? '<span class="badge bg-success">AKTIF</span>' : '<span class="badge bg-secondary">TIDAK AKTIF</span>'}</p>
-                                  <hr/>
-                                  <h5>Detail Bahan:</h5>
-                                  <table class="table table-sm">
-                                      <thead><tr><th>SKU</th><th>Quantity</th><th>Cost</th></tr></thead>
-                                      <tbody>
-                                          ${data.details.map(item => `
-                                              <tr>
-                                                  <td>${item.sku}</td>
-                                                  <td>${item.quantity}</td>
-                                                  <td>Rp. ${parseInt(item.cost).toLocaleString()}</td>
-                                              </tr>`).join('')}
-                                      </tbody>
-                                  </table>
-                              `;
-                              document.getElementById('modalTitle').innerText = `Detail BOM: ${data.bom_id}`;
-                              document.getElementById('modalContent').innerHTML = html;
-                              new bootstrap.Modal(document.getElementById('detailModal')).show();
-                          })
-                          .catch(error => {
-                              alert(error.message);
-                          });
+                    fetch(`/bill-of-material/${id}`)
+                      .then(res => res.json())
+                      .then(data => {
+                        document.getElementById('bom_name').textContent = data.bom_name;
+                        document.getElementById('measurement_unit').textContent = data.measurement_unit;
+                        document.getElementById('total_cost').textContent = 'Rp. ' + parseInt(data.total_cost).toLocaleString();
+                        document.getElementById('active_status').textContent = data.active ? 'AKTIF' : 'TIDAK AKTIF';
+
+                        let rows = '';
+                        data.details.forEach((item, index) => {
+                          rows += `<tr>
+                            <td>${index + 1}</td>
+                            <td>${item.sku}</td>
+                            <td>${item.quantity}</td>
+                            <td>Rp. ${parseInt(item.cost).toLocaleString()}</td>
+                          </tr>`;
+                        });
+                        document.getElementById('bom_details').innerHTML = rows;
+
+                        var modal = new bootstrap.Modal(document.getElementById('bomModal'));
+                        modal.show();
+                      })
+                      .catch(err => alert('Gagal mengambil data'));
                   }
                   </script>
-                              <!--Tambah data dummy-->
-                          
-                      </table>
-            </div>
+
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer clearfix">
