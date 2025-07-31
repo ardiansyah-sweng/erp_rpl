@@ -157,15 +157,13 @@ class SupplierPIController extends Controller
 
     public function getSupplierPIC($supplierID)
     {
-        $pics = SupplierPIC::where('supplier_pic')
-            ->where('supplier_id', $supplierID)
-            ->get()
+        $pics = SupplierPIC::getSupplierPIC($supplierID)
             ->map(function ($pic) {
                 $assignedDate = \Carbon\Carbon::parse($pic->assigned_date);
                 $now = \Carbon\Carbon::now();
                 $lamaAssigned = round($assignedDate->floatDiffInDays($now), 2);
 
-                return (array) $pic + ['lama_assigned' => $lamaAssigned];
+                return $pic->toArray() + ['lama_assigned' => $lamaAssigned];
             });
 
         return response()->json([
