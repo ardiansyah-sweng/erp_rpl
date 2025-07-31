@@ -360,6 +360,7 @@
                     </a>
               </li>
               <li class="nav-item">
+
               <a href="{{ route('bom.list') }}" class="nav-link">
               <i class="nav-icon bi bi-clipboard-fill"></i>
                       <p>Bill Of Material</p>
