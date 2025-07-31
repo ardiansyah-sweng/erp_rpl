@@ -11,6 +11,10 @@ use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
+use Carbon\Carbon;
+
+
+
 
 
 class SupplierPIController extends Controller
@@ -155,6 +159,25 @@ class SupplierPIController extends Controller
         return $pdf->stream('PIC-Supplier-Semua.pdf');
     }
 
+
+    public function getSupplierPicById($supplier_id)
+    {
+        $supplierPic = SupplierPic::where('supplier_id', $supplier_id)->first();
+
+        if (!$supplierPic) {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+
+        $assignedDate = Carbon::parse($supplierPic->assigned_date)->startOfDay();
+        $now = Carbon::now()->startOfDay();
+        $lamaAssigned = $assignedDate->diffInDays($now);
+
+        return response()->json([
+            'data' => $supplierPic,
+            'lama_assigned' => $lamaAssigned
+        ]);
+    }                            
+
     public function getSupplierPIC($supplierID)
     {
         $pics = DB::table('supplier_pic')
@@ -171,6 +194,7 @@ class SupplierPIController extends Controller
         return response()->json([
             'message' => 'PIC list retrieved successfully.',
             'data' => $pics
+
         ]);
     }
 }
