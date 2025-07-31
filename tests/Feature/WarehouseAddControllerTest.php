@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class WarehouseAddControllerTest extends TestCase
 {
+    use RefreshDatabase;
     /** @test */
     public function berhasil_menambahkan_warehouse_dengan_data_valid()
     {
