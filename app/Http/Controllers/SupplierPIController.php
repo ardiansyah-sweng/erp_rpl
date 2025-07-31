@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\SupplierPic;
 use App\Models\SupplierPICModel;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
-		
+
 
 
 
@@ -81,14 +82,14 @@ class SupplierPIController extends Controller
         SupplierPic::addSupplierPIC($supplierID, $validatedData);
 
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
-    } 
+    }
 
     public function getSupplierPICAll()
     {
         $supplierPICs = SupplierPic::getSupplierPICAll(); // ini method dari model kamu
         return view('supplier.pic.list', ['pics' => $supplierPICs]);
     }
-    
+
     public function deleteSupplierPIC($id)
     {
         $picDelete = SupplierPic::deleteSupplierPIC($id);
@@ -137,13 +138,12 @@ class SupplierPIController extends Controller
             'message' => $result['message'],
             'data'    => $result['data'] ?? null,
         ], $result['code'] ?? 200);
-
     }
 
     public function cetakPdf()
     {
         $pics = SupplierPic::getSupplierPICAll();
-        $pics->load('supplier'); 
+        $pics->load('supplier');
 
         $data = [
             'pics' => $pics
@@ -155,4 +155,22 @@ class SupplierPIController extends Controller
         return $pdf->stream('PIC-Supplier-Semua.pdf');
     }
 
+    public function getSupplierPIC($supplierID)
+    {
+        $pics = DB::table('supplier_pic')
+            ->where('supplier_id', $supplierID)
+            ->get()
+            ->map(function ($pic) {
+                $assignedDate = \Carbon\Carbon::parse($pic->assigned_date);
+                $now = \Carbon\Carbon::now();
+                $lamaAssigned = round($assignedDate->floatDiffInDays($now), 2);
+
+                return (array) $pic + ['lama_assigned' => $lamaAssigned];
+            });
+
+        return response()->json([
+            'message' => 'PIC list retrieved successfully.',
+            'data' => $pics
+        ]);
+    }
 }
