@@ -33,3 +33,4 @@ class SupplierMaterialSearchTest extends TestCase
         $this->assertTrue(true);
     }
 }
+
