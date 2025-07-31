@@ -6,6 +6,7 @@ use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Validator;
 
 class WarehouseController extends Controller
 {
@@ -98,5 +99,32 @@ class WarehouseController extends Controller
             'success' => true,
             'data' => $warehouses
         ]);
+    }
+  
+    public function addWarehouse(Request $request)
+    {
+        $data = $request->all(); 
+        $validator = Validator::make($data, [
+            'warehouse_name' => 'required|min:3|unique:warehouse,warehouse_name',
+            'warehouse_address' => 'required',
+            'warehouse_telephone' => 'required',
+            'is_rm_whouse' => 'required|boolean',
+            'is_fg_whouse' => 'required|boolean',
+            'is_active' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'success' => false,
+                'errors' => $validator->errors(),
+            ];
+        }
+
+        Warehouse::addWarehouse($data);
+
+        return [
+            'success' => true,
+            'message' => 'Warehouse berhasil ditambahkan.',
+        ];
     }
 }
