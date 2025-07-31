@@ -405,8 +405,12 @@
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Measurement Unit</label>
-                              <select class="form-select" id="bomMeasurement">
-                                <option value="">Pilih Measurement Unit</option>
+                              <select class="form-select" id="bomMeasurement" name="measurement_unit_id">
+                                @if(isset($measurement_units) && count($measurement_units) > 0)
+                                  @foreach($measurement_units as $unit)
+                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                  @endforeach
+                                @endif
                                 <option value="PCS">PCS</option>
                                 <option value="KG">KG</option>
                                 <option value="L">L</option>
