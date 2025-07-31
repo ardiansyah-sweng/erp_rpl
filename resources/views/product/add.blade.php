@@ -385,7 +385,8 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="container">
-                    <form id="productForm">
+                    <form id="productForm" method="POST" action="{{ route('product.add') }}">
+    @csrf
                         <div class="mb-3">
                             <label for="product_id" class="form-label">ID Produk</label>
                             <input type="text" class="form-control" id="product_id" name="product_id" required>
