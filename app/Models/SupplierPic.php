@@ -139,5 +139,9 @@ class SupplierPic extends Model
             ->where('supplier_id', $supplier_id)
             ->orderBy('assigned_date', 'asc')
             ->get();
+    
+    public static function getSupplierPIC($supplierID)
+    {
+        return self::where('supplier_id', $supplierID)->get();
     }
 }
