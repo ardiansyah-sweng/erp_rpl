@@ -175,6 +175,8 @@ class SupplierPIController extends Controller
         return response()->json([
             'data' => $supplierPic,
             'lama_assigned' => $lamaAssigned
+        ]);
+    }                            
 
     public function getSupplierPIC($supplierID)
     {
