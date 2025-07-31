@@ -136,6 +136,7 @@ class Item extends Model
             )
             ->get();
     }
+    
     public static function countItemByCategory($categoryId)
     {
     return self::join('products', 'item.product_id', '=', 'products.product_id')
