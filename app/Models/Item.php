@@ -145,4 +145,11 @@ class Item extends Model
         ->count();
 }
 
+    public static function countItemByCategory($categoryId)
+    {
+        return self::join('products', 'item.product_id', '=', 'products.product_id')
+            ->join('category', 'products.product_category', '=', 'category.id')
+            ->where('category.id', $categoryId)
+            ->count();
+    }
 }

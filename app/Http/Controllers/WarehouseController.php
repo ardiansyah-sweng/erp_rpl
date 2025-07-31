@@ -6,6 +6,7 @@ use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Validator;
 
 class WarehouseController extends Controller
 {
@@ -13,15 +14,15 @@ class WarehouseController extends Controller
     {
         $warehouse = (new Warehouse())->getWarehouseByID($id);
 
-        if (!$warehouse) 
+        if (!$warehouse)
         {
             return abort(404, 'Warehouse tidak ditemukan');
         }
 
-        return response()->json($warehouse);
+        return view('warehouse.filled-form', compact('warehouse'));
 
     }
-    
+
     public function countWarehouse()
     {
         $total = Warehouse::countWarehouse();
@@ -46,26 +47,11 @@ class WarehouseController extends Controller
         ]);
     }
 
-      public function deleteWarehouse($id)
+    public function deleteWarehouse($id)
     {
-        $isUsed = DB::table('assortment_production')
-            ->where('rm_whouse_id', $id)
-            ->orWhere('fg_whouse_id', $id)
-            ->exists();
-
-        if ($isUsed) {
-            return redirect()->back()->with('error', 'Warehouse tidak bisa dihapus karena sedang digunakan di produksi.');
-        }
-
-        // Hapus langsung dari tabel warehouse
-        $deleted = DB::table('warehouse')->where('id', $id)->delete();
-
-        if ($deleted) {
-            return redirect()->back()->with('success', 'Warehouse berhasil dihapus!');
-        } else {
-            return redirect()->back()->with('error', 'Warehouse tidak ditemukan atau gagal dihapus.');
-        }
+        return (new Warehouse)->deleteWarehouse($id);
     }
+
       public function exportPdf(){
         $warehouse = [
             [
@@ -99,5 +85,32 @@ class WarehouseController extends Controller
 
         $pdf = Pdf::loadView('warehouse.report',compact('warehouse'));
         return $pdf->stream('warehouse_report.pdf');
+    }
+
+    public function addWarehouse(Request $request)
+    {
+        $data = $request->all(); 
+        $validator = Validator::make($data, [
+            'warehouse_name' => 'required|min:3|unique:warehouse,warehouse_name',
+            'warehouse_address' => 'required',
+            'warehouse_telephone' => 'required',
+            'is_rm_whouse' => 'required|boolean',
+            'is_fg_whouse' => 'required|boolean',
+            'is_active' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'success' => false,
+                'errors' => $validator->errors(),
+            ];
+        }
+
+        Warehouse::addWarehouse($data);
+
+        return [
+            'success' => true,
+            'message' => 'Warehouse berhasil ditambahkan.',
+        ];
     }
 }
