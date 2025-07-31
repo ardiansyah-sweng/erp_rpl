@@ -538,7 +538,7 @@
                                   <td>{{ \Carbon\Carbon::parse($bom->created_at)->format('d-m-Y') }}</td>
                                   <td>
                                       <button class="btn btn-sm btn-info" onclick="getDetail({{ $bom->id }})">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning" onclick="editBom({{ $bom->id }})">Edit</a>
+                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                       <form action="{{ route('bom.delete', $bom->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus BOM ini?')">>
                                           @csrf
                                           @method('DELETE')
