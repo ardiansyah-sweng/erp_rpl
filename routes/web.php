@@ -96,6 +96,7 @@ Route::get('product/category/detail', function () {
 
 #warehouse
 // Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
+Route::get('/warehouse/list', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.list');
 
 
 

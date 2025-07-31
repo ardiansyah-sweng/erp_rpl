@@ -29,6 +29,18 @@ class SupplierController extends Controller
         return view('Supplier.detail', compact('sup'));
     }
 
+    public function addSupplier(Request $requset){
+        $requset->validate([
+            'supplier_name' => 'required|string|max:6',
+            'company_name' => 'required|string|max:50',
+            'address' => 'required|string|max:100',
+            'phone_number' => 'required|string|max:12',
+            'bank_account' => 'required|string|max:50',
+        ]);
+        return view('Supplier.detail', compact('sup'));
+    }
+
+
     public function searchSuppliers(Request $request)
     {
         $keywords = $request->input('keywords');
