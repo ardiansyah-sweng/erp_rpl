@@ -416,6 +416,18 @@
                                 <option value="L">L</option>
                                 <option value="Meter">Meter</option>
                                 <option value="Set">Set</option>
+                              <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                  var modal = document.getElementById('modalTambahBOM');
+                                  if (modal) {
+                                    modal.addEventListener('show.bs.modal', function () {
+                                      // Data hasil query measurement_unit
+                                      var measurementUnits = @json($measurement_units ?? []);
+                                      console.log('Measurement Unit dari query:', measurementUnits);
+                                    });
+                                  }
+                                });
+                              </script>
                                 <option value="Pack">Pack</option>
                               </select>
                             </div>
