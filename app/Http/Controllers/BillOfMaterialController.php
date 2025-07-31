@@ -41,7 +41,7 @@ class BillOfMaterialController extends Controller
             return response()->json(['message' => 'Bill of Material not found.'], 404);
         }
     }
-    public function getBillOfMaterial()
+    public function getBillOfMaterial()//return $data bukan json
         {
             $data = BillOfMaterial::getBillOfMaterial();
             return $data;
@@ -73,7 +73,7 @@ class BillOfMaterialController extends Controller
             'details'          => $details,
         ]);
     }
-    public function index(Request $request)
+    public function index(Request $request)//list Bill of Material untuk view
     {
         $search = $request->get('search');
         

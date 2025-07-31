@@ -237,7 +237,7 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
 # Bill of Material
 
-Route::get('/bom/list', [BillOfMaterialController::class, 'index'])->name('bom.list');
+Route::get('/bom/list', [BillOfMaterialController::class, 'index'])->name('bom.list');//perbaikan route list Bill of Material
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);

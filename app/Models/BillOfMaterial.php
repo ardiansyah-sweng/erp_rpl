@@ -72,7 +72,7 @@ class BillOfMaterial extends Model
         return $bom;
     }
 
-    // Accessor untuk mengkonversi measurement_unit dari angka ke text
+    // Accessor untuk mengkonversi measurement_unit dari angka ke text == convert
     public function getMeasurementUnitTextAttribute()
     {
         $measurementUnits = [
