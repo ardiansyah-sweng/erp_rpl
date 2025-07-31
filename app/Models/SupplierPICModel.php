@@ -41,6 +41,7 @@ class SupplierPICModel extends Model
         }
         return $query->count();
     }
+    
     public static function getSupplierPIC($supplierID)
     {
         return self::where('supplier_id', $supplierID)->get();
