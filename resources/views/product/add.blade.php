@@ -416,9 +416,9 @@
                             <div class="invalid-feedback">Jenis produk harus dipilih.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="category" class="form-label">Kategori</label>
+                            <label for="product_category" class="form-label">Kategori</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="category" name="category" required>
+                                <input type="text" class="form-control" id="product_category" name="product_category" required>
                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><a class="dropdown-item" href="#">Makanan</a></li>
@@ -434,7 +434,7 @@
                         </div>
                         <div class="d-flex justify-content-start mt-4">
                             <div>
-                                <button type="button" class="btn btn-primary" onclick="validateForm()">Tambah</button>
+                                <button type="submit" class="btn btn-primary">Tambah</button>
                                 <button type="reset" class="btn btn-secondary ms-2">Batal</button>
                             </div>
                         </div>
@@ -525,7 +525,7 @@
         // Dropdown item click handler
         $('.dropdown-item').on('click', function (e) {
             e.preventDefault();
-            $('#category').val($(this).text());
+            $('#product_category').val($(this).text());
         });
     });
     </script>
