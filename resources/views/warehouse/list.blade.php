@@ -398,37 +398,35 @@
                 <div class="card-body">
                     <table class="table table-bordered">
                         <thead class="text-center">
-                            <tr>
-                                <th style="width: 10px">ID</th>
-                                <th>Warehouse Name</th>
-                                <th>Warehouse Address</th>
-                                <th>Warehouse Telephone</th>
-                                <th>Aktif</th>
-                                <th>Created At</th>
-                                <th>Updated At</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($warehouses as $warehouse)
-                                <tr>
-                                    <td>{{ $warehouse['id'] }}</td>
-                                    <td>{{ $warehouse['warehouse_name'] }}</td>
-                                    <td>{{ $warehouse['warehouse_address'] }}</td>
-                                    <td>{{ $warehouse['warehouse_telephone'] }}</td>
-                                    <td class="text-center">
-                                        @if ($warehouse['is_active'])
-                                            <i class="bi bi-check-circle-fill text-success"></i>
-                                        @else
-                                            <i class="bi bi-x-circle-fill text-danger"></i>
-                                        @endif
-                                    </td>
-                                    <td>{{ $warehouse['created_at'] }}</td>
-                                    <td>{{ $warehouse['updated_at'] }}</td>
-                                    <td>
+                             <tr>
+                            <th style="width: 10px">id</th>
+                            <th>warehouse_name</th>
+                            <th>warehouse_address</th>
+                            <th>warehouse_telephone</th>
+                            <th>is_rm_whouse</th>
+                            <th>is_fg_whouse</th>
+                            <th>is_active</th>
+                            <th>created_at</th>
+                            <th>update_at</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($warehouses as $index => $warehouse)
+                        <tr class="align-middle">
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $warehouse->warehouse_name }}</td>
+                            <td>{{ $warehouse->warehouse_address }}</td>
+                            <td>{{ $warehouse->warehouse_telephone }}</td>
+                            <td>{{ $warehouse->is_rm_whouse }}</td>
+                            <td>{{ $warehouse->is_fg_whouse }}</td>
+                            <td>{{ $warehouse->is_active }}</td>
+                            <td>{{ $warehouse->created_at }}</td>
+                            <td>{{ $warehouse->update_at }}</td>
+
+                            <td>
                                         <a href="#" class="btn btn-sm btn-primary">Edit</a>
                                         <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                                        <a href="#" class="btn btn-info">Detail</a>
+                                        <a href="#" class="btn btn-sm btn-info">Detail</a>
                                     </td>
                                 </tr>
                             @empty
