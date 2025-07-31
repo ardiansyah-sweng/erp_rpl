@@ -298,7 +298,7 @@ Route::put('/bill-of-material/{id}', [BillOfMaterialController::class, 'updateBi
 
 Route::post('/assort-production/add', [AssortProductionController::class, 'addProduction'])->name('assort-production.add');
 
-Route::get('/warehouse/all', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.all');
+Route::get('/warehouse', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.all');
 
 Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
 
