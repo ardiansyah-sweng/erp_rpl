@@ -162,7 +162,7 @@ class SupplierPIController extends Controller
 
     public function getSupplierPicById($supplier_id)
     {
-        $supplierPic = SupplierPic::getPICByID($supplier_id);
+        $supplierPic = SupplierPic::where('supplier_id', $supplier_id)->first();
 
         if (!$supplierPic) {
             return response()->json(['message' => 'Data not found'], 404);
