@@ -106,7 +106,8 @@ Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
-
+Route::get('/product/add', [ProductController::class, 'add'])->name('product.add');
+Route::post('/product/add', [ProductController::class, 'addProduct']); // ← untuk proses simpan
 
 
 #Product Update 

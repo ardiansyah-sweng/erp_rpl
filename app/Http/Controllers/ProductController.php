@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 use App\Helpers\EncryptionHelper;
 
 class ProductController extends Controller
@@ -66,7 +67,12 @@ class ProductController extends Controller
     public function searchProduct($keyword)
     {
         $products = Product::getProductByKeyword($keyword);
-        return view('product.list', compact('products'));
+        return zzview('product.list', compact('products'));
     }
 
+    public function add()
+    {
+        $categories = Category::all(); // ambil semua kategori
+        return view('product.add', compact('categories')); // kirim ke view
+    }
 }
