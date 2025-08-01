@@ -230,10 +230,12 @@
       <main class="app-main">
         <div class="app-content-header">
           <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Detail Order</h3></div>
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
+            <div class="row align-items-center">
+              <div class="col-sm-6 d-flex align-items-center">
+                <h3 class="mb-0">Detail Order</h3>
+              </div>
+              <div class="col-sm-6 d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb float-sm-end mb-0">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
                   <li class="breadcrumb-item"><a href="{{route('purchase.orders')}}">Purchase Orders</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Detail Order</li>
@@ -246,12 +248,16 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-12">
-                <div class="card card-primary">
+                <div class="card card-primary mb-3">
                   <div class="card-header">
-                    <h3 class="card-title"> </h3>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h3 class="card-title mb-0">Detail Purchase Order</h3>
+                      <button class="btn btn-success btn-sm" onclick="printDetail()">
+                        <i class="bi bi-printer-fill"></i> Print
+                      </button>
+                    </div>
                   </div>
-                         
-                <div class="card-body">
+                  <div class="card-body" id="print-area">
                   <!-- Add a container for the purchase order data -->
                   <div id="purchase-order-details">
                       <h6>ID Purchase Order</h6>
@@ -322,6 +328,16 @@
           </div> 
         </div> 
       </main>
+    <script>
+    function printDetail() {
+        var printContents = document.getElementById('print-area').innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+        location.reload();
+    }
+    </script>
       <footer class="app-footer">
         <div class="float-end d-none d-sm-inline">Anything you want</div>
         <strong>
