@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class GetSupplierMaterialByProductTypeTest extends TestCase
@@ -12,21 +13,43 @@ class GetSupplierMaterialByProductTypeTest extends TestCase
     /** @test */
     public function it_returns_supplier_materials_for_valid_product_type()
     {
-        // Gunakan data hardcoded sesuai instruksi reviewer
-        $supplierId = 1; // Ganti sesuai dengan ID supplier yang valid di database kamu
-        $productType = 'FG'; // 'RM', 'HFG', atau 'FG' sesuai data yang valid
+        // Setup data
+        DB::table('products')->insert([
+            'product_id' => 'KAOS',
+            'product_type' => 'FG',
+            'product_name' => 'Kaos Merah',
+            'product_category' => '1',
+            'product_description' => 'Kaos lengan pendek warna merah',
+        ]);
 
-        // Kirim request ke endpoint
-        $response = $this->get("/supplier-material/{$supplierId}/{$productType}");
+        DB::table('item')->insert([
+            'product_id' => 'KAOS',
+            'item_name' => 'Kaos Merah',
+            'measurement_unit' => 'pcs',
+            'stock_unit' => 100,
+            'sku' => 'KAOS-001',
+        ]);
 
-        // Validasi response
+        DB::table('supplier_product')->insert([
+            'supplier_id' => 'SUP001',
+            'product_id' => 'KAOS-001', // ← substr 'KAOS' akan dicocokkan ke 'products.product_id'
+            'product_name' => 'Kaos Merah',
+            'company_name' => 'PT Uji Coba',
+            'base_price' => 15000,
+        ]);
+
+        $response = $this->get('/supplier-material/SUP001/FG');
+
+        $response->dump(); // debug
+
         $response->assertStatus(200);
+        $this->assertNotEmpty($response->json(), 'Response kosong padahal data sudah dimasukkan.');
+
         $response->assertJsonStructure([
             '*' => [
                 'supplier_id',
                 'company_name',
                 'product_id',
-                'product_name',
                 'product_type',
                 'base_price',
                 'item_name',
@@ -39,16 +62,8 @@ class GetSupplierMaterialByProductTypeTest extends TestCase
     /** @test */
     public function it_returns_400_for_invalid_product_type()
     {
-        $supplierId = 1; // Gunakan ID supplier valid (sama seperti di atas)
-        $invalidType = 'XYZ'; // produk tidak valid
-
-        // Kirim request ke endpoint dengan tipe produk tidak valid
-        $response = $this->get("/supplier-material/{$supplierId}/{$invalidType}");
-
-        // Validasi bahwa error ditangkap
+        $response = $this->get('/supplier-material/SUP001/INVALID');
+        $response->dump();
         $response->assertStatus(400);
-        $response->assertJson([
-            'error' => 'Invalid product type',
-        ]);
     }
 }

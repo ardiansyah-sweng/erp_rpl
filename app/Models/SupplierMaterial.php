@@ -110,39 +110,31 @@ class SupplierMaterial extends Model
             ->count(DB::raw('DISTINCT p.product_id'));
     }
 
-    public static function countSupplierMaterialByID($supplierID)
-    {
-        return DB::table('supplier_product as sp')
-            ->join('products as p', function ($join) {
-                $join->on(DB::raw('LEFT(sp.product_id, LOCATE("-", sp.product_id) - 1)'), '=', 'p.product_id');
-            })
-            ->where('p.product_type', 'RM') // hanya RM
-            ->where('sp.supplier_id', $supplierID)
-            ->distinct('p.product_id')
-            ->count(DB::raw('DISTINCT p.product_id'));
-    }
-    
     public function getSupplierMaterialByProductType($supplier_id, $product_type)
-    {
-        if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
-            return collect();
-        }
-
-        return DB::table('supplier_product')
-            ->join('products', DB::raw("SUBSTRING_INDEX(supplier_product.product_id, '-', -1)"), '=', 'products.product_id')
-            ->join('item', 'products.product_id', '=', 'item.product_id')
-            ->where('supplier_product.supplier_id', $supplier_id)
-            ->where('products.product_type', $product_type)
-            ->select(
-                'supplier_product.supplier_id',
-                'supplier_product.company_name',
-                'supplier_product.product_id',
-                'products.product_type',
-                'supplier_product.base_price',
-                'item.item_name',
-                'item.measurement_unit',
-                'item.stock_unit'
-            )
-            ->get();
+{
+    if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
+        return response()->json([], 400);
     }
+
+    $data = DB::table('supplier_product')
+        ->join('products', DB::raw("SUBSTRING_INDEX(supplier_product.product_id, '-', 1)"), '=', 'products.product_id')
+        ->join('item', 'products.product_id', '=', 'item.product_id')
+        ->where('supplier_product.supplier_id', $supplier_id)
+        ->where('products.product_type', $product_type)
+        ->select(
+            'supplier_product.supplier_id',
+            'supplier_product.company_name',
+            'supplier_product.product_id',
+            'products.product_type',
+            'supplier_product.base_price',
+            'item.item_name',
+            'item.measurement_unit',
+            'item.stock_unit'
+        )
+        ->get();
+
+    return response()->json($data);
 }
+
+}
+    
