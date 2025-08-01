@@ -88,6 +88,7 @@ Route::get('/goods_receipt_note/detail', function () {
 Route::get('/warehouse/add', function () {
     return view('warehouse/add');
 })->name('warehouse.add');
+Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse']);
 
 Route::get('product/category/detail', function () {
     return view('product/category/detail');
@@ -229,6 +230,7 @@ Route::get('/category', [CategoryController::class, 'getCategoryList'])->name('c
 
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
+Route::get('/supplierPic/{supplier_id}', [SupplierPIController::class, 'getSupplierPicById']);
 
 #cetak semua pdf pic
 Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
@@ -298,6 +300,10 @@ Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 
 #Get Product By Category Controller
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
+Route::put('/bill-of-material/{id}', [BillOfMaterialController::class, 'updateBillOfMaterial'])->name('bill-of-material.update');
 
 
 Route::post('/assort-production/add', [AssortProductionController::class, 'addProduction'])->name('assort-production.add');
+
+Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
+
