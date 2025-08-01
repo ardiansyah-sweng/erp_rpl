@@ -257,77 +257,76 @@
           </nav>
         </div>
       </aside>
-
-<main class="app-main">
-  <div class="app-content-header">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-6">
-          <h3 class="mb-0">Tambah Kategori Produk</h3>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-end">
-            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="/category">Kategori</a></li>
-            <li class="breadcrumb-item active">Tambah</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="app-content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title">Tambah Kategori</h3>
+      
+      <main class="app-main">
+        <div class="app-content-header">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                <h3 class="mb-0">Tambah Kategori Produk</h3>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                  <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="/category">Kategori</a></li>
+                  <li class="breadcrumb-item active">Tambah</li>
+                </ol>
+              </div>
             </div>
-
-   <form action="{{ route('category.add') }}" method="POST">
-  @csrf
-  <div class="card-body">
-
-    {{-- Checkbox: Sub Kategori --}}
-    <div class="form-check mb-3">
-      <input class="form-check-input" type="checkbox" id="showSubKategoriCheckbox" onchange="document.getElementById('subKategoriInputGroup').style.display = this.checked ? 'block' : 'none';">
-      <label class="form-check-label" for="showSubKategoriCheckbox">Sub Kategori</label>
-    </div>
-
-    {{-- Input: Sub Kategori (sembunyi awalnya) --}}
-    <div class="form-group" id="subKategoriInputGroup" style="display: none;">
-      <label for="sub_kategori">Nama Sub Kategori Produk</label>
-      <input type="text" class="form-control" id="sub_kategori" name="sub_kategori" placeholder="Contoh: HP Second" value="{{ old('sub_kategori') }}">
-    </div>
-
-    {{-- Input: Nama Kategori --}}
-    <div class="form-group">
-      <label for="category">Nama Kategori Produk</label>
-      <input type="text" class="form-control" id="category" name="category" placeholder="Contoh: Elektronik" value="{{ old('category') }}">
-    </div>
-
-    {{-- Checkbox Aktif --}}
-    <div class="form-check mt-3">
-      <input class="form-check-input" type="checkbox" id="aktifCheckbox" name="active" value="1" {{ old('active', true) ? 'checked' : '' }}>
-      <label class="form-check-label" for="aktifCheckbox">Aktif</label>
-    </div>
-  </div>
-
-  <div class="card-footer">
-    <button type="submit" class="btn btn-primary">Add</button>
-    <a href="{{ url('/category') }}" class="btn btn-secondary">Cancel</a>
-  </div>
-</form>
-
-
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</main>
+        
+        <div class="app-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card card-primary">
+                  <div class="card-header">
+                    <h3 class="card-title">Tambah Kategori</h3>
+                  </div>
+                  <form action="{{ route('category.add') }}" method="POST">
+                    @csrf
+                    <div class="card-body">
+                      {{-- Checkbox: Sub Kategori --}}
+                      <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="showSubKategoriCheckbox" onchange="document.getElementById('subKategoriInputGroup').style.display = this.checked ? 'block' : 'none';">
+                        <label class="form-check-label" for="showSubKategoriCheckbox">Sub Kategori</label>
+                      </div>
+                      {{-- Input: Sub Kategori (sembunyi awalnya) --}}
+                      <div class="form-group" id="subKategoriInputGroup" style="display: none;">
+                        <label for="sub_kategori">Nama Sub Kategori Produk</label>
+                        <input type="text" class="form-control" id="sub_kategori" name="sub_kategori" placeholder="Contoh: HP Second" value="{{ old('sub_kategori') }}">
+                          @error('category')
+                            <small class="text-danger">{{ $message }}</small>
+                          @enderror
+                      </div>
+                      {{-- Input: Nama Kategori --}}
+                      <div class="form-group">
+                        <label for="category">Nama Kategori Produk</label>
+                        <input type="text" class="form-control" id="category" name="category" placeholder="Contoh: Elektronik" value="{{ old('category') }}">
+                          @error('category')
+                            <small class="text-danger">{{ $message }}</small>
+                          @enderror
+                       </div>
 
+                      {{-- Checkbox Aktif --}}
+                      <div class="form-check mt-3">
+                        <input class="form-check-input" type="checkbox" id="aktifCheckbox" name="active" value="1" {{ old('active', true) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="aktifCheckbox">Aktif</label>
+                      </div>
+                    </div>
+
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">Add</button>
+                      <a href="{{ url('/category') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
 
       <footer class="app-footer">
         <div class="float-end d-none d-sm-inline">Anything you want</div>
