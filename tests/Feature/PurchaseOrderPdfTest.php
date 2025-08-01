@@ -5,36 +5,40 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\PurchaseOrder;
 
-
 class PurchaseOrderPdfTest extends TestCase
 {
 
-
-    /** @test */
-    public function it_generates_pdf_for_supplier_order_report()
+    public function testGeneratesOrderCountPdfForSupplierByDate()
     {
         $startDate = '2025-07-28';
         $endDate = '2025-07-30';
-        $supplierID = 1;
+        $supplierID = 99;
 
-        // Siapkan data dummy
+        // Buat 2 data dummy PO untuk supplier 99
         PurchaseOrder::create([
-            'po_number' => 'PO-002',
+            'po_number' => 'PO-101',
             'branch_id' => 1,
             'status' => 'completed',
             'supplier_id' => $supplierID,
-            'order_date' => '2025-07-29',
-            'total' => 100000
+            'order_date' => '2025-07-28',
+            'total' => 50000
         ]);
 
-        $purchaseOrder = new PurchaseOrder();
+        PurchaseOrder::create([
+            'po_number' => 'PO-102',
+            'branch_id' => 1,
+            'status' => 'completed',
+            'supplier_id' => $supplierID,
+            'order_date' => '2025-07-30',
+            'total' => 80000
+        ]);
 
-        // Jalankan fungsi generatePDF
-        $response = $purchaseOrder->generatePDFByDateSupplier($startDate, $endDate, $supplierID);
+        $po = new PurchaseOrder();
 
-        // Assertion
-        $this->assertNotNull($response);
-        $this->assertIsString($response);
-        $this->assertStringContainsString('%PDF', $response); // header PDF
+        $pdfContent = $po->generateOrderCountPDFByDateSupplier($startDate, $endDate, $supplierID);
+
+        $this->assertNotNull($pdfContent);
+        $this->assertIsString($pdfContent);
+        $this->assertStringContainsString('%PDF', $pdfContent);
     }
 }

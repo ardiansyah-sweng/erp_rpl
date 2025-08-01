@@ -224,24 +224,23 @@ class PurchaseOrder extends Model
         return $query->get();
     }
 
-    public function generatePDFByDateSupplier($startDate, $endDate, $supplierID)
+    public function generateOrderCountPDFByDateSupplier($startDate, $endDate, $supplierID)
     {
         $orderCount = $this->countOrdersByDateSupplier($startDate, $endDate, $supplierID);
 
-        // Gunakan dummy HTML jika dalam mode unit test
         if (app()->runningUnitTests()) {
             $html = "
                 <html>
                     <body>
-                        <h1>Laporan Order</h1>
+                        <h2>Laporan Jumlah Order</h2>
                         <p>Supplier ID: {$supplierID}</p>
                         <p>Periode: {$startDate} s/d {$endDate}</p>
-                        <p>Total Order: {$orderCount}</p>
+                        <p>Jumlah Order: {$orderCount}</p>
                     </body>
                 </html>
             ";
         } else {
-            $html = view('purchase_orders.pdf_report_by_date_supplier', [
+            $html = view('purchase_orders.order_count_pdf', [
                 'startDate' => $startDate,
                 'endDate' => $endDate,
                 'supplierID' => $supplierID,
@@ -249,15 +248,12 @@ class PurchaseOrder extends Model
             ])->render();
         }
 
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
+        $pdf = new Dompdf();
+        $pdf->loadHtml($html);
+        $pdf->setPaper('A4', 'portrait');
+        $pdf->render();
 
-        return $dompdf->output(); // return sebagai string (bukan stream langsung)
-    public static function GetPOcountByStatus($status)
-    {
-        return self::where('status', $status)->count();
+        return $pdf->output();
     }
 
 }
