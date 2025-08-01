@@ -69,8 +69,17 @@ class Product extends Model
     }
 
     public function getProductById($id) {
-        return self::where('product_id', $id)->first();
-    }    
+public function getProductById($id) {
+        return self::where('id', $id)->first();
+    }
+
+    public static function countProductByCategory(string $categoryName): int
+    {
+        return self::whereHas('category', function ($query) use ($categoryName) {
+            $query->where('category_name', $categoryName);
+        })->count();
+    }
+      
 
     public static function countProductByProductType($shortType)
     {
