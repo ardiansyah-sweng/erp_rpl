@@ -110,7 +110,7 @@ Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->na
 Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('product.pdf');
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
 Route::get('/products/print/{type}', [ProductController::class, 'printProductsByType'])->name('products.print.by-type');
-
+Route::get('/products/type/{type}', [ProductController::class, 'getProductByType']);
 
 
 #Product Update
