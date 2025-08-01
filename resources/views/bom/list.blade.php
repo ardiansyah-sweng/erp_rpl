@@ -378,6 +378,33 @@
         <div class="app-content-header">
           <!--begin::Container-->
           <div class="container-fluid">
+            
+            <!-- Alert Messages -->
+            @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+
+            @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+
+            @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul class="mb-0">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+
             <!--begin::Row-->
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
@@ -393,41 +420,43 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                        <form id="billOfMaterialForm">
+                        <form id="billOfMaterialForm" action="{{ route('bom.add') }}" method="POST">
+                          @csrf
                           <div class="row g-3 mb-3">
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">BOM ID</label>
-                              <input type="text" class="form-control" id="bomID" placeholder="BOM001">
+                              <input type="text" class="form-control" id="bomID" name="bom_id" placeholder="BOM001" required>
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Nama BOM</label>
-                              <input type="text" class="form-control" id="bomNama" placeholder="Nama BOM">
+                              <input type="text" class="form-control" id="bomNama" name="bom_name" placeholder="Nama BOM" required>
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Measurement Unit</label>
-                              <select class="form-select" id="bomMeasurement" name="measurement_unit_id">
+                              <select class="form-select" id="bomMeasurement" name="measurement_unit_id" required>
                                 @if(isset($measurement_units) && count($measurement_units) > 0)
                                   @foreach($measurement_units as $unit)
                                     <option value="{{ $unit->id }}">{{ $unit->name }}</option>
                                   @endforeach
+                                @else
+                                  <option value="PCS">PCS</option>
+                                  <option value="KG">KG</option>
+                                  <option value="L">L</option>
+                                  <option value="Meter">Meter</option>
+                                  <option value="Set">Set</option>
+                                  <option value="Pack">Pack</option>
                                 @endif
-                                <option value="PCS">PCS</option>
-                                <option value="KG">KG</option>
-                                <option value="L">L</option>
-                                <option value="Meter">Meter</option>
-                                <option value="Set">Set</option>
-                                <option value="Pack">Pack</option>
                               </select>
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Total Cost</label>
-                              <input type="text" class="form-control" id="bomTotalCost" placeholder="Total Cost">
+                              <input type="number" class="form-control" id="bomTotalCost" name="total_cost" placeholder="Total Cost" required>
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Status</label>
-                              <select class="form-select" id="bomStatus">
-                                <option value="Aktif">Aktif</option>
-                                <option value="Nonaktif">Nonaktif</option>
+                              <select class="form-select" id="bomStatus" name="active" required>
+                                <option value="1">Aktif</option>
+                                <option value="0">Nonaktif</option>
                               </select>
                             </div>
                           </div>
@@ -457,10 +486,10 @@
         <div class="card mb-4">
               <div class="card-header d-flex justify-content-between align-items-center">
                       <h3 class="card-title">List Table</h3>
-                      <form action="#" method="GET" class="d-flex ms-auto">
+                      <form action="{{ route('bom.list') }}" method="GET" class="d-flex ms-auto">
                         <!-- Search bar berada di ujung kanan -->
                         <div class="input-group input-group-sm ms-auto" style="width: 450px;">
-                          <input type="text" name="search" class="form-control" placeholder="Search BOM">
+                          <input type="text" name="search" class="form-control" placeholder="Search BOM" value="{{ request('search') }}">
                           <div class="input-group-append">
                             <button type="submit" class="btn btn-default">
                               <i class="bi bi-search"></i>
@@ -471,17 +500,6 @@
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
-                    @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                    @endif
-
-                    @if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                    @endif
 
                     <!-- Bill Of Material Table -->
                 <div class="card">
@@ -503,156 +521,42 @@
                               </tr>
                           </thead>
                           <tbody>
+                              @forelse ($billOfMaterials as $index => $bom)
                               <tr>
-                                  <td>1</td>
-                                  <td>BOM001</td>
-                                  <td>Produk A</td>
-                                  <td>100 pcs</td>
-                                  <td>Rp. 200.000</td>
+                                  <td>{{ $billOfMaterials->firstItem() + $index }}</td>
+                                  <td>{{ $bom->bom_id }}</td>
+                                  <td>{{ $bom->bom_name }}</td>
+                                  <td>{{ $bom->measurement_unit_text }}</td>
+                                  <td>Rp. {{ number_format($bom->total_cost, 0, ',', '.') }}</td>
                                   <td>
-                                      <span class="badge bg-success">A K T I F</span>
+                                      @if($bom->active)
+                                          <span class="badge bg-success">A K T I F</span>
+                                      @else
+                                          <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
+                                      @endif
                                   </td>
-                                  <td>08-06-2024</td>
+                                  <td>{{ \Carbon\Carbon::parse($bom->created_at)->format('d-m-Y') }}</td>
                                   <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <button class="btn btn-sm btn-info" onclick="getDetail({{ $bom->id }})">Lihat</button>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                      <form action="{{ route('bom.delete', $bom->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus BOM ini?')">>
+                                          @csrf
+                                          @method('DELETE')
+                                          <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                      </form>
                                   </td>
                               </tr>
+                              @empty
                               <tr>
-                                  <td>2</td>
-                                  <td>BOM002</td>
-                                  <td>Produk B</td>
-                                  <td>50 Kg</td>
-                                  <td>Rp. 245.000</td>
-                                  <td>
-                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
-                                  </td>
-                                  <td>05-06-2024</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                  <td colspan="8" class="text-center">
+                                      @if(request('search'))
+                                          Tidak ada data BOM yang cocok dengan pencarian "{{ request('search') }}"
+                                      @else
+                                          Belum ada data BOM
+                                      @endif
                                   </td>
                               </tr>
-                              <tr>
-                                  <td>3</td>
-                                  <td>BOM003</td>
-                                  <td>Produk C</td>
-                                  <td>30 Kg</td>
-                                  <td>Rp. 115.000</td>
-                                  <td>
-                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
-                                  </td>
-                                  <td>11-06-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>4</td>
-                                  <td>BOM004</td>
-                                  <td>Produk D</td>
-                                  <td>1 TON</td>
-                                  <td>Rp. 985.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>01-01-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>5</td>
-                                  <td>BOM005</td>
-                                  <td>Produk E</td>
-                                  <td>1.2 TON</td>
-                                  <td>Rp. 1.225.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>01-04-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>6</td>
-                                  <td>BOM006</td>
-                                  <td>Produk F</td>
-                                  <td>3 Kwintal</td>
-                                  <td>Rp. 950.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-05-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>7</td>
-                                  <td>BOM007</td>
-                                  <td>Produk G</td>
-                                  <td>1 Kwintal</td>
-                                  <td>Rp. 350.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-11-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>8</td>
-                                  <td>BOM008</td>
-                                  <td>Produk H</td>
-                                  <td>1 Kwintal</td>
-                                  <td>Rp. 150.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-05-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>9</td>
-                                  <td>BOM009</td>
-                                  <td>Produk I</td>
-                                  <td>70 Liter</td>
-                                  <td>Rp. 850.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>31-05-2025</td>
-                                  <td>
-                                     <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>10</td>
-                                  <td>BOM010</td>
-                                  <td>Produk J</td>
-                                  <td>3.5 Kwintal</td>
-                                  <td>Rp. 550.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-03-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
+                              @endforelse
                               <!--Tambah data dummy-->
                           </tbody>
                       </table>
@@ -715,12 +619,45 @@
                       })
                       .catch(err => alert('Gagal mengambil data'));
                   }
+
+                  function editBom(id) {
+                    // Redirect to edit page or open edit modal
+                    window.location.href = `/bom/edit/${id}`;
+                  }
+
+                  // Auto hide alerts after 5 seconds
+                  document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(function() {
+                      const alerts = document.querySelectorAll('.alert');
+                      alerts.forEach(function(alert) {
+                        if (alert.classList.contains('show')) {
+                          alert.classList.remove('show');
+                          setTimeout(function() {
+                            alert.remove();
+                          }, 150);
+                        }
+                      });
+                    }, 5000);
+                  });
                   </script>
 
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer clearfix">
-                  
+                      @if($billOfMaterials instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                          <div class="d-flex justify-content-between align-items-center">
+                              <div>
+                                  Menampilkan {{ $billOfMaterials->firstItem() }} sampai {{ $billOfMaterials->lastItem() }} 
+                                  dari {{ $billOfMaterials->total() }} hasil
+                                  @if(request('search'))
+                                      untuk pencarian "{{ request('search') }}"
+                                  @endif
+                              </div>
+                              <div>
+                                  {{ $billOfMaterials->appends(request()->query())->links('pagination::bootstrap-4') }}
+                              </div>
+                          </div>
+                      @endif
                   </div>
 
         </div>

@@ -241,9 +241,11 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
 # Bill of Material
 
-Route::get('/bom/list', function () {
-    return view('bom/list');
-});
+Route::get('/bom/list', [BillOfMaterialController::class, 'index'])->name('bom.list');
+Route::post('/bom/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('bom.add');  
+Route::delete('/bom/delete/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial'])->name('bom.delete');
+Route::get('/bom/edit/{id}', [BillOfMaterialController::class, 'edit'])->name('bom.edit');
+Route::put('/bom/update/{id}', [BillOfMaterialController::class, 'updateBillOfMaterial'])->name('bom.update');
 
 #production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
