@@ -13,17 +13,15 @@ use Illuminate\Support\Facades\Mail;
 class PurchaseOrderController extends Controller
 {
     // Fungsi printPurchaseOrderToPDF sesuai permintaan
-    public function printPurchaseOrderToPDF($id)
+    public function printPurchaseOrderToPDF($poNumber)
     {
-        // Ambil data purchase order berdasarkan ID
-        $purchaseOrder = PurchaseOrder::findOrFail($id);
+        // Ambil data purchase order menggunakan model custom
+        $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($poNumber);
 
-        // Data tambahan jika perlu
         $data = [
             'purchaseOrder' => $purchaseOrder,
         ];
 
-        // Generate PDF dari view (buat view purchase_orders.pdf_detail jika belum ada)
         $pdf = Pdf::loadView('purchase_orders.pdf_detail', $data);
         return $pdf->stream('purchase_order_' . $purchaseOrder->po_number . '.pdf');
     }
