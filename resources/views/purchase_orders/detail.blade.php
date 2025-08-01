@@ -249,12 +249,13 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="card card-primary mb-3">
-                  <div class="d-flex justify-content-end align-items-center mt-2 mb-2" style="padding-right:0;">
-                    <button class="btn btn-success btn-sm" style="min-width:120px;font-weight:500;border-radius:0;padding:8px 16px 8px 8px;transition:box-shadow 0.2s;margin-right:0;" onclick="printDetail()" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)';" onmouseout="this.style.boxShadow='0 2px 6px rgba(0,0,0,0.10)';">
-                      <i class="bi bi-printer-fill"></i> Print
-                    </button>
-                  </div>
-                  <div style="background-color:#1976f6;border-radius:0;margin-top:12px;margin-bottom:24px;height:16px;box-shadow:0 2px 8px rgba(25,118,246,0.10);">
+                  <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h3 class="card-title mb-0">Detail Purchase Order</h3>
+                      <button class="btn btn-success btn-sm" onclick="printDetail()">
+                        <i class="bi bi-printer-fill"></i> Print
+                      </button>
+                    </div>
                   </div>
                   <div class="card-body" id="print-area">
                   <!-- Add a container for the purchase order data -->
