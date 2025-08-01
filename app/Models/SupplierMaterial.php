@@ -122,4 +122,32 @@ class SupplierMaterial extends Model
             ->count(DB::raw('DISTINCT p.product_id'));
     }
 
+    public static function getSupplierMaterialByCategorysupplier()
+    {
+        return DB::table('supplier_product as sp')
+            ->join('item as i', 'sp.product_id', '=', 'i.sku')
+            ->select(
+                'sp.id as supplier_product_id',
+                'sp.supplier_id',
+                'sp.company_name',
+                'sp.product_id',
+                'sp.product_name',
+                'sp.base_price',
+                'sp.created_at as sp_created_at',
+                'sp.updated_at as sp_updated_at',
+                'i.id as item_id',
+                'i.item_name',
+                'i.measurement_unit',
+                'i.avg_base_price',
+                'i.selling_price',
+                'i.purchase_unit',
+                'i.sell_unit',
+                'i.stock_unit',
+                'i.created_at as item_created_at',
+                'i.updated_at as item_updated_at'
+            )
+            ->get();
+    }
+
+
 }
