@@ -257,87 +257,78 @@
           </nav>
         </div>
       </aside>
-      <main class="app-main">
-        <div class="app-content-header">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Kategori Produk</h3></div>
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="#">Kategori</a></li> {{-- Changed link --}}
-                  <li class="breadcrumb-item active" aria-current="page">Tambah</li>
-                </ol>
-              </div>
+
+<main class="app-main">
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class="mb-0">Tambah Kategori Produk</h3>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-end">
+            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/category">Kategori</a></li>
+            <li class="breadcrumb-item active">Tambah</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Tambah Kategori</h3>
             </div>
+
+   <form action="{{ route('category.add') }}" method="POST">
+  @csrf
+  <div class="card-body">
+
+    {{-- Checkbox: Sub Kategori --}}
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" id="showSubKategoriCheckbox" onchange="document.getElementById('subKategoriInputGroup').style.display = this.checked ? 'block' : 'none';">
+      <label class="form-check-label" for="showSubKategoriCheckbox">Sub Kategori</label>
+    </div>
+
+    {{-- Input: Sub Kategori (sembunyi awalnya) --}}
+    <div class="form-group" id="subKategoriInputGroup" style="display: none;">
+      <label for="sub_kategori">Nama Sub Kategori Produk</label>
+      <input type="text" class="form-control" id="sub_kategori" name="sub_kategori" placeholder="Contoh: HP Second" value="{{ old('sub_kategori') }}">
+    </div>
+
+    {{-- Input: Nama Kategori --}}
+    <div class="form-group">
+      <label for="category">Nama Kategori Produk</label>
+      <input type="text" class="form-control" id="category" name="category" placeholder="Contoh: Elektronik" value="{{ old('category') }}">
+    </div>
+
+    {{-- Checkbox Aktif --}}
+    <div class="form-check mt-3">
+      <input class="form-check-input" type="checkbox" id="aktifCheckbox" name="active" value="1" {{ old('active', true) ? 'checked' : '' }}>
+      <label class="form-check-label" for="aktifCheckbox">Aktif</label>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a href="{{ url('/category') }}" class="btn btn-secondary">Cancel</a>
+  </div>
+</form>
+
+
           </div>
         </div>
-        <div class="app-content">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="card card-primary">
-                  <div class="card-header">
-                    <h3 class="card-title">Tambah Kategori</h3>
-                  </div>
-                  <form action="{{ route('category.add') }}" method="POST"> {{-- Adjust action URL --}}
-                    @csrf {{-- Laravel CSRF token --}}
-                    <div class="card-body">
-                        {{-- Checkbox for Sub Kategori --}}
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="subKategoriCheckbox">
-                            <label class="form-check-label" for="subKategoriCheckbox">
-                                Sub Kategori
-                            </label>
-                        </div>
+      </div>
+    </div>
+  </div>
+</main>
 
-                        {{-- Input for Nama Grup Kategori Produk (Always visible) --}}
-                        <div class="form-group" id="groupKategoriInputGroup">
-                            <label for="nama_grup_kategori">Nama Grup Kategori Produk</label>
-                            <input type="text" class="form-control" id="nama_grup_kategori" name="nama_grup_kategori" placeholder="Elektronik">
-                            <div class="invalid-feedback" id="nama_grup_kategori_feedback"></div>
-                        </div>
 
-                        {{-- Input for Nama Sub Kategori Produk (Initially hidden) --}}
-                        <div class="form-group" id="subKategoriInputGroup" style="display: none;">
-                            <label for="nama_sub_kategori">Nama Sub Kategori Produk</label>
-                            <input type="text" class="form-control" id="nama_sub_kategori" name="nama_sub_kategori" placeholder="HP Second">
-                            <div class="invalid-feedback" id="nama_sub_kategori_feedback"></div>
-                        </div>
-
-                        {{-- Dropdown for Grup Kategori Produk (Initially hidden) --}}
-                        <div class="form-group" id="grupKategoriDropdownGroup" style="display: none;">
-                            <label for="pilih_grup_kategori">Grup Kategori Produk</label>
-                            <select class="form-select" id="pilih_grup_kategori" name="pilih_grup_kategori">
-                                <option value="">Pilih Grup Kategori</option>
-                                {{-- Dummy data for demonstration. In real app, fetch from database --}}
-                                <option value="elektronik">Elektronik</option>
-                                <option value="pakaian">Pakaian</option>
-                                <option value="makanan">Makanan</option>
-                            </select>
-                            <div class="invalid-feedback" id="pilih_grup_kategori_feedback"></div>
-                        </div>
-
-                        {{-- Checkbox for Aktif --}}
-                        <div class="form-check mt-3">
-                            <input class="form-check-input" type="checkbox" id="aktifCheckbox" name="aktif" checked>
-                            <label class="form-check-label" for="aktifCheckbox">
-                                Aktif
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Add</button>
-                        <button type="reset" class="btn btn-secondary">Cancel</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
       <footer class="app-footer">
         <div class="float-end d-none d-sm-inline">Anything you want</div>
         <strong>
@@ -390,79 +381,24 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        $(document).ready(function () {
-            $('[data-widget="pushmenu"]').on('click', function (e) {
-                e.preventDefault();
-                $('body').toggleClass('sidebar-collapse');
-            });
+    function toggleSubKategoriInput(checkbox) {
+        const subGroup = document.getElementById('subKategoriGroup');
+        const categoryInput = document.getElementById('categoryInput');
+        const subInput = document.getElementById('sub_kategori');
+        const parentInput = document.getElementById('parent_category');
 
-            // Handle checkbox for Sub Kategori
-            $('#subKategoriCheckbox').change(function() {
-                if ($(this).is(':checked')) {
-                    // Skenario 2: Sub Kategori dipilih
-                    $('#groupKategoriInputGroup label').text('Nama Sub Kategori Produk');
-                    $('#nama_grup_kategori')
-                        .attr('name', 'nama_sub_kategori')
-                        .attr('id', 'nama_sub_kategori')
-                        .attr('placeholder', 'HP Second');
-                    $('#subKategoriInputGroup').hide(); // Hide the old sub kategori input
-                    $('#grupKategoriDropdownGroup').show(); // Show the dropdown
-                } else {
-                    // Skenario 1: Hanya Grup Kategori Produk
-                    $('#groupKategoriInputGroup label').text('Nama Grup Kategori Produk');
-                    $('#nama_sub_kategori') // Use the current ID (which was nama_grup_kategori before change)
-                        .attr('name', 'nama_grup_kategori')
-                        .attr('id', 'nama_grup_kategori')
-                        .attr('placeholder', 'Elektronik');
-                    $('#subKategoriInputGroup').hide(); // Keep hidden
-                    $('#grupKategoriDropdownGroup').hide(); // Hide the dropdown
-                }
-                // Clear validation feedback on change
-                $('.invalid-feedback').text('');
-                $('.form-control').removeClass('is-invalid');
-            });
-        });
-
-        function validateCategoryForm() {
-            let isValid = true;
-            $('.invalid-feedback').text(''); // Clear previous error messages
-            $('.form-control').removeClass('is-invalid'); // Remove red borders
-
-            const isSubKategori = $('#subKategoriCheckbox').is(':checked');
-
-            if (isSubKategori) {
-                // Skenario 2: Memasukkan nama sub-kategori produk
-                const namaSubKategori = $('#nama_sub_kategori').val().trim();
-                const pilihGrupKategori = $('#pilih_grup_kategori').val();
-
-                if (namaSubKategori === '') {
-                    $('#nama_sub_kategori_feedback').text('Nama Sub Kategori Produk harus diisi.').show();
-                    $('#nama_sub_kategori').addClass('is-invalid');
-                    isValid = false;
-                }
-
-                if (pilihGrupKategori === '') {
-                    $('#pilih_grup_kategori_feedback').text('Grup Kategori Produk harus dipilih.').show();
-                    $('#pilih_grup_kategori').addClass('is-invalid');
-                    isValid = false;
-                }
-
-            } else {
-                // Skenario 1: Hanya memasukkan nama grup kategori produk
-                const namaGrupKategori = $('#nama_grup_kategori').val().trim();
-
-                if (namaGrupKategori === '') {
-                    $('#nama_grup_kategori_feedback').text('Nama Grup Kategori Produk harus diisi.').show();
-                    $('#nama_grup_kategori').addClass('is-invalid');
-                    isValid = false;
-                }
-            }
-
-            if (isValid) {
-                document.getElementById('categoryForm').submit();
-            }
-            return isValid;
+        if (checkbox.checked) {
+          subGroup.style.display = 'block';
+          subInput.name = 'category'; // dipakai sebagai category
+          parentInput.name = 'parent_category'; // tidak akan dikirim karena controller tidak pakai
+          categoryInput.disabled = true; // agar tidak tabrakan
+        } else {
+          subGroup.style.display = 'none';
+          subInput.name = ''; // nonaktifkan
+          parentInput.name = 'category'; // dijadikan sebagai category utama
+          categoryInput.disabled = false;
         }
-    </script>
+      }
+  </script>
   </body>
 </html>
