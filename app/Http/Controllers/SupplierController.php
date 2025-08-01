@@ -60,12 +60,15 @@ class SupplierController extends Controller
     }
     public function AddSuplier(Request $request)
     {
-        $request->validate([
-            'supplier_id'    => 'required|string|max:10|unique:suppliers,supplier_id',
+        $validatedData =  $request->validate([
+            'supplier_id'    => 'required|string|max:10|unique:supplier,supplier_id',
             'company_name'   => 'required|string|max:255',
             'address'        => 'required|string|max:500',
             'phone_number'   => 'required|string|max:20',
             'bank_account'   => 'required|string|max:255',
         ]);
+        $supplier = Supplier::addSupplier($validatedData);
+
+        return redirect()->back()->with('success', 'Supplier Berhasil Di Tambahkan');
     }
 }
