@@ -123,29 +123,29 @@ class SupplierMaterial extends Model
     }
     
     public function getSupplierMaterialByProductType($supplier_id, $product_type)
-{
-    if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
-        return response()->json([], 400);
+    {
+        if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
+            return response()->json([], 400);
+        }
+
+        $data = DB::table('supplier_product')
+            ->join('products', DB::raw("SUBSTRING_INDEX(supplier_product.product_id, '-', 1)"), '=', 'products.product_id')
+            ->join('item', 'products.product_id', '=', 'item.product_id')
+            ->where('supplier_product.supplier_id', $supplier_id)
+            ->where('products.product_type', $product_type)
+            ->select(
+                'supplier_product.supplier_id',
+                'supplier_product.company_name',
+                'supplier_product.product_id',
+                'products.product_type',
+                'supplier_product.base_price',
+                'item.item_name',
+                'item.measurement_unit',
+                'item.stock_unit'
+            )
+            ->get();
+
+        return response()->json($data);
     }
-
-    $data = DB::table('supplier_product')
-        ->join('products', DB::raw("SUBSTRING_INDEX(supplier_product.product_id, '-', 1)"), '=', 'products.product_id')
-        ->join('item', 'products.product_id', '=', 'item.product_id')
-        ->where('supplier_product.supplier_id', $supplier_id)
-        ->where('products.product_type', $product_type)
-        ->select(
-            'supplier_product.supplier_id',
-            'supplier_product.company_name',
-            'supplier_product.product_id',
-            'products.product_type',
-            'supplier_product.base_price',
-            'item.item_name',
-            'item.measurement_unit',
-            'item.stock_unit'
-        )
-        ->get();
-
-    return response()->json($data);
-}
 
 }
