@@ -219,7 +219,6 @@ Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCatego
 Route::get('/category/parent/{parentId}', [CategoryController::class, 'getCategoryByParent']);
 Route::get('/category', [CategoryController::class, 'getCategoryList'])->name('category.list');
 
-
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
 Route::get('/supplierPic/{supplier_id}', [SupplierPIController::class, 'getSupplierPicById']);
