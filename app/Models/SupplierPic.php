@@ -114,4 +114,38 @@ class SupplierPic extends Model
             ];
         }
     }
+
+    public static function searchSupplierPic($keywords = null)
+    {
+        // Eager load relasi 'supplier' untuk akses company_name
+        $query = self::with('supplier');
+
+        if ($keywords) {
+            $query->where('supplier_id', 'LIKE', "%{$keywords}%")
+                  ->orWhere('name', 'LIKE', "%{$keywords}%")
+                  ->orWhere('phone_number', 'LIKE', "%{$keywords}%")
+                  ->orWhere('email', 'LIKE', "%{$keywords}%")
+                  ->orWhere('assigned_date', 'LIKE', "%{$keywords}%")
+                  ->orWhere('created_at', 'LIKE', "%{$keywords}%")
+                  ->orWhere('updated_at', 'LIKE', "%{$keywords}%");
+        }
+
+        return $query->orderBy('created_at', 'asc')->paginate(10);
+    }
+    
+    public static function getSupplierPIC($supplierID)
+    {
+        return self::where('supplier_id', $supplierID)->get();
+    }
+    
+    public static function countSupplierPIC($supplierID, $onlyActive = null)
+    {
+        $query = self::where('supplier_id', $supplierID);
+
+        if (!is_null($onlyActive)) {
+            $query->where('active', $onlyActive ? 1 : 0);
+        }
+
+        return $query->count();
+    }
 }

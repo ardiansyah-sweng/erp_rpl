@@ -17,6 +17,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
+use App\Models\BillOfMaterial;
 
 #Login
 Route::get('/', function () {
@@ -85,6 +86,7 @@ Route::get('/goods_receipt_note/detail', function () {
 Route::get('/warehouse/add', function () {
     return view('warehouse/add');
 })->name('warehouse.add');
+Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse']);
 
 Route::get('product/category/detail', function () {
     return view('product/category/detail');
@@ -103,11 +105,13 @@ Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
+Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('product.pdf');
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
+Route::get('/products/print/{type}', [ProductController::class, 'printProductsByType'])->name('products.print.by-type');
+Route::get('/products/type/{type}', [ProductController::class, 'getProductByType']);
 
 
-
-#Product Update 
+#Product Update
 
 #Product Update
 
@@ -203,6 +207,7 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
+Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
 
 #Category
 Route::get('/category/search', [CategoryController::class, 'searchCategory']);
@@ -216,13 +221,14 @@ Route::get('/category', [CategoryController::class, 'getCategoryList'])->name('c
 
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
+Route::get('/supplierPic/{supplier_id}', [SupplierPIController::class, 'getSupplierPicById']);
 
 #cetak semua pdf pic
 Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
 
 
 # Warehouse
-Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById']);
+Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById'])->name('warehouse.detail');
 Route::get('/warehouse/search', [WarehouseController::class, 'searchWarehouse'])->name('warehouse.search');
 Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
 Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
@@ -263,6 +269,16 @@ Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'delet
 Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
 Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
 Route::get('/bill-of-material/{id}', [BillOfMaterialController::class, 'getBomDetail']);
+Route::get('/bill-of-material/search/{keyword?}', [BillOfMaterialController::class, 'searchBillOfMaterial']);
+Route::get('/bom/detail/{id}', function ($id) {
+    $bom = BillOfMaterial::getBomDetail($id);
+
+    if (!$bom) {
+        abort(404, 'Bill of Material tidak ditemukan');
+    }
+
+    return response()->json($bom);
+})->name('bom.detail');
 
 #Goods Receipt Notes
 Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote']);
@@ -272,3 +288,13 @@ Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 
 #Goods Receipt Note Controller
 Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'getGoodsReceiptNote']);
+
+#Get Product By Category Controller
+Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
+Route::put('/bill-of-material/{id}', [BillOfMaterialController::class, 'updateBillOfMaterial'])->name('bill-of-material.update');
+
+
+Route::post('/assort-production/add', [AssortProductionController::class, 'addProduction'])->name('assort-production.add');
+
+Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
+

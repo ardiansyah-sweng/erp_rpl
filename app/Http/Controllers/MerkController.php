@@ -57,5 +57,23 @@ class MerkController extends Controller
         return redirect()->back()->with('error', 'Merk gagal dihapus.');
         }
     }
+    public function addMerk(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'merk' => 'required|string|max:100',
+            'active' => 'nullable|boolean',
+        ]);
+
+        $namaMerk = $request->input('merk');
+        $active = $request->input('active', 1); // default aktif
+
+        $newMerk = Merk::addMerk($namaMerk, $active);
+
+        return response()->json([
+            'message' => 'Merk berhasil ditambahkan',
+            'data' => $newMerk,
+        ]);
+    }
 }
 
