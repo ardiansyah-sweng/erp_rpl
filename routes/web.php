@@ -68,9 +68,7 @@ Route::get('/item/add', function () {
     return view('item/add');
 });
 // Dikonfirmasi oleh chiqitita_C_163 - route form tambah produk sudah tersedia
-Route::get('/product/add', function () {
-    return view('product/add');
-});
+Route::get('/product/add', [ProductController::class, 'showAddProductForm'])->name('product.add');
 Route::get('/supplier/list', function () {
     return view('supplier.list');
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 use App\Helpers\EncryptionHelper;
 
 class ProductController extends Controller
@@ -69,4 +70,9 @@ class ProductController extends Controller
         return view('product.list', compact('products'));
     }
 
+    public function showAddProductForm()
+    {
+        $categories = Category::all();
+        return view('product.add', compact('categories'));
+    }
 }
