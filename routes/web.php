@@ -219,7 +219,7 @@ Route::get('/category', [CategoryController::class, 'getCategoryList'])->name('c
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
 
-#cetak semua pdf picc
+#cetak semua pdf pic
 Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
 Route::get('/supplier/pic/pdf/{supplierID}', [SupplierPIController::class, 'cetakPdfBySupplierID'])->name('supplier.pic.pdf.bysupplier');
 
