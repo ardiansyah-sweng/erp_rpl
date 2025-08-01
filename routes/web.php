@@ -106,6 +106,7 @@ Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']
 
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
+Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('product.pdf');
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
@@ -150,7 +151,7 @@ Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePu
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
 Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderController::class, 'sendMailPurchaseOrder'])->name('purchase_orders.send_email');
-
+Route::get('/purchase-orders/{id}/print', [PurchaseOrderController::class, 'printPurchaseOrderToPDF'])->name('purchase_orders.print');
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
 Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
