@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class Item extends Model
@@ -104,6 +105,24 @@ class Item extends Model
         return self::where('id', $id)->first();
 
     }
+public static function countItemByProductType(?string $productType = null): int
+    {
+        $query = self::query();
+
+        if ($productType !== null) {
+            $query->where('product_type', $productType);
+        }
+
+        return $query->count();
+    }
+
+    public static function countAllItemProductTypes(): \Illuminate\Support\Collection
+    {
+        return self::select('product_type', \DB::raw('count(*) as total'))
+                    ->groupBy('product_type')
+                    ->get();
+    }
+
 
     public static function countItemByProductType(){
         return self::count(); 
@@ -117,6 +136,7 @@ class Item extends Model
             ->select('item.*', 'products.product_type', 'products.product_name')
             ->get();
     }
+
 
     public static function searchItem($keyword)
     {

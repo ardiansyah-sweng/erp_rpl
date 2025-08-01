@@ -32,6 +32,7 @@ class WarehouseController extends Controller
         ]);
     }
 
+    public function deleteWarehouse($id)
     public function searchWarehouse(Request $request)
     {
         $keyword = $request->input('keyword');
@@ -41,6 +42,7 @@ class WarehouseController extends Controller
             return response()->json(['message' => 'Tidak ada warehouse yang ditemukan'], 404);
         }
 
+        $deleted = DB::table('warehouse')->where('id', $id)->delete();
         return response()->json([
             'success' => true,
             'data' => $warehouses
@@ -52,6 +54,7 @@ class WarehouseController extends Controller
         return (new Warehouse)->deleteWarehouse($id);
     }
 
+    public function exportPdf(){
       public function exportPdf(){
         $warehouse = [
             [

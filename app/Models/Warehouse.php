@@ -23,11 +23,17 @@ class Warehouse extends Model
     {
         return self::where('id', $id)->first();
     }
+public static function getWarehouseAll()
+    {
+        return self::all();
+    }
+
     public static function countWarehouse()
     {
         return self::count();
     }
 
+    public function updateWarehouse($id, $data)
      public function updateWarehouse($id, $data)
     {
         $warehouse = $this->getWarehouseById($id);
@@ -38,6 +44,7 @@ class Warehouse extends Model
 
         return $warehouse->update($data);
     }
+
     public function searchWarehouse($keyword)
     {
         return self::where(function ($query) use ($keyword) {
@@ -58,7 +65,6 @@ class Warehouse extends Model
             ]);
         }
 
-        // Cek apakah warehouse digunakan di tabel assortment_production
         $usedInAssortment = DB::table('assortment_production')
             ->where('rm_whouse_id', $id)
             ->orWhere('fg_whouse_id', $id)
@@ -71,7 +77,6 @@ class Warehouse extends Model
             ], 400);
         }
 
-        // Lakukan penghapusan
         $warehouse->delete();
 
         return response()->json([
