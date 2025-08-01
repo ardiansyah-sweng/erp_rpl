@@ -43,7 +43,7 @@ class GoodsReceiptNote extends Model
     }
     public static function getGoodsReceiptNotes($po_number)
     {
-    return self::where('po_number', $po_number)->get();
+        return self::where('po_number', $po_number)->get();
     }
 
 }
