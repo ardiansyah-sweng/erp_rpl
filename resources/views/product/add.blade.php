@@ -401,31 +401,28 @@
                             <label class="form-label">Jenis</label>
                             <div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="product_type" id="finished" value="finished">
-                                    <label class="form-check-label" for="finished">Finished</label>
+                                    <input class="form-check-input" type="radio" name="product_type" id="fg" value="FG">
+                                    <label class="form-check-label" for="fg">Finished Good</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="product_type" id="half_finished" value="half_finished">
-                                    <label class="form-check-label" for="half_finished">Half Finished</label>
+                                    <input class="form-check-input" type="radio" name="product_type" id="hfg" value="HFG">
+                                    <label class="form-check-label" for="hfg">Half Finished Goods</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="product_type" id="raw_material" value="raw_material">
-                                    <label class="form-check-label" for="raw_material">Raw Material</label>
+                                    <input class="form-check-input" type="radio" name="product_type" id="rm" value="RM">
+                                    <label class="form-check-label" for="rm">Raw Material</label>
                                 </div>
                             </div>
                             <div class="invalid-feedback">Jenis produk harus dipilih.</div>
                         </div>
                         <div class="mb-3">
                             <label for="product_category" class="form-label">Kategori</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="product_category" name="product_category" required>
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#">Makanan</a></li>
-                                    <li><a class="dropdown-item" href="#">Minuman</a></li>
-                                    <li><a class="dropdown-item" href="#">Snack</a></li>
-                                </ul>
-                            </div>
+                            <select class="form-select" id="product_category" name="product_category" required>
+                                <option value="">-- Pilih Kategori --</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->category }}</option>
+                                @endforeach
+                            </select>
                             <div class="invalid-feedback">Kategori harus diisi.</div>
                         </div>
                         <div class="mb-3">
