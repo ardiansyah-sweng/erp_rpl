@@ -207,7 +207,7 @@
                   <p>
                     Purchase Orders
                   </p>
-                </a>                
+                </a>
               </li>
               <li class="nav-item">
                 <a href="{{ route('branch.list') }}" class="nav-link">
@@ -215,7 +215,7 @@
                   <p>
                     Branch
                   </p>
-                </a>                
+                </a>
               </li>
               <li class="nav-item">
               <a href="{{ route('item.list') }}" class="nav-link active">
@@ -223,7 +223,7 @@
                   <p>
                     Item
                   </p>
-                </a>                
+                </a>
               </li>
             </ul>
           </nav>
@@ -233,7 +233,7 @@
         <div class="app-content-header">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Merk</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Tambah Item Produk</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
@@ -249,53 +249,79 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="card card-primary">
-                  <div class="card-header">
-                    <h3 class="card-title">Tambah Merk</h3>
-                  </div>
-                  <form action="{{ route('merk.add') }}" method="POST" id="merkForm">
+                <form action="{{ route('merk.add') }}" method="POST" id="merkForm">
                     @csrf
                     <div class="card-body">
-                      <div class="form-group">
-                        <label for="merk">Nama Merk</label>
-                        <input type="text" class="form-control" id="merk" name="merk" value="{{ old('merk') }}" placeholder="Masukkan nama merk">
-                      </div>
-                      
-                    <div class="form-group">
+                        <div class="form-group">
+                        <label for="id_produk">ID Produk</label>
+                        <input type="text" class="form-control" id="id_produk" name="id_produk" placeholder="Masukkan ID produk">
+                        </div>
+
+                        <div class="form-group">
+                        <label for="sku">SKU</label>
+                        <input type="text" class="form-control" id="sku" name="sku" placeholder="Masukkan SKU">
+                        </div>
+
+                        <div class="form-group">
+                        <label for="merk">Nama Merk Produk</label>
+                        <input type="text" class="form-control" id="merk" name="merk" value="{{ old('merk') }}" placeholder="Masukkan nama item produk">
+                        </div>
+
+                        <div class="form-group">
+                        <label for="satuan">Satuan</label>
+                        <select class="form-control" id="satuan" name="satuan">
+                            <option value="">-- Pilih Satuan --</option>
+                            <option value="pcs">pcs</option>
+                            <option value="unit">unit</option>
+                            <option value="m">meter (m)</option>
+                            <option value="gram">gram</option>
+                            <option value="kg">kilogram (kg)</option>
+                            <option value="liter">liter</option>
+                        </select>
+                        </div>
+
+                        <div class="form-group">
+                        <label for="harga_jual">Harga Jual</label>
+                        <input type="number" class="form-control" id="harga_jual" name="harga_jual" placeholder="Masukkan harga jual">
+                        </div>
+
+                        <div class="form-group">
                         <label class="d-block">Status</label>
-                            <div class="d-flex gap-3"> 
+                        <div class="d-flex gap-3">
                             <div class="form-check">
                             <input class="form-check-input" type="radio" name="active" id="active1" value="1" checked>
                             <label class="form-check-label" for="active1">Aktif</label>
+                            </div>
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="active" id="active0" value="0">
+                            <label class="form-check-label" for="active0">Non Aktif</label>
+                            </div>
                         </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="active" id="active0" value="0">
-                        <label class="form-check-label" for="active0">Non Aktif</label>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-                    
+
                     <div class="card-footer">
-                      <button type="button" class="btn btn-primary" onclick="validateForm()">Simpan</button>
-                      <button type="reset" class="btn btn-secondary">Batal</button>
+                        <button type="button" class="btn btn-primary" onclick="validateForm()">Simpan</button>
+                        <button type="reset" class="btn btn-secondary">Batal</button>
                     </div>
-                  </form>
+                </form>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </main>
-      <footer class="app-footer">
+
+    <footer class="app-footer">
         <div class="float-end d-none d-sm-inline">Anything you want</div>
         <strong>
-          Copyright &copy; 2014-2024&nbsp;
-          <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+            Copyright &copy; 2014-2024&nbsp;
+            <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
         </strong>
         All rights reserved.
-      </footer>
+    </footer>
+
     </div>
-    
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
       integrity="sha256-JLMUQfrMvhB/C+XTyqfc/TUlC6gGQE0H2hZFX5FJ1cM="
@@ -346,26 +372,34 @@
     </script>
     <script>
     function validateForm() {
-      let isValid = true;
-      
-      $('.error-message').remove();
-      
-      let merk = $('#merk').val(); 
-      
-      if (merk === null || merk === "") {
-        $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk harus diisi.</span></div>");
-        isValid = false;
-      } else if (merk.length > 255) {
-        $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk maksimal 255 karakter.</span></div>");
-        isValid = false;
-      }
-      
-      if (isValid) {
-        document.getElementById('merkForm').submit();
-      }
-      
-      return isValid;
+        let isValid = true;
+        $('.error-message').remove();
+
+        let merk = $('#merk').val();
+
+        if (merk === null || merk === "") {
+            $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk harus diisi.</span></div>");
+            isValid = false;
+        } else if (merk.length > 255) {
+            $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk maksimal 255 karakter.</span></div>");
+            isValid = false;
+        }
+
+        if (isValid) {
+            $.ajax({
+                url: "{{ route('merk.add') }}",
+                type: "POST",
+                data: $('#merkForm').serialize(),
+                success: function(response) {
+                    alert(response.message);
+                    $('#merkForm')[0].reset();
+                },
+                error: function(xhr) {
+                    alert("❌ Terjadi kesalahan. Cek kembali input atau server.");
+                }
+            });
+        }
     }
-    </script>
+</script>
   </body>
 </html>

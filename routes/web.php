@@ -182,9 +182,12 @@ Route::get('/item/pdf/product/{productType}', [ItemController::class, 'exportByP
 Route::get('/item/export/category/{id}', [ItemController::class, 'exportItemByCategoryToPdf'])->name('item.export.category');
 
 # Merk
-Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
+Route::get('/merk/add', function () {
+    return view('merk.add');
+})->name('merk.form');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
-Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.add');
+Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
+Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.update');
 Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
 Route::delete('/merk/delete/{id}', [MerkController::class, 'deleteMerk'])->name('merk.delete');
 
