@@ -37,6 +37,8 @@ class SupplierController extends Controller
             'phone_number' => 'required|string|max:12',
             'bank_account' => 'required|string|max:50',
         ]);
+
+        $sup = Supplier::addSupplier($validatedData);
         return view('Supplier.detail', compact('sup'));
     }
 
