@@ -9,49 +9,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
-    <meta
-        name="description"
+    <meta name="description"
         content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS." />
-    <meta
-        name="keywords"
+    <meta name="keywords"
         content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard" />
     <!--end::Primary Meta Tags-->
     <!--begin::Fonts-->
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
-        integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
-        crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+        integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" />
     <!--end::Fonts-->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css"
-        integrity="sha256-tZHrRjVqNSRyWg2wbppGnT833E/Ys0DHWGwT04GiqQg="
-        crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css"
+        integrity="sha256-tZHrRjVqNSRyWg2wbppGnT833E/Ys0DHWGwT04GiqQg=" crossorigin="anonymous" />
     <!--end::Third Party Plugin(OverlayScrollbars)-->
     <!--begin::Third Party Plugin(Bootstrap Icons)-->
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-        integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI="
-        crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous" />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href={{ asset("assets/dist/css/adminlte.css") }} />
+    <link rel="stylesheet" href={{ asset('assets/dist/css/adminlte.css') }} />
     <!--end::Required Plugin(AdminLTE)-->
     <!-- apexcharts -->
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
-        integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
-        crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
+        integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
     <!-- jsvectormap -->
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"
-        integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
-        crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"
+        integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4=" crossorigin="anonymous" />
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -94,15 +77,14 @@
                                 <!--begin::Message-->
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <img
-                                            src={{asset("assets/dist/assets/img/user1-128x128.jpg")}}
-                                            alt="User Avatar"
-                                            class="img-size-50 rounded-circle me-3" />
+                                        <img src={{ asset('assets/dist/assets/img/user1-128x128.jpg') }}
+                                            alt="User Avatar" class="img-size-50 rounded-circle me-3" />
                                     </div>
                                     <div class="flex-grow-1">
                                         <h3 class="dropdown-item-title">
                                             Brad Diesel
-                                            <span class="float-end fs-7 text-danger"><i class="bi bi-star-fill"></i></span>
+                                            <span class="float-end fs-7 text-danger"><i
+                                                    class="bi bi-star-fill"></i></span>
                                         </h3>
                                         <p class="fs-7">Call me whenever you can...</p>
                                         <p class="fs-7 text-secondary">
@@ -117,10 +99,8 @@
                                 <!--begin::Message-->
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <img
-                                            src={{ asset("assets/dist/assets/img/user8-128x128.jpg") }}
-                                            alt="User Avatar"
-                                            class="img-size-50 rounded-circle me-3" />
+                                        <img src={{ asset('assets/dist/assets/img/user8-128x128.jpg') }}
+                                            alt="User Avatar" class="img-size-50 rounded-circle me-3" />
                                     </div>
                                     <div class="flex-grow-1">
                                         <h3 class="dropdown-item-title">
@@ -142,10 +122,8 @@
                                 <!--begin::Message-->
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <img
-                                            src={{ asset("assets/dist/assets/img/user3-128x128.jpg") }}
-                                            alt="User Avatar"
-                                            class="img-size-50 rounded-circle me-3" />
+                                        <img src={{ asset('assets/dist/assets/img/user3-128x128.jpg') }}
+                                            alt="User Avatar" class="img-size-50 rounded-circle me-3" />
                                     </div>
                                     <div class="flex-grow-1">
                                         <h3 class="dropdown-item-title">
@@ -206,19 +184,15 @@
                     <!--begin::User Menu Dropdown-->
                     <li class="nav-item dropdown user-menu">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img
-                                src={{ asset("assets/dist/assets/img/user2-160x160.jpg") }}
-                                class="user-image rounded-circle shadow"
-                                alt="User Image" />
+                            <img src={{ asset('assets/dist/assets/img/user2-160x160.jpg') }}
+                                class="user-image rounded-circle shadow" alt="User Image" />
                             <span class="d-none d-md-inline">Mimin Gantenk</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                             <!--begin::User Image-->
                             <li class="user-header text-bg-primary">
-                                <img
-                                    src={{ asset("assets/dist/assets/img/user2-160x160.jpg") }}
-                                    class="rounded-circle shadow"
-                                    alt="User Image" />
+                                <img src={{ asset('assets/dist/assets/img/user2-160x160.jpg') }}
+                                    class="rounded-circle shadow" alt="User Image" />
                                 <p>
                                     Alexander Pierce - Web Developer
                                     <small>Member since Nov. 2023</small>
@@ -258,9 +232,7 @@
                 <!--begin::Brand Link-->
                 <a href="dashboard" class="brand-link">
                     <!--begin::Brand Image-->
-                    <img
-                        src={{asset("assets/dist/assets/img/LogoRPL.png")}}
-                        alt="RPL"
+                    <img src={{ asset('assets/dist/assets/img/LogoRPL.png') }} alt="RPL"
                         class="brand-image opacity-75 shadow" />
                     <!--end::Brand Image-->
                     <!--begin::Brand Text-->
@@ -274,13 +246,10 @@
             <div class="sidebar-wrapper">
                 <nav class="mt-2">
                     <!--begin::Sidebar Menu-->
-                    <ul
-                        class="nav sidebar-menu flex-column"
-                        data-lte-toggle="treeview"
-                        role="menu"
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="dashboard" class="nav-link">
+                            <a href="dashboard" class="nav-link active">
                                 <i class="nav-icon bi bi-speedometer"></i>
                                 <p>
                                     Dashboard
@@ -288,13 +257,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('product.list') }}" class="nav-link">
                                 <i class="nav-icon bi bi-box-seam-fill"></i>
                                 <p>Produk</p>
                             </a>
                         </li>
-
-
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon bi bi-person-circle"></i>
@@ -311,7 +278,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="/supplier/pic/add" class="nav-link">
                                         <i class="nav-icon bi bi-circle"></i>
                                         <p>Tambah PIC supplier</p>
                                     </a>
@@ -333,7 +300,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('branch.list') }}" class="nav-link ">
+                            <a href="{{ route('branch.list') }}" class="nav-link">
                                 <i class="nav-icon bi bi-clipboard-fill"></i>
                                 <p>
                                     Branch
@@ -341,19 +308,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('item.list') }}" class="nav-link ">
+                            <a href="{{ route('item.list') }}" class="nav-link">
                                 <i class="nav-icon bi bi-clipboard-fill"></i>
-                                <p>
-                                    Item
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon bi bi-box-seam"></i>
-                                <p>
-                                    Material
-                                </p>
+                                <p>Item</p>
                             </a>
                         </li>
                     </ul>
@@ -372,117 +329,31 @@
                     <!--begin::Row-->
                     <div class="row align-items-center">
                         <div class="col-sm-6 d-flex align-items-center">
-                            <h3 class="mb-0 me-2">Productions</h3> 
-                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahProduksi">Tambah</button>
+                            <h3 class="mb-0 me-2">Warehouse</h3>
+                            <a href="#" class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="#"
+                                class="btn btn-primary btn-sm ms-2">Cetak Warehouse</a>
                         </div>
+
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-end">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Item</li>
+                                <li class="breadcrumb-item active" aria-current="page">Warehouse</li>
                             </ol>
                         </div>
                     </div>
                     <!--end::Row-->
-                    <!-- Modal Tambah Produksi & Material -->
-                    <div class="modal fade" id="modalTambahProduksi" tabindex="-1" aria-labelledby="modalTambahProduksiLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="modalTambahProduksiLabel">Tambah Produksi & Material</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <!-- Form Produksi -->
-                            <form id="productionInputForm" class="mb-3">
-                              <div class="row g-3 mb-3">
-                                <div class="col-md-6">
-                                  <label class="form-label fw-semibold">Nomor Produksi</label>
-                                  <input type="text" class="form-control" id="nomorProduksi" placeholder="">
-                                </div>
-                                <div class="col-md-6">
-                                  <label class="form-label fw-semibold">SKU</label>
-                                  <input type="text" class="form-control" id="sku" placeholder="">
-                                </div>
-                                <div class="col-md-6">
-                                  <label class="form-label fw-semibold">Cabang</label>
-                                  <select class="form-select" id="cabang">
-                                    <option value="">Pilih Cabang</option>
-                                    <option value="A">Cabang A</option>
-                                    <option value="B">Cabang B</option>
-                                  </select>
-                                </div>
-                                <div class="col-md-6">
-                                  <label class="form-label fw-semibold">Gudang Finished Goods</label>
-                                  <input type="date" class="form-control" id="gudangFG">
-                                </div>
-                                <div class="col-md-6">
-                                  <label class="form-label fw-semibold">Gudang Raw Material</label>
-                                  <select class="form-select" id="gudangRM">
-                                    <option value="">Pilih Gudang</option>
-                                    <option value="RM1">Gudang RM1</option>
-                                    <option value="RM2">Gudang RM2</option>
-                                  </select>
-                                </div>
-                                <div class="col-md-6">
-                                  <label class="form-label fw-semibold">Tanggal Produksi</label>
-                                  <input type="date" class="form-control" id="tanggalProduksi">
-                                </div>
-                              </div>
-                            </form>
-                            <div class="table-responsive mb-4">
-                              <table id="materialTable" class="table table-bordered align-middle mb-0" style="border-radius: 8px; overflow: hidden;">
-                                <thead class="table-light text-center">
-                                  <tr>
-                                    <th>Nama Item</th>
-                                    <th>Quantity</th>
-                                    <th>Satuan</th>
-                                    <th>Aksi</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <!-- Baris material akan ditambah lewat JS -->
-                                </tbody>
-                              </table>
-                            </div>
-                            <!-- Form Add Material -->
-                            <form id="addMaterialForm" class="mb-4">
-                              <div class="row align-items-end g-2 mb-2">
-                                <div class="col-md-4">
-                                  <label for="materialName" class="form-label fw-semibold">Nama Item</label>
-                                  <input type="text" class="form-control" id="materialName" placeholder="Nama Item" required>
-                                </div>
-                                <div class="col-md-3">
-                                  <label for="materialQty" class="form-label fw-semibold">Quantity</label>
-                                  <input type="number" class="form-control" id="materialQty" placeholder="Quantity" min="1" required>
-                                </div>
-                                <div class="col-md-3">
-                                  <label for="materialUnit" class="form-label fw-semibold">Satuan</label>
-                                  <select class="form-select" id="materialUnit">
-                                    <option value="PCS">PCS</option>
-                                    <option value="KG">KG</option>
-                                    <option value="L">L</option>
-                                  </select>
-                                </div>
-                                <div class="col-md-2 d-flex align-items-end">
-                                  <button type="submit" class="btn btn-success w-100" style="height: 38px;">Tambah Material</button>
-                                </div>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                 </div>
                 <!--end::Container-->
             </div>
 
             <div class="card mb-4">
-                <div class="card-header">
-                    <h3 class="card-title">List Table</h3>
-                    <form action="{{ route('item.list') }}" method="GET" class="d-flex ms-auto">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">List Warehouse</h3>
+                    <form action="#" method="GET" class="d-flex ms-auto">
                         <!-- Search bar berada di ujung kanan -->
                         <div class="input-group input-group-sm ms-auto" style="width: 450px;">
-                            <input type="text" name="search" class="form-control" placeholder="Search Item">
+                            <input type="text" name="search" class="form-control" placeholder="Search Warehouse">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default">
                                     <i class="bi bi-search"></i>
@@ -492,82 +363,88 @@
                     </form>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body">
-                    @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                    @endif
+                @php
+                    $warehouses = [
+                        [
+                            'id' => 3,
+                            'warehouse_name' => 'Gudang voluptas',
+                            'warehouse_address' => 'Jr. Bakhita No. 404, Lhokseumawe 25340, Aceh',
+                            'warehouse_telephone' => '0874 7188 1930',
+                            'is_active' => 1,
+                            'created_at' => '2025-07-24 22:39:06',
+                            'updated_at' => '2025-07-24 22:39:06',
+                        ],
+                        [
+                            'id' => 4,
+                            'warehouse_name' => 'Gudang illo',
+                            'warehouse_address' => 'Jr. Supono No. 457, Palangka Raya 63617, Jabar',
+                            'warehouse_telephone' => '0361 0106 8209',
+                            'is_active' => 0,
+                            'created_at' => '2025-07-24 22:39:06',
+                            'updated_at' => '2025-07-24 22:39:06',
+                        ],
+                        [
+                            'id' => 5,
+                            'warehouse_name' => 'Gudang fuga',
+                            'warehouse_address' => 'Dk. Merdeka No. 459, Bukittinggi 41555, Kaltara',
+                            'warehouse_telephone' => '(+62) 869 4283 4801',
+                            'is_active' => 1,
+                            'created_at' => '2025-07-24 22:39:06',
+                            'updated_at' => '2025-07-24 22:39:06',
+                        ],
+                    ];
+                @endphp
 
-                    @if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                    @endif
+                <div class="card-body">
                     <table class="table table-bordered">
                         <thead class="text-center">
                             <tr>
-                                <th style="width: 10px">id</th>
-                                <th>production number</th>
-                                <th>sku</th>
-                                <th>branch ID</th>
-                                <th>whouseid </th>
-                                <th>fgwhouse id </th>
-                                <th>production_date </th>
-                                <th>finished_date </th>
-                                <th>in_production </th>
-                                <th>description </th>
-                                <th>created_at</th>
-                                <th>updated_at</th>
-                                <th>Action</th>
+                                <th style="width: 10px">ID</th>
+                                <th>Warehouse Name</th>
+                                <th>Warehouse Address</th>
+                                <th>Warehouse Telephone</th>
+                                <th>Aktif</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center"> 
-                            @forelse($production as $produksi)
-                            <tr id="row-{{ $produksi->id }}">
-                                <td>{{ $produksi->id }}</td>
-                                <td>{{ $produksi->production_number }}</td>
-                                <td>{{ $produksi->sku }}</td>
-                                <td>{{ $produksi->branch_id }}</td>
-                                <td>{{ $produksi->rm_whouse_id }}</td>
-                                <td>{{ $produksi->fg_whouse_id }}</td>
-                                <td>{{ $produksi->production_date}}</td>
-                                <td>{{ $produksi->finished_date ? "FInish" : "Null"}}</td>
-                                <td>
-                                    @if($produksi->in_production == 1)
-                                        <span class="badge bg-success">YES</span>
-                                    @else
-                                        <span class="badge bg-danger">NO</span>
-                                    @endif
-                                </td>
-                                <td>{{ $produksi->description}}</td>
-                                <td>{{ $produksi->created_at }}</td>
-                                <td>{{ $produksi->updated_at }}</td>
-                                <td>
-                                    <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                                    <form action="#" method="POST" style="display: inline;">
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger" >Delete</button>
-                                    </form>
-                                    <a href="#" class="btn btn-sm btn-info">Detail</a>
-                                </td>
-                            </tr>
+                        <tbody>
+                            @forelse($warehouses as $warehouse)
+                                <tr>
+                                    <td>{{ $warehouse['id'] }}</td>
+                                    <td>{{ $warehouse['warehouse_name'] }}</td>
+                                    <td>{{ $warehouse['warehouse_address'] }}</td>
+                                    <td>{{ $warehouse['warehouse_telephone'] }}</td>
+                                    <td class="text-center">
+                                        @if ($warehouse['is_active'])
+                                            <i class="bi bi-check-circle-fill text-success"></i>
+                                        @else
+                                            <i class="bi bi-x-circle-fill text-danger"></i>
+                                        @endif
+                                    </td>
+                                    <td>{{ $warehouse['created_at'] }}</td>
+                                    <td>{{ $warehouse['updated_at'] }}</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                                        <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                        <a href="#" class="btn btn-info">Detail</a>
+                                    </td>
+                                </tr>
                             @empty
-                            <tr>
-                                <td colspan="9" class="text-center">No data available in table</td>
-                            </tr>
+                                <tr>
+                                    <td colspan="8" class="text-center">No data available in table</td>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>
-
                 </div>
                 <!-- /.card-body -->
-                <div class="card-footer clearfix">
-                    {{ $production->links('pagination::bootstrap-4') }}
-                </div>
+                {{-- <div class="card-footer clearfix">
+                    {{ $warehouse->links('pagination::bootstrap-4') }}
+                </div> --}}
+
             </div>
-
-
 
         </main>
         <!--end::App Main-->
@@ -590,20 +467,16 @@
 
     <!--begin::Script-->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
-    <script
-        src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
-        integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ="
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
+        integrity="sha256-dghWARbRe2eLlIJ56wNB+b760ywulqK3DzZYEpsg2fQ=" crossorigin="anonymous"></script>
     <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
-    <script
-        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
     <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
+    </script>
     <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
     <script src="../../dist/js/adminlte.js"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
@@ -630,10 +503,8 @@
     <!--end::OverlayScrollbars Configure-->
     <!-- OPTIONAL SCRIPTS -->
     <!-- sortablejs -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"
-        integrity="sha256-ipiJrswvAR4VAx/th+6zWsdeYmVae0iJuiR+6OqHJHQ="
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"
+        integrity="sha256-ipiJrswvAR4VAx/th+6zWsdeYmVae0iJuiR+6OqHJHQ=" crossorigin="anonymous"></script>
     <!-- sortablejs -->
     <script>
         const connectedSortables = document.querySelectorAll('.connectedSortable');
@@ -643,22 +514,21 @@
                 handle: '.card-header',
             });
         });
+
         const cardHeaders = document.querySelectorAll('.connectedSortable .card-header');
         cardHeaders.forEach((cardHeader) => {
             cardHeader.style.cursor = 'move';
-            
         });
     </script>
     <!-- apexcharts -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
-        integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8="
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
+        integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
     <!-- ChartJS -->
     <script>
         // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
         // IT'S ALL JUST JUNK FOR DEMO
         // ++++++++++++++++++++++++++++++++++++++++++
+
         const sales_chart_options = {
             series: [{
                     name: 'Digital Goods',
@@ -704,6 +574,7 @@
                 },
             },
         };
+
         const sales_chart = new ApexCharts(
             document.querySelector('#revenue-chart'),
             sales_chart_options,
@@ -711,14 +582,10 @@
         sales_chart.render();
     </script>
     <!-- jsvectormap -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"
-        integrity="sha256-/t1nN2956BT869E6H4V1dnt0X5pAQHPytli+1nTZm2Y="
-        crossorigin="anonymous"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"
-        integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY="
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"
+        integrity="sha256-/t1nN2956BT869E6H4V1dnt0X5pAQHPytli+1nTZm2Y=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"
+        integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY=" crossorigin="anonymous"></script>
     <!-- jsvectormap -->
     <script>
         const visitorsData = {
@@ -734,11 +601,13 @@
             GB: 320, // Great Britain
             RU: 3000, // Russia
         };
+
         // World map by jsVectorMap
         const map = new jsVectorMap({
             selector: '#world-map',
             map: 'world',
         });
+
         // Sparkline charts
         const option_sparkline1 = {
             series: [{
@@ -762,8 +631,10 @@
             },
             colors: ['#DCE6EC'],
         };
+
         const sparkline1 = new ApexCharts(document.querySelector('#sparkline-1'), option_sparkline1);
         sparkline1.render();
+
         const option_sparkline2 = {
             series: [{
                 data: [515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921],
@@ -786,8 +657,10 @@
             },
             colors: ['#DCE6EC'],
         };
+
         const sparkline2 = new ApexCharts(document.querySelector('#sparkline-2'), option_sparkline2);
         sparkline2.render();
+
         const option_sparkline3 = {
             series: [{
                 data: [15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21],
@@ -810,13 +683,17 @@
             },
             colors: ['#DCE6EC'],
         };
+
         const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
         sparkline3.render();
     </script>
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- AdminLTE JS -->
-    <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
+    <script src={{ asset('assets/dist/js/adminlte.js') }}></script>
+
     <!-- Custom Sidebar Toggle Script -->
     <script>
         $(document).ready(function() {
@@ -826,33 +703,9 @@
             });
         });
     </script>
+
     <!--end::Script-->
-    <!-- Script Add Material ke tabel -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const form = document.getElementById('addMaterialForm');
-      const tableBody = document.querySelector('#materialTable tbody');
-      if(form && tableBody) {
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          const name = document.getElementById('materialName').value;
-          const qty = document.getElementById('materialQty').value;
-          const unit = document.getElementById('materialUnit').value;
-          if (name && qty) {
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${name}</td><td>${qty}</td><td>${unit}</td><td><button type='button' class='btn btn-outline-danger btn-sm btn-hapus'>Hapus</button></td>`;
-            tableBody.appendChild(row);
-            form.reset();
-          }
-        });
-        tableBody.addEventListener('click', function (e) {
-          if (e.target.classList.contains('btn-hapus')) {
-            e.target.closest('tr').remove();
-          }
-        });
-      }
-    });
-    </script>
 </body>
 <!--end::Body-->
+
 </html>

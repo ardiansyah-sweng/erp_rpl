@@ -65,6 +65,7 @@ class ProductController extends Controller
             $typeLabel = $productType->value;
         }
 
+
         // Load the PDF view
         $pdf = PDF::loadView('product.pdf', [
             'products' => $products,
@@ -83,6 +84,17 @@ class ProductController extends Controller
         // Kirim data kategori ke view
         return view('product.add', compact('categories'));
     }
+
+        // Load the PDF view
+        $pdf = PDF::loadView('product.pdf', [
+            'products' => $products,
+            'type' => $typeLabel
+        ]);
+
+        // Stream the PDF to the browser
+        return $pdf->stream("products_{$type}.pdf");
+    }
+
 
     public function addProduct(Request $request)
     {
