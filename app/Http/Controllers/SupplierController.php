@@ -42,6 +42,15 @@ class SupplierController extends Controller
         ]);
     }
 
+    public function getSupplier()
+    {
+        $suppliers = Supplier::withCount([
+            'supplierPic as pic_count',
+            'purchaseOrder as po_count'
+        ])->get();
+
+        return view('supplier.list', compact('suppliers'));
+    }
     public function listSuppliers()
     {
         $suppliers = Supplier::all();

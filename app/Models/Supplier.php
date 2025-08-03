@@ -53,6 +53,16 @@ class Supplier extends Model
 
             return $query->get();
     }
+
+    public function supplierPic()
+    {
+        return $this->hasMany(SupplierPic::class, 'supplier_id', 'supplier_id');
+    }
+
+    public function purchaseOrder()
+    {
+        return $this->hasMany(PurchaseOrder::class, 'supplier_id', 'supplier_id');
+    }
     
     public static function deleteSupplier($id)
     {

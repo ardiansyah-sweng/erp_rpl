@@ -72,9 +72,8 @@ Route::get('/item/add', function () {
 Route::get('/product/add', function () {
     return view('product/add');
 });
-Route::get('/supplier/list', function () {
-    return view('supplier.list');
-});
+Route::get('/supplier/list', [SupplierController::class, 'getSupplier']);
+
 Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
 });
