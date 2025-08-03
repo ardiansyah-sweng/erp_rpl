@@ -58,13 +58,25 @@ class Supplier extends Model
     {
         $supplier = self::find($id);
 
-        if (!$supplier) {
+            if (!$supplier) {
             return ['success' => false, 'message' => 'Supplier tidak ditemukan.'];
+        }
+
+  
+        $hasPO = $supplier->purchaseOrders()->exists();
+
+            if ($hasPO) {
+            return ['success' => false, 'message' => 'Supplier tidak dapat dihapus karena sudah memiliki PO.'];
         }
 
         $supplier->delete();
 
         return ['success' => true, 'message' => 'Supplier berhasil dihapus.'];
+    }
+
+    public function purchaseOrders()
+    {
+        return $this->hasMany(PurchaseOrder::class, 'supplier_id');
     }
 
 }
