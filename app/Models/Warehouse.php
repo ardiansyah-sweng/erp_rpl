@@ -28,7 +28,7 @@ class Warehouse extends Model
         return self::count();
     }
 
-     public function updateWarehouse($id, $data)
+    public function updateWarehouse($id, $data)
     {
         $warehouse = $this->getWarehouseById($id);
 
@@ -99,7 +99,8 @@ class Warehouse extends Model
             'is_active' => $data['is_active'],
         ]);
     }
-    public function getWareHouseAll()
+
+    public static function getWarehouseAll()
     {
         return self::all();
     }
