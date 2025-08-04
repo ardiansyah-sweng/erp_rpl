@@ -143,4 +143,18 @@ class PurchaseOrderController extends Controller
             return response()->json(['error' => 'Server gagal mengirim email: ' . $e->getMessage()], 500);
         }
     }
+
+     public function printPurchaseOrderToPDFById($po_number){
+        $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($po_number);
+        if (!$purchaseOrder){
+            return redirect()->back()->with('error', 'Purchase Order tidak ditemukan.');
+        }
+
+        if($purchaseOrder instanceof \Illuminate\Pagination\LengthAwarePaginator || $purchaseOrder instanceof \Illuminate\Support\Collection){
+            $purchaseOrder = $purchaseOrder->first();
+        }
+
+        $pdf = pdf::loadView('purchase_orders.report', compact('purchaseOrder'));
+        return $pdf->download('PurchaseOrder_' . $po_number . '.pdf');
+    }
 }
