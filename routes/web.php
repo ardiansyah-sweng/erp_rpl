@@ -229,7 +229,19 @@ Route::get('/supplierPic/{supplier_id}', [SupplierPIController::class, 'getSuppl
 Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
 
 
-# Warehouse
+// Warehouse detail without ID (dummy data for UI preview)
+Route::get('/warehouse/detail', function () {
+    $warehouse = [
+        'id' => 1,
+        'warehouse_name' => 'Warehouse A',
+        'is_active' => true,
+        'last_updated_status' => '120 Days',
+        'created_at' => '2025-01-01',
+        'updated_at' => '2025-08-01',
+    ];
+    // You can replace $dummyItems with real items if needed
+    return view('warehouse.detail', compact('warehouse'));
+});
 Route::get('/warehouse/detail/{id}', [WarehouseController::class, 'getWarehouseById'])->name('warehouse.detail');
 Route::get('/warehouse/search', [WarehouseController::class, 'searchWarehouse'])->name('warehouse.search');
 Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWarehouse'])->name('warehouse.delete');
@@ -299,6 +311,7 @@ Route::put('/bill-of-material/{id}', [BillOfMaterialController::class, 'updateBi
 Route::post('/assort-production/add', [AssortProductionController::class, 'addProduction'])->name('assort-production.add');
 
 Route::get('/warehouse', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.all');
+Route::get('/warehouse/list', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.list');
 
 Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
 
