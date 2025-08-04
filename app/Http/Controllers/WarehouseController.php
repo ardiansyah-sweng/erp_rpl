@@ -14,12 +14,46 @@ class WarehouseController extends Controller
     {
         $warehouse = (new Warehouse())->getWarehouseByID($id);
 
+        $items = [
+            [
+                'id' => 1,
+                'name' => 'Item A',
+                'quantity' => 100,
+                'location' => 'Rak 1',
+                'comments' => 'Barang masuk awal bulan.',
+                'created_at' => '2025-07-01 10:00:00',
+            ],
+            [
+                'id' => 2,
+                'name' => 'Item B',
+                'quantity' => 50,
+                'location' => 'Rak 2',
+                'comments' => 'Stok dari supplier X.',
+                'created_at' => '2025-07-02 11:30:00',
+            ],
+            [
+                'id' => 3,
+                'name' => 'Item C',
+                'quantity' => 200,
+                'location' => 'Rak 3',
+                'comments' => 'Barang retur.',
+                'created_at' => '2025-07-03 09:15:00',
+            ],
+        ];
+
         if (!$warehouse) {
-            return abort(404, 'Warehouse tidak ditemukan');
+            // Dummy warehouse for not found
+            $warehouse = [
+                'id' => $id,
+                'warehouse_name' => 'Warehouse Dummy',
+                'is_active' => true,
+                'last_updated_status' => 'N/A',
+                'created_at' => '-',
+                'updated_at' => '-',
+            ];
         }
 
-        return view('warehouse.filled-form', compact('warehouse'));
-
+        return view('warehouse.detail', compact('warehouse', 'items'));
     }
 
     public function countWarehouse()
@@ -90,15 +124,7 @@ class WarehouseController extends Controller
     public function getWarehouseAll()
     {
         $warehouses = Warehouse::getWarehouseAll();
-
-        if ($warehouses->isEmpty()) {
-            return response()->json(['message' => 'Tidak ada warehouse yang ditemukan'], 404);
-        }
-
-        return response()->json([
-            'success' => true,
-            'data' => $warehouses
-        ]);
+        return view('warehouse.list', compact('warehouses'));
     }
   
     public function addWarehouse(Request $request)
