@@ -413,7 +413,7 @@
                             @forelse($warehouses as $warehouse)
                                 <tr>
                                     <td>{{ $warehouse['id'] }}</td>
-                                    <td>{{ $warehouse['warehouse_name'] }}</td>
+                                    <td><a href="{{ url('/warehouse/detail/' . $warehouse['id']) }}" class="text-decoration-none">{{ $warehouse['warehouse_name'] }}</a></td>
                                     <td>{{ $warehouse['warehouse_address'] }}</td>
                                     <td>{{ $warehouse['warehouse_telephone'] }}</td>
                                     <td class="text-center">
@@ -428,7 +428,7 @@
                                     <td>
                                         <a href="#" class="btn btn-sm btn-primary">Edit</a>
                                         <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                                        <a href="#" class="btn btn-info">Detail</a>
+                                        <a href="{{ url('/warehouse/detail/' . $warehouse['id']) }}" class="btn btn-info">Detail</a>
                                     </td>
                                 </tr>
                             @empty
