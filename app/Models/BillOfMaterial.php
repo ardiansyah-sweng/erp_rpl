@@ -76,6 +76,9 @@ class BillOfMaterial extends Model
     {
         $bom = self::where('id', $id)->first();
 
+
+
+
         if (!$bom) {
             return null;
         }
@@ -99,4 +102,19 @@ class BillOfMaterial extends Model
             'details'          => $details,
         ];
     }
+
+    public static function countItemInBom($bomId)
+    {
+        $bomDetailTable = config('db_constants.table.bom_detail', 'bom_detail');
+
+        return \DB::table($bomDetailTable)
+              ->where('bom_id', $bomId)
+              ->count();
+    }
+
+    public function items()
+    {
+        return $this->hasMany(BillOfMaterialDetail::class, 'bom_id', 'bom_id');
+    }
+ 
 }
