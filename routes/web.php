@@ -88,6 +88,7 @@ Route::get('/goods_receipt_note/detail', function () {
 Route::get('/warehouse/add', function () {
     return view('warehouse/add');
 })->name('warehouse.add');
+Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse']);
 
 Route::get('product/category/detail', function () {
     return view('product/category/detail');
@@ -110,7 +111,11 @@ Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('pro
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
 Route::get('/products/print/{type}', [ProductController::class, 'printProductsByType'])->name('products.print.by-type');
 
+
 #Product Update
+
+Route::get('/products/type/{type}', [ProductController::class, 'getProductByType']);
+
 
 
 #Product Update
@@ -234,6 +239,7 @@ Route::get('/categorys/add', [CategoryController::class, 'showAddCategoryForm'])
 
 #Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
+Route::get('/supplierPic/{supplier_id}', [SupplierPIController::class, 'getSupplierPicById']);
 
 #cetak semua pdf pic
 Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
@@ -303,6 +309,13 @@ Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 
 #Get Product By Category Controller
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
+Route::put('/bill-of-material/{id}', [BillOfMaterialController::class, 'updateBillOfMaterial'])->name('bill-of-material.update');
 
 
 Route::post('/assort-production/add', [AssortProductionController::class, 'addProduction'])->name('assort-production.add');
+
+Route::get('/warehouse', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.all');
+
+Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
+
+Route::post('/supplier/add', [SupplierController::class, 'AddSuplier'])->name('supplier.add');

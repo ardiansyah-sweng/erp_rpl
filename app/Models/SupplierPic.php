@@ -132,4 +132,20 @@ class SupplierPic extends Model
 
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
+    
+    public static function getSupplierPIC($supplierID)
+    {
+        return self::where('supplier_id', $supplierID)->get();
+    }
+    
+    public static function countSupplierPIC($supplierID, $onlyActive = null)
+    {
+        $query = self::where('supplier_id', $supplierID);
+
+        if (!is_null($onlyActive)) {
+            $query->where('active', $onlyActive ? 1 : 0);
+        }
+
+        return $query->count();
+    }
 }
