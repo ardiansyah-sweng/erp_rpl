@@ -1,6 +1,9 @@
 <?php
 
     return [
-        'branch' => 'branch',
-        'whouse' => 'warehouse',
+        'branch'        => 'branches',
+        'category'      => 'categories',
+        'merk'          => 'merks',
+        'measurement'   => 'measurement_of_units',
+        'whouse'        => 'warehouses',
     ];
