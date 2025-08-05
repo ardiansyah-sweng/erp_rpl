@@ -19,7 +19,7 @@ class Branch extends Model
         parent::__construct($attributes);
 
         // Tetapkan nama tabel dan kolom
-        $this->table = config('db_constants.table.branch');
+        $this->table = config('db_tables.branch');
         $this->fillable = array_values(config('db_constants.column.branch') ?? []);
     }
 
