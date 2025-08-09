@@ -3,34 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\HasDynamicColumns;
+use App\Constants\BranchColumns;
 
 class Branch extends Model
 {
-    use HasDynamicColumns;
-
     protected $table;
-    protected $fillable = [];
-    protected $guarded = [];
-
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        // Tetapkan nama tabel dan kolom
         $this->table = config('db_tables.branch');
-        $this->fillable = array_values(config('db_constants.column.branch') ?? []);
-    }
-
-    public function getBranchById($id)
-    {
-        return self::where('id', $id)->first();
-    }
-
-    public static function getRandomBranchID()
-    {
-        return self::inRandomOrder()->first()->id;
+        $this->fillable = BranchColumns::getFillable();
     }
 
     public static function getAllBranch($search = null)
@@ -51,6 +35,15 @@ class Branch extends Model
         return self::create($data);
     }
 
+    public function getBranchById($id)
+    {
+        return self::where('id', $id)->first();
+    }
+
+    public static function getRandomBranchID()
+    {
+        return self::inRandomOrder()->first()->id;
+    }
 
     public static function updateBranch($id, $data)
     {

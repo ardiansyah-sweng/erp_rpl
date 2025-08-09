@@ -23,7 +23,7 @@ return new class extends Migration
             $table->id();
             $table->string(BranchColumns::NAME, 50);
             $table->string(BranchColumns::ADDRESS, 100);
-            $table->string(BranchColumns::PHONE, 50);
+            $table->string(BranchColumns::PHONE, 30);
             $table->boolean(BranchColumns::IS_ACTIVE)->default(true);
             $table->timestamps();
         });

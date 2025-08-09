@@ -25,7 +25,7 @@ class BranchSeeder extends Seeder
         for ($i=0; $i<=$numOfBranch; $i++)
         {
             Branch::create([
-                BranchColumns::NAME => 'Cabang'.' '.$this->faker->word(),
+                BranchColumns::NAME => 'Cabang'.' '.$this->faker->city(),
                 BranchColumns::ADDRESS => $this->faker->address(),
                 BranchColumns::PHONE => $this->faker->phoneNumber(),
                 BranchColumns::IS_ACTIVE => $this->faker->boolean(),
