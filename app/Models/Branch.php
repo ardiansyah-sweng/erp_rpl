@@ -22,12 +22,12 @@ class Branch extends Model
         $query = self::query();
 
         if ($search) {
-            $query->where('branch_name', 'LIKE', "%{$search}%")
-                  ->orWhere('branch_address', 'LIKE', "%{$search}%")
-                  ->orWhere('branch_telephone', 'LIKE', "%{$search}%");
+            $query->where(BranchColumns::BRANCH_NAME, 'LIKE', "%{$search}%")
+                  ->orWhere(BranchColumns::BRANCH_ADDRESS, 'LIKE', "%{$search}%")
+                  ->orWhere(BranchColumns::BRANCH_TELEPHONE, 'LIKE', "%{$search}%");
         }
 
-        return $query->orderBy('created_at', 'asc')->paginate(10);
+        return $query->orderBy(BranchColumns::CREATED_AT, 'asc')->paginate(10);
     }
 
     public static function addBranch($data)
@@ -37,7 +37,7 @@ class Branch extends Model
 
     public function getBranchById($id)
     {
-        return self::where('id', $id)->first();
+        return self::where(BranchColumns::ID, $id)->first();
     }
 
     public static function getRandomBranchID()
@@ -55,8 +55,6 @@ class Branch extends Model
         return false;
     }
     
-
-
     public static function findBranch($id)
     {
         $branch = self::find($id);
@@ -68,7 +66,7 @@ class Branch extends Model
 
     public static function deleteBranch($id)
     {
-        return self::where('id', $id)->delete();
+        return self::where(BranchColumns::ID, $id)->delete();
     }
 
     public static function countBranch()
@@ -79,8 +77,8 @@ class Branch extends Model
     public static function countBranchByStatus()
     {
         return [
-            'aktif' => self::where('branch_status', 1)->count(),
-            'nonaktif' => self::where('branch_status', 0)->count(),
-            ];
+            'aktif' => self::where(BranchColumns::BRANCH_STATUS, 1)->count(),
+            'nonaktif' => self::where(BranchColumns::BRANCH_STATUS, 0)->count(),
+        ];
     }
 }
