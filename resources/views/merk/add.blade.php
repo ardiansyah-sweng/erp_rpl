@@ -258,31 +258,8 @@
                         </div>
 
                         <div class="form-group">
-                        <label for="sku">SKU</label>
-                        <input type="text" class="form-control" id="sku" name="sku" placeholder="Masukkan SKU">
-                        </div>
-
-                        <div class="form-group">
                         <label for="merk">Nama Merk Produk</label>
                         <input type="text" class="form-control" id="merk" name="merk" value="{{ old('merk') }}" placeholder="Masukkan nama item produk">
-                        </div>
-
-                        <div class="form-group">
-                        <label for="satuan">Satuan</label>
-                        <select class="form-control" id="satuan" name="satuan">
-                            <option value="">-- Pilih Satuan --</option>
-                            <option value="pcs">pcs</option>
-                            <option value="unit">unit</option>
-                            <option value="m">meter (m)</option>
-                            <option value="gram">gram</option>
-                            <option value="kg">kilogram (kg)</option>
-                            <option value="liter">liter</option>
-                        </select>
-                        </div>
-
-                        <div class="form-group">
-                        <label for="harga_jual">Harga Jual</label>
-                        <input type="number" class="form-control" id="harga_jual" name="harga_jual" placeholder="Masukkan harga jual">
                         </div>
 
                         <div class="form-group">
