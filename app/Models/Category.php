@@ -17,7 +17,7 @@ class Category extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_constants.table.category', 'categories'); // Default ke 'categories' jika tidak ditemukan di config
+        $this->table = config('db_table.category');
         $this->fillable = array_values(config('db_constants.column.category', ['category', 'parent_id', 'active', 'created_at', 'updated_at']));
     }
 

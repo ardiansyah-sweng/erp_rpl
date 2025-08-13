@@ -3,20 +3,28 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Constants\BranchColumns;
 
 return new class extends Migration
 {
+    protected string $table;
+
+    public function __construct()
+    {
+        $this->table = config('db_tables.branch');
+    }
+
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('branch', function (Blueprint $table) {
+        Schema::create($this->table, function (Blueprint $table) {
             $table->id();
-            $table->string('branch_name');
-            $table->string('branch_address');
-            $table->string('branch_telephone');
-            $table->tinyInteger('branch_status')->default(1);
+            $table->string(BranchColumns::NAME, 50);
+            $table->string(BranchColumns::ADDRESS, 100);
+            $table->string(BranchColumns::PHONE, 30);
+            $table->boolean(BranchColumns::IS_ACTIVE)->default(true);
             $table->timestamps();
         });
     }
@@ -26,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('branch');
+        Schema::dropIfExists($this->table);
     }
 };

@@ -3,12 +3,15 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Constants\MerkColumns;
 
 return new class extends Migration
 {
+    protected string $table;
+
     public function __construct()
     {
-        $this->table = config('db_constants.table.merk');
+        $this->table = config('db_tables.merk');
     }
 
     /**
@@ -16,12 +19,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $col = config('db_constants.column.merk');
-
-        Schema::create($this->table, function (Blueprint $table) use ($col) {
+        Schema::create($this->table, function (Blueprint $table) {
             $table->id();
-            $table->string($col['merk']);
-            $table->tinyInteger($col['active'])->default(1);
+            $table->string(MerkColumns::MERK, 50);
+            $table->boolean(MerkColumns::IS_ACTIVE)->default(true);
             $table->timestamps();
         });
     }
