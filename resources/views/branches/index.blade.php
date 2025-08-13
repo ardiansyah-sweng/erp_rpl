@@ -346,7 +346,7 @@
                 </a>                
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
+                <a href="{{ route('branches.index') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -376,8 +376,8 @@
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Branch</h3>
-                <a href="{{ route('branch.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="{{ route('branch.list', ['export' => 'pdf']) }}" class="btn btn-primary btn-sm ms-2">Cetak Branch</a>
+                <a href="{{ route('branches.create') }}" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="{{ route('branches.index', ['export' => 'pdf']) }}" class="btn btn-primary btn-sm ms-2">Cetak Branch</a>
               </div>
     
               <div class="col-sm-6">
@@ -395,7 +395,7 @@
         <div class="card mb-4">
               <div class="card-header d-flex justify-content-between align-items-center">
                       <h3 class="card-title">List Table</h3>
-                      <form action="{{ route('branch.list') }}" method="GET" class="d-flex ms-auto">
+                      <form action="{{ route('branches.index') }}" method="GET" class="d-flex ms-auto">
                         <!-- Search bar berada di ujung kanan -->
                         <div class="input-group input-group-sm ms-auto" style="width: 450px;">
                           <input type="text" name="search" class="form-control" placeholder="Search Branch">
