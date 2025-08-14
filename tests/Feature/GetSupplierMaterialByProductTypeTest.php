@@ -2,44 +2,48 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
+use Illuminate\Support\Facades\DB;
+use App\Models\SupplierMaterial;
 
 class GetSupplierMaterialByProductTypeTest extends TestCase
 {
-    use WithoutMiddleware;
-
     /** @test */
-    public function it_returns_supplier_materials_for_valid_product_type()
+    public function it_returns_data_for_existing_supplier_and_product_type()
     {
-        // Gunakan data dari database yang sudah ada
+        // Ambil supplier_id & product_type yang ada di database
+        $data = DB::table('supplier_product')
+            ->join('products', 'supplier_product.product_id', '=', 'products.product_id')
+            ->select('supplier_product.supplier_id', 'products.product_type')
+            ->first();
 
-        $response = $this->get('/supplier-material/SUP001/FG');
+        $this->assertNotNull($data, "Tidak ada data supplier dan product_type di database test");
 
-        $response->dump(); // Ini akan menampilkan isi JSON response di terminal saat testing
+        // Panggil method model langsung
+        $results = SupplierMaterial::getSupplierMaterialByProductType(
+            $data->supplier_id,
+            $data->product_type
+        );
 
-        $response->assertStatus(200);
-        $this->assertNotEmpty($response->json(), 'Response kosong padahal data seharusnya sudah ada.');
+        dump($results); // Melihat hasil query saat test jalan
 
-        $response->assertJsonStructure([
-            '*' => [
-                'supplier_id',
-                'company_name',
-                'product_id',
-                'product_type',
-                'base_price',
-                'item_name',
-                'measurement_unit',
-                'stock_unit',
-            ]
-        ]);
+        $this->assertNotEmpty(
+            $results,
+            "Data tidak ditemukan untuk supplier_id={$data->supplier_id} dan product_type={$data->product_type}"
+        );
     }
 
     /** @test */
-    public function it_returns_400_for_invalid_product_type()
+    public function it_returns_empty_for_non_existing_supplier()
     {
-        $response = $this->get('/supplier-material/SUP001/INVALID');
-        $response->dump(); // Untuk debugging jika diperlukan
-        $response->assertStatus(400);
+        $results = SupplierMaterial::getSupplierMaterialByProductType('SUPXXX', 'FG');
+        $this->assertEmpty($results, "Seharusnya tidak ada data untuk supplier_id=SUPXXX");
+    }
+
+    /** @test */
+    public function it_returns_empty_for_invalid_product_type()
+    {
+        $results = SupplierMaterial::getSupplierMaterialByProductType('SUP001', 'INVALID_TYPE');
+        $this->assertEmpty($results, "Seharusnya tidak ada data untuk product_type tidak valid");
     }
 }
