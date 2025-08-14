@@ -169,7 +169,7 @@
               <li class="nav-item">
                 <a href="/product/list" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
-                  <p>Produk</p>
+                  <p>merk</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -233,7 +233,7 @@
         <div class="app-content-header">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Item Produk</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Tambah merk</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
@@ -253,13 +253,13 @@
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
-                        <label for="id_produk">ID Produk</label>
-                        <input type="text" class="form-control" id="id_produk" name="id_produk" placeholder="Masukkan ID produk">
+                        <label for="id_merk">ID merk</label>
+                        <input type="text" class="form-control" id="id_merk" name="id_merk" placeholder="Masukkan ID merk">
                         </div>
 
                         <div class="form-group">
-                        <label for="merk">Nama Merk Produk</label>
-                        <input type="text" class="form-control" id="merk" name="merk" value="{{ old('merk') }}" placeholder="Masukkan nama item produk">
+                        <label for="merk">Nama Merk </label>
+                        <input type="text" class="form-control" id="merk" name="merk" value="{{ old('merk') }}" placeholder="Masukkan nama merk">
                         </div>
 
                         <div class="form-group">
