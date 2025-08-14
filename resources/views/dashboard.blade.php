@@ -345,7 +345,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{ route('branch.list') }}" class="nav-link">
+              <a href="{{ route('branches.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-clipboard-fill"></i>
                 <p>
                   Branch
