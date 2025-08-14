@@ -51,7 +51,14 @@ class WarehouseController extends Controller
     public function exportPdf()
     {
         $warehouse = Warehouse::getWarehouseAll();
-        $pdf = Pdf::loadView('warehouse.report', compact('warehouse'));
+        if ($warehouses->isEmpty()) {
+            return response()->json(['message' => 'Tidak ada warehouse yang ditemukan'], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $warehouses
+        ]);
         return $pdf->stream('warehouse_report.pdf');
     }
 
