@@ -105,6 +105,8 @@ Route::get('product/category/detail', function () {
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']);
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
+Route::get('/product/add', [ProductController::class, 'showAddProductForm'])->name('product.add');
+Route::post('/product/add', [ProductController::class, 'addProduct']);
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('product.pdf');
@@ -295,8 +297,8 @@ Route::put('/bill-of-material/{id}', [BillOfMaterialController::class, 'updateBi
 
 Route::post('/assort-production/add', [AssortProductionController::class, 'addProduction'])->name('assort-production.add');
 
-Route::get('/warehouse', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.all');
 
 Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
-
+Route::get('/warehouse', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.all');
+Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
 Route::post('/supplier/add', [SupplierController::class, 'AddSuplier'])->name('supplier.add');

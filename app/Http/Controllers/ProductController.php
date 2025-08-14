@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\EncryptionHelper;
 use App\Enums\ProductType;
@@ -64,6 +65,7 @@ class ProductController extends Controller
             $typeLabel = $productType->value;
         }
 
+
         // Load the PDF view
         $pdf = PDF::loadView('product.pdf', [
             'products' => $products,
@@ -74,19 +76,39 @@ class ProductController extends Controller
         return $pdf->stream("products_{$type}.pdf");
     }
 
+    public function showAddProductForm()
+    {
+        // Ambil semua data kategori dari database
+        $categories = Category::all();
+        
+        // Kirim data kategori ke view
+        return view('product.add', compact('categories'));
+    }
+
+        // Load the PDF view
+        $pdf = PDF::loadView('product.pdf', [
+            'products' => $products,
+            'type' => $typeLabel
+        ]);
+
+        // Stream the PDF to the browser
+        return $pdf->stream("products_{$type}.pdf");
+    }
+
+
     public function addProduct(Request $request)
     {
         $validatedData = $request->validate([
             'product_id' => 'required|string|unique:products,product_id',
             'product_name' => 'required|string',
             'product_type' => 'required|string',
-            'product_category' => 'required|string',
+            'product_category' => 'required|integer|exists:category,id',
             'product_description' => 'nullable|string',
         ]);
 
         Product::addProduct($validatedData);
 
-        return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
+        return redirect()->route('product.list')->with('success', 'Produk berhasil ditambahkan.');
     }
     public function updateProduct(Request $request, $id)
     {
