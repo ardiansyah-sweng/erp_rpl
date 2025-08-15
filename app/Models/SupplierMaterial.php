@@ -127,9 +127,9 @@ class SupplierMaterial extends Model
     {
         return DB::table('supplier_product as sp')
             ->join('products as p', 'sp.product_id', '=', 'p.product_id')
-            ->join('category as c', 'p.product_category', '=', 'c.id') // ganti category -> categories
+            ->join('categories as c', 'p.product_category', '=', 'c.id') 
             ->join('item as i', 'p.product_id', '=', 'i.product_id')
-            ->where('c.id', $kategori) // pakai kolom id
+            ->where('c.id', $kategori) 
             ->where('sp.supplier_id', $supplier)
             ->select(
                 'i.id as item_id',
