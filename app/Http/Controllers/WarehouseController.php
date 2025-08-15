@@ -18,7 +18,7 @@ class WarehouseController extends Controller
             return abort(404, 'Warehouse tidak ditemukan');
         }
 
-        return view('warehouse.filled-form', compact('warehouse'));
+        return view('warehouse.detail', compact('warehouse'));
 
     }
 
