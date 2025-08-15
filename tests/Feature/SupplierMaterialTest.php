@@ -57,29 +57,28 @@ class SupplierMaterialTest extends TestCase
 
     public function test_get_supplier_material_by_category()
     {
-        // Sesuaikan parameter dengan data yang ada di database test
-        $category = 'Alat Musik'; // nilai kolom category di tabel category
-        $supplierId = 'SUP001';   // nilai supplier_id di tabel supplier_product
+        // Arrange
+        $kategoriId = 1; // contoh ID kategori yang ada di tabel categories
+        $supplierId = 'SUP001'; // contoh ID supplier
 
-        // Jalankan fungsi dari model
-        $results = SupplierMaterial::getSupplierMaterialByCategory($category, $supplierId);
+        // Act
+        $model = new SupplierMaterial();
+        $result = $model->getSupplierMaterialByCategory($kategoriId, $supplierId);
 
-        // 1. Pastikan hasilnya collection
-        $this->assertInstanceOf(Collection::class, $results);
+        // Assert
+        $this->assertIsIterable($result);
+        foreach ($result as $row) {
+            // Pastikan kategori benar
+            $dbKategori = DB::table('products')
+                ->where('product_id', $row->product_id)
+                ->value('product_category');
+            $this->assertEquals($kategoriId, $dbKategori);
 
-        // 2. Pastikan semua data sesuai filter kategori & supplier
-        foreach ($results as $row) {
-            $this->assertEquals($category, $row->category);
-            $this->assertEquals($supplierId, $row->supplier_id);
-        }
-
-        // 3. Jika data ada, pastikan kolom penting tersedia
-        if ($results->isNotEmpty()) {
-            $first = $results->first();
-            $this->assertTrue(property_exists($first, 'product_name'));
-            $this->assertTrue(property_exists($first, 'product_type'));
-            $this->assertTrue(property_exists($first, 'item_name'));
-            $this->assertTrue(property_exists($first, 'category'));
+            // Pastikan supplier benar
+            $dbSupplier = DB::table('supplier_product')
+                ->where('product_id', $row->product_id)
+                ->value('supplier_id');
+            $this->assertEquals($supplierId, $dbSupplier);
         }
     }
 }

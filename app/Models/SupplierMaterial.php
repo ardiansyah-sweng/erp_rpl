@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 class SupplierMaterial extends Model
 {
@@ -122,20 +123,30 @@ class SupplierMaterial extends Model
             ->count(DB::raw('DISTINCT p.product_id'));
     }
 
-    public static function getSupplierMaterialByCategory($category, $supplier)
+    public function getSupplierMaterialByCategory($kategori, $supplier)
     {
         return DB::table('supplier_product as sp')
             ->join('products as p', 'sp.product_id', '=', 'p.product_id')
-            ->join('category as c', 'p.product_category', '=', 'c.id')
-            ->join('item as i', 'p.id', '=', 'i.product_id')
-            ->where('c.category', $category)
+            ->join('category as c', 'p.product_category', '=', 'c.id') // ganti category -> categories
+            ->join('item as i', 'p.product_id', '=', 'i.product_id')
+            ->where('c.id', $kategori) // pakai kolom id
             ->where('sp.supplier_id', $supplier)
             ->select(
-                'sp.*',
+                'i.id as item_id',
+                'i.sku',
+                'i.item_name',
+                'i.measurement_unit',
+                'i.avg_base_price',
+                'i.selling_price',
+                'i.purchase_unit',
+                'i.sell_unit',
+                'i.stock_unit',
+                'p.product_id',
                 'p.product_name',
                 'p.product_type',
-                'i.item_name',
-                'c.category'
+                'c.category as category_name',
+                'sp.company_name',
+                'sp.base_price'
             )
             ->get();
     }
