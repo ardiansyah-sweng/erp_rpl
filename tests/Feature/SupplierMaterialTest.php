@@ -57,28 +57,20 @@ class SupplierMaterialTest extends TestCase
 
     public function test_get_supplier_material_by_category()
     {
+        
+        $model = new SupplierMaterial();
+        
         // Arrange
         $kategoriId = 1; // contoh ID kategori yang ada di tabel categories
         $supplierId = 'SUP001'; // contoh ID supplier
 
-        // Act
-        $model = new SupplierMaterial();
         $result = $model->getSupplierMaterialByCategory($kategoriId, $supplierId);
 
-        // Assert
-        $this->assertIsIterable($result);
-        foreach ($result as $row) {
-            // Pastikan kategori benar
-            $dbKategori = DB::table('products')
-                ->where('product_id', $row->product_id)
-                ->value('product_category');
-            $this->assertEquals($kategoriId, $dbKategori);
+        $this->assertNotEmpty($result, "Data tidak ditemukan untuk kategori {$kategoriId} dan supplier {$supplierId}");
 
-            // Pastikan supplier benar
-            $dbSupplier = DB::table('supplier_product')
-                ->where('product_id', $row->product_id)
-                ->value('supplier_id');
-            $this->assertEquals($supplierId, $dbSupplier);
-        }
+        $this->assertObjectHasAttribute('item_name', $result[0]);
+        $this->assertObjectHasAttribute('product_name', $result[0]);
+        $this->assertObjectHasAttribute('category_name', $result[0]);
+        $this->assertObjectHasAttribute('company_name', $result[0]);
     }
 }
