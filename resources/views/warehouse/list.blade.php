@@ -365,34 +365,118 @@
                 <!-- /.card-header -->
                 @php
                     $warehouses = [
-                        [
-                            'id' => 3,
-                            'warehouse_name' => 'Gudang voluptas',
-                            'warehouse_address' => 'Jr. Bakhita No. 404, Lhokseumawe 25340, Aceh',
-                            'warehouse_telephone' => '0874 7188 1930',
-                            'is_active' => 1,
-                            'created_at' => '2025-07-24 22:39:06',
-                            'updated_at' => '2025-07-24 22:39:06',
-                        ],
-                        [
-                            'id' => 4,
-                            'warehouse_name' => 'Gudang illo',
-                            'warehouse_address' => 'Jr. Supono No. 457, Palangka Raya 63617, Jabar',
-                            'warehouse_telephone' => '0361 0106 8209',
-                            'is_active' => 0,
-                            'created_at' => '2025-07-24 22:39:06',
-                            'updated_at' => '2025-07-24 22:39:06',
-                        ],
-                        [
-                            'id' => 5,
-                            'warehouse_name' => 'Gudang fuga',
-                            'warehouse_address' => 'Dk. Merdeka No. 459, Bukittinggi 41555, Kaltara',
-                            'warehouse_telephone' => '(+62) 869 4283 4801',
-                            'is_active' => 1,
-                            'created_at' => '2025-07-24 22:39:06',
-                            'updated_at' => '2025-07-24 22:39:06',
-                        ],
-                    ];
+                          [
+                'id' => 1,
+                'warehouse_name' => 'Gudang illo',
+                'warehouse_address' => 'Jln. Haji No. 262, Tarakan 49505, Sultra',
+                'warehouse_telephone' => '0302 6952 906',
+                'is_rm_whouse' => 1,
+                'is_fg_whouse' => 0,
+                'is_active' => 1,
+                'created_at' => '2025-08-16T09:08:57.000000Z',
+                'updated_at' => '2025-08-16T09:08:57.000000Z'
+            ],
+            [
+                'id' => 2,
+                'warehouse_name' => 'Gudang perferendis',
+                'warehouse_address' => 'Jr. Bak Mandi No. 247, Bekasi 66972, Kalteng',
+                'warehouse_telephone' => '0914 9834 982',
+                'is_rm_whouse' => 0,
+                'is_fg_whouse' => 1,
+                'is_active' => 0,
+                'created_at' => '2025-08-16T09:08:57.000000Z',
+                'updated_at' => '2025-08-16T09:08:57.000000Z'
+            ],
+            [
+                'id' => 3,
+                'warehouse_name' => 'Gudang saepe',
+                'warehouse_address' => 'Psr. Astana Anyar No. 27, Tangerang Selatan 74760, Kepri',
+                'warehouse_telephone' => '027 2187 6466',
+                'is_rm_whouse' => 1,
+                'is_fg_whouse' => 1,
+                'is_active' => 1,
+                'created_at' => '2025-08-16T09:08:57.000000Z',
+                'updated_at' => '2025-08-16T09:08:57.000000Z'
+            ],
+            [
+                'id' => 4,
+                'warehouse_name' => 'Gudang enim',
+                'warehouse_address' => 'Ds. Baranang Siang Indah No. 84, Tarakan 80900, Papua',
+                'warehouse_telephone' => '(+62) 392 6650 834',
+                'is_rm_whouse' => 0,
+                'is_fg_whouse' => 1,
+                'is_active' => 1,
+                'created_at' => '2025-08-16T09:08:57.000000Z',
+                'updated_at' => '2025-08-16T09:08:57.000000Z'
+            ],
+            [
+                'id' => 5,
+                'warehouse_name' => 'Gudang atque',
+                'warehouse_address' => 'Gg. Casablanca No. 449, Kotamobagu 99970, Banten',
+                'warehouse_telephone' => '(+62) 833 2638 363',
+                'is_rm_whouse' => 0,
+                'is_fg_whouse' => 1,
+                'is_active' => 0,
+                'created_at' => '2025-08-16T09:08:57.000000Z',
+                'updated_at' => '2025-08-16T09:08:57.000000Z'
+            ],
+            [
+                'id' => 6,
+                'warehouse_name' => 'Gudang ea',
+                'warehouse_address' => 'Jln. Kebangkitan Nasional No. 617, Sabang 92446, Sumut',
+                'warehouse_telephone' => '028 5122 5648',
+                'is_rm_whouse' => 1,
+                'is_fg_whouse' => 1,
+                'is_active' => 1,
+                'created_at' => '2025-08-16T09:08:57.000000Z',
+                'updated_at' => '2025-08-16T09:08:57.000000Z'
+            ],
+            [
+                'id' => 7,
+                'warehouse_name' => 'Gudang molestias',
+                'warehouse_address' => 'Gg. Bah Jaya No. 139, Tidore Kepulauan 90838, Kaltara',
+                'warehouse_telephone' => '0673 2521 8471',
+                'is_rm_whouse' => 1,
+                'is_fg_whouse' => 1,
+                'is_active' => 1,
+                'created_at' => '2025-08-16T09:08:57.000000Z',
+                'updated_at' => '2025-08-16T09:08:57.000000Z'
+            ],
+            [
+                'id' => 8,
+                'warehouse_name' => 'Gudang nam',
+                'warehouse_address' => 'Kpg. Kalimalang No. 977, Pariaman 19980, Maluku',
+                'warehouse_telephone' => '022 4538 513',
+                'is_rm_whouse' => 1,
+                'is_fg_whouse' => 1,
+                'is_active' => 1,
+                'created_at' => '2025-08-16T09:08:57.000000Z',
+                'updated_at' => '2025-08-16T09:08:57.000000Z'
+            ],
+            [
+                'id' => 9,
+                'warehouse_name' => 'Gudang qui',
+                'warehouse_address' => 'Jln. Jayawijaya No. 106, Bontang 35366, DKI',
+                'warehouse_telephone' => '(+62) 306 1642 0787',
+                'is_rm_whouse' => 1,
+                'is_fg_whouse' => 0,
+                'is_active' => 1,
+                'created_at' => '2025-08-16T09:08:57.000000Z',
+                'updated_at' => '2025-08-16T09:08:57.000000Z'
+            ],
+            [
+                'id' => 10,
+                'warehouse_name' => 'Gudang ut',
+                'warehouse_address' => 'Ki. Antapani Lama No. 51, Pekalongan 61713, Pabar',
+                'warehouse_telephone' => '(+62) 864 3323 720',
+                'is_rm_whouse' => 1,
+                'is_fg_whouse' => 1,
+                'is_active' => 0,
+                'created_at' => '2025-08-16T09:08:57.000000Z',
+                'updated_at' => '2025-08-16T09:08:57.000000Z'
+            ]
+        ];
+    @endphp                
                 @endphp
 
                 <div class="card-body">
