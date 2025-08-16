@@ -127,7 +127,7 @@ class SupplierMaterial extends Model
         // Validasi product_type agar tidak query sembarangan
         $allowedTypes = ['HFG', 'FG', 'RM'];
         if (!in_array($product_type, $allowedTypes)) {
-            return collect(); // kembalikan koleksi kosong
+            return collect();
         }
 
         return DB::table('supplier_product')

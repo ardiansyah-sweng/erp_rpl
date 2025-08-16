@@ -25,7 +25,7 @@ class GetSupplierMaterialByProductTypeTest extends TestCase
             $data->product_type
         );
 
-        dump($results); // Melihat hasil query saat test jalan
+        dump($results);
 
         $this->assertNotEmpty(
             $results,
