@@ -87,7 +87,7 @@ class SupplierMaterialController extends Controller
         }
 
         $results = DB::table('supplier_product')
-            ->join('products', DB::raw("SUBSTRING_INDEX(supplier_product.product_id, '-', 1)"), '=', 'products.product_id')
+           ->join('products', 'supplier_product.product_id', '=', 'products.product_id')
             ->join('item', 'products.product_id', '=', 'item.product_id')
             ->where('supplier_product.supplier_id', $supplier_id)
             ->where('products.product_type', $product_type)
