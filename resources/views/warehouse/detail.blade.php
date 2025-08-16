@@ -321,7 +321,6 @@
       crossorigin="anonymous"
     ></script>
     <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
-
     <script>
       const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
       const Default = {
@@ -342,9 +341,7 @@
         }
       });
     </script>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
     $(document).ready(function () {
         $('[data-widget="pushmenu"]').on('click', function (e) {
@@ -353,7 +350,5 @@
         });
     });
     </script>
-
-
   </body>
 </html>
