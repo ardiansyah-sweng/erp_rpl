@@ -63,11 +63,11 @@ class MerkController extends Controller
 
     public function printMerkPDF()
     {
-        
-        $merks = Merk::all(); 
-        $pdf = Pdf::loadView('merk.pdf', compact('merks'));
+        $merks = Merk::all();
+        $pdf = Pdf::loadView('merk.cetak', compact('merks'));
         return $pdf->stream('daftar_merk.pdf');
     }
+
     public function addMerk(Request $request)
     {
         // Validasi input

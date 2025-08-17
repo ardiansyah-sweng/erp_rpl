@@ -194,7 +194,7 @@ Route::get('/merks/list',[MerkController::class,'getMerkAll'])->name('merk.list'
 
 Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
 Route::delete('/merk/delete/{id}', [MerkController::class, 'deleteMerk'])->name('merk.delete');
-Route::get('/merks/print', [MerkController::class, 'printMerkPDF'])->name('merk.pdf');
+Route::get('/merks/print', [MerkController::class, 'printMerkPDF'])->name('merk.cetak');
 
 #Supplier
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
