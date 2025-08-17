@@ -95,10 +95,7 @@ class WarehouseController extends Controller
             return response()->json(['message' => 'Tidak ada warehouse yang ditemukan'], 404);
         }
 
-        return response()->json([
-            'success' => true,
-            'data' => $warehouses
-        ]);
+        return view('warehouse.list', compact('warehouses'));
     }
   
     public function addWarehouse(Request $request)

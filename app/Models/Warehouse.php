@@ -102,6 +102,6 @@ class Warehouse extends Model
 
     public static function getWarehouseAll()
     {
-        return self::all();
+        return self::paginate(10);
     }
 }
