@@ -363,37 +363,6 @@
                     </form>
                 </div>
                 <!-- /.card-header -->
-                @php
-                    $warehouses = [
-                        [
-                            'id' => 3,
-                            'warehouse_name' => 'Gudang voluptas',
-                            'warehouse_address' => 'Jr. Bakhita No. 404, Lhokseumawe 25340, Aceh',
-                            'warehouse_telephone' => '0874 7188 1930',
-                            'is_active' => 1,
-                            'created_at' => '2025-07-24 22:39:06',
-                            'updated_at' => '2025-07-24 22:39:06',
-                        ],
-                        [
-                            'id' => 4,
-                            'warehouse_name' => 'Gudang illo',
-                            'warehouse_address' => 'Jr. Supono No. 457, Palangka Raya 63617, Jabar',
-                            'warehouse_telephone' => '0361 0106 8209',
-                            'is_active' => 0,
-                            'created_at' => '2025-07-24 22:39:06',
-                            'updated_at' => '2025-07-24 22:39:06',
-                        ],
-                        [
-                            'id' => 5,
-                            'warehouse_name' => 'Gudang fuga',
-                            'warehouse_address' => 'Dk. Merdeka No. 459, Bukittinggi 41555, Kaltara',
-                            'warehouse_telephone' => '(+62) 869 4283 4801',
-                            'is_active' => 1,
-                            'created_at' => '2025-07-24 22:39:06',
-                            'updated_at' => '2025-07-24 22:39:06',
-                        ],
-                    ];
-                @endphp
 
                 <div class="card-body">
                     <table class="table table-bordered">
