@@ -131,7 +131,7 @@ Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
 Route::post('/branch/update/{id}', [BranchController::class, 'updateBranch'])->name('branch.update');
 Route::get('/branch/detail/{id}', [BranchController::class, 'getBranchByID']);
-Route::get('/branch', [App\Http\Controllers\BranchController::class, 'getBranchAll'])->name('branch.list');
+Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
 
 # PurchaseOrders
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
