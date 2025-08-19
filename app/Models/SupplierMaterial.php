@@ -123,13 +123,13 @@ class SupplierMaterial extends Model
             ->count(DB::raw('DISTINCT p.product_id'));
     }
 
-    public function getSupplierMaterialByCategory($kategori, $supplier)
+    public static function getSupplierMaterialByCategory($kategori, $supplier)
     {
         return DB::table('supplier_product as sp')
-            ->join('products as p', 'sp.product_id', '=', 'p.product_id')
-            ->join('categories as c', 'p.product_category', '=', 'c.id') 
+            ->join('products as p', DB::raw("REPLACE(sp.product_id, '-alias', '')"), '=', 'p.product_id')
+            ->join('categories as c', 'p.product_category', '=', 'c.id')
             ->join('item as i', 'p.product_id', '=', 'i.product_id')
-            ->where('c.id', $kategori) 
+            ->where('c.id', $kategori)
             ->where('sp.supplier_id', $supplier)
             ->select(
                 'i.id as item_id',
