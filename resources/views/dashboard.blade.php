@@ -293,6 +293,12 @@
                 <p>Produk</p>
               </a>
             </li>
+             <li class="nav-item">
+              <a href="{{ route('warehouse.list') }}" class="nav-link">
+                <i class="nav-icon bi bi-box2"></i>
+                <p>Warehouse</p>
+              </a>
+            </li>
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="nav-icon bi bi-person-circle"></i>

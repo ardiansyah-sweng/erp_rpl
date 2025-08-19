@@ -363,86 +363,62 @@
                     </form>
                 </div>
                 <!-- /.card-header -->
-                @php
-                    $warehouses = [
-                        [
-                            'id' => 3,
-                            'warehouse_name' => 'Gudang voluptas',
-                            'warehouse_address' => 'Jr. Bakhita No. 404, Lhokseumawe 25340, Aceh',
-                            'warehouse_telephone' => '0874 7188 1930',
-                            'is_active' => 1,
-                            'created_at' => '2025-07-24 22:39:06',
-                            'updated_at' => '2025-07-24 22:39:06',
-                        ],
-                        [
-                            'id' => 4,
-                            'warehouse_name' => 'Gudang illo',
-                            'warehouse_address' => 'Jr. Supono No. 457, Palangka Raya 63617, Jabar',
-                            'warehouse_telephone' => '0361 0106 8209',
-                            'is_active' => 0,
-                            'created_at' => '2025-07-24 22:39:06',
-                            'updated_at' => '2025-07-24 22:39:06',
-                        ],
-                        [
-                            'id' => 5,
-                            'warehouse_name' => 'Gudang fuga',
-                            'warehouse_address' => 'Dk. Merdeka No. 459, Bukittinggi 41555, Kaltara',
-                            'warehouse_telephone' => '(+62) 869 4283 4801',
-                            'is_active' => 1,
-                            'created_at' => '2025-07-24 22:39:06',
-                            'updated_at' => '2025-07-24 22:39:06',
-                        ],
-                    ];
-                @endphp
 
                 <div class="card-body">
                     <table class="table table-bordered">
                         <thead class="text-center">
                             <tr>
-                                <th style="width: 10px">ID</th>
+                                <th style="width: 10px">No</th>
                                 <th>Warehouse Name</th>
                                 <th>Warehouse Address</th>
                                 <th>Warehouse Telephone</th>
-                                <th>Aktif</th>
+                                <th>is rm warehouse</th>
+                                <th>is fg warehouse</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($warehouses as $warehouse)
+                            @forelse($warehouses as $index => $item)
                                 <tr>
-                                    <td>{{ $warehouse['id'] }}</td>
-                                    <td>{{ $warehouse['warehouse_name'] }}</td>
-                                    <td>{{ $warehouse['warehouse_address'] }}</td>
-                                    <td>{{ $warehouse['warehouse_telephone'] }}</td>
-                                    <td class="text-center">
-                                        @if ($warehouse['is_active'])
-                                            <i class="bi bi-check-circle-fill text-success"></i>
-                                        @else
-                                            <i class="bi bi-x-circle-fill text-danger"></i>
-                                        @endif
-                                    </td>
-                                    <td>{{ $warehouse['created_at'] }}</td>
-                                    <td>{{ $warehouse['updated_at'] }}</td>
-                                    <td>
+                                    <td>{{ $index + 1}} </td>
+                                    <td>{{ $item->warehouse_name }}</td>
+                                    <td>{{ $item->warehouse_address }}</td>
+                                    <td>{{ $item->warehouse_telephone }}</td>
+                                    <td>{{ $item->is_rm_whouse }}</td>
+                                    <td>{{ $item->is_fg_whouse }}</td>
+                                    <td>{{ $item->created_at }}</td>
+                                    <td>{{ $item->updated_at }}</td>
+                                      <td>
+                                        {{-- Tombol Edit (nanti buatkan route edit sendiri kalau belum ada) --}}
                                         <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                                        <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                                        <a href="{{ route('warehouse.detail', $warehouse['id']) }}" class="btn btn-info">Detail</a>
+
+                                        {{-- Tombol Delete --}}
+                                        <form action="{{ route('warehouse.delete', $item->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus warehouse ini?')">
+                                                Delete
+                                            </button>
+                                        </form>
+
+                                        {{-- Tombol Detail --}}
+                                        <a href="{{ route('warehouse.detail', $item->id) }}" class="btn btn-sm btn-info">Detail</a>
                                     </td>
-                                </tr>
                             @empty
                                 <tr>
                                     <td colspan="8" class="text-center">No data available in table</td>
                                 </tr>
                             @endforelse
+    
                         </tbody>
                     </table>
                 </div>
                 <!-- /.card-body -->
-                {{-- <div class="card-footer clearfix">
-                    {{ $warehouse->links('pagination::bootstrap-4') }}
-                </div> --}}
+                <div class="card-footer clearfix">
+                    {{ $warehouses->links('pagination::bootstrap-4') }}
+                </div> 
 
             </div>
 
