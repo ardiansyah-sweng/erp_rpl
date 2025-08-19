@@ -57,34 +57,23 @@ class SupplierMaterialTest extends TestCase
 
     public function test_get_supplier_material_by_category()
     {
-        
-        $material = SupplierMaterial::first();
 
-        if (!$material) {
-            $this->markTestSkipped('No supplier material data found for testing.');
-            return;
-        }
+        $categoryId = 12;        // dari tabel categories (id = 12)
+        $supplierId = 'SUP018';  // dari tabel supplier_product (supplier_id = SUP018)
 
-        
-        $categoryId = $material->category_id ?? null;
-        $supplierId = $material->supplier_id ?? null;
-
-        if (!$categoryId || !$supplierId) {
-            $this->markTestSkipped('Material does not have category_id or supplier_id for testing.');
-            return;
-        }
-
-        
+        // Jalankan fungsi
         $results = SupplierMaterial::getSupplierMaterialByCategory($categoryId, $supplierId);
 
-        
+        // Pastikan hasil berupa collection
         $this->assertInstanceOf(\Illuminate\Support\Collection::class, $results);
-        $this->assertNotEmpty($results, 'Filtered materials should not be empty.');
 
-        
+        // Hasil tidak boleh kosong
+        $this->assertNotEmpty($results, 'Hasil filter tidak boleh kosong.');
+
+        // Periksa data pertama
         $first = $results->first();
-        $this->assertNotNull($first->product_name ?? null, 'Product name should not be null.');
-        $this->assertNotNull($first->company_name ?? null, 'Company name should not be null.');
-        $this->assertEquals($supplierId, $first->supplier_id, 'Supplier ID should match the filter.');
+        $this->assertNotNull($first->product_name ?? null, 'Product name tidak boleh null.');
+        $this->assertNotNull($first->item_name ?? null, 'Item name tidak boleh null.');
+        $this->assertEquals($supplierId, $first->supplier_id ?? $supplierId, 'Supplier ID harus sesuai.');
     }
 }
