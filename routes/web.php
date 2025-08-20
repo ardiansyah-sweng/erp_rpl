@@ -99,6 +99,8 @@ Route::get('product/category/detail', function () {
 });
 
 #warehouse
+Route::get('/warehouse/list', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.list');
+
 // Route::post('/warehouse/add', [WarehouseController::class, 'addWarehouse'])->name('warehouse.add');
 
 # Product
@@ -124,8 +126,8 @@ Route::get('/api/branches/{id}', [BranchController::class, 'getBranchById'])->na
 # Branch Routes
 Route::get('/branches', [BranchController::class, 'index'])->name('branches.index');
 Route::post('/branches', [BranchController::class, 'store'])->name('branches.store');
-Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
-Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
+// Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
+// Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
 Route::get('/branches/create', [BranchController::class, 'create'])->name('branches.create');
 Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('branch.delete');
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
@@ -298,6 +300,9 @@ Route::put('/bill-of-material/{id}', [BillOfMaterialController::class, 'updateBi
 
 Route::post('/assort-production/add', [AssortProductionController::class, 'addProduction'])->name('assort-production.add');
 
+
+// Route untuk daftar warehouse (list)
+Route::get('/warehouse/list', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.list');
 Route::get('/warehouse', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.all');
 
 Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
