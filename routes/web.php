@@ -72,6 +72,10 @@ Route::get('/item/add', function () {
     return view('item/add');
 });
 
+Route::get('/merks', function () {
+    return view('merk.list');
+})->name('merk.list');
+
 // Dikonfirmasi oleh chiqitita_C_163 - route form tambah produk sudah tersedia
 Route::get('/product/add', function () {
     return view('product/add');
