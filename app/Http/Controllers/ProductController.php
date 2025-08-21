@@ -7,6 +7,7 @@ use App\Models\Product;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\EncryptionHelper;
 use App\Enums\ProductType;
+use App\Models\Category;
 
 
 class ProductController extends Controller
@@ -14,7 +15,8 @@ class ProductController extends Controller
     public function getProductList()
     {
         $products = Product::getAllProducts();
-        return view('product.list', compact('products'));
+        $categories = Category::orderBy('category')->get();
+        return view('product.list', compact('products', 'categories'));
     }
 
     public function generatePDF()
@@ -127,6 +129,31 @@ class ProductController extends Controller
             'data' => $products,
         ]);
     }
+
+    public function printCategoryByIdPDF($id)
+    {
+        $category = Category::find($id);
+
+        if (!$category) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Kategori tidak ditemukan.'
+            ], 404);
+        }
+
+        // Ambil produk berdasarkan product_category
+        $products = Product::where('product_category', $category->id)->get();
+
+        $category->products = $products;
+
+        $categories = collect([$category]); 
+        $filename = "Laporan_Kategori_" . $category->category . ".pdf";
+
+        $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
+        return $pdf->stream($filename);
+    }
+
+
 
     public function getProductByType($type)
     {

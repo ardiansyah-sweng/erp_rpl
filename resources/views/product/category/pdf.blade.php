@@ -11,6 +11,8 @@
 </head>
 <body>
     <h2>Laporan Daftar Kategori</h2>
+    {{-- Jika semua kategori --}}
+    @if(isset($categories))
     <table>
         <thead>
             <tr>
@@ -31,5 +33,27 @@
             @endforeach
         </tbody>
     </table>
+
+     {{-- Jika hanya satu kategori --}}
+    @elseif(isset($category))
+        <h3>Kategori: {{ $category->category }}</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama Produk</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($category->products as $product)
+                    <tr>
+                        <td>{{ $product->id }}</td>
+                        <td>{{ $product->product_name }}</td>
+                    </tr>
+                @endforeach
+            </tbody> 
+        </table>
+    @endif
+
 </body>
 </html> 
