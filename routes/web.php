@@ -231,6 +231,9 @@ Route::get('/supplierPic/{supplier_id}', [SupplierPIController::class, 'getSuppl
 
 #cetak semua pdf pic
 Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
+# cetak pdf PIC per Supplier ID
+Route::get('/supplier-pic/cetak-pdf/{supplierID}', [SupplierPiController::class, 'cetakPdfBySupplier'])
+    ->name('supplier.pic.pdf.bySupplier');
 
 
 # Warehouse
