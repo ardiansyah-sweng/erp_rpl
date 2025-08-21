@@ -256,29 +256,23 @@
                     @csrf
                     <div class="card-body">
                       <div class="form-group">
-                        <label for="id_produk">ID Produk</label>
-                        <input type="text" class="form-control" id="id_produk" name="id_produk" placeholder="ID Produk">
+                        <label for="merk">Merk</label>
+                        <input type="text" class="form-control" id="merk" name="merk" placeholder="Nama Merk">
                       </div>
                       <div class="form-group">
-                        <label for="sku">SKU</label>
-                        <input type="text" class="form-control" id="sku" name="sku" placeholder="SKU">
-                      </div>
-                      <div class="form-group">
-                        <label for="nama_item">Nama Item Produk</label>
-                        <input type="text" class="form-control" id="nama_item" name="nama_item" placeholder="Nama Item Produk">
-                      </div>
-                      <div class="form-group">
-                        <label for="satuan">Satuan</label>
-                        <select class="form-control" id="satuan" name="satuan">
-                          <option value="">Pilih Satuan</option>
-                          <option value="Unit">Unit</option>
-                          <option value="Pcs">Pcs</option>
-                          <option value="Box">Box</option>
+                        <label for="active">Active</label>
+                        <select class="form-control" id="active" name="active">
+                          <option value="1">Aktif</option>
+                          <option value="0">Nonaktif</option>
                         </select>
                       </div>
                       <div class="form-group">
-                        <label for="harga_jual">Harga Jual Rp.</label>
-                        <input type="number" class="form-control" id="harga_jual" name="harga_jual" placeholder="Harga Jual">
+                        <label for="created_at">Created At</label>
+                        <input type="datetime-local" class="form-control" id="created_at" name="created_at">
+                      </div>
+                      <div class="form-group">
+                        <label for="updated_at">Updated At</label>
+                        <input type="datetime-local" class="form-control" id="updated_at" name="updated_at">
                       </div>
                     </div>
                     
