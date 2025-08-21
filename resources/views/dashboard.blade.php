@@ -288,9 +288,21 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="{{ route('merk.list') }}" class="nav-link">
+                <i class="nav-icon bi bi-tag-fill"></i>
+                <p>Merk</p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="{{ route('product.list') }}" class="nav-link">
                 <i class="nav-icon bi bi-box-seam-fill"></i>
                 <p>Produk</p>
+              </a>
+            </li>
+             <li class="nav-item">
+              <a href="{{ route('warehouse.list') }}" class="nav-link">
+                <i class="nav-icon bi bi-box2"></i>
+                <p>Warehouse</p>
               </a>
             </li>
             <li class="nav-item">
@@ -360,14 +372,6 @@
                 </p>
               </a>
             </li>
-              <li class="nav-item">
-                <a href="{{ route('merk.list') }}" class="nav-link">
-                  <i class="nav-icon bi bi-tag-fill"></i>
-                  <p>
-                    Merk
-                  </p>
-                </a>
-              </li>
             <li class="nav-item">
               <a href="{{ route('category.list') }}" class="nav-link">
                 <i class="nav-icon bi bi-clipboard-fill"></i>
