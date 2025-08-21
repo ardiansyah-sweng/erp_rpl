@@ -11,13 +11,13 @@ class MerkController extends Controller
     {
         $merk = (new Merk())->getMerkByID($id);
 
-        if (!$merk) 
+        if (!$merk)
         {
             return abort(404, 'Merk tidak ditemukan');
         }
 
         return view('merk.detail', compact('merk'));
-  
+
     }
 
     public function updateMerk(Request $request, $id)
@@ -27,15 +27,15 @@ class MerkController extends Controller
         'id' => 'required|integer',
         'merk' => 'required|string|max:100',
         ]);
-    
+
            // Update data merk
         $updatedMerk = Merk::updateMerk($request->id, $request->only(['merk']));
 
-        if (!$updatedMerk) 
-        { 
-            return response()->json(['message' => 'Data Merk Tidak Tersedia'], 404); 
+        if (!$updatedMerk)
+        {
+            return response()->json(['message' => 'Data Merk Tidak Tersedia'], 404);
         }
-        
+
         return response()->json([ 'message' => 'Data Merk berhasil diperbarui','data' => $updatedMerk, ]);
     }
 
@@ -52,7 +52,7 @@ class MerkController extends Controller
 
         if ($deleted) {
         return redirect()->back()->with('success', 'Merk berhasil dihapus.');
-        } 
+        }
         else {
         return redirect()->back()->with('error', 'Merk gagal dihapus.');
         }

@@ -33,7 +33,7 @@ class Merk extends Model
          $fillable = (new self)->getFillable();
          $filteredData = collect($data)->only($fillable)->toArray();
          $merk->update($filteredData);
-    
+
          return $merk;
     }
 
@@ -45,7 +45,7 @@ class Merk extends Model
     {
         return self::where('id', $id)->first();
     }
-    
+
      public static function getAllMerk()
     {
         return self::orderBy('created_at', 'asc')->paginate(10);
@@ -64,14 +64,14 @@ class Merk extends Model
         if ($merk) {
             return $merk->delete();
         }
-        
+
         return false;
     }
     public static function addMerk($namaMerk, $active = 1)
     {
         $merk = new self();
         $merk->merk = $namaMerk;
-        $merk->active = $active; 
+        $merk->is_active = $active;
         $merk->save();
 
         return $merk;
