@@ -126,22 +126,26 @@ class SupplierMaterial extends Model
     public static function getSupplierMaterialByCategory($kategori, $supplier)
     {
         return DB::table('supplier_product as sp')
-            // Join products
-            ->join('products as p', 'p.product_id', '=', 'i.product_id')
             // Join item berdasarkan SKU dengan supplier_product
             ->join('item as i', 'i.sku', '=', 'sp.product_id')
+            // Join products
+            ->join('products as p', 'p.product_id', '=', 'i.product_id')
             // Join categories
             ->join('categories as c', 'p.product_category', '=', 'c.id')
             ->where('c.id', $kategori)
             ->where('sp.supplier_id', $supplier)
             ->select(
-                'sp.supplier_id',
-                'sp.company_name',
+                'i.id as item_id',
+                'i.sku',
+                'i.item_name',
+                'i.product_id',
                 'sp.product_id',
                 'p.product_name',
+                'c.category as category_name',
                 'p.product_type',
+                'sp.supplier_id',
+                'sp.company_name',
                 'sp.base_price',
-                'i.item_name',
                 'i.measurement_unit',
                 'i.stock_unit'
             )
