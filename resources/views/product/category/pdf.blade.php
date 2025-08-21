@@ -34,25 +34,28 @@
         </tbody>
     </table>
 
-     {{-- Jika hanya satu kategori --}}
-    @elseif(isset($category))
-        <h3>Kategori: {{ $category->category }}</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nama Produk</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($category->products as $product)
+    {{-- Jika hanya kategori tertentu --}}
+    @elseif(isset($categoryList))
+        @foreach ($categoryList as $category)
+            <h3>Kategori: {{ $category->category }}</h3>
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ $product->id }}</td>
-                        <td>{{ $product->product_name }}</td>
+                        <th>ID Produk</th>
+                        <th>Nama Produk</th>
                     </tr>
-                @endforeach
-            </tbody> 
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($category->products as $product)
+                        <tr>
+                            <td>{{ $product->id }}</td>
+                            <td>{{ $product->product_name }}</td>
+                        </tr>
+                    @endforeach
+                </tbody> 
+            </table>
+            <br>
+        @endforeach
     @endif
 
 </body>

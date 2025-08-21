@@ -132,6 +132,7 @@ class ProductController extends Controller
 
     public function printCategoryByIdPDF($id)
     {
+        // Cari kategori berdasarkan ID
         $category = Category::find($id);
 
         if (!$category) {
@@ -141,17 +142,23 @@ class ProductController extends Controller
             ], 404);
         }
 
-        // Ambil produk berdasarkan product_category
-        $products = Product::where('product_category', $category->id)->get();
+        // Ambil semua kategori dengan nama yang sama
+        $categories = Category::where('category', $category->category)->get();
 
-        $category->products = $products;
+        // Untuk setiap kategori, ambil produknya
+        foreach ($categories as $cat) {
+            $products = Product::where('product_category', $cat->id)->get();
+            $cat->products = $products;
+        }
 
-        $categories = collect([$category]); 
+        // Nama file sesuai kategori
         $filename = "Laporan_Kategori_" . $category->category . ".pdf";
 
+        // Kirim semua kategori dengan produk ke view
         $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
         return $pdf->stream($filename);
     }
+
 
 
 

@@ -389,7 +389,7 @@ use App\Helpers\EncryptionHelper;
                         data-bs-toggle="dropdown" aria-expanded="false">
                 </button>
                 <ul class="dropdown-menu">
-                    @foreach($categories as $cat)
+                    @foreach($categories->unique('category')->sortBy('category') as $cat)
                         <li>
                             <a class="dropdown-item" href="{{ route('category.print.single', $cat->id) }}" target="_blank">
                                 Cetak {{ $cat->category }}
@@ -398,6 +398,7 @@ use App\Helpers\EncryptionHelper;
                     @endforeach
                 </ul>
             </div>
+
 
               
                 
