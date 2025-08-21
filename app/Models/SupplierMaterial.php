@@ -57,7 +57,7 @@ class SupplierMaterial extends Model
             ->count(DB::raw('DISTINCT p.product_id'));
     }
 
-   
+
     public static function addSupplierMaterial($data)
     {
         if (empty($data)) {
@@ -65,8 +65,8 @@ class SupplierMaterial extends Model
         }
 
         if (is_object($data)) {
-        $data = (array) $data;
-    }
+            $data = (array) $data;
+        }
 
         return self::create([
             'supplier_id' => $data['supplier_id'],
@@ -121,30 +121,29 @@ class SupplierMaterial extends Model
             ->distinct('p.product_id')
             ->count(DB::raw('DISTINCT p.product_id'));
     }
-    
-   public static function getSupplierMaterialByProductType($supplier_id, $product_type)
+
+    public static function getSupplierMaterialByProductType($supplier_id, $product_type)
     {
-        // Validasi product_type agar tidak query sembarangan
         $allowedTypes = ['HFG', 'FG', 'RM'];
         if (!in_array($product_type, $allowedTypes)) {
             return collect();
         }
 
-        return DB::table('supplier_product')
-            ->join('products', 'supplier_product.product_id', '=', 'products.product_id')
-            ->join('item', 'products.product_id', '=', 'item.product_id')
-            ->where('supplier_product.supplier_id', $supplier_id)
-            ->where('products.product_type', $product_type)
+        return DB::table('supplier_product as sp')
+            ->join('item as i', 'i.sku', '=', 'sp.product_id')
+            ->join('products as p', 'p.product_id', '=', 'i.product_id')
+            ->where('sp.supplier_id', $supplier_id)
+            ->where('p.product_type', $product_type)
             ->select(
-                'supplier_product.supplier_id',
-                'supplier_product.company_name',
-                'supplier_product.product_id',
-                'products.product_name',
-                'products.product_type',
-                'supplier_product.base_price',
-                'item.item_name',
-                'item.measurement_unit',
-                'item.stock_unit'
+                'sp.supplier_id',
+                'sp.company_name',
+                'sp.product_id',
+                'p.product_name',
+                'p.product_type',
+                'sp.base_price',
+                'i.item_name',
+                'i.measurement_unit',
+                'i.stock_unit'
             )
             ->get();
     }

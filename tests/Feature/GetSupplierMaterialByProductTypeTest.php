@@ -12,9 +12,10 @@ class GetSupplierMaterialByProductTypeTest extends TestCase
     public function it_returns_data_for_existing_supplier_and_product_type()
     {
         // Ambil supplier_id & product_type yang ada di database
-        $data = DB::table('supplier_product')
-            ->join('products', 'supplier_product.product_id', '=', 'products.product_id')
-            ->select('supplier_product.supplier_id', 'products.product_type')
+        $data = DB::table('supplier_product as sp')
+            ->join('item as i', 'i.sku', '=', 'sp.product_id')
+            ->join('products as p', 'p.product_id', '=', 'i.product_id')
+            ->select('sp.supplier_id', 'p.product_type')
             ->first();
 
         $this->assertNotNull($data, "Tidak ada data supplier dan product_type di database test");
@@ -25,7 +26,7 @@ class GetSupplierMaterialByProductTypeTest extends TestCase
             $data->product_type
         );
 
-        dump($results);
+        // dump($results);
 
         $this->assertNotEmpty(
             $results,
