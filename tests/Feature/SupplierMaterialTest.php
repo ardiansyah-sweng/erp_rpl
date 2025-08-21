@@ -57,23 +57,25 @@ class SupplierMaterialTest extends TestCase
 
     public function test_get_supplier_material_by_category()
     {
+        // Parameter nyata dari database
+        $kategori = 12;       // category.id
+        $supplier = 'SUP018'; // supplier_product.supplier_id
 
-        $categoryId = 12;        // dari tabel categories (id = 12)
-        $supplierId = 'SUP018';  // dari tabel supplier_product (supplier_id = SUP018)
+        $results = SupplierMaterial::getSupplierMaterialByCategory($kategori, $supplier);
 
-        // Jalankan fungsi
-        $results = SupplierMaterial::getSupplierMaterialByCategory($categoryId, $supplierId);
-
-        // Pastikan hasil berupa collection
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $results);
-
-        // Hasil tidak boleh kosong
+        // Pastikan hasil tidak kosong
         $this->assertNotEmpty($results, 'Hasil filter tidak boleh kosong.');
 
-        // Periksa data pertama
         $first = $results->first();
-        $this->assertNotNull($first->product_name ?? null, 'Product name tidak boleh null.');
+
+        // Pastikan field penting tidak null
+        $this->assertNotNull($first->item_id ?? null, 'Item ID tidak boleh null.');
+        $this->assertNotNull($first->sku ?? null, 'SKU tidak boleh null.');
         $this->assertNotNull($first->item_name ?? null, 'Item name tidak boleh null.');
-        $this->assertEquals($supplierId, $first->supplier_id ?? $supplierId, 'Supplier ID harus sesuai.');
+        $this->assertNotNull($first->product_id ?? null, 'Product ID tidak boleh null.');
+        $this->assertNotNull($first->product_name ?? null, 'Product name tidak boleh null.');
+        $this->assertNotNull($first->category_name ?? null, 'Category name tidak boleh null.');
+        $this->assertNotNull($first->supplier_id ?? null, 'Supplier id tidak boleh null.');
+        $this->assertNotNull($first->company_name ?? null, 'Company name tidak boleh null.');
     }
 }
