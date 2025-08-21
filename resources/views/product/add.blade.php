@@ -385,8 +385,10 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="container">
-                    <form id="productForm">
+                    <form action="{{ route('product.add') }}" method="POST" id="productForm">
+                        @csrf
                         <div class="mb-3">
+
                             <label for="product_id" class="form-label">ID Produk</label>
                             <input type="text" class="form-control" id="product_id" name="product_id" required>
                             <div class="invalid-feedback">ID Produk harus diisi.</div>
@@ -400,15 +402,15 @@
                             <label class="form-label">Jenis</label>
                             <div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="product_type" id="finished" value="finished">
+                                    <input class="form-check-input" type="radio" name="product_type" id="finished" value="FG">
                                     <label class="form-check-label" for="finished">Finished</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="product_type" id="half_finished" value="half_finished">
+                                    <input class="form-check-input" type="radio" name="product_type" id="half_finished" value="HFG">
                                     <label class="form-check-label" for="half_finished">Half Finished</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="product_type" id="raw_material" value="raw_material">
+                                    <input class="form-check-input" type="radio" name="product_type" id="raw_material" value="RM">
                                     <label class="form-check-label" for="raw_material">Raw Material</label>
                                 </div>
                             </div>
@@ -417,7 +419,7 @@
                         <div class="mb-3">
                             <label for="category" class="form-label">Kategori</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="category" name="category" required>
+                                <input type="text" class="form-control" id="category" name="product_category" required>
                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><a class="dropdown-item" href="#">Makanan</a></li>
@@ -433,7 +435,7 @@
                         </div>
                         <div class="d-flex justify-content-start mt-4">
                             <div>
-                                <button type="button" class="btn btn-primary" onclick="validateForm()">Tambah</button>
+                                <button type="submit" class="btn btn-primary" onclick="validateForm()">Tambah</button>
                                 <button type="reset" class="btn btn-secondary ms-2">Batal</button>
                             </div>
                         </div>
@@ -520,7 +522,7 @@
             e.preventDefault();
             $('body').toggleClass('sidebar-collapse');
         });
-        
+
         // Dropdown item click handler
         $('.dropdown-item').on('click', function (e) {
             e.preventDefault();
@@ -528,9 +530,10 @@
         });
     });
     </script>
-    
+
     <script>
       function validateForm() {
+
         let isValid = true;
 
         // Reset error states
@@ -546,7 +549,7 @@
           $('#product_id').addClass('is-invalid');
           isValid = false;
         }
-        
+
         if (!productName) {
           $('#product_name').addClass('is-invalid');
           isValid = false;
@@ -562,10 +565,23 @@
           isValid = false;
         }
 
-        return isValid;
+        if (isValid) {
+            $.ajax({
+                url: "{{ route('product.add') }}",
+                type: "POST",
+                data: $('#productForm').serialize(),
+                success: function(response) {
+                    alert(response.message);
+                    $('#productForm')[0].reset();
+                },
+                error: function(xhr) {
+                    alert("❌ Terjadi kesalahan. Cek kembali input atau server.");
+                }
+            });
+        }
       }
     </script>
-    
+
     <!--end::Script-->
   </body>
   <!--end::Body-->
