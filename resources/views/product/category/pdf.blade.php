@@ -13,26 +13,26 @@
     <h2>Laporan Daftar Kategori</h2>
     {{-- Jika semua kategori --}}
     @if(isset($categories))
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nama Kategori</th>
-                <th>Kategori Utama</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($categories as $cat)
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ $cat->id }}</td>
-                    <td>{{ $cat->category }}</td>
-                    <td>{{ $cat->parent ? $cat->parent->category : '-' }}</td>
-                    <td>{{ $cat->active ? 'Aktif' : 'Tidak Aktif' }}</td>
+                    <th>ID</th>
+                    <th>Nama Kategori</th>
+                    <th>Kategori Utama</th>
+                    <th>Status</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($categories as $cat)
+                    <tr>
+                        <td>{{ $cat->id }}</td>
+                        <td>{{ $cat->category }}</td>
+                        <td>{{ $cat->parent ? $cat->parent->category : '-' }}</td>
+                        <td>{{ $cat->is_active == 1 ? 'Aktif' : 'Tidak Aktif' }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
     {{-- Jika hanya kategori tertentu --}}
     @elseif(isset($categoryList))
