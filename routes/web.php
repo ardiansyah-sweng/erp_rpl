@@ -114,6 +114,8 @@ Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduc
 Route::get('/products/print/{type}', [ProductController::class, 'printProductsByType'])->name('products.print.by-type');
 Route::get('/products/type/{type}', [ProductController::class, 'getProductByType']);
 
+
+
 #Product Update
 Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct'); //Sudah sesuai pada ERP RPL
 Route::get('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct');
@@ -209,6 +211,9 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
+// Cetak produk berdasarkan kategori tertentu 
+Route::get('/category/print/{id}', [ProductController::class, 'printCategoryByIdPDF'])->name('category.print.single');
+
 
 #Category
 Route::get('/category/search', [CategoryController::class, 'searchCategory']);
