@@ -18,7 +18,7 @@ class WarehouseController extends Controller
             return abort(404, 'Warehouse tidak ditemukan');
         }
 
-        return view('warehouse.filled-form', compact('warehouse'));
+        return view('warehouse.detail', compact('warehouse'));
 
     }
 
@@ -95,10 +95,7 @@ class WarehouseController extends Controller
             return response()->json(['message' => 'Tidak ada warehouse yang ditemukan'], 404);
         }
 
-        return response()->json([
-            'success' => true,
-            'data' => $warehouses
-        ]);
+        return view('warehouse.list', compact('warehouses'));
     }
   
     public function addWarehouse(Request $request)
