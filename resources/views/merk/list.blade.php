@@ -269,7 +269,7 @@
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
-          <a href="dashboard" class="brand-link">
+          <a href="/dashboard" class="brand-link">
             <!--begin::Brand Image-->
             <img
               src={{asset("assets/dist/assets/img/LogoRPL.png")}}
@@ -295,7 +295,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="dashboard" class="nav-link active">
+              <a href="/dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -303,11 +303,13 @@
                 </a>
               </li>
               <li class="nav-item">
-              <a href="{{ route('product.list') }}" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
               </li>
+
+
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-person-circle"></i>
@@ -343,28 +345,28 @@
                   <p>
                     Purchase Orders
                   </p>
-                </a>                
+                </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
+              <a href="{{ route('branch.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
                   </p>
-                </a>                
+                </a>
               </li>
               <li class="nav-item">
               <a href="{{ route('item.list') }}" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <i class="nav-icon bi bi-circle"></i>
                       <p>Item</p>
                     </a>
-              </li>
-              <li class="nav-item">
-              <a href="/bom/list" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
-                      <p>Bill Of Material</p>
+                  </li>
+                        <li class="nav-item">
+              <a href="{{ route('merk.list') }}" class="nav-link">
+                      <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>Merk</p>
                     </a>
-              </li>
+                  </li>
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
@@ -381,15 +383,17 @@
             <!--begin::Row-->
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Bill Of Material</h3>
-                <a href="#" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="#" class="btn btn-primary btn-sm ms-2">Cetak Bill Of Material</a>
+                <h3 class="mb-0 me-2">Merk</h3>
+                <a href="/merk/add" class="btn btn-primary btn-sm">Tambah</a>
+                <a href="/merks/print" class="btn btn-primary btn-sm ms-2">Cetak Merk</a>
+
               </div>
-    
+
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">BOM</li>
+                  <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+                  <li class="breadcrumb-item" aria-current="page"> <a href="/product/list">Produk</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Merk</li>
                 </ol>
               </div>
             </div>
@@ -399,216 +403,51 @@
         </div>
 
         <div class="card mb-4">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                      <h3 class="card-title">List Table</h3>
-                      <form action="#" method="GET" class="d-flex ms-auto">
-                        <!-- Search bar berada di ujung kanan -->
-                        <div class="input-group input-group-sm ms-auto" style="width: 450px;">
-                          <input type="text" name="search" class="form-control" placeholder="Search BOM">
-                          <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
-                              <i class="bi bi-search"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                    @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                    @endif
+              <div class="card-header"><h3 class="card-title">List Table</h3></div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">id</th>
+                      <th>merk</th>
+                      <th>active</th>
+                      <th>Created At</th>
+                      <th>Updated At </th>
+                      <th>Action </th>
+                    </tr>
+                  </thead>
+                 <tbody>
+                    @foreach($merks as $merk)
 
-                    @if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                    @endif
+                    <tr class="align-middle">
+                     <td>{{ $merk->id }}</td>
+                     <td>{{ $merk->merk }}</td>
+                    <td style="color: {{ $merk->active == 0 ? 'green' : 'red' }}">
+                        {{ $merk->active == 0 ? 'Aktif' : 'Non Aktif' }}
+                    </td>
+                     <td>{{ $merk->created_at}}</td>
+                     <td>{{ $merk->updated_at }}</td>
 
-                    <!-- Bill Of Material Table -->
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Daftar Bill of Materials</h5>
-                    </div>
-                <div class="card-body p-0">
-                  <table class="table table-bordered">
-                          <thead>
-                              <tr>
-                                  <th>No</th>
-                                  <th>ID BOM</th>
-                                  <th>Nama BOM</th>
-                                  <th>Measurement Unit</th>
-                                  <th>Total Cost</th>
-                                  <th>Status</th>
-                                  <th>Create</th>
-                                  <th>Aksi</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td>1</td>
-                                  <td>BOM001</td>
-                                  <td>Produk A</td>
-                                  <td>100 pcs</td>
-                                  <td>Rp. 200.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>08-06-2024</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>2</td>
-                                  <td>BOM002</td>
-                                  <td>Produk B</td>
-                                  <td>50 Kg</td>
-                                  <td>Rp. 245.000</td>
-                                  <td>
-                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
-                                  </td>
-                                  <td>05-06-2024</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>3</td>
-                                  <td>BOM003</td>
-                                  <td>Produk C</td>
-                                  <td>30 Kg</td>
-                                  <td>Rp. 115.000</td>
-                                  <td>
-                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
-                                  </td>
-                                  <td>11-06-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>4</td>
-                                  <td>BOM004</td>
-                                  <td>Produk D</td>
-                                  <td>1 TON</td>
-                                  <td>Rp. 985.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>01-01-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>5</td>
-                                  <td>BOM005</td>
-                                  <td>Produk E</td>
-                                  <td>1.2 TON</td>
-                                  <td>Rp. 1.225.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>01-04-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>6</td>
-                                  <td>BOM006</td>
-                                  <td>Produk F</td>
-                                  <td>3 Kwintal</td>
-                                  <td>Rp. 950.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-05-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>7</td>
-                                  <td>BOM007</td>
-                                  <td>Produk G</td>
-                                  <td>1 Kwintal</td>
-                                  <td>Rp. 350.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-11-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>8</td>
-                                  <td>BOM008</td>
-                                  <td>Produk H</td>
-                                  <td>1 Kwintal</td>
-                                  <td>Rp. 150.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-05-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>9</td>
-                                  <td>BOM009</td>
-                                  <td>Produk I</td>
-                                  <td>70 Liter</td>
-                                  <td>Rp. 850.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>31-05-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>10</td>
-                                  <td>BOM010</td>
-                                  <td>Produk J</td>
-                                  <td>3.5 Kwintal</td>
-                                  <td>Rp. 550.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-03-2025</td>
-                                  <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <!--Tambah data dummy-->
-                          </tbody>
-                      </table>
+                      <td>
+                          <a href="/merk/update/{{$merk->id}}" class="btn btn-sm btn-primary">Edit</a>
+                          <a href="/merk/delete/{{$merk->id}}" class="btn btn-sm btn-danger">Delete</a>
+                          <a href="/merk/{{$merk->id}}" class="btn btn-sm btn-info">Detail</a>
+                      </td>
+                  </tr>
+
+                  @endforeach
+    </tbody>
+</table>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer clearfix">
+                {{ $merks->links('pagination::bootstrap-4') }}
+              </div>
             </div>
-                  </div>
-                  <!-- /.card-body -->
-                  <div class="card-footer clearfix">
-                  
-                  </div>
 
-        </div>
-        
+
+
       </main>
       <!--end::App Main-->
       <!--begin::Footer-->

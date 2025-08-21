@@ -210,7 +210,7 @@
                 </a>                
               </li>
               <li class="nav-item">
-                <a href="{{ route('branches.index') }}" class="nav-link active">
+                <a href="{{ route('branch.list') }}" class="nav-link active">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -250,7 +250,7 @@
                   <div class="card-header">
                     <h3 class="card-title">Formulir Tambah Cabang</h3>
                   </div>
-                  <form action="{{ route('branches.store') }}" method="POST" id="branchForm">
+                  <form action="{{ route('branch.add') }}" method="POST" id="branchForm">
                     @csrf
                     <div class="card-body">
                       <div class="form-group">

@@ -6,7 +6,6 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Merk;
 use Faker\Factory as Faker;
-use App\Constants\MerkColumns;
 
 class MerkSeeder extends Seeder
 {
@@ -20,13 +19,14 @@ class MerkSeeder extends Seeder
      */
     public function run(): void
     {
+        $colMerk = config('db_constants.column.merk');
         $numOfMerk = $this->faker->numberBetween(1, 100);
 
         for ($i=0; $i<=$numOfMerk; $i++)
         {
             Merk::create([
-                MerkColumns::MERK => $this->faker->word(),
-                MerkColumns::IS_ACTIVE => $this->faker->boolean(),
+                $colMerk['merk'] => $this->faker->word(),
+                $colMerk['active'] => $this->faker->boolean(),
             ]);
         }
     }

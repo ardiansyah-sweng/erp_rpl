@@ -3,18 +3,34 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Constants\BranchColumns;
+use App\Traits\HasDynamicColumns;
 
 class Branch extends Model
 {
+    use HasDynamicColumns;
+
     protected $table;
+    protected $fillable = [];
+    protected $guarded = [];
+
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_tables.branch');
-        $this->fillable = BranchColumns::getFillable();
+        // Tetapkan nama tabel dan kolom
+        $this->table = config('db_constants.table.branch');
+        $this->fillable = array_values(config('db_constants.column.branch') ?? []);
+    }
+
+    public function getBranchById($id)
+    {
+        return self::where('id', $id)->first();
+    }
+
+    public static function getRandomBranchID()
+    {
+        return self::inRandomOrder()->first()->id;
     }
 
     public static function getAllBranch($search = null)
@@ -22,12 +38,12 @@ class Branch extends Model
         $query = self::query();
 
         if ($search) {
-            $query->where(BranchColumns::BRANCH_NAME, 'LIKE', "%{$search}%")
-                  ->orWhere(BranchColumns::BRANCH_ADDRESS, 'LIKE', "%{$search}%")
-                  ->orWhere(BranchColumns::BRANCH_TELEPHONE, 'LIKE', "%{$search}%");
+            $query->where('branch_name', 'LIKE', "%{$search}%")
+                  ->orWhere('branch_address', 'LIKE', "%{$search}%")
+                  ->orWhere('branch_telephone', 'LIKE', "%{$search}%");
         }
 
-        return $query->orderBy(BranchColumns::CREATED_AT, 'asc')->paginate(10);
+        return $query->orderBy('created_at', 'asc')->paginate(10);
     }
 
     public static function addBranch($data)
@@ -35,15 +51,6 @@ class Branch extends Model
         return self::create($data);
     }
 
-    public function getBranchById($id)
-    {
-        return self::where(BranchColumns::ID, $id)->first();
-    }
-
-    public static function getRandomBranchID()
-    {
-        return self::inRandomOrder()->first()->id;
-    }
 
     public static function updateBranch($id, $data)
     {
@@ -55,6 +62,8 @@ class Branch extends Model
         return false;
     }
     
+
+
     public static function findBranch($id)
     {
         $branch = self::find($id);
@@ -66,7 +75,7 @@ class Branch extends Model
 
     public static function deleteBranch($id)
     {
-        return self::where(BranchColumns::ID, $id)->delete();
+        return self::where('id', $id)->delete();
     }
 
     public static function countBranch()
@@ -77,8 +86,8 @@ class Branch extends Model
     public static function countBranchByStatus()
     {
         return [
-            'aktif' => self::where(BranchColumns::BRANCH_STATUS, 1)->count(),
-            'nonaktif' => self::where(BranchColumns::BRANCH_STATUS, 0)->count(),
-        ];
+            'aktif' => self::where('branch_status', 1)->count(),
+            'nonaktif' => self::where('branch_status', 0)->count(),
+            ];
     }
 }

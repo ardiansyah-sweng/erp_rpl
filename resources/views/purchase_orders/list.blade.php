@@ -387,7 +387,7 @@ use App\Helpers\EncryptionHelper;
               <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                   <div class="d-flex align-items-center">
-                  <h2 class="card-title mb-0 me-2">Purchase Orders <span class="badge bg-primary ms-2">{{ $totalOrders }}</span></h2>
+                    <h2 class="card-title mb-0 me-2">Purchase Orders</h2>
                     <!-- <a href="{{ route('purchase_orders.add') }}" class="btn btn-primary btn-sm">Add</a> -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPurchaseOrderModal">  Add </button>
                     <a href="{{ route('purchase_orders.report_form') }}" class="btn btn-primary ms-2">Cetak PDF</a>

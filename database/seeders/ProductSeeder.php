@@ -8,7 +8,6 @@ use App\Models\Product;
 use App\Models\Category;
 use Faker\Factory as Faker;
 use App\DataGeneration\SkripsiDatasetProvider;
-use App\Constants\CategoryColumns;
 
 class ProductSeeder extends Seeder
 {
@@ -172,7 +171,7 @@ class ProductSeeder extends Seeder
         }
 
         $this->createCategory($numOfCategory);
-        $category = Category::where(CategoryColumns::IS_ACTIVE, 1)->inRandomOrder()->take(1)->get();
+        $category = Category::where('active', 1)->inRandomOrder()->take(1)->get();
 
         $prefix = 'P';
 
@@ -194,7 +193,7 @@ class ProductSeeder extends Seeder
             ]);
         }
 
-        $category = Category::where(CategoryColumns::IS_ACTIVE, 1)->inRandomOrder()->take(1)->get();
+        $category = Category::where('active', 1)->inRandomOrder()->take(1)->get();
         $numOFHFGProduct = $numOfRMProduct + $this->faker->numberBetween(1, 6);
 
         #create half finished goods products
@@ -225,14 +224,14 @@ class ProductSeeder extends Seeder
         for ($i=1; $i <= $numOfParentCategory; $i++)
         {
             Category::create([
-                CategoryColumns::CATEGORY => $this->faker->asssproductCategory(),
-                CategoryColumns::PARENT => null,
+                $colCategory['category'] => $this->faker->asssproductCategory(),
+                $colCategory['parent_id'] => null,
             ]);
         }
 
         #ambil id dari parent category
-        $parentCategory = Category::whereNull(CategoryColumns::PARENT)->get();
-        $parentCategoryID = $parentCategory->pluck(CategoryColumns::ID)->toArray();
+        $parentCategory = Category::whereNull('parent_id')->get();
+        $parentCategoryID = $parentCategory->pluck('id')->toArray();
         foreach ($parentCategoryID as $id)
         {
             $numOfSubCategory = $this->faker->numberBetween(1, 5);
@@ -242,9 +241,9 @@ class ProductSeeder extends Seeder
                 print_r("Category Name: $category_name\n");
 
                 Category::create([
-                    CategoryColumns::CATEGORY => $this->faker->asssproductCategory(),
-                    CategoryColumns::PARENT => $id,
-                    CategoryColumns::IS_ACTIVE => $this->faker->boolean()
+                    $colCategory['category'] => $this->faker->asssproductCategory(),
+                    $colCategory['parent_id'] => $id,
+                    $colCategory['active'] => $this->faker->boolean()
                 ]);
             }
         }

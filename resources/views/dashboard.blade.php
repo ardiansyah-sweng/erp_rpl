@@ -293,12 +293,6 @@
                 <p>Produk</p>
               </a>
             </li>
-             <li class="nav-item">
-              <a href="{{ route('warehouse.list') }}" class="nav-link">
-                <i class="nav-icon bi bi-box2"></i>
-                <p>Warehouse</p>
-              </a>
-            </li>
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="nav-icon bi bi-person-circle"></i>
@@ -351,7 +345,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{ route('branches.index') }}" class="nav-link">
+              <a href="{{ route('branch.list') }}" class="nav-link">
                 <i class="nav-icon bi bi-clipboard-fill"></i>
                 <p>
                   Branch
@@ -390,6 +384,14 @@
                 </li>
               </ul>
 
+            </li>
+                <li class="nav-item">
+              <a href="{{ route('merk.list') }}" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>
+                  Merk
+                </p>
+              </a>
             </li>
           </ul>
           <!--end::Sidebar Menu-->

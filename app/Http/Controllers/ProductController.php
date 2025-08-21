@@ -128,20 +128,4 @@ class ProductController extends Controller
         ]);
     }
 
-    public function getProductByType($type)
-    {
-        $products = Product::getProductByType($type);
-
-        if ($products->isEmpty()) {
-            return response()->json([
-                'message' => "Tidak ada produk dengan tipe: {$type}"
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'Data produk berhasil ditemukan',
-            'data' => $products
-        ]);
-    }
-
 }

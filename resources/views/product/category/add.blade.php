@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Dashboard</title>
+    <title>ERP RPL UAD | Tambah Category</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -76,8 +75,8 @@
                 <i class="bi bi-list"></i>
               </a>
             </li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
+            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Beranda</a></li>
+            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Kontak</a></li>
           </ul>
           <!--end::Start Navbar Links-->
           <!--begin::End Navbar Links-->
@@ -174,7 +173,7 @@
                   <!--end::Message-->
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                <a href="#" class="dropdown-item dropdown-footer">Lihat Semua Pesan</a>
               </div>
             </li>
             <!--end::Messages Dropdown Menu-->
@@ -185,24 +184,24 @@
                 <span class="navbar-badge badge text-bg-warning">15</span>
               </a>
               <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <span class="dropdown-item dropdown-header">15 Notifications</span>
+                <span class="dropdown-item dropdown-header">15 Notifikasi</span>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
-                  <i class="bi bi-envelope me-2"></i> 4 new messages
-                  <span class="float-end text-secondary fs-7">3 mins</span>
+                  <i class="bi bi-envelope me-2"></i> 4 pesan baru
+                  <span class="float-end text-secondary fs-7">3 menit</span>
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
-                  <i class="bi bi-people-fill me-2"></i> 8 friend requests
-                  <span class="float-end text-secondary fs-7">12 hours</span>
+                  <i class="bi bi-people-fill me-2"></i> 8 permintaan pertemanan
+                  <span class="float-end text-secondary fs-7">12 jam</span>
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
-                  <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
-                  <span class="float-end text-secondary fs-7">2 days</span>
+                  <i class="bi bi-file-earmark-fill me-2"></i> 3 laporan baru
+                  <span class="float-end text-secondary fs-7">2 hari</span>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer"> See All Notifications </a>
+                <a href="#" class="dropdown-item dropdown-footer"> Lihat Semua Notifikasi </a>
               </div>
             </li>
             <!--end::Notifications Dropdown Menu-->
@@ -234,7 +233,7 @@
                   />
                   <p>
                     Alexander Pierce - Web Developer
-                    <small>Member since Nov. 2023</small>
+                    <small>Anggota sejak Nov. 2023</small>
                   </p>
                 </li>
                 <!--end::User Image-->
@@ -242,17 +241,17 @@
                 <li class="user-body">
                   <!--begin::Row-->
                   <div class="row">
-                    <div class="col-4 text-center"><a href="#">Followers</a></div>
-                    <div class="col-4 text-center"><a href="#">Sales</a></div>
-                    <div class="col-4 text-center"><a href="#">Friends</a></div>
+                    <div class="col-4 text-center"><a href="#">Pengikut</a></div>
+                    <div class="col-4 text-center"><a href="#">Penjualan</a></div>
+                    <div class="col-4 text-center"><a href="#">Teman</a></div>
                   </div>
                   <!--end::Row-->
                 </li>
                 <!--end::Menu Body-->
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+                  <a href="#" class="btn btn-default btn-flat">Profil</a>
+                  <a href="#" class="btn btn-default btn-flat float-end">Keluar</a>
                 </li>
                 <!--end::Menu Footer-->
               </ul>
@@ -269,7 +268,7 @@
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
-          <a href="dashboard" class="brand-link">
+          <a href="/dashboard" class="brand-link">
             <!--begin::Brand Image-->
             <img
               src={{asset("assets/dist/assets/img/LogoRPL.png")}}
@@ -295,7 +294,7 @@
               data-accordion="false"
             >
               <li class="nav-item">
-                <a href="dashboard" class="nav-link active">
+                <a href="/dashboard" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
@@ -303,7 +302,7 @@
                 </a>
               </li>
               <li class="nav-item">
-              <a href="{{ route('product.list') }}" class="nav-link">
+                <a href="./generate/theme.html" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
@@ -330,9 +329,9 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="./widgets/cards.html" class="nav-link">
+                    <a href="/supplier/material/add" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Cards</p>
+                      <p>Tambah Supplier Item</p>
                     </a>
                   </li>
                 </ul>
@@ -346,16 +345,14 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
-                  <i class="nav-icon bi bi-clipboard-fill"></i>
-                  <p>
-                    Branch
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
               <a href="{{ route('item.list') }}" class="nav-link">
-              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Item</p>
+                    </a>
+                  </li>
+            <li class="nav-item">
+              <a href="{{ route('merk.list') }}" class="nav-link">
+                      <i class="nav-icon bi bi-clipboard-fill"></i>
                       <p>Item</p>
                     </a>
                   </li>
@@ -373,17 +370,12 @@
           <!--begin::Container-->
           <div class="container-fluid">
             <!--begin::Row-->
-            <div class="row align-items-center">
-              <div class="col-sm-6 d-flex align-items-center">
-                <h3 class="mb-0 me-2">Category</h3>
-                {{-- izin menabahkan tombol tambah  --}}
-                 <a href="{{ route('category.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-              </div>
-
+            <div class="row">
+              <div class="col-sm-6"><h3 class="mb-0">Tambah Category</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Category Product</li>
+                  <li class="breadcrumb-item"><a href="#">Beranda</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Tambah Category</li>
                 </ol>
               </div>
             </div>
@@ -391,93 +383,79 @@
           </div>
           <!--end::Container-->
         </div>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+                <div class="container">
+                    <form id="productForm" action="{{ route('category.add') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                                    <label for="product_id" class="form-label"> Nama Group Category Produk</label>
+                                    <input type="text" class="form-control" id="product_id" name="category" required>
+                                    <div class="invalid-feedback">Nama Group Category Produk harus diisi.</div>
+                            </div>
+                            <div class="mb-3" id="subCategoryNameField" style="display:none;">
+                                    <label for="product_name" class="form-label">Nama Sub Kategory Produk</label>
+                                    <input type="text" class="form-control" id="product_name" name="Subkategory_Name">
+                                    <div class="invalid-feedback">Nama Produk harus diisi.</div>
+                            </div>
+                            <div class="mb-3 form-check">
+                                    <input type="checkbox" name="SubCategory" class="form-check-input" id="subCategoryCheckbox">
+                                    <label class="form-check-label" for="subCategoryCheckbox">Sub Category</label>
+                            </div>
+                            <div class="mb-3" id="categorySelectField" style="display:none;">
+                                    <select class="form-select form-select-lg mb-3" name="parent_id" id="categorySelect" aria-label=".form-select-lg example">
+                                        <option selected>--Pilih Category--</option>
+                                            @foreach($parentCategories as $parent)
+                                            <option value="{{ $parent->id }}">{{ $parent->category }}</option>
+                                        @endforeach
+                                        <!-- <option value="1">Category 1</option>
+                                        <option value="2">Category 2</option> -->
+                                    </select>
+                            </div>
+                           <div class="mb-3 form-check">
+                                <input type="hidden" name="active" value="0">
+                                <input type="checkbox" name="active" value="1" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" name="Aktif" for="exampleCheck1">Aktif</label>
+                            </div>
 
-        <div class="card mb-4">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                      <h3 class="card-title">List Table</h3>
 
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                    @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                    @endif
-
-                    @if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                    @endif
-                    <table class="table table-bordered">
-                      <thead class="text-center">
-                        <tr>
-                            <th style="width: 10px">No</th>
-                            <th>Kode</th>
-                            <th>Nama Kategori</th>
-                            <th>Aktif</th>
-                            <th>Aksi</th>
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                            @forelse($category as $kategori)
-                                <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $kategori->id }}</td>
-                                <td>{{ $kategori->category }}</td>
-                                <td class="text-center">
-                                    @if($kategori->active)
-                                    <i class="bi bi-check-circle-fill text-success"></i>
-                                    @else
-                                    <i class="bi bi-x-circle-fill text-danger"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    <a href="{{ route('category.edit', $kategori->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                    <form action="{{ route('category.delete', $kategori->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                                    </form>
-                                </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                <td colspan="7" class="text-center">Tidak ada data</td>
-                                </tr>
-                            @endforelse
-
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- /.card-body -->
-                  <div class="card-footer clearfix">
-                  {{ $category->links('pagination::bootstrap-4') }}
-                  </div>
-
+                        <div class="d-flex justify-content-start mt-4">
+                            <div>
+                                <button type="submit" class="btn btn-primary">Tambah</button>
+                                <button type="reset" class="btn btn-secondary ms-2">Batal</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
         </div>
-
+        <!--end::App Content-->
       </main>
       <!--end::App Main-->
       <!--begin::Footer-->
       <footer class="app-footer">
         <!--begin::To the end-->
-        <div class="float-end d-none d-sm-inline">Anything you want</div>
+        <div class="float-end d-none d-sm-inline">Apa pun yang Anda inginkan</div>
         <!--end::To the end-->
         <!--begin::Copyright-->
         <strong>
-          Copyright &copy; 2014-2024&nbsp;
+          Hak Cipta &copy; 2014-2024&nbsp;
           <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
         </strong>
-        All rights reserved.
+        Hak cipta dilindungi.
         <!--end::Copyright-->
       </footer>
       <!--end::Footer-->
     </div>
     <!--end::App Wrapper-->
-
     <!--begin::Script-->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <script
@@ -521,217 +499,40 @@
       });
     </script>
     <!--end::OverlayScrollbars Configure-->
-    <!-- OPTIONAL SCRIPTS -->
-    <!-- sortablejs -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"
-      integrity="sha256-ipiJrswvAR4VAx/th+6zWsdeYmVae0iJuiR+6OqHJHQ="
-      crossorigin="anonymous"
-    ></script>
-    <!-- sortablejs -->
-    <script>
-      const connectedSortables = document.querySelectorAll('.connectedSortable');
-      connectedSortables.forEach((connectedSortable) => {
-        let sortable = new Sortable(connectedSortable, {
-          group: 'shared',
-          handle: '.card-header',
-        });
+<script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const subCategoryCheckbox = document.getElementById('subCategoryCheckbox');
+          const groupCategoryField = document.getElementById('product_id').parentNode; // parent dari input group category
+          const subCategoryNameField = document.getElementById('subCategoryNameField');
+          const categorySelectField = document.getElementById('categorySelectField');
+          subCategoryCheckbox.addEventListener('change', function() {
+              if (this.checked) {
+                  // Jika checkbox dicentang, sembunyikan group category dan tampilkan sub category dan select
+                  groupCategoryField.style.display = 'none';
+                  subCategoryNameField.style.display = 'block';
+                  categorySelectField.style.display = 'block';
+                  // Buat input sub category menjadi required
+                  document.getElementById('product_name').setAttribute('required', 'required');
+                  // Dan hilangkan required dari group category?
+                  // Tapi perhatikan: kita akan validasi di server, di sini kita bisa atur di validasi form nanti.
+                  // Untuk sekarang, kita set required di group category dihapus.
+                  document.getElementById('product_id').removeAttribute('required');
+              } else {
+                  groupCategoryField.style.display = 'block';
+                  subCategoryNameField.style.display = 'none';
+                  categorySelectField.style.display = 'none';
+                  // Set required kembali ke group category, dan hapus required dari sub category
+                  document.getElementById('product_id').setAttribute('required', 'required');
+                  document.getElementById('product_name').removeAttribute('required');
+              }
+          });
       });
-
-      const cardHeaders = document.querySelectorAll('.connectedSortable .card-header');
-      cardHeaders.forEach((cardHeader) => {
-        cardHeader.style.cursor = 'move';
-      });
-    </script>
-    <!-- apexcharts -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
-      integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8="
-      crossorigin="anonymous"
-    ></script>
-    <!-- ChartJS -->
-    <script>
-      // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
-      // IT'S ALL JUST JUNK FOR DEMO
-      // ++++++++++++++++++++++++++++++++++++++++++
-
-      const sales_chart_options = {
-        series: [
-          {
-            name: 'Digital Goods',
-            data: [28, 48, 40, 19, 86, 27, 90],
-          },
-          {
-            name: 'Electronics',
-            data: [65, 59, 80, 81, 56, 55, 40],
-          },
-        ],
-        chart: {
-          height: 300,
-          type: 'area',
-          toolbar: {
-            show: false,
-          },
-        },
-        legend: {
-          show: false,
-        },
-        colors: ['#0d6efd', '#20c997'],
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: 'smooth',
-        },
-        xaxis: {
-          type: 'datetime',
-          categories: [
-            '2023-01-01',
-            '2023-02-01',
-            '2023-03-01',
-            '2023-04-01',
-            '2023-05-01',
-            '2023-06-01',
-            '2023-07-01',
-          ],
-        },
-        tooltip: {
-          x: {
-            format: 'MMMM yyyy',
-          },
-        },
-      };
-
-      const sales_chart = new ApexCharts(
-        document.querySelector('#revenue-chart'),
-        sales_chart_options,
-      );
-      sales_chart.render();
-    </script>
-    <!-- jsvectormap -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"
-      integrity="sha256-/t1nN2956BT869E6H4V1dnt0X5pAQHPytli+1nTZm2Y="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"
-      integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY="
-      crossorigin="anonymous"
-    ></script>
-    <!-- jsvectormap -->
-    <script>
-      const visitorsData = {
-        US: 398, // USA
-        SA: 400, // Saudi Arabia
-        CA: 1000, // Canada
-        DE: 500, // Germany
-        FR: 760, // France
-        CN: 300, // China
-        AU: 700, // Australia
-        BR: 600, // Brazil
-        IN: 800, // India
-        GB: 320, // Great Britain
-        RU: 3000, // Russia
-      };
-
-      // World map by jsVectorMap
-      const map = new jsVectorMap({
-        selector: '#world-map',
-        map: 'world',
-      });
-
-      // Sparkline charts
-      const option_sparkline1 = {
-        series: [
-          {
-            data: [1000, 1200, 920, 927, 931, 1027, 819, 930, 1021],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline1 = new ApexCharts(document.querySelector('#sparkline-1'), option_sparkline1);
-      sparkline1.render();
-
-      const option_sparkline2 = {
-        series: [
-          {
-            data: [515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline2 = new ApexCharts(document.querySelector('#sparkline-2'), option_sparkline2);
-      sparkline2.render();
-
-      const option_sparkline3 = {
-        series: [
-          {
-            data: [15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21],
-          },
-        ],
-        chart: {
-          type: 'area',
-          height: 50,
-          sparkline: {
-            enabled: true,
-          },
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        fill: {
-          opacity: 0.3,
-        },
-        yaxis: {
-          min: 0,
-        },
-        colors: ['#DCE6EC'],
-      };
-
-      const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
-      sparkline3.render();
-    </script>
-
+   </script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- AdminLTE JS -->
-    <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
+    <script src={{ asset("assets/dist/js/adminlte.js")}}></script>
 
     <!-- Custom Sidebar Toggle Script -->
     <script>
@@ -740,7 +541,50 @@
             e.preventDefault();
             $('body').toggleClass('sidebar-collapse');
         });
+
+        // Dropdown item click handler
+        $('.dropdown-item').on('click', function (e) {
+            e.preventDefault();
+            $('#category').val($(this).text());
+        });
     });
+    </script>
+
+    <script>
+function validateForm() {
+    let isValid = true;
+
+    const isSubCategoryChecked = $('#subCategoryCheckbox').is(':checked');
+
+    if (isSubCategoryChecked) {
+        const subName = $('#product_name').val().trim();
+        const parentId = $('#categorySelect').val();
+        if (!subName) {
+            $('#product_name').addClass('is-invalid');
+            isValid = false;
+        } else {
+            $('#product_name').removeClass('is-invalid');
+        }
+
+        if (!parentId || parentId === 'Open this select menu') {
+            $('#categorySelect').addClass('is-invalid');
+            isValid = false;
+        } else {
+            $('#categorySelect').removeClass('is-invalid');
+        }
+    } else {
+        const groupName = $('#product_id').val().trim();
+        if (!groupName) {
+            $('#product_id').addClass('is-invalid');
+            isValid = false;
+        } else {
+            $('#product_id').removeClass('is-invalid');
+        }
+    }
+
+    return isValid;
+}
+
     </script>
 
     <!--end::Script-->
