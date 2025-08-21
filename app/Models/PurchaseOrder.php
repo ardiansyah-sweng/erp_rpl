@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Enums\POStatus;
 use Carbon\Carbon;
+use Dompdf\Dompdf;
+use Fpdf\Fpdf;
 
 class PurchaseOrder extends Model
 {
@@ -227,5 +229,22 @@ class PurchaseOrder extends Model
     {
         return self::where('status', $status)->count();
     }
+        public static function pdfcountOrdersByDateSupplier(
+        string $startDate,
+        string $endDate,
+        string $supplierID,
+        ?POStatus $status = null
+        ): int {
+            $query = self::query()
+                ->where('supplier_id', $supplierID)
+                ->whereBetween('order_date', [$startDate, $endDate]);
+
+            if (!is_null($status)) {
+                $query->where('status', $status->value);
+            }
+
+            return $query->count();
+        }
+
 
 }
