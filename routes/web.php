@@ -98,6 +98,12 @@ Route::get('product/category/detail', function () {
     return view('product/category/detail');
 });
 
+Route::get('/product/categories/parent', [CategoryController::class,'getCategoryParent'])->name('categories.parent');
+Route::get('/product/category/add', function () {
+    return view('product/category/add');
+});
+
+Route::post('/product/category/add', [CategoryController::class,'addCategory'])->name('categories.add');
 #warehouse
 Route::get('/warehouse/list', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.list');
 
