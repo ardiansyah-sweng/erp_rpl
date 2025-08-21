@@ -107,5 +107,24 @@ class SupplierMaterialController extends Controller
         return response()->json($results);
     }
 
+    public function getByCategory(Request $request)
+    {
+        $categoryId = $request->input('category_id');
+        $supplierId = $request->input('supplier_id');
+
+        if (!$categoryId || !$supplierId) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Parameter category_id dan supplier_id wajib diisi.',
+            ], 400);
+        }
+
+        $materials = SupplierMaterial::getSupplierMaterialByCategory($categoryId, $supplierId);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $materials,
+        ]);
+    }
 
 }
