@@ -146,14 +146,14 @@ class SupplierPIController extends Controller
 
     public function cetakPdf()
     {
-        $pics = SupplierPic::getSupplierPICAll();
-        $pics->load('supplier');
+        // ambil semua PIC beserta relasi supplier, tanpa limit
+        $pics = SupplierPic::with('supplier')->get();
 
         $data = [
             'pics' => $pics
         ];
 
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('supplier.pic.pdfpic', $data)
+        $pdf = Pdf::loadView('supplier.pic.pdfpic', $data)
             ->setPaper('a4', 'landscape');
 
         return $pdf->stream('PIC-Supplier-Semua.pdf');
@@ -197,4 +197,19 @@ class SupplierPIController extends Controller
 
         ]);
     }
+
+    public function cetakPdfBySupplier($supplierID)
+    {
+        $supplier = Supplier::findOrFail($supplierID);
+        $pics = SupplierPic::with('supplier')
+                ->where('supplier_id', $supplierID)
+                ->get();
+
+        $pdf = PDF::loadView('supplier.pic.pdfPIC', [
+            'pics' => $pics,
+            'supplier' => $supplier
+        ]);
+        return $pdf->stream('PIC_Supplier_'.$supplier->supplier_id.'.pdf');
+    }
+
 }
