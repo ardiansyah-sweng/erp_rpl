@@ -42,8 +42,7 @@ class MerkController extends Controller
     public function getMerkAll()
     {
         $merks = Merk::getAllMerk();
-
-        return response()->json($merks);
+        return view('merk.list', compact('merks'));
     }
 
      public function deleteMerk($id)
@@ -76,4 +75,3 @@ class MerkController extends Controller
         ]);
     }
 }
-
