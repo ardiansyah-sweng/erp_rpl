@@ -131,7 +131,7 @@ class SupplierMaterial extends Model
             // Join products
             ->join('products as p', 'p.product_id', '=', 'i.product_id')
             // Join categories
-            ->join('category as c', 'p.product_category', '=', 'c.id')
+            ->join('categories as c', 'p.product_category', '=', 'c.id')
             ->where('c.id', $kategori)
             ->where('sp.supplier_id', $supplier)
             ->select(
