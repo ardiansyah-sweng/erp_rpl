@@ -127,7 +127,7 @@ class SupplierMaterial extends Model
     {
         return DB::table('supplier_product as sp')
             // Join products
-            ->join('products as p', DB::raw("SUBSTRING_INDEX(sp.product_id, '-', 1)"), '=', 'p.product_id')
+            ->join('products as p', 'p.product_id', '=', 'i.product_id')
             // Join item berdasarkan SKU dengan supplier_product
             ->join('item as i', 'i.sku', '=', 'sp.product_id')
             // Join categories
@@ -135,22 +135,15 @@ class SupplierMaterial extends Model
             ->where('c.id', $kategori)
             ->where('sp.supplier_id', $supplier)
             ->select(
-                'i.id as item_id',
-                'i.sku',
-                'i.item_name',
-                'i.measurement_unit',
-                'i.avg_base_price',
-                'i.selling_price',
-                'i.purchase_unit',
-                'i.sell_unit',
-                'i.stock_unit',
-                'p.product_id',
-                'p.product_name',
-                'p.product_type',
-                'c.category as category_name',
                 'sp.supplier_id',
                 'sp.company_name',
-                'sp.base_price'
+                'sp.product_id',
+                'p.product_name',
+                'p.product_type',
+                'sp.base_price',
+                'i.item_name',
+                'i.measurement_unit',
+                'i.stock_unit'
             )
             ->get();
     }
