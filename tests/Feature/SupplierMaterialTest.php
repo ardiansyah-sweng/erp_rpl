@@ -61,7 +61,7 @@ class SupplierMaterialTest extends TestCase
         $data = DB::table('supplier_product as sp')
             ->join('item as i', 'i.sku', '=', 'sp.product_id')
             ->join('products as p', 'p.product_id', '=', 'i.product_id')
-            ->join('category as c', 'c.id', '=', 'p.product_category')
+            ->join('categories as c', 'c.id', '=', 'p.product_category')
             ->select('sp.supplier_id', 'c.id as category_id')
             ->first();
 
