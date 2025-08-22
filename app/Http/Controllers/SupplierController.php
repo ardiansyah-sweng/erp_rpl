@@ -7,6 +7,17 @@ use App\Models\Supplier;
 
 class SupplierController extends Controller
 {
+    /**
+     * Endpoint untuk cek hasil Supplier::getSupplier()
+     */
+    public function getSupplierWithOrderFrequency()
+    {
+        $data = Supplier::getSupplier();
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ], 200, [], JSON_PRETTY_PRINT);
+    }
     public function updateSupplier(Request $request, $supplier_id)
     {
         // Validasi input
@@ -44,8 +55,8 @@ class SupplierController extends Controller
 
     public function listSuppliers()
     {
-        $suppliers = Supplier::all();
-        return view('supplier.list', compact('suppliers'));
+    $suppliers = Supplier::getSupplier();
+    return view('supplier.list', compact('suppliers'));
     }
 
 
