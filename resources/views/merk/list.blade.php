@@ -117,7 +117,11 @@
 									<td>{{ $merk->updated_at }}</td>
 									<td>
 										<a href="#" class="btn btn-sm btn-primary">Edit</a>
-										<a href="#" class="btn btn-sm btn-danger">Delete</a>
+										   <form action="{{ route('merk.delete', $merk->id) }}" method="POST" style="display: inline;">
+											   @csrf
+											   @method('DELETE')
+											   <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus merk ini?')">Delete</button>
+										   </form>
 										<a href="{{ route('merk.detail', $merk->id) }}" class="btn btn-info">Detail</a>
 									</td>
 								</tr>
