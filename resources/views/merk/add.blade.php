@@ -266,14 +266,6 @@
                           <option value="0">Nonaktif</option>
                         </select>
                       </div>
-                      <div class="form-group">
-                        <label for="created_at">Created At</label>
-                        <input type="datetime-local" class="form-control" id="created_at" name="created_at">
-                      </div>
-                      <div class="form-group">
-                        <label for="updated_at">Updated At</label>
-                        <input type="datetime-local" class="form-control" id="updated_at" name="updated_at">
-                      </div>
                     </div>
                     
                     <div class="card-footer">
