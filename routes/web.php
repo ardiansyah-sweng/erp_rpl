@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Models\Warehouse;
@@ -18,6 +19,11 @@ use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
 use App\Models\BillOfMaterial;
+
+# Route GET untuk form tambah merk
+Route::get('/merk/add', function () {
+    return view('merk.add');
+});
 
 #Login
 Route::get('/', function () {

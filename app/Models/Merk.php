@@ -71,10 +71,9 @@ class Merk extends Model
     {
         $merk = new self();
         $merk->merk = $namaMerk;
-        $merk->active = $active; 
+        $merk->is_active = $active; 
         $merk->save();
 
         return $merk;
-
     }
 }
