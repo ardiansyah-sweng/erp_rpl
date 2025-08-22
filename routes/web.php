@@ -1,6 +1,9 @@
 
 <?php
 
+// Route untuk cek hasil Supplier::getSupplier() (frekuensi order)
+Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
+
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIProductController;
@@ -82,9 +85,7 @@ Route::get('/item/add', function () {
 Route::get('/product/add', function () {
     return view('product/add');
 });
-Route::get('/supplier/list', function () {
-    return view('supplier.list');
-});
+Route::get('/supplier/list', [App\Http\Controllers\SupplierController::class, 'listSuppliers'])->name('supplier.list');
 Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
 });
