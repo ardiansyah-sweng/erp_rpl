@@ -126,4 +126,9 @@ class Category extends Model
                     ->with('parent')
                     ->get();
     }
+
+    public static function getCategoryParent()
+    {
+        return self::where('parent_id', null)->get();
+    }
 }

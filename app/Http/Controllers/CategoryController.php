@@ -122,7 +122,7 @@ class CategoryController extends Controller
 
     public function getCategoryParent()
     {
-        $categories = Category::where('parent_id', null)->get();
+        $categories = Category::getCategoryParent();
         return response()->json($categories);
     }
 
