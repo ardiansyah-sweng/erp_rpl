@@ -382,7 +382,26 @@ use App\Helpers\EncryptionHelper;
                             <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Produk</h3>
                 <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
+
+                <div class="btn-group">
+                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm">Cetak Kategori</a>
+                <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" 
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                </button>
+                <ul class="dropdown-menu">
+                    @foreach($categories->unique('category')->sortBy('category') as $cat)
+                        <li>
+                            <a class="dropdown-item" href="{{ route('category.print.single', $cat->id) }}" target="_blank">
+                                Cetak {{ $cat->category }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
+
+              
+                
                 <div class="dropdown d-inline-block ms-2">
                   <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="printProductsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     Cetak PDF Produk

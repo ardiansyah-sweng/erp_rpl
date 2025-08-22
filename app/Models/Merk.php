@@ -75,6 +75,5 @@ class Merk extends Model
         $merk->save();
 
         return $merk;
-
     }
 }

@@ -11,25 +11,52 @@
 </head>
 <body>
     <h2>Laporan Daftar Kategori</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nama Kategori</th>
-                <th>Kategori Utama</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($categories as $cat)
+    {{-- Jika semua kategori --}}
+    @if(isset($categories))
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ $cat->id }}</td>
-                    <td>{{ $cat->category }}</td>
-                    <td>{{ $cat->parent ? $cat->parent->category : '-' }}</td>
-                    <td>{{ $cat->active ? 'Aktif' : 'Tidak Aktif' }}</td>
+                    <th>ID</th>
+                    <th>Nama Kategori</th>
+                    <th>Kategori Utama</th>
+                    <th>Status</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($categories as $cat)
+                    <tr>
+                        <td>{{ $cat->id }}</td>
+                        <td>{{ $cat->category }}</td>
+                        <td>{{ $cat->parent ? $cat->parent->category : '-' }}</td>
+                        <td>{{ $cat->is_active == 1 ? 'Aktif' : 'Tidak Aktif' }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+    {{-- Jika hanya kategori tertentu --}}
+    @elseif(isset($categoryList))
+        @foreach ($categoryList as $category)
+            <h3>Kategori: {{ $category->category }}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Produk</th>
+                        <th>Nama Produk</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($category->products as $product)
+                        <tr>
+                            <td>{{ $product->id }}</td>
+                            <td>{{ $product->product_name }}</td>
+                        </tr>
+                    @endforeach
+                </tbody> 
+            </table>
+            <br>
+        @endforeach
+    @endif
+
 </body>
 </html> 

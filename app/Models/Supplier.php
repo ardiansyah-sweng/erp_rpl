@@ -5,6 +5,33 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
+    /**
+     * Ambil seluruh data supplier beserta frekuensi order (jumlah purchase_orders per supplier)
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getSupplier()
+    {
+        $supplierTable = config('db_constants.table.supplier');
+        $poTable = config('db_constants.table.po');
+
+        // Ambil semua kolom supplier + frekuensi order
+        return self::query()
+            ->leftJoin($poTable, $supplierTable . '.supplier_id', '=', $poTable . '.supplier_id')
+            ->select(
+                $supplierTable . '.*',
+                \DB::raw('COUNT(' . $poTable . '.supplier_id) as order_frequency')
+            )
+            ->groupBy(
+                $supplierTable . '.supplier_id',
+                $supplierTable . '.company_name',
+                $supplierTable . '.address',
+                $supplierTable . '.phone_number',
+                $supplierTable . '.bank_account',
+                $supplierTable . '.created_at',
+                $supplierTable . '.updated_at'
+            )
+            ->get();
+    }
     protected $table = 'supplier';
     protected $fillable = ['supplier_id','company_name', 'address','phone_number','bank_account','created_at','updated_at'];
 

@@ -42,8 +42,7 @@ class MerkController extends Controller
     public function getMerkAll()
     {
         $merks = Merk::getAllMerk();
-
-        return response()->json($merks);
+        return view('merk.list', compact('merks'));
     }
 
      public function deleteMerk($id)
@@ -65,15 +64,11 @@ class MerkController extends Controller
             'active' => 'nullable|boolean',
         ]);
 
-        $namaMerk = $request->input('merk');
-        $active = $request->input('active', 1); // default aktif
+    $namaMerk = $request->input('merk');
+    $active = $request->input('active', 1); // default aktif
 
-        $newMerk = Merk::addMerk($namaMerk, $active);
+    $newMerk = Merk::addMerk($namaMerk, $active);
 
-        return response()->json([
-            'message' => 'Merk berhasil ditambahkan',
-            'data' => $newMerk,
-        ]);
+    return redirect()->route('merk.list')->with('success', 'Merk berhasil ditambahkan');
     }
 }
-

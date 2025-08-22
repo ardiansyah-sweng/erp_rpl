@@ -1,4 +1,8 @@
+
 <?php
+
+// Route untuk cek hasil Supplier::getSupplier() (frekuensi order)
+Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
 
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +22,11 @@ use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
 use App\Models\BillOfMaterial;
+
+# Route GET untuk form tambah merk
+Route::get('/merk/add', function () {
+    return view('merk.add');
+});
 
 #Login
 Route::get('/', function () {
@@ -76,9 +85,7 @@ Route::get('/item/add', function () {
 Route::get('/product/add', function () {
     return view('product/add');
 });
-Route::get('/supplier/list', function () {
-    return view('supplier.list');
-});
+Route::get('/supplier/list', [App\Http\Controllers\SupplierController::class, 'listSuppliers'])->name('supplier.list');
 Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
 });
@@ -119,6 +126,8 @@ Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('pro
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
 Route::get('/products/print/{type}', [ProductController::class, 'printProductsByType'])->name('products.print.by-type');
 Route::get('/products/type/{type}', [ProductController::class, 'getProductByType']);
+
+
 
 #Product Update
 Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct'); //Sudah sesuai pada ERP RPL
@@ -218,6 +227,9 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
+// Cetak produk berdasarkan kategori tertentu 
+Route::get('/category/print/{id}', [ProductController::class, 'printCategoryByIdPDF'])->name('category.print.single');
+
 
 #Category
 Route::get('/category/search', [CategoryController::class, 'searchCategory']);
@@ -235,6 +247,9 @@ Route::get('/supplierPic/{supplier_id}', [SupplierPIController::class, 'getSuppl
 
 #cetak semua pdf pic
 Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
+# cetak pdf PIC per Supplier ID
+Route::get('/supplier-pic/cetak-pdf/{supplierID}', [SupplierPiController::class, 'cetakPdfBySupplier'])
+    ->name('supplier.pic.pdf.bySupplier');
 
 
 # Warehouse
