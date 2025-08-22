@@ -391,9 +391,10 @@
         </div>
 
         <div class="card mb-4">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                      <h3 class="card-title">List Table</h3>
-                  </div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h3 class="card-title">List Table</h3>
+          <a href="{{ route('category.print') }}" target="_blank" class="btn btn-danger btn-sm">Cetak PDF</a>
+        </div>
                   <!-- /.card-header -->
                   <div class="card-body">
                     @if(session('success'))
