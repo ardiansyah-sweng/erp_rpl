@@ -17,7 +17,7 @@ return new class extends Migration
             $table->char($column['id'], 4);
             $table->string($column['name'], 35);
             $table->string($column['type'], 12);
-            $table->string($column['category'], 50);
+            $table->tinyInteger($column['category'],);
             $table->string($column['desc'], 255);
             $table->timestamps();
         });

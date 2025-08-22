@@ -77,6 +77,7 @@ class ProductController extends Controller
     public function addProduct(Request $request)
     {
 
+
         $validatedData = $request->validate([
             'product_id' => 'required|string|unique:products,product_id',
             'product_name' => 'required|string',
