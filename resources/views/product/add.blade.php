@@ -420,11 +420,14 @@
                                 <input type="text" class="form-control" id="category" name="category" required>
                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#">Makanan</a></li>
-                                    <li><a class="dropdown-item" href="#">Minuman</a></li>
-                                    <li><a class="dropdown-item" href="#">Snack</a></li>
-                                </ul>
-                            </div>
+                                    @foreach ($categories as $category)
+                                      <li>
+                                    <a class="dropdown-item" href="#" data-id="{{ $category->id }}">
+                                      {{ $category->category }}
+                                      </a>
+                                      </li>
+                                       @endforeach
+                                </div>
                             <div class="invalid-feedback">Kategori harus diisi.</div>
                         </div>
                         <div class="mb-3">
@@ -433,7 +436,7 @@
                         </div>
                         <div class="d-flex justify-content-start mt-4">
                             <div>
-                                <button type="button" class="btn btn-primary" onclick="validateForm()">Tambah</button>
+                                <button type="button" class="btn btn-primary" onclick="onTambahClick()">Tambah</button>
                                 <button type="reset" class="btn btn-secondary ms-2">Batal</button>
                             </div>
                         </div>
@@ -563,6 +566,12 @@
         }
 
         return isValid;
+      }
+
+      function onTambahClick() {
+        if (validateForm()) {
+          window.location.href = '/product/list';
+        }
       }
     </script>
     

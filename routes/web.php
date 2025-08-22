@@ -117,6 +117,8 @@ Route::post('/product/add', [ProductController::class, 'addProduct'])->name('pro
 Route::post('/product/addProduct', [ProductController::class, 'addProduct'])->name('product.addproduct');
 Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('product.pdf');
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
+Route::get('/product/add', [ProductController::class, 'add'])->name('product.add'); // untuk form
+Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add'); // untuk menyimpan
 Route::get('/products/print/{type}', [ProductController::class, 'printProductsByType'])->name('products.print.by-type');
 Route::get('/products/type/{type}', [ProductController::class, 'getProductByType']);
 
