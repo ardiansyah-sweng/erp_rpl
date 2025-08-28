@@ -226,6 +226,32 @@
             <div class="col-sm-6 d-flex align-items-center">
               <h3 class="mb-0 me-2">Daftar PIC Supplier</h3>
               <a href="/supplier/pic/add" class="btn btn-primary btn-sm">Tambah</a>
+              <div class="btn-group">
+              <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  Cetak PDF PIC
+              </button>
+              <ul class="dropdown-menu">
+                  {{-- Cetak semua --}}
+                  <li>
+                      <a class="dropdown-item" href="{{ url('/supplier-pic/cetak-pdf') }}" target="_blank">
+                          Cetak Semua
+                      </a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+
+                  {{-- Cetak per Supplier --}}
+                  @foreach(\App\Models\Supplier::all() as $supplier)
+                      <li>
+                          <a class="dropdown-item" href="{{ route('supplier.pic.pdf.bySupplier', $supplier->supplier_id) }}" target="_blank">
+                              {{ $supplier->supplier_id }} - {{ $supplier->company_name }}
+                          </a>
+                      </li>
+                  @endforeach
+              </ul>
+          </div>
+
+
+
             </div>
 
             <div class="col-sm-6">
@@ -264,6 +290,7 @@
                 <th>Nama PIC</th>
                 <th>Email</th>
                 <th>Telephone</th>
+                <th>Durasi Penugasan</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -276,9 +303,25 @@
                 <td>{{ $pic->email }}</td>
                 <td>{{ $pic->phone_number }}</td>
                 <td>
+                  @php
+                    $duration = json_decode(\App\Models\SupplierPic::assignmentDuration($pic));
+                  @endphp
+                  @if(is_object($duration))
+                    {{ $duration->years }} tahun, {{ $duration->months }} bulan, {{ $duration->days }} hari
+                  @else
+                    Tanggal belum tersedia
+                  @endif
+                </td>
+                <td>
                   <a href="/supplier/pic/detail/{{ $pic->id }}" class="btn btn-sm btn-info">Detail</a>
                   <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                  <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                   <form action="{{ route('supplier.pic.delete', $pic->id) }}" method="POST" class="delete-form d-inline" data-name="{{ $pic->name }}">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn btn-sm btn-danger btn-delete" data-name="{{ $pic->name }}">Hapus</button>
+                  </form>
+
+
                 </td>
               </tr>
               @empty
@@ -332,6 +375,38 @@
       });
     });
   </script>
+
+<!-- Tambahkan SweetAlert2 di sini -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Script CONFIRMATION DELETE -->
+<script>
+  $(document).ready(function () {
+    $('.btn-delete').on('click', function (e) {
+      e.preventDefault(); // hentikan form dari submit langsung
+
+      const form = $(this).closest('form'); // ambil form terdekat
+      const name = $(this).data('name'); // ambil nama PIC dari data attribute
+
+      Swal.fire({
+        title: 'Yakin ingin menghapus?',
+        text: `Data PIC "${name}" akan dihapus permanen!`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          form.submit(); // jika user setuju, kirim form
+        }
+      });
+    });
+  });
+</script>
+
   <!--end::Script-->
 </body>
 <!--end::Body-->

@@ -7,8 +7,12 @@ use Exception;
 
 class Item extends Model
 {
-    protected $table;
-    protected $fillable = [];
+    protected $table = 'item';
+    protected $fillable = [
+        'product_id', 'sku', 'item_name', 'measurement_unit',
+        'avg_base_price', 'selling_price', 'purchase_unit',
+        'sell_unit', 'stock_unit'
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -101,4 +105,43 @@ class Item extends Model
 
     }
 
+    public static function countItemByProductType(){
+        return self::count(); 
+    }
+
+    
+    public static function getItemByType($productType)
+    {
+        return self::join('products', 'item.product_id', '=', 'products.product_id')
+            ->where('products.product_type', $productType)
+            ->select('item.*', 'products.product_type', 'products.product_name')
+            ->get();
+    }
+
+    public static function searchItem($keyword)
+    {
+        return self::where('item_name', 'like', '%' . $keyword . '%')->paginate(10);
+    }
+    
+    public static function getItemByCategory($categoryId)
+    {
+        return self::join('products', 'item.product_id', '=', 'products.product_id')
+            ->join('category', 'products.product_category', '=', 'category.id')
+            ->where('category.id', $categoryId)
+            ->select(
+                'item.*',
+                'products.product_name',
+                'products.product_category',
+                'category.category as category_name'
+            )
+            ->get();
+    }
+
+    public static function countItemByCategory($categoryId)
+    {
+        return self::join('products', 'item.product_id', '=', 'products.product_id')
+            ->join('category', 'products.product_category', '=', 'category.id')
+            ->where('category.id', $categoryId)
+            ->count();
+    }
 }

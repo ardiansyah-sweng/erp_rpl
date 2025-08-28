@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Enums\POStatus;
+use Carbon\Carbon;
 
 class PurchaseOrder extends Model
 {
@@ -70,6 +71,12 @@ class PurchaseOrder extends Model
         return self::count();
     }
 
+    //Menghitung jumlah purchase order by supplier
+    public static function countPurchaseOrderBySupplier($supplier_id)
+    {
+        return self::where('supplier_id', $supplier_id)->count();
+    }
+    
     /**
      * Fungsi untuk menambahkan Purchase Order baru
      */
@@ -117,6 +124,24 @@ class PurchaseOrder extends Model
             ->where('status', POStatus::FD->value)
             ->first();
     }
+
+    public static function getPOLength($poNumber, $orderDate)
+    {
+        $po = PurchaseOrder::getPurchaseOrderByID($poNumber);
+        
+        if (!$po || $po->count() === 0) {
+            return null;
+        }
+    
+        // Ambil data PO pertama dari hasil paginate
+        $poData = $po->first();
+        
+        $orderDate = Carbon::parse($orderDate);
+        $statusUpdateDate = Carbon::parse($poData->updated_at);
+    
+        return intval($orderDate->diffInDays($statusUpdateDate));
+    }
+
      //hitung jumlah order dari supplier tertentu untuk rentang waktu tertentu
     public static function countOrdersByDateSupplier(
         string $startDate,
@@ -134,4 +159,73 @@ class PurchaseOrder extends Model
 
          return $query->count();
     }
+
+    public static function getReportBySupplierAndDate($supplierId, $startDate, $endDate)
+    {
+        return self::with(['supplier', 'details'])
+            ->where('supplier_id', $supplierId)
+            ->whereBetween('order_date', [$startDate, $endDate])
+            ->orderBy('order_date', 'desc')
+            ->get();
+    }
+
+    public static function countStatusPO()
+    {
+        return self::select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->get()
+            ->keyBy('status');
+    }
+
+    public static function getPendingDeliveryQuantity($poNumber)
+    {
+        $poDetails = PurchaseOrderDetail::where('po_number', $poNumber)->get();
+        
+        $pendingDeliveries = [];
+        
+        if ($poDetails->isEmpty()) {
+            return $pendingDeliveries; 
+        }
+
+        foreach ($poDetails as $detail) {
+            $orderedQty = $detail->quantity;
+            
+            $receivedQty = GoodsReceiptNote::where('po_number', $poNumber)
+                ->where('product_id', $detail->product_id)
+                ->sum('delivered_quantity'); 
+            
+            $pendingQty = $orderedQty - $receivedQty;
+            
+            if ($pendingQty > 0) {
+                $pendingDeliveries[] = [
+                    'product_id' => $detail->product_id,
+                    'ordered_qty' => $orderedQty,
+                    'received_qty' => $receivedQty,
+                    'pending_qty' => $pendingQty
+                ];
+            }
+        }
+        return $pendingDeliveries;
+    }
+
+    public static function getPurchaseOrderByStatus($status)
+    {
+        return self::where('status', $status)->get();
+    }
+    public static function getPurchaseOrderBySupplierId($supplierId = null)
+    {
+        $query = self::with('supplier');
+
+        if ($supplierId) {
+        $query->where('supplier_id', $supplierId);
+        }
+
+        return $query->get();
+    }
+
+    public static function GetPOcountByStatus($status)
+    {
+        return self::where('status', $status)->count();
+    }
+
 }

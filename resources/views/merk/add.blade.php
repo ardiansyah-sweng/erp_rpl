@@ -252,32 +252,25 @@
                   <div class="card-header">
                     <h3 class="card-title">Tambah Merk</h3>
                   </div>
-                  <form action="{{ route('merk.add') }}" method="POST" id="merkForm">
+                  <form action="/merk/add" method="POST" id="merkForm">
                     @csrf
                     <div class="card-body">
                       <div class="form-group">
-                        <label for="merk">Nama Merk</label>
-                        <input type="text" class="form-control" id="merk" name="merk" value="{{ old('merk') }}" placeholder="Masukkan nama merk">
+                        <label for="merk">Merk</label>
+                        <input type="text" class="form-control" id="merk" name="merk" placeholder="Nama Merk">
                       </div>
-                      
-                    <div class="form-group">
-                        <label class="d-block">Status</label>
-                            <div class="d-flex gap-3"> 
-                            <div class="form-check">
-                            <input class="form-check-input" type="radio" name="active" id="active1" value="1" checked>
-                            <label class="form-check-label" for="active1">Aktif</label>
-                        </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="active" id="active0" value="0">
-                        <label class="form-check-label" for="active0">Non Aktif</label>
+                      <div class="form-group">
+                        <label for="active">Active</label>
+                        <select class="form-control" id="active" name="active">
+                          <option value="1">Aktif</option>
+                          <option value="0">Nonaktif</option>
+                        </select>
+                      </div>
                     </div>
-                </div>
-            </div>
-        </div>
                     
                     <div class="card-footer">
-                      <button type="button" class="btn btn-primary" onclick="validateForm()">Simpan</button>
-                      <button type="reset" class="btn btn-secondary">Batal</button>
+                      <button type="button" class="btn btn-primary" onclick="validateFormAdd()">Add</button>
+                      <button type="reset" class="btn btn-secondary">Cancel</button>
                     </div>
                   </form>
                 </div>
@@ -345,25 +338,32 @@
     });
     </script>
     <script>
-    function validateForm() {
+    function validateFormAdd() {
       let isValid = true;
-      
       $('.error-message').remove();
-      
-      let merk = $('#merk').val(); 
-      
-      if (merk === null || merk === "") {
-        $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk harus diisi.</span></div>");
-        isValid = false;
-      } else if (merk.length > 255) {
-        $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk maksimal 255 karakter.</span></div>");
+      if ($('#id_produk').val() === "") {
+        $('#id_produk').after("<div class='error-message'><span style='color: red;'>ID Produk harus diisi.</span></div>");
         isValid = false;
       }
-      
+      if ($('#sku').val() === "") {
+        $('#sku').after("<div class='error-message'><span style='color: red;'>SKU harus diisi.</span></div>");
+        isValid = false;
+      }
+      if ($('#nama_item').val() === "") {
+        $('#nama_item').after("<div class='error-message'><span style='color: red;'>Nama Item Produk harus diisi.</span></div>");
+        isValid = false;
+      }
+      if ($('#satuan').val() === "") {
+        $('#satuan').after("<div class='error-message'><span style='color: red;'>Satuan harus dipilih.</span></div>");
+        isValid = false;
+      }
+      if ($('#harga_jual').val() === "" || $('#harga_jual').val() <= 0) {
+        $('#harga_jual').after("<div class='error-message'><span style='color: red;'>Harga Jual harus diisi dan lebih dari 0.</span></div>");
+        isValid = false;
+      }
       if (isValid) {
         document.getElementById('merkForm').submit();
       }
-      
       return isValid;
     }
     </script>

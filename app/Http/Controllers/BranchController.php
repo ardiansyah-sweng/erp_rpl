@@ -4,23 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\PurchaseOrder;
+use App\Http\Requests\StoreBranchRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use App\Constants\BranchColumns;
 
 class BranchController extends Controller
 {
-    public function getBranchById($id)
-    {
-    $branch = (new Branch())->getBranchByID($id);
-
-    if (!$branch) {
-        return abort(404, 'Cabang tidak ditemukan');
-    }
-
-    return view('branch.detail', compact('branch'));
-    }
-
-    public function getBranchAll(Request $request)
+    public function index(Request $request)
     {
         $search = $request->input('search');
         $branches = Branch::getAllBranch($search);
@@ -29,27 +20,57 @@ class BranchController extends Controller
             $pdf = Pdf::loadView('branch.report', ['branches' => $branches]);
             return $pdf->stream('report-branch.pdf');
         }
-
-        return view('branch.list', ['branches' => $branches]);
+        
+        return view('branches.index', ['branches' => $branches]);
     }
 
-    public function addBranch(Request $request)
+    public function create()
     {
-        $request->validate([
-            'branch_name' => 'required|string|min:3|unique:branch,branch_name',
-            'branch_address' => 'required|string|min:3',
-            'branch_telephone' => 'required|string|min:3'
+        return view('branches.create');
+    }
+
+    public function store(StoreBranchRequest $request)
+    {
+        Branch::addBranch([
+            BranchColumns::NAME => $request->branch_name,
+            BranchColumns::ADDRESS => $request->branch_address,
+            BranchColumns::PHONE => $request->branch_telephone,
+            BranchColumns::IS_ACTIVE => 1,
         ]);
 
+        return redirect()->route('branches.index')->with('success', 'Cabang berhasil ditambahkan!');
+    }
+
+    public function getBranchById($id)
+    {
+        $branch = (new Branch())->getBranchByID($id);
+
+        if (!$branch) {
+            return abort(404, 'Cabang tidak ditemukan');
+        }
+
+        return view('branch.detail', compact('branch'));
+    }
+
+    public function updateBranch(Request $request, $id)
+    {
+        // Validasi data input
+        $request->validate([
+            'branch_name' => 'required|string|min:3',
+            'branch_address' => 'required|string|min:3',
+            'branch_telephone' => 'required|string|min:3',
+        ]);
+    
+        // Panggil model untuk update data
         $branch = new Branch();
-        $branch->addBranch([
+        $branch->updateBranch($id, [
             'branch_name' => $request->branch_name,
             'branch_address' => $request->branch_address,
             'branch_telephone' => $request->branch_telephone,
-            'branch_status' => 1
         ]);
-
-        return redirect()->route('branch.list')->with('success', 'Cabang berhasil ditambahkan!');
+    
+        // Redirect kembali ke list dengan pesan sukses
+        return redirect()->route('branch.list')->with('success', 'Cabang berhasil diupdate!');
     }
 
     public function deleteBranch($id)

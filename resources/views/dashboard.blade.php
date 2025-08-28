@@ -288,9 +288,21 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="{{ route('merk.list') }}" class="nav-link">
+                <i class="nav-icon bi bi-tag-fill"></i>
+                <p>Merk</p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="{{ route('product.list') }}" class="nav-link">
                 <i class="nav-icon bi bi-box-seam-fill"></i>
                 <p>Produk</p>
+              </a>
+            </li>
+             <li class="nav-item">
+              <a href="{{ route('warehouse.list') }}" class="nav-link">
+                <i class="nav-icon bi bi-box2"></i>
+                <p>Warehouse</p>
               </a>
             </li>
             <li class="nav-item">
@@ -345,7 +357,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{ route('branch.list') }}" class="nav-link">
+              <a href="{{ route('branches.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-clipboard-fill"></i>
                 <p>
                   Branch
@@ -359,6 +371,31 @@
                   Item
                 </p>
               </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('category.list') }}" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>
+                  category product
+                </p>
+              </a>
+            </li>
+            <li class="nav-item"><!--Tambah Bill Of Material-->
+              <a href="#" class="nav-link">
+                <i class="nav-icon bi bi-clipboard-fill"></i>
+                <p>
+                  Production
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/bom/list" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
+                    <p>Bill Of Material</p>
+                  </a>
+                </li>
+              </ul>
+
             </li>
           </ul>
           <!--end::Sidebar Menu-->

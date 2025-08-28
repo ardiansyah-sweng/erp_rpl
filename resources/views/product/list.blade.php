@@ -1,4 +1,7 @@
 
+@php
+use App\Helpers\EncryptionHelper;
+@endphp
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
@@ -376,10 +379,41 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row align-items-center">
-              <div class="col-sm-6 d-flex align-items-center">
+                            <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Produk</h3>
                 <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm ms-2">Cetak Kategori</a>
+
+                <div class="btn-group">
+                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm">Cetak Kategori</a>
+                <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" 
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                </button>
+                <ul class="dropdown-menu">
+                    @foreach($categories->unique('category')->sortBy('category') as $cat)
+                        <li>
+                            <a class="dropdown-item" href="{{ route('category.print.single', $cat->id) }}" target="_blank">
+                                Cetak {{ $cat->category }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
+
+              
+                
+                <div class="dropdown d-inline-block ms-2">
+                  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="printProductsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Cetak PDF Produk
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="printProductsDropdown">
+                    <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'ALL']) }}" target="_blank">Semua Produk</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'FG']) }}" target="_blank">Finished Goods</a></li>
+                    <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'RM']) }}" target="_blank">Raw Material</a></li>
+                    <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'HFG']) }}" target="_blank">Half Finished Goods</a></li>
+                  </ul>
+                </div>
               </div>
     
     
@@ -408,6 +442,7 @@
                       <th>product_type</th>
                       <th>product_category</th>
                       <th>product_description</th>
+                      <th>jumlah_item</th>
                       <th>Created At</th>
                       <th>Updated At </th>
                       <th>Action </th>
@@ -417,11 +452,17 @@
                   @foreach ($products as $index => $product)
                   <tr class="align-middle">
                       <td>{{ $index + 1 }}</td>
-                      <td>{{ $product->product_id }}</td>
+                      <td>
+                        <a href="/products/detail/{{ EncryptionHelper::encrypt($product->product_id) }}" class="text-dark"> 
+                         {{ $product->product_id }}
+                      </a>
+                      </td>
+                      
                       <td>{{ $product->product_name }}</td>
-                      <td>{{ $product->product_type }}</td>
+                      <td>{{ $product->product_type->label() }}</td>
                       <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
                       <td>{{ $product->product_description }}</td>
+                      <td>{{ $product->items_count }}</td>
                       <td>{{ $product->created_at }}</td>
                       <td>{{ $product->updated_at }}</td>
                       <td>
