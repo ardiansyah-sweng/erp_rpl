@@ -21,9 +21,9 @@ return new class extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->id();
-            $table->string(BranchColumns::NAME, 50);
-            $table->string(BranchColumns::ADDRESS, 100);
-            $table->string(BranchColumns::PHONE, 30);
+            $table->string(BranchColumns::NAME, 50)->unique();
+            $table->string(BranchColumns::ADDRESS, 100)->nullable();
+            $table->string(BranchColumns::PHONE, 30)->nullable();
             $table->boolean(BranchColumns::IS_ACTIVE)->default(true);
             $table->timestamps();
         });

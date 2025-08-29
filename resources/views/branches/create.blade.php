@@ -6,14 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
-    <meta
-      name="description"
-      content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS."
-    />
-    <meta
-      name="keywords"
-      content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard"
-    />
+    <meta name="description" content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS." />
+    <meta name="keywords" content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $('[data-widget="pushmenu"]').on('click', function (e) {
+            e.preventDefault();
+            $('body').toggleClass('sidebar-collapse');
+        });
+        
+        // DEBUG: Form submission debugging for Dusk tests
+        $('#branchForm').on('submit', function(e) {
+            console.log('Form submit event triggered');
+            console.log('Form action:', $(this).attr('action'));
+            console.log('Form method:', $(this).attr('method'));
+            console.log('CSRF token:', $('input[name="_token"]').val());
+            console.log('Form data:', $(this).serialize());
+            
+            // Let the form submit naturally - don't prevent default
+        });
+    });
+    </script>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
@@ -90,8 +105,8 @@
                       <p class="fs-7">Call me whenever you can...</p>
                       <p class="fs-7 text-secondary">
                         <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
-                      </p>
-                    </div>
+                          <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" checked>
+                          <label class="custom-control-label" for="is_active">Aktif</label>
                   </div>
                 </a>
                 <div class="dropdown-divider"></div>
@@ -256,22 +271,31 @@
                       <div class="form-group">
                         <label for="branch_name">Nama Cabang</label>
                         <input type="text" class="form-control" id="branch_name" name="branch_name" placeholder="Masukkan nama cabang" value="{{ old('branch_name') }}">
+                        @error('branch_name')
+                          <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
                       </div>
                       
                       <div class="form-group">
                         <label for="branch_address">Alamat</label>
                         <textarea class="form-control" id="branch_address" name="branch_address" rows="3" placeholder="Masukkan alamat cabang">{{ old('branch_address') }}</textarea>
+                        @error('branch_address')
+                          <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
                       </div>
                       
                       <div class="form-group">
                         <label for="branch_telephone">Telepon</label>
                         <input type="text" class="form-control" id="branch_telephone" name="branch_telephone" placeholder="Masukkan nomor telepon" value="{{ old('branch_telephone') }}">
+                        @error('branch_telephone')
+                          <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
                       </div>
                       
                       <div class="form-group">
                         <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="branch_status" name="branch_status" value="1" checked>
-                          <label class="custom-control-label" for="branch_status">Aktif</label>
+                          <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" checked>
+                          <label class="custom-control-label" for="is_active">Aktif</label>
                         </div>
                       </div>
                     </div>

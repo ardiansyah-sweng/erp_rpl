@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Constants\WarehouseColumns;
 
 class Warehouse extends Model
 {
@@ -16,12 +17,12 @@ class Warehouse extends Model
 
         // Tetapkan nama tabel dan kolom
         $this->table = config('db_constants.table.whouse');
-        $this->fillable = array_values(config('db_constants.column.whouse') ?? []);
+        $this->fillable = WarehouseColumns::getFillable();
     }
 
     public function getWarehouseById($id)
     {
-        return self::where('id', $id)->first();
+        return self::where(WarehouseColumns::ID, $id)->first();
     }
     public static function countWarehouse()
     {
@@ -41,9 +42,9 @@ class Warehouse extends Model
     public function searchWarehouse($keyword)
     {
         return self::where(function ($query) use ($keyword) {
-            $query->where('warehouse_name', 'like', "%{$keyword}%")
-                ->orWhere('warehouse_address', 'like', "%{$keyword}%")
-                ->orWhere('warehouse_telephone', 'like', "%{$keyword}%");
+            $query->where(WarehouseColumns::NAME, 'like', "%{$keyword}%")
+                ->orWhere(WarehouseColumns::ADDRESS, 'like', "%{$keyword}%")
+                ->orWhere(WarehouseColumns::PHONE, 'like', "%{$keyword}%");
         })->get();
     }
 

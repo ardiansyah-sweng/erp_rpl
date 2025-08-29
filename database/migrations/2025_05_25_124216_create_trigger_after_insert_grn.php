@@ -12,6 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Skip trigger creation in testing environment (SQLite doesn't support MySQL trigger syntax)
+        if (app()->environment('testing', 'dusk.local')) {
+            return;
+        }
+
         DB::unprepared('
             CREATE TRIGGER after_insert_grn
             AFTER INSERT ON goods_receipt_note

@@ -445,7 +445,7 @@
                             <td>{{ $branch->branch_address }}</td>
                             <td>{{ $branch->branch_telephone }}</td>
                             <td class="text-center">
-                                 @if($branch->branch_status == 1)
+                                 @if($branch->is_active == 1)
                                         <i class="bi bi-check-circle-fill text-success"></i>
                                 @else
                                         <i class="bi bi-x-circle-fill text-danger"></i>
