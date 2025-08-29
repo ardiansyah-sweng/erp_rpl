@@ -1,4 +1,3 @@
-
 <?php
 
 // Route untuk cek hasil Supplier::getSupplier() (frekuensi order)
@@ -136,14 +135,13 @@ Route::get('/product/update/{id}', [ProductController::class, 'updateProduct'])-
 # API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('api.prices');
-Route::get('/api/branches/{id}', [BranchController::class, 'getBranchById'])->name('api.branch.detail');
 
 # Branch Routes
 Route::get('/branches', [BranchController::class, 'index'])->name('branches.index');
+Route::get('/branches/create', [BranchController::class, 'create'])->name('branches.create');
 Route::post('/branches', [BranchController::class, 'store'])->name('branches.store');
 Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
 Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
-Route::get('/branches/create', [BranchController::class, 'create'])->name('branches.create');
 Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('branch.delete');
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
 Route::post('/branch/update/{id}', [BranchController::class, 'updateBranch'])->name('branch.update');
@@ -227,7 +225,7 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
-// Cetak produk berdasarkan kategori tertentu 
+// Cetak produk berdasarkan kategori tertentu
 Route::get('/category/print/{id}', [ProductController::class, 'printCategoryByIdPDF'])->name('category.print.single');
 
 

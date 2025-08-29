@@ -14,27 +14,85 @@ class BranchControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-                
+
+        // Truncate tabel Branch dan jalankan BranchSeeder sebelum test
+        \DB::table('branches')->truncate();
+        \Artisan::call('db:seed', [
+            '--class' => 'Database\\Seeders\\BranchSeeder',
+            '--force' => true
+        ]);
+
         // Setup Faker for Indonesian locale
         $this->faker = fake('id_ID');
     }
 
-    public function test_it_displays_branches_index_page()
+    // ========== SHOW METHOD TESTS ==========
+    
+    /**
+     * Test web show method renders correct view with branch data
+     */
+    public function test_it_displays_branch_show_page()
     {
-        // Arrange - Create test data using Faker
-        Branch::addBranch([
-            BranchColumns::NAME => 'Cabang ' . $this->faker->city,
-            BranchColumns::ADDRESS => $this->faker->address,
-            BranchColumns::PHONE => $this->faker->phoneNumber,
-            BranchColumns::IS_ACTIVE => $this->faker->boolean
+        // Arrange - Create test branch using Factory
+        $branch = Branch::factory()->create([
+            BranchColumns::NAME => 'Test Branch Detail ' . uniqid(),
+            BranchColumns::ADDRESS => 'Jl. Test Detail No. 123',
+            BranchColumns::PHONE => '081234567890'
         ]);
 
-        Branch::addBranch([
-            BranchColumns::NAME => 'Cabang ' . $this->faker->city,
-            BranchColumns::ADDRESS => $this->faker->address,
-            BranchColumns::PHONE => $this->faker->phoneNumber,
-            BranchColumns::IS_ACTIVE => $this->faker->boolean
-        ]);
+        // Act - Visit the show page
+        $response = $this->get(route('branches.show', $branch->id));
+
+        // Assert basic functionality
+        $response->assertStatus(200);
+        $response->assertViewIs('branches.detail');
+        $response->assertViewHas('branch');
+        
+        // Assert branch data is displayed
+        $response->assertSee($branch->branch_name);
+        $response->assertSee('Jl. Test Detail No. 123');
+        $response->assertSee('081234567890');
+        
+        // Assert view data
+        $viewBranch = $response->viewData('branch');
+        $this->assertEquals($branch->id, $viewBranch->id);
+        $this->assertEquals($branch->branch_name, $viewBranch->branch_name);
+        $this->assertEquals('Jl. Test Detail No. 123', $viewBranch->branch_address);
+        $this->assertEquals('081234567890', $viewBranch->branch_telephone);
+    }
+
+    /**
+     * Test web show method with non-existent branch returns 404
+     */
+    public function test_it_shows_404_for_non_existent_branch()
+    {
+        $nonExistentId = 99999;
+
+        // Act - Try to access non-existent branch
+        $response = $this->get(route('branches.show', $nonExistentId));
+
+        // Assert 404 response
+        $response->assertStatus(404);
+    }
+
+    /**
+     * Test web show method with invalid ID format
+     */
+    public function test_it_shows_404_for_invalid_branch_id()
+    {
+        // Act - Try to access with invalid ID
+        $response = $this->get('/branches/invalid-id');
+
+        // Assert 404 response
+        $response->assertStatus(404);
+    }
+
+    // ========== INDEX METHOD TESTS ==========
+
+    public function test_it_displays_branches_index_page()
+    {
+        // Arrange - Create test data using Factory (better approach)
+        Branch::factory()->count(2)->create();
 
         // Act - Visit the index page
         $response = $this->get(route('branches.index'));
@@ -51,17 +109,15 @@ class BranchControllerTest extends TestCase
         $response->assertSee('Search Branch');
         $response->assertSee('Cetak Branch');
         
-        // Assert data exists in browser (using dynamic data)
+        // Assert data exists in browser
         $branches = $response->viewData('branches');
-        if ($branches->count() >= 2) {
-            // Ambil 2 data terakhir yang baru ditambahkan
-            $lastTwoBranches = $branches->slice(-2);
-            
-            foreach ($lastTwoBranches as $branch) {
-                $response->assertSee($branch->branch_name);
-                $response->assertSee($branch->branch_address);
-                $response->assertSee($branch->branch_telephone);
-            }
+        $this->assertGreaterThanOrEqual(2, $branches->count());
+        
+        // Assert that branch data is displayed
+        foreach ($branches->take(2) as $branch) {
+            $response->assertSee($branch->branch_name);
+            $response->assertSee($branch->branch_address);
+            $response->assertSee($branch->branch_telephone);
         }
     }
 
@@ -177,9 +233,12 @@ class BranchControllerTest extends TestCase
             BranchColumns::ADDRESS => 'TestAddress' . time() . rand(1000, 9999), // Unique address
             BranchColumns::PHONE => '021' . rand(10000000, 99999999) // Unique phone
         ];
-        
         // Override specific field dengan boundary value
         $testData[$field] = $value;
+        // Pastikan is_active dikirim untuk valid data
+        if ($shouldPass) {
+            $testData[BranchColumns::IS_ACTIVE] = 1;
+        }
 
         // Act - Submit data
         $response = $this->post(route('branches.store'), $testData);
@@ -300,6 +359,7 @@ class BranchControllerTest extends TestCase
             BranchColumns::NAME => 'Cabang ' . $this->faker->city,
             BranchColumns::ADDRESS => $this->faker->address,
             BranchColumns::PHONE => $this->faker->phoneNumber,
+            BranchColumns::IS_ACTIVE => 1,
         ];
 
         // Act - Submit data valid
@@ -328,4 +388,5 @@ class BranchControllerTest extends TestCase
         $this->assertEquals($validData[BranchColumns::PHONE], $branch->branch_telephone);
         $this->assertEquals(1, $branch->is_active);
     }
+    
 }

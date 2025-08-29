@@ -445,7 +445,7 @@
                             <td>{{ $branch->branch_address }}</td>
                             <td>{{ $branch->branch_telephone }}</td>
                             <td class="text-center">
-                                 @if($branch->branch_status == 1)
+                                 @if($branch->is_active == 1)
                                         <i class="bi bi-check-circle-fill text-success"></i>
                                 @else
                                         <i class="bi bi-x-circle-fill text-danger"></i>
@@ -454,7 +454,7 @@
                             <td>{{ $branch->created_at }}</td>
                             <td>{{ $branch->updated_at }}</td>
                             <td>
-                              <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                              <a href="{{ route('branches.edit', $branch->id) }}" class="btn btn-sm btn-primary">Edit</a>
                               <a href="#" class="btn btn-sm btn-danger">Delete</a>
                               <a href="{{ url('/branch/detail/'.$branch->id) }}" class="btn btn-info">Detail</a>
 
