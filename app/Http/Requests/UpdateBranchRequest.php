@@ -21,7 +21,7 @@ class UpdateBranchRequest extends FormRequest
                 'string',
                 'min:3',
                 'max:50',
-                Rule::unique('branches', 'branch_name')->ignore($this->branch)
+                Rule::unique('branches', 'branch_name')->ignore($this->route('id'))
             ],
             BranchColumns::ADDRESS => 'required|string|min:3|max:100',
             BranchColumns::PHONE => 'required|string|min:3|max:30',

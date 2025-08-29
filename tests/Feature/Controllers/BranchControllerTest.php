@@ -388,4 +388,5 @@ class BranchControllerTest extends TestCase
         $this->assertEquals($validData[BranchColumns::PHONE], $branch->branch_telephone);
         $this->assertEquals(1, $branch->is_active);
     }
+    
 }

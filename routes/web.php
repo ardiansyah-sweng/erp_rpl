@@ -1,4 +1,3 @@
-
 <?php
 
 // Route untuk cek hasil Supplier::getSupplier() (frekuensi order)
@@ -136,6 +135,8 @@ Route::get('/branches', [BranchController::class, 'index'])->name('branches.inde
 Route::get('/branches/create', [BranchController::class, 'create'])->name('branches.create');
 Route::post('/branches', [BranchController::class, 'store'])->name('branches.store');
 Route::get('/branches/{id}', [BranchController::class, 'show'])->name('branches.show');
+Route::get('/branches/{id}/edit', [App\Http\Controllers\BranchController::class, 'edit'])->name('branches.edit');
+Route::put('/branches/{id}', [App\Http\Controllers\BranchController::class, 'update'])->name('branches.update');
 // Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
 Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
 Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('branch.delete');

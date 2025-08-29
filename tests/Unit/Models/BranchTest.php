@@ -33,8 +33,7 @@ class BranchTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_can_get_all_branches_without_search()
+    public function test_it_can_get_all_branches_without_search()
     {
         $branches = Branch::getAllBranch();
         
@@ -43,8 +42,7 @@ class BranchTest extends TestCase
         $this->assertEquals(10, $branches->perPage()); // Default pagination
     }
 
-    /** @test */
-    public function it_can_search_branches_by_name()
+    public function test_it_can_search_branches_by_name()
     {
         $branches = Branch::getAllBranch('Jakarta');
         
@@ -52,8 +50,7 @@ class BranchTest extends TestCase
         $this->assertEquals('Jakarta Pusat', $branches->first()->branch_name);
     }
 
-    /** @test */
-    public function it_can_search_branches_by_address()
+    public function test_it_can_search_branches_by_address()
     {
         $branches = Branch::getAllBranch('Pemuda');
         
@@ -61,8 +58,7 @@ class BranchTest extends TestCase
         $this->assertEquals('Surabaya Timur', $branches->first()->branch_name);
     }
 
-    /** @test */
-    public function it_can_search_branches_by_phone()
+    public function test_it_can_search_branches_by_phone()
     {
         $branches = Branch::getAllBranch('021');
         
@@ -70,16 +66,14 @@ class BranchTest extends TestCase
         $this->assertEquals('Jakarta Pusat', $branches->first()->branch_name);
     }
 
-    /** @test */
-    public function it_returns_empty_results_for_non_matching_search()
+    public function test_it_returns_empty_results_for_non_matching_search()
     {
         $branches = Branch::getAllBranch('NonExistent');
         
         $this->assertEquals(0, $branches->total());
     }
 
-    /** @test */
-    public function search_is_case_insensitive()
+    public function test_search_is_case_insensitive()
     {
         $branches = Branch::getAllBranch('jakarta');
         
@@ -87,8 +81,7 @@ class BranchTest extends TestCase
         $this->assertEquals('Jakarta Pusat', $branches->first()->branch_name);
     }
 
-    /** @test */
-    public function it_can_add_new_branch()
+    public function test_it_can_add_new_branch()
     {
         $data = [
             BranchColumns::NAME => 'Bandung Utara',
@@ -104,8 +97,7 @@ class BranchTest extends TestCase
         $this->assertDatabaseHas(config('db_tables.branch'), $data);
     }
 
-    /** @test */
-    public function it_can_get_branch_by_id()
+    public function test_it_can_get_branch_by_id()
     {
         $branch = Branch::first();
         $foundBranch = Branch::getBranchById($branch->id);
@@ -115,16 +107,14 @@ class BranchTest extends TestCase
         $this->assertEquals($branch->branch_name, $foundBranch->branch_name);
     }
 
-    /** @test */
-    public function it_returns_null_for_non_existent_id()
+    public function test_it_returns_null_for_non_existent_id()
     {
         $branch = Branch::getBranchById(9999);
         
         $this->assertNull($branch);
     }
 
-    /** @test */
-    public function it_can_get_random_branch_id()
+    public function test_it_can_get_random_branch_id()
     {
         $randomId = Branch::getRandomBranchID();
         
@@ -135,8 +125,7 @@ class BranchTest extends TestCase
         $this->assertDatabaseHas(config('db_tables.branch'), ['id' => $randomId]);
     }
 
-    /** @test */
-    public function it_returns_null_for_random_id_when_no_branches()
+    public function test_it_returns_null_for_random_id_when_no_branches()
     {
         Branch::query()->delete();
         
@@ -145,8 +134,7 @@ class BranchTest extends TestCase
         $this->assertNull($randomId);
     }
 
-    /** @test */
-    public function it_can_update_existing_branch()
+    public function test_it_can_update_existing_branch()
     {
         $branch = Branch::first();
         $updateData = [
@@ -164,16 +152,14 @@ class BranchTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_returns_false_when_updating_non_existent_branch()
+    public function test_it_returns_false_when_updating_non_existent_branch()
     {
         $result = Branch::updateBranch(9999, [BranchColumns::NAME => 'Test']);
         
         $this->assertFalse($result);
     }
 
-    /** @test */
-    public function it_can_find_branch_with_exception_handling()
+    public function test_it_can_find_branch_with_exception_handling()
     {
         $branch = Branch::first();
         $foundBranch = Branch::findBranch($branch->id);
@@ -182,8 +168,7 @@ class BranchTest extends TestCase
         $this->assertEquals($branch->id, $foundBranch->id);
     }
 
-    /** @test */
-    public function it_throws_exception_when_branch_not_found()
+    public function test_it_throws_exception_when_branch_not_found()
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Cabang tidak ditemukan!');
@@ -191,8 +176,7 @@ class BranchTest extends TestCase
         Branch::findBranch(9999);
     }
 
-    /** @test */
-    public function it_can_delete_branch()
+    public function test_it_can_delete_branch()
     {
         $branch = Branch::first();
         $branchId = $branch->id;
@@ -203,16 +187,14 @@ class BranchTest extends TestCase
         $this->assertDatabaseMissing(config('db_tables.branch'), ['id' => $branchId]);
     }
 
-    /** @test */
-    public function delete_returns_zero_for_non_existent_branch()
+    public function test_delete_returns_zero_for_non_existent_branch()
     {
         $deleted = Branch::deleteBranch(9999);
         
         $this->assertEquals(0, $deleted);
     }
 
-    /** @test */
-    public function it_can_count_all_branches()
+    public function test_it_can_count_all_branches()
     {
         $count = Branch::countBranch();
         
@@ -220,8 +202,7 @@ class BranchTest extends TestCase
         $this->assertIsInt($count);
     }
 
-    /** @test */
-    public function count_returns_zero_for_empty_table()
+    public function test_count_returns_zero_for_empty_table()
     {
         Branch::query()->delete();
         
@@ -230,8 +211,7 @@ class BranchTest extends TestCase
         $this->assertEquals(0, $count);
     }
 
-    /** @test */
-    public function it_can_count_branches_by_status()
+    public function test_it_can_count_branches_by_status()
     {
         $counts = Branch::countBranchByStatus();
         
@@ -242,8 +222,7 @@ class BranchTest extends TestCase
         $this->assertEquals(1, $counts['nonaktif']);
     }
 
-    /** @test */
-    public function status_count_handles_empty_table()
+    public function test_status_count_handles_empty_table()
     {
         Branch::query()->delete();
         
@@ -253,8 +232,7 @@ class BranchTest extends TestCase
         $this->assertEquals(0, $counts['nonaktif']);
     }
 
-    /** @test */
-    public function it_can_get_active_branches_only()
+    public function test_it_can_get_active_branches_only()
     {
         $activeBranches = Branch::getActiveBranches();
         
@@ -263,8 +241,7 @@ class BranchTest extends TestCase
         $this->assertEquals('Jakarta Pusat', $activeBranches->first()->branch_name);
     }
 
-    /** @test */
-    public function active_branches_are_sorted_by_name()
+    public function test_active_branches_are_sorted_by_name()
     {
         // Create additional active branches
         Branch::factory()->create([
@@ -289,8 +266,7 @@ class BranchTest extends TestCase
         $this->assertEquals($sortedNames, $names);
     }
 
-    /** @test */
-    public function it_can_check_if_name_exists()
+    public function test_it_can_check_if_name_exists()
     {
         $exists = Branch::nameExists('Jakarta Pusat');
         $notExists = Branch::nameExists('Non Existent');
@@ -299,8 +275,7 @@ class BranchTest extends TestCase
         $this->assertFalse($notExists);
     }
 
-    /** @test */
-    public function it_can_check_name_exists_with_exception()
+    public function test_it_can_check_name_exists_with_exception()
     {
         $branch = Branch::where(BranchColumns::NAME, 'Jakarta Pusat')->first();
         
@@ -310,8 +285,7 @@ class BranchTest extends TestCase
         $this->assertFalse($exists);
     }
 
-    /** @test */
-    public function name_exists_handles_case_sensitivity()
+    public function test_name_exists_handles_case_sensitivity()
     {
         $exists = Branch::nameExists('Jakarta Pusat'); // exact case
         $existsLowercase = Branch::nameExists('jakarta pusat'); // different case
@@ -321,8 +295,7 @@ class BranchTest extends TestCase
         $this->assertTrue($existsLowercase); // Will match due to MySQL collation
     }
 
-    /** @test */
-    public function it_can_search_with_basic_filters()
+    public function test_it_can_search_with_basic_filters()
     {
         $filters = ['search' => 'Jakarta'];
         $query = Branch::searchWithFilters($filters);
@@ -332,8 +305,7 @@ class BranchTest extends TestCase
         $this->assertEquals('Jakarta Pusat', $branches->first()->branch_name);
     }
 
-    /** @test */
-    public function it_can_filter_by_active_status()
+    public function test_it_can_filter_by_active_status()
     {
         $filters = ['status' => 'active'];
         $query = Branch::searchWithFilters($filters);
@@ -343,8 +315,7 @@ class BranchTest extends TestCase
         $this->assertEquals(1, $branches->first()->is_active);
     }
 
-    /** @test */
-    public function it_can_filter_by_inactive_status()
+    public function test_it_can_filter_by_inactive_status()
     {
         $filters = ['status' => 'inactive'];
         $query = Branch::searchWithFilters($filters);
@@ -354,8 +325,7 @@ class BranchTest extends TestCase
         $this->assertEquals(0, $branches->first()->is_active);
     }
 
-    /** @test */
-    public function it_ignores_invalid_status_filter()
+    public function test_it_ignores_invalid_status_filter()
     {
         $filters = ['status' => 'invalid_status'];
         $query = Branch::searchWithFilters($filters);
@@ -365,8 +335,7 @@ class BranchTest extends TestCase
         $this->assertCount(2, $branches);
     }
 
-    /** @test */
-    public function it_can_search_by_specific_name_field()
+    public function test_it_can_search_by_specific_name_field()
     {
         $filters = ['name' => 'Jakarta'];
         $query = Branch::searchWithFilters($filters);
@@ -376,8 +345,7 @@ class BranchTest extends TestCase
         $this->assertEquals('Jakarta Pusat', $branches->first()->branch_name);
     }
 
-    /** @test */
-    public function it_can_search_by_specific_address_field()
+    public function test_it_can_search_by_specific_address_field()
     {
         $filters = ['address' => 'Sudirman'];
         $query = Branch::searchWithFilters($filters);
@@ -387,8 +355,7 @@ class BranchTest extends TestCase
         $this->assertEquals('Jakarta Pusat', $branches->first()->branch_name);
     }
 
-    /** @test */
-    public function it_can_search_by_specific_phone_field()
+    public function test_it_can_search_by_specific_phone_field()
     {
         $filters = ['phone' => '021'];
         $query = Branch::searchWithFilters($filters);
@@ -398,8 +365,7 @@ class BranchTest extends TestCase
         $this->assertEquals('Jakarta Pusat', $branches->first()->branch_name);
     }
 
-    /** @test */
-    public function it_can_filter_by_is_active_boolean()
+    public function test_it_can_filter_by_is_active_boolean()
     {
         $filters = ['is_active' => true];
         $query = Branch::searchWithFilters($filters);
@@ -416,8 +382,7 @@ class BranchTest extends TestCase
         $this->assertEquals(0, $branches->first()->is_active);
     }
 
-    /** @test */
-    public function it_can_sort_results_by_name()
+    public function test_it_can_sort_results_by_name()
     {
         $filters = [
             'sort_by' => BranchColumns::NAME,
@@ -431,8 +396,7 @@ class BranchTest extends TestCase
         $this->assertEquals('Surabaya Timur', $branches->last()->branch_name);
     }
 
-    /** @test */
-    public function it_can_sort_results_by_created_at_desc()
+    public function test_it_can_sort_results_by_created_at_desc()
     {
         $filters = [
             'sort_by' => BranchColumns::CREATED_AT,
@@ -445,8 +409,7 @@ class BranchTest extends TestCase
         $this->assertStringContainsString('order by `created_at` desc', $sql);
     }
 
-    /** @test */
-    public function it_uses_default_sorting_for_invalid_fields()
+    public function test_it_uses_default_sorting_for_invalid_fields()
     {
         $filters = [
             'sort_by' => 'invalid_field',
@@ -460,8 +423,7 @@ class BranchTest extends TestCase
         $this->assertCount(2, $branches);
     }
 
-    /** @test */
-    public function it_combines_multiple_filters()
+    public function test_it_combines_multiple_filters()
     {
         $filters = [
             'search' => 'Jakarta',
@@ -478,8 +440,7 @@ class BranchTest extends TestCase
         $this->assertEquals(1, $branches->first()->is_active);
     }
 
-    /** @test */
-    public function it_can_get_active_branches_with_pagination()
+    public function test_it_can_get_active_branches_with_pagination()
     {
         // Create more test data
         Branch::factory()->count(20)->create([BranchColumns::IS_ACTIVE => true]);
@@ -491,8 +452,7 @@ class BranchTest extends TestCase
         $this->assertEquals(21, $branches->total()); // 20 + 1 from setUp
     }
 
-    /** @test */
-    public function active_branches_pagination_uses_custom_per_page()
+    public function test_active_branches_pagination_uses_custom_per_page()
     {
         Branch::factory()->count(25)->create([BranchColumns::IS_ACTIVE => true]);
         
@@ -502,8 +462,7 @@ class BranchTest extends TestCase
         $this->assertEquals(26, $branches->total()); // 25 + 1 from setUp
     }
 
-    /** @test */
-    public function it_can_get_statistics()
+    public function test_it_can_get_statistics()
     {
         $stats = Branch::getStatistics();
         
@@ -519,8 +478,7 @@ class BranchTest extends TestCase
         $this->assertEquals(50.0, $stats['active_percentage']);
     }
 
-    /** @test */
-    public function it_handles_empty_database_statistics()
+    public function test_it_handles_empty_database_statistics()
     {
         Branch::query()->delete();
         
@@ -532,8 +490,7 @@ class BranchTest extends TestCase
         $this->assertEquals(0, $stats['active_percentage']);
     }
 
-    /** @test */
-    public function statistics_calculates_percentage_correctly()
+    public function test_statistics_calculates_percentage_correctly()
     {
         // Add more branches to test percentage calculation
         Branch::factory()->count(8)->create([BranchColumns::IS_ACTIVE => true]); // 9 active total
@@ -547,16 +504,14 @@ class BranchTest extends TestCase
         $this->assertEquals(81.82, $stats['active_percentage']); // 9/11 * 100 rounded to 2 decimals
     }
 
-    /** @test */
-    public function search_with_filters_returns_query_builder()
+    public function test_search_with_filters_returns_query_builder()
     {
         $query = Branch::searchWithFilters([]);
         
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Builder::class, $query);
     }
 
-    /** @test */
-    public function it_handles_empty_search_filters()
+    public function test_it_handles_empty_search_filters()
     {
         $query = Branch::searchWithFilters([]);
         $branches = $query->get();
@@ -564,8 +519,7 @@ class BranchTest extends TestCase
         $this->assertCount(2, $branches); // Should return all branches
     }
 
-    /** @test */
-    public function search_with_empty_string_filters()
+    public function test_search_with_empty_string_filters()
     {
         $filters = [
             'search' => '',

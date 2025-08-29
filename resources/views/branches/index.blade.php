@@ -454,7 +454,7 @@
                             <td>{{ $branch->created_at }}</td>
                             <td>{{ $branch->updated_at }}</td>
                             <td>
-                              <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                              <a href="{{ route('branches.edit', $branch->id) }}" class="btn btn-sm btn-primary">Edit</a>
                               <a href="#" class="btn btn-sm btn-danger">Delete</a>
                               <a href="{{ url('/branch/detail/'.$branch->id) }}" class="btn btn-info">Detail</a>
 

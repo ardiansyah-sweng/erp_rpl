@@ -10,6 +10,9 @@ class Branch extends Model
 {
     use HasFactory;
     protected $table;
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -29,7 +32,7 @@ class Branch extends Model
                   ->orWhere(BranchColumns::PHONE, 'LIKE', "%{$search}%");
         }
 
-        return $query->orderBy(BranchColumns::CREATED_AT, 'asc')->paginate(10);
+        return $query->orderBy(BranchColumns::CREATED_AT, 'asc')->paginate(10); #TODO jumlah paginate dibuat terpusat
     }
 
     public static function addBranch($data)

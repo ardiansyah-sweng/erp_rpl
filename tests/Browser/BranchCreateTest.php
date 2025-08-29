@@ -202,6 +202,7 @@ class BranchCreateTest extends DuskTestCase
                 ->assertSee('Nama cabang minimal 3 karakter');
         });
     }
+
     /**
      * Test user can access branch create form
      */

@@ -52,6 +52,18 @@ class BranchController extends Controller
         return view('branches.create');
     }
 
+    /**
+     * Show the form for editing the specified branch.
+     */
+    public function edit($id)
+    {
+        $branch = \App\Models\Branch::findBranch($id);
+        if (!$branch) {
+            return abort(404, 'Cabang tidak ditemukan');
+        }
+        return view('branches.edit', compact('branch'));
+    }
+
     public function store(StoreBranchRequest $request)
     {
         try {
@@ -120,6 +132,7 @@ class BranchController extends Controller
                 BranchColumns::NAME => $request->input('branch_name') ?? $request->input(BranchColumns::NAME),
                 BranchColumns::ADDRESS => $request->input('branch_address') ?? $request->input(BranchColumns::ADDRESS),
                 BranchColumns::PHONE => $request->input('branch_telephone') ?? $request->input(BranchColumns::PHONE),
+                BranchColumns::IS_ACTIVE => $request->input('is_active', 0),
             ]);
 
             if ($updated) {
