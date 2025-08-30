@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
-use App\Models\PurchaseOrder;
 use App\Http\Requests\StoreBranchRequest;
 use App\Http\Requests\UpdateBranchRequest;
 use App\Http\Resources\BranchResource;
@@ -57,7 +56,7 @@ class BranchController extends Controller
      */
     public function edit($id)
     {
-        $branch = \App\Models\Branch::findBranch($id);
+        $branch = \App\Models\Branch::getBranchById($id);
         if (!$branch) {
             return abort(404, 'Cabang tidak ditemukan');
         }
@@ -101,27 +100,22 @@ class BranchController extends Controller
 
     public function show(Request $request, $id)
     {
-        try {
-            $branch = Branch::findBranch($id);
-
-            // Handle API Request
-            if ($this->wantsJson($request)) {
-                return new BranchResource($branch);
-            }
-
-            // Handle Web Request (existing)
-            return view('branches.detail', compact('branch'));
-
-        } catch (\Exception $e) {
+        $branch = Branch::getBranchById($id);
+        if (!$branch) {
             if ($this->wantsJson($request)) {
                 return response()->json([
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => 'Cabang tidak ditemukan!'
                 ], 404);
             }
-
             return abort(404, 'Cabang tidak ditemukan');
         }
+        // Handle API Request
+        if ($this->wantsJson($request)) {
+            return new BranchResource($branch);
+        }
+        // Handle Web Request (existing)
+        return view('branches.detail', compact('branch'));
     }
 
     public function update(UpdateBranchRequest $request, $id)
@@ -136,7 +130,7 @@ class BranchController extends Controller
             ]);
 
             if ($updated) {
-                $branch = Branch::findBranch($id);
+                $branch = Branch::getBranchById($id);
 
                 // Handle API Response
                 if ($this->wantsJson($request)) {
@@ -167,41 +161,51 @@ class BranchController extends Controller
 
     public function destroy(Request $request, $id)
     {
+        $branch = Branch::getBranchById($id);
+
+        // Validasi relasi dengan try-catch agar tidak error jika tabel belum ada
+        $purchaseOrderExists = false;
+        $assortmentExists = false;
         try {
-            $branch = Branch::findBranch($id);
-
-            // Business logic validation (existing)
-            if (PurchaseOrder::where('branch_id', $id)->exists()) {
-                throw new \Exception('Cabang tidak bisa dihapus bila id branch sudah muncul di purchase_order!');
-            }
-
-            $deleted = Branch::deleteBranch($id);
-
-            if ($deleted) {
-                // Handle API Response
-                if ($this->wantsJson($request)) {
-                    return response()->json([
-                        'success' => true,
-                        'message' => 'Branch deleted successfully'
-                    ]);
-                }
-
-                // Handle Web Response (existing)
-                return redirect()->route('branches.index')->with('success', 'Cabang berhasil dihapus!');
-            }
-
-            throw new \Exception('Failed to delete branch');
-
+            $purchaseOrderExists = \DB::table('purchase_order')->where('branch_id', $id)->exists();
         } catch (\Exception $e) {
+            $purchaseOrderExists = false;
+        }
+        try {
+            $assortmentExists = \DB::table('assortment_production')->where('branch_id', $id)->exists();
+        } catch (\Exception $e) {
+            $assortmentExists = false;
+        }
+        if ($purchaseOrderExists || $assortmentExists) {
             if ($this->wantsJson($request)) {
                 return response()->json([
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => 'Cabang tidak bisa dihapus karena masih digunakan di tabel lain!'
                 ], 422);
             }
-
-            return redirect()->route('branches.index')->with('error', $e->getMessage());
+            return redirect()->route('branches.index')->with('error', 'Cabang tidak bisa dihapus karena masih digunakan di tabel lain!');
         }
+
+        $deleted = Branch::deleteBranch($id);
+
+        if ($deleted) {
+            if ($this->wantsJson($request)) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Cabang berhasil dihapus!'
+                ]);
+            }
+            return redirect()->route('branches.index')->with('success', 'Cabang berhasil dihapus!');
+        }
+
+        // Gagal hapus branch (branch tidak ditemukan atau error lain)
+        if ($this->wantsJson($request)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus cabang!'
+            ], 422);
+        }
+        return redirect()->route('branches.index')->with('error', 'Gagal menghapus cabang!');
     }
 
     /**

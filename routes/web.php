@@ -139,7 +139,7 @@ Route::get('/branches/{id}/edit', [App\Http\Controllers\BranchController::class,
 Route::put('/branches/{id}', [App\Http\Controllers\BranchController::class, 'update'])->name('branches.update');
 // Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
 Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
-Route::delete('/branch/{id}', [BranchController::class, 'deleteBranch'])->name('branch.delete');
+Route::delete('/branches/{id}', [BranchController::class, 'destroy'])->name('branches.destroy');
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
 Route::post('/branch/update/{id}', [BranchController::class, 'updateBranch'])->name('branch.update');
 Route::get('/branch/detail/{id}', [BranchController::class, 'getBranchByID']);

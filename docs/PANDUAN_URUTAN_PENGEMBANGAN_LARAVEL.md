@@ -1042,7 +1042,7 @@ class BranchController extends Controller
     public function show(Request $request, $id)
     {
         try {
-            $branch = Branch::findBranch($id);
+            $branch = Branch::getBranchById($id);
 
             // API Request
             if ($this->wantsJson($request)) {
@@ -1071,7 +1071,7 @@ class BranchController extends Controller
     public function update(UpdateBranchRequest $request, $id)
     {
         try {
-            $branch = Branch::findBranch($id);
+            $branch = Branch::getBranchById($id);
             
             $updatedBranch = Branch::updateBranch($id, [
                 BranchColumns::NAME => $request->input('branch_name') ?? $request->input(BranchColumns::NAME),

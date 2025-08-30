@@ -389,4 +389,84 @@ class BranchControllerTest extends TestCase
         $this->assertEquals(1, $branch->is_active);
     }
     
+    public function test_it_can_delete_unused_branch()
+    {
+        // Arrange: Buat branch yang tidak dipakai
+        $branch = \App\Models\Branch::factory()->create([
+            'branch_name' => 'Unused Branch',
+            'branch_address' => 'Jl. Delete Me',
+            'branch_telephone' => '0800-DELETE',
+            'is_active' => false
+        ]);
+
+        // Mock DB::table('purchase_order')->where('branch_id', $id)->exists() agar return false
+        \DB::shouldReceive('table')
+            ->with('purchase_order')
+            ->andReturnSelf();
+        \DB::shouldReceive('where')
+            ->with('branch_id', $branch->id)
+            ->andReturnSelf();
+        \DB::shouldReceive('exists')
+            ->andReturn(false);
+
+        // Mock DB::table('assortment_production')->where('branch_id', $id)->exists() agar return false
+        \DB::shouldReceive('table')
+            ->with('assortment_production')
+            ->andReturnSelf();
+        \DB::shouldReceive('where')
+            ->with('branch_id', $branch->id)
+            ->andReturnSelf();
+        \DB::shouldReceive('exists')
+            ->andReturn(false);
+
+        // Act: Kirim request DELETE
+        $response = $this->delete(route('branches.destroy', $branch->id));
+
+        // Assert: Redirect ke index dan branch terhapus
+        $response->assertRedirect(route('branches.index'));
+        $response->assertSessionHas('success', 'Cabang berhasil dihapus!');
+
+        // Tutup mock sebelum assertion database
+        \Mockery::close();
+        $this->refreshApplication();
+
+        $this->assertDatabaseMissing(config('db_tables.branch'), [
+            'id' => $branch->id,
+            'branch_name' => 'Unused Branch'
+        ]);
+    }
+
+    public function test_it_cannot_delete_branch_with_references_mocked()
+    {
+        // Arrange: Buat branch
+        $branch = \App\Models\Branch::factory()->create([
+            'branch_name' => 'Mocked Ref Branch',
+            'branch_address' => 'Jl. Mock',
+            'branch_telephone' => '0800-MOCK',
+            'is_active' => true
+        ]);
+
+        // Mock DB::table('assortment_production')->where('branch_id', $id)->exists() agar return true
+        \DB::shouldReceive('table')
+            ->with('assortment_production')
+            ->andReturnSelf();
+        \DB::shouldReceive('where')
+            ->with('branch_id', $branch->id)
+            ->andReturnSelf();
+        \DB::shouldReceive('exists')
+            ->andReturn(true);
+
+        // Act: Kirim request DELETE tanpa header JSON
+        $response = $this->delete(route('branches.destroy', $branch->id));
+
+        // Assert: Redirect ke index dan branch tidak terhapus
+        $response->assertRedirect(route('branches.index'));
+        $response->assertSessionHas('error', 'Cabang tidak bisa dihapus karena masih digunakan di tabel lain!');
+        \Mockery::close();
+        $this->refreshApplication();
+        $this->assertDatabaseHas(config('db_tables.branch'), [
+            'id' => $branch->id,
+            'branch_name' => 'Mocked Ref Branch'
+        ]);
+    }
 }

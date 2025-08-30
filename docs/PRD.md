@@ -90,7 +90,7 @@ Branch adalah cabang-cabang yang dimiliki oleh perusahaan. Setiap cabang merupak
 - Responsive design untuk mobile dan desktop
 
 #### Integration Requirements
-- Branch data akan digunakan sebagai reference di modul lain (Warehouse, User Management, Transaction)
+- Branch data akan digunakan sebagai reference di modul lain (Purchase Order, Assortment Production)
 - API endpoints untuk CRUD operations
 - Export functionality untuk reporting (PDF, Excel)
 - Import functionality untuk bulk data entry

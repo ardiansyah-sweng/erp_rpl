@@ -6,15 +6,15 @@ use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use App\Models\Branch;
 
-class BranchReadTest extends DuskTestCase
+class BranchDetailTest extends DuskTestCase
 {
     /**
      * Test scenario: View branch detail
      */
     public function test_view_branch_detail(): void
     {
-        Branch::truncate();
-        
+        // Hapus data duplikat sebelum create
+        \DB::table('branches')->where('branch_name', 'Cabang Dusk Detail')->delete();
         // Buat data cabang untuk test
         $branch = Branch::factory()->create([
             'branch_name' => 'Cabang Dusk Detail',

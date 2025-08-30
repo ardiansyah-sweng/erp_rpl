@@ -42,7 +42,7 @@ class Branch extends Model
 
     public static function getBranchById($id)
     {
-        return self::where(BranchColumns::ID, $id)->first();
+    return self::find($id);
     }
 
     public static function getRandomBranchID()
@@ -53,7 +53,7 @@ class Branch extends Model
 
     public static function updateBranch($id, $data)
     {
-        $branch = self::find($id);
+        $branch = self::getBranchById($id);
         if ($branch) {
             $branch->update($data);
             return true;
@@ -61,15 +61,7 @@ class Branch extends Model
         return false;
     }
     
-    public static function findBranch($id)
-    {
-        $branch = self::find($id);
-        if (!$branch) {
-            throw new \Exception('Cabang tidak ditemukan!');
-        }
-        return $branch;
-    }
-
+    #TODO - tambahkan pengecekan branch sudah exis di tabel Purchase Order atau Assortment Production
     public static function deleteBranch($id)
     {
         return self::where(BranchColumns::ID, $id)->delete();
