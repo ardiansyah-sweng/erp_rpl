@@ -169,7 +169,7 @@
               <li class="nav-item">
                 <a href="/product/list" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
-                  <p>Produk</p>
+                  <p>merk</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -207,7 +207,7 @@
                   <p>
                     Purchase Orders
                   </p>
-                </a>                
+                </a>
               </li>
               <li class="nav-item">
                 <a href="{{ route('branch.list') }}" class="nav-link">
@@ -215,7 +215,7 @@
                   <p>
                     Branch
                   </p>
-                </a>                
+                </a>
               </li>
               <li class="nav-item">
               <a href="{{ route('item.list') }}" class="nav-link active">
@@ -223,7 +223,7 @@
                   <p>
                     Item
                   </p>
-                </a>                
+                </a>
               </li>
             </ul>
           </nav>
@@ -233,7 +233,7 @@
         <div class="app-content-header">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah Merk</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Tambah merk</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
@@ -249,46 +249,56 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="card card-primary">
-                  <div class="card-header">
-                    <h3 class="card-title">Tambah Merk</h3>
-                  </div>
-                  <form action="/merk/add" method="POST" id="merkForm">
+                <form action="{{ route('merk.add') }}" method="POST" id="merkForm">
                     @csrf
                     <div class="card-body">
-                      <div class="form-group">
-                        <label for="merk">Merk</label>
-                        <input type="text" class="form-control" id="merk" name="merk" placeholder="Nama Merk">
-                      </div>
-                      <div class="form-group">
-                        <label for="active">Active</label>
-                        <select class="form-control" id="active" name="active">
-                          <option value="1">Aktif</option>
-                          <option value="0">Nonaktif</option>
-                        </select>
-                      </div>
+                        <div class="form-group">
+                        <label for="id_merk">ID merk</label>
+                        <input type="text" class="form-control" id="id_merk" name="id_merk" placeholder="Masukkan ID merk">
+                        </div>
+
+                        <div class="form-group">
+                        <label for="merk">Nama Merk </label>
+                        <input type="text" class="form-control" id="merk" name="merk" value="{{ old('merk') }}" placeholder="Masukkan nama merk">
+                        </div>
+
+                        <div class="form-group">
+                        <label class="d-block">Status</label>
+                        <div class="d-flex gap-3">
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="active" id="active1" value="1" checked>
+                            <label class="form-check-label" for="active1">Aktif</label>
+                            </div>
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="active" id="active0" value="0">
+                            <label class="form-check-label" for="active0">Non Aktif</label>
+                            </div>
+                        </div>
+                        </div>
                     </div>
-                    
+
                     <div class="card-footer">
-                      <button type="button" class="btn btn-primary" onclick="validateFormAdd()">Add</button>
-                      <button type="reset" class="btn btn-secondary">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="validateForm()">Simpan</button>
+                        <button type="reset" class="btn btn-secondary">Batal</button>
                     </div>
-                  </form>
+                </form>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </main>
-      <footer class="app-footer">
+
+    <footer class="app-footer">
         <div class="float-end d-none d-sm-inline">Anything you want</div>
         <strong>
-          Copyright &copy; 2014-2024&nbsp;
-          <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+            Copyright &copy; 2014-2024&nbsp;
+            <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
         </strong>
         All rights reserved.
-      </footer>
+    </footer>
+
     </div>
-    
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
       integrity="sha256-JLMUQfrMvhB/C+XTyqfc/TUlC6gGQE0H2hZFX5FJ1cM="
@@ -338,34 +348,35 @@
     });
     </script>
     <script>
-    function validateFormAdd() {
-      let isValid = true;
-      $('.error-message').remove();
-      if ($('#id_produk').val() === "") {
-        $('#id_produk').after("<div class='error-message'><span style='color: red;'>ID Produk harus diisi.</span></div>");
-        isValid = false;
-      }
-      if ($('#sku').val() === "") {
-        $('#sku').after("<div class='error-message'><span style='color: red;'>SKU harus diisi.</span></div>");
-        isValid = false;
-      }
-      if ($('#nama_item').val() === "") {
-        $('#nama_item').after("<div class='error-message'><span style='color: red;'>Nama Item Produk harus diisi.</span></div>");
-        isValid = false;
-      }
-      if ($('#satuan').val() === "") {
-        $('#satuan').after("<div class='error-message'><span style='color: red;'>Satuan harus dipilih.</span></div>");
-        isValid = false;
-      }
-      if ($('#harga_jual').val() === "" || $('#harga_jual').val() <= 0) {
-        $('#harga_jual').after("<div class='error-message'><span style='color: red;'>Harga Jual harus diisi dan lebih dari 0.</span></div>");
-        isValid = false;
-      }
-      if (isValid) {
-        document.getElementById('merkForm').submit();
-      }
-      return isValid;
+    function validateForm() {
+        let isValid = true;
+        $('.error-message').remove();
+
+        let merk = $('#merk').val();
+
+        if (merk === null || merk === "") {
+            $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk harus diisi.</span></div>");
+            isValid = false;
+        } else if (merk.length > 255) {
+            $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk maksimal 255 karakter.</span></div>");
+            isValid = false;
+        }
+
+        if (isValid) {
+            $.ajax({
+                url: "{{ route('merk.add') }}",
+                type: "POST",
+                data: $('#merkForm').serialize(),
+                success: function(response) {
+                    alert(response.message);
+                    $('#merkForm')[0].reset();
+                },
+                error: function(xhr) {
+                    alert("❌ Terjadi kesalahan. Cek kembali input atau server.");
+                }
+            });
+        }
     }
-    </script>
+</script>
   </body>
 </html>

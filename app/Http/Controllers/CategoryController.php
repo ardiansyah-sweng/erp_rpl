@@ -12,18 +12,21 @@ class CategoryController extends Controller
     public function addCategory(Request $request)
     {
         $request->validate([
-            'category' => 'required|string|min:3|unique:category,category',
+            'category' => 'required|string|min:3|unique:categories,category',
             'parent_id' => 'nullable|integer',
-            'active' => 'required|boolean'
         ]);
         $category = new Category();
+
+        $active = $request->has('active');
+        $subKategori = $request->has('subKategori');
+
         $category->addCategory([
             'category' => $request->category,
-            'parent_id' => $request->parent_id ?? 0,
-            'active' => $request->active,
+            'parent_id' => $subKategori ? $request->parent_id : null,
+            'is_active' => $active || false,
         ]);
 
-        return redirect()->route('category.list')->with('success', 'Kategori berhasil ditambahkan!');
+        return response()->json(['message' => "berhasil ditambah"]);
     }
     public function getCategoryList()
     {
@@ -77,7 +80,7 @@ class CategoryController extends Controller
         //apabila halaman detail kategori sudah ada harap untuk di uncomment return view
         //dan return response nya di hapus
     }
-    //Search Category 
+    //Search Category
     public function searchCategory(Request $request)
     {
         $keyword = $request->input('q');
@@ -115,6 +118,12 @@ class CategoryController extends Controller
         }
 
         return response()->json($filtered, 200);
+    }
+
+    public function getCategoryParent()
+    {
+        $categories = Category::getCategoryParent();
+        return response()->json($categories);
     }
 
 }

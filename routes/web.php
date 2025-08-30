@@ -104,6 +104,12 @@ Route::get('product/category/detail', function () {
     return view('product/category/detail');
 });
 
+Route::get('/product/categories/parent', [CategoryController::class,'getCategoryParent'])->name('categories.parent');
+Route::get('/product/category/add', function () {
+    return view('product/category/add');
+});
+
+Route::post('/product/category/add', [CategoryController::class,'addCategory'])->name('categories.add');
 #warehouse
 Route::get('/warehouse/list', [WarehouseController::class, 'getWarehouseAll'])->name('warehouse.list');
 
@@ -134,10 +140,7 @@ Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('a
 Route::get('/branches', [BranchController::class, 'index'])->name('branches.index');
 Route::get('/branches/create', [BranchController::class, 'create'])->name('branches.create');
 Route::post('/branches', [BranchController::class, 'store'])->name('branches.store');
-Route::get('/branches/{id}', [BranchController::class, 'show'])->name('branches.show');
-Route::get('/branches/{id}/edit', [App\Http\Controllers\BranchController::class, 'edit'])->name('branches.edit');
-Route::put('/branches/{id}', [App\Http\Controllers\BranchController::class, 'update'])->name('branches.update');
-// Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
+Route::post('/branch/add', [BranchController::class, 'addBranch'])->name('branch.add');
 Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
 Route::delete('/branches/{id}', [BranchController::class, 'destroy'])->name('branches.destroy');
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
@@ -191,9 +194,12 @@ Route::get('/item/pdf/product/{productType}', [ItemController::class, 'exportByP
 Route::get('/item/export/category/{id}', [ItemController::class, 'exportItemByCategoryToPdf'])->name('item.export.category');
 
 # Merk
-Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
+Route::get('/merk/add', function () {
+    return view('merk.add');
+})->name('merk.form');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
-Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.add');
+Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
+Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.update');
 Route::get('/merks', [MerkController::class, 'getMerkAll'])->name('merk.list');
 Route::delete('/merk/delete/{id}', [MerkController::class, 'deleteMerk'])->name('merk.delete');
 
@@ -219,7 +225,7 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
-// Cetak produk berdasarkan kategori tertentu 
+// Cetak produk berdasarkan kategori tertentu
 Route::get('/category/print/{id}', [ProductController::class, 'printCategoryByIdPDF'])->name('category.print.single');
 
 

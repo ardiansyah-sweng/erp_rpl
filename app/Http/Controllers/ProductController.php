@@ -78,6 +78,8 @@ class ProductController extends Controller
 
     public function addProduct(Request $request)
     {
+
+
         $validatedData = $request->validate([
             'product_id' => 'required|string|unique:products,product_id',
             'product_name' => 'required|string',
@@ -88,7 +90,10 @@ class ProductController extends Controller
 
         Product::addProduct($validatedData);
 
-        return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
+        return response()->json([
+            'message' => 'product berhasil ditambahkan',
+        ]);
+        // return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
     public function updateProduct(Request $request, $id)
     {
