@@ -90,6 +90,7 @@ class WarehouseController extends Controller
     public function getWarehouseAll()
     {
         $warehouses = Warehouse::getWarehouseAll();
+        return view('warehouse.list', compact('warehouses'));
 
         if ($warehouses->isEmpty()) {
             return response()->json(['message' => 'Tidak ada warehouse yang ditemukan'], 404);
