@@ -70,6 +70,10 @@ class Item extends Model
         return true;
     }
 
+    public static function countItem() {
+        return self::count();
+    }
+
     public static function countItem() 
     {
         return self::count();
