@@ -9,16 +9,16 @@ use App\Constants\MerkColumns;
 
 /**
  * Merk Model
- * 
+ *
  * Represents a brand/merk in the system with comprehensive CRUD operations
  * and advanced querying capabilities following Laravel best practices.
  */
 class Merk extends Model
 {
     use HasFactory;
-    
+
     protected $table;
-    
+
     /**
      * The attributes that are mass assignable.
      */
@@ -26,7 +26,7 @@ class Merk extends Model
         'merk',
         'is_active'
     ];
-    
+
     /**
      * The attributes that should be cast to native types.
      */
@@ -49,127 +49,30 @@ class Merk extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        
-        // Use config for table name like other models in the project
-        $this->table = config('db_tables.merk');
+
+        // Tetapkan nama tabel dan kolom
+        $this->table = config('db_constants.table.merk');
+        $this->fillable = array_values(config('db_constants.column.merk') ?? []);
     }
 
-    /**
-     * ACCESSORS & MUTATORS
-     */
-    
-    /**
-     * Get the status label attribute.
-     */
-    public function getStatusLabelAttribute(): string
+    public static function updateMerk($id, array $data)
     {
-        return $this->is_active ? 'Aktif' : 'Tidak Aktif';
-    }
+        $merk = self::find($id);
 
-    /**
-     * Get the display name with emoji indicator.
-     */
-    public function getDisplayNameAttribute(): string
-    {
-        $emoji = $this->is_active ? '✅' : '❌';
-        return "{$emoji} {$this->merk}";
-    }
-
-    /**
-     * SCOPES
-     */
-    
-    /**
-     * Scope a query to only include active merk.
-     */
-    public function scopeActive(Builder $query): Builder
-    {
-        return $query->where(MerkColumns::IS_ACTIVE, true);
-    }
-
-    /**
-     * Scope a query to only include inactive merk.
-     */
-    public function scopeInactive(Builder $query): Builder
-    {
-        return $query->where(MerkColumns::IS_ACTIVE, false);
-    }
-
-    /**
-     * Scope for search functionality.
-     */
-    public function scopeSearch(Builder $query, ?string $search): Builder
-    {
-        if (!$search) {
-            return $query;
+        if (!$merk) {
+            return null;
         }
 
-        return $query->where(function (Builder $q) use ($search) {
-            $q->where(MerkColumns::MERK, 'LIKE', "%{$search}%");
-        });
-    }
+         $fillable = (new self)->getFillable();
+         $filteredData = collect($data)->only($fillable)->toArray();
+         $merk->update($filteredData);
 
-    /**
-     * STATIC METHODS - FOLLOWING BEST PRACTICES
-     */
-
-    /**
-     * Get all merk with search functionality and pagination.
-     * 
-     * @param string|null $search
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    public static function getAllMerk(?string $search = null)
-    {
-        return self::search($search)
-                   ->orderBy(MerkColumns::CREATED_AT, 'desc')
-                   ->paginate(config('pagination.merk_per_page', 15));
-    }
-
-    /**
-     * Enhanced search with multiple filters for API endpoints.
-     * 
-     * @param array $filters
-     * @return Builder
-     */
-    public static function searchWithFilters(array $filters): Builder
-    {
-        $query = self::query();
-
-        // General search across name and description
-        if (!empty($filters['search'])) {
-            $query->search($filters['search']);
-        }
-
-        // Specific field filters
-        if (!empty($filters['name'])) {
-            $query->where(MerkColumns::NAME, 'LIKE', "%{$filters['name']}%");
-        }
-
-        if (!empty($filters['description'])) {
-            $query->where(MerkColumns::DESCRIPTION, 'LIKE', "%{$filters['description']}%");
-        }
-
-        // Status filter
-        if (isset($filters['is_active']) && $filters['is_active'] !== null) {
-            $query->where(MerkColumns::IS_ACTIVE, $filters['is_active']);
-        }
-
-        // Dynamic sorting
-        $sortBy = $filters['sort_by'] ?? MerkColumns::CREATED_AT;
-        $sortOrder = strtolower($filters['sort_order'] ?? 'desc');
-        
-        // Validate sort order
-        $sortOrder = in_array($sortOrder, ['asc', 'desc']) ? $sortOrder : 'desc';
-        
-        $query->orderBy($sortBy, $sortOrder);
-
-        return $query;
+         return $merk;
     }
 
     /**
      * Get only active merk for dropdown/selection purposes.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public static function getActiveMerk()
@@ -181,14 +84,14 @@ class Merk extends Model
 
     /**
      * Get comprehensive statistics about merk.
-     * 
+     *
      * @return array
      */
     public static function getStatistics(): array
     {
         $total = self::count();
         $active = self::active()->count();
-        
+
         return [
             'total_merk' => $total,
             'active_merk' => $active,
@@ -197,32 +100,10 @@ class Merk extends Model
         ];
     }
 
-    /**
-     * Check if merk name is unique (for validation).
-     * 
-     * @param string $name
-     * @param int|null $excludeId
-     * @return bool
-     */
-    public static function isNameUnique(string $name, ?int $excludeId = null): bool
+     public static function getAllMerk()
     {
-        $query = self::where(MerkColumns::NAME, $name);
-        
-        if ($excludeId) {
-            $query->where(MerkColumns::ID, '!=', $excludeId);
-        }
-        
-        return !$query->exists();
+        return self::orderBy('created_at', 'asc')->paginate(10);
     }
-
-    /**
-     * DEPRECATED METHODS - Keep for backward compatibility
-     * These will be removed in future versions
-     */
-
-    /**
-     * @deprecated Use getAllMerk() instead
-     */
     public static function searchMerk($keyword)
     {
         return self::getAllMerk($keyword);
@@ -234,31 +115,20 @@ class Merk extends Model
     public static function deleteMerk($id)
     {
         $merk = self::find($id);
-        return $merk ? $merk->delete() : false;
-    }
 
-    /**
-     * @deprecated Use direct Eloquent create() instead
-     */
+        if ($merk) {
+            return $merk->delete();
+        }
+
+        return false;
+    }
     public static function addMerk($namaMerk, $active = 1)
     {
-        return self::create([
-            MerkColumns::NAME => $namaMerk,
-            MerkColumns::IS_ACTIVE => $active
-        ]);
-    }
+        $merk = new self();
+        $merk->merk = $namaMerk;
+        $merk->is_active = $active;
+        $merk->save();
 
-    /**
-     * @deprecated Use direct Eloquent operations instead
-     */
-    public static function updateMerk($id, array $data)
-    {
-        $merk = self::find($id);
-        if (!$merk) {
-            return null;
-        }
-        
-        $merk->update($data);
         return $merk;
     }
 

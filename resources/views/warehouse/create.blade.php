@@ -169,7 +169,7 @@
               <li class="nav-item">
                 <a href="./generate/theme.html" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
-                  <p>Produk</p>
+                  <p>merk</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -207,7 +207,7 @@
                   <p>
                     Purchase Orders
                   </p>
-                </a>                
+                </a>
               </li>
               <li class="nav-item">
                 <a href="{{ route('branch.list') }}" class="nav-link active">
@@ -215,9 +215,18 @@
                   <p>
                     Branch
                   </p>
-                </a>                
+                </a>
               </li>
               <li class="nav-item">
+<<<<<<< HEAD:resources/views/merk/add.blade.php
+              <a href="{{ route('item.list') }}" class="nav-link active">
+                  <i class="nav-icon bi bi-clipboard-fill"></i>
+                  <p>
+                    Item
+                  </p>
+                </a>
+              </li>
+=======
               <a href="{{ route('item.list') }}" class="nav-link">
               <i class="nav-icon bi bi-clipboard-fill"></i>
                       <p>Item</p>
@@ -229,6 +238,7 @@
                       <p>warehouse</p>
                     </a>
                   </li>
+>>>>>>> 7f6a1b1dd8eee38724607700d093c00abf629901:resources/views/warehouse/create.blade.php
             </ul>
           </nav>
         </div>
@@ -237,7 +247,11 @@
         <div class="app-content-header">
           <div class="container-fluid">
             <div class="row">
+<<<<<<< HEAD:resources/views/merk/add.blade.php
+              <div class="col-sm-6"><h3 class="mb-0">Tambah merk</h3></div>
+=======
               <div class="col-sm-6"><h3 class="mb-0">Tambah Gudang</h3></div>
+>>>>>>> 7f6a1b1dd8eee38724607700d093c00abf629901:resources/views/warehouse/create.blade.php
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
@@ -253,6 +267,41 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="card card-primary">
+<<<<<<< HEAD:resources/views/merk/add.blade.php
+                <form action="{{ route('merk.add') }}" method="POST" id="merkForm">
+                    @csrf
+                    <div class="card-body">
+                        <div class="form-group">
+                        <label for="id_merk">ID merk</label>
+                        <input type="text" class="form-control" id="id_merk" name="id_merk" placeholder="Masukkan ID merk">
+                        </div>
+
+                        <div class="form-group">
+                        <label for="merk">Nama Merk </label>
+                        <input type="text" class="form-control" id="merk" name="merk" value="{{ old('merk') }}" placeholder="Masukkan nama merk">
+                        </div>
+
+                        <div class="form-group">
+                        <label class="d-block">Status</label>
+                        <div class="d-flex gap-3">
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="active" id="active1" value="1" checked>
+                            <label class="form-check-label" for="active1">Aktif</label>
+                            </div>
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="active" id="active0" value="0">
+                            <label class="form-check-label" for="active0">Non Aktif</label>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-primary" onclick="validateForm()">Simpan</button>
+                        <button type="reset" class="btn btn-secondary">Batal</button>
+                    </div>
+                </form>
+=======
                   <div class="card-header">
                     <h3 class="card-title">Tambah Gudang</h3>
                   </div>
@@ -292,22 +341,24 @@
                       </div>
                     </div>
                   </div>
+>>>>>>> 7f6a1b1dd8eee38724607700d093c00abf629901:resources/views/warehouse/create.blade.php
                 </div>
               </div>
             </div>
           </div>
         </div>
       </main>
-      <footer class="app-footer">
+
+    <footer class="app-footer">
         <div class="float-end d-none d-sm-inline">Anything you want</div>
         <strong>
-          Copyright &copy; 2014-2024&nbsp;
-          <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+            Copyright &copy; 2014-2024&nbsp;
+            <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
         </strong>
         All rights reserved.
-      </footer>
+    </footer>
+
     </div>
-    
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
       integrity="sha256-JLMUQfrMvhB/C+XTyqfc/TUlC6gGQE0H2hZFX5FJ1cM="
@@ -356,5 +407,39 @@
         });
     });
     </script>
+<<<<<<< HEAD:resources/views/merk/add.blade.php
+    <script>
+    function validateForm() {
+        let isValid = true;
+        $('.error-message').remove();
+
+        let merk = $('#merk').val();
+
+        if (merk === null || merk === "") {
+            $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk harus diisi.</span></div>");
+            isValid = false;
+        } else if (merk.length > 255) {
+            $('#merk').after("<div class='error-message'><span style='color: red;'>Nama Merk maksimal 255 karakter.</span></div>");
+            isValid = false;
+        }
+
+        if (isValid) {
+            $.ajax({
+                url: "{{ route('merk.add') }}",
+                type: "POST",
+                data: $('#merkForm').serialize(),
+                success: function(response) {
+                    alert(response.message);
+                    $('#merkForm')[0].reset();
+                },
+                error: function(xhr) {
+                    alert("❌ Terjadi kesalahan. Cek kembali input atau server.");
+                }
+            });
+        }
+    }
+</script>
+=======
+>>>>>>> 7f6a1b1dd8eee38724607700d093c00abf629901:resources/views/warehouse/create.blade.php
   </body>
 </html>
