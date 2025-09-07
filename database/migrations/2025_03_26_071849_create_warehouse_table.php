@@ -7,9 +7,11 @@ use App\Constants\WarehouseColumns;
 
 return new class extends Migration
 {
+    protected string $table;
+
     public function __construct()
     {
-        $this->table = config('db_constants.table.whouse');
+        $this->table = config('db_tables.warehouse');
     }
 
     /**

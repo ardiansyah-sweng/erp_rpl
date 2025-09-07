@@ -32,7 +32,7 @@ class Branch extends Model
                   ->orWhere(BranchColumns::PHONE, 'LIKE', "%{$search}%");
         }
 
-        return $query->orderBy(BranchColumns::CREATED_AT, 'asc')->paginate(10); #TODO jumlah paginate dibuat terpusat
+        return $query->orderBy(BranchColumns::CREATED_AT, 'asc')->paginate(config('pagination.branch_per_page'));
     }
 
     public static function addBranch($data)
@@ -42,9 +42,10 @@ class Branch extends Model
 
     public static function getBranchById($id)
     {
-        return self::where(BranchColumns::ID, $id)->first();
+        return self::find($id);
     }
 
+    #TODO pindahkan ke POSeeder 
     public static function getRandomBranchID()
     {
         $branch = self::inRandomOrder()->first();
@@ -53,7 +54,7 @@ class Branch extends Model
 
     public static function updateBranch($id, $data)
     {
-        $branch = self::find($id);
+        $branch = self::getBranchById($id);
         if ($branch) {
             $branch->update($data);
             return true;
@@ -61,15 +62,6 @@ class Branch extends Model
         return false;
     }
     
-    public static function findBranch($id)
-    {
-        $branch = self::find($id);
-        if (!$branch) {
-            throw new \Exception('Cabang tidak ditemukan!');
-        }
-        return $branch;
-    }
-
     public static function deleteBranch($id)
     {
         return self::where(BranchColumns::ID, $id)->delete();
@@ -101,6 +93,7 @@ class Branch extends Model
     /**
      * Check if branch name exists (for validation)
      */
+    #TODO hilangkan
     public static function nameExists($name, $exceptId = null)
     {
         $query = self::where(BranchColumns::NAME, $name);

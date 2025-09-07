@@ -7,6 +7,7 @@ use App\Constants\BranchColumns;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Constants\Messages;
 
 class BranchApiTest extends TestCase
 {
@@ -69,7 +70,7 @@ class BranchApiTest extends TestCase
         $response->assertStatus(404)
                  ->assertJson([
                      'success' => false,
-                     'message' => 'Cabang tidak ditemukan!'
+                     'message' => Messages::BRANCH_NOT_FOUND
                  ]);
     }
 
@@ -221,7 +222,7 @@ class BranchApiTest extends TestCase
         $response->assertStatus(201)
                 ->assertJson([
                     'success' => true,
-                    'message' => 'Branch created successfully'
+                    'message' => Messages::BRANCH_CREATED
                 ])
                 ->assertJsonStructure([
                     'success',

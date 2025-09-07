@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Tambah Merk</title>
+    <title>ERP RPL UAD | Tambah Gudang</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
@@ -76,7 +76,7 @@
                     <div class="flex-shrink-0">
                       <img
                         src={{asset("assets/dist/assets/img/user1-128x128.jpg")}}
-                         alt="User Avatar"
+                        alt="User Avatar"
                         class="img-size-50 rounded-circle me-3"
                       />
                     </div>
@@ -167,7 +167,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/product/list" class="nav-link">
+                <a href="./generate/theme.html" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>merk</p>
                 </a>
@@ -210,7 +210,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('branch.list') }}" class="nav-link">
+                <a href="{{ route('branch.list') }}" class="nav-link active">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
                     Branch
@@ -218,6 +218,7 @@
                 </a>
               </li>
               <li class="nav-item">
+<<<<<<< HEAD:resources/views/merk/add.blade.php
               <a href="{{ route('item.list') }}" class="nav-link active">
                   <i class="nav-icon bi bi-clipboard-fill"></i>
                   <p>
@@ -225,6 +226,19 @@
                   </p>
                 </a>
               </li>
+=======
+              <a href="{{ route('item.list') }}" class="nav-link">
+              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>Item</p>
+                    </a>
+                  </li>
+              <li class="nav-item">
+              <a href="{{ route('warehouse.add') }}" class="nav-link">
+              <i class="nav-icon bi bi-clipboard-fill"></i>
+                      <p>warehouse</p>
+                    </a>
+                  </li>
+>>>>>>> 7f6a1b1dd8eee38724607700d093c00abf629901:resources/views/warehouse/create.blade.php
             </ul>
           </nav>
         </div>
@@ -233,11 +247,15 @@
         <div class="app-content-header">
           <div class="container-fluid">
             <div class="row">
+<<<<<<< HEAD:resources/views/merk/add.blade.php
               <div class="col-sm-6"><h3 class="mb-0">Tambah merk</h3></div>
+=======
+              <div class="col-sm-6"><h3 class="mb-0">Tambah Gudang</h3></div>
+>>>>>>> 7f6a1b1dd8eee38724607700d093c00abf629901:resources/views/warehouse/create.blade.php
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="/merk/list">Merk</a></li>
+                  <li class="breadcrumb-item"><a href="/warehouse/add">warehouse</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                 </ol>
               </div>
@@ -249,6 +267,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="card card-primary">
+<<<<<<< HEAD:resources/views/merk/add.blade.php
                 <form action="{{ route('merk.add') }}" method="POST" id="merkForm">
                     @csrf
                     <div class="card-body">
@@ -282,6 +301,47 @@
                         <button type="reset" class="btn btn-secondary">Batal</button>
                     </div>
                 </form>
+=======
+                  <div class="card-header">
+                    <h3 class="card-title">Tambah Gudang</h3>
+                  </div>
+
+                  {{-- Display validation errors --}}
+                  @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                  @endif
+
+                  {{-- Display success/error messages --}}
+                  @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                  @endif
+
+                  @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                  @endif
+                  
+                  @include('warehouse.form', [
+                    'action' => route('warehouses.store'),
+                    'method' => 'POST',
+                    'warehouse' => null
+                  ])                  <div id="debug-output" class="mt-4" style="display: none;">
+                    <div class="card">
+                      <div class="card-body bg-light">
+                        <pre id="dd-content" class="p-3 bg-dark text-light" style="border-radius: 5px;"></pre>
+                      </div>
+                    </div>
+                  </div>
+>>>>>>> 7f6a1b1dd8eee38724607700d093c00abf629901:resources/views/warehouse/create.blade.php
                 </div>
               </div>
             </div>
@@ -347,6 +407,7 @@
         });
     });
     </script>
+<<<<<<< HEAD:resources/views/merk/add.blade.php
     <script>
     function validateForm() {
         let isValid = true;
@@ -378,5 +439,7 @@
         }
     }
 </script>
+=======
+>>>>>>> 7f6a1b1dd8eee38724607700d093c00abf629901:resources/views/warehouse/create.blade.php
   </body>
 </html>

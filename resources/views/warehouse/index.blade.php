@@ -330,7 +330,7 @@
                     <div class="row align-items-center">
                         <div class="col-sm-6 d-flex align-items-center">
                             <h3 class="mb-0 me-2">Warehouse</h3>
-                            <a href="#" class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="{{ route('warehouses.create') }}" class="btn btn-primary btn-sm">Tambah</a>
                             <a href="#"
                                 class="btn btn-primary btn-sm ms-2">Cetak Warehouse</a>
                         </div>
@@ -346,6 +346,26 @@
                 </div>
                 <!--end::Container-->
             </div>
+
+            <!--begin::App Content-->
+            <div class="app-content">
+                <!--begin::Container-->
+                <div class="container-fluid">
+                    
+                    {{-- Display success/error messages --}}
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
 
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -372,8 +392,9 @@
                                 <th>Warehouse Name</th>
                                 <th>Warehouse Address</th>
                                 <th>Warehouse Telephone</th>
-                                <th>is rm warehouse</th>
-                                <th>is fg warehouse</th>
+                                <th>RM Warehouse</th>
+                                <th>FG Warehouse</th>
+                                <th>Status</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
                                 <th>Actions</th>
@@ -385,17 +406,30 @@
                                     <td>{{ $index + 1}} </td>
                                     <td>{{ $item->warehouse_name }}</td>
                                     <td>{{ $item->warehouse_address }}</td>
-                                    <td>{{ $item->warehouse_telephone }}</td>
-                                    <td>{{ $item->is_rm_whouse }}</td>
-                                    <td>{{ $item->is_fg_whouse }}</td>
+                                    <td>{{ $item->warehouse_phone }}</td>
+                                    <td>
+                                        <span class="badge {{ $item->is_rm_warehouse ? 'bg-success' : 'bg-secondary' }}">
+                                            {{ $item->is_rm_warehouse ? 'Yes' : 'No' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge {{ $item->is_fg_warehouse ? 'bg-success' : 'bg-secondary' }}">
+                                            {{ $item->is_fg_warehouse ? 'Yes' : 'No' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge {{ $item->is_active ? 'bg-success' : 'bg-danger' }}">
+                                            {{ $item->is_active ? 'Active' : 'Inactive' }}
+                                        </span>
+                                    </td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
                                       <td>
-                                        {{-- Tombol Edit (nanti buatkan route edit sendiri kalau belum ada) --}}
-                                        <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                                        {{-- Tombol Edit --}}
+                                        <a href="{{ route('warehouses.edit', $item->id) }}" class="btn btn-sm btn-primary">Edit</a>
 
                                         {{-- Tombol Delete --}}
-                                        <form action="{{ route('warehouse.delete', $item->id) }}" method="POST" style="display:inline;">
+                                        <form action="{{ route('warehouses.destroy', $item->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus warehouse ini?')">
@@ -408,7 +442,7 @@
                                     </td>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center">No data available in table</td>
+                                    <td colspan="10" class="text-center">No data available in table</td>
                                 </tr>
                             @endforelse
     
@@ -421,6 +455,12 @@
                 </div> 
 
             </div>
+            <!--/.card-->
+            
+                </div>
+                <!--end::Container-->
+            </div>
+            <!--end::App Content-->
 
         </main>
         <!--end::App Main-->

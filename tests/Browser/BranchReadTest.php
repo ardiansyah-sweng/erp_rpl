@@ -13,6 +13,8 @@ class BranchReadTest extends DuskTestCase
      */
     public function test_view_branch_detail(): void
     {
+        Branch::truncate();
+        
         // Buat data cabang untuk test
         $branch = Branch::factory()->create([
             'branch_name' => 'Cabang Dusk Detail',

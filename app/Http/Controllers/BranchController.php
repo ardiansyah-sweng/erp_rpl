@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
-use App\Models\PurchaseOrder;
 use App\Http\Requests\StoreBranchRequest;
 use App\Http\Requests\UpdateBranchRequest;
 use App\Http\Resources\BranchResource;
@@ -11,6 +10,7 @@ use App\Http\Resources\BranchCollection;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Constants\BranchColumns;
+use App\Constants\Messages;
 
 class BranchController extends Controller
 {
@@ -18,9 +18,10 @@ class BranchController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
         
         // Use enhanced query for API requests
-        if ($this->wantsJson($request)) {
+        if ($isApiRequest) {
             // Best Practice: Use Model method instead of Controller query
             $filters = [
                 'search' => $search,
@@ -57,9 +58,9 @@ class BranchController extends Controller
      */
     public function edit($id)
     {
-        $branch = \App\Models\Branch::findBranch($id);
+        $branch = Branch::find($id);
         if (!$branch) {
-            return abort(404, 'Cabang tidak ditemukan');
+            return abort(404, Messages::BRANCH_NOT_FOUND);
         }
         return view('branches.edit', compact('branch'));
     }
@@ -69,30 +70,34 @@ class BranchController extends Controller
         try {
             // Single business logic - no duplication!
             $branch = Branch::addBranch([
-                BranchColumns::NAME => $request->input('branch_name') ?? $request->input(BranchColumns::NAME),
-                BranchColumns::ADDRESS => $request->input('branch_address') ?? $request->input(BranchColumns::ADDRESS),
-                BranchColumns::PHONE => $request->input('branch_telephone') ?? $request->input(BranchColumns::PHONE),
-                BranchColumns::IS_ACTIVE => $request->input(BranchColumns::IS_ACTIVE, 0),
+                BranchColumns::NAME => $request->input('branch_name'),
+                BranchColumns::ADDRESS => $request->input('branch_address'),
+                BranchColumns::PHONE => $request->input('branch_telephone'),
+                BranchColumns::IS_ACTIVE => $request->boolean('is_active'),
             ]);
 
             // Handle API Response
-            if ($this->wantsJson($request)) {
+            $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
+            
+            if ($isApiRequest) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Branch created successfully',
+                    'message' => Messages::BRANCH_CREATED,
                     'data' => new BranchResource($branch)
                 ], 201);
             }
 
-            // Handle Web Response (existing)
-            return redirect()->route('branches.index')->with('success', 'Cabang berhasil ditambahkan!');
+            // Handle Web Response
+            return redirect()->route('branches.index')->with('success', Messages::BRANCH_CREATED);
             
         } catch (\Exception $e) {
-            if ($this->wantsJson($request)) {
+            $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
+            
+            if ($isApiRequest) {
                 return response()->json([
                     'success' => false,
                     'message' => $e->getMessage()
-                ], 422);
+                ], 500);
             }
 
             return redirect()->back()->withInput()->with('error', $e->getMessage());
@@ -101,64 +106,79 @@ class BranchController extends Controller
 
     public function show(Request $request, $id)
     {
-        try {
-            $branch = Branch::findBranch($id);
-
-            // Handle API Request
-            if ($this->wantsJson($request)) {
-                return new BranchResource($branch);
-            }
-
-            // Handle Web Request (existing)
-            return view('branches.detail', compact('branch'));
-
-        } catch (\Exception $e) {
-            if ($this->wantsJson($request)) {
+        $branch = Branch::find($id);
+        
+        if (!$branch) {
+            $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
+            
+            if ($isApiRequest) {
                 return response()->json([
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => Messages::BRANCH_NOT_FOUND
                 ], 404);
             }
-
-            return abort(404, 'Cabang tidak ditemukan');
+            return abort(404, Messages::BRANCH_NOT_FOUND);
         }
+
+        // Handle API Request
+        $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
+        
+        if ($isApiRequest) {
+            return response()->json([
+                'success' => true,
+                'data' => new BranchResource($branch)
+            ]);
+        }
+        
+        // Handle Web Request
+        return view('branches.detail', compact('branch'));
     }
 
     public function update(UpdateBranchRequest $request, $id)
     {
         try {
-            // Single business logic
-            $updated = Branch::updateBranch($id, [
-                BranchColumns::NAME => $request->input('branch_name') ?? $request->input(BranchColumns::NAME),
-                BranchColumns::ADDRESS => $request->input('branch_address') ?? $request->input(BranchColumns::ADDRESS),
-                BranchColumns::PHONE => $request->input('branch_telephone') ?? $request->input(BranchColumns::PHONE),
-                BranchColumns::IS_ACTIVE => $request->input('is_active', 0),
-            ]);
-
-            if ($updated) {
-                $branch = Branch::findBranch($id);
-
-                // Handle API Response
-                if ($this->wantsJson($request)) {
+            $branch = Branch::find($id);
+            
+            if (!$branch) {
+                $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
+                
+                if ($isApiRequest) {
                     return response()->json([
-                        'success' => true,
-                        'message' => 'Branch updated successfully',
-                        'data' => new BranchResource($branch)
-                    ]);
+                        'success' => false,
+                        'message' => Messages::BRANCH_NOT_FOUND,
+                    ], 404);
                 }
-
-                // Handle Web Response (existing)
-                return redirect()->route('branches.index')->with('success', 'Cabang berhasil diupdate!');
+                return redirect()->back()->withInput()->with('error', Messages::BRANCH_NOT_FOUND);
             }
 
-            throw new \Exception('Failed to update branch');
+            $branch->update([
+                BranchColumns::NAME => $request->input('branch_name'),
+                BranchColumns::ADDRESS => $request->input('branch_address'),
+                BranchColumns::PHONE => $request->input('branch_telephone'),
+                BranchColumns::IS_ACTIVE => $request->boolean('is_active'),
+            ]);
+
+            // Handle API Response
+            $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
+            
+            if ($isApiRequest) {
+                return response()->json([
+                    'success' => true,
+                    'message' => Messages::BRANCH_UPDATED,
+                    'data' => new BranchResource($branch->fresh())
+                ]);
+            }
+            // Handle Web Response
+            return redirect()->route('branches.index')->with('success', Messages::BRANCH_UPDATED);
 
         } catch (\Exception $e) {
-            if ($this->wantsJson($request)) {
+            $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
+            
+            if ($isApiRequest) {
                 return response()->json([
                     'success' => false,
                     'message' => $e->getMessage()
-                ], 422);
+                ], 500);
             }
 
             return redirect()->back()->withInput()->with('error', $e->getMessage());
@@ -167,41 +187,64 @@ class BranchController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        try {
-            $branch = Branch::findBranch($id);
-
-            // Business logic validation (existing)
-            if (PurchaseOrder::where('branch_id', $id)->exists()) {
-                throw new \Exception('Cabang tidak bisa dihapus bila id branch sudah muncul di purchase_order!');
-            }
-
-            $deleted = Branch::deleteBranch($id);
-
-            if ($deleted) {
-                // Handle API Response
-                if ($this->wantsJson($request)) {
-                    return response()->json([
-                        'success' => true,
-                        'message' => 'Branch deleted successfully'
-                    ]);
-                }
-
-                // Handle Web Response (existing)
-                return redirect()->route('branches.index')->with('success', 'Cabang berhasil dihapus!');
-            }
-
-            throw new \Exception('Failed to delete branch');
-
-        } catch (\Exception $e) {
-            if ($this->wantsJson($request)) {
+        $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
+        
+        $branch = Branch::find($id);
+        
+        if (!$branch) {
+            if ($isApiRequest) {
                 return response()->json([
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => 'Branch not found'
+                ], 404);
+            }
+            return redirect()->route('branches.index')->with('error', 'Branch not found');
+        }
+
+        // Validasi relasi dengan try-catch agar tidak error jika tabel belum ada
+        $purchaseOrderExists = false;
+        $assortmentExists = false;
+        try {
+            $purchaseOrderExists = \DB::table('purchase_order')->where('branch_id', $id)->exists();
+        } catch (\Exception $e) {
+            $purchaseOrderExists = false;
+        }
+        try {
+            $assortmentExists = \DB::table('assortment_production')->where('branch_id', $id)->exists();
+        } catch (\Exception $e) {
+            $assortmentExists = false;
+        }
+        
+        if ($purchaseOrderExists || $assortmentExists) {
+            if ($isApiRequest) {
+                return response()->json([
+                    'success' => false,
+                    'message' => Messages::BRANCH_IN_USE
                 ], 422);
             }
-
-            return redirect()->route('branches.index')->with('error', $e->getMessage());
+            return redirect()->route('branches.index')->with('error', Messages::BRANCH_IN_USE);
         }
+
+        $deleted = $branch->delete();
+
+        if ($deleted) {
+            if ($isApiRequest) {
+                return response()->json([
+                    'success' => true,
+                    'message' => Messages::BRANCH_DELETED
+                ]);
+            }
+            return redirect()->route('branches.index')->with('success', Messages::BRANCH_DELETED);
+        }
+
+        // Gagal hapus branch
+        if ($isApiRequest) {
+            return response()->json([
+                'success' => false,
+                'message' => Messages::BRANCH_DELETE_FAILED
+            ], 422);
+        }
+        return redirect()->route('branches.index')->with('error', Messages::BRANCH_DELETE_FAILED);
     }
 
     /**
@@ -251,39 +294,11 @@ class BranchController extends Controller
     }
 
     /**
-     * Helper method to detect if request wants JSON response
-     */
-    private function wantsJson(Request $request): bool
-    {
-        return $request->expectsJson() || 
-               $request->is('api/*') || 
-               $request->header('Accept') === 'application/json' ||
-               $request->header('Content-Type') === 'application/json';
-    }
-
-    /**
      * DEPRECATED: Keep for backward compatibility - will be removed
      */
     public function getBranchById($id)
     {
         return $this->show(request(), $id);
-    }
-
-    public function updateBranch(Request $request, $id)
-    {
-        // Validate manually since this bypasses UpdateBranchRequest
-        $request->validate([
-            'branch_name' => 'required|string|min:3',
-            'branch_address' => 'required|string|min:3',
-            'branch_telephone' => 'required|string|min:3',
-        ]);
-
-        return $this->update($request, $id);
-    }
-
-    public function deleteBranch($id)
-    {
-        return $this->destroy(request(), $id);
     }
 
     // Helper method for web routes compatibility

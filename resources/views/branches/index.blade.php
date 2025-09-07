@@ -438,7 +438,7 @@
                             <tr>
                             <td>{{ $branch->id }}</td>
                             <td>
-                                <a href="{{ route('branch.detail', ['id' => $branch->id]) }}">
+                                <a href="{{ route('branch.detail', ['id' => $branch->id]) }}" style="color: inherit; text-decoration: none;">
                                     {{ $branch->branch_name }}
                                 </a>
                             </td>
@@ -454,9 +454,13 @@
                             <td>{{ $branch->created_at }}</td>
                             <td>{{ $branch->updated_at }}</td>
                             <td>
-                              <a href="{{ route('branches.edit', $branch->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                              <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                              <a href="{{ url('/branch/detail/'.$branch->id) }}" class="btn btn-info">Detail</a>
+                <a href="{{ route('branches.edit', $branch->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                <form action="{{ route('branches.destroy', $branch->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Yakin ingin menghapus cabang ini?');">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-sm btn-danger" dusk="delete-branch-{{ $branch->id }}">Delete</button>
+                </form>
+                <a href="{{ url('/branch/detail/'.$branch->id) }}" class="btn btn-info">Detail</a>
 
                             </td>
                             </tr>

@@ -2,16 +2,49 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use App\Constants\MerkColumns;
 
+/**
+ * Merk Model
+ *
+ * Represents a brand/merk in the system with comprehensive CRUD operations
+ * and advanced querying capabilities following Laravel best practices.
+ */
 class Merk extends Model
 {
+    use HasFactory;
+
     protected $table;
-    protected $fillable = ['merk'];
-    protected $primaryKey = 'id';
-    public $incrementing = false;
-    protected $keyType = 'string';
-    public $timestamps = true;
+
+    /**
+     * The attributes that are mass assignable.
+     */
+    protected $fillable = [
+        'merk',
+        'is_active'
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     */
+    protected $casts = [
+        'is_active' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     */
+    protected $hidden = [];
+
+    /**
+     * The accessors to append to the model's array form.
+     */
+    protected $appends = ['status_label', 'display_name'];
 
     public function __construct(array $attributes = [])
     {
@@ -37,13 +70,34 @@ class Merk extends Model
          return $merk;
     }
 
-    public static function countMerek()
+    /**
+     * Get only active merk for dropdown/selection purposes.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function getActiveMerk()
     {
-        return self::count();
+        return self::active()
+                   ->orderBy(MerkColumns::NAME, 'asc')
+                   ->get([MerkColumns::ID, MerkColumns::NAME]);
     }
-    public function getMerkById($id)
+
+    /**
+     * Get comprehensive statistics about merk.
+     *
+     * @return array
+     */
+    public static function getStatistics(): array
     {
-        return self::where('id', $id)->first();
+        $total = self::count();
+        $active = self::active()->count();
+
+        return [
+            'total_merk' => $total,
+            'active_merk' => $active,
+            'inactive_merk' => $total - $active,
+            'percentage_active' => $total > 0 ? round(($active / $total) * 100, 2) : 0,
+        ];
     }
 
      public static function getAllMerk()
@@ -52,11 +106,12 @@ class Merk extends Model
     }
     public static function searchMerk($keyword)
     {
-        return self::where('merk', 'like', '%' . $keyword . '%')
-                ->orderBy('created_at', 'asc')
-                ->paginate(10);
+        return self::getAllMerk($keyword);
     }
 
+    /**
+     * @deprecated Use direct Eloquent operations instead
+     */
     public static function deleteMerk($id)
     {
         $merk = self::find($id);
@@ -75,5 +130,21 @@ class Merk extends Model
         $merk->save();
 
         return $merk;
+    }
+
+    /**
+     * @deprecated Use getStatistics()['total_merk'] instead
+     */
+    public static function countMerek()
+    {
+        return self::count();
+    }
+
+    /**
+     * @deprecated Use find() directly instead
+     */
+    public function getMerkById($id)
+    {
+        return self::find($id);
     }
 }

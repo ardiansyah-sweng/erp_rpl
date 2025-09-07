@@ -162,7 +162,7 @@ class BranchTest extends TestCase
     public function test_it_can_find_branch_with_exception_handling()
     {
         $branch = Branch::first();
-        $foundBranch = Branch::findBranch($branch->id);
+        $foundBranch = Branch::getBranchById($branch->id);
         
         $this->assertInstanceOf(Branch::class, $foundBranch);
         $this->assertEquals($branch->id, $foundBranch->id);
@@ -170,10 +170,8 @@ class BranchTest extends TestCase
 
     public function test_it_throws_exception_when_branch_not_found()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Cabang tidak ditemukan!');
-        
-        Branch::findBranch(9999);
+    $branch = Branch::getBranchById(9999);
+    $this->assertNull($branch);
     }
 
     public function test_it_can_delete_branch()
