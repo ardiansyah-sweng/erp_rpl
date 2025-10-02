@@ -11,6 +11,7 @@ return new class extends Migration
 
     public function __construct()
     {
+        // nama tabel ambil dari config
         $this->table = config('db_tables.warehouse');
     }
 
@@ -19,15 +20,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create($this->table, function (Blueprint $table) {
-            $table->id();
+        $tableName = $this->table;
+
+        Schema::create($tableName, function (Blueprint $table) {
+            $table->id(WarehouseColumns::ID);
             $table->string(WarehouseColumns::NAME, 50)->unique();
             $table->string(WarehouseColumns::ADDRESS, 100)->nullable();
             $table->string(WarehouseColumns::PHONE, 30)->nullable();
             $table->boolean(WarehouseColumns::IS_RM_WAREHOUSE)->default(false);
             $table->boolean(WarehouseColumns::IS_FG_WAREHOUSE)->default(false);
             $table->boolean(WarehouseColumns::IS_ACTIVE)->default(true);
-            $table->timestamps();
+            $table->timestamp(WarehouseColumns::CREATED_AT)->useCurrent();
+            $table->timestamp(WarehouseColumns::UPDATED_AT)->useCurrent()->useCurrentOnUpdate();
         });
     }
 
@@ -36,6 +40,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists($this->table);
+        $tableName = $this->table;
+
+        Schema::dropIfExists($tableName);
     }
 };
