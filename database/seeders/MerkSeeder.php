@@ -13,6 +13,9 @@ class MerkSeeder extends Seeder
      */
     public function run(): void
     {
+        // Kosongkan tabel merks sebelum seeding untuk menghindari duplikat
+        \DB::table('merks')->truncate();
+
         // Create some specific well-known brands first
         $knownBrands = [
             ['merk' => 'Samsung', 'is_active' => true],

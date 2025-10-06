@@ -14,6 +14,9 @@ class WarehouseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Kosongkan tabel warehouses sebelum seeding untuk menghindari duplikat
+        \DB::table('warehouses')->truncate();
+
         // Create specific warehouses with known data for testing/demo
         $specificWarehouses = [
             [

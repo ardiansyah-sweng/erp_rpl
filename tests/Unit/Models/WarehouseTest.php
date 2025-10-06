@@ -8,9 +8,39 @@ use App\Constants\WarehouseColumns;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 
+
 class WarehouseTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
+
+    /**
+     * Test deleteWarehouse() by id
+     */
+    public function test_delete_warehouse_by_id()
+    {
+        // Arrange - Buat warehouse
+        $warehouse = Warehouse::create([
+            WarehouseColumns::NAME => 'Warehouse Delete',
+            WarehouseColumns::ADDRESS => 'Jl. Delete',
+            WarehouseColumns::PHONE => '021-9999999',
+            WarehouseColumns::IS_RM_WAREHOUSE => true,
+            WarehouseColumns::IS_FG_WAREHOUSE => false,
+            WarehouseColumns::IS_ACTIVE => true,
+        ]);
+
+        // Pastikan warehouse ada
+        $this->assertDatabaseHas('warehouses', [
+            WarehouseColumns::NAME => 'Warehouse Delete',
+        ]);
+
+        // Act - Hapus warehouse pakai fungsi model
+        Warehouse::deleteWarehouse($warehouse->id);
+
+        // Assert - Pastikan warehouse sudah tidak ada
+        $this->assertDatabaseMissing('warehouses', [
+            WarehouseColumns::NAME => 'Warehouse Delete',
+        ]);
+    }
 
     protected function setUp(): void
     {
@@ -157,7 +187,8 @@ class WarehouseTest extends TestCase
         $this->assertNotNull($result);
         $this->assertEquals(1, $result->total());
         $this->assertCount(1, $result->items());
-        $this->assertStringContainsString('021', $result->first()->warehouse_telephone);
+        // BENAR (kemungkinan besar)
+        $this->assertStringContainsString('021', $result->first()->warehouse_phone);
     }
 
     /**
