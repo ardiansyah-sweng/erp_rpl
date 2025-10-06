@@ -75,9 +75,38 @@ class Warehouse extends Model
      * Static method for deleting warehouse (consistent with Branch model)
      */
     public static function deleteWarehouse($id)
-    {
-        return self::where(WarehouseColumns::ID, $id)->delete();
+{
+    // Cek apakah warehouse masih digunakan di tabel assortment_production
+    $isUsed = DB::table('assortment_production')
+        ->where('rm_whouse_id', $id)   // ✅ ganti dari fm_ jadi rm_
+        ->orWhere('fg_whouse_id', $id) // ✅ ini tetap
+        ->exists();
+
+    // Jika masih digunakan, batalkan penghapusan
+    if ($isUsed) {
+        return [
+            'status' => false,
+            'message' => 'Warehouse tidak dapat dihapus karena masih digunakan di tabel assortment_production.'
+        ];
     }
+
+    // Jika tidak digunakan, lanjutkan hapus
+    $deleted = self::where(WarehouseColumns::ID, $id)->delete();
+
+    if ($deleted) {
+        return [
+            'status' => true,
+            'message' => 'Warehouse berhasil dihapus.'
+        ];
+    } else {
+        return [
+            'status' => false,
+            'message' => 'Warehouse gagal dihapus atau tidak ditemukan.'
+        ];
+    }
+}
+
+
 
     /**
      * Search warehouses with filters (for API endpoints)
