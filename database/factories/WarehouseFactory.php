@@ -1,10 +1,12 @@
 <?php
-// filepath: c:\Users\Acer Nitro\Documents\ProyekCebret\erp_rpl\database\factories\WarehouseFactory.php
+namespace Database\Factories;
+
+use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class WarehouseFactory extends Factory
 {
-    protected $model = \App\Models\Warehouse::class;
+    protected $model = Warehouse::class;
 
     public function definition()
     {
