@@ -23,18 +23,31 @@ class Warehouse extends Model
         $this->fillable = WarehouseColumns::getFillable();
     }
 
-    public static function getWarehouseAll($search = null)
-    {
-        $query = self::query();
+  // app/Models/Warehouse.php
 
-        if ($search) {
-            $query->where(WarehouseColumns::NAME, 'LIKE', "%{$search}%")
-                  ->orWhere(WarehouseColumns::ADDRESS, 'LIKE', "%{$search}%")
-                  ->orWhere(WarehouseColumns::PHONE, 'LIKE', "%{$search}%");
-        }
+public static function getWarehouseAll($search = null)
+{
+    $query = self::query()
+        ->select([
+            WarehouseColumns::ID, 
+            WarehouseColumns::NAME,
+            WarehouseColumns::ADDRESS,
+            WarehouseColumns::PHONE, 
+            WarehouseColumns::IS_RM_WAREHOUSE,
+            WarehouseColumns::IS_FG_WAREHOUSE,
+            WarehouseColumns::IS_ACTIVE,
+            WarehouseColumns::CREATED_AT, // Tambahkan created_at untuk orderBy
+        ]);
 
-        return $query->orderBy(WarehouseColumns::CREATED_AT, 'asc')->paginate(config('pagination.branch_per_page'));
+    if ($search) {
+        $query->where(WarehouseColumns::NAME, 'LIKE', "%{$search}%")
+              ->orWhere(WarehouseColumns::ADDRESS, 'LIKE', "%{$search}%")
+              ->orWhere(WarehouseColumns::PHONE, 'LIKE', "%{$search}%");
     }
+
+    return $query->orderBy(WarehouseColumns::CREATED_AT, 'asc')
+                 ->paginate(config('pagination.branch_per_page'));
+}
 
     public static function addWarehouse($data)
     {

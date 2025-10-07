@@ -157,7 +157,7 @@ class WarehouseTest extends TestCase
         $this->assertNotNull($result);
         $this->assertEquals(1, $result->total());
         $this->assertCount(1, $result->items());
-        $this->assertStringContainsString('021', $result->first()->warehouse_telephone);
+        $this->assertStringContainsString('021', $result->first()->warehouse_phone);
     }
 
     /**
