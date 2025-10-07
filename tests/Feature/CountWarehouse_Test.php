@@ -22,11 +22,37 @@ class CountWarehouse_Test extends TestCase
                 'is_active' => 1,
             ]);
         }
-
+        
         $count = Warehouse::count();
         dump("Jumlah warehouse:", $count);
         
         $this->assertEquals(65, $count);
     }
+    public function test_count_active_warehouse()
+    {
+        // Arrange: Buat data warehouse
+        Warehouse::factory()->count(10)->create(['is_active' => 1]);
+        Warehouse::factory()->count(5)->create(['is_active' => 0]);
+
+        // Act: Hitung warehouse aktif
+        $activeCount = Warehouse::countActiveWarehouse();
+
+        // Assert: Periksa jumlah warehouse aktif
+        $this->assertEquals(10, $activeCount);
+    }
+
+    public function test_count_inactive_warehouse()
+    {
+        // Arrange: Buat data warehouse
+        Warehouse::factory()->count(10)->create(['is_active' => 1]);
+        Warehouse::factory()->count(5)->create(['is_active' => 0]);
+
+        // Act: Hitung warehouse nonaktif
+        $inactiveCount = Warehouse::countInactiveWarehouse();
+
+        // Assert: Periksa jumlah warehouse nonaktif
+        $this->assertEquals(5, $inactiveCount);
+    }
+
 }
 
