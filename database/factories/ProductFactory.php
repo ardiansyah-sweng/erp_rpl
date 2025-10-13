@@ -18,10 +18,10 @@ class ProductFactory extends Factory
     {
         return [
             'product_id' => strtoupper(Str::random(4)),
-            'product_name' => $this->faker->word,
-            'product_type' => $this->faker->randomElement(['FG', 'RM', 'HFG']),
-            'product_category' => 1,
-            'product_description' => $this->faker->sentence,
+            'name' => $this->faker->word, // kolom sebenarnya di database
+            'type' => $this->faker->randomElement(['FG', 'RM', 'HFG']), 
+            'category' => 1, 
+            'description' => $this->faker->sentence, 
             'created_at' => now(),
             'updated_at' => now(),
         ];

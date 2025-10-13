@@ -38,7 +38,7 @@ class ProductController extends Controller
         $product = (new Product())->getProductById($productId);
 
         if (!$product) {
-            return abort(404, 'Product tidak ditemukan');
+            return response()->view('errors.404', ['message' => 'Product tidak ditemukan'], 404);
         }
        return view('product.detail', compact('product'));
     }
