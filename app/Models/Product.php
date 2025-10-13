@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Item;
 use App\Models\Category; 
 use App\Enums\ProductType;
+use App\Constants\ProductColumns;
 
 class Product extends Model
 {
@@ -16,30 +17,28 @@ class Product extends Model
 
     protected $table = 'products';
     protected $fillable = [
-        'product_id',
-        'product_name',
-        'product_type',
-        'product_category',
-        'product_description',
-        'created_at',
-        'updated_at',
+        ProductColumns::PRODUCT_ID,
+        ProductColumns::NAME,
+        ProductColumns::TYPE,
+        ProductColumns::CATEGORY,
+        ProductColumns::DESC,
     ];
 
     protected $casts = [
-    'product_type' => \App\Enums\ProductType::class,
+        ProductColumns::TYPE => ProductType::class,
     ];
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-
-        $this->table = config('db_constants.table.products');
-        $this->fillable = array_values(config('db_constants.column.products') ?? []);
+        // Comment out config override for now to use the correct column names
+        // $this->table = config('db_constants.table.products');
+        // $this->fillable = array_values(config('db_constants.column.products') ?? []);
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'product_category', 'id');
+        return $this->belongsTo(Category::class, 'category', 'id'); // ubah dari product_category ke category
     }
 
     public static function getAllProducts()
