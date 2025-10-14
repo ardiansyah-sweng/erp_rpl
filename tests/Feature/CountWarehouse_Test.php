@@ -10,7 +10,6 @@ class CountWarehouse_Test extends TestCase
 {
     use RefreshDatabase;
 
-    // Jumlah Warehouse
     public function test_count_warehouse()
     {
         for ($i = 0; $i < 65; $i++) {
