@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use App\Constants\WarehouseColumns;
 
+
 class Warehouse extends Model
 {
     use HasFactory;
+
     
+
     protected $table;
     protected $fillable = [];
 
@@ -49,6 +52,15 @@ class Warehouse extends Model
     public static function countWarehouse()
     {
         return self::count();
+    }
+    public static function countActiveWarehouse()
+    {
+        return self::where('is_active', 1)->count();
+    }
+
+    public static function countInactiveWarehouse()
+    {
+        return self::where('is_active', 0)->count();
     }
 
     public function updateWarehouse($id, $data)
