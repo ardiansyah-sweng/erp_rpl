@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class CountWarehouse_Test extends TestCase
 {
     use RefreshDatabase;
-
+    //Jumlah Warehouse
     public function test_count_warehouse()
     {
         for ($i = 0; $i < 65; $i++) {
@@ -28,6 +28,7 @@ class CountWarehouse_Test extends TestCase
         
         $this->assertEquals(65, $count);
     }
+    //Jumlah Warehouse yang aktif
     public function test_count_active_warehouse()
     {
         // Arrange: Buat data warehouse
@@ -40,7 +41,7 @@ class CountWarehouse_Test extends TestCase
         // Assert: Periksa jumlah warehouse aktif
         $this->assertEquals(10, $activeCount);
     }
-
+    //Jumlah Warehouse tidak aktif
     public function test_count_inactive_warehouse()
     {
         // Arrange: Buat data warehouse

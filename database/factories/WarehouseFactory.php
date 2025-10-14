@@ -4,6 +4,7 @@ namespace Database\Factories;
 use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+//Warehouse Factories
 class WarehouseFactory extends Factory
 {
     protected $model = Warehouse::class;
