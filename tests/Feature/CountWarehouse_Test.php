@@ -55,4 +55,3 @@ class CountWarehouse_Test extends TestCase
     }
 
 }
-
