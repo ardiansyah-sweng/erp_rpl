@@ -29,11 +29,12 @@ class Warehouse extends Model
     {
         return self::count();
     }
+    //Jumlah warehouse aktif
     public static function countActiveWarehouse()
     {
         return self::where('is_active', 1)->count();
     }
-
+    //Jumlah warehouse nonaktif
     public static function countInactiveWarehouse()
     {
         return self::where('is_active', 0)->count();
