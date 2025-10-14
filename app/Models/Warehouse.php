@@ -34,7 +34,6 @@ class Warehouse extends Model
     {
         return self::where('is_active', 1)->count();
     }
-
     public static function countInactiveWarehouse()
     {
         return self::where('is_active', 0)->count();
