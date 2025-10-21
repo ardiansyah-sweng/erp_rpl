@@ -20,4 +20,3 @@ class WarehouseFactory extends Factory
         ];
     }
 }
-
