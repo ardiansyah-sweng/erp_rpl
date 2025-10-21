@@ -9,7 +9,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class CountWarehouse_Test extends TestCase
 {
     use RefreshDatabase;
-
+    
+    //Hitung Jumlah Warehouse
     public function test_count_warehouse()
     {
         for ($i = 0; $i < 65; $i++) {
