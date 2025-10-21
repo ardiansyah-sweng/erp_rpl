@@ -57,3 +57,4 @@ class CountWarehouse_Test extends TestCase
         $this->assertEquals(5, $inactiveCount);
     }
 }
+
