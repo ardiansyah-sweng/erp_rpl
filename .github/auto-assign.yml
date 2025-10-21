@@ -3,7 +3,7 @@
 # Set to true to add reviewers to pull requests
 addReviewers: true
 
-# Set to true to add assignees to pull requests  
+# Set to true to add assignees to pull requests
 addAssignees: false
 
 # A list of reviewers to be added to pull requests (GitHub user name)
@@ -11,7 +11,8 @@ reviewers:
   - ardiansyah-sweng
   # Add more team members here
 
-# A list of keywords to be skipped the process that add reviewers if pull requests include it
+# A list of keywords to be skipped the process that add reviewers/assignees if pull requests include it
+# NOTE: This single entry now covers both reviewers and assignees, fixing the duplication error.
 skipKeywords:
   - wip
   - draft
@@ -21,17 +22,12 @@ skipKeywords:
 numberOfReviewers: 1
 
 # A number of assignees added to the pr
-# Set to 0 to add all the assignees (default: 0)  
+# Set to 0 to add all the assignees (default: 0)
 numberOfAssignees: 0
 
 # A list of assignees to be added to pull requests (GitHub user name)
 assignees:
   - ardiansyah-sweng
-
-# A list of keywords to be skipped the process that add assignees if pull requests include it  
-skipKeywords:
-  - wip
-  - draft
 
 # Optional property that allows to filter the assignees and reviewers to be added to the pr based on the files
 # In this example, we add reviewers only if the PR modifies files under docs/
@@ -44,8 +40,8 @@ filters:
       - 'database/**/*'
     reviewers:
       - ardiansyah-sweng
-  
-  - name: frontend  
+    
+  - name: frontend
     files:
       - 'resources/**/*'
       - 'package.json'
