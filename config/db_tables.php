@@ -5,5 +5,5 @@
         'category'      => 'categories',
         'merk'          => 'merks',
         'measurement'   => 'measurement_of_units',
-        'whouse'        => 'warehouses',
+        'warehouse' => 'warehouse',
     ];
