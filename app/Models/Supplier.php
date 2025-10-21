@@ -2,7 +2,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Constants\SupplierColumns;
 
 class Supplier extends Model
 {

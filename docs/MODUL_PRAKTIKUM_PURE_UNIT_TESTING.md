@@ -2,58 +2,12 @@
 
 ---
 
-## **DAFTAR ISI**
-
-1. [**Informasi Praktikum**](#informasi-praktikum)
-2. [**Tujuan Pembelajaran**](#tujuan-pembelajaran)
-3. [**Pendahuluan**](#pendahuluan)
-4. [**Dasar Teori Pure Unit Testing**](#dasar-teori-pure-unit-testing)
-5. [**Implementasi Hands-On**](#implementasi-pure-unit-testing)
-   - [Fase 1: Helper Function Testing (15 menit)](#fase-1-helper-function-testing)
-   - [Fase 2: Business Logic Testing with Mocks (20 menit)](#fase-2-business-logic-testing-with-mocks) 
-   - [Fase 3: Testing Edge Cases (15 menit)](#fase-3-testing-edge-cases)
-6. [**Troubleshooting & Common Issues**](#troubleshooting--common-issues)
-7. [**Best Practices**](#best-practices-pure-unit-testing)
-8. [**Kesimpulan**](#kesimpulan-pure-unit-testing)
-
----
-
 ## **INFORMASI PRAKTIKUM**
 - **Mata Kuliah**: Rekayasa Perangkat Lunak  
 - **Topik**: Pure Unit Testing - Isolated Component Testing
-- **Durasi**: 60 menit
+- **Durasi**: 45 menit
 - **Tingkat**: Intermediate
 - **Prerequisites**: Pemahaman konsep testing, mocking, dan dependency injection
-
----
-
-## **RINGKASAN MATERI PRAKTIKUM**
-
-Praktikum ini akan membawa Anda melalui **3 fase pembelajaran progresif**:
-
-### **🎯 Fase 1: Helper Function Testing** (15 menit)
-- **Objective**: Memahami dasar pure unit testing
-- **Focus**: Testing isolated helper functions tanpa dependencies
-- **Output**: CurrencyHelper dengan 17 test cases
-
-### **🎯 Fase 2: Business Logic with Mocks** (20 menit)  
-- **Objective**: Testing service classes dengan dependencies
-- **Focus**: Mocking, dependency injection, behavior verification
-- **Output**: DiscountService dengan 10 test cases menggunakan mocks
-
-### **🎯 Fase 3: Edge Cases & Boundary Testing** (15 menit)
-- **Objective**: Advanced testing patterns untuk production-ready code
-- **Focus**: Boundary conditions, exception handling, validation edge cases  
-- **Output**: ValidationService dengan 66 comprehensive test cases
-
-### **🎯 Learning Progression**
-```
-Simple Functions → Business Logic → Complex Edge Cases
-     ↓                ↓                ↓
-   No Mocks    →    Mocks     →   Exception Testing
-     ↓                ↓                ↓
-  Basic Tests  → Behavior Tests → Boundary Tests
-```
 
 ---
 
@@ -67,8 +21,6 @@ Setelah menyelesaikan praktikum pure unit testing ini, mahasiswa diharapkan mamp
 4. **Menguji business logic** tanpa database dependencies
 5. **Menggunakan Test Doubles** (Mocks, Stubs, Fakes) dengan benar
 6. **Mengidentifikasi kapan pure unit testing appropriate** dalam Laravel
-7. **Mengimplementasikan testing untuk edge cases dan boundary conditions**
-8. **Menggunakan advanced testing patterns** untuk validasi dan exception handling
 
 ---
 
@@ -94,7 +46,6 @@ Pure unit testing hanya praktis untuk komponen yang **truly isolated**:
 | **String Utilities** | `slugify($title)` | Deterministic output |
 | **Business Rules** | `isEligibleForDiscount($user)` | Logic-only operations |
 | **Data Transformers** | `transformApiResponse($data)` | Input → Output mapping |
-| **Validation Services** | `validateInput($data)` | Edge cases and boundary testing |
 
 ### **Pure Unit vs Integration Testing**
 
@@ -126,8 +77,6 @@ class BranchTest extends TestCase
 ---
 
 ## **DASAR TEORI PURE UNIT TESTING**
-
-> **💡 Baca Teori Sebelum Praktik**: Pahami konsep dasar ini sebelum melanjutkan ke implementasi hands-on.
 
 ### **1. Characteristics of Pure Unit Testing**
 
@@ -203,43 +152,7 @@ class OrderProcessor
 
 ## **IMPLEMENTASI PURE UNIT TESTING**
 
-> **🚀 Hands-On Section**: Ikuti setiap fase secara berurutan untuk membangun pemahaman yang solid.
-
-### **Setup Awal** ⚙️
-
-Sebelum memulai implementasi, pastikan environment Anda siap:
-
-```bash
-# Verifikasi PHPUnit tersedia
-php artisan --version
-./vendor/bin/phpunit --version
-
-# Pastikan folder test structure ada
-mkdir -p tests/Unit/Helpers
-mkdir -p tests/Unit/Services
-mkdir -p app/Helpers  
-mkdir -p app/Services
-mkdir -p app/Contracts
-```
-
-**Expected Output:**
-```
-Laravel Framework 10.x.x
-PHPUnit 11.5.15 by Sebastian Bergmann and contributors
-```
-
----
-
 ### **FASE 1: HELPER FUNCTION TESTING** ⏱️ 15 menit
-
-> **🎯 Tujuan Fase 1**: Membangun fondasi pure unit testing dengan helper functions yang isolated dan deterministic.
-
-**Yang akan Anda pelajari:**
-- ✅ Struktur basic pure unit testing
-- ✅ Testing functions tanpa external dependencies  
-- ✅ Data providers dan parameterized tests
-- ✅ Exception testing
-- ✅ Edge cases untuk currency parsing
 
 #### **Langkah 1.1: Buat Helper Class untuk Testing**
 
@@ -276,28 +189,9 @@ class CurrencyHelper
      */
     public static function parse(string $currencyString): float
     {
-        // Remove currency symbols (Rp, $, etc.)
+        // Remove currency symbols and formatting
         $cleaned = preg_replace('/[^\d.,]/', '', $currencyString);
-        
-        // Handle different number formats
-        if (strpos($cleaned, '.') !== false && strpos($cleaned, ',') !== false) {
-            // Format like 1,234.56 (USD style) - comma is thousands separator
-            $cleaned = str_replace(',', '', $cleaned);
-        } elseif (substr_count($cleaned, '.') > 1) {
-            // Format like 1.500.000 (IDR style) - dots are thousands separators
-            $cleaned = str_replace('.', '', $cleaned);
-        } elseif (strpos($cleaned, ',') !== false && strlen(explode(',', $cleaned)[1] ?? '') <= 2) {
-            // Format like 1234,56 (European style) - comma is decimal separator
-            $cleaned = str_replace(',', '.', $cleaned);
-        }
-        // If only dots and no commas, and last dot has 1-2 digits after, it's decimal
-        elseif (strpos($cleaned, '.') !== false && preg_match('/\.(\d{1,2})$/', $cleaned)) {
-            // Keep as is - it's already in the right format
-        }
-        // Otherwise, remove all dots (they are thousands separators)
-        elseif (strpos($cleaned, '.') !== false) {
-            $cleaned = str_replace('.', '', $cleaned);
-        }
+        $cleaned = str_replace(',', '', $cleaned);
         
         return (float) $cleaned;
     }
@@ -315,28 +209,6 @@ class CurrencyHelper
     }
 }
 ```
-
-#### **💡 Why This Improved Parsing Logic?**
-
-**Problem dengan implementasi sederhana:**
-```php
-// Simple approach - fails for different formats
-$cleaned = str_replace(',', '', $currencyString); // Always removes commas
-// "1.500.000" becomes "1.500.000" → (float) = 1.5 ❌
-// "$1,234.56" becomes "$1234.56" → works ✅  
-```
-
-**Solution dengan format detection:**
-
-| Input Format | Logic Applied | Result |
-|--------------|---------------|---------|
-| `"Rp 1.500.000"` | Multiple dots → Remove all dots | `1500000.0` ✅ |
-| `"$1,234.56"` | Comma + single dot → Remove commas | `1234.56` ✅ |
-| `"1234,56"` | Comma with ≤2 digits → Decimal separator | `1234.56` ✅ |
-| `"123.45"` | Single dot with ≤2 digits → Keep as decimal | `123.45` ✅ |
-| `"123456"` | Numbers only → Direct conversion | `123456.0` ✅ |
-
-**Key Testing Insight:** Pure unit testing helped us identify this edge case and implement a robust solution that handles international currency formats correctly.
 
 #### **Langkah 1.2: Pure Unit Tests untuk Helper**
 
@@ -449,7 +321,7 @@ class CurrencyHelperTest extends TestCase
         $this->assertEquals($expected, $result);
     }
     
-    public static function currencyParsingProvider(): array
+    public function currencyParsingProvider(): array
     {
         return [
             'idr_format' => ['Rp 1.500.000', 1500000],
@@ -473,7 +345,7 @@ class CurrencyHelperTest extends TestCase
         $this->assertEquals($expected, $result);
     }
     
-    public static function percentageProvider(): array
+    public function percentageProvider(): array
     {
         return [
             'ten_percent' => [1000, 10, 100.0],
@@ -499,7 +371,7 @@ class CurrencyHelperTest extends TestCase
         CurrencyHelper::calculatePercentage(1000, $invalidPercentage);
     }
     
-    public static function invalidPercentageProvider(): array
+    public function invalidPercentageProvider(): array
     {
         return [
             'negative' => [-1],
@@ -513,19 +385,6 @@ class CurrencyHelperTest extends TestCase
 ---
 
 ### **FASE 2: BUSINESS LOGIC TESTING WITH MOCKS** ⏱️ 20 menit
-
-> **🎯 Tujuan Fase 2**: Menguasai testing business logic dengan dependencies menggunakan mock objects untuk isolasi penuh.
-
-**Yang akan Anda pelajari:**
-- ✅ Dependency injection untuk testability
-- ✅ Mock objects dan behavior verification
-- ✅ Interface contracts untuk loose coupling
-- ✅ Complex business logic testing
-- ✅ Service layer testing patterns
-
-**Upgrade dari Fase 1:**
-- **Fase 1**: Simple functions, no dependencies
-- **Fase 2**: Complex services, external dependencies, mocks
 
 #### **Langkah 2.1: Buat Service Class dengan Dependencies**
 
@@ -835,190 +694,80 @@ class DiscountServiceTest extends TestCase
 }
 ```
 
-#### **🎯 Hasil Testing Fase 2**
-
-Jalankan tests untuk memverifikasi implementasi:
-
-```bash
-# Windows (PowerShell)
-& "vendor/bin/phpunit" tests/Unit/Services/DiscountServiceTest.php --verbose
-
-# Expected Results
-PHPUnit 11.5.15 by Sebastian Bergmann and contributors.
-
-Tests: 10, Assertions: 15, Time: 00:00.167, Memory: 8.00 MB
-
-OK (10 tests, 15 assertions)
-```
-
-**✅ Key Achievements Fase 2:**
-- Business logic testing dengan full isolation
-- Mock objects untuk external dependencies  
-- Behavior verification (method calls, parameters)
-- Complex discount calculation logic tested
-- Exception handling dan edge cases
-
 ---
 
-### **FASE 3: TESTING EDGE CASES** ⏱️ 15 menit
+### **FASE 3: TESTING EDGE CASES** ⏱️ 10 menit
 
-> **🎯 Tujuan Fase 3**: Mengimplementasikan advanced testing patterns untuk edge cases, boundary conditions, dan exception handling yang crucial dalam production environment.
+#### **Langkah 3.1: Data Providers untuk Boundary Testing**
 
-**Yang akan Anda pelajari:**
-- ✅ Boundary testing (empty, max length, exact limits)
-- ✅ Exception handling patterns
-- ✅ Input validation comprehensive testing  
-- ✅ Security considerations (null bytes, injection)
-- ✅ Multiple failure scenarios
-- ✅ Performance boundary testing
-
-**Advanced dari Fase 1 & 2:**
-- **Fase 1**: Basic functionality testing
-- **Fase 2**: Business logic with dependencies  
-- **Fase 3**: Production-ready robustness testing
-
-Fase terakhir ini mendemonstrasikan testing untuk **edge cases, boundary conditions, dan exception handling** - aspek yang critical dalam production code.
-}
-```
-
-#### **✅ Expected Test Results - Fase 2**
-
-Setelah implementasi lengkap Fase 2, semua business logic tests dengan mocks akan berhasil:
-
-```bash
-$ & "vendor/bin/phpunit" tests/Unit/Services/DiscountServiceTest.php --stop-on-failure
-
-PHPUnit 11.5.15 by Sebastian Bergmann and contributors.
-Runtime:       PHP 8.3.8
-Configuration: D:\erp_rpl\phpunit.xml
-
-..........                                                        10 / 10 (100%)
-
-Time: 00:00.167, Memory: 10.00 MB
-OK, but there were issues!
-Tests: 10, Assertions: 15, PHPUnit Deprecations: 7.
-```
-
-**Test Coverage Summary:**
-- ✅ **10 tests passed** - All business logic scenarios
-- ✅ **15 assertions** - Comprehensive validation coverage
-- ⚡ **0.167s execution** - Pure unit testing performance
-- 🔧 **7 deprecations** - `@test` annotations (cosmetic, can ignore)
-
-**Key Business Logic Tested:**
-- VIP user privilege handling
-- Regular user eligibility requirements  
-- Percentage vs fixed discount calculations
-- Maximum discount caps and limits
-- Invalid coupon and user error handling
-- Edge cases with data provider scenarios
-
-#### **🔧 Mock Patterns yang Berhasil Diimplementasikan**
-
-**1. Dependency Injection Setup:**
 ```php
-protected function setUp(): void
+/**
+ * Test: Multiple discount scenarios using data provider
+ * @test
+ * @dataProvider discountScenarioProvider
+ */
+public function it_handles_various_discount_scenarios(
+    array $user, 
+    array $coupon, 
+    float $orderAmount, 
+    float $expectedDiscount
+): void {
+    // Arrange
+    $this->userRepository
+        ->method('findById')
+        ->willReturn($user);
+        
+    $this->couponValidator
+        ->method('validate')
+        ->willReturn($coupon);
+    
+    // Act
+    $discount = $this->discountService->calculateDiscount(1, 'TEST', $orderAmount);
+    
+    // Assert
+    $this->assertEquals($expectedDiscount, $discount);
+}
+
+public function discountScenarioProvider(): array
 {
-    parent::setUp();
-    
-    // Create mocks for all dependencies
-    $this->userRepository = $this->createMock(UserRepositoryInterface::class);
-    $this->couponValidator = $this->createMock(CouponValidatorInterface::class);
-    
-    // Inject mocks into service under test
-    $this->discountService = new DiscountService(
-        $this->userRepository,
-        $this->couponValidator
-    );
+    return [
+        'vip_percentage_no_cap' => [
+            ['type' => 'vip', 'order_count' => 10],
+            ['valid' => true, 'type' => 'percentage', 'value' => 10, 'min_orders' => 5],
+            100,
+            10 // 10% of 100
+        ],
+        'regular_eligible_fixed' => [
+            ['type' => 'regular', 'order_count' => 8],
+            ['valid' => true, 'type' => 'fixed', 'value' => 25, 'min_orders' => 5],
+            100,
+            25 // Fixed 25
+        ],
+        'regular_ineligible' => [
+            ['type' => 'regular', 'order_count' => 3],
+            ['valid' => true, 'type' => 'percentage', 'value' => 20, 'min_orders' => 5],
+            100,
+            0 // Not eligible
+        ],
+        'zero_order_amount' => [
+            ['type' => 'vip', 'order_count' => 10],
+            ['valid' => true, 'type' => 'percentage', 'value' => 20, 'min_orders' => 5],
+            0,
+            0 // 20% of 0 is 0
+        ]
+    ];
 }
-```
-
-**2. Behavior Verification Pattern:**
-```php
-// Verify method called exactly once with specific parameters
-$this->userRepository
-    ->expects($this->once())           // Frequency verification
-    ->method('findById')               // Method name verification  
-    ->with(1)                         // Parameter verification
-    ->willReturn(['id' => 1, ...]);   // Mock response
-```
-
-**3. Simple Return Value Mocking:**
-```php
-// For less critical dependency calls
-$this->couponValidator
-    ->method('validate')               // Method to mock
-    ->willReturn(['valid' => false]);  // Simple return value
-```
-
-**4. Data Provider Integration:**
-```php
-// Mocks work seamlessly with data providers
-$this->userRepository->method('findById')->willReturn($user);
-$this->couponValidator->method('validate')->willReturn($coupon);
-// Test data comes from static data provider method
 ```
 
 ---
 
 ## **RUNNING PURE UNIT TESTS**
 
-### **✅ Complete Test Results - All Phases**
-
-**Fase 1 - CurrencyHelper Tests:**
-```bash
-$ php artisan test tests/Unit/Helpers/CurrencyHelperTest.php --stop-on-failure
-
-   PASS  Tests\Unit\Helpers\CurrencyHelperTest
-  ✓ it formats idr currency correctly                                    0.02s  
-  ✓ it formats usd currency correctly                                    0.01s  
-  ✓ it uses idr as default currency                                      0.01s  
-  ✓ it throws exception for negative amount                              0.01s  
-  ✓ it throws exception for unsupported currency                         0.01s  
-  ✓ it parses currency string to amount (idr_format)                     0.01s  
-  ✓ it parses currency string to amount (usd_format)                     0.01s  
-  ✓ it parses currency string to amount (numbers_only)                   0.01s  
-  ✓ it parses currency string to amount (with_spaces)                    0.01s  
-  ✓ it calculates percentage correctly (ten_percent)                     0.01s  
-  ✓ it calculates percentage correctly (fifty_percent)                   0.01s  
-  ✓ it calculates percentage correctly (zero_percent)                    0.01s  
-  ✓ it calculates percentage correctly (hundred_percent)                 0.01s  
-  ✓ it calculates percentage correctly (decimal_percentage)              0.01s  
-  ✓ it throws exception for invalid percentage (negative)                0.01s  
-  ✓ it throws exception for invalid percentage (over_hundred)            0.01s  
-  ✓ it throws exception for invalid percentage (way_over)                0.01s  
-
-  Tests:  17 passed
-  Time:   0.33s
-```
-
-**Fase 2 - DiscountService Tests:**
-```bash  
-$ & "vendor/bin/phpunit" tests/Unit/Services/DiscountServiceTest.php --stop-on-failure
-
-PHPUnit 11.5.15 by Sebastian Bergmann and contributors.
-..........                                                        10 / 10 (100%)
-Time: 00:00.167, Memory: 10.00 MB
-Tests: 10, Assertions: 15, PHPUnit Deprecations: 7.
-```
-
-**Combined Results:**
-- ✅ **27 tests total** (17 CurrencyHelper + 10 DiscountService)
-- ✅ **All tests passed** with no failures
-- ⚡ **< 0.5s total execution** (pure unit testing performance)
-- 🎯 **100% business logic coverage** for both classes
-
 ### **Execution Commands**
 
 ```bash
-# Run Fase 1: Helper Function Tests
+# Run only pure unit tests (fast)
 php artisan test tests/Unit/Helpers/ --stop-on-failure
-
-# Run Fase 2: Business Logic Tests with Mocks  
-php artisan test tests/Unit/Services/ --stop-on-failure
-
-# Run all pure unit tests together
-php artisan test tests/Unit/ --stop-on-failure
 
 # Run with coverage for specific directory
 php artisan test tests/Unit/Services/ --coverage-text
@@ -1028,10 +777,6 @@ php artisan test tests/Unit/Services/DiscountServiceTest.php
 
 # Run with timing information
 php artisan test tests/Unit/ --verbose
-
-# Using PHPUnit directly for debugging
-& "vendor/bin/phpunit" tests/Unit/Services/DiscountServiceTest.php --stop-on-failure
-& "vendor/bin/phpunit" tests/Unit/Helpers/CurrencyHelperTest.php --stop-on-failure
 ```
 
 ### **Performance Expectations**
@@ -1046,695 +791,7 @@ Pure Unit Test Performance Targets:
 
 ---
 
-### **FASE 3: TESTING EDGE CASES** ⏱️ 15 menit
-
-Fase terakhir ini mendemonstrasikan testing untuk **edge cases, boundary conditions, dan exception handling** - aspek yang critical dalam production code.
-
-#### **3.1 Membuat ValidationService**
-
-Buat service baru untuk demonstrasi edge case testing:
-
-```bash
-# Windows (PowerShell)
-New-Item -Path "app/Services/ValidationService.php" -ItemType File -Force
-```
-
-**File: `app/Services/ValidationService.php`**
-
-```php
-<?php
-
-namespace App\Services;
-
-use InvalidArgumentException;
-
-class ValidationService
-{
-    /**
-     * Validate email address with edge cases
-     */
-    public static function validateEmail(string $email): bool
-    {
-        if (empty(trim($email))) {
-            throw new InvalidArgumentException('Email cannot be empty');
-        }
-        
-        // Handle edge cases
-        if (strlen($email) > 254) {
-            throw new InvalidArgumentException('Email address too long');
-        }
-        
-        if (substr_count($email, '@') !== 1) {
-            return false;
-        }
-        
-        [$local, $domain] = explode('@', $email);
-        
-        // Edge cases for local part
-        if (empty($local) || strlen($local) > 64) {
-            return false;
-        }
-        
-        // Edge cases for domain part  
-        if (empty($domain) || strlen($domain) > 253) {
-            return false;
-        }
-        
-        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
-    }
-    
-    /**
-     * Validate password with complex requirements
-     */
-    public static function validatePassword(string $password): array
-    {
-        $errors = [];
-        
-        // Edge case: Empty or whitespace only
-        if (empty(trim($password))) {
-            $errors[] = 'Password cannot be empty';
-        }
-        
-        // Length requirements with edge cases
-        if (strlen($password) < 8) {
-            $errors[] = 'Password must be at least 8 characters';
-        }
-        
-        if (strlen($password) > 128) {
-            $errors[] = 'Password cannot exceed 128 characters';
-        }
-        
-        // Character requirements
-        if (!preg_match('/[A-Z]/', $password)) {
-            $errors[] = 'Password must contain at least one uppercase letter';
-        }
-        
-        if (!preg_match('/[a-z]/', $password)) {
-            $errors[] = 'Password must contain at least one lowercase letter';
-        }
-        
-        if (!preg_match('/\d/', $password)) {
-            $errors[] = 'Password must contain at least one number';
-        }
-        
-        if (!preg_match('/[^A-Za-z\d]/', $password)) {
-            $errors[] = 'Password must contain at least one special character';
-        }
-        
-        // Edge case: Common passwords
-        $commonPasswords = ['password', '12345678', 'qwerty123', 'Password1'];
-        if (in_array($password, $commonPasswords)) {
-            $errors[] = 'Password is too common';
-        }
-        
-        return [
-            'valid' => empty($errors),
-            'errors' => $errors
-        ];
-    }
-    
-    /**
-     * Validate phone number with international formats
-     */
-    public static function validatePhoneNumber(string $phone, string $countryCode = 'ID'): bool
-    {
-        if (empty(trim($phone))) {
-            throw new InvalidArgumentException('Phone number cannot be empty');
-        }
-        
-        // Remove all non-digit characters except +
-        $cleanPhone = preg_replace('/[^\d+]/', '', $phone);
-        
-        // Additional validation: check for letters in original phone
-        if (preg_match('/[a-zA-Z]/', $phone)) {
-            return false;
-        }
-        
-        switch ($countryCode) {
-            case 'ID':
-                // Indonesian phone numbers
-                // Mobile: 08xx-xxxx-xxxx or +62-8xx-xxxx-xxxx (must be 081x, 082x, etc, not 070x)
-                if (preg_match('/^(\+62|62|0)8[1-9]\d{7,10}$/', $cleanPhone)) {
-                    return true;
-                }
-                // Landline: 021-xxxx-xxxx (area code 02x, not 07x)
-                if (preg_match('/^(\+62|62|0)[2-6]\d{7,9}$/', $cleanPhone)) {
-                    return true;
-                }
-                return false;
-                
-            case 'US':
-                // US phone numbers: +1-xxx-xxx-xxxx
-                return preg_match('/^(\+1|1)?\d{10}$/', $cleanPhone);
-                
-            default:
-                throw new InvalidArgumentException("Unsupported country code: {$countryCode}");
-        }
-    }
-    
-    /**
-     * Sanitize and validate input with edge cases
-     */
-    public static function sanitizeInput(string $input, int $maxLength = 255): string
-    {
-        if (strlen($input) > $maxLength) {
-            throw new InvalidArgumentException("Input exceeds maximum length of {$maxLength}");
-        }
-        
-        // Handle null bytes (security edge case)
-        if (strpos($input, "\0") !== false) {
-            throw new InvalidArgumentException('Input contains null bytes');
-        }
-        
-        // Strip dangerous characters but preserve Unicode
-        $sanitized = filter_var($input, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-        
-        // Handle excessive whitespace
-        $sanitized = preg_replace('/\s+/', ' ', trim($sanitized));
-        
-        return $sanitized;
-    }
-}
-```
-
-#### **3.2 Membuat Comprehensive Edge Case Tests**
-
-Buat test file untuk edge cases:
-
-```bash
-# Windows (PowerShell)
-New-Item -Path "tests/Unit/Services/ValidationServiceTest.php" -ItemType File -Force
-```
-
-**File: `tests/Unit/Services/ValidationServiceTest.php`**
-
-```php
-<?php
-
-namespace Tests\Unit\Services;
-
-use PHPUnit\Framework\TestCase;
-use App\Services\ValidationService;
-use InvalidArgumentException;
-
-class ValidationServiceTest extends TestCase
-{
-    /**
-     * @dataProvider emailProvider
-     */
-    public function test_email_validation_edge_cases($email, $expectedResult, $expectsException = false)
-    {
-        if ($expectsException) {
-            $this->expectException(InvalidArgumentException::class);
-        }
-        
-        $result = ValidationService::validateEmail($email);
-        $this->assertEquals($expectedResult, $result);
-    }
-    
-    public static function emailProvider(): array
-    {
-        return [
-            // Valid cases
-            'valid_simple_email' => ['test@example.com', true],
-            'valid_with_plus' => ['test+tag@example.com', true],
-            'valid_with_dots' => ['test.email@example.com', true],
-            'valid_subdomain' => ['user@mail.example.com', true],
-            
-            // Edge cases - Invalid
-            'missing_at_symbol' => ['testexample.com', false],
-            'multiple_at_symbols' => ['test@@example.com', false],
-            'empty_local_part' => ['@example.com', false],
-            'empty_domain_part' => ['test@', false],
-            'local_part_too_long' => [str_repeat('a', 65) . '@example.com', false],
-            'domain_too_long' => ['test@' . str_repeat('a', 250) . '.com', false, true], // Should throw exception
-            
-            // Extreme edge cases
-            'just_at_symbol' => ['@', false],
-            'special_chars_in_domain' => ['test@exam!ple.com', false],
-            'spaces_in_email' => ['test @example.com', false],
-            
-            // Boundary cases
-            'max_local_length' => [str_repeat('a', 64) . '@example.com', true],
-            'max_domain_length' => ['test@' . str_repeat('a', 60) . '.com', true],
-        ];
-    }
-    
-    /**
-     * Test email validation with exception cases
-     */
-    public function test_email_validation_exceptions()
-    {
-        // Empty email
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Email cannot be empty');
-        ValidationService::validateEmail('');
-    }
-    
-    public function test_email_too_long_exception()
-    {
-        // Email too long (over 254 characters)
-        $longEmail = str_repeat('a', 250) . '@example.com';
-        
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Email address too long');
-        ValidationService::validateEmail($longEmail);
-    }
-    
-    public function test_whitespace_only_email()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Email cannot be empty');
-        ValidationService::validateEmail('   ');
-    }
-    
-    /**
-     * @dataProvider passwordProvider
-     */
-    public function test_password_validation_edge_cases($password, $expectedValid, $expectedErrorsCount)
-    {
-        $result = ValidationService::validatePassword($password);
-        
-        $this->assertEquals($expectedValid, $result['valid']);
-        $this->assertCount($expectedErrorsCount, $result['errors']);
-    }
-    
-    public static function passwordProvider(): array
-    {
-        return [
-            // Valid passwords
-            'valid_strong_password' => ['MyStr0ng!Pass', true, 0],
-            'valid_with_numbers' => ['Password123!', true, 0],
-            'valid_with_special_chars' => ['C0mpl3x@Pass', true, 0],
-            
-            // Edge cases - Invalid
-            'empty_password' => ['', false, 6], // All 6 validation rules fail
-            'whitespace_only' => ['   ', false, 5], // 5 validation rules fail (no special char requirement)
-            'too_short' => ['Ab1!', false, 1],
-            'no_uppercase' => ['mystr0ng!pass', false, 1],
-            'no_lowercase' => ['MYSTR0NG!PASS', false, 1],
-            'no_numbers' => ['MyStrong!Pass', false, 1],
-            'no_special_chars' => ['MyStr0ngPass', false, 1],
-            'common_password' => ['password', false, 4], // Short, no uppercase, no numbers, no special
-            'common_password2' => ['Password1', false, 2], // No special chars + common
-            
-            // Boundary cases
-            'exactly_8_chars' => ['MyStr0n!', true, 0],
-            'max_length' => [str_repeat('A', 124) . 'a1!', true, 0],
-            'too_long' => [str_repeat('A', 126) . 'a1!', false, 1], // Just too long
-            
-            // Multiple failures
-            'multiple_failures' => ['abc', false, 4], // Short, no uppercase, no numbers, no special
-        ];
-    }
-    
-    /**
-     * @dataProvider phoneProvider
-     */
-    public function test_phone_validation_edge_cases($phone, $countryCode, $expectedResult, $expectsException = false)
-    {
-        if ($expectsException) {
-            $this->expectException(InvalidArgumentException::class);
-        }
-        
-        $result = ValidationService::validatePhoneNumber($phone, $countryCode);
-        $this->assertEquals($expectedResult, $result);
-    }
-    
-    public static function phoneProvider(): array
-    {
-        return [
-            // Indonesian mobile numbers
-            'id_mobile_08' => ['081234567890', 'ID', true],
-            'id_mobile_62' => ['+6281234567890', 'ID', true],
-            'id_mobile_formatted' => ['0812-3456-7890', 'ID', true],
-            'id_landline' => ['02112345678', 'ID', true],
-            'id_landline_plus' => ['+622112345678', 'ID', true],
-            
-            // US numbers
-            'us_number' => ['5551234567', 'US', true],
-            'us_number_plus1' => ['+15551234567', 'US', true],
-            'us_number_formatted' => ['(555) 123-4567', 'US', true],
-            
-            // Edge cases - Invalid
-            'id_wrong_prefix' => ['071234567890', 'ID', false],
-            'id_too_short' => ['08123456', 'ID', false],
-            'id_too_long' => ['081234567890123', 'ID', false],
-            'us_too_short' => ['555123456', 'US', false],
-            'us_too_long' => ['55512345678', 'US', false],
-            
-            // Special characters
-            'with_letters' => ['08abc1234567890', 'ID', false],
-            'only_letters' => ['abcdefghijk', 'ID', false],
-        ];
-    }
-    
-    public function test_phone_validation_exceptions()
-    {
-        // Empty phone
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Phone number cannot be empty');
-        ValidationService::validatePhoneNumber('');
-    }
-    
-    public function test_phone_validation_unsupported_country()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupported country code: XX');
-        ValidationService::validatePhoneNumber('1234567890', 'XX');
-    }
-    
-    public function test_phone_validation_whitespace_only()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Phone number cannot be empty');
-        ValidationService::validatePhoneNumber('   ');
-    }
-    
-    /**
-     * @dataProvider sanitizeInputProvider
-     */
-    public function test_input_sanitization_edge_cases($input, $maxLength, $expectedResult, $expectsException = false)
-    {
-        if ($expectsException) {
-            $this->expectException(InvalidArgumentException::class);
-        }
-        
-        $result = ValidationService::sanitizeInput($input, $maxLength);
-        $this->assertEquals($expectedResult, $result);
-    }
-    
-    public static function sanitizeInputProvider(): array
-    {
-        return [
-            // Normal cases
-            'simple_text' => ['Hello World', 255, 'Hello World'],
-            'text_with_extra_spaces' => ['Hello    World   ', 255, 'Hello World'],
-            'text_with_tabs' => ["Hello\tWorld", 255, 'Hello World'],
-            'text_with_newlines' => ["Hello\nWorld", 255, 'Hello World'],
-            
-            // Edge cases
-            'empty_string' => ['', 255, ''],
-            'whitespace_only' => ['   ', 255, ''],
-            'single_char' => ['A', 255, 'A'],
-            'max_length' => [str_repeat('A', 255), 255, str_repeat('A', 255)],
-            
-            // Special characters
-            'with_quotes' => ["Hello 'World'", 255, "Hello 'World'"],
-            'with_unicode' => ['Héllo Wörld', 255, 'Héllo Wörld'],
-        ];
-    }
-    
-    public function test_sanitize_input_exceeds_max_length()
-    {
-        $longInput = str_repeat('A', 256);
-        
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Input exceeds maximum length of 255');
-        ValidationService::sanitizeInput($longInput);
-    }
-    
-    public function test_sanitize_input_with_null_bytes()
-    {
-        $inputWithNull = "Hello\0World";
-        
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Input contains null bytes');
-        ValidationService::sanitizeInput($inputWithNull);
-    }
-    
-    /**
-     * Test boundary conditions for various methods
-     */
-    public function test_boundary_conditions()
-    {
-        // Test email with reasonable length (not maximum)
-        $validEmail = str_repeat('a', 50) . '@example.com';
-        $this->assertTrue(ValidationService::validateEmail($validEmail));
-        
-        // Test phone number with minimum valid length
-        $this->assertTrue(ValidationService::validatePhoneNumber('081234567890', 'ID'));
-        
-        // Test password with exactly 8 characters
-        $minPassword = ValidationService::validatePassword('Passw0rd!');
-        $this->assertTrue($minPassword['valid']);
-    }
-    
-    /**
-     * Test extreme values and null handling
-     */
-    public function test_extreme_values()
-    {
-        // Test with very long valid inputs
-        $longValidEmail = 'a' . str_repeat('b', 62) . '@example.com';
-        $this->assertTrue(ValidationService::validateEmail($longValidEmail));
-        
-        // Test password with maximum allowed length
-        $maxPassword = str_repeat('A', 124) . 'a1!';
-        $result = ValidationService::validatePassword($maxPassword);
-        $this->assertTrue($result['valid']);
-        
-        // Test sanitization with exact boundary
-        $boundaryInput = str_repeat('A', 255);
-        $sanitized = ValidationService::sanitizeInput($boundaryInput, 255);
-        $this->assertEquals(255, strlen($sanitized));
-    }
-}
-```
-
-#### **🎯 Hasil Testing Fase 3**
-
-Jalankan semua edge case tests:
-
-```bash
-# Windows (PowerShell)
-# Run Fase 3: Edge Cases Testing
-& "vendor/bin/phpunit" tests/Unit/Services/ValidationServiceTest.php --verbose
-
-# Run all unit tests to verify complete functionality
-& "vendor/bin/phpunit" tests/Unit --stop-on-failure
-```
-
-**✅ Expected Results - Fase 3:**
-
-```
-PHPUnit 11.5.15 by Sebastian Bergmann and contributors.
-
-....................................................DDDDDDDDDD...D 66 / 66 (100%)
-
-Time: 00:00.273, Memory: 10.00 MB
-
-OK, but there were issues!
-Tests: 66, Assertions: 94, Deprecations: 1, PHPUnit Deprecations: 4.
-```
-
-**Combined Results - All Phases:**
-
-```
-# All Unit Tests Combined
-Tests: 94, Assertions: 137, Deprecations: 1, PHPUnit Deprecations: 19.
-
-Time: 00:01.781, Memory: 28.00 MB
-```
-
-### **🎯 Key Edge Case Testing Concepts Demonstrated**
-
-1. **Boundary Testing**: Testing at the limits (empty strings, max lengths, exact boundaries)
-2. **Exception Handling**: Testing proper exception throwing and messages
-3. **Input Validation**: Testing all possible input combinations and formats
-4. **Security Considerations**: Testing for null bytes and injection attempts  
-5. **Performance Boundaries**: Testing with large inputs and memory constraints
-6. **Multiple Failure Scenarios**: Testing complex validation rules with multiple failures
-
----
-
-## **SUMMARY SEMUA FASE**
-
-### **📊 Achievement Overview**
-
-| Fase | Focus Area | Test Count | Key Skills |
-|------|------------|------------|------------|
-| **Fase 1** | Helper Functions | 17 tests | Basic pure unit testing, data providers |  
-| **Fase 2** | Business Logic | 10 tests | Mocking, dependency injection, behavior verification |
-| **Fase 3** | Edge Cases | 66 tests | Boundary testing, exception handling, validation |
-| **Total** | **Complete Coverage** | **94 tests** | **Production-ready testing skills** |
-
-### **🎓 Learning Progression Achieved**
-
-```
-❌ Before: Manual testing, integration-only approach
-✅ After: Comprehensive pure unit testing mastery
-
-Skills Developed:
-├── Pure unit testing principles  
-├── Mock objects and test doubles
-├── Dependency injection for testability
-├── Edge case and boundary testing
-├── Exception handling patterns
-└── Production-ready testing strategies
-```
-```
-
-#### **3.3 Jalankan Fase 3 Tests**
-
-```bash
-# Windows (PowerShell)
-# Run Fase 3: Edge Cases Testing
-& "vendor/bin/phpunit" tests/Unit/Services/ValidationServiceTest.php --verbose
-
-# Run with coverage information
-& "vendor/bin/phpunit" tests/Unit/Services/ValidationServiceTest.php --coverage-text
-
-# Run all unit tests to verify complete functionality
-& "vendor/bin/phpunit" tests/Unit --stop-on-failure
-```
-
-#### **✅ Expected Test Results - Fase 3**
-
-Setelah implementasi lengkap Fase 3, semua edge case tests akan berhasil:
-
-```
-PHPUnit 11.5.15 by Sebastian Bergmann and contributors.
-
-Runtime:       PHP 8.3.8
-Configuration: D:\erp_rpl\phpunit.xml
-
-....................................................DDDDDDDDDD...D 66 / 66 (100%)
-
-Time: 00:00.273, Memory: 10.00 MB
-
-OK, but there were issues!
-Tests: 66, Assertions: 94, Deprecations: 1, PHPUnit Deprecations: 4.
-```
-
-**Combined Results - All Phases:**
-
-```
-# All Unit Tests Combined
-Tests: 94, Assertions: 137, Deprecations: 1, PHPUnit Deprecations: 19.
-
-Time: 00:01.781, Memory: 28.00 MB
-```
-
-### **🎯 Key Edge Case Testing Concepts Demonstrated**
-
-1. **Boundary Testing**: Testing at the limits (empty strings, max lengths, exact boundaries)
-2. **Exception Handling**: Testing proper exception throwing and messages
-3. **Input Validation**: Testing all possible input combinations and formats
-4. **Security Considerations**: Testing for null bytes and injection attempts  
-5. **Performance Boundaries**: Testing with large inputs and memory constraints
-6. **Multiple Failure Scenarios**: Testing complex validation rules with multiple failures
-
----
-
-## **TROUBLESHOOTING & COMMON ISSUES**
-
-> **🔧 Debug Guide**: Gunakan section ini jika mengalami masalah selama implementasi.
-
-### **1. Data Provider Issues**
-
-#### **❌ Problem: Data Provider Method Not Static**
-
-```
-The data provider specified for Tests\Unit\Helpers\CurrencyHelperTest::it_parses_currency_string_to_amount is invalid
-Data Provider method Tests\Unit\Helpers\CurrencyHelperTest::currencyParsingProvider() is not static
-```
-
-#### **✅ Solution: Make Data Provider Methods Static**
-
-```php
-// ❌ Wrong - Non-static data provider
-public function currencyParsingProvider(): array
-{
-    return [
-        'idr_format' => ['Rp 1.500.000', 1500000],
-        // ...
-    ];
-}
-
-// ✅ Correct - Static data provider (PHPUnit 11+)
-public static function currencyParsingProvider(): array
-{
-    return [
-        'idr_format' => ['Rp 1.500.000', 1500000],
-        'usd_format' => ['$1,234.56', 1234.56],
-        'numbers_only' => ['123456', 123456],
-        'with_spaces' => ['Rp 100 000', 100000]
-    ];
-}
-```
-
-### **2. Currency Parsing Logic Issues**
-
-#### **❌ Problem: Simple Parse Logic Fails for Different Formats**
-
-```php
-// Original simple implementation - fails for IDR format
-public static function parse(string $currencyString): float
-{
-    $cleaned = preg_replace('/[^\d.,]/', '', $currencyString);
-    $cleaned = str_replace(',', '', $cleaned); // Removes all commas
-    return (float) $cleaned; // "1.500.000" becomes 1.5 instead of 1500000
-}
-```
-
-#### **✅ Solution: Handle Different Number Formats**
-
-```php
-// Improved implementation - handles multiple currency formats
-public static function parse(string $currencyString): float
-{
-    // Remove currency symbols (Rp, $, etc.)
-    $cleaned = preg_replace('/[^\d.,]/', '', $currencyString);
-    
-    // Handle different number formats intelligently
-    if (strpos($cleaned, '.') !== false && strpos($cleaned, ',') !== false) {
-        // Format: 1,234.56 (USD) - comma is thousands, dot is decimal
-        $cleaned = str_replace(',', '', $cleaned);
-    } elseif (substr_count($cleaned, '.') > 1) {
-        // Format: 1.500.000 (IDR) - dots are thousands separators
-        $cleaned = str_replace('.', '', $cleaned);
-    } elseif (strpos($cleaned, ',') !== false && strlen(explode(',', $cleaned)[1] ?? '') <= 2) {
-        // Format: 1234,56 (European) - comma is decimal separator
-        $cleaned = str_replace(',', '.', $cleaned);
-    }
-    // Continue handling other edge cases...
-    
-    return (float) $cleaned;
-}
-```
-
-### **3. PHPUnit Version Compatibility**
-
-```php
-// PHPUnit 11+ requires static data providers
-public static function dataProvider(): array { /* ... */ }
-
-// PHPUnit 10 and below used non-static
-public function dataProvider(): array { /* ... */ }
-```
-
-### **4. Running Tests - Command Variations**
-
-```bash
-# Laravel Artisan (recommended)
-php artisan test tests/Unit/Helpers/ --stop-on-failure
-
-# Direct PHPUnit
-./vendor/bin/phpunit tests/Unit/Helpers/ --stop-on-failure
-
-# Windows PowerShell
-& "vendor/bin/phpunit" tests/Unit/Helpers/ --stop-on-failure
-
-# With specific filter
-php artisan test --filter=CurrencyHelper --stop-on-failure
-```
-
----
-
 ## **BEST PRACTICES PURE UNIT TESTING**
-
-> **💎 Professional Standards**: Ikuti best practices ini untuk kode testing yang maintainable dan reliable.
 
 ### **1. Dependency Injection Strategy**
 
@@ -1797,21 +854,6 @@ class DiscountServiceTest extends TestCase
 
 ## **KESIMPULAN PURE UNIT TESTING**
 
-### **🎯 Quick Reference Commands**
-
-```bash
-# Jalankan individual test phases
-& "vendor/bin/phpunit" tests/Unit/Helpers/CurrencyHelperTest.php      # Fase 1
-& "vendor/bin/phpunit" tests/Unit/Services/DiscountServiceTest.php    # Fase 2  
-& "vendor/bin/phpunit" tests/Unit/Services/ValidationServiceTest.php  # Fase 3
-
-# Jalankan semua unit tests
-& "vendor/bin/phpunit" tests/Unit --stop-on-failure
-
-# Check test coverage
-& "vendor/bin/phpunit" tests/Unit --coverage-text
-```
-
 ### **Key Takeaways** 🎯
 
 1. **Pure Unit Testing ideal untuk isolated business logic**
@@ -1854,51 +896,3 @@ Typical Laravel Project Testing Distribution:
 ```
 
 **🎯 Pure Unit Testing valuable untuk specific use cases, tapi Integration Testing tetap menjadi backbone testing strategy di Laravel!**
-
----
-
-## **REFLECTION & NEXT STEPS**
-
-### **🤔 Refleksi Pembelajaran**
-
-Setelah menyelesaikan 3 fase praktikum, Anda telah:
-
-1. **✅ Menguasai fundamental pure unit testing** dengan helper functions
-2. **✅ Mengimplementasikan mocking** untuk business logic isolation  
-3. **✅ Menerapkan advanced testing patterns** untuk edge cases
-4. **✅ Memahami trade-offs** antara pure unit vs integration testing
-
-### **🚀 Next Steps - Lanjutan Pembelajaran**
-
-**Immediate Actions:**
-- [ ] Terapkan patterns ini di project pribadi Anda
-- [ ] Experiment dengan mocking libraries lain (Mockery, Prophecy)
-- [ ] Pelajari test-driven development (TDD) workflow
-
-**Advanced Topics untuk Dipelajari:**
-- [ ] Integration Testing dengan Laravel Feature Tests
-- [ ] API Testing dengan HTTP assertions
-- [ ] Database Testing dengan Factory dan Seeder  
-- [ ] Performance Testing dan Load Testing
-- [ ] CI/CD Pipeline dengan automated testing
-
-### **📚 Resources untuk Lanjutan**
-
-```
-Recommended Reading:
-📖 Laravel Documentation - Testing
-📖 PHPUnit Documentation - Advanced Features
-📖 "Test Driven Development" by Kent Beck
-📖 "Growing Object-Oriented Software, Guided by Tests" by Freeman & Pryce
-
-Online Resources:
-🌐 Laravel Daily - Testing Tips
-🌐 Laracasts - Testing Series  
-🌐 PHPUnit Best Practices
-```
-
-**💡 Remember**: Pure unit testing adalah salah satu tool dalam testing toolkit Anda. Gunakan dengan bijak sesuai context dan requirement project!
-
----
-
-**🎉 Selamat! Anda telah menyelesaikan Pure Unit Testing Praktikum dengan sukses!**

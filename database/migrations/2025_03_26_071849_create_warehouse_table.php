@@ -3,15 +3,12 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Constants\WarehouseColumns;
 
 return new class extends Migration
 {
-    protected string $table;
-
     public function __construct()
     {
-        $this->table = config('db_tables.warehouse');
+        $this->table = config('db_constants.table.whouse');
     }
 
     /**
@@ -19,14 +16,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create($this->table, function (Blueprint $table) {
+        $col = config('db_constants.column.whouse');
+
+        Schema::create($this->table, function (Blueprint $table) use ($col) {
             $table->id();
-            $table->string(WarehouseColumns::NAME, 50)->unique();
-            $table->string(WarehouseColumns::ADDRESS, 100)->nullable();
-            $table->string(WarehouseColumns::PHONE, 30)->nullable();
-            $table->boolean(WarehouseColumns::IS_RM_WAREHOUSE)->default(false);
-            $table->boolean(WarehouseColumns::IS_FG_WAREHOUSE)->default(false);
-            $table->boolean(WarehouseColumns::IS_ACTIVE)->default(true);
+            $table->string($col['name'], 50);
+            $table->string($col['address'], 100);
+            $table->string($col['phone'], 30);
+            $table->boolean($col['is_rm_whouse'])->default(false);
+            $table->boolean($col['is_fg_whouse'])->default(false);
+            $table->boolean($col['is_active'])->default(true);
             $table->timestamps();
         });
     }
