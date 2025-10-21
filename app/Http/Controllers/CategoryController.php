@@ -40,10 +40,11 @@ class CategoryController extends Controller
         // Web Response with PDF export support
         $categories = Category::getAllCategory($search);
 
-        // if ($request->has('export') && $request->input('export') === 'pdf') {
-        //     $pdf = Pdf::loadView('category.report', compact('categories'));
-        //     return $pdf->stream('report-category.pdf');
-        // }
+        if ($request->has('export') && $request->input('export') === 'pdf') {
+            $categories = Category::getCategory(); // Get all categories for PDF
+            $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
+            return $pdf->stream('laporan_kategori.pdf');
+        }
 
         return view('category.index', compact('categories', 'search'));
     }
