@@ -265,4 +265,46 @@ class WarehouseTest extends TestCase
         $this->assertEquals('Second Warehouse', $result->last()->warehouse_name);
     }
 
+    /**
+     * Test getWarehouseById() returns warehouse detail for valid id (TC-WH-23)
+     */
+    public function test_get_warehouse_by_id_returns_correct_warehouse()
+    {
+        // Arrange - create a warehouse
+        $warehouse = Warehouse::create([
+            WarehouseColumns::NAME => 'Detail Warehouse',
+            WarehouseColumns::ADDRESS => 'Jl. Detail No.1',
+            WarehouseColumns::PHONE => '021-9999999',
+            WarehouseColumns::IS_RM_WAREHOUSE => true,
+            WarehouseColumns::IS_FG_WAREHOUSE => false,
+            WarehouseColumns::IS_ACTIVE => true,
+        ]);
+
+        // Act - get by id
+        $result = Warehouse::getWarehouseById($warehouse->id);
+
+        // Assert - should return the created warehouse with correct fields
+        $this->assertNotNull($result);
+        $this->assertEquals($warehouse->id, $result->id);
+        $this->assertEquals('Detail Warehouse', $result->{WarehouseColumns::NAME});
+        $this->assertEquals('Jl. Detail No.1', $result->{WarehouseColumns::ADDRESS});
+        $this->assertEquals('021-9999999', $result->{WarehouseColumns::PHONE});
+        $this->assertTrue((bool) $result->{WarehouseColumns::IS_ACTIVE});
+    }
+
+    /**
+     * Test getWarehouseById() returns null for non-existing id
+     */
+    public function test_get_warehouse_by_id_with_invalid_id_returns_null()
+    {
+        // Arrange - ensure database is empty or id unlikely to exist
+        $nonExistingId = 999999;
+
+        // Act
+        $result = Warehouse::getWarehouseById($nonExistingId);
+
+        // Assert
+        $this->assertNull($result);
+    }
+
 }
