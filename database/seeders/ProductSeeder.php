@@ -30,134 +30,134 @@ class ProductSeeder extends Seeder
         Product::insert([
             
             [
-                $column['id'] => 'KAOS', 
-                $column['name'] => 'Kaos TShirt', 
-                $column['type'] =>'FG', 
-                $column['category'] => 1, 
-                $column['desc'] => 'Kaos TShirt', 
-                $column['created'] => now(), 
-                $column['updated'] => now()
+                'product_id' => 'KAOS', 
+                'product_name' => 'Kaos TShirt', 
+                'type' => 'FG', 
+                'category' => 1, 
+                'product_description' => 'Kaos TShirt', 
+                'created_at' => now(), 
+                'updated_at' => now()
             ],
 
             [
-                $column['id'] => 'TOPI', 
-                $column['name'] => 'Topi', 
-                $column['type'] =>'FG', 
-                $column['category'] => 2, 
-                $column['desc'] => 'Topi', 
-                $column['created'] => now(), 
-                $column['updated'] => now()
+                'product_id' => 'TOPI', 
+                'product_name' => 'Topi', 
+                'type' => 'FG', 
+                'category' => 2, 
+                'product_description' => 'Topi', 
+                'created_at' => now(), 
+                'updated_at' => now()
             ],
 
             [
-                $column['id'] => 'TASS', 
-                $column['name'] => 'Tas', 
-                $column['type'] =>'FG', 
-                $column['category'] => 3, 
-                $column['desc'] => 'Tas', 
-                $column['created'] => now(), 
-                $column['updated'] => now()
+                'product_id' => 'TASS', 
+                'product_name' => 'Tas', 
+                'type' => 'FG', 
+                'category' => 3, 
+                'product_description' => 'Tas', 
+                'created_at' => now(), 
+                'updated_at' => now()
             ],
 
             [
-                $column['id'] => 'TBLR', 
-                $column['name'] => 'Tumbler', 
-                $column['type'] =>'FG', 
-                $column['category'] => 4, 
-                $column['desc'] => 'Tumbler',                     
-                $column['created'] => now(), 
-                $column['updated'] => now()
+                'product_id' => 'TBLR', 
+                'product_name' => 'Tumbler', 
+                'type' => 'FG', 
+                'category' => 4, 
+                'product_description' => 'Tumbler',                     
+                'created_at' => now(), 
+                'updated_at' => now()
             ],
             
             [
-                $column['id'] => 'TNJK', 
-                $column['name'] => 'Tanjak', 
-                $column['type'] =>'FG', 
-                $column['category'] => 5, 
-                $column['desc'] => 'Tanjak',                     
-                $column['created'] => now(), 
-                $column['updated'] => now()
+                'product_id' => 'TNJK', 
+                'product_name' => 'Tanjak', 
+                'type' => 'FG', 
+                'category' => 5, 
+                'product_description' => 'Tanjak',                     
+                'created_at' => now(), 
+                'updated_at' => now()
             ],
             
             [
-                $column['id'] => 'MNTR', 
-                $column['name'] => 'Miniatur', 
-                $column['type'] =>'FG', 
-                $column['category'] => 6, 
-                $column['desc'] => 'Miniatur',                     
-                $column['created'] => now(), 
-                $column['updated'] => now()
+                'product_id' => 'MNTR', 
+                'product_name' => 'Miniatur', 
+                'type' => 'FG', 
+                'category' => 6, 
+                'product_description' => 'Miniatur',                     
+                'created_at' => now(), 
+                'updated_at' => now()
             ],
             
             [
-                $column['id'] => 'CLDR', 
-                $column['name'] => 'Calendar', 
-                $column['type'] =>'FG', 
-                $column['category'] => 7, 
-                $column['desc'] => 'Calendar Nyenyes',                     
-                $column['created'] => now(), 
-                $column['updated'] => now()
+                'product_id' => 'CLDR', 
+                'product_name' => 'Calendar', 
+                'type' => 'FG', 
+                'category' => 7, 
+                'product_description' => 'Calendar Nyenyes',                     
+                'created_at' => now(), 
+                'updated_at' => now()
             ],
             
             [
-                $column['id'] => 'JAMN', 
-                $column['name'] => 'Jam', 
-                $column['type'] =>'FG', 
-                $column['category'] => 8, 
-                $column['desc'] => 'Jam',                     
-                $column['created'] => now(), 
-                $column['updated'] => now()
+                'product_id' => 'JAMN', 
+                'product_name' => 'Jam', 
+                'type' => 'FG', 
+                'category' => 8, 
+                'product_description' => 'Jam',                     
+                'created_at' => now(), 
+                'updated_at' => now()
             
             ],
             
             [
-                $column['id'] => 'KEYS', 
-                $column['name'] => 'Gantungan Kunci', 
-                $column['type'] =>'FG', 
-                $column['category'] => 9, 
-                $column['desc'] => 'Gantungan Kunci',                     
-                $column['created'] => now(), 
-                $column['updated'] => now()
+                'product_id' => 'KEYS', 
+                'product_name' => 'Gantungan Kunci', 
+                'type' => 'FG', 
+                'category' => 9, 
+                'product_description' => 'Gantungan Kunci',                     
+                'created_at' => now(), 
+                'updated_at' => now()
             ],
             
             [
-                $column['id'] => 'PINN', 
-                $column['name'] => 'Bros PIN', 
-                $column['type'] =>'FG', 
-                $column['category'] => 10, 
-                $column['desc'] => 'Bros PIN',                     
-                $column['created'] => now(), 
-                $column['updated'] => now()
+                'product_id' => 'PINN', 
+                'product_name' => 'Bros PIN', 
+                'type' => 'FG', 
+                'category' => 10, 
+                'product_description' => 'Bros PIN',                     
+                'created_at' => now(), 
+                'updated_at' => now()
             ],
             
             [
-                $column['id'] => 'DMPT', 
-                $column['name'] => 'Dompet', 
-                $column['type'] =>'FG', 
-                $column['category'] => 11, 
-                $column['desc'] => 'Dompet',                     
-                $column['created'] => now(), 
-                $column['updated'] => now()
+                'product_id' => 'DMPT', 
+                'product_name' => 'Dompet', 
+                'type' => 'FG', 
+                'category' => 11, 
+                'product_description' => 'Dompet',                     
+                'created_at' => now(), 
+                'updated_at' => now()
             ],
             
             [
-                $column['id'] => 'BOLN', 
-                $column['name'] => 'Kue Bolen', 
-                $column['type'] =>'FG', 
-                $column['category'] => 12, 
-                $column['desc'] => 'Kue Bolen',                     
-                $column['created'] => now(),
-                $column['updated'] => now()
+                'product_id' => 'BOLN', 
+                'product_name' => 'Kue Bolen', 
+                'type' => 'FG', 
+                'category' => 12, 
+                'product_description' => 'Kue Bolen',                     
+                'created_at' => now(),
+                'updated_at' => now()
             ],
 
             [
-                $column['id'] => 'PEMP', 
-                $column['name'] => 'Pempek', 
-                $column['type'] =>'FG', 
-                $column['category'] => 13, 
-                $column['desc'] => 'Pempek Palembang',                     
-                $column['created'] => now(),
-                $column['updated'] => now()
+                'product_id' => 'PEMP', 
+                'product_name' => 'Pempek', 
+                'type' => 'FG', 
+                'category' => 13, 
+                'product_description' => 'Pempek Palembang',                     
+                'created_at' => now(),
+                'updated_at' => now()
             ]
     ]);
 
@@ -184,13 +184,13 @@ class ProductSeeder extends Seeder
             $categoryID = $category->pluck('id')->toArray();
 
             Product::create([
-                $column['id'] => $productID,
-                $column['name'] => $this->faker->fullProduct(),
-                $column['type'] =>'RM',
-                $column['category'] => $categoryID[0],
-                $column['desc'] => $this->faker->sentence(),
-                $column['created'] => now(),
-                $column['updated'] => now()
+                'product_id' => $productID,
+                'product_name' => $this->faker->fullProduct(),
+                'type' => 'RM',
+                'category' => $categoryID[0],
+                'product_description' => $this->faker->sentence(),
+                'created_at' => now(),
+                'updated_at' => now()
             ]);
         }
 
@@ -205,13 +205,13 @@ class ProductSeeder extends Seeder
             $categoryID = $category->pluck('id')->toArray();
 
             Product::create([
-                $column['id'] => $productID,
-                $column['name'] => $this->faker->fullProduct(),
-                $column['type'] =>'HFG',
-                $column['category'] => $categoryID[0],
-                $column['desc'] => $this->faker->sentence(),
-                $column['created'] => now(),
-                $column['updated'] => now()
+                'product_id' => $productID,
+                'product_name' => $this->faker->fullProduct(),
+                'type' => 'HFG',
+                'category' => $categoryID[0],
+                'product_description' => $this->faker->sentence(),
+                'created_at' => now(),
+                'updated_at' => now()
             ]);
         }
     }

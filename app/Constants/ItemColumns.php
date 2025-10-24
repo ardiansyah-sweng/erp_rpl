@@ -7,9 +7,9 @@ class ItemColumns
     public const ID             = 'id';
     public const PROD_ID        = 'product_id';
     public const SKU            = 'sku';
-    public const NAME           = 'name';
-    public const MEASUREMENT    = 'measurement';
-    public const BASE_PRICE     = 'base_price';
+    public const NAME           = 'item_name';
+    public const MEASUREMENT    = 'measurement_unit';
+    public const BASE_PRICE     = 'avg_base_price';
     public const SELLING_PRICE  = 'selling_price';
     public const PURCHASE_UNIT  = 'purchase_unit';
     public const SELL_UNIT      = 'sell_unit';

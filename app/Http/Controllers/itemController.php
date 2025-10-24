@@ -35,10 +35,10 @@ class ItemController extends Controller
     public function addItem(Request $request)
     {
         $request->validate([
-            'product_id' => 'required|string|size:4', // ID Produk 4 karakter
-            'sku' => 'required|string',
-            'item_name' => 'required|string|min:3',
-            'measurement_unit' => 'required|string',
+            'product_id' => 'required|string|size:4|exists:products,id', // Validasi ID Produk
+            'sku' => 'required|string|unique:items,sku', // Pastikan SKU unik
+            'item_name' => 'required|string|min:3|max:50',
+            'measurement_unit_id' => 'required|integer|exists:measurement_unit,id', // Validasi foreign key
             'selling_price' => 'required|numeric|min:0',
         ]);
 
@@ -47,8 +47,8 @@ class ItemController extends Controller
             'product_id' => $request->product_id,
             'sku' => $request->sku,
             'item_name' => $request->item_name,
-            'measurement_unit' => $request->measurement_unit, // Perbaikan di sini
-            'selling_price' => $request->selling_price, // Perbaikan di sini
+            'measurement_unit_id' => $request->measurement_unit_id, // Menggunakan measurement_unit_id
+            'selling_price' => $request->selling_price,
         ]);
 
         return redirect()->route('item.list')->with('success', 'Item berhasil ditambahkan!');

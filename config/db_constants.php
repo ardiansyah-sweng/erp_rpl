@@ -19,7 +19,7 @@ return [
         'category'                  => $master['category'],
         'cu'                        => 'conversion_unit',
         'grn'                       => 'goods_receipt_note',
-        'item'                      => 'item',
+        'item'                      => 'items', // FIX: Mengubah 'item' menjadi 'items'
         'log_avg_base_price'        => 'log_avg_base_price',
         'log_base_price_supplier'   => 'log_base_price_supplier_product',
         'master_product'            => 'master_product',
@@ -102,7 +102,7 @@ return [
         'cu' => [
             'id'                    => $master['id'],
             'sku'                   => 'sku', #ambil SKU item
-            'muid'                  => 'measurement_unit',
+            'muid'                  => 'measurement_unit_id',
             'val'                   => 'value',
             'isBU'                  => 'is_base_unit',
             'created'               => $master['created'],
@@ -126,8 +126,8 @@ return [
             'sku'                   => 'sku',
             'name'                  => 'item_name',
             // 'category_id'           => 'category_id',
-            // 'description'           => 'description',
-            'measurement'           => 'measurement_unit',
+            // 'description'           => 'description', // Deskripsi ada di level produk, bukan item
+            'measurement'           => 'measurement_unit_id',
             //'stock'                 => 'current_stock',
             'base_price'            => 'avg_base_price', #raw material from supplier
             'selling_price'         => 'selling_price', #finished from bill of material
@@ -214,7 +214,7 @@ return [
             'id'                    => 'product_id',            #char[6]
             'name'                  => 'product_name',          #string[35]
             'type'                  => 'product_type',          #finished, raw material
-            'category'              => 'product_category',      #tinyInteger
+            'category'              => 'category',      #tinyInteger
             'desc'                  => 'product_description',   #string[255]
             'created'               => $master['created'],
             'updated'               => $master['updated']

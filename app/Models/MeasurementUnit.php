@@ -1,20 +1,15 @@
 <?php
-
-namespace App\Models;
-
+namespace  App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class MeasurementUnit extends Model
 {
-    protected $table;
-    protected $fillable = [];
+    use HasFactory;
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
+    // Menentukan nama tabel secara eksplisit agar konsisten dengan migrasi
+        protected $table = 'measurement_unit';
 
-        // Tetapkan nama tabel dan kolom
-        $this->table = config('db_constants.table.mu');
-        $this->fillable = array_values(config('db_constants.column.mu') ?? []);
-    }
+            // Izinkan mass assignment untuk kolom-kolom ini
+                protected $fillable = ['unit_name', 'unit_symbol'];
 }

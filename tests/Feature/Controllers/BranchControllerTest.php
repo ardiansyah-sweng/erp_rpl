@@ -14,14 +14,8 @@ class BranchControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        // Truncate tabel Branch dan jalankan BranchSeeder sebelum test
-        \DB::table('branches')->truncate();
-        \Artisan::call('db:seed', [
-            '--class' => 'Database\\Seeders\\BranchSeeder',
-            '--force' => true
-        ]);
-
+        // Tidak perlu truncate atau seed manual jika menggunakan RefreshDatabase.
+        // Trait RefreshDatabase akan menjalankan migrate:fresh secara otomatis.
         // Setup Faker for Indonesian locale
         $this->faker = fake('id_ID');
     }

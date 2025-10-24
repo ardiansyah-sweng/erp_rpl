@@ -34,6 +34,21 @@ CREATE TABLE `category` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `measurement_unit`
+--
+
+DROP TABLE IF EXISTS `measurement_unit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `measurement_unit` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `unit_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abbreviation` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `goods_receipt_note`
 --
 
@@ -52,20 +67,25 @@ CREATE TABLE `goods_receipt_note` (
 --
 -- Table structure for table `item`
 --
-
-DROP TABLE IF EXISTS `item`;
+-- FIX: Mengubah nama tabel dari `item` menjadi `items` agar sesuai dengan konvensi Laravel dan Model.
+DROP TABLE IF EXISTS `items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `item` (
+CREATE TABLE `items` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` char(4) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sku` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `item_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `measurement_unit` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `item_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `avg_base_price` int NOT NULL DEFAULT '0',
   `selling_price` int NOT NULL DEFAULT '0',
+  `measurement_unit_id` bigint unsigned NOT NULL,
+  `purchase_unit_id` bigint unsigned NOT NULL,
+  `sell_unit_id` bigint unsigned NOT NULL,
+  `stock_unit_id` bigint unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`sku`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `items_sku_unique` (`sku`)
 ) ENGINE=InnoDB AUTO_INCREMENT=274 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -106,16 +126,16 @@ CREATE TABLE `migrations` (
 --
 -- Table structure for table `product`
 --
-
-DROP TABLE IF EXISTS `product`;
+-- FIX: Mengubah nama tabel dari `product` menjadi `products`
+DROP TABLE IF EXISTS `products`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `product` (
+CREATE TABLE `products` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `product_id` char(4) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_name` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_type` varchar(12) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_category` tinyint NOT NULL,
+  `category` tinyint NOT NULL,
   `product_description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -137,7 +157,6 @@ CREATE TABLE `purchase_order` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`po_number`)
-  FOREIGN KEY (`supplier_id`) REFERENCES `supplier`(`supplier_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -253,4 +272,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-19 10:37:17
+-- Dump completed on 2025-05-23 10:00:00

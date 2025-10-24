@@ -96,11 +96,8 @@ class Product extends Model
 
     public function items()
     {
-        $tableItem = config('db_constants.table.item');
-        $colItem = config('db_constants.column.item');
-        $colProduct = config('db_constants.column.products');
-
-        return $this->hasMany(Item::class, 'sku', 'product_id');
+        // FIX: Relasi HasMany dari Product ke Item
+        return $this->hasMany(Item::class, 'product_id', 'id');
     }
 
     public static function deleteProductById($id)

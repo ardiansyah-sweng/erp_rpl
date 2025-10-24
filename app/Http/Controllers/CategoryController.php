@@ -78,12 +78,11 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = Category::with('parent', 'children')->find($id);
-        
         if (!$category) {
             return redirect()->route('categories.index')->with('error', Messages::CATEGORY_NOT_FOUND);
         }
-        
-        return view('category.show', compact('category'));
+
+        return view('product.category.detail', compact('category'));
     }
 
     /**
@@ -91,11 +90,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::find($id);
-        
-        if (!$category) {
-            return redirect()->route('categories.index')->with('error', Messages::CATEGORY_NOT_FOUND);
-        }
+        $category = Category::findOrFail($id);
         
         // Only get parent categories (parent_id = null) excluding current category
         // $categories = Category::whereNull('parent_id')
@@ -113,12 +108,7 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, $id)
     {
         try {
-            $category = Category::find($id);
-            
-            if (!$category) {
-                return redirect()->route('categories.index')->with('error', Messages::CATEGORY_NOT_FOUND);
-            }
-            
+            $category = Category::findOrFail($id);
             $validatedData = $request->getValidatedData();
             $category->update($validatedData);
 
@@ -134,11 +124,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $category = Category::find($id);
-            
-            if (!$category) {
-                return redirect()->route('categories.index')->with('error', Messages::CATEGORY_NOT_FOUND);
-            }
+            $category = Category::findOrFail($id);
             
             // Check if category has children
             if ($category->children()->count() > 0) {

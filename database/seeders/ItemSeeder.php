@@ -55,6 +55,9 @@ class ItemSeeder extends Seeder
 
         foreach ($products as $data)
         {
+            // Reset unique generator for each product to get a fresh pool of unique words
+            $this->faker->unique(true);
+
             $numOfItemPerProduct = $this->faker->numberBetween(1, 10);
             $unit = MeasurementUnit::inRandomOrder()->first();
 
@@ -64,15 +67,15 @@ class ItemSeeder extends Seeder
                 $unit = MeasurementUnit::where('id', $unitID)->first();
                 $isUnitConversion = $this->faker->boolean();
 
-                $suffix = $this->faker->word();
-                $sku = $data->{$colProd['id']}.'-'.$suffix;
-                $itemName = $data->{$colProd['name']}.' '.$suffix;
+                $suffix = $this->faker->unique()->word();
+                $sku = $data->product_id.'-'.$suffix;
+                $itemName = $data->product_name.' '.$suffix;
 
                 Item::create([
-                    $colItem['prod_id'] => $data->{$colProd['id']},
+                    $colItem['prod_id'] => $data->product_id,
                     $colItem['sku'] => $sku,
                     $colItem['name'] => $itemName,
-                    $colItem['measurement'] => $unitID,
+                    'measurement_unit_id' => $unitID, // FIX: Menggunakan nama kolom yang benar
                 ]);
 
                 if ($isUnitConversion)

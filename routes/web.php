@@ -155,6 +155,7 @@ Route::get('/categories/edit/{id}', [CategoryController::class, 'edit'])->name('
 Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 Route::get('/categories/parent/{parentId}', [CategoryController::class, 'getCategoryByParent']);
+Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
 Route::get('/categories/list', [CategoryController::class, 'getCategoryList'])->name('categories.list');
 
 # Product

@@ -2,27 +2,66 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Exception;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Item extends Model
 {
-    protected $table = 'item';
-    protected $fillable = [
-        'product_id', 'sku', 'item_name', 'measurement_unit',
-        'avg_base_price', 'selling_price', 'purchase_unit',
-        'sell_unit', 'stock_unit'
-    ];
+    use HasFactory;
+
+    /**
+     * The table associated with the model.
+     * Menggunakan 'items' (plural) sesuai konvensi Laravel.
+     * @var string
+     */
+    protected $table;
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-
+        // FIX: Menggunakan konstanta untuk nama tabel agar konsisten.
         $this->table = config('db_constants.table.item');
-        $this->fillable = array_values(config('db_constants.column.item') ?? []);
     }
 
-    // Relasi berdasarkan sku
+    /**
+     * The attributes that are mass assignable.
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'product_id',
+        'sku',
+        'item_name',
+        'avg_base_price',
+        'selling_price',
+        'measurement_unit_id',
+        'purchase_unit_id',
+        'sell_unit_id',
+        'stock_unit_id'
+    ];
+
+    /**
+     * Mendapatkan produk yang memiliki item ini.
+     */
+    public function product(): BelongsTo
+    {
+        // FIX: Menghubungkan 'product_id' (foreign key) di tabel 'items'
+        // dengan 'id' (primary key) di tabel 'products'.
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    /**
+     * Mendapatkan satuan ukuran untuk item ini.
+     */
+    public function unit(): BelongsTo
+    {
+        return $this->belongsTo(MeasurementUnit::class, 'measurement_unit_id', 'id');
+    }
+
+    /**
+     * Relasi ke PurchaseOrderDetail berdasarkan SKU.
+     */
     public function purchaseOrderDetails()
     {
         return $this->hasMany(PurchaseOrderDetail::class, 'product_id', 'sku');
@@ -41,9 +80,9 @@ class Item extends Model
             if (is_numeric($search)) {
                 $query->where('id', '=', $search);
             } else {
-                $query->where(function($q) use ($search) {
+                $query->where(function ($q) use ($search) {
                     $q->where('item_name', 'LIKE', "%{$search}%")
-                      ->orWhere('sku', 'LIKE', "%{$search}%");
+                        ->orWhere('sku', 'LIKE', "%{$search}%");
                 });
             }
         }
@@ -59,18 +98,18 @@ class Item extends Model
             return false;
         }
 
-        // Cek relasi berdasarkan SKU
         if ($item->purchaseOrderDetails()->exists()) {
             throw new Exception("Item tidak bisa dihapus karena sudah digunakan di purchase order.");
         }
 
         $item->delete();
+        // Peringatan: Logika decrement id mungkin berbahaya untuk konsistensi data
         self::where('id', '>', $id)->decrement('id');
 
         return true;
     }
 
-    public static function countItem() 
+    public static function countItem()
     {
         return self::count();
     }
@@ -78,70 +117,63 @@ class Item extends Model
     public static function updateItem($id, $data)
     {
         $item = self::find($id);
-    
+
         if (!$item) {
             return null;
         }
-    
-        $item->update($data);
-    
-        return $item;
-       }
 
+        $item->update($data);
+
+        return $item;
+    }
 
     public function addItem($data)
     {
         return self::create($data);
     }
 
-    public function unit()
+    public static function getItembyId($id)
     {
-        return $this->belongsTo(MeasurementUnit::class, 'measurement_unit', 'id');
-    }
-
-
-    public static function getItembyId($id){
         return self::where('id', $id)->first();
-
     }
 
-    public static function countItemByProductType(){
-        return self::count(); 
+    public static function countItemByProductType()
+    {
+        return self::count();
     }
 
-    
+    /**
+     * Mendapatkan item berdasarkan tipe produk menggunakan relasi Eloquent.
+     */
     public static function getItemByType($productType)
     {
-        return self::join('products', 'item.product_id', '=', 'products.product_id')
-            ->where('products.product_type', $productType)
-            ->select('item.*', 'products.product_type', 'products.product_name')
-            ->get();
+        return self::whereHas('product', function ($query) use ($productType) {
+            $query->where('product_type', $productType);
+        })->with('product')->get();
     }
 
     public static function searchItem($keyword)
     {
         return self::where('item_name', 'like', '%' . $keyword . '%')->paginate(10);
     }
-    
+
+    /**
+     * Mendapatkan item berdasarkan kategori produk menggunakan relasi Eloquent.
+     */
     public static function getItemByCategory($categoryId)
     {
-        return self::join('products', 'item.product_id', '=', 'products.product_id')
-            ->join('category', 'products.product_category', '=', 'category.id')
-            ->where('category.id', $categoryId)
-            ->select(
-                'item.*',
-                'products.product_name',
-                'products.product_category',
-                'category.category as category_name'
-            )
-            ->get();
+        return self::whereHas('product', function ($query) use ($categoryId) {
+            $query->where('product_category', $categoryId);
+        })->with('product.category')->get();
     }
 
+    /**
+     * Menghitung item berdasarkan kategori produk menggunakan relasi Eloquent.
+     */
     public static function countItemByCategory($categoryId)
     {
-        return self::join('products', 'item.product_id', '=', 'products.product_id')
-            ->join('category', 'products.product_category', '=', 'category.id')
-            ->where('category.id', $categoryId)
-            ->count();
+        return self::whereHas('product', function ($query) use ($categoryId) {
+            $query->where('product_category', $categoryId);
+        })->count();
     }
 }

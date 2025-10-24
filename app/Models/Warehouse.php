@@ -117,6 +117,21 @@ class Warehouse extends Model
             }
         }
 
+        // Specific field filtering for name, address, phone
+        if (!empty($filters['name'])) {
+            $query->where(WarehouseColumns::NAME, 'LIKE', '%' . $filters['name'] . '%');
+        }
+        if (!empty($filters['address'])) {
+            $query->where(WarehouseColumns::ADDRESS, 'LIKE', '%' . $filters['address'] . '%');
+        }
+        if (!empty($filters['phone'])) {
+            $query->where(WarehouseColumns::PHONE, 'LIKE', '%' . $filters['phone'] . '%');
+        }
+        // Handle direct 'is_active' filter if passed (e.g., from WarehouseController::search)
+        if (isset($filters['is_active'])) {
+            $query->where(WarehouseColumns::IS_ACTIVE, $filters['is_active']);
+        }
+
         // Sorting
         $sortBy = $filters['sort_by'] ?? WarehouseColumns::CREATED_AT;
         $sortOrder = $filters['sort_order'] ?? 'desc';
