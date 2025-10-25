@@ -1,162 +1,183 @@
 <?php
 
-namespace Tests\Unit;
+namespace App\Models;
 
-use Tests\TestCase;
-use App\Models\Item;
+use Illuminate\Database\Eloquent\Factories\HasFactory; 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
-class ItemTest extends TestCase
+class SupplierMaterial extends Model
 {
-    protected function setUp(): void
+    use HasFactory;
+    protected $table = 'supplier_product';
+    protected $fillable = [
+        'supplier_id',
+        'company_name',
+        'product_id',
+        'product_name',
+        'base_price',
+    ];
+    public static function getSupplierMaterial()
     {
-        parent::setUp();
-        
-        // Mulai transaction untuk isolasi test
-        DB::beginTransaction();
-        
-        // Hapus data test sebelumnya (jika ada)
-        DB::table('items')->where('sku', 'LIKE', 'TESTSKU%')->delete();
-        DB::table('products')->where('product_id', 'LIKE', 'T0%')->delete();
-        
-        // Insert data products dummy sesuai struktur database asli
-        DB::table('products')->insert([
-            [
-                'product_id' => 'T001',
-                'name' => 'Test Raw Material A',
-                'type' => 'RM',
-                'category' => 1,
-                'description' => 'Test product for RM',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 'T002',
-                'name' => 'Test Finished Good A',
-                'type' => 'FG',
-                'category' => 2,
-                'description' => 'Test product for FG',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 'T003',
-                'name' => 'Test Half Finished Good A',
-                'type' => 'HFG',
-                'category' => 3,
-                'description' => 'Test product for HFG',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
-        
-        // Insert data items dummy sesuai struktur database asli
-        DB::table('items')->insert([
-            [
-                'product_id' => 'T001',
-                'sku' => 'TESTSKU001',
-                'name' => 'Test Item RM 1',
-                'measurement' => 'kg',
-                'base_price' => 10000,
-                'selling_price' => 15000,
-                'purchase_unit' => 100,
-                'sell_unit' => 50,
-                'stock_unit' => 200,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 'T002',
-                'sku' => 'TESTSKU002',
-                'name' => 'Test Item FG 1',
-                'measurement' => 'pcs',
-                'base_price' => 50000,
-                'selling_price' => 75000,
-                'purchase_unit' => 50,
-                'sell_unit' => 25,
-                'stock_unit' => 100,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 'T003',
-                'sku' => 'TESTSKU003',
-                'name' => 'Test Item HFG 1',
-                'measurement' => 'unit',
-                'base_price' => 30000,
-                'selling_price' => 45000,
-                'purchase_unit' => 60,
-                'sell_unit' => 30,
-                'stock_unit' => 120,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        return DB::table('supplier_product')->paginate(10);
     }
 
-    protected function tearDown(): void
+    public static function getSupplierMaterialByKeyword($keyword)
     {
-        // Rollback transaction setelah test selesai
-        DB::rollBack();
-        parent::tearDown();
+        return DB::table('supplier_product')
+            ->where('supplier_id', 'like', '%' . $keyword . '%')
+            ->orWhere('company_name', 'like', '%' . $keyword . '%')
+            ->orWhere('product_id', 'like', '%' . $keyword . '%')
+            ->orWhere('product_name', 'like', '%' . $keyword . '%')
+            ->get();
     }
 
-    /**
-     * Test fungsi countItemByProductType() mengembalikan total count
-     */
-    public function test_count_item_by_product_type_returns_total_count()
+    public static function getSupplierMaterialById($id)
     {
-        $count = Item::countItemByProductType();
-        
-        $this->assertGreaterThanOrEqual(3, $count, 'Function should return at least 3 items (test data)');
-        $this->assertIsInt($count, 'Function should return an integer');
-        $this->assertGreaterThanOrEqual(0, $count, 'Count should not be negative');
+        return DB::table('supplier_product')->where('id', $id)->first();
     }
 
-    /**
-     * Test fungsi countItem() mengembalikan total count
-     */
-    public function test_count_item_returns_total_count()
-    {
-        $count = Item::countItem();
-        
-        $this->assertGreaterThanOrEqual(3, $count, 'Should count at least 3 items (test data)');
-        $this->assertIsInt($count, 'Should return an integer');
-    }
-
-    /**
-     * Test kedua fungsi mengembalikan hasil yang sama
-     */
-    public function test_both_count_functions_return_same_result()
-    {
-        $countByType = Item::countItemByProductType();
-        $countAll = Item::countItem();
-        
-        $this->assertEquals($countAll, $countByType, 
-            'countItemByProductType should return same result as countItem');
-    }
-
-    /**
-     * Test return type adalah integer
-     */
-    public function test_count_item_by_product_type_returns_integer()
-    {
-        $count = Item::countItemByProductType();
-        
-        $this->assertIsInt($count, 'Function should return an integer');
-        $this->assertGreaterThanOrEqual(0, $count, 'Count should not be negative');
-    }
-
-    /**
-     * Test fungsi tidak throw exception
-     */
-    public function test_count_item_by_product_type_does_not_throw_exception()
+    public static function updateSupplierMaterial($id, array $data)
     {
         try {
-            $count = Item::countItemByProductType();
-            $this->assertTrue(true, 'Function can be called without errors');
+            return DB::table('supplier_product')
+                ->where('id', $id)
+                ->update($data);
         } catch (\Exception $e) {
-            $this->fail('Function should not throw exception: ' . $e->getMessage());
+            return false;
         }
+    }
+
+    public static function countSupplierMaterial()
+    {
+        return DB::table('supplier_product as sp')
+            ->join('products as p', function ($join) {
+                $join->on(DB::raw('LEFT(sp.product_id, LOCATE("-", sp.product_id) - 1)'), '=', 'p.product_id');
+            })
+            ->where('p.type', '=', 'RM')
+            ->distinct('p.product_id')
+            ->count(DB::raw('DISTINCT p.product_id'));
+    }
+
+
+    public static function addSupplierMaterial($data)
+    {
+        if (empty($data)) {
+            throw new \Exception('Data tidak boleh kosong.');
+        }
+
+        if (is_object($data)) {
+            $data = (array) $data;
+        }
+
+        return self::create([
+            'supplier_id' => $data['supplier_id'],
+            'company_name' => $data['company_name'],
+            'product_id' => $data['product_id'],
+            'product_name' => $data['product_name'],
+            'base_price' => $data['base_price'],
+        ]);
+    }
+    public static function searchSupplierMaterial($keyword)
+    {
+        return DB::table('supplier_product')
+            ->where(function ($query) use ($keyword) {
+                $query->where('supplier_id', 'like', '%' . $keyword . '%')
+                    ->orWhere('company_name', 'like', '%' . $keyword . '%')
+                    ->orWhere('product_id', 'like', '%' . $keyword . '%')
+                    ->orWhere('product_name', 'like', '%' . $keyword . '%');
+            })
+            ->paginate(10);
+    }
+
+    public static function countSupplierMaterialFoundByKeyword($keyword)
+    {
+        return DB::table('supplier_product')
+            ->where('supplier_id', 'like', '%' . $keyword . '%')
+            ->orWhere('company_name', 'like', '%' . $keyword . '%')
+            ->orWhere('product_id', 'like', '%' . $keyword . '%')
+            ->orWhere('product_name', 'like', '%' . $keyword . '%')
+            ->count();
+    }
+
+    public static function countSupplierMaterialByType($type, $supplierId)
+    {
+        return DB::table('supplier_product as sp')
+            ->join('products as p', function ($join) {
+                $join->on(DB::raw('LEFT(sp.product_id, LOCATE("-", sp.product_id) - 1)'), '=', 'p.product_id');
+            })
+            ->where('p.product_type', $type)
+            ->where('sp.supplier_id', $supplierId)
+            ->distinct('p.product_id')
+            ->count(DB::raw('DISTINCT p.product_id'));
+    }
+
+    public static function countSupplierMaterialByID($supplierID)
+    {
+        return DB::table('supplier_product as sp')
+            ->join('products as p', function ($join) {
+                $join->on(DB::raw('LEFT(sp.product_id, LOCATE("-", sp.product_id) - 1)'), '=', 'p.product_id');
+            })
+            ->where('p.product_type', 'RM') // hanya RM
+            ->where('sp.supplier_id', $supplierID)
+            ->distinct('p.product_id')
+            ->count(DB::raw('DISTINCT p.product_id'));
+    }
+    
+   public static function getSupplierMaterialByProductType($supplier_id, $product_type)
+    {
+        $allowedTypes = ['HFG', 'FG', 'RM'];
+        if (!in_array($product_type, $allowedTypes)) {
+            return collect();
+        }
+
+        return DB::table('supplier_product as sp')
+            ->join('item as i', 'i.sku', '=', 'sp.product_id')
+            ->join('products as p', 'p.product_id', '=', 'i.product_id')
+            ->where('sp.supplier_id', $supplier_id)
+            ->where('p.product_type', $product_type)
+            ->select(
+                'sp.supplier_id',
+                'sp.company_name',
+                'sp.product_id',
+                'p.product_name',
+                'p.product_type',
+                'sp.base_price',
+                'i.item_name',
+                'i.measurement_unit',
+                'i.stock_unit'
+            )
+            ->get();
+        }
+
+    public static function getSupplierMaterialByCategory($kategori, $supplier)
+    {
+        return DB::table('supplier_product as sp')
+            // Join item berdasarkan SKU dengan supplier_product
+            ->join('item as i', 'i.sku', '=', 'sp.product_id')
+            // Join products
+            ->join('products as p', 'p.product_id', '=', 'i.product_id')
+            // Join categories
+            ->join('categories as c', 'p.product_category', '=', 'c.id')
+            ->where('c.id', $kategori)
+            ->where('sp.supplier_id', $supplier)
+            ->select(
+                'i.id as item_id',
+                'i.sku',
+                'i.item_name',
+                'i.product_id',
+                'sp.product_id',
+                'p.product_name',
+                'c.id as category_id',
+                'c.category as category_name',
+                'p.product_type',
+                'sp.supplier_id',
+                'sp.company_name',
+                'sp.base_price',
+                'i.measurement_unit',
+                'i.stock_unit'
+            )
+            ->get();
     }
 }
