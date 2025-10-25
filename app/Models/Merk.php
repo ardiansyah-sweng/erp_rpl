@@ -273,8 +273,8 @@ class Merk extends Model
     // /**
     //  * @deprecated Use find() directly instead
     //  */
-    // public function getMerkById($id)
-    // {
-    //     return self::find($id);
-    // }
+     public function getMerkById($id)
+     {
+         return self::find($id);
+     }
 }
