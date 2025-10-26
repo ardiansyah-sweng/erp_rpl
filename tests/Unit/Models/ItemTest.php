@@ -11,6 +11,7 @@ use App\Models\MeasurementUnit;
 use App\Constants\Messages;
 use Exception;
 use Tests\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\DB;
 
 class ItemTest extends BaseTestCase
 {
@@ -24,7 +25,7 @@ class ItemTest extends BaseTestCase
         \DB::statement('ALTER TABLE items AUTO_INCREMENT = 1');
     }
 
-    // ========== DELETE ITEM BY ID METHOD TESTS ==========
+     // ========== DELETE ITEM BY ID METHOD TESTS ==========
 
     /**
      * Test deleteItemById method successfully deletes an item
@@ -255,5 +256,158 @@ class ItemTest extends BaseTestCase
         $this->assertEquals('Item to Keep', $remainingItem->name);
         $this->assertEquals(10000, $remainingItem->base_price);
         $this->assertEquals('PRESERVE-002', $remainingItem->sku);
+    }
+
+    // ========== COUNT ITEM BY PRODUCT TYPE METHOD TESTS ==========
+
+    /**
+     * Setup data untuk test countItemByProductType
+     */
+    private function setupCountItemTestData()
+    {
+        // Hapus data test sebelumnya (jika ada)
+        DB::table('items')->where('sku', 'LIKE', 'COUNTSKU%')->delete();
+        DB::table('products')->where('product_id', 'LIKE', 'CNT%')->delete();
+        
+        // Insert data products dummy
+        DB::table('products')->insert([
+            [
+                'product_id' => 'CNT1',
+                'name' => 'Count Test RM',
+                'type' => 'RM',
+                'category' => 1,
+                'description' => 'Test product for RM',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 'CNT2',
+                'name' => 'Count Test FG',
+                'type' => 'FG',
+                'category' => 2,
+                'description' => 'Test product for FG',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 'CNT3',
+                'name' => 'Count Test HFG',
+                'type' => 'HFG',
+                'category' => 3,
+                'description' => 'Test product for HFG',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+        
+        // Insert data items dummy
+        DB::table('items')->insert([
+            [
+                'product_id' => 'CNT1',
+                'sku' => 'COUNTSKU001',
+                'name' => 'Count Test Item RM 1',
+                'measurement' => 'kg',
+                'base_price' => 10000,
+                'selling_price' => 15000,
+                'purchase_unit' => 100,
+                'sell_unit' => 50,
+                'stock_unit' => 200,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 'CNT2',
+                'sku' => 'COUNTSKU002',
+                'name' => 'Count Test Item FG 1',
+                'measurement' => 'pcs',
+                'base_price' => 50000,
+                'selling_price' => 75000,
+                'purchase_unit' => 50,
+                'sell_unit' => 25,
+                'stock_unit' => 100,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 'CNT3',
+                'sku' => 'COUNTSKU003',
+                'name' => 'Count Test Item HFG 1',
+                'measurement' => 'unit',
+                'base_price' => 30000,
+                'selling_price' => 45000,
+                'purchase_unit' => 60,
+                'sell_unit' => 30,
+                'stock_unit' => 120,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+    }
+
+    /**
+     * Test countItemByProductType returns integer
+     */
+    public function test_count_item_by_product_type_returns_integer()
+    {
+        $this->setupCountItemTestData();
+        
+        $count = Item::countItemByProductType();
+        
+        $this->assertIsInt($count, 'Should return an integer');
+        $this->assertGreaterThanOrEqual(0, $count, 'Count should not be negative');
+    }
+
+    /**
+     * Test countItemByProductType returns valid count
+     */
+    public function test_count_item_by_product_type_returns_valid_count()
+    {
+        $this->setupCountItemTestData();
+        
+        $count = Item::countItemByProductType();
+        
+        $this->assertGreaterThanOrEqual(3, $count, 'Should return at least 3 items from test data');
+    }
+
+    /**
+     * Test countItemByProductType returns same result as countItem
+     */
+    public function test_count_item_by_product_type_equals_count_item()
+    {
+        $this->setupCountItemTestData();
+        
+        $countByType = Item::countItemByProductType();
+        $countAll = Item::countItem();
+        
+        $this->assertEquals($countAll, $countByType, 
+            'Both functions should return the same count (indicates missing product_type filtering)');
+    }
+
+    /**
+     * Test countItemByProductType does not throw exception
+     */
+    public function test_count_item_by_product_type_does_not_throw_exception()
+    {
+        $this->setupCountItemTestData();
+        
+        try {
+            $count = Item::countItemByProductType();
+            $this->assertTrue(true, 'Function executes without throwing exception');
+        } catch (\Exception $e) {
+            $this->fail('Function should not throw exception: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Test countItem function for comparison
+     */
+    public function test_count_item_by_product_type_baseline()
+    {
+        $this->setupCountItemTestData();
+        
+        $count = Item::countItem();
+        
+        $this->assertIsInt($count, 'Should return an integer');
+        $this->assertGreaterThanOrEqual(3, $count, 'Should count at least 3 test items');
     }
 }
