@@ -99,7 +99,7 @@ class Item extends Model
         }
 
         if ($item->purchaseOrderDetails()->exists()) {
-            throw new Exception("Item tidak bisa dihapus karena sudah digunakan di purchase order.");
+            throw new Exception(Messages::ITEM_IN_USE);
         }
 
         $item->delete();

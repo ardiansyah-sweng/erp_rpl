@@ -80,7 +80,7 @@ class Product extends Model
 
     public static function getProductByType($type)
     {
-         return self::where('product_type', $type)->get();
+         return self::where('type', $type)->get();
     }
     
     public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL

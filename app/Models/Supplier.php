@@ -1,11 +1,15 @@
 <?php
 namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use App\Constants\SupplierColumns;
 
 class Supplier extends Model
 {
+    use HasFactory;
     /**
      * Ambil seluruh data supplier beserta frekuensi order (jumlah purchase_orders per supplier)
      * @return \Illuminate\Support\Collection
@@ -20,7 +24,7 @@ class Supplier extends Model
             ->leftJoin($poTable, $supplierTable . '.supplier_id', '=', $poTable . '.supplier_id')
             ->select(
                 $supplierTable . '.*',
-                \DB::raw('COUNT(' . $poTable . '.supplier_id) as order_frequency')
+                DB::raw('COUNT(' . $poTable . '.supplier_id) as order_frequency')
             )
             ->groupBy(
                 $supplierTable . '.supplier_id',
@@ -33,7 +37,7 @@ class Supplier extends Model
             )
             ->get();
     }
-    protected $table = 'supplier';
+    protected $table = 'suppliers';
     protected $fillable = ['supplier_id','company_name', 'address','phone_number','bank_account','created_at','updated_at'];
 
     protected $primaryKey = 'supplier_id';
@@ -44,7 +48,7 @@ class Supplier extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_constants.table.supplier');
+        // $this->table = config('db_constants.table.supplier');
         $this->fillable = array_values(config('db_constants.column.supplier') ?? []);
     }
 
