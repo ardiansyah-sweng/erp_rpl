@@ -29,9 +29,9 @@ class SupplierMaterialController extends Controller
         return view('supplier.material.detail', ['material' => $material]);
     }
 
-     // Validasi data supplier material
-     public function addSupplierMaterial(Request $request)
-     {
+    // Validasi data supplier material
+    public function addSupplierMaterial(Request $request)
+    {
         $validated = $request->validate([
             'supplier_id'   => 'required|string|size:6',
             'company_name'  => 'required|string|max:255', 
@@ -42,8 +42,8 @@ class SupplierMaterialController extends Controller
             'updated_at'    => 'nullable|date',
         ]);
         SupplierMaterial::addSupplierMaterial((object)$validated);
-         return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!'); 
-     }
+        return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!'); 
+    }
 
     public function updateSupplierMaterial(Request $request, $id)
     {
@@ -79,7 +79,31 @@ class SupplierMaterialController extends Controller
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
 
-        public function getSupplierMaterialByProductType($supplier_id, $product_type)
+    /**
+     * Metode Baru: Mencari Material Pemasok berdasarkan kata kunci.
+     * Ini adalah metode yang diperlukan agar tes unit Anda tidak gagal.
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function supplierMaterialSearch(Request $request)
+    {
+        // 1. Ambil kata kunci dari request.
+        $keyword = $request->input('keyword');
+
+        // 2. Memanggil metode static 'supplierMaterialSearch' dari Model.
+        // Tes Unit Anda memverifikasi baris kode inilah yang dieksekusi!
+        $supplierMaterials = SupplierMaterial::supplierMaterialSearch($keyword);
+
+        // 3. Mengembalikan View dengan data hasil dan keyword.
+        // Nama view 'supplier.material.list' harus ada di proyek Anda.
+        return view('supplier.material.list', [
+            'supplierMaterials' => $supplierMaterials,
+            'searchKeyword' => $keyword,
+        ]);
+    }
+
+    public function getSupplierMaterialByProductType($supplier_id, $product_type)
     {
         // Validasi hanya menerima product_type tertentu
         if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
@@ -106,6 +130,4 @@ class SupplierMaterialController extends Controller
 
         return response()->json($results);
     }
-
-
 }
