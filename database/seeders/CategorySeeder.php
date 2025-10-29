@@ -41,6 +41,32 @@ class CategorySeeder extends Seeder
                 CategoryColumns::PARENT => null,
                 CategoryColumns::IS_ACTIVE => true,
             ],
+            // Child categories
+            [
+                CategoryColumns::CATEGORY => 'Smartphones',
+                CategoryColumns::PARENT => 1, // Electronics
+                CategoryColumns::IS_ACTIVE => true,
+            ],
+            [
+                CategoryColumns::CATEGORY => 'Laptops',
+                CategoryColumns::PARENT => 1, // Electronics
+                CategoryColumns::IS_ACTIVE => true,
+            ],
+            [
+                CategoryColumns::CATEGORY => 'T-Shirts',
+                CategoryColumns::PARENT => 2, // Clothing
+                CategoryColumns::IS_ACTIVE => true,
+            ],
+            [
+                CategoryColumns::CATEGORY => 'Pants',
+                CategoryColumns::PARENT => 2, // Clothing
+                CategoryColumns::IS_ACTIVE => true,
+            ],
+            [
+                CategoryColumns::CATEGORY => 'Beverages',
+                CategoryColumns::PARENT => 3, // Food & Beverage
+                CategoryColumns::IS_ACTIVE => true,
+            ],
         ];
 
         // Insert categories

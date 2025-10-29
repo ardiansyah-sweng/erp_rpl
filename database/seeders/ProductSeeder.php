@@ -25,17 +25,25 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $column = config('db_constants.column.products');
+        $column = [
+            'id' => 'product_id',
+            'name' => 'name',
+            'type' => 'type',
+            'category' => 'category',
+            'desc' => 'description',
+            'created' => 'created_at',
+            'updated' => 'updated_at'
+        ];
 
         Product::insert([
-            
+
             [
-                $column['id'] => 'KAOS', 
-                $column['name'] => 'Kaos TShirt', 
-                $column['type'] =>'FG', 
-                $column['category'] => 1, 
-                $column['desc'] => 'Kaos TShirt', 
-                $column['created'] => now(), 
+                $column['id'] => 'KAOS',
+                $column['name'] => 'Kaos TShirt',
+                $column['type'] =>'FG',
+                $column['category'] => 1,
+                $column['desc'] => 'Kaos TShirt',
+                $column['created'] => now(),
                 $column['updated'] => now()
             ],
 
