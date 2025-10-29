@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\MerkController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,17 +60,31 @@ Route::prefix('warehouses')->name('api.warehouses.')->group(function () {
 
 // Merk API Routes - Using unified MerkController
 Route::prefix('merk')->name('api.merk.')->group(function () {
-    
+
     // Custom endpoints (place specific routes before dynamic routes)
     Route::get('/filter/active', [MerkController::class, 'active'])->name('active');
     Route::get('/analytics/statistics', [MerkController::class, 'statistics'])->name('statistics');
     Route::post('/bulk/update-status', [MerkController::class, 'bulkUpdateStatus'])->name('bulk.update.status');
     Route::get('/search/advanced', [MerkController::class, 'search'])->name('search');
-    
+
     // Basic CRUD operations
     Route::get('/', [MerkController::class, 'index'])->name('index');
     Route::post('/', [MerkController::class, 'store'])->name('store');
     Route::get('/{id}', [MerkController::class, 'show'])->name('show');
     Route::put('/{id}', [MerkController::class, 'update'])->name('update');
     Route::delete('/{id}', [MerkController::class, 'destroy'])->name('destroy');
+});
+
+// Category API Routes - Using unified CategoryController
+Route::prefix('category')->name('api.category.')->group(function () {
+
+    // Custom endpoints (place specific routes before dynamic routes)
+    Route::get('/parent/{parentId}', [CategoryController::class, 'getCategoryByParent'])->name('parent');
+
+    // Basic CRUD operations
+    Route::get('/', [CategoryController::class, 'index'])->name('index');
+    Route::post('/', [CategoryController::class, 'store'])->name('store');
+    Route::get('/{id}', [CategoryController::class, 'show'])->name('show');
+    Route::put('/{id}', [CategoryController::class, 'update'])->name('update');
+    Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('destroy');
 });
