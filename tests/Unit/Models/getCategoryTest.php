@@ -221,4 +221,49 @@ class GetCategoryTest extends TestCase
         $this->assertNotNull($subCategory->parent);
         $this->assertEquals('Root Category', $subCategory->parent->{CategoryColumns::CATEGORY});
     }
+
+    /**
+     * Test getCategoryById() returns correct detail including parent name
+     * (positive case - view category detail)
+     */
+    public function test_get_category_by_id_returns_detail_with_parent()
+    {
+        // Arrange - create parent and child
+        $parent = Category::create([
+            CategoryColumns::CATEGORY => 'Home Appliances',
+            CategoryColumns::PARENT => null,
+            CategoryColumns::IS_ACTIVE => true,
+        ]);
+
+        $child = Category::create([
+            CategoryColumns::CATEGORY => 'Refrigerators',
+            CategoryColumns::PARENT => $parent->id,
+            CategoryColumns::IS_ACTIVE => true,
+        ]);
+
+        // Act
+        $result = Category::getCategoryById($child->id);
+
+        // Assert - should return the category and parent name placed into parent_id
+        $this->assertNotNull($result);
+        $this->assertEquals($child->id, $result->id);
+        $this->assertEquals('Refrigerators', $result->{CategoryColumns::CATEGORY});
+        // getCategoryById sets parent_id to the parent's category name
+        $this->assertEquals('Home Appliances', $result->{CategoryColumns::PARENT});
+    }
+
+    /**
+     * Test getCategoryById() returns null for non-existing id (TC-CT-16)
+     */
+    public function test_get_category_by_id_with_invalid_id_returns_null()
+    {
+        // Arrange
+        $nonExistingId = 123456789;
+
+        // Act
+        $result = Category::getCategoryById($nonExistingId);
+
+        // Assert
+        $this->assertNull($result);
+    }
 }
