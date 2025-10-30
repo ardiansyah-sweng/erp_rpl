@@ -257,7 +257,13 @@
     <div class="card-body">
       <div class="form-group">
         <label for="product_id">ID Produk</label>
-        <input type="text" class="form-control" id="product_id" name="product_id" value="{{ old('product_id') }}">
+        <input type="text" class="form-control" id="product_id" name="product_id" value="{{ old('product_id') }}" list="productList" required>
+        <datalist id="productList">
+          @foreach($products as $product)
+            <option value="{{ $product->product_id }}">{{ $product->product_id }} - {{ $product->name }}</option>
+          @endforeach
+        </datalist>
+        <div class="invalid-feedback">ID Produk harus diisi.</div>
       </div>
       
       <div class="form-group">
@@ -274,11 +280,13 @@
       <label for="measurement_unit">Unit</label>
         <select class="form-select" id="measurement_unit" name="measurement_unit" required>
             <option selected disabled value="">Choose...</option>
-            @foreach($units as $unit)
-                <option value="{{ $unit->id }}">{{ $unit->unit_name }}</option>
+            @foreach($units as $category => $categoryUnits)
+                @foreach($categoryUnits as $key => $unit)
+                    <option value="{{ $key }}">{{ $unit['name'] }} ({{ $unit['abbr'] }})</option>
+                @endforeach
             @endforeach
         </select>
-        <div class="invalid-feedback">Please select a valid unit.</div>
+        <div class="invalid-feedback">Unit harus dipilih.</div>
       </div>
       
       <div class="form-group">
@@ -289,7 +297,7 @@
     
     <div class="card-footer">
     <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
-    <button type="reset" class="btn btn-secondary">Cancel</button>
+    <a href="{{ route('item.list') }}" class="btn btn-secondary">Cancel</a>
     </div>
   </form>
 </div>

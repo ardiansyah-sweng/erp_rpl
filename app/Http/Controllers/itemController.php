@@ -46,9 +46,9 @@ class ItemController extends Controller
         $item->addItem([
             'product_id' => $request->product_id,
             'sku' => $request->sku,
-            'item_name' => $request->item_name,
-            'measurement_unit' => $request->measurement_unit, // Perbaikan di sini
-            'selling_price' => $request->selling_price, // Perbaikan di sini
+            'name' => $request->item_name,
+            'measurement' => $request->measurement_unit,
+            'selling_price' => $request->selling_price,
         ]);
 
         return redirect()->route('item.list')->with('success', 'Item berhasil ditambahkan!');
@@ -56,8 +56,9 @@ class ItemController extends Controller
 
     public function showAddForm()
     {
-        $units = MeasurementUnit::all(); // ambil semua unit
-        return view('item.add', compact('units'));
+        $units = config('measurement_units'); // ambil semua unit dari config
+        $products = \App\Models\Product::all(); // ambil semua produk untuk dropdown
+        return view('item.add', compact('units', 'products'));
     }
 
 
