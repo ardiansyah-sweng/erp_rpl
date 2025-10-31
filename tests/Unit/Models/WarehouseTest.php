@@ -157,7 +157,7 @@ class WarehouseTest extends TestCase
         $this->assertNotNull($result);
         $this->assertEquals(1, $result->total());
         $this->assertCount(1, $result->items());
-        $this->assertStringContainsString('021', $result->first()->warehouse_telephone);
+    $this->assertStringContainsString('021', $result->first()->warehouse_phone);
     }
 
     /**
@@ -263,6 +263,49 @@ class WarehouseTest extends TestCase
         $this->assertEquals(2, $result->total());
         $this->assertEquals('First Warehouse', $result->first()->warehouse_name);
         $this->assertEquals('Second Warehouse', $result->last()->warehouse_name);
+    }
+
+    /**
+     * Test getWarehouseById() returns the correct warehouse when it exists (TC: tc-wh-23)
+     * Arrange: create a warehouse
+     * Act: call getWarehouseById with the created id
+     * Assert: returned model is not null and fields match
+     */
+    public function test_get_warehouse_by_id_returns_correct_warehouse()
+    {
+        // Arrange - create a warehouse
+        $warehouse = Warehouse::create([
+            WarehouseColumns::NAME => 'Warehouse TC23',
+            WarehouseColumns::ADDRESS => 'Jl. Test TC23',
+            WarehouseColumns::PHONE => '021-9999999',
+            WarehouseColumns::IS_RM_WAREHOUSE => true,
+            WarehouseColumns::IS_FG_WAREHOUSE => false,
+            WarehouseColumns::IS_ACTIVE => true,
+        ]);
+
+        // Act - retrieve by id using the model method
+        $result = Warehouse::getWarehouseById($warehouse->id);
+
+        // Assert - should return the created warehouse with matching fields
+        $this->assertNotNull($result);
+        $this->assertInstanceOf(Warehouse::class, $result);
+        $this->assertEquals($warehouse->id, $result->id);
+        $this->assertEquals('Warehouse TC23', $result->{WarehouseColumns::NAME});
+        $this->assertEquals('Jl. Test TC23', $result->{WarehouseColumns::ADDRESS});
+        $this->assertEquals('021-9999999', $result->{WarehouseColumns::PHONE});
+        $this->assertTrue((bool) $result->{WarehouseColumns::IS_ACTIVE});
+    }
+
+    /**
+     * Test getWarehouseById() returns null when id not found
+     */
+    public function test_get_warehouse_by_id_returns_null_for_nonexistent_id()
+    {
+        // Act - try to retrieve a non-existing id
+        $result = Warehouse::getWarehouseById(999999);
+
+        // Assert - should be null
+        $this->assertNull($result);
     }
 
 }
