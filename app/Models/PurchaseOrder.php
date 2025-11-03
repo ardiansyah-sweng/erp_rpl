@@ -232,5 +232,12 @@ class PurchaseOrder extends Model
     {
         return self::where('status', $status)->count();
     }
-
+  public static function getPurchaseOrderByDate($start, $end, $supplierID) //wasis
+{
+    return self::with(['supplier', 'details'])
+        ->where('supplier_id', $supplierID)
+        ->whereBetween('order_date', [$start, $end])
+        ->orderBy('order_date', 'desc')
+        ->get();
+}
 }
