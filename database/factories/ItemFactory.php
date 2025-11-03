@@ -15,10 +15,10 @@ class ItemFactory extends Factory
     public function definition()
     {
         return [
-            ItemColumns::PROD_ID => function () {
-                // Use existing product or create one
-                return Product::inRandomOrder()->value('product_id') ?? Product::factory()->create()->product_id;
-            },
+    'product_id' => function () {
+    return Product::inRandomOrder()->value('product_id') ?? Product::factory()->create()->product_id;
+},
+
             ItemColumns::SKU => $this->faker->unique()->regexify('[A-Z0-9]{8}'),
             ItemColumns::NAME => $this->faker->words(3, true),
             ItemColumns::MEASUREMENT => function () {
