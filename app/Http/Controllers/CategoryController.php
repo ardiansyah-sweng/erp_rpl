@@ -83,7 +83,8 @@ class CategoryController extends Controller
             return redirect()->route('categories.index')->with('error', Messages::CATEGORY_NOT_FOUND);
         }
         
-        return view('category.show', compact('category'));
+    // Use the existing product.category.detail view (consistent with getCategoryById)
+    return view('product.category.detail', compact('category'));
     }
 
     /**
