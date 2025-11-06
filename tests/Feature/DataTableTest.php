@@ -14,13 +14,13 @@ class DataTableTest extends TestCase
     public function data_table_warehouse_list_exist()
     {
 
-        // 4️⃣ Akses route warehouse list
+        // Akses route warehouse list
         $response = $this->get('/warehouse/list');
 
-        // 5️⃣ Validasi response
-        $response->assertStatus(200); // halaman bisa diakses
+        // Validasi response
+        $response->assertStatus(200); 
 
-        // 6️⃣ (Opsional) cek data kolom tabel
+        // (Opsional) cek data kolom tabel
         $response->assertSee('No');
         $response->assertSee('Warehouse Name');
         $response->assertSee('Warehouse Address');
