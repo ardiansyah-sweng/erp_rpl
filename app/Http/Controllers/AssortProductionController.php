@@ -14,7 +14,7 @@ class AssortProductionController extends Controller
         $model = new AssortmentProduction();
         $production = AssortmentProduction::paginate();
 
-         return view('assortment_production.list', compact('production'));
+        return view('assortment_production.list', compact('production'));
     }
 
     public function updateProduction(Request $request, $id)
@@ -71,7 +71,7 @@ class AssortProductionController extends Controller
 
         return response()->json($productions); // hasilnya array of object
     }
-   
+
     public function deleteProduction($id)
     {
         // Cari production berdasarkan ID untuk mendapatkan production_number
@@ -92,4 +92,25 @@ class AssortProductionController extends Controller
         }
     }
 
+    public function addProduction(Request $request)
+    {
+        $data = [
+            'in_production'    => 0,
+            'production_number' => $request->production_number,
+            'sku'              => $request->sku,
+            'branch_id'        => $request->branch_id,
+            'rm_whouse_id'     => $request->rm_whouse_id,
+            'fg_whouse_id'     => $request->fg_whouse_id,
+            'production_date'  => $request->production_date,
+            'finished_date'    => $request->finished_date,
+            'description'      => $request->description,
+        ];
+
+        $production = AssortmentProduction::addProduction($data);
+
+        return response()->json([
+            'message' => 'Production record added successfully.',
+            'data' => $production
+        ]);
+    }
 }

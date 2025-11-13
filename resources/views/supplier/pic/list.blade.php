@@ -226,7 +226,32 @@
             <div class="col-sm-6 d-flex align-items-center">
               <h3 class="mb-0 me-2">Daftar PIC Supplier</h3>
               <a href="/supplier/pic/add" class="btn btn-primary btn-sm">Tambah</a>
-              <a href="{{ url('/supplier-pic/cetak-pdf') }}" class="btn btn-danger btn-sm" target="_blank">Cetak Semua PDF PIC</a>
+              <div class="btn-group">
+              <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  Cetak PDF PIC
+              </button>
+              <ul class="dropdown-menu">
+                  {{-- Cetak semua --}}
+                  <li>
+                      <a class="dropdown-item" href="{{ url('/supplier-pic/cetak-pdf') }}" target="_blank">
+                          Cetak Semua
+                      </a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+
+                  {{-- Cetak per Supplier --}}
+                  @foreach(\App\Models\Supplier::all() as $supplier)
+                      <li>
+                          <a class="dropdown-item" href="{{ route('supplier.pic.pdf.bySupplier', $supplier->supplier_id) }}" target="_blank">
+                              {{ $supplier->supplier_id }} - {{ $supplier->company_name }}
+                          </a>
+                      </li>
+                  @endforeach
+              </ul>
+          </div>
+
+
+
             </div>
 
             <div class="col-sm-6">

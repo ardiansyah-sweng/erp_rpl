@@ -40,4 +40,5 @@ class BillOfMaterialModel extends Model
     {
         return self::count();
     }
+
 }

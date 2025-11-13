@@ -308,33 +308,10 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('supplier.list') }}" class="nav-link">
                   <i class="nav-icon bi bi-person-circle"></i>
-                  <p>
-                    Supplier
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
+                  <p>Supplier</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="./widgets/small-box.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Small Box</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="/supplier/pic/add" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Tambah PIC supplier</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./widgets/cards.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Cards</p>
-                    </a>
-                  </li>
-                </ul>
               </li>
               <li class="nav-item">
                 <a href="{{ route('purchase.orders') }}" class="nav-link">
@@ -410,6 +387,7 @@
                 <th>Address</th>
                 <th>Phone Number</th>
                 <th>Bank Account</th>
+                <th>Order Frequency</th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th>PiC</th>
@@ -425,6 +403,7 @@
                   <td>{{ $supplier->address }}</td>
                   <td>{{ $supplier->phone_number }}</td>
                   <td>{{ $supplier->bank_account }}</td>
+                  <td class="text-center"><span class="badge bg-secondary">{{ $supplier->order_frequency ?? 0 }}</span></td>
                   <td>{{ $supplier->created_at }}</td>
                   <td>{{ $supplier->updated_at }}</td>
                   <td class="text-center">
@@ -442,7 +421,7 @@
               </tr>
               @empty
               <tr>
-                  <td colspan="10" class="text-center">No data available in table</td>
+                  <td colspan="11" class="text-center">No data available in table</td>
               </tr>
               @endforelse
             </tbody>

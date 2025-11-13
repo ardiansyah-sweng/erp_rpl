@@ -6,7 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class SupplierPICModel extends Model
 {
-    protected $table = 'supplier_pic';
+    protected $table = 'supplier_pics';
+
+    protected $fillable = [
+        'supplier_id',
+        'name',
+        'phone_number',
+        'email',
+        'is_active',
+        'avatar',
+        'assigned_date',
+    ];
 
     // Tambahkan relasi ke model Supplier
     public function supplier()

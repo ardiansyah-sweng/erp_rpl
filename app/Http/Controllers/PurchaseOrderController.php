@@ -15,7 +15,8 @@ class PurchaseOrderController extends Controller
     public function getPurchaseOrder()
     {
         $purchaseOrders = PurchaseOrder::getAllPurchaseOrders();
-        return view('purchase_orders.list', compact('purchaseOrders'));
+        $totalOrders = PurchaseOrder::countPurchaseOrder();
+        return view('purchase_orders.list', compact('purchaseOrders', 'totalOrders'));
     }
 
     public function getPurchaseOrderByID($po_number)
@@ -27,7 +28,8 @@ class PurchaseOrderController extends Controller
     {
         $keyword = request()->input('keyword');
         $purchaseOrders = PurchaseOrder::getPurchaseOrderByKeywords($keyword);
-        return view('purchase_orders.list', compact('purchaseOrders', 'keyword'));
+        $totalOrders = PurchaseOrder::countPurchaseOrder();
+        return view('purchase_orders.list', compact('purchaseOrders', 'keyword', 'totalOrders'));
     }
 
     // Menambahkan PO baru
@@ -115,7 +117,8 @@ class PurchaseOrderController extends Controller
                                       ->latest('order_date')
                                       ->paginate(10);
 
-        return view('purchase_orders.list', compact('purchaseOrders', 'status'));
+        $totalOrders = PurchaseOrder::where('status', $status)->count();
+        return view('purchase_orders.list', compact('purchaseOrders', 'status', 'totalOrders'));
     }
     public function sendMailPurchaseOrder(Request $request)
     {

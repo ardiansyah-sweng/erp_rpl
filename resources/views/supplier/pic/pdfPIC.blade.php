@@ -6,11 +6,17 @@
         body { font-family: sans-serif; font-size: 12px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #000; padding: 6px; text-align: left; }
-        h2 { margin-bottom: 0; }
+        h2 { margin-bottom: 0; text-align: center; }
     </style>
 </head>
 <body>
-    <h2>Data Semua PIC dari Semua Supplier</h2>
+    <h2>
+        @if(!empty($supplier))
+            Data PIC - {{ $supplier->company_name }}
+        @else
+            Data Semua PIC dari Semua Supplier
+        @endif
+    </h2>
 
     <table>
         <thead>

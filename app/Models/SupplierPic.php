@@ -4,21 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Constants\SupplierPicColumns;
 
 class SupplierPic extends Model
 {
-    protected $table = 'supplier_pic'; // sesuaikan nama tabel
-    protected $fillable = ['name', 'email', 'phone_number', 'supplier_id'];
-    protected $primaryKey = 'id';
+    protected $table; // akan diambil dari config
+    protected $fillable = [];
     public $incrementing = false;
     protected $keyType = 'string';
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-
-        $this->table = config('db_constants.table.supplier_pic');
-        $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
+        $this->table = config('db_tables.supplier_pic');
+        $this->fillable = SupplierPicColumns::getFillable();
     }
 
     // method untuk ambil data berdasarkan ID
@@ -131,5 +130,21 @@ class SupplierPic extends Model
         }
 
         return $query->orderBy('created_at', 'asc')->paginate(10);
+    }
+    
+    public static function getSupplierPIC($supplierID)
+    {
+        return self::where('supplier_id', $supplierID)->get();
+    }
+    
+    public static function countSupplierPIC($supplierID, $onlyActive = null)
+    {
+        $query = self::where('supplier_id', $supplierID);
+
+        if (!is_null($onlyActive)) {
+            $query->where('active', $onlyActive ? 1 : 0);
+        }
+
+        return $query->count();
     }
 }

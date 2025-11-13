@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\EncryptionHelper;
+use App\Enums\ProductType;
+use App\Models\Category;
+use App\Constants\Messages;
 
 
 class ProductController extends Controller
@@ -13,7 +16,8 @@ class ProductController extends Controller
     public function getProductList()
     {
         $products = Product::getAllProducts();
-        return view('product.list', compact('products'));
+        $categories = Category::orderBy('category')->get();
+        return view('product.list', compact('products', 'categories'));
     }
 
     public function generatePDF()
@@ -35,7 +39,7 @@ class ProductController extends Controller
         $product = (new Product())->getProductById($productId);
 
         if (!$product) {
-            return abort(404, 'Product tidak ditemukan');
+            return response()->view('errors.404', ['message' => Messages::PRODUCT_NOT_FOUND], 404);
         }
        return view('product.detail', compact('product'));
     }
@@ -43,10 +47,35 @@ class ProductController extends Controller
 
     // $productData = $products[$id];
     // $productData['category'] = (object)$productData['category'];
-    // $product = (object)$productData;
 
-    // return view('product.detail', compact('product'));
+    public function printProductsByType($type)
+    {
+        if ($type === 'ALL') {
+            // Get all products
+            $products = Product::with('category')->get();
+            $typeLabel = 'Semua Tipe';
+        } else {
+            // Get the enum case based on the type parameter
+            $productType = ProductType::tryFrom($type);
+            if (!$productType) {
+                abort(404, 'Invalid product type');
+            }
 
+            // Get products of the specified type
+            $products = Product::getProductByType($type)
+                ->load(['category']);
+            $typeLabel = $productType->value;
+        }
+
+        // Load the PDF view
+        $pdf = PDF::loadView('product.pdf', [
+            'products' => $products,
+            'type' => $typeLabel
+        ]);
+
+        // Stream the PDF to the browser
+        return $pdf->stream("products_{$type}.pdf");
+    }
 
     public function addProduct(Request $request)
     {
@@ -99,6 +128,54 @@ class ProductController extends Controller
             'success' => true,
             'message' => 'Produk berdasarkan kategori ditemukan.',
             'data' => $products,
+        ]);
+    }
+
+    public function printCategoryByIdPDF($id)
+    {
+        // Cari kategori berdasarkan ID
+        $category = Category::find($id);
+
+        if (!$category) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Kategori tidak ditemukan.'
+            ], 404);
+        }
+
+        // Ambil semua kategori dengan nama yang sama
+        $categories = Category::where('category', $category->category)->get();
+
+        // Untuk setiap kategori, ambil produknya
+        foreach ($categories as $cat) {
+            $products = Product::where('product_category', $cat->id)->get();
+            $cat->products = $products;
+        }
+
+        // Nama file sesuai kategori
+        $filename = "Laporan_Kategori_" . $category->category . ".pdf";
+
+        // Kirim semua kategori dengan produk ke view
+        $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
+        return $pdf->stream($filename);
+    }
+
+
+
+
+    public function getProductByType($type)
+    {
+        $products = Product::getProductByType($type);
+
+        if ($products->isEmpty()) {
+            return response()->json([
+                'message' => "Tidak ada produk dengan tipe: {$type}"
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Data produk berhasil ditemukan',
+            'data' => $products
         ]);
     }
 

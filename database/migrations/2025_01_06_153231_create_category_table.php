@@ -3,19 +3,27 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Constants\CategoryColumns;
 
 return new class extends Migration
 {
+    protected string $table;
+
+    public function __construct()
+    {
+        $this->table = config('db_tables.category');
+    }
+        
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('category', function (Blueprint $table) {
+        Schema::create($this->table, function (Blueprint $table) {
             $table->id();
-            $table->string('category', 50);
-            $table->integer('parent_id')->nullable();
-            $table->boolean('active')->default(true);
+            $table->string(CategoryColumns::CATEGORY, 50);
+            $table->integer(CategoryColumns::PARENT)->nullable();
+            $table->boolean(CategoryColumns::IS_ACTIVE)->default(true);
             $table->timestamps();
         });
     }
@@ -25,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('category');
+        Schema::dropIfExists($this->table);
     }
 };

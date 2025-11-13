@@ -382,8 +382,64 @@
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Bill Of Material</h3>
-                <a href="#" class="btn btn-primary btn-sm">Tambah</a>
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahBOM">Tambah Bill of Material</button>
                 <a href="#" class="btn btn-primary btn-sm ms-2">Cetak Bill Of Material</a>
+                <!-- Modal Tambah Bill of Material -->
+                <div class="modal fade" id="modalTambahBOM" tabindex="-1" aria-labelledby="modalTambahBOMLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="modalTambahBOMLabel">Tambah Bill of Material</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form id="billOfMaterialForm">
+                          <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                              <label class="form-label fw-semibold">BOM ID</label>
+                              <input type="text" class="form-control" id="bomID" placeholder="BOM001">
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label fw-semibold">Nama BOM</label>
+                              <input type="text" class="form-control" id="bomNama" placeholder="Nama BOM">
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label fw-semibold">Measurement Unit</label>
+                              <select class="form-select" id="bomMeasurement" name="measurement_unit_id">
+                                @if(isset($measurement_units) && count($measurement_units) > 0)
+                                  @foreach($measurement_units as $unit)
+                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                  @endforeach
+                                @endif
+                                <option value="PCS">PCS</option>
+                                <option value="KG">KG</option>
+                                <option value="L">L</option>
+                                <option value="Meter">Meter</option>
+                                <option value="Set">Set</option>
+                                <option value="Pack">Pack</option>
+                              </select>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label fw-semibold">Total Cost</label>
+                              <input type="text" class="form-control" id="bomTotalCost" placeholder="Total Cost">
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label fw-semibold">Status</label>
+                              <select class="form-select" id="bomStatus">
+                                <option value="Aktif">Aktif</option>
+                                <option value="Nonaktif">Nonaktif</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-success">Simpan</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
     
               <div class="col-sm-6">
@@ -458,7 +514,7 @@
                                   </td>
                                   <td>08-06-2024</td>
                                   <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -473,7 +529,7 @@
                                   </td>
                                   <td>05-06-2024</td>
                                   <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -488,7 +544,7 @@
                                   </td>
                                   <td>11-06-2025</td>
                                   <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -503,7 +559,7 @@
                                   </td>
                                   <td>01-01-2025</td>
                                   <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -518,7 +574,7 @@
                                   </td>
                                   <td>01-04-2025</td>
                                   <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -533,7 +589,7 @@
                                   </td>
                                   <td>30-05-2025</td>
                                   <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -548,7 +604,7 @@
                                   </td>
                                   <td>30-11-2025</td>
                                   <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -563,7 +619,7 @@
                                   </td>
                                   <td>30-05-2025</td>
                                   <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -578,7 +634,7 @@
                                   </td>
                                   <td>31-05-2025</td>
                                   <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                     <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -593,7 +649,7 @@
                                   </td>
                                   <td>30-03-2025</td>
                                   <td>
-                                      <a href="#" class="btn btn-sm btn-info">Lihat</a>
+                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -601,6 +657,66 @@
                           </tbody>
                       </table>
             </div>
+ 
+                  <!-- Modal Detail BOM -->
+                  <div class="modal fade" id="bomModal" tabindex="-1" aria-labelledby="bomModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="bomModalLabel">Detail Bill of Material</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p><strong>Nama BOM:</strong> <span id="bom_name"></span></p>
+                          <p><strong>Satuan:</strong> <span id="measurement_unit"></span></p>
+                          <p><strong>Total Biaya:</strong> <span id="total_cost"></span></p>
+                          <p><strong>Status:</strong> <span id="active_status"></span></p>
+
+                          <h5>Detail Komponen</h5>
+                          <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>No</th>
+                                <th>SKU</th>
+                                <th>Quantity</th>
+                                <th>Cost</th>
+                              </tr>
+                            </thead>
+                            <tbody id="bom_details"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            
+                  <script>
+                  function getDetail(id) {
+                    fetch(`/bill-of-material/${id}`)
+                      .then(res => res.json())
+                      .then(data => {
+                        document.getElementById('bom_name').textContent = data.bom_name;
+                        document.getElementById('measurement_unit').textContent = data.measurement_unit;
+                        document.getElementById('total_cost').textContent = 'Rp. ' + parseInt(data.total_cost).toLocaleString();
+                        document.getElementById('active_status').textContent = data.active ? 'AKTIF' : 'TIDAK AKTIF';
+
+                        let rows = '';
+                        data.details.forEach((item, index) => {
+                          rows += `<tr>
+                            <td>${index + 1}</td>
+                            <td>${item.sku}</td>
+                            <td>${item.quantity}</td>
+                            <td>Rp. ${parseInt(item.cost).toLocaleString()}</td>
+                          </tr>`;
+                        });
+                        document.getElementById('bom_details').innerHTML = rows;
+
+                        var modal = new bootstrap.Modal(document.getElementById('bomModal'));
+                        modal.show();
+                      })
+                      .catch(err => alert('Gagal mengambil data'));
+                  }
+                  </script>
+
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer clearfix">
