@@ -14,19 +14,16 @@ class SupplierModelTest extends TestCase
 {
 
     /** @test */
-    public function it_can_get_suppliers_with_order_frequency()
-{
-    $suppliers = Supplier::withCount('purchaseOrders')->get();
-
-    $result = $suppliers->map(function ($supplier) {
-        return [
-            'supplier_id' => $supplier->supplier_id,
-            'supplier_name' => $supplier->supplier_name,
-            'order_frequency' => $supplier->purchase_orders_count,
-        ];
-    });
-    
-    $this->assertNotEmpty($result);
-}
-
+    public function it_can_get_suppliers_with_order_frequency() {
+        $suppliers = Supplier::withCount('purchaseOrders')->get();
+        $result = $suppliers->map(function ($supplier) {
+            return [
+                'supplier_id' => $supplier->supplier_id,
+                'supplier_name' => $supplier->supplier_name,
+                'order_frequency' => $supplier->purchase_orders_count,
+            ];
+        });
+        
+        $this->assertNotEmpty($result);
+    }
 }
