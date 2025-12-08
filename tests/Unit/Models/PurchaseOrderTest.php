@@ -10,12 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 class PurchaseOrderTest extends TestCase
 {
-    /**
-     * Test fungsi getPurchaseOrderByDate dapat mengambil data dengan benar
-     * Tugas No 45
-     *
-     * @return void
-     */
+   
     public function test_get_purchase_order_by_date_returns_correct_data()
     {
         // Arrange
@@ -36,11 +31,7 @@ class PurchaseOrderTest extends TestCase
         echo "\n✓ Test 1 PASSED: Fungsi mengembalikan Collection\n";
     }
 
-    /**
-     * Test fungsi dengan supplier yang tidak ada
-     *
-     * @return void
-     */
+   
     public function test_get_purchase_order_by_date_with_invalid_supplier()
     {
         $result = PurchaseOrder::getPurchaseOrderByDate(
@@ -54,11 +45,7 @@ class PurchaseOrderTest extends TestCase
         echo "\n✓ Test 2 PASSED: Supplier tidak valid mengembalikan collection kosong\n";
     }
 
-    /**
-     * Test fungsi memuat relasi supplier dan details dengan benar
-     *
-     * @return void
-     */
+    
     public function test_get_purchase_order_by_date_loads_relations()
     {
         $supplier = Supplier::first();
@@ -83,11 +70,6 @@ class PurchaseOrderTest extends TestCase
         }
     }
 
-    /**
-     * Test fungsi mengurutkan data berdasarkan order_date DESC
-     *
-     * @return void
-     */
     public function test_get_purchase_order_by_date_orders_by_date_desc()
     {
         $supplier = Supplier::first();
@@ -113,11 +95,7 @@ class PurchaseOrderTest extends TestCase
         }
     }
 
-    /**
-     * Test fungsi dengan rentang tanggal yang berbeda
-     *
-     * @return void
-     */
+    
     public function test_get_purchase_order_by_date_with_different_date_ranges()
     {
         $supplier = Supplier::first();
@@ -141,11 +119,7 @@ class PurchaseOrderTest extends TestCase
         echo "\n✓ Test 5 PASSED: Rentang tanggal berfungsi dengan benar\n";
     }
 
-    /**
-     * Test fungsi dengan tanggal yang sama (1 hari)
-     *
-     * @return void
-     */
+   
     public function test_get_purchase_order_by_date_with_same_date()
     {
         $supplier = Supplier::first();
@@ -163,11 +137,6 @@ class PurchaseOrderTest extends TestCase
         echo "\n✓ Test 6 PASSED: Fungsi bekerja dengan rentang 1 hari\n";
     }
 
-    /**
-     * Test fungsi mengembalikan data sesuai filter supplier
-     *
-     * @return void
-     */
     public function test_get_purchase_order_by_date_filters_by_supplier()
     {
         $supplier = Supplier::first();
@@ -187,7 +156,7 @@ class PurchaseOrderTest extends TestCase
             }
             echo "\n✓ Test 7 PASSED: Semua data sesuai dengan supplier yang dipilih\n";
         } else {
-            $this->assertTrue(true); // ✅ biar tidak risky
+            $this->assertTrue(true); // ✅ biar tidak risky 
             echo "\n⚠ Test 7 SKIPPED: Tidak ada data untuk test filter supplier\n";
         }
     }

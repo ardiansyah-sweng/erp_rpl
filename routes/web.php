@@ -53,6 +53,9 @@ Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
 
+Route::get('/supplier/material/search', [SupplierMaterialController::class, 'search'])
+    ->name('supplier.material.search');
+    
 Route::get('/supplier/add', function () {
     return view('supplier/add');
 });

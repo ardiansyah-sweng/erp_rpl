@@ -212,8 +212,8 @@ return [
         ],
         'products' => [
             'id'                    => 'product_id',            #char[6]
-            'name'                  => 'product_name',          #string[35]
-            'type'                  => 'product_type',          #finished, raw material
+            'name'                  => 'name',          #string[35]
+            'type'                  => 'type',          #finished, raw material
             'category'              => 'product_category',      #tinyInteger
             'desc'                  => 'product_description',   #string[255]
             'created'               => $master['created'],
@@ -226,7 +226,7 @@ return [
             'supplier_id'           => $master['supplier_id'],
             'company_name'          => 'company_name',
             'address'               => 'address',
-            'phone_number'          => 'phone_number',
+            'telephone'          => 'telephone',
             'bank_account'          => 'bank_account',
             'created'            => 'created_at',
             'updated'            => 'updated_at'

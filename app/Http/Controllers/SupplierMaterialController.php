@@ -105,7 +105,16 @@ class SupplierMaterialController extends Controller
             ->get();
 
         return response()->json($results);
-    }
-
+    }public function search(Request $request)
+{
+    // Ambil keyword dari query parameter
+    $keyword = $request->query('keyword', '');
+    
+    // Panggil fungsi searchSupplierMaterial dari model
+    $materials = SupplierMaterial::searchSupplierMaterial($keyword);
+    
+    // Return view dengan data materials
+    return view('supplier.material.list', ['materials' => $materials]);
+}
 
 }
