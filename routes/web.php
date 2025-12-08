@@ -232,6 +232,7 @@ Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete'])->name('supplier.pic.delete');
 Route::get('/supplier/list', [SupplierController::class, 'listSuppliers'])->name('supplier.list');
 
+Route::get('/supplier-material/search', [SupplierMaterialController::class, 'searchSupplierMaterial'])->name('supplier.material.search');
 Route::get('/supplier/material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialById'])->name('supplier.material.detail');
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
 Route::get('/supplier-material/{supplier_id}/{product_type}', [SupplierMaterialController::class, 'getSupplierMaterialByProductType']);
