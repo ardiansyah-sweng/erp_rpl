@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Item;
@@ -21,7 +22,7 @@ class ItemTest extends BaseTestCase
         parent::setUp();
         
         // Reset auto-increment untuk memastikan ID dimulai dari 1
-        \DB::statement('ALTER TABLE items AUTO_INCREMENT = 1');
+        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1');
     }
 
     // ========== DELETE ITEM BY ID METHOD TESTS ==========
@@ -236,7 +237,7 @@ class ItemTest extends BaseTestCase
             'name' => 'Item to Delete',
             'base_price' => 5000
         ]);
-
+        
         $item2 = Item::factory()->create([
             'sku' => 'PRESERVE-002',
             'name' => 'Item to Keep',
@@ -248,7 +249,7 @@ class ItemTest extends BaseTestCase
 
         // Assert - Deletion successful and data integrity preserved
         $this->assertTrue($result);
-
+        
         // Check remaining item data integrity
         $remainingItem = Item::where('sku', 'PRESERVE-002')->first();
         $this->assertNotNull($remainingItem);
@@ -257,6 +258,63 @@ class ItemTest extends BaseTestCase
         $this->assertEquals('PRESERVE-002', $remainingItem->sku);
     }
 
+        /**
+     * Test getItem() returns all items correctly
+     */
+    public function test_get_item_returns_all_items()
+    {
+        // Arrange: buat 3 item dummy
+        $items = Item::factory()->count(3)->create([
+            'product_id' => 'PROD',
+        ]);
+
+        // Act: panggil method getItem()
+        $result = (new Item())->getItem();
+
+        // Assert: pastikan hasilnya Collection
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $result);
+
+        // Assert: jumlah item sama
+        $this->assertCount(3, $result);
+
+        // Assert: SKU sama dengan yang dibuat
+        $expectedSkus = $items->pluck('sku')->sort()->values();
+        $actualSkus = $result->pluck('sku')->sort()->values();
+        $this->assertEquals($expectedSkus, $actualSkus);
+    }
+
+    /**
+     * Test getItem() returns empty collection when no data exists
+     */
+    public function test_get_item_returns_empty_collection_when_no_data()
+    {
+        // Pastikan tabel kosong
+        Item::query()->delete();
+
+        // Act
+        $result = (new Item())->getItem();
+
+        // Assert
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $result);
+        $this->assertTrue($result->isEmpty());
+    }
+
+    /**
+     * Test getItem() does not throw error when table is empty
+     */
+    public function test_get_item_does_not_throw_error_when_table_empty()
+    {
+        // Pastikan tabel kosong
+        Item::query()->delete();
+
+        // Act & Assert: pastikan tidak lempar exception
+        try {
+            $result = (new Item())->getItem();
+            $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $result);
+        } catch (\Throwable $e) {
+            $this->fail('getItem() should not throw an exception when table is empty');
+        }
+    }
 
     /**
      * Test addItem method successfully creates and returns a new item

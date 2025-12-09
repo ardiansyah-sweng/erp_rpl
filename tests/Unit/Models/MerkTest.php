@@ -262,6 +262,265 @@ class MerkTest extends TestCase
         // Check appended attributes (dari getStatusLabelAttribute & getDisplayNameAttribute)
         $this->assertEquals('Aktif', $result->status_label);
         $this->assertStringContainsString('Lexus', $result->display_name);
-        $this->assertStringContainsString('', $result->display_name);
+        $this->assertStringContainsString('✅', $result->display_name);
+    }
+
+    // ========================================================================
+    // TEST UNTUK FUNGSI countMerek() 
+    // ========================================================================
+
+    /**
+     * Test countMerek returns zero when table is empty
+     * @test
+     */
+    public function test_countMerek_returns_zero_when_no_merk_exists()
+    {
+        // Act
+        $count = Merk::countMerek();
+
+        // Assert
+        $this->assertEquals(0, $count);
+        $this->assertIsInt($count);
+    }
+
+    /**
+     * Test countMerek returns correct count with single record
+     * @test
+     */
+    public function test_countMerek_returns_one_when_single_merk_exists()
+    {
+        // Arrange
+        Merk::factory()->create([
+            MerkColumns::MERK => 'Honda'
+        ]);
+
+        // Act
+        $count = Merk::countMerek();
+
+        // Assert
+        $this->assertEquals(1, $count);
+    }
+
+    /**
+     * Test countMerek returns correct count with multiple records
+     * @test
+     */
+    public function test_countMerek_returns_correct_count_with_multiple_merk()
+    {
+        // Arrange
+        $expectedCount = 5;
+        Merk::factory()->count($expectedCount)->create();
+
+        // Act
+        $count = Merk::countMerek();
+
+        // Assert
+        $this->assertEquals($expectedCount, $count);
+    }
+
+    /**
+     * Test countMerek includes both active and inactive merk
+     * @test
+     */
+    public function test_countMerek_counts_both_active_and_inactive_merk()
+    {
+        // Arrange
+        Merk::factory()->count(3)->active()->create();
+        Merk::factory()->count(2)->inactive()->create();
+
+        // Act
+        $count = Merk::countMerek();
+
+        // Assert
+        $this->assertEquals(5, $count);
+    }
+
+    /**
+     * Test countMerek updates correctly after deletion
+     * @test
+     */
+    public function test_countMerek_updates_count_after_deletion()
+    {
+        // Arrange
+        Merk::factory()->count(5)->create();
+        $merkToDelete = Merk::first();
+
+        // Act
+        $countBefore = Merk::countMerek();
+        $merkToDelete->delete();
+        $countAfter = Merk::countMerek();
+
+        // Assert
+        $this->assertEquals(5, $countBefore);
+        $this->assertEquals(4, $countAfter);
+    }
+
+    /**
+     * Test countMerek updates correctly after creation
+     * @test
+     */
+    public function test_countMerek_updates_count_after_creation()
+    {
+        // Arrange
+        Merk::factory()->count(3)->create();
+
+        // Act
+        $countBefore = Merk::countMerek();
+        Merk::factory()->create([
+            MerkColumns::MERK => 'Yamaha'
+        ]);
+        $countAfter = Merk::countMerek();
+
+        // Assert
+        $this->assertEquals(3, $countBefore);
+        $this->assertEquals(4, $countAfter);
+    }
+
+    /**
+     * Test countMerek with large dataset
+     * @test
+     */
+    public function test_countMerek_handles_large_dataset()
+    {
+        // Arrange
+        $largeCount = 100;
+        Merk::factory()->count($largeCount)->create();
+
+        // Act
+        $count = Merk::countMerek();
+
+        // Assert
+        $this->assertEquals($largeCount, $count);
+    }
+
+    /**
+     * Test countMerek is equivalent to count() method
+     * @test
+     */
+    public function test_countMerek_returns_same_result_as_eloquent_count()
+    {
+        // Arrange
+        Merk::factory()->count(10)->create();
+
+        // Act
+        $countMerekResult = Merk::countMerek();
+        $eloquentCountResult = Merk::count();
+
+        // Assert
+        $this->assertEquals($eloquentCountResult, $countMerekResult);
+    }
+
+    /**
+     * Test countMerek performance with medium dataset
+     * @test
+     */
+    public function test_countMerek_executes_efficiently()
+    {
+        // Arrange
+        Merk::factory()->count(50)->create();
+
+        // Act
+        $startTime = microtime(true);
+        $count = Merk::countMerek();
+        $executionTime = microtime(true) - $startTime;
+
+        // Assert
+        $this->assertEquals(50, $count);
+        $this->assertLessThan(0.1, $executionTime, 'Query should execute in less than 100ms');
+    }
+
+    /**
+     * Test countMerek matches getStatistics total
+     * @test
+     */
+    public function test_countMerek_matches_statistics_total()
+    {
+        // Arrange
+        Merk::factory()->count(7)->create();
+
+        // Act
+        $countResult = Merk::countMerek();
+        $statistics = Merk::getStatistics();
+
+        // Assert
+        $this->assertEquals($countResult, $statistics['total_merk']);
+    }
+
+    /**
+     * Test countMerek is not affected by ID gaps
+     * @test
+     */
+    public function test_countMerek_is_not_affected_by_id_gaps()
+    {
+        // Arrange - Create merks and delete some to create gaps in IDs
+        $merk1 = Merk::factory()->create();
+        $merk2 = Merk::factory()->create();
+        $merk3 = Merk::factory()->create();
+        
+        $merk2->delete();
+
+        // Act
+        $count = Merk::countMerek();
+
+        // Assert
+        $this->assertEquals(2, $count); // Should count actual records, not ID numbers
+    }
+
+    /**
+     * Test countMerek returns correct integer type
+     * @test
+     */
+    public function test_countMerek_returns_integer_type()
+    {
+        // Arrange
+        Merk::factory()->count(5)->create();
+
+        // Act
+        $count = Merk::countMerek();
+
+        // Assert
+        $this->assertIsInt($count);
+        $this->assertNotNull($count);
+    }
+
+    /**
+     * Test countMerek works with various merk names
+     * @test
+     */
+    public function test_countMerek_works_with_various_merk_names()
+    {
+        // Arrange
+        Merk::factory()->create([MerkColumns::MERK => 'Toyota']);
+        Merk::factory()->create([MerkColumns::MERK => 'Honda']);
+        Merk::factory()->create([MerkColumns::MERK => 'Suzuki']);
+        Merk::factory()->create([MerkColumns::MERK => 'Yamaha']);
+
+        // Act
+        $count = Merk::countMerek();
+
+        // Assert
+        $this->assertEquals(4, $count);
+    }
+
+    /**
+     * Test countMerek remains accurate after multiple operations
+     * @test
+     */
+    public function test_countMerek_accurate_after_multiple_operations()
+    {
+        // Arrange & Act - Test step by step
+        Merk::factory()->count(3)->create();
+        $this->assertEquals(3, Merk::countMerek());
+
+        Merk::factory()->count(2)->create();
+        $this->assertEquals(5, Merk::countMerek());
+
+        Merk::first()->delete();
+        $this->assertEquals(4, Merk::countMerek());
+
+        Merk::factory()->create();
+        
+        // Final Assert
+        $this->assertEquals(5, Merk::countMerek());
     }
 }

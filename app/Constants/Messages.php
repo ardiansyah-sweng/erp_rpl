@@ -65,6 +65,8 @@ class Messages
 
     // Item messages
     public const ITEM_IN_USE = 'Item tidak bisa dihapus karena sudah digunakan di purchase order.';
+    public const ITEM_NOT_FOUND = 'Item tidak ditemukan.';
+    public const ITEM_DELETED = 'Item berhasil dihapus.';
 
     // Supplier PIC messages
     public const SUPPLIER_PIC_NOT_FOUND = 'PIC tidak ditemukan.';

@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Tests\Unit\Models;
 
@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Product;
 use App\Models\SupplierMaterial;
+use App\Models\Supplier;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -399,5 +400,313 @@ class SupplierMaterialTest extends TestCase
         
         // Assert
         $this->assertEquals(2, $count, 'Should find 2 records with "001" in supplier_id or product_id');
+    }
+
+    // ========================================================================
+    // TEST UNTUK FUNGSI getSupplierMaterialByKeyword()
+    // ========================================================================
+
+    /**
+     * Test: Pencarian berdasarkan supplier_id
+     * @test
+     */
+    public function getSupplierMaterialByKeyword_can_search_by_supplier_id()
+    {
+        // Arrange
+        $supplier1 = Supplier::factory()->create(['supplier_id' => 'SUP001']);
+        $supplier2 = Supplier::factory()->create(['supplier_id' => 'SUP002']);
+        
+        SupplierMaterial::factory()->create([
+            'supplier_id' => $supplier1->supplier_id,
+            'company_name' => $supplier1->company_name,
+        ]);
+        
+        SupplierMaterial::factory()->create([
+            'supplier_id' => $supplier2->supplier_id,
+            'company_name' => $supplier2->company_name,
+        ]);
+
+        // Act
+        $result = SupplierMaterial::getSupplierMaterialByKeyword('SUP001');
+
+        // Assert
+        $this->assertCount(1, $result);
+        $this->assertEquals('SUP001', $result->first()->supplier_id);
+    }
+
+    /**
+     * Test: Pencarian berdasarkan company_name
+     * @test
+     */
+    public function getSupplierMaterialByKeyword_can_search_by_company_name()
+    {
+        // Arrange
+        $supplier1 = Supplier::factory()->create(['company_name' => 'PT Maju Jaya']);
+        $supplier2 = Supplier::factory()->create(['company_name' => 'PT Mundur Terus']);
+        
+        SupplierMaterial::factory()->create([
+            'supplier_id' => $supplier1->supplier_id,
+            'company_name' => 'PT Maju Jaya',
+        ]);
+        
+        SupplierMaterial::factory()->create([
+            'supplier_id' => $supplier2->supplier_id,
+            'company_name' => 'PT Mundur Terus',
+        ]);
+
+        // Act
+        $result = SupplierMaterial::getSupplierMaterialByKeyword('Maju');
+
+        // Assert
+        $this->assertCount(1, $result);
+        $this->assertStringContainsString('Maju', $result->first()->company_name);
+    }
+
+    /**
+     * Test: Pencarian berdasarkan product_id
+     * @test
+     */
+    public function getSupplierMaterialByKeyword_can_search_by_product_id()
+    {
+        // Arrange - DIPERBAIKI: product_id maksimal 4 karakter
+        $product1 = Product::factory()->create(['product_id' => 'P001']);
+        $product2 = Product::factory()->create(['product_id' => 'P002']);
+        
+        SupplierMaterial::factory()->create([
+            'product_id' => $product1->product_id . '-01',
+        ]);
+        
+        SupplierMaterial::factory()->create([
+            'product_id' => $product2->product_id . '-01',
+        ]);
+
+        // Act - DIPERBAIKI: keyword disesuaikan
+        $result = SupplierMaterial::getSupplierMaterialByKeyword('P001');
+
+        // Assert
+        $this->assertCount(1, $result);
+        $this->assertStringContainsString('P001', $result->first()->product_id);
+    }
+
+    /**
+     * Test: Pencarian berdasarkan product_name
+     * @test
+     */
+    public function getSupplierMaterialByKeyword_can_search_by_product_name()
+    {
+        // Arrange
+        $product1 = Product::factory()->create(['name' => 'Bahan Baku A']);
+        $product2 = Product::factory()->create(['name' => 'Bahan Baku B']);
+        
+        SupplierMaterial::factory()->create([
+            'product_name' => 'Bahan Baku A',
+        ]);
+        
+        SupplierMaterial::factory()->create([
+            'product_name' => 'Bahan Baku B',
+        ]);
+
+        // Act
+        $result = SupplierMaterial::getSupplierMaterialByKeyword('Bahan Baku A');
+
+        // Assert
+        $this->assertCount(1, $result);
+        $this->assertEquals('Bahan Baku A', $result->first()->product_name);
+    }
+
+    /**
+     * Test: Pencarian dengan keyword sebagian (partial match)
+     * @test
+     */
+    public function getSupplierMaterialByKeyword_can_search_with_partial_keyword()
+    {
+        // Arrange
+        SupplierMaterial::factory()->create([
+            'company_name' => 'PT Teknologi Maju',
+        ]);
+        
+        SupplierMaterial::factory()->create([
+            'company_name' => 'CV Berkah Abadi',
+        ]);
+
+        // Act
+        $result = SupplierMaterial::getSupplierMaterialByKeyword('Tekno');
+
+        // Assert
+        $this->assertCount(1, $result);
+        $this->assertStringContainsString('Teknologi', $result->first()->company_name);
+    }
+
+    /**
+     * Test: Mengembalikan multiple results jika keyword cocok dengan beberapa record
+     * @test
+     */
+    public function getSupplierMaterialByKeyword_returns_multiple_results_when_keyword_matches_multiple_records()
+    {
+        // Arrange
+        SupplierMaterial::factory()->create([
+            'company_name' => 'PT ABC Indonesia',
+        ]);
+        
+        SupplierMaterial::factory()->create([
+            'product_name' => 'ABC Material',
+        ]);
+        
+        SupplierMaterial::factory()->create([
+            'company_name' => 'PT XYZ Corp',
+        ]);
+
+        // Act
+        $result = SupplierMaterial::getSupplierMaterialByKeyword('ABC');
+
+        // Assert
+        $this->assertCount(2, $result);
+    }
+
+    /**
+     * Test: Mengembalikan empty collection jika tidak ada yang cocok
+     * @test
+     */
+    public function getSupplierMaterialByKeyword_returns_empty_collection_when_no_match_found()
+    {
+        // Arrange
+        SupplierMaterial::factory()->create([
+            'company_name' => 'PT Maju Jaya',
+        ]);
+
+        // Act
+        $result = SupplierMaterial::getSupplierMaterialByKeyword('TIDAK_ADA');
+
+        // Assert
+        $this->assertCount(0, $result);
+        $this->assertTrue($result->isEmpty());
+    }
+
+    /**
+     * Test: Pencarian case insensitive
+     * @test
+     */
+    public function getSupplierMaterialByKeyword_is_case_insensitive()
+    {
+        // Arrange
+        SupplierMaterial::factory()->create([
+            'company_name' => 'PT MAJU JAYA',
+        ]);
+
+        // Act
+        $result = SupplierMaterial::getSupplierMaterialByKeyword('maju jaya');
+
+        // Assert
+        $this->assertCount(1, $result);
+    }
+
+    /**
+     * Test: Pencarian dengan keyword kosong mengembalikan semua data
+     * @test
+     */
+    public function getSupplierMaterialByKeyword_returns_all_data_with_empty_keyword()
+    {
+        // Arrange
+        SupplierMaterial::factory()->count(3)->create();
+
+        // Act
+        $result = SupplierMaterial::getSupplierMaterialByKeyword('');
+
+        // Assert
+        $this->assertCount(3, $result);
+    }
+
+    /**
+     * Test: Pencarian dengan OR condition di semua kolom
+     * @test
+     */
+    public function getSupplierMaterialByKeyword_searches_across_all_columns_with_or_condition()
+    {
+        // Arrange - DIPERBAIKI: product_id maksimal 4 karakter
+        $supplier = Supplier::factory()->create(['supplier_id' => 'SUP123']);
+        $product = Product::factory()->create(['product_id' => 'P456']);
+        
+        SupplierMaterial::factory()->create([
+            'supplier_id' => $supplier->supplier_id,
+            'company_name' => 'PT Different Name',
+            'product_id' => 'OTHER-01',
+            'product_name' => 'Other Product',
+        ]);
+
+        // Act - Search by supplier_id
+        $result1 = SupplierMaterial::getSupplierMaterialByKeyword('SUP123');
+        
+        // Act - Search by product_id
+        SupplierMaterial::factory()->create([
+            'product_id' => $product->product_id . '-01',
+        ]);
+        $result2 = SupplierMaterial::getSupplierMaterialByKeyword('P456');
+
+        // Assert
+        $this->assertCount(1, $result1);
+        $this->assertCount(1, $result2);
+    }
+
+    /**
+     * Test: Mengembalikan semua kolom dengan lengkap
+     * @test
+     */
+    public function getSupplierMaterialByKeyword_returns_all_columns_in_result()
+    {
+        // Arrange
+        $supplierMaterial = SupplierMaterial::factory()->create([
+            'supplier_id' => 'SUP001',
+            'company_name' => 'PT Test Company',
+            'product_id' => 'PROD-01',
+            'product_name' => 'Test Product',
+            'base_price' => 50000,
+        ]);
+
+        // Act
+        $result = SupplierMaterial::getSupplierMaterialByKeyword('SUP001');
+
+        // Assert
+        $this->assertNotNull($result->first()->id);
+        $this->assertEquals('SUP001', $result->first()->supplier_id);
+        $this->assertEquals('PT Test Company', $result->first()->company_name);
+        $this->assertEquals('PROD-01', $result->first()->product_id);
+        $this->assertEquals('Test Product', $result->first()->product_name);
+        $this->assertEquals(50000, $result->first()->base_price);
+        $this->assertNotNull($result->first()->created_at);
+        $this->assertNotNull($result->first()->updated_at);
+    }
+
+    /**
+     * Test: Handle special characters dalam pencarian
+     * @test
+     */
+    public function getSupplierMaterialByKeyword_handles_special_characters_in_search()
+    {
+        // Arrange
+        SupplierMaterial::factory()->create([
+            'company_name' => 'PT A&B Corporation',
+        ]);
+
+        // Act
+        $result = SupplierMaterial::getSupplierMaterialByKeyword('A&B');
+
+        // Assert
+        $this->assertCount(1, $result);
+    }
+
+    /**
+     * Test: Return type adalah Collection
+     * @test
+     */
+    public function getSupplierMaterialByKeyword_returns_collection_instance()
+    {
+        // Arrange
+        SupplierMaterial::factory()->create();
+
+        // Act
+        $result = SupplierMaterial::getSupplierMaterialByKeyword('');
+
+        // Assert
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $result);
     }
 }

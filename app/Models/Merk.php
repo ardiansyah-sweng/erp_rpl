@@ -265,10 +265,10 @@ class Merk extends Model
     // /**
     //  * @deprecated Use getStatistics()['total_merk'] instead
     //  */
-    // public static function countMerek()
-    // {
-    //     return self::count();
-    // }
+     public static function countMerek()
+     {
+         return self::count();
+     }
 
     // /**
     //  * @deprecated Use find() directly instead

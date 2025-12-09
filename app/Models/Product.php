@@ -73,9 +73,8 @@ class Product extends Model
 
     public static function countProductByProductType($shortType)
     {
-        $colProduct = config('db_constants.column.products');
-
-        return self::where($colProduct['type'], $shortType)->count();
+        // Use canonical column constant to avoid relying on test env config
+        return self::where(ProductColumns::TYPE, $shortType)->count();
     }
 
     public static function getProductByType($type)

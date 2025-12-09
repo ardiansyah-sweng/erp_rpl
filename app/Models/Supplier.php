@@ -32,7 +32,7 @@ class Supplier extends Model
                 $supplierTable . '.supplier_id',
                 $supplierTable . '.company_name',
                 $supplierTable . '.address',
-                $supplierTable . '.phone_number',
+                $supplierTable . '.telephone',
                 $supplierTable . '.bank_account',
                 $supplierTable . '.created_at',
                 $supplierTable . '.updated_at'
