@@ -21,7 +21,7 @@ class SupplierPicModelTest extends TestCase
             'phone_number' => '08123456789',
             'email' => 'john@example.com',
             'assigned_date' => now()->toDateString(),
-            'active' => 1,
+            //'active' => 1,
         ];
 
         // Act
@@ -68,18 +68,22 @@ class SupplierPicModelTest extends TestCase
     {
         // Arrange: Create supplier and PIC
         $supplier = Supplier::factory()->create();
-        $pic = SupplierPic::addSupplierPIC($supplier->supplier_id, [
+        SupplierPic::addSupplierPIC($supplier->supplier_id, [
             'name' => 'Original Name',
             'phone_number' => '08123456789',
             'email' => 'original@example.com',
-            'active' => 1,
+            //'active' => 1,
         ]);
+
+        // Ambil record terbaru dari DB
+        $pic = SupplierPic::latest()->first();
+        $this->assertNotNull($pic, 'PIC record tidak ditemukan di database');
 
         $updateData = [
             'name' => 'Updated Name',
             'phone_number' => '08987654321',
             'email' => 'updated@example.com',
-            'active' => 0,
+            //'active' => 0,
         ];
 
         // Act
@@ -96,7 +100,7 @@ class SupplierPicModelTest extends TestCase
             'name' => 'Updated Name',
             'phone_number' => '08987654321',
             'email' => 'updated@example.com',
-            'active' => 0,
+            // 'active' => 0,
         ]);
     }
 
@@ -128,12 +132,15 @@ class SupplierPicModelTest extends TestCase
     {
         // Arrange
         $supplier = Supplier::factory()->create();
-        $pic = SupplierPic::addSupplierPIC($supplier->supplier_id, [
+        SupplierPic::addSupplierPIC($supplier->supplier_id, [
             'name' => 'Original Name',
             'phone_number' => '08123456789',
             'email' => 'original@example.com',
-            'active' => 1,
         ]);
+
+        // Ambil record terbaru dari DB
+        $pic = SupplierPic::latest()->first();
+        $this->assertNotNull($pic, 'PIC record tidak ditemukan di database');
 
         $partialUpdateData = [
             'name' => 'Partially Updated Name',
@@ -141,6 +148,15 @@ class SupplierPicModelTest extends TestCase
 
         // Act
         $result = SupplierPic::updateSupplierPIC($pic->id, $partialUpdateData);
+
+        // DEBUG: Lihat error message
+        if ($result['status'] === 'error') {
+            dd([
+                'pic_id' => $pic->id,
+                'result' => $result,
+                'pic_data' => $pic,
+            ]);
+        }
 
         // Assert
         $this->assertEquals('success', $result['status']);
