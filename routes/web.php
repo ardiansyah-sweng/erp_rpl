@@ -23,6 +23,13 @@ use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
 use App\Models\BillOfMaterial;
 
+Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
+
+
+
+
+
+
 # Route GET untuk form tambah merk
 Route::get('/merk/add', function () {
     return view('merk.add');
