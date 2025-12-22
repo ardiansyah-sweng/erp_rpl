@@ -4,14 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory; // Tambahkan ini
 
 class SupplierPic extends Model
 {
-    protected $table = 'supplier_pic'; // sesuaikan nama tabel
+     use HasFactory; // Tambahkan ini
+
+    // protected $table = 'supplier_pic'; // sesuaikan nama tabel
     protected $fillable = ['name', 'email', 'phone_number', 'supplier_id'];
     protected $primaryKey = 'id';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    // public $incrementing = false;
+    // protected $keyType = 'string';
+    protected $table = 'suppliers';
+
+    // Ini SALAH di model (berdasarkan struktur DB):
+    // protected $primaryKey = 'id';
+    // public $incrementing = false;  // Seharusnya TRUE karena auto_increment
+    // protected $keyType = 'string'; // Seharusnya 'int' karena bigint
+
+    // Ini BENAR seharusnya:
+    // protected $primaryKey = 'id';
+    public $incrementing = true;   // Karena auto_increment
+    protected $keyType = 'int';    // Karena bigint
 
     public function __construct(array $attributes = [])
     {

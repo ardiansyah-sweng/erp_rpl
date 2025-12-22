@@ -10,12 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-
 use Carbon\Carbon;
-
-
-
-
 
 class SupplierPIController extends Controller
 {
