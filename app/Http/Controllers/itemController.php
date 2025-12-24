@@ -172,4 +172,21 @@ public function exportByProductTypeToPdf($productType)
 
         return $pdf->stream("item-kategori-{$categoryName}.pdf");
     }
+public function getItemByCategory($categoryId)
+    {
+        // Panggil fungsi static yang ada di Model Item
+        $items = Item::getItemByCategory($categoryId); 
+
+        if ($items->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data tidak ditemukan untuk kategori ini.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $items
+        ]);
+    }
 }

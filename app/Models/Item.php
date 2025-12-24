@@ -136,19 +136,20 @@ class Item extends Model
     }
 
     // Ambil item berdasarkan kategori produk
-    public static function getItemByCategory($categoryId)
+ public static function getItemByCategory($categoryId)
     {
         return self::join('products', 'items.' . ItemColumns::PROD_ID, '=', 'products.product_id')
-            ->join('category', 'products.product_category', '=', 'category.id')
+            ->join('category', 'products.category', '=', 'category.id') // product_category -> category
             ->where('category.id', $categoryId)
             ->select(
                 'items.*',
-                'products.product_name',
-                'products.product_category',
+                'products.name as product_name', // product_name -> name as product_name
+                'products.category as product_category', // product_category -> category
                 'category.category as category_name'
             )
             ->get();
     }
+
 
     // Hitung jumlah item dalam kategori tertentu
     public static function countItemByCategory($categoryId)
