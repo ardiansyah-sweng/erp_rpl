@@ -38,12 +38,27 @@ class CategoryController extends Controller
         // }
 
         // Web Response with PDF export support
-        $categories = Category::getAllCategory($search);
+        // $categories = Category::getAllCategory($search);
 
-        // if ($request->has('export') && $request->input('export') === 'pdf') {
-        //     $pdf = Pdf::loadView('category.report', compact('categories'));
-        //     return $pdf->stream('report-category.pdf');
+        //  if ($request->has('export') && $request->input('export') === 'pdf') {
+        //     $pdf = Pdf::loadView('category.report_pdf', compact('categories'));
+        //     return $pdf->stream('report-kategori.pdf');
         // }
+        // 1. Tetap gunakan fungsi asli untuk tampilan halaman web agar pagination tidak error
+$categories = Category::getAllCategory($search);
+
+if ($request->has('export') && $request->input('export') === 'pdf') {
+    
+    $categoriesForPdf = Category::getCategory(); 
+    
+$pdf = Pdf::loadView('category.report', ['categories' => $categoriesForPdf]);
+    
+    return $pdf->stream('report-category.pdf');
+}
+
+// 3. Kembalikan ke view index dengan data $categories yang mendukung links()
+return view('category.index', compact('categories', 'search'));
+        
 
         return view('category.index', compact('categories', 'search'));
     }
