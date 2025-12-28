@@ -9,16 +9,43 @@ use App\Helpers\EncryptionHelper;
 use App\Enums\ProductType;
 use App\Models\Category;
 use App\Constants\Messages;
-
+use App\Constants\ProductColumns;
 
 class ProductController extends Controller
 {
-    public function getProductList()
+public function getProductList() 
+{
+    $products = Product::getAllProducts();
+    $categories = Category::orderBy('category')->get();
+    $totalProducts = Product::count(); 
+
+    // PERBAIKAN: Tambahkan 'categories' di sini
+    return view('product.list', compact('products', 'categories'));
+}
+
+    public function store(Request $request)
     {
-        $products = Product::getAllProducts();
-        $categories = Category::orderBy('category')->get();
-        return view('product.list', compact('products', 'categories'));
+        $request->validate([
+            'product_id' => 'required',
+            'product_name' => 'required',
+            'product_type' => 'required',
+            'category' => 'required',
+            'product_description' => 'required',
+        ]);
+
+        Product::create([
+
+            ProductColumns::PRODUCT_ID => $request->product_id,
+            ProductColumns::NAME       => $request->product_name,
+            ProductColumns::TYPE       => $request->product_type,
+            ProductColumns::CATEGORY   => $request->category,
+            ProductColumns::DESC       => $request->product_description,
+            
+        ]);
+
+        return redirect()->route('product.index')->with('success', 'Produk berhasil ditambahkan!');
     }
+
 
     public function generatePDF()
     {
@@ -77,20 +104,33 @@ class ProductController extends Controller
         return $pdf->stream("products_{$type}.pdf");
     }
 
-    public function addProduct(Request $request)
-    {
-        $validatedData = $request->validate([
-            'product_id' => 'required|string|unique:products,product_id',
-            'product_name' => 'required|string',
-            'product_type' => 'required|string',
-            'product_category' => 'required|string',
-            'product_description' => 'nullable|string',
-        ]);
+public function addProduct(Request $request)
+{
+    // 1. Validasi Input (Sesuai nama di formulir HTML/Blade)
+    $request->validate([
+        'product_id' => 'required|unique:products,product_id',
+        'product_name' => 'required|string', 
+        'product_type' => 'required|string',
+        'category' => 'required',
+        'product_description' => 'nullable|string',
+    ]);
 
-        Product::addProduct($validatedData);
+    // 2. Simpan ke Database (Mapping Manual)
+    // Kiri: Nama Kolom Database (sesuai screenshot kamu)
+    // Kanan: Nama Input Formulir
+    Product::create([
+        'product_id'  => $request->product_id,
+        'name'        => $request->product_name,       // Menyambungkan 'product_name' ke 'name'
+        'type'        => $request->product_type,       // Menyambungkan 'product_type' ke 'type'
+        'category'    => $request->category,           // Menyambungkan 'category' ke 'category'
+        'description' => $request->product_description // Menyambungkan 'product_description' ke 'description'
+    ]);
 
-        return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
-    }
+    // 3. Kembali ke halaman list
+    return redirect()->route('product.index')->with('success', 'Produk berhasil ditambahkan!');
+}
+
+
     public function updateProduct(Request $request, $id)
     {
         // Validasi input
@@ -178,5 +218,13 @@ class ProductController extends Controller
             'data' => $products
         ]);
     }
+   
+    public function create()
+    {
+        $categories = Category::orderBy('category')->get();
+
+        return view('product.add', compact('categories'));
+    }
+
 
 }

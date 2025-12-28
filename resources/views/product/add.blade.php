@@ -302,7 +302,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./generate/theme.html" class="nav-link">
+                <a href="{{ route('product.index') }}" class="nav-link">
                   <i class="nav-icon bi bi-box-seam-fill"></i>
                   <p>Produk</p>
                 </a>
@@ -385,60 +385,62 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="container">
-                    <form id="productForm">
-                        <div class="mb-3">
-                            <label for="product_id" class="form-label">ID Produk</label>
-                            <input type="text" class="form-control" id="product_id" name="product_id" required>
-                            <div class="invalid-feedback">ID Produk harus diisi.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="product_name" class="form-label">Nama Produk</label>
-                            <input type="text" class="form-control" id="product_name" name="product_name" required>
-                            <div class="invalid-feedback">Nama Produk harus diisi.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Jenis</label>
-                            <div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="product_type" id="finished" value="finished">
-                                    <label class="form-check-label" for="finished">Finished</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="product_type" id="half_finished" value="half_finished">
-                                    <label class="form-check-label" for="half_finished">Half Finished</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="product_type" id="raw_material" value="raw_material">
-                                    <label class="form-check-label" for="raw_material">Raw Material</label>
-                                </div>
-                            </div>
-                            <div class="invalid-feedback">Jenis produk harus dipilih.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="category" class="form-label">Kategori</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="category" name="category" required>
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#">Makanan</a></li>
-                                    <li><a class="dropdown-item" href="#">Minuman</a></li>
-                                    <li><a class="dropdown-item" href="#">Snack</a></li>
-                                </ul>
-                            </div>
-                            <div class="invalid-feedback">Kategori harus diisi.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="product_description" class="form-label">Deskripsi Produk</label>
-                            <textarea class="form-control" id="product_description" name="product_description" rows="3"></textarea>
-                        </div>
-                        <div class="d-flex justify-content-start mt-4">
-                            <div>
-                                <button type="button" class="btn btn-primary" onclick="validateForm()">Tambah</button>
-                                <button type="reset" class="btn btn-secondary ms-2">Batal</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                  <form action="{{ route('product.store') }}" method="POST">
+    
+    @csrf
+
+    <div class="mb-3">
+        <label for="product_id" class="form-label">ID Produk</label>
+        <input type="text" class="form-control" id="product_id" name="product_id" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="product_name" class="form-label">Nama Produk</label>
+        <input type="text" class="form-control" id="product_name" name="product_name" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Jenis</label>
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="product_type" id="finished" value="FG" required>
+                <label class="form-check-label" for="finished">Finished</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="product_type" id="half_finished" value="HF">
+                <label class="form-check-label" for="half_finished">Half Finished</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="product_type" id="raw_material" value="RM">
+                <label class="form-check-label" for="raw_material">Raw Material</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="category" class="form-label">Kategori</label>
+        <select name="category" class="form-select" id="category" required>
+    <option value="" selected disabled>-- Pilih Kategori --</option>
+    {{-- Ini akan mengambil kategori dari database secara otomatis --}}
+    @foreach ($categories as $cat)
+        <option value="{{ $cat->id }}">{{ $cat->category }}</option>
+    @endforeach
+</select>
+    </div>
+
+    <div class="mb-3">
+        <label for="product_description" class="form-label">Deskripsi Produk</label>
+        <textarea class="form-control" id="product_description" name="product_description" rows="3"></textarea>
+    </div>
+
+    <div class="d-flex justify-content-start mt-4">
+        <div>
+            <button type="submit" class="btn btn-primary">Tambah</button>
+            
+            <button type="reset" class="btn btn-secondary ms-2">Batal</button>
+        </div>
+    </div>
+</form>
             </div>
             <!--end::Row-->
           </div>
