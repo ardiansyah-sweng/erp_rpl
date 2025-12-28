@@ -320,4 +320,6 @@ Route::get('/product', [ProductController::class, 'getProductList'])->name('prod
 
 Route::get('/product/add', [ProductController::class, 'create'])->name('product.create');
 
+Route::delete('/supplier/destroy/{id}', [SupplierController::class, 'destroy'])->name('supplier.destroy');
+
 Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');

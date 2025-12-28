@@ -88,4 +88,14 @@ class SupplierController extends Controller
 
         return redirect()->back()->with('success', 'Supplier Berhasil Di Tambahkan');
     }
+
+    public function destroy($id)
+{
+    $supplier = Supplier::find($id);
+    if ($supplier) {
+        $supplier->delete();
+        return redirect()->back()->with('success', 'Data berhasil dihapus');
+    }
+    return redirect()->back()->with('error', 'Data gagal dihapus');
+}
 }

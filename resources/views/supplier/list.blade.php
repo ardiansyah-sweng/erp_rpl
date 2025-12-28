@@ -423,8 +423,14 @@
                           <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
                           <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
                           <a href="{{ route('Supplier.detail', ['id' => $supplier->supplier_id]) }}" class="btn btn-success btn-sm custom-btn">Detail</a>
-                          <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('{{ $supplier->supplier_id }}')">Delete</button>
-                      </div>
+                          <form onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');" 
+      action="{{ route('supplier.destroy', $supplier->supplier_id) }}" 
+      method="POST" 
+      style="display: inline;">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger btn-sm custom-btn">Delete</button>
+</form>
                   </td>
               </tr>
               @empty
