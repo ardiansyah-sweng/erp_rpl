@@ -53,10 +53,14 @@ class SupplierController extends Controller
         ]);
     }
 
-    public function listSuppliers()
+    public function listSuppliers(request $request)
     {
-    $suppliers = Supplier::getSupplier();
-    return view('supplier.list', compact('suppliers'));
+
+        $keyword = $request->input('search');
+
+        $suppliers = Supplier::getSupplierByKeywords($keyword);
+        
+        return view('supplier.list', compact('suppliers'));
     }
 
 
@@ -78,6 +82,8 @@ class SupplierController extends Controller
             'phone_number'   => 'required|string|max:20',
             'bank_account'   => 'required|string|max:255',
         ]);
+
+        $validatedData['telephone'] = $validatedData['phone_number'];
         $supplier = Supplier::addSupplier($validatedData);
 
         return redirect()->back()->with('success', 'Supplier Berhasil Di Tambahkan');

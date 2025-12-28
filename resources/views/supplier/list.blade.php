@@ -365,10 +365,18 @@
     <span>entries</span>
 </form>
           </div>
-          <div class="d-flex align-items-center">
-            <span class="me-2">Search:</span>
-            <input type="text" id="supplierSearch" class="form-control" style="width: 200px;">
-          </div>
+<div class="d-flex align-items-center">
+    <span class="me-2">Search:</span>
+    
+    <form action="{{ url()->current() }}" method="GET">
+        <input type="text" 
+               name="search" 
+               class="form-control" 
+               style="width: 200px;" 
+               placeholder="Cari..." 
+               value="{{ request('search') }}">
+    </form>
+    </div>
         </div>
 
         <!-- Table -->
