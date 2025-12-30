@@ -120,10 +120,10 @@ class BOMSeeder extends Seeder
 
             #simpan data produksi
             $branch = Branch::inRandomOrder()->first();
-            $rmWhouse = Warehouse::where('is_rm_whouse', true)
+            $rmWhouse = Warehouse::where('is_rm_warehouse', true)
                             ->inRandomOrder()
                             ->first();
-            $fgWhouse = Warehouse::where('is_fg_whouse', true)
+            $fgWhouse = Warehouse::where('is_fg_warehouse', true)
                             ->inRandomOrder()
                             ->first();
 
