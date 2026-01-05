@@ -10,10 +10,6 @@ use App\Constants\WarehouseColumns;
 class Warehouse extends Model
 {
     use HasFactory;
-<<<<<<< HEAD
-=======
-
->>>>>>> 86a28cf6acce77e26e986b5dc6f0ccda7df86e43
     protected $table;
     protected $fillable = [];
 
@@ -34,39 +30,6 @@ class Warehouse extends Model
             $query->where(WarehouseColumns::NAME, 'LIKE', "%{$search}%")
                   ->orWhere(WarehouseColumns::ADDRESS, 'LIKE', "%{$search}%")
                   ->orWhere(WarehouseColumns::PHONE, 'LIKE', "%{$search}%");
-<<<<<<< HEAD
-        }
-
-        return $query->orderBy(WarehouseColumns::CREATED_AT, 'asc')->paginate(config('pagination.branch_per_page'));
-    }
-
-    /**
-     * Search warehouses with filters (for API endpoints)
-     */
-    public static function searchWithFilters($filters = [])
-    {
-        $query = self::query();
-
-        // Search filter
-        if (!empty($filters['search'])) {
-            $search = $filters['search'];
-            $query->where(function ($q) use ($search) {
-                $q->where(WarehouseColumns::NAME, 'LIKE', "%{$search}%")
-                  ->orWhere(WarehouseColumns::ADDRESS, 'LIKE', "%{$search}%")
-                  ->orWhere(WarehouseColumns::PHONE, 'LIKE', "%{$search}%");
-            });
-        }
-
-        // Status filter
-        if (!empty($filters['status'])) {
-            if ($filters['status'] === 'active') {
-                $query->where(WarehouseColumns::IS_ACTIVE, true);
-            } elseif ($filters['status'] === 'inactive') {
-                $query->where(WarehouseColumns::IS_ACTIVE, false);
-            }
-        }
-
-=======
         }
 
         return $query->orderBy(WarehouseColumns::CREATED_AT, 'asc')->paginate(config('pagination.branch_per_page'));
@@ -82,7 +45,6 @@ class Warehouse extends Model
             $data = (array) $data;
         }
 
->>>>>>> 86a28cf6acce77e26e986b5dc6f0ccda7df86e43
         return self::create($data);
     }
 
