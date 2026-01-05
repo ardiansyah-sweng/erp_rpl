@@ -126,4 +126,20 @@ class Product extends Model
             ->groupBy('category')
             ->get();
     }
+    
+    public static function getProductByKeyword($keywords = null)
+    {
+        $query = self::query();
+
+        if ($keywords) {
+            // Kita gunakan Constant agar sesuai dengan tabel Anda ('name', 'type', dll)
+            $query->where(ProductColumns::PRODUCT_ID, 'LIKE', "%{$keywords}%")
+                  ->orWhere(ProductColumns::NAME, 'LIKE', "%{$keywords}%")
+                  ->orWhere(ProductColumns::TYPE, 'LIKE', "%{$keywords}%")
+                  ->orWhere(ProductColumns::CATEGORY, 'LIKE', "%{$keywords}%")
+                  ->orWhere(ProductColumns::DESC, 'LIKE', "%{$keywords}%");
+        }
+
+        return $query->orderBy('created_at', 'asc')->paginate(10);
+    }
 }
