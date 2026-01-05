@@ -10,6 +10,10 @@ use App\Constants\WarehouseColumns;
 class Warehouse extends Model
 {
     use HasFactory;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 86a28cf6acce77e26e986b5dc6f0ccda7df86e43
     protected $table;
     protected $fillable = [];
 
@@ -30,6 +34,7 @@ class Warehouse extends Model
             $query->where(WarehouseColumns::NAME, 'LIKE', "%{$search}%")
                   ->orWhere(WarehouseColumns::ADDRESS, 'LIKE', "%{$search}%")
                   ->orWhere(WarehouseColumns::PHONE, 'LIKE', "%{$search}%");
+<<<<<<< HEAD
         }
 
         return $query->orderBy(WarehouseColumns::CREATED_AT, 'asc')->paginate(config('pagination.branch_per_page'));
@@ -61,6 +66,23 @@ class Warehouse extends Model
             }
         }
 
+=======
+        }
+
+        return $query->orderBy(WarehouseColumns::CREATED_AT, 'asc')->paginate(config('pagination.branch_per_page'));
+    }
+
+    public static function addWarehouse($data)
+    {
+        if (empty($data)) {
+            throw new \Exception('Data tidak boleh kosong.');
+        }
+
+        if (is_object($data)) {
+            $data = (array) $data;
+        }
+
+>>>>>>> 86a28cf6acce77e26e986b5dc6f0ccda7df86e43
         return self::create($data);
     }
 
