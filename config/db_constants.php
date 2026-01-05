@@ -19,7 +19,7 @@ return [
         'category'                  => $master['category'],
         'cu'                        => 'conversion_unit',
         'grn'                       => 'goods_receipt_note',
-        'item'                      => 'item',
+        'item'                      => 'items',
         'log_avg_base_price'        => 'log_avg_base_price',
         'log_base_price_supplier'   => 'log_base_price_supplier_product',
         'master_product'            => 'master_product',
@@ -34,7 +34,7 @@ return [
         'supplier_pic'              => 'supplier_pic',
         'supplier_product'          => 'supplier_product',
         'unit'                      => 'item_unit',
-        'whouse'                    => 'warehouse'
+        'whouse'                    => 'warehouses'
     ],
     'column' => [
         'bom' => [
@@ -124,10 +124,10 @@ return [
             'id'                    => 'id',
             'prod_id'               => 'product_id', #char[4]. Diambil dari product_id tabel products.
             'sku'                   => 'sku',
-            'name'                  => 'item_name',
+            'name'                  => 'name',
             // 'category_id'           => 'category_id',
             // 'description'           => 'description',
-            'measurement'           => 'measurement_unit',
+            'measurement'           => 'measurement',
             //'stock'                 => 'current_stock',
             'base_price'            => 'avg_base_price', #raw material from supplier
             'selling_price'         => 'selling_price', #finished from bill of material
@@ -211,11 +211,11 @@ return [
             'updated_at'            => 'updated_at'
         ],
         'products' => [
-            'id'                    => 'product_id',            #char[6]
-            'name'                  => 'product_name',          #string[35]
-            'type'                  => 'product_type',          #finished, raw material
-            'category'              => 'product_category',      #tinyInteger
-            'desc'                  => 'product_description',   #string[255]
+            'id'                    => 'product_id',            #char[4]
+            'name'                  => 'name',                  #string[35]
+            'type'                  => 'type',                  #finished, raw material
+            'category'              => 'category',              #tinyInteger
+            'desc'                  => 'description',           #string[255]
             'created'               => $master['created'],
             'updated'               => $master['updated']
         ],
@@ -226,7 +226,7 @@ return [
             'supplier_id'           => $master['supplier_id'],
             'company_name'          => 'company_name',
             'address'               => 'address',
-            'phone_number'          => 'phone_number',
+            'phone_number'          => 'telephone',
             'bank_account'          => 'bank_account',
             'created'            => 'created_at',
             'updated'            => 'updated_at'
@@ -238,7 +238,7 @@ return [
             'phone_number'          => 'phone_number',
             'email'                 => 'email',
             'assigned_date'         => 'assigned_date',
-            'active'                => 'active',
+            'active'                => 'is_active',
             'avatar'                => 'avatar',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'

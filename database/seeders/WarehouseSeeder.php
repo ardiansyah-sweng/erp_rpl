@@ -98,7 +98,7 @@ class WarehouseSeeder extends Seeder
             ->create();
 
         // Additional random warehouses in specific cities
-        $cities = ['Jakarta', 'Bandung', 'Medan', 'Makassar', 'Semarang'];
+        $cities = ['Jakarta', 'Bandung', 'Surabaya', 'Medan', 'Makassar', 'Semarang'];
         
         foreach ($cities as $city) {
             Warehouse::factory()

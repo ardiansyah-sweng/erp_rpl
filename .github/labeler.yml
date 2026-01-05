@@ -1,0 +1,67 @@
+# Configuration for labeler - https://github.com/actions/labeler
+
+# Add 'backend' label to any change to PHP files
+backend:
+  - '**/*.php'
+  - 'composer.json'
+  - 'composer.lock'
+
+# Add 'frontend' label to any change to JS/CSS files  
+frontend:
+  - 'resources/js/**/*'
+  - 'resources/css/**/*'
+  - 'resources/sass/**/*'
+  - 'resources/views/**/*'
+  - 'package.json'
+  - 'package-lock.json'
+  - 'webpack.mix.js'
+  - 'vite.config.js'
+
+# Add 'database' label to any change to database files
+database:
+  - 'database/**/*'
+  - 'config/database.php'
+
+# Add 'config' label to any change to config files
+config:
+  - 'config/**/*'
+  - '.env.example'
+
+# Add 'tests' label to any change to test files
+tests:
+  - 'tests/**/*'
+  - 'phpunit.xml'
+
+# Add 'docs' label to any change to documentation
+docs:
+  - 'docs/**/*'
+  - '*.md'
+  - 'README*'
+
+# Add 'ci/cd' label to any change to GitHub Actions
+ci/cd:
+  - '.github/**/*'
+
+# Add 'routes' label to any change to routes
+routes:
+  - 'routes/**/*'
+
+# Add 'models' label to any change to models
+models:
+  - 'app/Models/**/*'
+
+# Add 'controllers' label to any change to controllers
+controllers:
+  - 'app/Http/Controllers/**/*'
+
+# Add 'middleware' label to any change to middleware
+middleware:
+  - 'app/Http/Middleware/**/*'
+
+# Add 'migrations' label to any change to migrations
+migrations:
+  - 'database/migrations/**/*'
+
+# Add 'seeders' label to any change to seeders
+seeders:
+  - 'database/seeders/**/*'

@@ -11,11 +11,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Hapus atau beri komentar pada baris di bawah ini:
-        /* if ($this->app->environment('local', 'testing')) {
+        // Register Dusk in non-production environments only if package exists
+        if ($this->app->environment('local', 'testing') && class_exists(\Laravel\Dusk\DuskServiceProvider::class)) {
             $this->app->register(\Laravel\Dusk\DuskServiceProvider::class);
         }
-        */
     }
 
     /**

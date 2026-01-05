@@ -17,7 +17,7 @@ class WarehouseFactory extends Factory
      * @var string
      */
     protected $model = Warehouse::class;
-
+    
     /**
      * Define the model's default state.
      *
@@ -26,9 +26,9 @@ class WarehouseFactory extends Factory
     public function definition(): array
     {
         // Generate shorter company name to fit 50 character limit
-        $companyName = $this->faker->words(2, true); // Max 2 words
-        $warehouseName = ucwords($companyName) . ' WH'; // Add 'WH' instead of 'Warehouse'
-        
+        $companyName = $this->faker->unique()->words(2, true); // Max 2 words, unique
+        $warehouseName = ucwords($companyName) . ' WH ' . $this->faker->unique()->randomNumber(3);
+
         return [
             WarehouseColumns::NAME => substr($warehouseName, 0, 50), // Ensure max 50 chars
             WarehouseColumns::ADDRESS => $this->faker->address(),
@@ -108,7 +108,7 @@ class WarehouseFactory extends Factory
     public function inCity(string $city): static
     {
         return $this->state(fn (array $attributes) => [
-            WarehouseColumns::NAME => substr($city . ' WH ' . $this->faker->randomNumber(3), 0, 50),
+            WarehouseColumns::NAME => substr($city . ' WH ' . $this->faker->unique()->randomNumber(3), 0, 50),
             WarehouseColumns::ADDRESS => $this->faker->streetAddress() . ', ' . $city,
         ]);
     }

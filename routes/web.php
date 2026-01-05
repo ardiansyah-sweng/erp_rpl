@@ -1,7 +1,5 @@
 <?php
 
-// Route untuk cek hasil Supplier::getSupplier() (frekuensi order)
-Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
 
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\Route;
@@ -221,8 +219,11 @@ Route::get('/item/search/{keyword}', [ItemController::class, 'searchItem']);
 Route::get('/item/pdf/product/{productType}', [ItemController::class, 'exportByProductTypeToPdf']);
 
 Route::get('/item/export/category/{id}', [ItemController::class, 'exportItemByCategoryToPdf'])->name('item.export.category');
+Route::get('/item/export-by-category/{categoryId}', [ItemController::class, 'exportItemByCategoryToPdf'])
+    ->name('item.export.category.pdf');
 
 #Supplier
+Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
@@ -231,8 +232,11 @@ Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete'])->name('supplier.pic.delete');
 Route::get('/supplier/list', [SupplierController::class, 'listSuppliers'])->name('supplier.list');
+Route::delete('/supplier/delete/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete');
+Route::get('/supplier-material/search', [SupplierMaterialController::class, 'searchSupplierMaterial'])->name('supplier.material.search');
 
 Route::get('/supplier/material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialById'])->name('supplier.material.detail');
+Route::get('/supplier/print-pdf', [SupplierController::class, 'printPDF'])->name('supplier.print-pdf');
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
 Route::get('/supplier-material/{supplier_id}/{product_type}', [SupplierMaterialController::class, 'getSupplierMaterialByProductType']);
 

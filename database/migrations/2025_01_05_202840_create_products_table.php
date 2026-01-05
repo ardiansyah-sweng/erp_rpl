@@ -21,15 +21,11 @@ return new class extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->id();
-            $table->char(ProductColumns::PRODUCT_ID, 4)->unique()->nullable();
-            $table->string(ProductColumns::NAME, 35)->nullable();
-            $table->string(ProductColumns::TYPE, 12)->nullable();
-            $table->integer(ProductColumns::CATEGORY)->nullable();
+            $table->char(ProductColumns::PRODUCT_ID, 4)->unique();
+            $table->string(ProductColumns::NAME, 35);
+            $table->string(ProductColumns::TYPE, 12);
+            $table->integer(ProductColumns::CATEGORY);
             $table->string(ProductColumns::DESC, 225)->nullable();
-            $table->string('product_category')->nullable(); // <-- BARIS BARU DITAMBAHKAN DI SINI
-            $table->text('product_description')->nullable(); // <-- TAMBAHKAN BARIS BARU INI
-            $table->string('product_name')->nullable();      // <-- TAMBAHKAN BARIS BARU INI
-            $table->string('product_type')->nullable();      // <-- TAMBAHKAN BARIS BARU INI
             $table->timestamps();
         });
     }
