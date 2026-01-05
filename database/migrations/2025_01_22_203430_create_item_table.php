@@ -19,12 +19,21 @@ return new class extends Migration
      */
     public function up(): void
     {
+<<<<<<< HEAD
         Schema::create('item', function (Blueprint $table) {
             $table->id();
             $table->char(ItemColumns::PROD_ID, 4);
             $table->string(ItemColumns::SKU, 50);
             $table->string('item_name', 50);
             $table->string('measurement_unit', 6);
+=======
+        Schema::create($this->table, function (Blueprint $table) {
+            $table->id();
+            $table->char(ItemColumns::PROD_ID, 4);
+            $table->string(ItemColumns::SKU, 50);
+            $table->string(ItemColumns::NAME, 50);
+            $table->string(ItemColumns::MEASUREMENT, 6);
+>>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
             $table->integer(ItemColumns::BASE_PRICE)->default(0);
             $table->integer(ItemColumns::SELLING_PRICE)->default(0);
             $table->integer(ItemColumns::PURCHASE_UNIT)->default(30); #30 kode unit Pieces di tabel measurement_unit
@@ -40,6 +49,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('item');
+        Schema::dropIfExists($this->table);
     }
 };

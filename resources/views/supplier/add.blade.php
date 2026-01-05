@@ -380,7 +380,14 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="container">
-                    <form id="picForm">
+                    @if(session('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    <!-- <form id="picForm"> -->
+                    <form id="picForm" action="{{ route('supplier.add') }}" method="POST" onsubmit="return false;">
+                        @csrf
                         <div class="mb-3">
                             <label for="supplier_id" class="form-label">ID Supplier</label>
                             <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
@@ -745,6 +752,9 @@
           if (bank_account === null || bank_account === "") {
             $('#bankaccountError').html("<span style=\"color: red;\">bank account harus diisi.</span>");
             isValid = false;
+          }
+          if (isValid) {
+            document.getElementById('picForm').submit();
           }
           return isValid;
         }
