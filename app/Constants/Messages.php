@@ -60,8 +60,6 @@ class Messages
     public const CATEGORY_NAME_TOO_SHORT = 'Nama kategori minimal 3 karakter!';
     public const CATEGORY_NAME_INVALID = 'Nama kategori hanya boleh berisi huruf, angka, spasi, dash, underscore, dan titik!';
 
-<<<<<<< HEAD
-=======
     // Product messages
     public const PRODUCT_NOT_FOUND = 'Produk tidak ditemukan';
 
@@ -82,7 +80,6 @@ class Messages
     public const PO_CREATED = 'Purchase Order berhasil ditambahkan.';
     public const PO_CREATE_FAILED = 'Gagal menambahkan PO: ';
 
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
     // General
     public const ACTION_FAILED = 'Aksi gagal dilakukan!';
 }

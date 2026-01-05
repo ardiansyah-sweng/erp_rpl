@@ -4,10 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-<<<<<<< HEAD
-=======
 use Illuminate\Support\Facades\DB;
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
 use App\Constants\SupplierColumns;
 
 class Supplier extends Model

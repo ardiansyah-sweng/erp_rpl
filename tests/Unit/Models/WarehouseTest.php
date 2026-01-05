@@ -12,21 +12,15 @@ class WarehouseTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-<<<<<<< HEAD
-=======
     protected $warehouseModel;
 
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
     protected function setUp(): void
     {
         parent::setUp();
         
         // Setup database tables
         $this->artisan('migrate');
-<<<<<<< HEAD
-=======
         $this->warehouseModel = new Warehouse();
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
     }
 
     /**
@@ -166,11 +160,7 @@ class WarehouseTest extends TestCase
         $this->assertNotNull($result);
         $this->assertEquals(1, $result->total());
         $this->assertCount(1, $result->items());
-<<<<<<< HEAD
-        $this->assertStringContainsString('021', $result->first()->warehouse_telephone);
-=======
         $this->assertStringContainsString('021', $result->first()->warehouse_phone);
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
     }
 
     /**
@@ -278,8 +268,6 @@ class WarehouseTest extends TestCase
         $this->assertEquals('Second Warehouse', $result->last()->warehouse_name);
     }
 
-<<<<<<< HEAD
-=======
     /**
      * Test: Berhasil mengupdate gudang dengan data yang valid
      */
@@ -621,5 +609,4 @@ class WarehouseTest extends TestCase
         // Assert
         $this->assertFalse($hasil);
     }
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
 }

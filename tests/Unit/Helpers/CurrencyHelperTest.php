@@ -24,21 +24,13 @@ class CurrencyHelperTest extends TestCase
     public function it_formats_idr_currency_correctly(): void
     {
         // Arrange
-<<<<<<< HEAD
-        $amount = 1500000;
-=======
         $amount = 1300000;
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
         
         // Act
         $result = CurrencyHelper::format($amount, 'IDR');
         
         // Assert
-<<<<<<< HEAD
-        $this->assertEquals('Rp 1.500.000', $result);
-=======
         $this->assertEquals('Rp 1.300.000', $result);
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
     }
     
     /**

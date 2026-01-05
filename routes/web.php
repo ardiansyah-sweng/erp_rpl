@@ -219,11 +219,8 @@ Route::get('/item/search/{keyword}', [ItemController::class, 'searchItem']);
 Route::get('/item/pdf/product/{productType}', [ItemController::class, 'exportByProductTypeToPdf']);
 
 Route::get('/item/export/category/{id}', [ItemController::class, 'exportItemByCategoryToPdf'])->name('item.export.category');
-<<<<<<< HEAD
-=======
 Route::get('/item/export-by-category/{categoryId}', [ItemController::class, 'exportItemByCategoryToPdf'])
     ->name('item.export.category.pdf');
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
 
 #Supplier
 Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);

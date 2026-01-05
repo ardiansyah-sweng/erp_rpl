@@ -10,11 +10,6 @@ use App\Constants\WarehouseColumns;
 class Warehouse extends Model
 {
     use HasFactory;
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
     protected $table;
     protected $fillable = [];
 
@@ -30,59 +25,6 @@ class Warehouse extends Model
     public static function getWarehouseAll($search = null)
     {
         $query = self::query();
-<<<<<<< HEAD
-
-        if ($search) {
-            $query->where(WarehouseColumns::NAME, 'LIKE', "%{$search}%")
-                  ->orWhere(WarehouseColumns::ADDRESS, 'LIKE', "%{$search}%")
-                  ->orWhere(WarehouseColumns::PHONE, 'LIKE', "%{$search}%");
-        }
-
-        return $query->orderBy(WarehouseColumns::CREATED_AT, 'asc')->paginate(config('pagination.branch_per_page'));
-    }
-
-    public static function addWarehouse($data)
-    {
-        return self::create($data);
-    }
-
-    public static function getWarehouseById($id)
-    {
-        return self::find($id);
-    }
-
-    public static function countWarehouse()
-    {
-        return self::count();
-    }
-
-    public function updateWarehouse($id, $data)
-    {
-        $warehouse = self::getWarehouseById($id);
-
-        if (!$warehouse) {
-            return false;
-        }
-
-        return $warehouse->update($data);
-    }
-
-    public function searchWarehouse($keyword)
-    {
-        return self::where(function ($query) use ($keyword) {
-            $query->where(WarehouseColumns::NAME, 'like', "%{$keyword}%")
-                ->orWhere(WarehouseColumns::ADDRESS, 'like', "%{$keyword}%")
-                ->orWhere(WarehouseColumns::PHONE, 'like', "%{$keyword}%");
-        })->get();
-    }
-
-    /**
-     * Static method for deleting warehouse (consistent with Branch model)
-     */
-    public static function deleteWarehouse($id)
-    {
-        return self::where(WarehouseColumns::ID, $id)->delete();
-=======
         //perubahan pemanggilan
          if ($search) {
             $query->where(WarehouseColumns::NAME, 'LIKE', "%{$search}%")
@@ -91,7 +33,6 @@ class Warehouse extends Model
         }
 
         return $query->orderBy(WarehouseColumns::CREATED_AT, 'asc')->paginate(config('pagination.branch_per_page'));
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
     }
 
     /**
@@ -120,24 +61,6 @@ class Warehouse extends Model
             }
         }
 
-<<<<<<< HEAD
-        // Type filters
-        if (!empty($filters['type'])) {
-            if ($filters['type'] === 'rm') {
-                $query->where(WarehouseColumns::IS_RM_WAREHOUSE, true);
-            } elseif ($filters['type'] === 'fg') {
-                $query->where(WarehouseColumns::IS_FG_WAREHOUSE, true);
-            } elseif ($filters['type'] === 'both') {
-                $query->where(WarehouseColumns::IS_RM_WAREHOUSE, true)
-                      ->where(WarehouseColumns::IS_FG_WAREHOUSE, true);
-            }
-        }
-
-        // Sorting
-        $sortBy = $filters['sort_by'] ?? WarehouseColumns::CREATED_AT;
-        $sortOrder = $filters['sort_order'] ?? 'desc';
-        
-=======
         return self::create($data);
     }
 
@@ -223,7 +146,6 @@ public function searchWarehouse($keyword)
         $sortBy = $filters['sort_by'] ?? WarehouseColumns::CREATED_AT;
         $sortOrder = $filters['sort_order'] ?? 'desc';
 
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
         $query->orderBy($sortBy, $sortOrder);
 
         return $query;

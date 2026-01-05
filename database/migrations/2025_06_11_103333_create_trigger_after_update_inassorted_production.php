@@ -12,23 +12,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-<<<<<<< HEAD
-=======
         // Skip trigger creation - trigger has cardinality violation issues
         // Disabled due to subquery returning multiple rows error
         return;
         
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
         // Skip trigger creation in testing environment (SQLite doesn't support MySQL trigger syntax)
         if (app()->environment('testing', 'dusk.local')) {
             return;
         }
 
-<<<<<<< HEAD
-DB::unprepared('
-=======
         DB::unprepared('
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
             CREATE TRIGGER trigger_after_update_inassorted_production
             AFTER UPDATE ON assortment_production
             FOR EACH ROW

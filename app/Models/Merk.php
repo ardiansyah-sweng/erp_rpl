@@ -265,30 +265,16 @@ class Merk extends Model
     // /**
     //  * @deprecated Use getStatistics()['total_merk'] instead
     //  */
-<<<<<<< HEAD
-    // public static function countMerek()
-    // {
-    //     return self::count();
-    // }
-=======
      public static function countMerek()
      {
          return self::count();
      }
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
 
     // /**
     //  * @deprecated Use find() directly instead
     //  */
-<<<<<<< HEAD
-    // public function getMerkById($id)
-    // {
-    //     return self::find($id);
-    // }
-=======
      public function getMerkById($id)
      {
          return self::find($id);
      }
->>>>>>> b0a6f6dd058f0e9f6847c11eb652e8aa2532deb4
 }
