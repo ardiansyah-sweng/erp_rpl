@@ -11,6 +11,9 @@ class PurchaseOrder extends Model
 {
     protected $table;
     protected $fillable = [];
+    protected $primaryKey = 'po_number';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     public function __construct(array $attributes = [])
     {
