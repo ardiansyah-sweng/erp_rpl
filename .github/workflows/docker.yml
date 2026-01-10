@@ -1,0 +1,129 @@
+name: Docker Build & Deploy
+
+on:
+  push:
+    branches: [ main, dev, development ]
+  pull_request:
+    branches: [ main, development ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Log in to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Create Dockerfile if not exists
+      run: |
+        if [ ! -f Dockerfile ]; then
+          cat > Dockerfile << 'EOF'
+        FROM php:8.3-fpm-alpine
+
+        # Install system dependencies
+        RUN apk add --no-cache \
+            git \
+            curl \
+            libpng-dev \
+            libonig-dev \
+            libxml2-dev \
+            zip \
+            unzip \
+            mysql-client \
+            nodejs \
+            npm
+
+        # Install PHP extensions
+        RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
+        # Get latest Composer
+        COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+        # Set working directory
+        WORKDIR /var/www
+
+        # Copy application files
+        COPY . /var/www
+
+        # Install dependencies
+        RUN composer install --no-dev --optimize-autoloader
+
+        # Install Node.js dependencies if package.json exists
+        RUN if [ -f "package.json" ]; then npm install && npm run build; fi
+
+        # Set permissions
+        RUN chown -R www-data:www-data /var/www \
+            && chmod -R 755 /var/www/storage \
+            && chmod -R 755 /var/www/bootstrap/cache
+
+        EXPOSE 9000
+
+        CMD ["php-fpm"]
+        EOF
+        fi
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  deploy-staging:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
+    environment: staging
+
+    steps:
+    - name: Deploy to staging
+      run: |
+        echo "Deploying to staging environment..."
+        echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:dev"
+        # Add your deployment logic here
+        # Example: kubectl, docker-compose, etc.
+
+  deploy-production:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+
+    steps:
+    - name: Deploy to production
+      run: |
+        echo "Deploying to production environment..."
+        echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
+        # Add your deployment logic here
