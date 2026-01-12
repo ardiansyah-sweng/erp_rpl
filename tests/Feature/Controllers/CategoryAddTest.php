@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Category;
 use Mockery;
 use Illuminate\Support\Facades\Validator;
@@ -11,6 +12,8 @@ use Illuminate\Http\Request;
 
 class CategoryAddTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();
