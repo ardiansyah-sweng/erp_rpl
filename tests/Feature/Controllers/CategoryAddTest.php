@@ -95,4 +95,28 @@ class CategoryAddTest extends TestCase
             return;
         }
     }
+
+    public function test_validation_fails_when_category_already_exists()
+    {
+        // Arrange - existing category in DB
+        \App\Models\Category::factory()->create([
+            'category' => 'Existing Category',
+            'is_active' => 1
+        ]);
+
+        // Act - run validator with same category name
+        $validator = Validator::make([
+            'category' => 'Existing Category',
+            'active' => 1
+        ], [
+            'category' => 'required|string|min:3|unique:category,category',
+            'parent_id' => 'nullable|integer',
+            'active' => 'required|boolean'
+        ]);
+
+        // Assert - validation fails with unique error
+        $this->assertTrue($validator->fails());
+        $this->assertTrue($validator->errors()->has('category'));
+        $this->assertEquals('The category has already been taken.', $validator->errors()->first('category'));
+    }
 }
