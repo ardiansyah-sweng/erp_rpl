@@ -96,12 +96,14 @@ class Branch extends Model
     #TODO hilangkan
     public static function nameExists($name, $exceptId = null)
     {
-        $query = self::where(BranchColumns::NAME, $name);
-        
+        // Use case-insensitive comparison to mimic typical MySQL collation behavior
+        $lowerName = mb_strtolower($name);
+        $query = self::whereRaw('LOWER(' . BranchColumns::NAME . ') = ?', [$lowerName]);
+
         if ($exceptId) {
             $query->where(BranchColumns::ID, '!=', $exceptId);
         }
-        
+
         return $query->exists();
     }
 

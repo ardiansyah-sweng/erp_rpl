@@ -7,7 +7,7 @@ class WarehouseColumns
     public const ID                 = 'id';
     public const NAME               = 'warehouse_name';
     public const ADDRESS            = 'warehouse_address';
-    public const PHONE              = 'warehouse_phone';
+    public const PHONE              = 'warehouse_telephone';
     public const IS_RM_WAREHOUSE    = 'is_rm_warehouse';
     public const IS_FG_WAREHOUSE    = 'is_fg_warehouse';
     public const IS_ACTIVE          = 'is_active';

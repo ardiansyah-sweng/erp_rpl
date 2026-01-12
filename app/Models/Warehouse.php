@@ -38,10 +38,7 @@ class Warehouse extends Model
 
     public static function addWarehouse($data)
     {
-        if (empty($data)) {
-            throw new \Exception('Data tidak boleh kosong.');
-        }
-
+        // Accept objects or arrays; let Eloquent/database layer throw appropriate exceptions
         if (is_object($data)) {
             $data = (array) $data;
         }

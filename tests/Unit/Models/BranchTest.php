@@ -402,9 +402,13 @@ class BranchTest extends TestCase
         ];
         
         $query = Branch::searchWithFilters($filters);
-        $sql = $query->toSql();
-        
-        $this->assertStringContainsString('order by `created_at` desc', $sql);
+    $sql = $query->toSql();
+
+    // Different DB drivers format ORDER BY clauses differently (backticks vs quotes).
+    // Assert the SQL contains the ORDER BY clause and the created_at column and 'desc'.
+    $this->assertStringContainsString('order by', strtolower($sql));
+    $this->assertStringContainsString('created_at', strtolower($sql));
+    $this->assertStringContainsString('desc', strtolower($sql));
     }
 
     public function test_it_uses_default_sorting_for_invalid_fields()

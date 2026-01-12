@@ -15,8 +15,9 @@ class BranchControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Truncate tabel Branch dan jalankan BranchSeeder sebelum test
-        \DB::table('branches')->truncate();
+    // Clear Branch table and run BranchSeeder before test
+    // Use delete() instead of truncate() to avoid sqlite_sequence issues on SQLite in-memory
+    \DB::table('branches')->delete();
         \Artisan::call('db:seed', [
             '--class' => 'Database\\Seeders\\BranchSeeder',
             '--force' => true
@@ -400,24 +401,7 @@ class BranchControllerTest extends TestCase
         ]);
 
         // Mock DB::table('purchase_order')->where('branch_id', $id)->exists() agar return false
-        \DB::shouldReceive('table')
-            ->with('purchase_order')
-            ->andReturnSelf();
-        \DB::shouldReceive('where')
-            ->with('branch_id', $branch->id)
-            ->andReturnSelf();
-        \DB::shouldReceive('exists')
-            ->andReturn(false);
-
-        // Mock DB::table('assortment_production')->where('branch_id', $id)->exists() agar return false
-        \DB::shouldReceive('table')
-            ->with('assortment_production')
-            ->andReturnSelf();
-        \DB::shouldReceive('where')
-            ->with('branch_id', $branch->id)
-            ->andReturnSelf();
-        \DB::shouldReceive('exists')
-            ->andReturn(false);
+        // No related records created (purchase_order/assortment_production) so delete should succeed
 
         // Act: Kirim request DELETE
         $response = $this->delete(route('branches.destroy', $branch->id));
@@ -426,10 +410,7 @@ class BranchControllerTest extends TestCase
         $response->assertRedirect(route('branches.index'));
         $response->assertSessionHas('success', 'Cabang berhasil dihapus!');
 
-        // Tutup mock sebelum assertion database
-        \Mockery::close();
-        $this->refreshApplication();
-
+        // Assert DB: branch should be deleted
         $this->assertDatabaseMissing(config('db_tables.branch'), [
             'id' => $branch->id,
             'branch_name' => 'Unused Branch'
@@ -447,14 +428,17 @@ class BranchControllerTest extends TestCase
         ]);
 
         // Mock DB::table('assortment_production')->where('branch_id', $id)->exists() agar return true
-        \DB::shouldReceive('table')
-            ->with('assortment_production')
-            ->andReturnSelf();
-        \DB::shouldReceive('where')
-            ->with('branch_id', $branch->id)
-            ->andReturnSelf();
-        \DB::shouldReceive('exists')
-            ->andReturn(true);
+        // Create a minimal purchase_order record to simulate a foreign-key reference from purchase_order
+        \DB::table(config('db_constants.table.po'))->insert([
+            'po_number' => substr('PO' . uniqid(), 0, 6),
+            'supplier_id' => substr('SUP' . uniqid(), 0, 6),
+            'total' => 1000,
+            'branch_id' => $branch->id,
+            'order_date' => now(),
+            'status' => 'Draft',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         // Act: Kirim request DELETE tanpa header JSON
         $response = $this->delete(route('branches.destroy', $branch->id));
@@ -462,8 +446,6 @@ class BranchControllerTest extends TestCase
         // Assert: Redirect ke index dan branch tidak terhapus
         $response->assertRedirect(route('branches.index'));
         $response->assertSessionHas('error', 'Cabang tidak bisa dihapus karena masih digunakan di tabel lain!');
-        \Mockery::close();
-        $this->refreshApplication();
         $this->assertDatabaseHas(config('db_tables.branch'), [
             'id' => $branch->id,
             'branch_name' => 'Mocked Ref Branch'

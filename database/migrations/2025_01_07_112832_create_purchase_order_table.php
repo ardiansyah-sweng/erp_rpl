@@ -27,7 +27,10 @@ return new class extends Migration
             $table->char($col['status'], 20)->default('Draft');
             $table->timestamps();
 
-            $table->primary([$col['po_number'], $col['supplier_id']]);
+            $driver = Schema::getConnection()->getDriverName();
+            if ($driver !== 'sqlite') {
+                $table->primary([$col['po_number'], $col['supplier_id']]);
+            }
         });
     }
 

@@ -21,14 +21,28 @@ return new class extends Migration
 Schema::create($this->table, function (Blueprint $table) use ($col) {
     $table->id();
     $table->boolean('in_production')->nullable(); // hilangkan default(null) saja
-    $table->char($col['prod_no'], 9)->collation('utf8mb4_unicode_ci')->unique();
-    $table->char($col['sku'], 50)->collation('utf8mb4_unicode_ci');
+    $driver = Schema::getConnection()->getDriverName();
+    if ($driver === 'sqlite') {
+        $table->char($col['prod_no'], 9)->unique();
+        $table->char($col['sku'], 50);
+    } else {
+        $table->char($col['prod_no'], 9)->collation('utf8mb4_unicode_ci')->unique();
+        $table->char($col['sku'], 50)->collation('utf8mb4_unicode_ci');
+    }
     $table->integer($col['branch']);
     $table->integer($col['rm_whouse']);
     $table->integer($col['fg_whouse']);
-    $table->string($col['prod_date'], 45)->collation('utf8mb4_unicode_ci'); // ubah ke VARCHAR biar sesuai
+    if ($driver === 'sqlite') {
+        $table->string($col['prod_date'], 45); // ubah ke VARCHAR biar sesuai
+    } else {
+        $table->string($col['prod_date'], 45)->collation('utf8mb4_unicode_ci'); // ubah ke VARCHAR biar sesuai
+    }
     $table->date($col['finished_date'])->nullable(); // tidak perlu default(null)
-    $table->string($col['desc'], 100)->collation('utf8mb4_unicode_ci');
+    if ($driver === 'sqlite') {
+        $table->string($col['desc'], 100);
+    } else {
+        $table->string($col['desc'], 100)->collation('utf8mb4_unicode_ci');
+    }
     $table->timestamps();
 });
 

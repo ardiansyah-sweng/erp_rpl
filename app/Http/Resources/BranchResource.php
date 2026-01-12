@@ -13,7 +13,7 @@ class BranchResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'branch_name' => $this->{BranchColumns::NAME},
             'branch_address' => $this->{BranchColumns::ADDRESS},
@@ -21,25 +21,29 @@ class BranchResource extends JsonResource
             'is_active' => (bool) $this->{BranchColumns::IS_ACTIVE},
             'status' => $this->getStatusText(),
             'status_badge' => $this->getStatusBadge(),
-            
+
             // Formatted data
             'display_name' => $this->getDisplayName(),
             'short_address' => $this->getShortAddress(),
             'formatted_phone' => $this->getFormattedPhone(),
-            
+
             // Timestamps
             'created_at' => $this->created_at?->toDateTimeString(),
             'updated_at' => $this->updated_at?->toDateTimeString(),
             'created_at_human' => $this->created_at?->diffForHumans(),
             'updated_at_human' => $this->updated_at?->diffForHumans(),
-            
-            // Conditional fields (only include when requested)
-            'detailed_info' => $this->when($request->has('include_details'), [
+        ];
+
+        // Conditional fields (only include when requested)
+        if ($request->get('include_details')) {
+            $data['detailed_info'] = [
                 'created_by' => $this->created_by ?? 'System',
                 'last_modified' => $this->updated_at?->format('d/m/Y H:i:s'),
                 'age_in_days' => $this->created_at?->diffInDays(now()),
-            ]),
-        ];
+            ];
+        }
+
+        return $data;
     }
     
     /**

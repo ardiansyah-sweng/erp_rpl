@@ -31,7 +31,13 @@ return new class extends Migration
             $table->integer(ItemColumns::SELL_UNIT)->default(30);
             $table->integer(ItemColumns::STOCK_UNIT)->default(0);
             $table->timestamps();
-            $table->primary([ItemColumns::ID, ItemColumns::SKU]);
+            // Some DB drivers (SQLite in-memory used by tests) don't allow
+            // adding another primary key when $table->id() already created one.
+            // Only add composite primary when the driver supports it.
+            $driver = Schema::getConnection()->getDriverName();
+            if ($driver !== 'sqlite') {
+                $table->primary([ItemColumns::ID, ItemColumns::SKU]);
+            }
         });
     }
 

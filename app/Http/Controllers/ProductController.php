@@ -95,13 +95,16 @@ class ProductController extends Controller
     {
         // Validasi input
         $request->validate([
-            'product_name' => 'required|string|max:35',
+            'product_name' => 'required|string|min:3|max:35',
             'product_type' =>  'required|string|max:12',
-            'product_category' => 'required|integer',
+            'product_category' => 'required|integer|exists:categories,id',
             'product_description' => 'nullable|string|max:255',
         ]);
 
-        $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
+
+    // Resolve Product model from container so tests can bind a mock instance
+    $productModel = app(Product::class);
+    $Updateproduct = $productModel->updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
 
         return $Updateproduct;
     }

@@ -20,8 +20,25 @@ class ItemTest extends BaseTestCase
     {
         parent::setUp();
         
-        // Reset auto-increment untuk memastikan ID dimulai dari 1
-        \DB::statement('ALTER TABLE items AUTO_INCREMENT = 1');
+        // Reset auto-increment / sequence to ensure IDs start from 1.
+        // Use driver-aware approach: MySQL uses ALTER TABLE AUTO_INCREMENT; SQLite needs sqlite_sequence cleanup.
+        try {
+            $driver = \DB::connection()->getDriverName();
+            if ($driver === 'sqlite') {
+                // Delete rows (refresh table) and clear sqlite_sequence entry if present
+                \DB::table('items')->delete();
+                try {
+                    \DB::statement("DELETE FROM sqlite_sequence WHERE name='items'");
+                } catch (\Exception $e) {
+                    // ignore if sqlite_sequence not present or operation fails
+                }
+            } else {
+                // MySQL / others
+                \DB::statement('ALTER TABLE items AUTO_INCREMENT = 1');
+            }
+        } catch (\Exception $e) {
+            // If anything goes wrong resetting sequence, ignore for test setup; tests will still run with fresh DB from RefreshDatabase
+        }
     }
 
     // ========== DELETE ITEM BY ID METHOD TESTS ==========

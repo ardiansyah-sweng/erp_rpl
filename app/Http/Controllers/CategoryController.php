@@ -164,13 +164,17 @@ class CategoryController extends Controller
             'parent_id' => 'nullable|integer',
             'active' => 'required|boolean'
         ]);
-        $category = new Category();
-        $category->addCategory([
+        $data = [
             'category' => $request->category,
             'parent_id' => $request->parent_id ?? 0,
             'active' => $request->active,
-        ]);
+        ];
 
+    // Resolve model from container so tests can bind a mock instance easily
+    $categoryModel = app(Category::class);
+    $categoryModel->addCategory($data);
+
+        // Use a common route name; tests may not have routes defined so they handle missing route errors.
         return redirect()->route('category.list')->with('success', 'Kategori berhasil ditambahkan!');
     }
     public function getCategoryList()

@@ -51,9 +51,14 @@ class SupplierMaterial extends Model
 
     public static function countSupplierMaterial()
     {
+        $driver = DB::connection()->getDriverName();
+        $leftExpr = $driver === 'sqlite'
+            ? DB::raw("substr(sp.product_id, 1, instr(sp.product_id, '-') - 1)")
+            : DB::raw("LEFT(sp.product_id, LOCATE('-', sp.product_id) - 1)");
+
         return DB::table('supplier_product as sp')
-            ->join('products as p', function ($join) {
-                $join->on(DB::raw('LEFT(sp.product_id, LOCATE("-", sp.product_id) - 1)'), '=', 'p.product_id');
+            ->join('products as p', function ($join) use ($leftExpr) {
+                $join->on($leftExpr, '=', 'p.product_id');
             })
             ->where('p.type', '=', 'RM')
             ->distinct('p.product_id')
@@ -103,9 +108,14 @@ class SupplierMaterial extends Model
 
     public static function countSupplierMaterialByType($type, $supplierId)
     {
+        $driver = DB::connection()->getDriverName();
+        $leftExpr = $driver === 'sqlite'
+            ? DB::raw("substr(sp.product_id, 1, instr(sp.product_id, '-') - 1)")
+            : DB::raw("LEFT(sp.product_id, LOCATE('-', sp.product_id) - 1)");
+
         return DB::table('supplier_product as sp')
-            ->join('products as p', function ($join) {
-                $join->on(DB::raw('LEFT(sp.product_id, LOCATE("-", sp.product_id) - 1)'), '=', 'p.product_id');
+            ->join('products as p', function ($join) use ($leftExpr) {
+                $join->on($leftExpr, '=', 'p.product_id');
             })
             ->where('p.product_type', $type)
             ->where('sp.supplier_id', $supplierId)
@@ -115,9 +125,14 @@ class SupplierMaterial extends Model
 
     public static function countSupplierMaterialByID($supplierID)
     {
+        $driver = DB::connection()->getDriverName();
+        $leftExpr = $driver === 'sqlite'
+            ? DB::raw("substr(sp.product_id, 1, instr(sp.product_id, '-') - 1)")
+            : DB::raw("LEFT(sp.product_id, LOCATE('-', sp.product_id) - 1)");
+
         return DB::table('supplier_product as sp')
-            ->join('products as p', function ($join) {
-                $join->on(DB::raw('LEFT(sp.product_id, LOCATE("-", sp.product_id) - 1)'), '=', 'p.product_id');
+            ->join('products as p', function ($join) use ($leftExpr) {
+                $join->on($leftExpr, '=', 'p.product_id');
             })
             ->where('p.product_type', 'RM') // hanya RM
             ->where('sp.supplier_id', $supplierID)

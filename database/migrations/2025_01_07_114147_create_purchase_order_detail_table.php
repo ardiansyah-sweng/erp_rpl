@@ -23,7 +23,10 @@ return new class extends Migration
             $table->integer($column['received_days'])->default(0);
             $table->timestamps();
 
-            $table->primary(['po_number', 'product_id']);
+            $driver = Schema::getConnection()->getDriverName();
+            if ($driver !== 'sqlite') {
+                $table->primary(['po_number', 'product_id']);
+            }
         });
     }
 
