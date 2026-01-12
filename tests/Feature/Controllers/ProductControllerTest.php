@@ -10,6 +10,9 @@ use App\Models\Category;
 use App\Constants\ProductColumns;
 use App\Constants\Messages;
 use App\Helpers\EncryptionHelper;
+use Illuminate\Http\Request;
+use Mockery;
+use Illuminate\Validation\ValidationException;
 
 class ProductControllerTest extends TestCase
 {
@@ -240,5 +243,115 @@ class ProductControllerTest extends TestCase
         // Assert view data
         $viewProduct = $response->viewData('product');
         $this->assertEquals(0, $viewProduct->is_active ?? 0); // Handle jika kolom is_active tidak ada
+    }
+
+    /**
+     * Test updateProduct validation fails when required fields are empty
+     */
+    public function test_update_product_validation_fails_when_fields_empty()
+    {
+        $this->expectException(ValidationException::class);
+
+        $request = new Request();
+
+        $controller = new \App\Http\Controllers\ProductController();
+
+        // Call with arbitrary id; validation should fail before model is invoked
+        $controller->updateProduct($request, 1);
+    }
+
+    /**
+     * Test updateProduct validation fails when product_name is too short
+     */
+    public function test_update_product_validation_fails_when_name_too_short()
+    {
+        $this->expectException(ValidationException::class);
+
+        // Create a valid category for exists rule to not be the failing factor
+        $category = Category::factory()->create([
+            'category' => 'Cat A',
+            'is_active' => 1
+        ]);
+
+        $request = new Request();
+        $request->merge([
+            'product_name' => 'ab', // too short
+            'product_type' => 'FG',
+            'product_category' => $category->id,
+            'product_description' => 'desc'
+        ]);
+
+        $controller = new \App\Http\Controllers\ProductController();
+        $controller->updateProduct($request, 1);
+    }
+
+    /**
+     * Test updateProduct validation fails when category does not exist
+     */
+    public function test_update_product_validation_fails_when_category_not_exists()
+    {
+        $this->expectException(ValidationException::class);
+
+        $request = new Request();
+        $request->merge([
+            'product_name' => 'Valid Name',
+            'product_type' => 'FG',
+            'product_category' => 99999, // non-existent
+            'product_description' => 'desc'
+        ]);
+
+        $controller = new \App\Http\Controllers\ProductController();
+        $controller->updateProduct($request, 1);
+    }
+
+    /**
+     * Test that controller calls Product::updateProduct($id, $data)
+     */
+    public function test_update_product_calls_model_update()
+    {
+        // Arrange
+        $testData = [
+            'product_name' => 'Updated Product',
+            'product_type' => 'FG',
+            'product_category' => 1,
+            'product_description' => 'Updated description'
+        ];
+
+        // Create category so exists rule passes when validation runs
+        $category = Category::factory()->create([
+            'category' => 'CatB',
+            'is_active' => 1
+        ]);
+
+        $testData['product_category'] = $category->id;
+
+        // Mock Product model and bind to container
+        $productMock = Mockery::mock('App\\Models\\Product');
+        $productMock->shouldReceive('updateProduct')
+                    ->once()
+                    ->with(123, Mockery::on(function ($arg) use ($testData) {
+                        // should contain the keys we pass
+                        return isset($arg['product_name']) && $arg['product_name'] === $testData['product_name'];
+                    }))
+                    ->andReturn((object) array_merge(['id' => 123], $testData));
+
+        $this->app->instance(\App\Models\Product::class, $productMock);
+
+        // Build request and call controller
+        $request = new Request();
+        $request->merge($testData);
+
+        $controller = new \App\Http\Controllers\ProductController();
+
+        $result = $controller->updateProduct($request, 123);
+
+        $this->assertIsObject($result);
+        $this->assertEquals(123, $result->id);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        parent::tearDown();
     }
 }
