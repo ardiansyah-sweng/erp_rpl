@@ -101,25 +101,30 @@ class CategoryAddTest extends TestCase
 
     public function test_validation_fails_when_category_already_exists()
     {
-        // Arrange - existing category in DB
-        \App\Models\Category::factory()->create([
-            'category' => 'Existing Category',
-            'is_active' => 1
-        ]);
+        // Mock the DatabasePresenceVerifier so unique rule reports the value exists
+        $verifierMock = Mockery::mock('Illuminate\\Validation\\DatabasePresenceVerifier');
+        $verifierMock->shouldReceive('setConnection')->andReturnNull();
+        $verifierMock->shouldReceive('getCount')->andReturn(1);
+        $verifierMock->shouldReceive('exists')->andReturn(true);
 
-        // Act - run validator with same category name
-        $validator = Validator::make([
-            'category' => 'Existing Category',
-            'active' => 1
-        ], [
-            'category' => 'required|string|min:3|unique:category,category',
-            'parent_id' => 'nullable|integer',
-            'active' => 'required|boolean'
-        ]);
+        $current = Validator::getPresenceVerifier();
+        Validator::setPresenceVerifier($verifierMock);
 
-        // Assert - validation fails with unique error
-        $this->assertTrue($validator->fails());
-        $this->assertTrue($validator->errors()->has('category'));
-        $this->assertEquals('The category has already been taken.', $validator->errors()->first('category'));
+        try {
+            $validator = Validator::make([
+                'category' => 'Existing Category',
+                'active' => 1
+            ], [
+                'category' => 'required|string|min:3|unique:category,category',
+                'parent_id' => 'nullable|integer',
+                'active' => 'required|boolean'
+            ]);
+
+            $this->assertTrue($validator->fails());
+            $this->assertTrue($validator->errors()->has('category'));
+            $this->assertEquals('The category has already been taken.', $validator->errors()->first('category'));
+        } finally {
+            Validator::setPresenceVerifier($current);
+        }
     }
 }
