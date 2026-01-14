@@ -6339,16 +6339,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v8.3.3",
+            "version": "v8.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "077d448cd993a08f97bfccf0ea3d6478b3908f7e"
+                "reference": "33a4211c7b63ffe430bf30ec3c014012dcb6dfa6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/077d448cd993a08f97bfccf0ea3d6478b3908f7e",
-                "reference": "077d448cd993a08f97bfccf0ea3d6478b3908f7e",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/33a4211c7b63ffe430bf30ec3c014012dcb6dfa6",
+                "reference": "33a4211c7b63ffe430bf30ec3c014012dcb6dfa6",
                 "shasum": ""
             },
             "require": {
@@ -6367,7 +6367,7 @@
             "require-dev": {
                 "laravel/framework": "^10.0|^11.0|^12.0",
                 "mockery/mockery": "^1.6",
-                "orchestra/testbench-core": "^8.19|^9.0|^10.0",
+                "orchestra/testbench-core": "^8.19|^9.17|^10.8",
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^10.1|^11.0|^12.0.1",
                 "psy/psysh": "^0.11.12|^0.12",
@@ -6407,9 +6407,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/dusk/issues",
-                "source": "https://github.com/laravel/dusk/tree/v8.3.3"
+                "source": "https://github.com/laravel/dusk/tree/v8.3.4"
             },
-            "time": "2025-06-10T13:59:27+00:00"
+            "time": "2025-11-20T16:26:16+00:00"
         },
         {
             "name": "laravel/pail",
