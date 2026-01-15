@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Constants\BranchColumns;
 
 class Branch extends Model
 {
+    use HasFactory;
+    
     protected $table;
 
     public function __construct(array $attributes = [])
@@ -22,9 +25,9 @@ class Branch extends Model
         $query = self::query();
 
         if ($search) {
-            $query->where(BranchColumns::BRANCH_NAME, 'LIKE', "%{$search}%")
-                  ->orWhere(BranchColumns::BRANCH_ADDRESS, 'LIKE', "%{$search}%")
-                  ->orWhere(BranchColumns::BRANCH_TELEPHONE, 'LIKE', "%{$search}%");
+            $query->where(BranchColumns::NAME, 'LIKE', "%{$search}%")
+                  ->orWhere(BranchColumns::ADDRESS, 'LIKE', "%{$search}%")
+                  ->orWhere(BranchColumns::PHONE, 'LIKE', "%{$search}%");
         }
 
         return $query->orderBy(BranchColumns::CREATED_AT, 'asc')->paginate(10);
@@ -77,8 +80,8 @@ class Branch extends Model
     public static function countBranchByStatus()
     {
         return [
-            'aktif' => self::where(BranchColumns::BRANCH_STATUS, 1)->count(),
-            'nonaktif' => self::where(BranchColumns::BRANCH_STATUS, 0)->count(),
+            'aktif' => self::where(BranchColumns::IS_ACTIVE, 1)->count(),
+            'nonaktif' => self::where(BranchColumns::IS_ACTIVE, 0)->count(),
         ];
     }
 }

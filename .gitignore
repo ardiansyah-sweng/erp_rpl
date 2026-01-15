@@ -21,3 +21,9 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Laravel Dusk
+/tests/Browser/console/
+/tests/Browser/screenshots/
+/tests/Browser/source/
+.env.dusk.local
