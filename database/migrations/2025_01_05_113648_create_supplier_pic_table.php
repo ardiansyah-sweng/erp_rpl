@@ -7,6 +7,8 @@ use App\Constants\SupplierPicColumns;
 
 return new class extends Migration
 {
+    protected string $table;
+
     public function __construct()
     {
         $this->table = config('db_tables.supplier_pic');

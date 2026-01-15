@@ -228,13 +228,13 @@ class CategoryController extends Controller
     //Search Category 
     public function searchCategory(Request $request)
     {
-        $keyword = $request->input('q');
+        $keyword = $request->input('search');
 
-        $category = Category::when($keyword, function ($query) use ($keyword) {
+        $categories = Category::when($keyword, function ($query) use ($keyword) {
             $query->where('category', 'like', '%' . $keyword . '%');
-        })->get();
+        })->paginate(10);
 
-        return view('category.list', compact('category'));
+        return view('category.index', compact('categories', 'keyword'));
     }
 
 

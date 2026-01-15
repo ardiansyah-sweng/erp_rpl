@@ -10,7 +10,7 @@ use App\Constants\WarehouseColumns;
 class Warehouse extends Model
 {
     use HasFactory;
-    
+
     protected $table;
     protected $fillable = [];
 
@@ -26,8 +26,8 @@ class Warehouse extends Model
     public static function getWarehouseAll($search = null)
     {
         $query = self::query();
-
-        if ($search) {
+        //perubahan pemanggilan
+         if ($search) {
             $query->where(WarehouseColumns::NAME, 'LIKE', "%{$search}%")
                   ->orWhere(WarehouseColumns::ADDRESS, 'LIKE', "%{$search}%")
                   ->orWhere(WarehouseColumns::PHONE, 'LIKE', "%{$search}%");
@@ -38,6 +38,14 @@ class Warehouse extends Model
 
     public static function addWarehouse($data)
     {
+        if (empty($data)) {
+            throw new \Exception('Data tidak boleh kosong.');
+        }
+
+        if (is_object($data)) {
+            $data = (array) $data;
+        }
+
         return self::create($data);
     }
 
@@ -51,6 +59,16 @@ class Warehouse extends Model
         return self::count();
     }
 
+    public static function countActiveWarehouse()
+    {
+        return self::where(WarehouseColumns::IS_ACTIVE, 1)->count();
+    }
+
+    public static function countInactiveWarehouse()
+    {
+        return self::where(WarehouseColumns::IS_ACTIVE, 0)->count();
+    }
+
     public function updateWarehouse($id, $data)
     {
         $warehouse = self::getWarehouseById($id);
@@ -62,21 +80,13 @@ class Warehouse extends Model
         return $warehouse->update($data);
     }
 
-    public function searchWarehouse($keyword)
+public function searchWarehouse($keyword)
     {
         return self::where(function ($query) use ($keyword) {
             $query->where(WarehouseColumns::NAME, 'like', "%{$keyword}%")
                 ->orWhere(WarehouseColumns::ADDRESS, 'like', "%{$keyword}%")
                 ->orWhere(WarehouseColumns::PHONE, 'like', "%{$keyword}%");
         })->get();
-    }
-
-    /**
-     * Static method for deleting warehouse (consistent with Branch model)
-     */
-    public static function deleteWarehouse($id)
-    {
-        return self::where(WarehouseColumns::ID, $id)->delete();
     }
 
     /**
@@ -120,7 +130,7 @@ class Warehouse extends Model
         // Sorting
         $sortBy = $filters['sort_by'] ?? WarehouseColumns::CREATED_AT;
         $sortOrder = $filters['sort_order'] ?? 'desc';
-        
+
         $query->orderBy($sortBy, $sortOrder);
 
         return $query;
