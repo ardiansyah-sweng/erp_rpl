@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Models;
+namespace tests\Unit\Models;
 
 use Tests\TestCase;
 use App\Models\BillOfMaterial;
