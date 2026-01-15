@@ -9,6 +9,9 @@ use Illuminate\Support\Collection;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use PHPUnit\Framework\Attributes\BeforeClass;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+
+
 abstract class DuskTestCase extends BaseTestCase
 {
     /**
@@ -23,6 +26,25 @@ abstract class DuskTestCase extends BaseTestCase
     }
 
     /**
+
+
+     * Setup the test environment.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+        
+        // Force database to use erp_rpl instead of erp_rpl_test
+        config(['database.default' => 'mysql']);
+        config(['database.connections.mysql.database' => 'erp_rpl']);
+        
+        // Clear and refresh database connection
+        app('db')->purge();
+        app('db')->reconnect();
+    }
+
+    /**
+
      * Create the RemoteWebDriver instance.
      */
     protected function driver(): RemoteWebDriver
