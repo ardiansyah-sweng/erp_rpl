@@ -58,7 +58,7 @@ return new class extends Migration
 
                         UPDATE item
                         SET stock_unit = v_new_stock
-                        WHERE sku = (SELECT product_id FROM bom_detail WHERE bom_id = v_bom_id);
+                        WHERE sku = (SELECT sku FROM bom_detail WHERE bom_id = v_bom_id LIMIT 1); -- <-- PERBAIKAN 1 (product_id -> sku)
 
                         INSERT INTO log_material_inventory (
                             log_id,
@@ -69,7 +69,7 @@ return new class extends Migration
                             updated_at
                         ) VALUES (
                             v_log_desc,
-                            (SELECT product_id FROM bill_of_material WHERE bom_id = v_bom_id),
+                            (SELECT sku FROM bom_detail WHERE bom_id = v_bom_id LIMIT 1), -- <-- PERBAIKAN 2 (product_id -> sku)
                             v_old_stock,
                             v_new_stock,
                             NOW(),
@@ -80,6 +80,7 @@ return new class extends Migration
                 END IF;
             END
         ');
+        
     }
 
     /**

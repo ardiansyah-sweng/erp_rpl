@@ -31,7 +31,9 @@ return new class extends Migration
             $table->integer(ItemColumns::SELL_UNIT)->default(30);
             $table->integer(ItemColumns::STOCK_UNIT)->default(0);
             $table->timestamps();
-            $table->primary([ItemColumns::ID, ItemColumns::SKU]);
+            // Use unique index on SKU instead of composite primary to maintain
+            // compatibility with SQLite and avoid duplicate primary key errors.
+            $table->unique(ItemColumns::SKU);
         });
     }
 

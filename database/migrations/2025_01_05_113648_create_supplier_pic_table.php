@@ -33,8 +33,8 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-        Schema::dropIfExists($this->table);
-    }
+     public function down(): void
+     {
+         Schema::dropIfExists($this->table);
+     }
 };
