@@ -768,4 +768,7 @@
     <!--end::Script-->
   </body>
   <!--end::Body-->
+  
+  {{-- push update datatables --}}
+
 </html>
