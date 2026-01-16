@@ -467,13 +467,15 @@ use App\Helpers\EncryptionHelper;
                       <td>{{ $product->updated_at }}</td>
                       <td>
                           <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                              <form  method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?')">Delete</button>
-                              </form>
-                          <a href="#" class="btn btn-sm btn-info">Detail</a>
-                      </td>
+                            <form action="{{ route('product.list') }}" method="GET" style="display: inline;" 
+                             onsubmit="return confirm('Apakah Anda yakin ingin menghapus produk {{ $product->product_name }} ini?')">
+                          <button type="submit" class="btn btn-sm btn-danger">
+                             Delete
+                          </button>
+                        </form>
+    
+                        <a href="#" class="btn btn-sm btn-info">Detail</a>
+                    </td>
                   </tr>
         @endforeach
     </tbody>
