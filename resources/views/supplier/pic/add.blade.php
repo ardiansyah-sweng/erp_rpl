@@ -401,66 +401,84 @@
         <!--end::App Content Header-->
         <!--begin::App Content-->
         <div class="app-content">
-          <!--begin::Container-->
           <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-                <div class="container">
-                <form id="picForm">
-                        <div class="mb-3">
-                            <label for="supplier_id" class="form-label">ID Supplier</label>
-                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
-                            <span id="supplierIdError" class="error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="supplier_name" class="form-label">Nama Supplier</label>
-                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="pic_name" class="form-label">Nama PIC (Person In Charge)</label>
-                            <input type="text" class="form-control" id="pic_name" name="pic_name" required>
-                            <span id="picNameError" class="error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                            <span id="emailError" class="error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="telephone" class="form-label">Telephone</label>
-                            <input type="text" class="form-control" id="telephone" name="telephone" required>
-                            <span id="telephoneError" class="error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="assignment_date" class="form-label">Assignment Date</label>
-                            <input type="date" class="form-control" id="assignment_date" name="assignment_date" required>
-                            <span id="assignmentDateError" class="error"></span>
-                        </div>
-                        <div>
-                            <div><label for="pic_photo" class="form-label">Upload Foto PIC</label></div>
-                                <div class="d-flex justify">
-                                  <div><img id="photo_preview" src={{asset("assets/dist/assets/img/avatar_default.png")}} alt="Avatar Default" class="mt-2" style="max-width: 100px; max-height: 100px;"></div>
-                                  <div>
-                                    <input type="file" class="form-control" id="pic_photo" name="pic_photo" accept="image/*">
-                                  </div>
-                                </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <div class="mb-3">
-                                    <label class="form-check-label" for="status">Status</label>
-                                    <input type="checkbox" class="form-check-input" id="status" name="status" value="1" checked>
-                                    <label for="status">Aktif</label>
-                                </div>
-                                <div>
-                                  <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
-                                  <button type="reset" class="btn btn-secondary">Cancel</button>
-                                </div>
+            <div class="row justify-content-center">
+                <div class="col-md-11">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white">
+                            <h3 class="card-title text-muted">Tambah PIC Supplier</h3>
+                            <div class="card-tools">
+                                <span class="badge rounded-circle border border-secondary p-2 me-1"></span>
+                                <span class="badge rounded-circle border border-secondary p-2 me-1"></span>
+                                <span class="badge rounded-circle border border-secondary p-2"></span>
                             </div>
                         </div>
-                    </form>
+                        <div class="card-body p-4">
+                            <form id="picForm" action="{{ url('supplier/pic/add') }}" method="POST">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-6 pe-md-5 border-end">
+                                        <div class="mb-4">
+                                            <label for="supplier_id" class="form-label text-secondary small fw-bold">ID Supplier</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="supplier_id" name="supplier_id" placeholder="SUP110" required>
+                                                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                                            </div>
+                                            <span id="supplierIdError" class="error text-danger small"></span>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label for="supplier_name" class="form-label text-secondary small fw-bold">Nama Supplier</label>
+                                            <input type="text" class="form-control bg-light" id="supplier_name" name="supplier_name" placeholder="UD Manullang Tbk (auto display)" readonly>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label for="pic_name" class="form-label text-secondary small fw-bold">Nama PIC (Person In Charge)</label>
+                                            <input type="text" class="form-control" id="pic_name" name="pic_name" placeholder="Stevanus" required>
+                                            <span id="picNameError" class="error text-danger small"></span>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label for="email" class="form-label text-secondary small fw-bold">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="stevanus@manullang.com" required>
+                                            <span id="emailError" class="error text-danger small"></span>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label for="telephone" class="form-label text-secondary small fw-bold">Telephone</label>
+                                            <input type="text" class="form-control" id="telephone" name="telephone" placeholder="6646750806136" required>
+                                            <span id="telephoneError" class="error text-danger small"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 ps-md-5">
+                                        <div class="mb-4">
+                                            <label for="assignment_date" class="form-label text-secondary small fw-bold">Assignment Date</label>
+                                            <input type="date" class="form-control" id="assignment_date" name="assignment_date" required>
+                                            <span id="assignmentDateError" class="error text-danger small"></span>
+                                        </div>
+
+                                        <div class="mb-4 pt-3">
+                                            <label class="form-label text-secondary small fw-bold d-block">Status</label>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="status" name="status" value="1" checked>
+                                                <label class="form-check-label text-dark" for="status">Aktif</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5 pt-3 border-top">
+                                    <button type="button" class="btn btn-primary px-5 me-2 shadow-sm" onclick="validateForm()">Add</button>
+                                    <button type="reset" class="btn btn-outline-secondary px-5">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+          </div>
+        </div>
             <!--end::Row-->
             <!--begin::Row-->
             
