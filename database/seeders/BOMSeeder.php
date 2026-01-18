@@ -30,10 +30,11 @@ class BOMSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::listen(function ($query) {
-            dump($query->sql);
-            dump($query->bindings);
-        });
+        // Debug output disabled for performance
+        // DB::listen(function ($query) {
+        //     dump($query->sql);
+        //     dump($query->bindings);
+        // });
         
         BOMDetail::truncate();
         BillOfMaterial::truncate();
@@ -43,13 +44,13 @@ class BOMSeeder extends Seeder
         $bomCount = $this->faker->numberBetween(15, 20);
 
         #buat BOM
-        $RM = Item::join('products', 'products.product_id', '=', 'item.product_id')
-                        ->where('products.product_type', 'RM')
-                        ->select('item.sku');
+        $RM = Item::join('products', 'products.product_id', '=', 'items.product_id')
+                        ->where('products.type', 'RM')
+                        ->select('items.sku');
 
-        $FG = Item::join('products', 'products.product_id', '=', 'item.product_id')
-                        ->where('products.product_type', 'FG')
-                        ->select('item.sku');                        
+        $FG = Item::join('products', 'products.product_id', '=', 'items.product_id')
+                        ->where('products.type', 'FG')
+                        ->select('items.sku');
 
         for ($i = 1; $i <= $bomCount; $i++)
         {
@@ -120,10 +121,10 @@ class BOMSeeder extends Seeder
 
             #simpan data produksi
             $branch = Branch::inRandomOrder()->first();
-            $rmWhouse = Warehouse::where('is_rm_whouse', true)
+            $rmWhouse = Warehouse::where('is_rm_warehouse', true)
                             ->inRandomOrder()
                             ->first();
-            $fgWhouse = Warehouse::where('is_fg_whouse', true)
+            $fgWhouse = Warehouse::where('is_fg_warehouse', true)
                             ->inRandomOrder()
                             ->first();
 
@@ -166,15 +167,19 @@ class BOMSeeder extends Seeder
             ]);
         }
 
-        // updated in_production status ke false
-        $inProduction = AssortmentProduction::where('in_production', true)->get();
+        // updated in_production status ke false dengan DB raw query untuk menghindari error model
+        $inProduction = DB::table('assortment_production')->where('in_production', true)->get();
         foreach ($inProduction as $prod) {
             if ($this->faker->boolean()) {
                 echo "Update In Production: {$prod->production_number}\n";
 
-                $prod->in_production = false;
-                $prod->finished_date = now();
-                $prod->save();
+                DB::table('assortment_production')
+                    ->where('id', $prod->id)
+                    ->update([
+                        'in_production' => false,
+                        'finished_date' => now(),
+                        'updated_at' => now()
+                    ]);
             }
         }
         

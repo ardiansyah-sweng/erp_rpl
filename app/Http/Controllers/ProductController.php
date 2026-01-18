@@ -110,7 +110,8 @@ class ProductController extends Controller
     public function searchProduct($keyword)
     {
         $products = Product::getProductByKeyword($keyword);
-        return view('product.list', compact('products'));
+        $categories = Category::orderBy('category')->get();
+        return view('product.list', compact('products', 'categories'));
     }
     public function getProductByCategory($product_category)
     {
