@@ -30,7 +30,7 @@ return [
         'po'                        => 'purchase_order',
         'po_detail'                 => 'purchase_order_detail',
         'products'                   => 'products',
-        'supplier'                  => 'supplier',
+        'supplier'                  => 'suppliers',
         'supplier_pic'              => 'supplier_pic',
         'supplier_product'          => 'supplier_product',
         'unit'                      => 'item_unit',
@@ -226,7 +226,7 @@ return [
             'supplier_id'           => $master['supplier_id'],
             'company_name'          => 'company_name',
             'address'               => 'address',
-            'phone_number'          => 'telephone',
+            'telephone'          => 'telephone',
             'bank_account'          => 'bank_account',
             'created'            => 'created_at',
             'updated'            => 'updated_at'
