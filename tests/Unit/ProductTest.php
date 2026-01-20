@@ -52,7 +52,7 @@ public function test_get_product_by_type()
         'name' => 'Test Product',
         'product_type' => 'FG',
         'product_category' => 1,
-        'product_description' => 'hanya nyoba'
+        'product_description' => 'Test Sukses'
     ]);
 
     // Pastikan produk berhasil masuk ke database
