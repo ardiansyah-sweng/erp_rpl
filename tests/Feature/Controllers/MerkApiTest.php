@@ -13,7 +13,7 @@ class MerkApiTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    private const API_BASE_URL = '/api/merks';
+    private const API_BASE_URL = '/api/merk';
 
     // ========== GETMERKBYID METHOD TESTS ==========
 
