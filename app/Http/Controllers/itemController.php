@@ -46,9 +46,9 @@ class ItemController extends Controller
         $item->addItem([
             'product_id' => $request->product_id,
             'sku' => $request->sku,
-            'item_name' => $request->item_name,
-            'measurement_unit' => $request->measurement_unit, // Perbaikan di sini
-            'selling_price' => $request->selling_price, // Perbaikan di sini
+            'name' => $request->item_name,
+            'measurement' => $request->measurement_unit,
+            'selling_price' => $request->selling_price,
         ]);
 
         return redirect()->route('item.list')->with('success', 'Item berhasil ditambahkan!');
@@ -120,12 +120,12 @@ class ItemController extends Controller
     return view('item.list', compact('items'));
     }
 
-// Fungsi cetak pdf pada controllernya
-public function exportByProductTypeToPdf($productType)
-{
-    $items = Item::getItemByType($productType);
+    // Fungsi cetak pdf pada controllernya
+    public function exportByProductTypeToPdf($productType)
+    {
+        $items = Item::getItemByType($productType);
 
-    if (empty($items) || count($items) === 0) {
+        if (empty($items) || count($items) === 0) {
         return redirect()->back()->with('error', 'Tidak ada item dengan product type tersebut.');
     }
 
@@ -152,7 +152,7 @@ public function exportByProductTypeToPdf($productType)
 
     // Nama file PDF tetap bisa menggunakan singkatan asli jika diinginkan untuk identifikasi
     return $pdf->stream("Item_berdasarkan_product_type_{$productType}.pdf");
-}
+    }
 
     public function exportItemByCategoryToPdf($categoryId)
     {
@@ -171,5 +171,22 @@ public function exportByProductTypeToPdf($productType)
         ]);
 
         return $pdf->stream("item-kategori-{$categoryName}.pdf");
+    }
+    
+    public function getItemByCategory($categoryId)
+    {
+        // Panggil fungsi static yang ada di Model Item
+        $items = Item::getItemByCategory($categoryId);
+
+        if ($items->isEmpty()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Data tidak ditemukan untuk kategori ini.'
+        ], 404);
+    }
+    return response()->json([
+        'success' => true,
+        'data' => $items
+    ]);
     }
 }
