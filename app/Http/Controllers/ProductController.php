@@ -8,6 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\EncryptionHelper;
 use App\Enums\ProductType;
 use App\Models\Category;
+use App\Constants\Messages;
 
 
 class ProductController extends Controller
@@ -38,7 +39,7 @@ class ProductController extends Controller
         $product = (new Product())->getProductById($productId);
 
         if (!$product) {
-            return abort(404, 'Product tidak ditemukan');
+            return response()->view('errors.404', ['message' => Messages::PRODUCT_NOT_FOUND], 404);
         }
        return view('product.detail', compact('product'));
     }

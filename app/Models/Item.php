@@ -3,23 +3,26 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Constants\ItemColumns;
+use App\Constants\Messages;
 use Exception;
 
 class Item extends Model
 {
-    protected $table = 'item';
-    protected $fillable = [
-        'product_id', 'sku', 'item_name', 'measurement_unit',
-        'avg_base_price', 'selling_price', 'purchase_unit',
-        'sell_unit', 'stock_unit'
-    ];
+    use HasFactory;
+    
+    protected $table;
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_constants.table.item');
-        $this->fillable = array_values(config('db_constants.column.item') ?? []);
+        // Use table name from config
+        $this->table = config('db_tables.item', 'items');
+        
+        // Use fillable columns from ItemColumns constant
+        $this->fillable = ItemColumns::getFillable();
     }
 
     // Relasi berdasarkan sku
@@ -61,7 +64,7 @@ class Item extends Model
 
         // Cek relasi berdasarkan SKU
         if ($item->purchaseOrderDetails()->exists()) {
-            throw new Exception("Item tidak bisa dihapus karena sudah digunakan di purchase order.");
+            throw new Exception(Messages::ITEM_IN_USE);
         }
 
         $item->delete();

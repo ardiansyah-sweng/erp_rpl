@@ -1,0 +1,144 @@
+name: Cleanup & Maintenance
+
+on:
+  schedule:
+    # Run every Sunday at 3:00 AM UTC
+    - cron: '0 3 * * 0'
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  cleanup-artifacts:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      
+    steps:
+    - name: Delete old artifacts
+      uses: c-hive/gha-remove-artifacts@v1
+      with:
+        age: '30 days'
+        skip-tags: true
+        skip-recent: 5
+
+  cleanup-packages:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      
+    steps:
+    - name: Delete old container images
+      uses: actions/delete-package-versions@v4
+      with:
+        package-name: 'erp_rpl'
+        package-type: 'container'
+        min-versions-to-keep: 10
+        delete-only-untagged-versions: true
+
+  check-dependencies:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+
+    - name: Check for outdated dependencies
+      run: |
+        composer outdated --direct
+        composer audit
+
+    - name: Check for unused dependencies
+      run: |
+        if [ -f "./vendor/bin/composer-unused" ]; then
+          ./vendor/bin/composer-unused
+        else
+          echo "composer-unused not installed"
+        fi
+
+    - name: Check for security vulnerabilities
+      run: composer audit --format=json > security-audit.json || true
+
+    - name: Create issue for vulnerabilities
+      uses: actions/github-script@v6
+      if: success()
+      with:
+        script: |
+          const fs = require('fs');
+          let audit = {};
+          
+          try {
+            audit = JSON.parse(fs.readFileSync('security-audit.json', 'utf8'));
+          } catch (e) {
+            console.log('No security audit file found');
+            return;
+          }
+          
+          if (audit.advisories && Object.keys(audit.advisories).length > 0) {
+            const vulnerabilities = Object.values(audit.advisories);
+            const critical = vulnerabilities.filter(v => v.severity === 'critical');
+            const high = vulnerabilities.filter(v => v.severity === 'high');
+            
+            if (critical.length > 0 || high.length > 0) {
+              const body = `
+              ## 🚨 Security Vulnerabilities Detected
+              
+              **Critical**: ${critical.length}
+              **High**: ${high.length}
+              **Total**: ${vulnerabilities.length}
+              
+              ### Critical Vulnerabilities
+              ${critical.map(v => `- **${v.title}** (${v.cve || 'No CVE'}) - ${v.package_name}`).join('\n')}
+              
+              ### High Vulnerabilities  
+              ${high.map(v => `- **${v.title}** (${v.cve || 'No CVE'}) - ${v.package_name}`).join('\n')}
+              
+              Please update the affected packages immediately.
+              `;
+              
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `🚨 Security Vulnerabilities - ${new Date().toISOString().split('T')[0]}`,
+                body: body,
+                labels: ['security', 'high-priority']
+              });
+            }
+          }
+
+  health-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Check file sizes
+      run: |
+        echo "## File Size Report" >> file-report.md
+        echo "Generated on: $(date)" >> file-report.md
+        echo "" >> file-report.md
+        
+        echo "### Large Files (>1MB)" >> file-report.md
+        find . -type f -size +1M -not -path "./.git/*" -not -path "./vendor/*" -not -path "./node_modules/*" | head -20 >> file-report.md
+        
+        echo "" >> file-report.md
+        echo "### Directory Sizes" >> file-report.md
+        du -sh * 2>/dev/null | sort -hr | head -10 >> file-report.md
+
+    - name: Check disk usage
+      run: |
+        echo "## Disk Usage Report" >> disk-report.md
+        echo "Generated on: $(date)" >> disk-report.md
+        echo "" >> disk-report.md
+        df -h >> disk-report.md
+
+    - name: Upload reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: maintenance-reports
+        path: |
+          file-report.md
+          disk-report.md
+          security-audit.json

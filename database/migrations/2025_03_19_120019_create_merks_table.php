@@ -21,7 +21,7 @@ return new class extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->id();
-            $table->string(MerkColumns::MERK, 50);
+            $table->string(MerkColumns::MERK, 100)->unique();
             $table->boolean(MerkColumns::IS_ACTIVE)->default(true);
             $table->timestamps();
         });
