@@ -12,12 +12,15 @@ class WarehouseTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    protected $warehouseModel;
+
     protected function setUp(): void
     {
         parent::setUp();
         
         // Setup database tables
         $this->artisan('migrate');
+        $this->warehouseModel = new Warehouse();
     }
 
     /**
@@ -157,7 +160,7 @@ class WarehouseTest extends TestCase
         $this->assertNotNull($result);
         $this->assertEquals(1, $result->total());
         $this->assertCount(1, $result->items());
-        $this->assertStringContainsString('021', $result->first()->warehouse_telephone);
+        $this->assertStringContainsString('021', $result->first()->warehouse_phone);
     }
 
     /**
@@ -265,4 +268,345 @@ class WarehouseTest extends TestCase
         $this->assertEquals('Second Warehouse', $result->last()->warehouse_name);
     }
 
+    /**
+     * Test: Berhasil mengupdate gudang dengan data yang valid
+     */
+    public function test_berhasil_update_gudang_dengan_data_valid()
+    {
+        // Arrange (Persiapan)
+        $gudang = Warehouse::create([
+            WarehouseColumns::NAME => 'Gudang Lama',
+            WarehouseColumns::ADDRESS => 'Alamat Lama',
+            WarehouseColumns::PHONE => '021-1111111',
+            WarehouseColumns::IS_RM_WAREHOUSE => true,
+            WarehouseColumns::IS_FG_WAREHOUSE => false,
+            WarehouseColumns::IS_ACTIVE => true,
+        ]);
+
+        $dataUpdate = [
+            WarehouseColumns::NAME => 'Gudang Baru',
+            WarehouseColumns::ADDRESS => 'Alamat Baru',
+        ];
+
+        // Act (Eksekusi)
+        $hasil = $this->warehouseModel->updateWarehouse($gudang->id, $dataUpdate);
+
+        // Assert (Verifikasi)
+        $this->assertTrue($hasil);
+        $this->assertDatabaseHas(config('db_tables.warehouse'), [
+            'id' => $gudang->id,
+            WarehouseColumns::NAME => 'Gudang Baru',
+            WarehouseColumns::ADDRESS => 'Alamat Baru',
+        ]);
+    }
+
+    /**
+     * Test: Update gudang mengembalikan false ketika gudang tidak ditemukan
+     */
+    public function test_update_gudang_return_false_ketika_tidak_ditemukan()
+    {
+        // Arrange
+        $idTidakAda = 99999;
+        $dataUpdate = [
+            WarehouseColumns::NAME => 'Nama Baru',
+        ];
+
+        // Act
+        $hasil = $this->warehouseModel->updateWarehouse($idTidakAda, $dataUpdate);
+
+        // Assert
+        $this->assertFalse($hasil);
+    }
+
+    /**
+     * Test: Update gudang dengan banyak field
+     */
+    public function test_update_gudang_dengan_banyak_field()
+    {
+        // Arrange
+        $gudang = Warehouse::create([
+            WarehouseColumns::NAME => 'Nama Asli',
+            WarehouseColumns::ADDRESS => 'Alamat Asli',
+            WarehouseColumns::PHONE => '123456789',
+            WarehouseColumns::IS_RM_WAREHOUSE => true,
+            WarehouseColumns::IS_FG_WAREHOUSE => false,
+            WarehouseColumns::IS_ACTIVE => true,
+        ]);
+
+        $dataUpdate = [
+            WarehouseColumns::NAME => 'Nama Terupdate',
+            WarehouseColumns::ADDRESS => 'Alamat Terupdate',
+            WarehouseColumns::PHONE => '987654321',
+            WarehouseColumns::IS_ACTIVE => false,
+        ];
+
+        // Act
+        $hasil = $this->warehouseModel->updateWarehouse($gudang->id, $dataUpdate);
+
+        // Assert
+        $this->assertTrue($hasil);
+        $this->assertDatabaseHas(config('db_tables.warehouse'), [
+            'id' => $gudang->id,
+            WarehouseColumns::NAME => 'Nama Terupdate',
+            WarehouseColumns::ADDRESS => 'Alamat Terupdate',
+            WarehouseColumns::PHONE => '987654321',
+            WarehouseColumns::IS_ACTIVE => false,
+        ]);
+    }
+
+    /**
+     * Test: Update gudang dengan data kosong
+     */
+    public function test_update_gudang_dengan_data_kosong()
+    {
+        // Arrange
+        $gudang = Warehouse::create([
+            WarehouseColumns::NAME => 'Nama Asli',
+            WarehouseColumns::ADDRESS => 'Alamat Asli',
+            WarehouseColumns::PHONE => '021-1111111',
+            WarehouseColumns::IS_RM_WAREHOUSE => true,
+            WarehouseColumns::IS_FG_WAREHOUSE => false,
+            WarehouseColumns::IS_ACTIVE => true,
+        ]);
+
+        $dataUpdate = [];
+
+        // Act
+        $hasil = $this->warehouseModel->updateWarehouse($gudang->id, $dataUpdate);
+
+        // Assert
+        $this->assertTrue($hasil);
+        $this->assertDatabaseHas(config('db_tables.warehouse'), [
+            'id' => $gudang->id,
+            WarehouseColumns::NAME => 'Nama Asli',
+        ]);
+    }
+
+    /**
+     * Test: Update gudang mempertahankan field yang tidak diubah
+     */
+    public function test_update_gudang_mempertahankan_field_tidak_diubah()
+    {
+        // Arrange
+        $dataAsli = [
+            WarehouseColumns::NAME => 'Nama Asli',
+            WarehouseColumns::ADDRESS => 'Alamat Asli',
+            WarehouseColumns::PHONE => '123456789',
+            WarehouseColumns::IS_RM_WAREHOUSE => true,
+            WarehouseColumns::IS_FG_WAREHOUSE => false,
+            WarehouseColumns::IS_ACTIVE => true,
+        ];
+
+        $gudang = Warehouse::create($dataAsli);
+
+        $dataUpdate = [
+            WarehouseColumns::NAME => 'Nama Terupdate',
+        ];
+
+        // Act
+        $this->warehouseModel->updateWarehouse($gudang->id, $dataUpdate);
+
+        // Assert
+        $this->assertDatabaseHas(config('db_tables.warehouse'), [
+            'id' => $gudang->id,
+            WarehouseColumns::NAME => 'Nama Terupdate',
+            WarehouseColumns::ADDRESS => 'Alamat Asli',
+            WarehouseColumns::PHONE => '123456789',
+            WarehouseColumns::IS_ACTIVE => true,
+        ]);
+    }
+
+    /**
+     * Test: Update gudang dengan karakter khusus
+     */
+    public function test_update_gudang_dengan_karakter_khusus()
+    {
+        // Arrange
+        $gudang = Warehouse::create([
+            WarehouseColumns::NAME => 'Gudang Lama',
+            WarehouseColumns::ADDRESS => 'Alamat Lama',
+            WarehouseColumns::PHONE => '021-1111111',
+            WarehouseColumns::IS_RM_WAREHOUSE => true,
+            WarehouseColumns::IS_FG_WAREHOUSE => false,
+            WarehouseColumns::IS_ACTIVE => true,
+        ]);
+
+        $dataUpdate = [
+            WarehouseColumns::NAME => 'Gudang Pabrik @#$%',
+            WarehouseColumns::ADDRESS => 'Jl. Sudirman No. 123, Jakarta Selatan',
+            WarehouseColumns::PHONE => '+62-812-3456-7890',
+        ];
+
+        // Act
+        $hasil = $this->warehouseModel->updateWarehouse($gudang->id, $dataUpdate);
+
+        // Assert
+        $this->assertTrue($hasil);
+        $this->assertDatabaseHas(config('db_tables.warehouse'), [
+            'id' => $gudang->id,
+            WarehouseColumns::NAME => 'Gudang Pabrik @#$%',
+            WarehouseColumns::ADDRESS => 'Jl. Sudirman No. 123, Jakarta Selatan',
+            WarehouseColumns::PHONE => '+62-812-3456-7890',
+        ]);
+    }
+
+    /**
+     * Test: Update flag tipe gudang
+     */
+    public function test_update_gudang_flag_tipe_gudang()
+    {
+        // Arrange
+        $gudang = Warehouse::create([
+            WarehouseColumns::NAME => 'Gudang Test',
+            WarehouseColumns::ADDRESS => 'Alamat Test',
+            WarehouseColumns::PHONE => '021-1111111',
+            WarehouseColumns::IS_RM_WAREHOUSE => false,
+            WarehouseColumns::IS_FG_WAREHOUSE => false,
+            WarehouseColumns::IS_ACTIVE => true,
+        ]);
+
+        $dataUpdate = [
+            WarehouseColumns::IS_RM_WAREHOUSE => true,
+            WarehouseColumns::IS_FG_WAREHOUSE => true,
+        ];
+
+        // Act
+        $hasil = $this->warehouseModel->updateWarehouse($gudang->id, $dataUpdate);
+
+        // Assert
+        $this->assertTrue($hasil);
+        $this->assertDatabaseHas(config('db_tables.warehouse'), [
+            'id' => $gudang->id,
+            WarehouseColumns::IS_RM_WAREHOUSE => true,
+            WarehouseColumns::IS_FG_WAREHOUSE => true,
+        ]);
+    }
+
+    /**
+     * Test: Update gudang dengan ID berupa string
+     */
+    public function test_update_gudang_dengan_id_string()
+    {
+        // Arrange
+        $gudang = Warehouse::create([
+            WarehouseColumns::NAME => 'Nama Asli',
+            WarehouseColumns::ADDRESS => 'Alamat Asli',
+            WarehouseColumns::PHONE => '021-1111111',
+            WarehouseColumns::IS_RM_WAREHOUSE => true,
+            WarehouseColumns::IS_FG_WAREHOUSE => false,
+            WarehouseColumns::IS_ACTIVE => true,
+        ]);
+
+        $dataUpdate = [
+            WarehouseColumns::NAME => 'Nama Terupdate',
+        ];
+
+        // Act
+        $hasil = $this->warehouseModel->updateWarehouse((string)$gudang->id, $dataUpdate);
+
+        // Assert
+        $this->assertTrue($hasil);
+        $this->assertDatabaseHas(config('db_tables.warehouse'), [
+            'id' => $gudang->id,
+            WarehouseColumns::NAME => 'Nama Terupdate',
+        ]);
+    }
+
+    /**
+     * Test: Update gudang dengan nilai null
+     */
+    public function test_update_gudang_dengan_nilai_null()
+    {
+        // Arrange
+        $gudang = Warehouse::create([
+            WarehouseColumns::NAME => 'Nama Asli',
+            WarehouseColumns::ADDRESS => 'Alamat Asli',
+            WarehouseColumns::PHONE => '123456789',
+            WarehouseColumns::IS_RM_WAREHOUSE => true,
+            WarehouseColumns::IS_FG_WAREHOUSE => false,
+            WarehouseColumns::IS_ACTIVE => true,
+        ]);
+
+        $dataUpdate = [
+            WarehouseColumns::PHONE => null,
+        ];
+
+        // Act
+        $hasil = $this->warehouseModel->updateWarehouse($gudang->id, $dataUpdate);
+
+        // Assert
+        $this->assertTrue($hasil);
+        $this->assertDatabaseHas(config('db_tables.warehouse'), [
+            'id' => $gudang->id,
+            WarehouseColumns::PHONE => null,
+        ]);
+    }
+
+    /**
+     * Test: Update gudang berkali-kali secara berurutan
+     */
+    public function test_update_gudang_berkali_kali_berurutan()
+    {
+        // Arrange
+        $gudang = Warehouse::create([
+            WarehouseColumns::NAME => 'Nama Asli',
+            WarehouseColumns::ADDRESS => 'Alamat Asli',
+            WarehouseColumns::PHONE => '021-1111111',
+            WarehouseColumns::IS_RM_WAREHOUSE => true,
+            WarehouseColumns::IS_FG_WAREHOUSE => false,
+            WarehouseColumns::IS_ACTIVE => true,
+        ]);
+
+        // Act - Update pertama
+        $hasil1 = $this->warehouseModel->updateWarehouse($gudang->id, [
+            WarehouseColumns::NAME => 'Update Pertama',
+        ]);
+
+        // Act - Update kedua
+        $hasil2 = $this->warehouseModel->updateWarehouse($gudang->id, [
+            WarehouseColumns::NAME => 'Update Kedua',
+        ]);
+
+        // Assert
+        $this->assertTrue($hasil1);
+        $this->assertTrue($hasil2);
+        $this->assertDatabaseHas(config('db_tables.warehouse'), [
+            'id' => $gudang->id,
+            WarehouseColumns::NAME => 'Update Kedua',
+        ]);
+    }
+
+    /**
+     * Test: Update gudang dengan ID nol
+     */
+    public function test_update_gudang_dengan_id_nol()
+    {
+        // Arrange
+        $dataUpdate = [
+            WarehouseColumns::NAME => 'Nama Terupdate',
+        ];
+
+        // Act
+        $hasil = $this->warehouseModel->updateWarehouse(0, $dataUpdate);
+
+        // Assert
+        $this->assertFalse($hasil);
+    }
+
+    /**
+     * Test: Update gudang dengan ID negatif
+     */
+    public function test_update_gudang_dengan_id_negatif()
+    {
+        // Arrange
+        $dataUpdate = [
+            WarehouseColumns::NAME => 'Nama Terupdate',
+        ];
+
+        // Act
+        $hasil = $this->warehouseModel->updateWarehouse(-1, $dataUpdate);
+
+        // Assert
+        $this->assertFalse($hasil);
+    }
 }

@@ -2,40 +2,35 @@
 
 namespace Database\Factories;
 
-use App\Models\PurchaseOrderDetail;
-use App\Models\Item;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Faker\Factory as Faker;
+use App\Constants\PurchaseOrderDetailColumns;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PurchaseOrderDetail>
+ */
 class PurchaseOrderDetailFactory extends Factory
 {
-    protected $model = PurchaseOrderDetail::class;
-
-    public function definition()
-    {
-        return [
-            'po_number' => $this->faker->regexify('PO[0-9]{6}'),
-            'product_id' => function () {
-                // Use existing item SKU or create one
-                return Item::inRandomOrder()->value('sku') ?? Item::factory()->create()->sku;
-            },
-            'base_price' => $this->faker->numberBetween(5000, 50000),
-            'quantity' => $this->faker->numberBetween(1, 100),
-            'amount' => function (array $attributes) {
-                return $attributes['base_price'] * $attributes['quantity'];
-            },
-            'received_days' => $this->faker->numberBetween(0, 30),
-        ];
-    }
-
     /**
-     * Create purchase order detail for specific product_id (SKU)
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
      */
-    public function forProductId($productId)
+    public function definition(): array
     {
-        return $this->state(function (array $attributes) use ($productId) {
-            return [
-                'product_id' => $productId,
-            ];
-        });
+        $faker = Faker::create('id_ID');
+
+        $quantity = $faker->numberBetween(1, 100);
+        $basePrice = $faker->numberBetween(1000, 100000);
+        $amount = $quantity * $basePrice;
+
+        return [
+            PurchaseOrderDetailColumns::PO_NUMBER     => strtoupper($faker->bothify('PO####')),
+            PurchaseOrderDetailColumns::PRODUCT_ID    => strtoupper($faker->bothify('PROD-#####')),
+            PurchaseOrderDetailColumns::BASE_PRICE    => $basePrice,
+            PurchaseOrderDetailColumns::QUANTITY      => $quantity,
+            PurchaseOrderDetailColumns::AMOUNT        => $amount,
+            PurchaseOrderDetailColumns::RECEIVED_DAYS => $faker->numberBetween(0, 30),
+        ];
     }
 }
