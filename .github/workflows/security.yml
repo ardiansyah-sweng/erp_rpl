@@ -1,0 +1,57 @@
+name: Security Scan
+
+on:
+  schedule:
+    # Run daily at 2:00 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Manual trigger
+  push:
+    branches: [ main, dev, development ]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: mbstring, dom, fileinfo, mysql, zip, bcmath, gd
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Run security audit
+      run: composer audit --format=json > security-audit.json || true
+
+    - name: Upload security audit results
+      uses: actions/upload-artifact@v4
+      with:
+        name: security-audit
+        path: security-audit.json
+
+    - name: Check for critical vulnerabilities
+      run: |
+        if grep -q '"severity":"critical"' security-audit.json; then
+          echo "Critical security vulnerabilities found!"
+          exit 1
+        fi
+
+  codeql-analysis:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: php, javascript
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
