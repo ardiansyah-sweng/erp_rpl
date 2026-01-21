@@ -43,7 +43,8 @@ class Product extends Model
 
     public static function getAllProducts()
     {
-        return self::withCount('items')->with('category')->selectRaw('(SELECT COUNT(*) FROM item WHERE item.sku LIKE CONCAT(products.product_id, "%")) AS items_count')->orderBy('created_at', 'desc')->paginate(10);
+        $tableItem = config('db_constants.table.item');
+        return self::withCount('items')->with('category')->selectRaw("(SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, \"%\")) AS items_count")->orderBy('created_at', 'desc')->paginate(10);
     }
 
     public function getSKURawMaterialItem()
@@ -124,5 +125,20 @@ class Product extends Model
             ->select('category as product_category', DB::raw('COUNT(*) as total'))
             ->groupBy('category')
             ->get();
+    }
+
+    public static function getProductByKeyword($keywords = null)
+    {
+        $query = self::query();
+
+        if ($keywords) {
+            $query->where(ProductColumns::PRODUCT_ID, 'LIKE', "%{$keywords}%")
+                  ->orWhere(ProductColumns::NAME, 'LIKE', "%{$keywords}%")
+                  ->orWhere(ProductColumns::TYPE, 'LIKE', "%{$keywords}%")
+                  ->orWhere(ProductColumns::CATEGORY, 'LIKE', "%{$keywords}%")
+                  ->orWhere(ProductColumns::DESC, 'LIKE', "%{$keywords}%");
+        }
+
+        return $query->orderBy('created_at', 'asc')->paginate(10);
     }
 }

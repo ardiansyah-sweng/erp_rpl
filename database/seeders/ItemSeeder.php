@@ -83,17 +83,19 @@ class ItemSeeder extends Seeder
                         {
                             $sku = Item::where($colItem['sku'], $sku)->first();
 
-                            print_r($units[0][0].' '.$unit->unit_name.' ');
-                            print_r($units);
-                            echo "\n";
+                            // Debugging output dihapus untuk mengatasi masalah hang di VS Code
+                            // print_r($units[0][0].' '.$unit->unit_name.' ');
+                            // print_r($units);
+                            // echo "\n";
 
                             foreach ($units as $key => $uc)
                             {
                                 $res = MeasurementUnit::where('unit_name', $uc[0])->first();
-                                print_r($res['id'].' ADA '.$uc[0]);
-                                echo "\n";
-                                print_r('==============');
-                                echo "\n";
+                                // Debugging output dihapus untuk mengatasi masalah hang di VS Code
+                                // print_r($res['id'].' ADA '.$uc[0]);
+                                // echo "\n";
+                                // print_r('==============');
+                                // echo "\n";
                                 
                                 $isBU = 0;
                                 if ($key == 0)

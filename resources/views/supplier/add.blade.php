@@ -380,6 +380,11 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="container">
+                    @if(session('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                     <!-- <form id="picForm"> -->
                     <form id="picForm" action="{{ route('supplier.add') }}" method="POST" onsubmit="return false;">
                         @csrf

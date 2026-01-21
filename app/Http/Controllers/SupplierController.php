@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SupplierController extends Controller
 {
@@ -18,6 +19,7 @@ class SupplierController extends Controller
             'data' => $data
         ], 200, [], JSON_PRETTY_PRINT);
     }
+  
     public function updateSupplier(Request $request, $supplier_id)
     {
         // Validasi input
@@ -33,11 +35,19 @@ class SupplierController extends Controller
 
         return redirect()->route('Supplier.detail', ['id' => $supplier_id]);
     }
+  
     public function getSupplierById($id)
     {
         $sup = (new Supplier())->getSupplierById($id);
 
-        return view('Supplier.detail', compact('sup'));
+        return view('supplier.detail', compact('sup'));
+    }
+
+    public function printPDF()
+    {
+        $suppliers = Supplier::all();
+        $pdf = Pdf::loadView('supplier.pdf', compact('suppliers'));
+        return $pdf->stream('daftar_supplier.pdf');
     }
 
     public function searchSuppliers(Request $request)
@@ -55,10 +65,9 @@ class SupplierController extends Controller
 
     public function listSuppliers()
     {
-    $suppliers = Supplier::getSupplier();
-    return view('supplier.list', compact('suppliers'));
+      $suppliers = Supplier::getSupplier();
+      return view('supplier.list', compact('suppliers'));
     }
-
 
     public function deleteSupplierByID($id)
     {
@@ -69,6 +78,7 @@ class SupplierController extends Controller
             'message' => $result['message']
         ], $result['success'] ? 200 : 404);
     }
+
     public function AddSuplier(Request $request)
     {
         $validatedData =  $request->validate([
@@ -78,6 +88,11 @@ class SupplierController extends Controller
             'phone_number'   => 'required|string|max:20',
             'bank_account'   => 'required|string|max:255',
         ]);
+
+        // Map form input 'phone_number' to database column 'telephone'
+        $validatedData['telephone'] = $validatedData['phone_number'];
+        unset($validatedData['phone_number']);
+
         $supplier = Supplier::addSupplier($validatedData);
 
         return redirect()->back()->with('success', 'Supplier Berhasil Di Tambahkan');
