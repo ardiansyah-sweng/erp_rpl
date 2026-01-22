@@ -192,7 +192,7 @@ Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderCo
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
-Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
+Route::put('/supplier-pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])->name('supplier.pic.update'); //tanbahkan update
 Route::get('/supplier/pic/list', function () {
     $pics = App\Models\SupplierPic::getSupplierPICAll(10);
     return view('supplier.pic.list', compact('pics')); //implementasi sementara(menunggu controller dari faiz el fayyed)

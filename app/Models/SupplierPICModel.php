@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class SupplierPICModel extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'supplier_pics';
 
     protected $fillable = [
@@ -16,39 +16,26 @@ class SupplierPICModel extends Model
         'name',
         'phone_number',
         'email',
-        'is_active',
-        'avatar',
         'assigned_date',
     ];
 
-    // Tambahkan relasi ke model Supplier
-    public function supplier()
+    public static function updateSupplierPIC($id, array $data)
     {
-        return $this->belongsTo(Supplier::class, 'supplier_id', 'supplier_id');
-    }
-
-    public static function searchSupplierPic($keywords = null)
-    {
-        // Eager load relasi 'supplier' untuk akses company_name
-        $query = self::with('supplier');
-
-        if ($keywords) {
-            $query->where('supplier_id', 'LIKE', "%{$keywords}%")
-                  ->orWhere('name', 'LIKE', "%{$keywords}%")
-                  ->orWhere('phone_number', 'LIKE', "%{$keywords}%")
-                  ->orWhere('email', 'LIKE', "%{$keywords}%")
-                  ->orWhere('assigned_date', 'LIKE', "%{$keywords}%")
-                  ->orWhere('created_at', 'LIKE', "%{$keywords}%")
-                  ->orWhere('updated_at', 'LIKE', "%{$keywords}%");
+        $pic = self::find($id);
+        if ($pic) {
+            $pic->update($data);
+            return [
+                'status'  => 'success',
+                'message' => 'Data PIC berhasil diperbarui!',
+                'data'    => $pic,
+                'code'    => 200
+            ];
         }
 
-        return $query->orderBy('created_at', 'asc')->paginate(10);
+        return [
+            'status'  => 'error',
+            'message' => 'Data PIC tidak ditemukan.',
+            'code'    => 404
+        ];
     }
-
-     public static function getSupplierPic($supplier_id)
-    {
-        return self::where('supplier_id', $supplier_id)
-                    ->paginate(10);
-    }
-
 }

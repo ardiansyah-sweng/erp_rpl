@@ -109,10 +109,10 @@ class SupplierPIController extends Controller
     {
         // 1. Validasi input
         $validator = Validator::make($request->all(), [
-            'supplier_id'   => 'required|string|exists:supplier,supplier_id',
+            'supplier_id'   => 'required|string',
             'name'          => 'required|string|max:255',
             'phone_number'  => 'required|string|max:20',
-            'email'         => 'required|email|unique:supplier_pic,email,' . $id,
+            'email'         => 'required|email|unique:supplier_pics,email,' . $id,
             'assigned_date' => 'required|date',
         ]);
 
@@ -133,15 +133,15 @@ class SupplierPIController extends Controller
             'assigned_date'
         ]);
 
-        // 3. Panggil method dari MODEL: updateSupplierPIC($id)
-        $result = SupplierPic::updateSupplierPIC($id, $data);
+        // 3. Panggil method dari SupplierPICModel
+        $result = SupplierPICModel::updateSupplierPIC($id, $data);
 
         // 4. Return response JSON
         return response()->json([
             'status'  => $result['status'],
             'message' => $result['message'],
             'data'    => $result['data'] ?? null,
-        ], $result['code'] ?? 200);
+        ], $result['code']);
     }
 
     public function cetakPdf()
