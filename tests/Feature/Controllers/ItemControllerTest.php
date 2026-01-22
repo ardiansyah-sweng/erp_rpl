@@ -1,13 +1,12 @@
 <?php
 
-namespace Tests\Unit\Controllers;
+namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
 use App\Http\Controllers\ItemController;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
 use Mockery;
 
 class ItemControllerTest extends TestCase
@@ -15,10 +14,15 @@ class ItemControllerTest extends TestCase
     use RefreshDatabase;
 
     protected $controller;
+    protected $itemMock;
 
     protected function setUp(): void
     {
         parent::setUp();
+        
+        // Mock untuk static method menggunakan 'alias:'
+        $this->itemMock = Mockery::mock('alias:' . Item::class);
+        
         $this->controller = new ItemController();
     }
 
@@ -41,8 +45,8 @@ class ItemControllerTest extends TestCase
             'item_name' => 'Item Test Updated',
         ];
 
-        $mockItem = Mockery::mock('overload:' . Item::class);
-        $mockItem->shouldReceive('updateItem')
+        // Mock static method updateItem
+        $this->itemMock->shouldReceive('updateItem')
             ->once()
             ->with($itemId, $validatedData)
             ->andReturn((object) $validatedData);
@@ -71,8 +75,8 @@ class ItemControllerTest extends TestCase
             'item_name' => 'Item Test',
         ];
 
-        $mockItem = Mockery::mock('overload:' . Item::class);
-        $mockItem->shouldReceive('updateItem')
+        // Mock static method updateItem
+        $this->itemMock->shouldReceive('updateItem')
             ->once()
             ->with($itemId, $validatedData)
             ->andReturn(null);
@@ -213,8 +217,8 @@ class ItemControllerTest extends TestCase
             'item_name' => 'Item Test',
         ];
 
-        $mockItem = Mockery::mock('overload:' . Item::class);
-        $mockItem->shouldReceive('updateItem')
+        // Mock static method updateItem
+        $this->itemMock->shouldReceive('updateItem')
             ->once()
             ->with($itemId, $validatedData)
             ->andReturn((object) $validatedData);
@@ -239,8 +243,8 @@ class ItemControllerTest extends TestCase
             'item_name' => str_repeat('A', 100), // Tepat 100 karakter
         ];
 
-        $mockItem = Mockery::mock('overload:' . Item::class);
-        $mockItem->shouldReceive('updateItem')
+        // Mock static method updateItem
+        $this->itemMock->shouldReceive('updateItem')
             ->once()
             ->with($itemId, $validatedData)
             ->andReturn((object) $validatedData);
