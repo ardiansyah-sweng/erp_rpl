@@ -6,10 +6,14 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Item;
 use App\Constants\ItemColumns;
+use App\Constants\ProductColumns; 
+use App\Enums\ProductType;
+use PHPUnit\Framework\Attributes\Test;
 
 class ProductTest extends TestCase
 {
@@ -512,5 +516,105 @@ class ProductTest extends TestCase
         // Assert
         $this->assertEquals(50, $result->total());
         $this->assertLessThan(2, $executionTime, 'Query should execute in less than 2 seconds');
+    }
+  
+    private function createManualProduct($overrides = [])
+    {
+        // 1. Buat Category Dummy
+        // Cek dulu apakah category sudah ada di overrides
+        $categoryId = $overrides[ProductColumns::CATEGORY] ?? DB::table('categories')->insertGetId([
+            'category'   => 'Cat ' . rand(1, 99),
+            'parent_id'  => null,
+            'is_active'  => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // 2. Siapkan Data Default dengan ID Pendek (Maks 5 chars)
+        $productId = 'P' . str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT); 
+
+        $defaults = [
+            ProductColumns::PRODUCT_ID => $productId,
+            ProductColumns::NAME       => 'Test ' . rand(1, 100),
+            ProductColumns::TYPE       => ProductType::FG->value, 
+            ProductColumns::CATEGORY   => $categoryId,
+            ProductColumns::DESC       => 'Desc',
+            ProductColumns::CREATED_AT => now(),
+            ProductColumns::UPDATED_AT => now(),
+        ];
+
+        // 3. Insert ke Database
+        DB::table('products')->insert(array_merge($defaults, $overrides));
+    }
+
+    #[Test]
+    public function get_product_by_type_returns_correct_data()
+    {
+        /** Skenario 1: Happy Path */
+        
+        // Arrange: Buat 2 produk FG (Target)
+        $this->createManualProduct([
+            ProductColumns::PRODUCT_ID => 'F001',
+            ProductColumns::TYPE       => ProductType::FG->value
+        ]);
+        $this->createManualProduct([
+            ProductColumns::PRODUCT_ID => 'F002',
+            ProductColumns::TYPE       => ProductType::FG->value
+        ]);
+
+        // Arrange: Buat 1 produk RM (Pengganggu)
+        $this->createManualProduct([
+            ProductColumns::PRODUCT_ID => 'R001',
+            ProductColumns::TYPE       => ProductType::RM->value
+        ]);
+
+        // Act
+        $results = Product::getProductByType(ProductType::FG->value);
+
+        // Assert
+        $this->assertCount(2, $results, 'Harusnya hanya ada 2 produk bertipe FG');
+        foreach ($results as $product) {
+            $this->assertEquals(ProductType::FG, $product->type);
+        }
+    }
+
+    #[Test]
+    public function get_product_by_type_returns_empty_when_no_match()
+    {
+        /** Skenario 2: Data Kosong */
+        
+        // Arrange: Hanya buat produk RM
+        $this->createManualProduct([
+            ProductColumns::PRODUCT_ID => 'R002',
+            ProductColumns::TYPE       => ProductType::RM->value
+        ]);
+
+        // Act: Cari produk tipe HFG
+        $results = Product::getProductByType(ProductType::HFG->value);
+
+        // Assert
+        $this->assertTrue($results->isEmpty());
+    }
+
+    #[Test]
+    public function get_product_by_type_handles_enum_casting_correctly()
+    {
+        /** Skenario 3: Cek Integritas Data (Enum Casting) */
+        
+        // Arrange: Gunakan ID pendek 'ENUM'
+        $this->createManualProduct([
+            ProductColumns::PRODUCT_ID => 'ENUM',
+            ProductColumns::TYPE       => ProductType::HFG->value
+        ]);
+
+        // Act
+        $results = Product::getProductByType(ProductType::HFG->value);
+        $product = $results->first();
+
+        // Assert
+        $this->assertNotNull($product);
+        $this->assertInstanceOf(ProductType::class, $product->type);
+        $this->assertEquals(ProductType::HFG, $product->type);
+        $this->assertEquals('Half Finished Goods', $product->type->label());
     }
 }
