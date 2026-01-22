@@ -51,4 +51,17 @@ class SupplierPICModel extends Model
                     ->paginate(10);
     }
 
+    public static function deleteSupplierPICByID($id)
+    {
+        try {
+            $pic = self::find($id);
+            if ($pic) {
+                return $pic->delete();
+            }
+            return false;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
 }
