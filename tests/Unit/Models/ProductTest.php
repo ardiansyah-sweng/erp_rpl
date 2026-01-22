@@ -617,4 +617,38 @@ class ProductTest extends TestCase
         $this->assertEquals(ProductType::HFG, $product->type);
         $this->assertEquals('Half Finished Goods', $product->type->label());
     }
+/**
+     * Test updateProduct function successfully updates data
+     */
+    #[Test]
+    public function updateProduct_successfully_updates_data()
+    {
+        // 1. ARRANGE: Siapkan data awal
+        $targetId = 'T001'; 
+        
+        // Membuat produk dummy
+        $this->createManualProduct([
+            ProductColumns::PRODUCT_ID => $targetId,
+            ProductColumns::NAME       => 'Nama Produk Awal',
+            ProductColumns::TYPE       => ProductType::FG->value
+        ]);
+
+        // LANGKAH PENTING: Ambil data produk yang baru dibuat untuk mendapatkan ID Asli (Primary Key)
+        // Karena kemungkinan fungsi updateProduct($id) butuh ID angka (misal: 1, 2), bukan String 'T001'
+        $product = Product::where(ProductColumns::PRODUCT_ID, $targetId)->first();
+
+        // Data baru yang ingin diubah
+        $updatePayload = [
+            ProductColumns::NAME => 'Nama Produk Baru (Updated)',
+        ];
+
+        // 2. ACT: Panggil fungsi updateProduct menggunakan ID Asli (Integer)
+        Product::updateProduct($product->id, $updatePayload);
+
+        // 3. ASSERT: Cek apakah Nama berubah di database
+        $this->assertDatabaseHas('products', [
+            ProductColumns::PRODUCT_ID => $targetId,
+            ProductColumns::NAME       => 'Nama Produk Baru (Updated)',
+        ]);
+    }
 }
