@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\MerkController;
+use App\Http\Controllers\itemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,3 +74,5 @@ Route::prefix('merk')->name('api.merk.')->group(function () {
     Route::put('/{id}', [MerkController::class, 'update'])->name('update');
     Route::delete('/{id}', [MerkController::class, 'destroy'])->name('destroy');
 });
+
+Route::get('/items/by-type/{productType}', [itemController::class, 'getItemByType'])->name('api.items.by.type');

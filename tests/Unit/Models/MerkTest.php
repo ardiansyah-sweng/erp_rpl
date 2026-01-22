@@ -523,4 +523,239 @@ class MerkTest extends TestCase
         // Final Assert
         $this->assertEquals(5, Merk::countMerek());
     }
+
+    // ========================================================================
+    // TEST UNTUK DELETE OPERATIONS (Laravel Eloquent delete() on Merk model)
+    // These tests cover Laravel's built-in Eloquent delete() method on Merk instances,
+    // not a custom deleteMerkByID() method.
+    // Based on PRD Test Cases TC-MK-19 to TC-MK-23
+    // ========================================================================
+
+    /**
+     * Test deleting a merk successfully
+     * Corresponds to TC-MK-19 from PRD (Happy Path)
+     * @test
+     */
+    public function test_it_can_delete_merk_successfully()
+    {
+        // Arrange - Create a merk record
+        $merk = Merk::factory()->create([
+            MerkColumns::MERK => 'Test Brand',
+            MerkColumns::IS_ACTIVE => true
+        ]);
+        $merkId = $merk->id;
+        $initialCount = Merk::count();
+
+        // Act - Perform delete operation
+        $result = $merk->delete();
+
+        // Assert - Verify deletion was successful
+        $this->assertTrue($result, 'Delete operation should return true');
+        $this->assertDatabaseMissing(config('db_tables.merk'), [
+            'id' => $merkId
+        ]);
+        $this->assertNull(Merk::find($merkId), 'Merk should not be found after deletion');
+        $this->assertEquals($initialCount - 1, Merk::count(), 'Total merk count should decrease by 1');
+    }
+
+    /**
+     * Test deleting an active merk successfully
+     * (Happy Path)
+     * @test
+     */
+    public function test_it_can_delete_active_merk()
+    {
+        // Arrange - Create an active merk
+        $merk = Merk::factory()->active()->create([
+            MerkColumns::MERK => 'Active Brand'
+        ]);
+        $merkId = $merk->id;
+
+        // Act - Delete the active merk
+        $result = $merk->delete();
+
+        // Assert - Verify deletion
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing(config('db_tables.merk'), [
+            'id' => $merkId,
+            MerkColumns::IS_ACTIVE => true
+        ]);
+        $this->assertNull(Merk::find($merkId));
+    }
+
+    /**
+     * Test deleting an inactive merk successfully
+     * (Happy Path)
+     * @test
+     */
+    public function test_it_can_delete_inactive_merk()
+    {
+        // Arrange - Create an inactive merk
+        $merk = Merk::factory()->inactive()->create([
+            MerkColumns::MERK => 'Inactive Brand'
+        ]);
+        $merkId = $merk->id;
+
+        // Act - Delete the inactive merk
+        $result = $merk->delete();
+
+        // Assert - Verify deletion
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing(config('db_tables.merk'), [
+            'id' => $merkId,
+            MerkColumns::IS_ACTIVE => false
+        ]);
+    }
+
+    /**
+     * Test database count decreases correctly after merk deletion
+     * (Happy Path)
+     * @test
+     */
+    public function test_count_decreases_correctly_after_merk_deletion()
+    {
+        // Arrange - Create multiple merks
+        Merk::factory()->count(5)->create();
+        $countBeforeDelete = Merk::count();
+        $this->assertEquals(5, $countBeforeDelete);
+
+        // Act - Delete one merk
+        $merkToDelete = Merk::first();
+        $merkToDelete->delete();
+
+        // Assert - Verify count decreased
+        $countAfterDelete = Merk::count();
+        $this->assertEquals(4, $countAfterDelete);
+        $this->assertEquals($countBeforeDelete - 1, $countAfterDelete);
+    }
+
+    /**
+     * Test deleting multiple merks in sequence
+     * (Happy Path)
+     * @test
+     */
+    public function test_it_can_delete_multiple_merks_in_sequence()
+    {
+        // Arrange - Create 3 merks
+        $merk1 = Merk::factory()->create([MerkColumns::MERK => 'Brand 1']);
+        $merk2 = Merk::factory()->create([MerkColumns::MERK => 'Brand 2']);
+        $merk3 = Merk::factory()->create([MerkColumns::MERK => 'Brand 3']);
+        
+        $initialCount = Merk::count();
+        $this->assertEquals(3, $initialCount);
+
+        // Act - Delete merks one by one
+        $result1 = $merk1->delete();
+        $result2 = $merk2->delete();
+        $result3 = $merk3->delete();
+
+        // Assert - Verify all deletions were successful
+        $this->assertTrue($result1);
+        $this->assertTrue($result2);
+        $this->assertTrue($result3);
+        $this->assertEquals(0, Merk::count());
+        $this->assertDatabaseMissing(config('db_tables.merk'), ['id' => $merk1->id]);
+        $this->assertDatabaseMissing(config('db_tables.merk'), ['id' => $merk2->id]);
+        $this->assertDatabaseMissing(config('db_tables.merk'), ['id' => $merk3->id]);
+    }
+
+    /**
+     * Test deleting non-existent merk returns null
+     * Corresponds to TC-MK-21 from PRD (Negative Case)
+     * @test
+     */
+    public function test_delete_non_existent_merk_returns_null()
+    {
+        // Arrange - Use an ID that doesn't exist
+        $nonExistentId = 99999;
+
+        // Act - Try to find and delete
+        $merk = Merk::find($nonExistentId);
+
+        // Assert - Verify merk was not found
+        $this->assertNull($merk, 'Finding non-existent merk should return null');
+    }
+
+    /**
+     * Test attempting to delete already deleted merk
+     * (Edge Case)
+     * @test
+     */
+    public function test_cannot_delete_already_deleted_merk()
+    {
+        // Arrange - Create and delete a merk
+        $merk = Merk::factory()->create([
+            MerkColumns::MERK => 'To Be Deleted'
+        ]);
+        $merkId = $merk->id;
+        $merk->delete();
+
+        // Act - Try to find the deleted merk
+        $deletedMerk = Merk::find($merkId);
+
+        // Assert - Verify it cannot be found
+        $this->assertNull($deletedMerk, 'Already deleted merk should not be found');
+    }
+
+    /**
+     * Test deleting merk with invalid ID type (string)
+     * (Edge Case)
+     * @test
+     */
+    public function test_delete_with_invalid_string_id_returns_null()
+    {
+        // Arrange - Create a merk
+        Merk::factory()->create();
+
+        // Act - Try to find with string ID
+        $result = Merk::find('invalid_string');
+
+        // Assert - Should return null
+        $this->assertNull($result, 'Finding merk with invalid string ID should return null');
+    }
+
+    /**
+     * Test deleting merk with negative ID returns null
+     * (Edge Case)
+     * @test
+     */
+    public function test_delete_with_negative_id_returns_null()
+    {
+        // Arrange - Create a merk
+        Merk::factory()->create();
+
+        // Act - Try to find with negative ID
+        $result = Merk::find(-1);
+
+        // Assert - Should return null
+        $this->assertNull($result, 'Finding merk with negative ID should return null');
+    }
+
+    /**
+     * Test verify other merks remain intact after deletion
+     * (Edge Case - Data Integrity)
+     * @test
+     */
+    public function test_other_merks_remain_intact_after_deletion()
+    {
+        // Arrange - Create 3 merks
+        $merk1 = Merk::factory()->create([MerkColumns::MERK => 'Brand A']);
+        $merk2 = Merk::factory()->create([MerkColumns::MERK => 'Brand B']);
+        $merk3 = Merk::factory()->create([MerkColumns::MERK => 'Brand C']);
+
+        // Act - Delete only the middle one
+        $merk2->delete();
+
+        // Assert - Verify other merks still exist
+        $this->assertNotNull(Merk::find($merk1->id), 'Merk 1 should still exist');
+        $this->assertNull(Merk::find($merk2->id), 'Merk 2 should be deleted');
+        $this->assertNotNull(Merk::find($merk3->id), 'Merk 3 should still exist');
+        
+        // Verify the remaining merks have correct data
+        $remainingMerk1 = Merk::find($merk1->id);
+        $remainingMerk3 = Merk::find($merk3->id);
+        
+        $this->assertEquals('Brand A', $remainingMerk1->{MerkColumns::MERK});
+        $this->assertEquals('Brand C', $remainingMerk3->{MerkColumns::MERK});
+    }
 }
