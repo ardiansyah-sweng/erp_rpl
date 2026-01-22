@@ -141,4 +141,12 @@ class Product extends Model
 
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
+
+    public static function getProductByCategory($product_category)
+    {
+        return self::with('category')
+                   ->where('category', $product_category)
+                   ->orderBy('created_at', 'desc')
+                   ->paginate(10);
+    }
 }
