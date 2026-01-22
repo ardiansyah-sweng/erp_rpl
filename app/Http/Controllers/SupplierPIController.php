@@ -28,7 +28,7 @@ class SupplierPIController extends Controller
         }
 
         $supplier = $pic->supplier;
-        $pic->supplier_name = $supplier ? $supplier->name : null;
+        $pic->supplier_name = $supplier ? $supplier->company_name : null;
         return view('supplier.pic.detail', ['pic' => $pic, 'supplier' => $supplier]);
     }
 

@@ -69,7 +69,8 @@ class SupplierSeeder extends Seeder
             $supplier = Supplier::all();
             $numOfSupplier = $this->faker->numberBetween(1, $supplier->count());
             $suppliers = $supplier->pluck($this->colSupplier['supplier_id'])->shuffle()->take($numOfSupplier);
-            $itemName = Item::where($this->colItem['sku'], $sku->sku)->get()->first()->item_name;
+            $itemName = Item::where($this->colItem['sku'], $sku->sku)->get()->first();
+            $productName = $itemName ? $itemName->name : null;
 
             foreach ($suppliers as $supplierID)
             {
@@ -86,7 +87,7 @@ class SupplierSeeder extends Seeder
                         $this->colSupplierProduct['supplier_id'] => $supplierID,
                         $this->colSupplierProduct['company_name'] => $companyName,
                         $this->colSupplierProduct['product_id'] => $sku->sku,
-                        $this->colSupplierProduct['product_name'] => $itemName,
+                        $this->colSupplierProduct['product_name'] => $productName,
                         $this->colSupplierProduct['base_price'] => $basePrice,
                         $this->colSupplierProduct['created_at'] => $created_at,
                         $this->colSupplierProduct['updated_at'] => $created_at

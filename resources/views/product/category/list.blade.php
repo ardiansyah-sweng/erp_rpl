@@ -59,6 +59,9 @@
       integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
       crossorigin="anonymous"
     />
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
   </head>
   <!--end::Head-->
   <!--begin::Body-->
@@ -407,7 +410,7 @@
                         {{ session('error') }}
                     </div>
                     @endif
-                    <table class="table table-bordered">
+                    <table id="categoryTable" class="table table-bordered table-striped">
                       <thead class="text-center">
                         <tr>
                             <th style="width: 10px">No</th>
@@ -426,9 +429,9 @@
                                 <td>{{ $kategori->category }}</td>
                                 <td class="text-center">
                                     @if($kategori->active)
-                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <span class="badge bg-success">✓</span>
                                     @else
-                                    <i class="bi bi-x-circle-fill text-danger"></i>
+                                    <span class="badge bg-danger">✗</span>
                                     @endif
                                 </td>
                                 <td>
@@ -727,8 +730,30 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!-- Datatables JS -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+
     <!-- AdminLTE JS -->
     <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
+
+    <!-- Inisialisasi Datatables -->
+    <script>
+    $(document).ready(function() {
+        $('#categoryTable').DataTable({
+            responsive: true,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/id.json'
+            },
+            columnDefs: [
+                { orderable: false, targets: [4] }
+            ],
+            pageLength: 10
+        });
+    });
+    </script>
 
     <!-- Custom Sidebar Toggle Script -->
     <script>
