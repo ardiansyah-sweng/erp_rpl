@@ -1,25 +1,37 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\Merk;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MerkModelTest extends TestCase
 {
-    public function test_it_can_add_new_merk()
+    use RefreshDatabase;
+
+    // TUGAS 214
+    public function test_update_merk_berhasil()
     {
-        DB::table('merks')->where('merk', 'Contoh Merk')->delete();
+        // 1. Buat data dummy menggunakan fungsi addMerk yang sudah ada
+        $merkAwal = Merk::addMerk('Merk Lama Banget');
 
-        $merk = Merk::create([
-            'merk' => 'Contoh Merk'
+        // 2. Siapkan data baru untuk update
+        $dataUpdate = [
+            'merk' => 'Merk Update Berhasil'
+        ];
+
+        // 3. Panggil fungsi updateMerk (Panggil secara Static :: karena kodemu static)
+        $hasil = Merk::updateMerk($merkAwal->id, $dataUpdate);
+
+        // 4. Cek apakah berhasil berubah di database
+        $this->assertDatabaseHas($merkAwal->getTable(), [
+            'id' => $merkAwal->id,
+            'merk' => 'Merk Update Berhasil'
         ]);
-
-        $this->assertDatabaseHas('merks', [
-            'merk' => 'Contoh Merk'
-        ]);
-
-        DB::table('merks')->where('merk', 'Contoh Merk')->delete();
+        
+        // Cek juga variabel hasil kembalian tidak null
+        $this->assertNotNull($hasil);
+        $this->assertEquals('Merk Update Berhasil', $hasil->merk);
     }
 }

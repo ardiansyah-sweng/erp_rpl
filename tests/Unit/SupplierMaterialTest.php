@@ -2,52 +2,64 @@
 
 namespace Tests\Unit;
 
-use App\Models\SupplierMaterial;
 use Tests\TestCase;
+use App\Models\SupplierMaterial; 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class SupplierMaterialTest extends TestCase
 {
-    public function testAddSupplierMaterialCreatesSupplierMaterial()
-    { 
-        config(['db_constants.table.supplier' => 'supplier_product']);
-        config(['db_constants.column.supplier' => [
-            'supplier_id',
-            'company_name',
-            'product_id',
-            'product_name',
-            'base_price'
-        ]]);
+    use RefreshDatabase;
 
-        $data = [
-            'supplier_id' => 'SUP090',
-            'company_name' => 'Tes Company',
-            'product_id' => 'P001-aut',
-            'product_name' => 'Oblong Tes',
-            'base_price' => '93849'
-        ];
-
-        $result = SupplierMaterial::addSupplierMaterial($data);
-
-        $this->assertInstanceOf(SupplierMaterial::class, $result);
-        $this->assertEquals($data['product_name'], $result->product_name);
-        $this->assertEquals($data['product_id'], $result->product_id);
-    }
-
-    public function testAddSupplierMaterialHandlesEmptyData()
+    /** @test */
+    public function test_get_supplier_material_by_product_type_berhasil()
     {
-        config(['db_constants.table.supplier' => 'supplier_product']);
-        config(['db_constants.column.supplier' => [
-            'supplier_id',
-            'company_name',
-            'product_id',
-            'product_name',
-            'base_price'
-        ]]);
+        // 1. Matikan aturan Foreign Key
+        Schema::disableForeignKeyConstraints();
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Data tidak boleh kosong.');
+        $now = Carbon::now();
 
-        SupplierMaterial::addSupplierMaterial([]);
+        // 2. Data Dummy Produk
+        DB::table('products')->insert([
+            'product_id'          => 'P1', 
+            'product_name'        => 'Sepatu Sekolah',
+            'product_description' => 'Deskripsi sepatu',
+            'product_type'        => 'FG', 
+            'product_category'    => 1,
+            'created_at'          => $now,
+            'updated_at'          => $now
+        ]);
+
+        // 3. Data Dummy Item
+        DB::table('item')->insert([
+            'sku'              => 'K1',
+            'item_name'        => 'Sepatu Hitam Polos',
+            'product_id'       => 'P1', 
+            'measurement_unit' => 'Pasang',
+            'stock_unit'       => 50,
+            'created_at'       => $now,
+            'updated_at'       => $now
+        ]);
+
+        // 4. Data Dummy Supplier
+        DB::table('supplier_product')->insert([
+            'supplier_id'  => 'S1',
+            'company_name' => 'Toko Sepatu Bata',
+            'product_id'   => 'K1', 
+            'product_name' => 'Sepatu Hitam Polos', // <--- INI KUNCINYA
+            'base_price'   => 150000,
+            'created_at'   => $now,
+            'updated_at'   => $now
+        ]);
+
+        // 5. Test Fungsi
+        $hasil = SupplierMaterial::getSupplierMaterialByProductType('S1', 'FG');
+
+        // 6. Cek Hasil
+        $this->assertNotEmpty($hasil, 'Data tidak ditemukan! Cek query join-nya.');
+        $this->assertEquals(1, $hasil->count(), 'Harusnya ada 1 sepatu.');
+        $this->assertEquals('Sepatu Hitam Polos', $hasil->first()->item_name);
     }
 }
