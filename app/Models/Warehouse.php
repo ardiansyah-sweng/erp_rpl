@@ -26,8 +26,8 @@ class Warehouse extends Model
     public static function getWarehouseAll($search = null)
     {
         $query = self::query();
-
-        if ($search) {
+        //perubahan pemanggilan
+         if ($search) {
             $query->where(WarehouseColumns::NAME, 'LIKE', "%{$search}%")
                   ->orWhere(WarehouseColumns::ADDRESS, 'LIKE', "%{$search}%")
                   ->orWhere(WarehouseColumns::PHONE, 'LIKE', "%{$search}%");
@@ -80,7 +80,7 @@ class Warehouse extends Model
         return $warehouse->update($data);
     }
 
-    public function searchWarehouse($keyword)
+public function searchWarehouse($keyword)
     {
         return self::where(function ($query) use ($keyword) {
             $query->where(WarehouseColumns::NAME, 'like', "%{$keyword}%")

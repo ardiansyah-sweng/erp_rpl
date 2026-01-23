@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Constants\CategoryColumns;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+//pengetesan 
+
 class GetCategoryTest extends TestCase
 {
     use RefreshDatabase;
@@ -17,7 +19,6 @@ class GetCategoryTest extends TestCase
         parent::setUp();
         $this->artisan('migrate');
     }
-
     /**
      * Test getCategory() returns all categories with parent relationship
      */
@@ -220,5 +221,51 @@ class GetCategoryTest extends TestCase
         $subCategory = $result->firstWhere('id', $parent->id);
         $this->assertNotNull($subCategory->parent);
         $this->assertEquals('Root Category', $subCategory->parent->{CategoryColumns::CATEGORY});
+    }
+
+    /**
+     * Test getCategoryById() returns complete category information (TC-CT-15)
+     * Arrange: create parent and child category
+     * Act: call getCategoryById for the child
+     * Assert: returned object contains id, category, parent (as name) and is_active
+     */
+    public function test_get_category_by_id_returns_complete_information()
+    {
+        // Arrange
+        $parent = Category::create([
+            CategoryColumns::CATEGORY => 'Furniture',
+            CategoryColumns::PARENT => null,
+            CategoryColumns::IS_ACTIVE => true,
+        ]);
+
+        $child = Category::create([
+            CategoryColumns::CATEGORY => 'Office Chairs',
+            CategoryColumns::PARENT => $parent->id,
+            CategoryColumns::IS_ACTIVE => true,
+        ]);
+
+        // Act
+        $result = Category::getCategoryById($child->id);
+
+        // Assert
+        $this->assertNotNull($result);
+        $this->assertEquals($child->id, $result->id);
+        $this->assertEquals('Office Chairs', $result->{CategoryColumns::CATEGORY});
+
+        // Per implementation, parent_id is replaced with parent category name
+        $this->assertEquals('Furniture', $result->{CategoryColumns::PARENT});
+        $this->assertEquals(1, $result->{CategoryColumns::IS_ACTIVE});
+    }
+
+    /**
+     * Test getCategoryById() returns null when category not found (TC-CT-16)
+     */
+    public function test_get_category_by_id_returns_null_for_nonexistent_id()
+    {
+        // Act
+        $result = Category::getCategoryById(999999);
+
+        // Assert
+        $this->assertNull($result);
     }
 }

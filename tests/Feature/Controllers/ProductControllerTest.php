@@ -10,10 +10,11 @@ use App\Models\Category;
 use App\Constants\ProductColumns;
 use App\Constants\Messages;
 use App\Helpers\EncryptionHelper;
+use App\Enums\ProductType;
 
 class ProductControllerTest extends TestCase
 {
-    use RefreshDatabase; // Tambahkan trait ini untuk auto-migrate
+    use RefreshDatabase;
     
     protected $faker;
 
@@ -21,10 +22,12 @@ class ProductControllerTest extends TestCase
     {
         parent::setUp();
         
-        // RefreshDatabase trait akan otomatis migrate fresh setiap test
-        // Tidak perlu manual truncate dan seeder
-        
         $this->faker = fake('id_ID');
+
+        // Ensure category exists for tests
+        if (Category::count() === 0) {
+             Category::factory()->create(['id' => 1]);
+        }
     }
 
     // ========== GET PRODUCT BY ID METHOD TESTS ==========
@@ -34,7 +37,7 @@ class ProductControllerTest extends TestCase
      */
     public function test_it_displays_product_detail_page()
     {
-        // Arrange - Create test product using Factory
+        // Arrange
         $category = Category::factory()->create([
             'category' => 'Test Category ' . uniqid(),
             'is_active' => 1
@@ -48,26 +51,21 @@ class ProductControllerTest extends TestCase
             'description' => 'Test product description for detail page',
         ]);
 
-        // Encrypt the product ID (use product_id column, not auto-increment id)
         $encryptedId = EncryptionHelper::encrypt($product->product_id);
 
-        // Act - Visit the product detail page
+        // Act
         $response = $this->get(route('product.detail', $encryptedId));
 
-        // Assert basic functionality
+        // Assert
         $response->assertStatus(200);
         $response->assertViewIs('product.detail');
         $response->assertViewHas('product');
         
-        // Skip detailed view assertions for now due to view template issues
-        // Focus on testing that controller logic works correctly
-        
-        // Assert view data
         $viewProduct = $response->viewData('product');
         $this->assertEquals($product->product_id, $viewProduct->product_id);
         $this->assertEquals($product->name, $viewProduct->name);
         $this->assertEquals($product->description, $viewProduct->description);
-        $this->assertEquals('FG', $viewProduct->type->value); // Test enum casting
+        $this->assertEquals('FG', $viewProduct->type->value);
     }
 
     /**
@@ -75,14 +73,11 @@ class ProductControllerTest extends TestCase
      */
     public function test_it_shows_404_for_non_existent_product()
     {
-        // Arrange - Create encrypted ID for non-existent product
         $nonExistentId = 99999;
         $encryptedId = EncryptionHelper::encrypt($nonExistentId);
 
-        // Act - Try to access non-existent product
         $response = $this->get(route('product.detail', $encryptedId));
 
-        // Assert 404 response
         $response->assertStatus(404);
         $response->assertSee(Messages::PRODUCT_NOT_FOUND);
     }
@@ -92,14 +87,10 @@ class ProductControllerTest extends TestCase
      */
     public function test_it_shows_404_for_invalid_encrypted_id()
     {
-        // Arrange - Create invalid encrypted string
         $invalidEncryptedId = 'invalid-encrypted-string-12345';
 
-        // Act - Try to access with invalid encrypted ID
         $response = $this->get(route('product.detail', $invalidEncryptedId));
 
-        // Assert - Should handle decryption error gracefully
-        // This might return 404 or 500 depending on how EncryptionHelper handles invalid data
         $this->assertTrue(in_array($response->status(), [404, 500]));
     }
 
@@ -108,10 +99,8 @@ class ProductControllerTest extends TestCase
      */
     public function test_it_shows_404_for_empty_encrypted_id()
     {
-        // Act - Try to access with empty ID
         $response = $this->get('/product/detail/');
 
-        // Assert 404 response (route not found)
         $response->assertStatus(404);
     }
 
@@ -120,7 +109,6 @@ class ProductControllerTest extends TestCase
      */
     public function test_it_displays_product_with_category_relationship()
     {
-        // Arrange - Create category and product with relationship
         $category = Category::factory()->create([
             'category' => 'Electronics',
             'is_active' => 1
@@ -134,22 +122,17 @@ class ProductControllerTest extends TestCase
             ProductColumns::DESC => 'Latest smartphone model',
         ]);
 
-        // Encrypt the product ID (use product_id, not auto-increment id)
         $encryptedId = EncryptionHelper::encrypt($product->product_id);
 
-        // Act - Visit the product detail page
         $response = $this->get(route('product.detail', $encryptedId));
 
-        // Assert basic functionality
         $response->assertStatus(200);
         $response->assertViewIs('product.detail');
         
-        // Assert product and category data
         $response->assertSee('Smartphone Test');
         $response->assertSee('EL01');
         $response->assertSee('Latest smartphone model');
         
-        // Assert view data contains product with proper category
         $viewProduct = $response->viewData('product');
         $this->assertEquals($product->product_id, $viewProduct->product_id);
         $this->assertEquals($category->id, $viewProduct->category);
@@ -161,13 +144,11 @@ class ProductControllerTest extends TestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('productTypeDataProvider')]
     public function test_it_displays_products_of_different_types($productType, $description)
     {
-        // Arrange - Create category
         $category = Category::factory()->create([
             'category' => 'Test Category',
             'is_active' => 1
         ]);
 
-        // Create product with specific type
         $product = Product::factory()->create([
             ProductColumns::PRODUCT_ID => 'T' . substr(uniqid(), -3),
             ProductColumns::NAME => 'Product ' . $productType,
@@ -176,22 +157,18 @@ class ProductControllerTest extends TestCase
             ProductColumns::DESC => $description,
         ]);
 
-        // Encrypt the product ID (use product_id, not auto-increment id)
         $encryptedId = EncryptionHelper::encrypt($product->product_id);
 
-        // Act - Visit the product detail page
         $response = $this->get(route('product.detail', $encryptedId));
 
-        // Assert
         $response->assertStatus(200);
         $response->assertViewIs('product.detail');
         $response->assertSee('Product ' . $productType);
         $response->assertSee($productType);
         $response->assertSee($description);
         
-        // Assert view data
         $viewProduct = $response->viewData('product');
-        $this->assertEquals($productType, $viewProduct->type->value); // Compare with enum value
+        $this->assertEquals($productType, $viewProduct->type->value);
     }
 
     /**
@@ -211,7 +188,6 @@ class ProductControllerTest extends TestCase
      */
     public function test_it_displays_inactive_product()
     {
-        // Arrange - Create inactive product
         $category = Category::factory()->create([
             'category' => 'Test Category',
             'is_active' => 1
@@ -225,20 +201,185 @@ class ProductControllerTest extends TestCase
             ProductColumns::DESC => 'This product is inactive',
         ]);
 
-        // Encrypt the product ID (use product_id, not auto-increment id)
         $encryptedId = EncryptionHelper::encrypt($product->product_id);
 
-        // Act - Visit the product detail page
         $response = $this->get(route('product.detail', $encryptedId));
 
-        // Assert - Should still display the product (business rule: show inactive products in detail)
         $response->assertStatus(200);
         $response->assertViewIs('product.detail');
         $response->assertSee('Inactive Product');
         $response->assertSee('IN01');
         
-        // Assert view data
         $viewProduct = $response->viewData('product');
-        $this->assertEquals(0, $viewProduct->is_active ?? 0); // Handle jika kolom is_active tidak ada
+        $this->assertEquals(0, $viewProduct->is_active ?? 0);
+    }
+
+    // ========== SEARCH PRODUCT METHOD TESTS ==========
+
+    /**
+     * Test search product dengan keyword yang valid dan match dengan product_id
+     */
+    public function test_search_product_by_product_id()
+    {
+        // Arrange - Create category first
+        $category = Category::factory()->create(['is_active' => 1]);
+
+        Product::factory()->create([
+            'product_id'  => 'KAO',
+            'name'        => 'Kaos TShirt Putih',
+            'type'        => 'FG',
+            'category'    => $category->id,
+            'description' => 'Kaos berkualitas premium'
+        ]);
+
+        Product::factory()->create([
+            'product_id'  => 'TOP',
+            'name'        => 'Topi Snapback',
+            'type'        => 'FG',
+            'category'    => $category->id,
+            'description' => 'Topi untuk pria'
+        ]);
+
+        $response = $this->get(route('product.search', ['keyword' => 'KAO']));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('product.list');
+        
+        // Verify product exists in results
+        $response->assertViewHas('products', function($products) {
+            return $products->contains(fn($p) => $p->product_id === 'KAO');
+        });
+        
+        // Verify TOP product doesn't appear
+        $response->assertViewHas('products', function($products) {
+            $foundKAO = $products->contains(fn($p) => $p->product_id === 'KAO');
+            $topCount = $products->filter(fn($p) => $p->product_id === 'TOP')->count();
+            return $foundKAO && $topCount === 0;
+        });
+    }
+
+    /**
+     * Test search product dengan keyword yang match dengan nama product
+     */
+    public function test_search_product_by_product_name()
+    {
+        // Arrange - Create category first
+        $category = Category::factory()->create(['is_active' => 1]);
+
+        Product::factory()->create([
+            'product_id'  => 'KAO',
+            'name'        => 'Kaos TShirt Premium',
+            'type'        => 'FG',
+            'category'    => $category->id,
+            'description' => 'Pakaian berkualitas'
+        ]);
+
+        Product::factory()->create([
+            'product_id'  => 'JAK',
+            'name'        => 'Jaket Kulit',
+            'type'        => 'FG',
+            'category'    => $category->id,
+            'description' => 'Jaket premium'
+        ]);
+
+        $response = $this->get(route('product.search', ['keyword' => 'TShirt']));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('product.list');
+        
+        $response->assertViewHas('products', function($products) {
+            return $products->count() >= 1 && 
+                   $products->contains(fn($p) => stripos($p->name, 'TShirt') !== false);
+        });
+    }
+
+    /**
+     * Test search product dengan keyword yang tidak ada (empty result)
+     */
+    public function test_search_product_with_no_results()
+    {
+        // Arrange - Create category first
+        $category = Category::factory()->create(['is_active' => 1]);
+
+        Product::factory()->create([
+            'product_id'  => 'KAO',
+            'name'        => 'Kaos',
+            'type'        => 'FG',
+            'category'    => $category->id,
+            'description' => 'Produk Kaos'
+        ]);
+
+        Product::factory()->create([
+            'product_id'  => 'TOP',
+            'name'        => 'Topi',
+            'type'        => 'FG',
+            'category'    => $category->id,
+            'description' => 'Produk Topi'
+        ]);
+
+        $response = $this->get(route('product.search', ['keyword' => 'XYZABC123']));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('product.list');
+        
+        $response->assertViewHas('products', function($products) {
+            return $products->count() === 0;
+        });
+    }
+
+    /**
+     * Test search product dengan keyword partial match dari multiple fields
+     */
+    public function test_search_product_with_partial_keyword_match()
+    {
+        // Arrange - Create category first
+        $category = Category::factory()->create(['is_active' => 1]);
+
+        Product::factory()->create([
+            'product_id'  => 'PR1',
+            'name'        => 'Produk A',
+            'type'        => 'RM',
+            'category'    => $category->id,
+            'description' => 'Deskripsi produk'
+        ]);
+
+        Product::factory()->create([
+            'product_id'  => 'PR2',
+            'name'        => 'Barang B',
+            'type'        => 'FG',
+            'category'    => $category->id,
+            'description' => 'Ini adalah raw material'
+        ]);
+
+        Product::factory()->create([
+            'product_id'  => 'XYZ',
+            'name'        => 'Item C',
+            'type'        => 'HFG',
+            'category'    => $category->id,
+            'description' => 'Deskripsi lainnya'
+        ]);
+
+        $response = $this->get(route('product.search', ['keyword' => 'PR']));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('product.list');
+        
+        $response->assertViewHas('products', function($products) {
+            return $products->count() >= 1;
+        });
+
+        // Verify all results contain "PR"
+        $response->assertViewHas('products', function($products) {
+            foreach ($products as $product) {
+                $isMatch = stripos($product->product_id, 'PR') !== false ||
+                           stripos($product->name, 'PR') !== false ||
+                           stripos($product->description, 'PR') !== false;
+                
+                if (!$isMatch) {
+                    return false;
+                }
+            }
+            return true;
+        });
     }
 }
