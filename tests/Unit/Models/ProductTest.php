@@ -30,8 +30,12 @@ class ProductTest extends TestCase
     {
         parent::setUp();
         
-        // Buat table 'item' (singular) untuk match dengan raw SQL di getAllProducts()
-        Schema::create('item', function (Blueprint $table) {
+        // FIX: Drop tabel 'items' jika sudah ada dari migrasi RefreshDatabase
+        // agar tidak error "Table already exists" saat kita buat ulang di bawah
+        Schema::dropIfExists('items'); 
+
+        // FIX: Gunakan nama tabel 'items' (Plural) agar sesuai standar Model Laravel
+        Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('product_id', 50);
             $table->string('sku', 100)->unique();
@@ -57,7 +61,7 @@ class ProductTest extends TestCase
      */
     protected function tearDown(): void
     {
-        Schema::dropIfExists('item');
+        Schema::dropIfExists('items'); // FIX: Drop items (plural)
         parent::tearDown();
     }
 
@@ -176,8 +180,8 @@ class ProductTest extends TestCase
         ]);
         
         // Create 3 items with SKU pattern matching product_id
-        // Insert langsung ke table 'item' (singular)
-        \DB::table('item')->insert([
+        // FIX: Gunakan tabel 'items' (plural)
+        \DB::table('items')->insert([
             'product_id' => $product->product_id,
             'sku' => $product->product_id . '-01',
             'name' => 'Item 1',
@@ -191,7 +195,7 @@ class ProductTest extends TestCase
             'updated_at' => now(),
         ]);
         
-        \DB::table('item')->insert([
+        \DB::table('items')->insert([
             'product_id' => $product->product_id,
             'sku' => $product->product_id . '-02',
             'name' => 'Item 2',
@@ -205,7 +209,7 @@ class ProductTest extends TestCase
             'updated_at' => now(),
         ]);
         
-        \DB::table('item')->insert([
+        \DB::table('items')->insert([
             'product_id' => $product->product_id,
             'sku' => $product->product_id . '-03',
             'name' => 'Item 3',
@@ -294,9 +298,9 @@ class ProductTest extends TestCase
             'created_at' => now()->subHour()
         ]);
         
-        // Insert 5 items untuk product1
+        // FIX: Gunakan tabel 'items'
         for ($i = 1; $i <= 5; $i++) {
-            \DB::table('item')->insert([
+            \DB::table('items')->insert([
                 'product_id' => $product1->product_id,
                 'sku' => $product1->product_id . '-0' . $i,
                 'name' => 'Item ' . $i,
@@ -375,7 +379,8 @@ class ProductTest extends TestCase
         ]);
         
         // Create items with different SKU patterns that start with product_id
-        \DB::table('item')->insert([
+        // FIX: Gunakan tabel 'items'
+        \DB::table('items')->insert([
             'product_id' => $product->product_id,
             'sku' => 'PROD-A',
             'name' => 'Item A',
@@ -389,7 +394,7 @@ class ProductTest extends TestCase
             'updated_at' => now(),
         ]);
         
-        \DB::table('item')->insert([
+        \DB::table('items')->insert([
             'product_id' => $product->product_id,
             'sku' => 'PROD-B',
             'name' => 'Item B',
@@ -403,7 +408,7 @@ class ProductTest extends TestCase
             'updated_at' => now(),
         ]);
         
-        \DB::table('item')->insert([
+        \DB::table('items')->insert([
             'product_id' => $product->product_id,
             'sku' => 'PROD-VARIANT-1',
             'name' => 'Item Variant',
@@ -418,7 +423,7 @@ class ProductTest extends TestCase
         ]);
 
         // Create item that doesn't match pattern (should not be counted)
-        \DB::table('item')->insert([
+        \DB::table('items')->insert([
             'product_id' => 'OTHER',
             'sku' => 'OTHER-01',
             'name' => 'Other Item',
@@ -491,7 +496,8 @@ class ProductTest extends TestCase
         foreach ($products as $product) {
             // Insert 3 items per product
             for ($i = 1; $i <= 3; $i++) {
-                \DB::table('item')->insert([
+                // FIX: Gunakan tabel 'items'
+                \DB::table('items')->insert([
                     'product_id' => $product->product_id,
                     'sku' => $product->product_id . '-' . str_pad($i, 2, '0', STR_PAD_LEFT),
                     'name' => 'Item ' . $i . ' for ' . $product->product_id,
