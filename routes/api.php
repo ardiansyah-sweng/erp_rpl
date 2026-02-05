@@ -76,3 +76,22 @@ Route::prefix('merk')->name('api.merk.')->group(function () {
 });
 
 Route::get('/items/by-type/{productType}', [itemController::class, 'getItemByType'])->name('api.items.by.type');
+
+// Supplier PIC API Routes
+Route::post('/supplier-pic/{supplier_id}', function ($supplier_id) {
+    $supplier = \App\Models\Supplier::where('supplier_id', $supplier_id)->first();
+    
+    if (!$supplier) {
+        return response()->json(['message' => 'Supplier not found'], 404);
+    }
+    
+    $pic = \App\Models\SupplierPic::create([
+        'supplier_id' => $supplier_id,
+        'name'        => request('pic_name'),
+        'email'       => request('email'),
+        'phone'       => request('phone'),
+        'position'    => request('position'),
+    ]);
+    
+    return response()->json($pic, 201);
+});
