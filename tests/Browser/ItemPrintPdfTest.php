@@ -14,10 +14,6 @@ class ItemPrintPdfTest extends DuskTestCase
     /** @test */
     public function user_can_download_items_pdf_report()
     {
-        // 1. ISI TABEL RELASI (PENTING AGAR TIDAK KOSONG)
-        // Kita isi agar fungsi getItem() di controller sukses dan tidak redirect back.
-        
-        // Isi measurement_units
         try {
             DB::table('measurement_units')->insert([
                 ['name' => 'PCS', 'created_at' => now(), 'updated_at' => now()],
@@ -25,7 +21,6 @@ class ItemPrintPdfTest extends DuskTestCase
             ]);
         } catch (\Exception $e) {}
 
-        // Isi products
         try {
             DB::table('products')->insert([
                 'id'            => 'TEST', 
@@ -36,7 +31,6 @@ class ItemPrintPdfTest extends DuskTestCase
             ]);
         } catch (\Exception $e) {}
 
-        // 2. ISI TABEL ITEMS
         DB::table('items')->insert([
             'product_id'    => 'TEST',
             'sku'           => 'SKU-PDF-001',
@@ -52,12 +46,7 @@ class ItemPrintPdfTest extends DuskTestCase
         ]);
 
         $this->browse(function (Browser $browser) {
-            // 3. AKSES URL
             $browser->visit(route('item.report'))
-                    
-                    // 4. ASSERTION (Cek URL Saja)
-                    // Kita tidak pakai assertSee karena Dusk tidak bisa baca isi PDF.
-                    // Jika berhasil generate PDF, URL harusnya tetap di /items/report
                     ->assertUrlIs(route('item.report')); 
         });
     }
