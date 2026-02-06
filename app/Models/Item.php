@@ -124,8 +124,8 @@ class Item extends Model
     public static function getItemByType($productType)
     {
         return self::join('products', 'items.' . ItemColumns::PROD_ID, '=', 'products.product_id')
-            ->where('products.product_type', $productType)
-            ->select('items.*', 'products.product_type', 'products.product_name')
+            ->where('products.type', $productType)
+            ->select('items.*', 'products.type as product_type', 'products.name as product_name')
             ->get();
     }
 
