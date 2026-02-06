@@ -30,6 +30,153 @@ class ProductControllerTest extends TestCase
         }
     }
 
+    // ========== ADD PRODUCT METHOD TESTS ==========
+
+public function test_it_can_add_new_product_successfully()
+    {
+        
+        $category = Category::factory()->create([
+            'category' => 'Elektronik', 
+            'is_active' => 1
+        ]);
+
+       
+        $productData = [
+            'product_id'  => 'P001',           // char(4), unique
+            'name'        => 'Laptop Gaming',  // varchar(35)
+            'type'        => 'FG',             // varchar(12), casted to Enum
+            'category'    => $category->id,    // int
+            'description' => 'Laptop spek tinggi untuk gaming', // varchar(225)
+        ];
+
+        $createdProduct = Product::addProduct($productData);
+
+       
+        $this->assertInstanceOf(Product::class, $createdProduct);
+
+        
+        $this->assertDatabaseHas('products', [
+            'product_id' => 'P001',
+            'name'       => 'Laptop Gaming',
+            'type'       => 'FG',
+            'category'   => $category->id,
+        ]);
+
+        // Cek apakah atribut pada object yang dikembalikan sesuai
+        $this->assertEquals('P001', $createdProduct->product_id);
+        $this->assertEquals('Laptop Gaming', $createdProduct->name);
+        
+        // Verifikasi Enum casting (jika menggunakan Enum ProductType)
+        if ($createdProduct->type instanceof ProductType) {
+            $this->assertEquals(ProductType::FG, $createdProduct->type);
+        } else {
+            $this->assertEquals('FG', $createdProduct->type);
+        }
+    }
+
+/**
+     * Skenario 2: Test menambahkan produk dengan deskripsi NULL (boleh kosong).
+     * Memastikan kolom 'description' yang bersifat 'YES' (Nullable) bisa menerima null.
+     */
+    public function test_add_product_with_null_description_is_successful()
+    {
+        // Arrange
+        $category = Category::factory()->create(['is_active' => 1]);
+        
+        $data = [
+            'product_id'  => 'P002',
+            'name'        => 'Mouse Wireless',
+            'type'        => 'FG',
+            'category'    => $category->id,
+            'description' => null, // Skenario: Deskripsi dikosongkan
+        ];
+
+        // Act
+        $product = Product::addProduct($data);
+
+        // Assert
+        $this->assertDatabaseHas('products', [
+            'product_id' => 'P002',
+            'description' => null
+        ]);
+        $this->assertNull($product->description);
+    }
+
+    /**
+     * Skenario 3: Test gagal menambahkan produk jika product_id duplikat.
+     * Memastikan constraint 'UNI' (Unique) pada database bekerja.
+     */
+    public function test_add_product_fails_when_product_id_is_duplicate()
+    {
+        // Arrange
+        $category = Category::factory()->create(['is_active' => 1]);
+        
+        // Buat produk pertama
+        Product::addProduct([
+            'product_id' => 'DUPL',
+            'name'       => 'Produk Asli',
+            'type'       => 'FG',
+            'category'   => $category->id,
+        ]);
+
+        // Expectation: Akan terjadi Error Database (QueryException)
+        $this->expectException(\Illuminate\Database\QueryException::class);
+
+        // Act: Coba tambah produk kedua dengan product_id yang SAMA ('DUPL')
+        Product::addProduct([
+            'product_id' => 'DUPL', // Duplikat
+            'name'       => 'Produk Tiruan',
+            'type'       => 'FG',
+            'category'   => $category->id,
+        ]);
+    }
+
+    /**
+     * Skenario 4: Test gagal menambahkan produk jika nama terlalu panjang.
+     * Memastikan constraint 'varchar(35)' pada kolom 'name' bekerja.
+     */
+    public function test_add_product_fails_when_name_exceeds_max_length()
+    {
+        // Arrange
+        $category = Category::factory()->create(['is_active' => 1]);
+        
+        // Buat string dengan panjang 36 karakter (batas DB adalah 35)
+        $longName = str_repeat('A', 36); 
+
+        // Expectation: Error Database karena Data Truncation / Data too long
+        $this->expectException(\Illuminate\Database\QueryException::class);
+
+        // Act
+        Product::addProduct([
+            'product_id' => 'LONG',
+            'name'       => $longName, // Nama terlalu panjang
+            'type'       => 'FG',
+            'category'   => $category->id,
+        ]);
+    }
+
+    /**
+     * Skenario 5: Test gagal menambahkan produk jika field mandatory hilang.
+     * Memastikan constraint 'NO' (Not Null) pada kolom 'category' bekerja.
+     */
+    public function test_add_product_fails_when_required_category_is_missing()
+    {
+        // Arrange
+        // Kita siapkan data tanpa key 'category'
+        $data = [
+            'product_id' => 'FAIL',
+            'name'       => 'Produk Gagal',
+            'type'       => 'FG',
+            // 'category' sengaja dihapus
+        ];
+
+        // Expectation: Error Database karena Field doesn't have a default value
+        $this->expectException(\Illuminate\Database\QueryException::class);
+
+        // Act
+        Product::addProduct($data);
+    }
+
     // ========== GET PRODUCT BY ID METHOD TESTS ==========
     
     /**

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Supplier;
 use App\Models\SupplierPic;
+use Database\Factories\SupplierPICFactory;
 
 class SupplierPicModelTest extends TestCase
 {
@@ -59,5 +60,52 @@ class SupplierPicModelTest extends TestCase
             'supplier_id' => $supplier->supplier_id,
             'name' => 'Minimal Name',
         ]);
+    }
+
+    public function test_searchSupplierPic_with_null_keywords_returns_all_data()
+    {
+        // Arrange
+        SupplierPICFactory::new()->count(15)->create();
+
+        // Act
+        $result = SupplierPic::searchSupplierPic(null);
+
+        // Assert
+        $this->assertEquals(15, $result->total());
+        $this->assertCount(10, $result->items());
+    }
+
+    public function test_searchSupplierPic_by_name()
+    {
+        // Arrange
+        SupplierPICFactory::new()->withName('John Doe')->create();
+        SupplierPICFactory::new()->count(5)->create();
+
+        // Act
+        $result = SupplierPic::searchSupplierPic('John');
+
+        // Assert
+        $this->assertGreaterThan(0, $result->total());
+        $found = false;
+        foreach ($result->items() as $item) {
+            if (strpos($item->name, 'John') !== false) {
+                $found = true;
+                break;
+            }
+        }
+        $this->assertTrue($found);
+    }
+
+    public function test_searchSupplierPic_no_matching_data()
+    {
+        // Arrange
+        SupplierPICFactory::new()->count(5)->create();
+
+        // Act
+        $result = SupplierPic::searchSupplierPic('NONEXISTENT');
+
+        // Assert
+        $this->assertEquals(0, $result->total());
+        $this->assertCount(0, $result->items());
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\itemController;
+use App\Http\Controllers\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,4 +95,11 @@ Route::post('/supplier-pic/{supplier_id}', function ($supplier_id) {
     ]);
     
     return response()->json($pic, 201);
+});
+
+// Supplier API Routes
+Route::prefix('suppliers')->name('api.suppliers.')->group(function () {
+    Route::get('/', [SupplierController::class, 'getSupplierWithOrderFrequency'])->name('index');
+    Route::get('/{id}', [SupplierController::class, 'getSupplierById'])->name('show');
+    Route::put('/{id}', [SupplierController::class, 'updateSupplier'])->name('update');
 });

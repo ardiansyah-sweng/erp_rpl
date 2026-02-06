@@ -56,6 +56,54 @@ class MerkTest extends TestCase
     }
 
     /**
+ * Test getAllMerk() returns paginated results and respects search
+ */
+public function test_getAllMerk_returns_paginated_results()
+{
+    //dd(env('DB_DATABASE'), App::environment());
+
+    // Arrange - buat 3 merk dummy
+    Merk::factory()->create([MerkColumns::MERK => 'Toyota']);
+    Merk::factory()->create([MerkColumns::MERK => 'Honda']);
+    Merk::factory()->create([MerkColumns::MERK => 'Suzuki']);
+
+    // Act - panggil getAllMerk tanpa search
+    $result = Merk::getAllMerk();
+
+    $items = $result->items();
+
+    // Assert
+    $this->assertNotNull($result);
+    $this->assertCount(3, $result); // total data sesuai jumlah dummy
+    
+    $merks = array_map(fn($item) => $item->merk, $items);
+    $this->assertEqualsCanonicalizing(['Toyota', 'Honda', 'Suzuki'], $merks);
+
+    // Act - panggil getAllMerk dengan search 'Honda'
+    $searchResult = Merk::getAllMerk('Honda');
+
+    // Assert
+    $this->assertCount(1, $searchResult);
+    $this->assertEquals('Honda', $searchResult[0]->merk);
+}
+
+public function test_getAllMerk_returns_empty_paginator_when_no_data()
+{
+    $result = Merk::getAllMerk();
+
+    $this->assertInstanceOf(
+        \Illuminate\Contracts\Pagination\LengthAwarePaginator::class,
+        $result
+    );
+
+    $this->assertEquals(0, $result->total());
+}
+
+
+
+
+
+    /**
      * Test getMerkById returns merk with correct data structure
      * @test
      */
