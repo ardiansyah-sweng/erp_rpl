@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Unit\Models;
 
 use Tests\TestCase;
 use App\Models\Supplier;
