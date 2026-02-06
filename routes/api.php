@@ -6,6 +6,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\itemController;
+use App\Http\Controllers\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,3 +77,10 @@ Route::prefix('merk')->name('api.merk.')->group(function () {
 });
 
 Route::get('/items/by-type/{productType}', [itemController::class, 'getItemByType'])->name('api.items.by.type');
+
+// Supplier API Routes
+Route::prefix('suppliers')->name('api.suppliers.')->group(function () {
+    Route::get('/', [SupplierController::class, 'getSupplierWithOrderFrequency'])->name('index');
+    Route::get('/{id}', [SupplierController::class, 'getSupplierById'])->name('show');
+    Route::put('/{id}', [SupplierController::class, 'updateSupplier'])->name('update');
+});
