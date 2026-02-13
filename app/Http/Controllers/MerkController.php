@@ -70,7 +70,7 @@ class MerkController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMerkRequest $request)
+    public function store(Request $request)
     {
         try {
             $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
@@ -306,10 +306,14 @@ class MerkController extends Controller
             'active' => 'nullable|boolean',
         ]);
 
-        return $this->store(new StoreMerkRequest([
-            'merk_name' => $validatedData['merk'],
-            'is_active' => $validatedData['active'] ?? true
-        ]));
+        // Merge validated data back into the request
+        $request->merge([
+            'merk' => $validatedData['merk'],
+            'is_active' => $validatedData['active'] ?? true,
+        ]);
+
+        // Use the existing request with updated data
+        return $this->store($request);
     }
 
     public function updateMerk(Request $request, $id)
