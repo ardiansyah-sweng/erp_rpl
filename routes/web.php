@@ -144,7 +144,7 @@ Route::get('/merks/{id}/edit', [MerkController::class, 'edit'])->name('merks.edi
 Route::put('/merks/{id}', [MerkController::class, 'update'])->name('merks.update');
 Route::delete('/merks/{id}', [MerkController::class, 'destroy'])->name('merks.destroy');
 // Route::get('/merks/{id}/detail', [MerkController::class, 'getMerkById'])->name('merks.detail.legacy');
-// Route::post('/merks/add', [MerkController::class, 'addMerk'])->name('merks.add.legacy');
+Route::post('/merks/add', [MerkController::class, 'addMerk'])->name('merk.addMerk');
 // Route::post('/merks/update/{id}', [MerkController::class, 'updateMerk'])->name('merks.update.legacy');
 // Route::delete('/merks/delete/{id}', [MerkController::class, 'deleteMerk'])->name('merks.delete.legacy');
 
