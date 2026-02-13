@@ -237,16 +237,16 @@ class Merk extends Model
     //     return $merk ? $merk->delete() : false;
     // }
 
-    // /**
-    //  * @deprecated Use direct Eloquent create() instead
-    //  */
-    // public static function addMerk($namaMerk, $active = 1)
-    // {
-    //     return self::create([
-    //         MerkColumns::NAME => $namaMerk,
-    //         MerkColumns::IS_ACTIVE => $active
-    //     ]);
-    // }
+    /**
+     * @deprecated Use direct Eloquent create() instead
+     */
+    public static function addMerk($namaMerk, $active = 1)
+    {
+        return self::create([
+            MerkColumns::MERK => $namaMerk,
+            MerkColumns::IS_ACTIVE => $active
+        ]);
+    }
 
     // /**
     //  * @deprecated Use direct Eloquent operations instead
