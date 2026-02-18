@@ -265,8 +265,8 @@
                                 <td>{{ $warehouse->warehouse_address ?? 'Tidak ada data' }}</td>
                             </tr>
                             <tr>
-                                <th>Telepon</th>
-                                <td>{{ $warehouse->warehouse_phone ?? 'Tidak ada data' }}</td>
+                              <th>Telepon</th>
+                              <td>{{ $warehouse->warehouse_telephone ?? 'Tidak ada data' }}</td>
                             </tr>
                             <tr>
                                 <th>Warehouse Raw Material</th>
