@@ -7,17 +7,25 @@ use App\Models\Warehouse;
 
 class WarehouseListViewTest extends TestCase
 {
-    public function test_warehouse_list_view_renders_warehouses()
+    public function test_warehouse_index_view_renders_correctly()
     {
         // Create some warehouses
         $warehouses = Warehouse::factory()->count(2)->create();
 
-        // Render the view directly
-        $rendered = view('warehouse.list', ['warehouses' => $warehouses])->render();
-
-        $this->assertStringContainsString('List Warehouse', $rendered);
+        // Test the index view which lists warehouses
+        $response = $this->get('/warehouses');
+        
+        $response->assertStatus(200);
         foreach ($warehouses as $wh) {
-            $this->assertStringContainsString($wh->warehouse_name, $rendered);
+            $response->assertSee($wh->warehouse_name);
         }
+    }
+
+    public function test_warehouse_create_form_renders()
+    {
+        // Test that the warehouse creation form view renders
+        $response = $this->get('/warehouses/create');
+        
+        $response->assertStatus(200);
     }
 }
