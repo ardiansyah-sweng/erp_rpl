@@ -77,6 +77,17 @@ class Warehouse extends Model
         return $warehouse->update($data);
     }
 
+    public function deleteWarehouse($id)
+    {
+        $warehouse = self::getWarehouseById($id);
+
+        if (!$warehouse) {
+            return false;
+        }
+
+        return $warehouse->delete();
+    }
+
 public function searchWarehouse($keyword)
     {
         return self::where(function ($query) use ($keyword) {
