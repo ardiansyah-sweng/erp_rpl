@@ -10,7 +10,6 @@ use App\Constants\WarehouseColumns;
 class Warehouse extends Model
 {
     use HasFactory;
-
     protected $table;
     protected $fillable = [];
 
