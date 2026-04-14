@@ -384,13 +384,12 @@
         <div class="app-content-header">
           <!--begin::Container-->
           <div class="container-fluid">
-            <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Tambah PIC Supplier</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Edit PIC Supplier</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Tambah PIC Supplier</li>
+                  <li class="breadcrumb-item active" aria-current="page">Edit PIC Supplier</li>
                 </ol>
               </div>
             </div>
@@ -423,35 +422,35 @@
                         </div>
                     @endif
 
-                    <form id="picForm" action="{{ route('supplier.pic.store') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+                    <form id="picForm" action="{{ route('supplier.pic.updateData', $pic->id) }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
                         @csrf
                         <div class="mb-3">
                             <label for="supplier_id" class="form-label">ID Supplier</label>
-                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
+                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" value="{{ $pic->supplier_id }}" readonly>
                             <span id="supplierIdError" class="error"></span>
                         </div>
                         <div class="mb-3">
                             <label for="supplier_name" class="form-label">Nama Supplier</label>
-                            <input type="text" class="form-control" id="supplier_name" name="supplier_name">
+                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" value="{{ $pic->supplier_name }}" readonly>
                         </div>
                         <div class="mb-3">
                             <label for="pic_name" class="form-label">Nama PIC (Person In Charge)</label>
-                            <input type="text" class="form-control" id="pic_name" name="pic_name" required>
+                            <input type="text" class="form-control" id="pic_name" name="pic_name" value="{{ $pic->name }}" readonly>
                             <span id="picNameError" class="error"></span>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ $pic->email }}" required>
                             <span id="emailError" class="error"></span>
                         </div>
                         <div class="mb-3">
                             <label for="telephone" class="form-label">Telephone</label>
-                            <input type="text" class="form-control" id="telephone" name="telephone" required>
+                            <input type="text" class="form-control" id="telephone" name="telephone" value="{{ $pic->phone_number }}" required>
                             <span id="telephoneError" class="error"></span>
                         </div>
                         <div class="mb-3">
                             <label for="assignment_date" class="form-label">Assignment Date</label>
-                            <input type="date" class="form-control" id="assignment_date" name="assignment_date" required>
+                            <input type="date" class="form-control" id="assignment_date" name="assignment_date" value="{{ \Carbon\Carbon::parse($pic->assigned_date)->format('Y-m-d') }}" readonly>
                             <span id="assignmentDateError" class="error"></span>
                         </div>
                         <div>
@@ -463,16 +462,11 @@
                                   </div>
                                 </div>
                         </div>
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between mt-4">
                             <div>
-                                <div class="mb-3">
-                                    <label class="form-check-label" for="status">Status</label>
-                                    <input type="checkbox" class="form-check-input" id="status" name="status" value="1" checked>
-                                    <label for="status">Aktif</label>
-                                </div>
                                 <div>
-                                  <button type="submit" class="btn btn-primary">Add</button>
-                                  <button type="reset" class="btn btn-secondary">Cancel</button>
+                                  <button type="submit" class="btn btn-primary">Update</button>
+                                  <a href="{{ route('supplier.pic.list') }}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>
                         </div>

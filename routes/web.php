@@ -161,15 +161,26 @@ Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderCo
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
-Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
+Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->name('supplier.pic.edit');
+Route::post('/supplier/pic/update-data/{id}', [SupplierPIController::class, 'updatePIC'])->name('supplier.pic.updateData');
 Route::get('/supplier/pic/list', function () {
     $pics = App\Models\SupplierPic::getSupplierPICAll(10);
     return view('supplier.pic.list', compact('pics')); //implementasi sementara(menunggu controller dari faiz el fayyed)
 })->name('supplier.pic.list');
 Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplierPic'])->name('supplier.pic.list');
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
+Route::post('/supplier/pic/store', [SupplierPIController::class, 'store'])->name('supplier.pic.store'); // Tambahan baru
 Route::get('/supplier/pic/list', [SupplierPIController::class, 'getSupplierPICAll'])->name('supplier-pic.list');
 Route::post('/supplier-pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])->name('supplier.pic.update');
+
+# API Supplier for AJAX
+Route::get('/api/supplier/{id}', function($id) {
+    $supplier = App\Models\Supplier::find($id);
+    if ($supplier) {
+        return response()->json(['status' => 'success', 'name' => $supplier->company_name]);
+    }
+    return response()->json(['status' => 'error', 'message' => 'Supplier not found'], 404);
+});
 
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
