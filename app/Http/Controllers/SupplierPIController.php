@@ -32,6 +32,41 @@ class SupplierPIController extends Controller
         return view('supplier.pic.detail', ['pic' => $pic, 'supplier' => $supplier]);
     }
 
+    public function edit($id)
+    {
+        $pic = SupplierPic::getPICByID($id);
+        if (!$pic) {
+            return redirect('/supplier/pic/list')->with('error', 'PIC tidak ditemukan.');
+        }
+        $supplier = $pic->supplier;
+        $pic->supplier_name = $supplier ? $supplier->company_name : null;
+        return view('supplier.pic.edit', ['pic' => $pic]);
+    }
+
+    public function updatePIC(Request $request, $id)
+    {
+        $pic = SupplierPic::getPICByID($id);
+        if (!$pic) {
+            return redirect('/supplier/pic/list')->with('error', 'PIC tidak ditemukan.');
+        }
+
+        // Validasi input
+        $validatedData = $request->validate([
+            'email' => 'required|email|max:50',
+            'telephone' => 'required|string|max:30',
+        ]);
+
+        // Mapping to model attributes
+        $data = [
+            'email' => $validatedData['email'],
+            'phone_number' => $validatedData['telephone'],
+        ];
+
+        SupplierPic::updateSupplierPIC($id, $data);
+
+        return redirect()->back()->with('success', 'PIC berhasil diperbarui!');
+    }
+
     public function searchSupplierPic(Request $request)
     {
         $keywords = $request->input('keywords');
