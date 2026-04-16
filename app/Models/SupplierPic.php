@@ -10,8 +10,9 @@ class SupplierPic extends Model
     protected $table = 'supplier_pic'; // sesuaikan nama tabel
     protected $fillable = ['name', 'email', 'phone_number', 'supplier_id'];
     protected $primaryKey = 'id';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    public $incrementing = true;
+    protected $keyType = 'int';
+
 
     public function __construct(array $attributes = [])
     {
