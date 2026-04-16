@@ -28,8 +28,43 @@ class SupplierPIController extends Controller
         }
 
         $supplier = $pic->supplier;
-        $pic->supplier_name = $supplier ? $supplier->name : null;
+        $pic->supplier_name = $supplier ? $supplier->company_name : null;
         return view('supplier.pic.detail', ['pic' => $pic, 'supplier' => $supplier]);
+    }
+
+    public function edit($id)
+    {
+        $pic = SupplierPic::getPICByID($id);
+        if (!$pic) {
+            return redirect('/supplier/pic/list')->with('error', 'PIC tidak ditemukan.');
+        }
+        $supplier = $pic->supplier;
+        $pic->supplier_name = $supplier ? $supplier->company_name : null;
+        return view('supplier.pic.edit', ['pic' => $pic]);
+    }
+
+    public function updatePIC(Request $request, $id)
+    {
+        $pic = SupplierPic::getPICByID($id);
+        if (!$pic) {
+            return redirect('/supplier/pic/list')->with('error', 'PIC tidak ditemukan.');
+        }
+
+        // Validasi input
+        $validatedData = $request->validate([
+            'email' => 'required|email|max:50',
+            'telephone' => 'required|string|max:30',
+        ]);
+
+        // Mapping to model attributes
+        $data = [
+            'email' => $validatedData['email'],
+            'phone_number' => $validatedData['telephone'],
+        ];
+
+        SupplierPic::updateSupplierPIC($id, $data);
+
+        return redirect()->back()->with('success', 'PIC berhasil diperbarui!');
     }
 
     public function searchSupplierPic(Request $request)
@@ -84,6 +119,41 @@ class SupplierPIController extends Controller
 
         // Simpan ke database
         SupplierPic::addSupplierPIC($supplierID, $validatedData);
+
+        return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
+    }
+
+    public function store(Request $request)
+    {
+        // Validasi input sesuai dengan name di form blade
+        $validatedData = $request->validate([
+            'supplier_id'     => 'required|string|exists:supplier,supplier_id',
+            'pic_name'        => 'required|string|max:50',
+            'email'           => 'required|email|max:50',
+            'telephone'       => 'required|string|max:30',
+            'assignment_date' => 'required|date',
+            'pic_photo'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        // Mapping data dari form ke field database di model
+        $data = [
+            'supplier_id'   => $validatedData['supplier_id'],
+            'name'          => $validatedData['pic_name'],
+            'email'         => $validatedData['email'],
+            'phone_number'  => $validatedData['telephone'],
+            'assigned_date' => $validatedData['assignment_date'],
+            'active'        => $request->has('status') ? 1 : 0,
+        ];
+
+        // Handle upload foto jika ada
+        if ($request->hasFile('pic_photo')) {
+            $file = $request->file('pic_photo');
+            $path = $file->store('public/foto_pic');
+            $data['avatar'] = basename($path);
+        }
+
+        // Simpan ke database menggunakan model
+        SupplierPic::create($data);
 
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
     }
