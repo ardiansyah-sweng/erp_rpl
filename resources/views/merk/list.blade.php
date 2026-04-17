@@ -77,7 +77,12 @@
 			</div>
 			<div class="card mb-4">
 				<div class="card-header d-flex justify-content-between align-items-center">
-					<h3 class="card-title">List Merk</h3>
+					<div>
+						<h3 class="card-title">List Merk</h3>
+						<div class="mt-1">
+							<span class="card-title">Jumlah Merk: {{ $totalMerks ?? 0 }}</span>
+						</div>
+					</div>
 					<form action="#" method="GET" class="d-flex ms-auto">
 						<div class="input-group input-group-sm ms-auto" style="width: 450px;">
 							<input type="text" name="search" class="form-control" placeholder="Search Merk">
