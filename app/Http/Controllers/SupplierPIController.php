@@ -105,6 +105,37 @@ class SupplierPIController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        $pic = SupplierPic::getPICByID($id);
+
+        if (!$pic) {
+            return redirect()->route('supplier.pic.list')->with('error', 'PIC tidak ditemukan.');
+        }
+
+        return view('supplier.pic.edit', compact('pic'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'supplier_id'   => 'required|string|exists:' . config('db_tables.supplier') . ',supplier_id',
+            'name'          => 'required|string|max:255',
+            'phone_number'  => 'required|string|max:30',
+            'email'         => 'required|email|unique:' . config('db_tables.supplier_pic') . ',email,' . $id,
+            'assigned_date' => 'required|date',
+            'active'        => 'sometimes|boolean',
+        ]);
+
+        $result = SupplierPic::updateSupplierPIC($id, $validatedData);
+
+        if ($result['status'] === 'success') {
+            return redirect("/supplier/pic/detail/{$id}")->with('success', $result['message']);
+        }
+
+        return redirect()->back()->withErrors(['update' => $result['message']])->withInput();
+    }
+
     public function updateSupplierPICDetail(Request $request, $id)
     {
         // 1. Validasi input
