@@ -36,6 +36,28 @@ class CategoryController extends Controller
         $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
         return $pdf->stream('laporan_kategori.pdf');
     }
+    public function printCategoryByParentPDF($parentId)
+    {
+        if ($parentId === 'ALL') {
+            $categories = \App\Models\Category::whereNotNull('parent_id')->get();
+            $typeName = 'Semua Kategori';
+        } else {
+            $categories = \App\Models\Category::where('parent_id', $parentId)->get();
+
+            if ($parentId == 1) {
+                $typeName = 'MAKANAN';
+            } elseif ($parentId == 2) {
+                $typeName = 'MINUMAN';
+            } elseif ($parentId == 3) {
+                $typeName = 'SNACK';
+            } else {
+                $typeName = 'Umum';
+            }
+        }
+
+        $pdf = \Pdf::loadView('product.category.pdf', compact('categories', 'typeName'));
+        return $pdf->stream('Laporan_Kategori_' . $typeName . '.pdf');
+    }
 
     public function updateCategory(Request $request, $id)
     {

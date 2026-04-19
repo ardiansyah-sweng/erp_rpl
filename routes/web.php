@@ -220,6 +220,7 @@ Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->
 Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
 // Cetak produk berdasarkan kategori tertentu 
 Route::get('/category/print/{id}', [ProductController::class, 'printCategoryByIdPDF'])->name('category.print.single');
+Route::get('/category/print/{id}', [CategoryController::class, 'printCategoryByIdPDF'])->name('category.print.single');
 
 
 #Category
@@ -230,6 +231,8 @@ Route::get('/category/{id}', [CategoryController::class, 'getCategoryById']);
 Route::delete('/category/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
 Route::get('/category/parent/{parentId}', [CategoryController::class, 'getCategoryByParent']);
 Route::get('/category', [CategoryController::class, 'getCategoryList'])->name('category.list');
+Route::get('/category/print-pdf-parent/{parentId}', [App\Http\Controllers\CategoryController::class, 'printCategoryByParentPDF'])->name('category.printByParent');
+Route::get('/category/print-pdf-parent/{parentId}', [CategoryController::class, 'printCategoryByParentPDF'])->name('category.printByParent');
 
 
 #Supplier Pic

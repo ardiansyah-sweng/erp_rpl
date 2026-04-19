@@ -385,7 +385,8 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="container">
-                    <form id="productForm">
+                    <form id="productForm" action="{{ route('product.add') }}" method="POST">
+                      @csrf
                         <div class="mb-3">
                             <label for="product_id" class="form-label">ID Produk</label>
                             <input type="text" class="form-control" id="product_id" name="product_id" required>
@@ -535,7 +536,7 @@
 
         // Reset error states
         $('#product_id, #product_name, #category').removeClass('is-invalid');
-        $('input[name="product_type"]').parent().parent().removeClass('is-invalid');
+        $('input[name="product_type"]').closest('.mb-3').removeClass('is-invalid');
 
         const productId = $('#product_id').val().trim();
         const productName = $('#product_name').val().trim();
@@ -543,27 +544,30 @@
         const category = $('#category').val().trim();
 
         if (!productId) {
-          $('#product_id').addClass('is-invalid');
-          isValid = false;
+            $('#product_id').addClass('is-invalid');
+            isValid = false;
         }
         
         if (!productName) {
-          $('#product_name').addClass('is-invalid');
-          isValid = false;
+            $('#product_name').addClass('is-invalid');
+            isValid = false;
         }
 
         if (!productType) {
-          $('input[name="product_type"]').parent().parent().addClass('is-invalid');
-          isValid = false;
+            $('input[name="product_type"]').closest('.mb-3').addClass('is-invalid');
+            isValid = false;
         }
 
         if (!category) {
-          $('#category').addClass('is-invalid');
-          isValid = false;
+            $('#category').addClass('is-invalid');
+            isValid = false;
         }
 
-        return isValid;
-      }
+        // INI KUNCI AGAR TOMBOLNYA JALAN:
+        if (isValid) {
+            document.getElementById('productForm').submit();
+        }
+    }
     </script>
     
     <!--end::Script-->

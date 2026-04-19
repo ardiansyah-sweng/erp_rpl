@@ -132,29 +132,33 @@ class ProductController extends Controller
 
     public function printCategoryByIdPDF($id)
     {
-        // Cari kategori berdasarkan ID
-        $category = Category::find($id);
+        if ($id === 'ALL') {
+            $categories = Category::all();
+            $label = "Semua_Kategori";
+        } elseif (in_array($id, ['Makanan', 'Minuman', 'Snack'])) {
+            $categories = Category::where('category', $id)->get();
+            $label = $id;
+        } else {
+            $category = Category::find($id);
 
-        if (!$category) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Kategori tidak ditemukan.'
-            ], 404);
+            if (!$category) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kategori tidak ditemukan.'
+                ], 404);
+            }
+
+            $categories = Category::where('category', $category->category)->get();
+            $label = $category->category;
         }
 
-        // Ambil semua kategori dengan nama yang sama
-        $categories = Category::where('category', $category->category)->get();
-
-        // Untuk setiap kategori, ambil produknya
         foreach ($categories as $cat) {
             $products = Product::where('product_category', $cat->id)->get();
             $cat->products = $products;
         }
 
-        // Nama file sesuai kategori
-        $filename = "Laporan_Kategori_" . $category->category . ".pdf";
+        $filename = "Laporan_Kategori_" . $label . ".pdf";
 
-        // Kirim semua kategori dengan produk ke view
         $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
         return $pdf->stream($filename);
     }

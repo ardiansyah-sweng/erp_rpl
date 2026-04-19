@@ -383,20 +383,23 @@ use App\Helpers\EncryptionHelper;
                 <h3 class="mb-0 me-2">Produk</h3>
                 <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
 
-                <div class="btn-group">
-                <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm">Cetak Kategori</a>
-                <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" 
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="dropdown d-inline-block ms-2">
+                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Cetak PDF Kategori
                 </button>
                 <ul class="dropdown-menu">
-                    @foreach($categories->unique('category')->sortBy('category') as $cat)
-                        <li>
-                            <a class="dropdown-item" href="{{ route('category.print.single', $cat->id) }}" target="_blank">
-                                Cetak {{ $cat->category }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
+                  <li><a class="dropdown-item" href="{{ route('category.printByParent', 'ALL') }}" target="_blank">Semua Kategori</a></li>
+                  <li><hr class="dropdown-divider"></li>
+
+            
+                  <li><a class="dropdown-item" href="{{ route('category.printByParent', 1) }}" target="_blank">Makanan</a></li>
+                  <li><a class="dropdown-item" href="{{ route('category.printByParent', 2) }}" target="_blank">Minuman</a></li>
+                  <li><a class="dropdown-item" href="{{ route('category.printByParent', 3) }}" target="_blank">Snack</a></li>
+                  
+                  <li><hr class="dropdown-divider"></li>
+                  
+                  
+              </ul>
             </div>
 
 
