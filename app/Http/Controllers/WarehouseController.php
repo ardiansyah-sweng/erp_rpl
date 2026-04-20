@@ -94,8 +94,10 @@ class WarehouseController extends Controller
         if ($warehouses->isEmpty()) {
             return response()->json(['message' => 'Tidak ada warehouse yang ditemukan'], 404);
         }
-
-        return view('warehouse.list', compact('warehouses'));
+        
+        $warehouseCount = Warehouse::count();
+        
+        return view('warehouse.list', compact('warehouses', 'warehouseCount'));
     }
   
     public function addWarehouse(Request $request)

@@ -330,6 +330,7 @@
                     <div class="row align-items-center">
                         <div class="col-sm-6 d-flex align-items-center">
                             <h3 class="mb-0 me-2">Warehouse</h3>
+                            <span class="btn btn-primary btn-sm me-2">{{ $warehouseCount }}</span>
                             <a href="#" class="btn btn-primary btn-sm">Tambah</a>
                             <a href="#"
                                 class="btn btn-primary btn-sm ms-2">Cetak Warehouse</a>
