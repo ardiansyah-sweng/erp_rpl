@@ -63,10 +63,10 @@ class SupplierController extends Controller
         ]);
     }
 
-    public function listSuppliers()
+    public function listSuppliers(Request $request)
     {
-      $suppliers = Supplier::getSupplier();
-      return view('supplier.list', compact('suppliers'));
+    $suppliers = Supplier::getSupplier();
+    return view('supplier.list', compact('suppliers'));
     }
 
     public function deleteSupplierByID($id)
