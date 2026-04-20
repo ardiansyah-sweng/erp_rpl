@@ -16,6 +16,7 @@ class CategoryController extends Controller
             'parent_id' => 'nullable|integer',
             'active' => 'required|boolean'
         ]);
+
         $category = new Category();
         $category->addCategory([
             'category' => $request->category,
@@ -25,14 +26,21 @@ class CategoryController extends Controller
 
         return redirect()->route('category.list')->with('success', 'Kategori berhasil ditambahkan!');
     }
+
     public function getCategoryList()
     {
+        // ambil data kategori
         $category = Category::with('parent')->paginate(10);
-        return view('product.category.list', compact('category'));
+
+        // ✅ PERBAIKAN: total kategori (bukan product)
+        $totalCategory = Category::count();
+
+        return view('product.category.list', compact('category', 'totalCategory'));
     }
+
     public function printCategoryPDF()
     {
-        $categories = Category::getCategory(); // kita tambahkan method ini di bawah
+        $categories = Category::getCategory();
         $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
         return $pdf->stream('laporan_kategori.pdf');
     }
@@ -57,6 +65,7 @@ class CategoryController extends Controller
     public function updateCategoryById($id)
     {
         $category = Category::getCategoryById($id);
+
         if (!$category) {
             return response()->json(['message' => 'Kategori tidak ditemukan'], 404);
         }
@@ -72,12 +81,9 @@ class CategoryController extends Controller
             return response()->json(['message' => 'Category not found'], 404);
         }
 
-        //return response()->json($category);
         return view('product.category.detail', compact('category'));
-        //apabila halaman detail kategori sudah ada harap untuk di uncomment return view
-        //dan return response nya di hapus
     }
-    //Search Category 
+
     public function searchCategory(Request $request)
     {
         $keyword = $request->input('q');
@@ -89,8 +95,6 @@ class CategoryController extends Controller
         return view('category.list', compact('category'));
     }
 
-
-    // delete category
     public function deleteCategory($id)
     {
         $deleted = Category::deleteCategoryById($id);
@@ -101,11 +105,10 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'Kategori tidak ditemukan atau gagal dihapus.');
         }
     }
+
     public function getCategoryByParent($parentId)
     {
-        // Panggil method yang diizinkan
         $allCategories = Category::getCategory();
-        // Filter data yang parent_id-nya sesuai
         $filtered = $allCategories->where('parent_id', $parentId)->values();
 
         if ($filtered->isEmpty()) {
@@ -116,5 +119,4 @@ class CategoryController extends Controller
 
         return response()->json($filtered, 200);
     }
-
 }
