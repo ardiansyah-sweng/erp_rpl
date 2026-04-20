@@ -53,10 +53,28 @@ class SupplierController extends Controller
         ]);
     }
 
-    public function listSuppliers()
+    public function listSuppliers(Request $request)
     {
-    $suppliers = Supplier::getSupplier();
-    return view('supplier.list', compact('suppliers'));
+        $pageLength = $request->get('pageLength', 10);
+        $search = $request->get('search', '');
+
+        $suppliers = Supplier::getSupplier(); // tetap pakai method yang ada
+
+        // Filter search jika ada
+        if ($search) {
+            $suppliers = $suppliers->filter(function ($item) use ($search) {
+                return str_contains(strtolower($item->company_name), strtolower($search))
+                    || str_contains(strtolower($item->supplier_id), strtolower($search))
+                    || str_contains(strtolower($item->address ?? ''), strtolower($search));
+            });
+        }
+
+        // Manual pagination karena getSupplier() return Collection
+        $currentPage = $request->get('page', 1);
+        $total = $suppliers->count();
+        $suppliersToShow = $suppliers->forPage($currentPage, $pageLength);
+
+        return view('supplier.list', compact('suppliersToShow', 'total', 'currentPage', 'pageLength', 'search'));
     }
 
 

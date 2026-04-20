@@ -357,26 +357,28 @@
           <div class="d-flex align-items-center">
             <span>Show</span>
             <form method="GET" id="pageLengthForm" class="d-flex align-items-center">
-    <select name="pageLength" id="pageLength" class="form-select mx-2" style="width: auto;" onchange="document.getElementById('pageLengthForm').submit()">
-        <option value="10" {{ request('pageLength') == 10 ? 'selected' : '' }}>10</option>
-        <option value="20" {{ request('pageLength') == 20 ? 'selected' : '' }}>20</option>
-        <option value="50" {{ request('pageLength') == 50 ? 'selected' : '' }}>50</option>
-    </select>
-    <span>entries</span>
-</form>
+              <input type="hidden" name="search" value="{{ $search }}">
+              <select name="pageLength" id="pageLength" class="form-select mx-2" style="width: auto;"
+                onchange="document.getElementById('pageLengthForm').submit()">
+                <option value="10" {{ $pageLength == 10 ? 'selected' : '' }}>10</option>
+                <option value="20" {{ $pageLength == 20 ? 'selected' : '' }}>20</option>
+                <option value="50" {{ $pageLength == 50 ? 'selected' : '' }}>50</option>
+              </select>
+              <span>entries</span>
+            </form>
           </div>
           <div class="d-flex align-items-center">
             <span class="me-2">Search:</span>
-            <input type="text" id="supplierSearch" class="form-control" style="width: 200px;">
+            <form method="GET" class="d-flex">
+              <input type="hidden" name="pageLength" value="{{ $pageLength }}">
+              <input type="text" name="search" class="form-control" style="width: 200px;"
+                value="{{ $search }}" placeholder="Cari supplier...">
+              <button type="submit" class="btn btn-secondary btn-sm ms-1">Go</button>
+            </form>
           </div>
         </div>
 
         <!-- Table -->
-        @php
-            $pageLength = request('pageLength', 10);
-            $suppliersToShow = $suppliers->slice(0, $pageLength);
-        @endphp
-
         <div class="table-responsive">
           <table id="supplierTable" class="table table-bordered table-hover align-middle mb-0">
             <thead class="table-light text-center">
@@ -397,31 +399,35 @@
             <tbody>
               @forelse($suppliersToShow as $index => $supplier)
               <tr>
-                  <td class="text-center">{{ $index + 1 }}</td>
-                  <td>{{ $supplier->supplier_id }}</td>
-                  <td>{{ $supplier->company_name }}</td>
-                  <td>{{ $supplier->address }}</td>
-                  <td>{{ $supplier->phone_number }}</td>
-                  <td>{{ $supplier->bank_account }}</td>
-                  <td class="text-center"><span class="badge bg-secondary">{{ $supplier->order_frequency ?? 0 }}</span></td>
-                  <td>{{ $supplier->created_at }}</td>
-                  <td>{{ $supplier->updated_at }}</td>
-                  <td class="text-center">
-                      <span class="badge bg-info text-dark">{{ $supplier->pic_count ?? 0 }}</span>
-                  </td>
-                  <td class="text-center">
-                      <div class="d-flex justify-content-center gap-1 flex-wrap">
-                          <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
-                          <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
-                          <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
-                          <a href="{{ route('Supplier.detail', ['id' => $supplier->supplier_id]) }}" class="btn btn-success btn-sm custom-btn">Detail</a>
-                          <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('{{ $supplier->supplier_id }}')">Delete</button>
-                      </div>
-                  </td>
+                <td class="text-center">{{ ($currentPage - 1) * $pageLength + $loop->iteration }}</td>
+                <td>{{ $supplier->supplier_id }}</td>
+                <td>{{ $supplier->company_name }}</td>
+                <td>{{ $supplier->address }}</td>
+                <td>{{ $supplier->phone_number }}</td>
+                <td>{{ $supplier->bank_account }}</td>
+                <td class="text-center">
+                  <span class="badge bg-secondary">{{ $supplier->order_frequency ?? 0 }}</span>
+                </td>
+                <td>{{ $supplier->created_at }}</td>
+                <td>{{ $supplier->updated_at }}</td>
+                <td class="text-center">
+                  <span class="badge bg-info text-dark">{{ $supplier->pic_count ?? 0 }}</span>
+                </td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-1 flex-wrap">
+                    <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                    <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
+                    <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
+                    <a href="{{ route('Supplier.detail', ['id' => $supplier->supplier_id]) }}"
+                      class="btn btn-success btn-sm custom-btn">Detail</a>
+                    <button class="btn btn-danger btn-sm custom-btn"
+                      onclick="confirmDelete('{{ $supplier->supplier_id }}')">Delete</button>
+                  </div>
+                </td>
               </tr>
               @empty
               <tr>
-                  <td colspan="11" class="text-center">No data available in table</td>
+                <td colspan="11" class="text-center">No data available in table</td>
               </tr>
               @endforelse
             </tbody>
@@ -429,18 +435,39 @@
         </div>
 
         <!-- Pagination Info -->
+        @php
+          $totalPages = ceil($total / $pageLength);
+          $from = $total > 0 ? ($currentPage - 1) * $pageLength + 1 : 0;
+          $to = min($currentPage * $pageLength, $total);
+        @endphp
         <div class="d-flex justify-content-between align-items-center mt-3">
-          <div>Showing 1 to 3 of 3 entries</div>
+          <div>Showing {{ $from }} to {{ $to }} of {{ $total }} entries</div>
           <nav>
-            <ul class="pagination">
-              <li class="page-item disabled">
-                <a class="page-link" href="#">Previous</a>
+            <ul class="pagination mb-0">
+              <!-- Previous -->
+              <li class="page-item {{ $currentPage <= 1 ? 'disabled' : '' }}">
+                <a class="page-link"
+                  href="?page={{ $currentPage - 1 }}&pageLength={{ $pageLength }}&search={{ $search }}">
+                  Previous
+                </a>
               </li>
-              <li class="page-item active">
-                <a class="page-link" href="#">1</a>
-              </li>
-              <li class="page-item disabled">
-                <a class="page-link" href="#">Next</a>
+
+              <!-- Page Numbers -->
+              @for ($i = 1; $i <= $totalPages; $i++)
+                <li class="page-item {{ $currentPage == $i ? 'active' : '' }}">
+                  <a class="page-link"
+                    href="?page={{ $i }}&pageLength={{ $pageLength }}&search={{ $search }}">
+                    {{ $i }}
+                  </a>
+                </li>
+              @endfor
+
+              <!-- Next -->
+              <li class="page-item {{ $currentPage >= $totalPages ? 'disabled' : '' }}">
+                <a class="page-link"
+                  href="?page={{ $currentPage + 1 }}&pageLength={{ $pageLength }}&search={{ $search }}">
+                  Next
+                </a>
               </li>
             </ul>
           </nav>
