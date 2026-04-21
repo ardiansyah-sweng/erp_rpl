@@ -1,36 +1,33 @@
 <?php
 
-
-use App\Models\Warehouse;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\APIProductController;
-use App\Http\Controllers\BranchController;
-use App\Http\Controllers\PurchaseOrderController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SupplierPIController; // perubahan
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\MerkController;
-use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\SupplierMaterialController;
 use App\Helpers\EncryptionHelper;
-use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
-use App\Http\Controllers\GoodsReceiptNoteController;
+use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GoodsReceiptNoteController; // perubahan
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\MerkController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\SupplierMaterialController;
+use App\Http\Controllers\SupplierPIController;
+use App\Http\Controllers\WarehouseController;
 use App\Models\BillOfMaterial;
+use App\Models\Warehouse;
+use Illuminate\Support\Facades\Route;
 
 // Route untuk cek hasil Supplier::getSupplier() (frekuensi order)
 Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
 
-
-
-# Route GET untuk form tambah merk
+// Route GET untuk form tambah merk
 Route::get('/merks/add', function () {
     return view('merk.add');
 });
 
-#Login
+// Login
 Route::get('/', function () {
     return redirect()->route('login');
 });
@@ -43,7 +40,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-# View Branches
+// View Branches
 // Route::get('/branches', function () {
 //     return view('branches.index');
 // })->name('branches.index');
@@ -73,6 +70,7 @@ Route::get('/supplier/material/add', function () {
 });
 Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
     $id = EncryptionHelper::decrypt($encrypted_id);
+
     return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
 })->name('purchase.orders.detail');
 
@@ -107,7 +105,7 @@ Route::get('product/category/detail', function () {
     return view('product/category/detail');
 });
 
-# Branch Routes
+// Branch Routes
 Route::get('/branches', [BranchController::class, 'index'])->name('branches.index');
 Route::get('/branches/create', [BranchController::class, 'create'])->name('branches.create');
 Route::post('/branches', [BranchController::class, 'store'])->name('branches.store');
@@ -119,7 +117,7 @@ Route::delete('/branches/{id}', [BranchController::class, 'destroy'])->name('bra
 Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
 Route::get('/branch/detail/{id}', [BranchController::class, 'getBranchByID']);
 
-# Warehouse
+// Warehouse
 Route::get('/warehouses', [WarehouseController::class, 'index'])->name('warehouses.index');
 Route::get('/warehouses/create', [WarehouseController::class, 'create'])->name('warehouses.create');
 Route::post('/warehouses', [WarehouseController::class, 'store'])->name('warehouses.store');
@@ -132,10 +130,10 @@ Route::delete('/warehouse/delete/{id}', [WarehouseController::class, 'deleteWare
 Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
 Route::get('/warehouse/report', [WarehouseController::class, 'exportPdf'])->name('warehouse.report');
 
-# Merk - Resource Routes
+// Merk - Resource Routes
 Route::resource('merk', MerkController::class);
 
-# Merk - Legacy API Routes (for backward compatibility)
+// Merk - Legacy API Routes (for backward compatibility)
 Route::get('/merks', [MerkController::class, 'index'])->name('merks.index');
 Route::get('/merks/create', [MerkController::class, 'create'])->name('merks.create');
 Route::post('/merks', [MerkController::class, 'store'])->name('merks.store');
@@ -148,7 +146,7 @@ Route::post('/merks/add', [MerkController::class, 'addMerk'])->name('merk.addMer
 // Route::post('/merks/update/{id}', [MerkController::class, 'updateMerk'])->name('merks.update.legacy');
 // Route::delete('/merks/delete/{id}', [MerkController::class, 'deleteMerk'])->name('merks.delete.legacy');
 
-#Category
+// Category
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -160,7 +158,7 @@ Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name(
 Route::get('/categories/parent/{parentId}', [CategoryController::class, 'getCategoryByParent']);
 Route::get('/categories/list', [CategoryController::class, 'getCategoryList'])->name('categories.list');
 
-# Product
+// Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
 Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']);
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
@@ -171,20 +169,21 @@ Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduc
 Route::get('/products/print/{type}', [ProductController::class, 'printProductsByType'])->name('products.print.by-type');
 Route::get('/products/type/{type}', [ProductController::class, 'getProductByType']);
 
-#Product Update
-Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct'); //Sudah sesuai pada ERP RPL
+// Product Update
+Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct'); // Sudah sesuai pada ERP RPL
 Route::get('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct');
 
-# API
+// API
 Route::get('/products', [APIProductController::class, 'getProducts'])->name('api.products');
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('api.prices');
 
-# PurchaseOrders
+// PurchaseOrders
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPurchaseOrder'])->name('purchase_orders.search');
 Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])->name('purchase_orders.add'); // tambahan
 Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
     $id = EncryptionHelper::decrypt($encrypted_id);
+
     return app()->make(PurchaseOrderController::class)->getPurchaseOrderByID($id);
 })->name('purchase.orders.detail');
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
@@ -195,19 +194,22 @@ Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrde
 Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
 Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderController::class, 'sendMailPurchaseOrder'])->name('purchase_orders.send_email');
 
-# supplier pic route nya
+// supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
-Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); //tanbahkan update
+Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); // tanbahkan update
 Route::get('/supplier/pic/list', function () {
     $pics = App\Models\SupplierPic::getSupplierPICAll(10);
-    return view('supplier.pic.list', compact('pics')); //implementasi sementara(menunggu controller dari faiz el fayyed)
+
+    return view('supplier.pic.list', compact('pics')); // implementasi sementara(menunggu controller dari faiz el fayyed)
 })->name('supplier.pic.list');
 Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplierPic'])->name('supplier.pic.list');
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
 Route::get('/supplier/pic/list', [SupplierPIController::class, 'getSupplierPICAll'])->name('supplier-pic.list');
 Route::post('/supplier-pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])->name('supplier.pic.update');
+Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->name('supplier.pic.editForm');
+Route::post('/supplier-pic/update-data/{id}', [SupplierPIController::class, 'updatePIC'])->name('supplier.pic.updateData');
 
-# Items
+// Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
@@ -228,7 +230,7 @@ Route::get('/item/export/category/{id}', [ItemController::class, 'exportItemByCa
 Route::get('/item/export-by-category/{categoryId}', [ItemController::class, 'exportItemByCategoryToPdf'])
     ->name('item.export.category.pdf');
 
-#Supplier
+// Supplier
 Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
@@ -246,36 +248,36 @@ Route::get('/supplier/print-pdf', [SupplierController::class, 'printPDF'])->name
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
 Route::get('/supplier-material/{supplier_id}/{product_type}', [SupplierMaterialController::class, 'getSupplierMaterialByProductType']);
 
-#Suppplier Update
-Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier'); //Sudah sesuai pada ERP RPL
+// Suppplier Update
+Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier'); // Sudah sesuai pada ERP RPL
 Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier');
 
-#Cetak pdf
+// Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
-// Cetak produk berdasarkan kategori tertentu 
+// Cetak produk berdasarkan kategori tertentu
 Route::get('/category/print/{id}', [ProductController::class, 'printCategoryByIdPDF'])->name('category.print.single');
 
-#Supplier Pic
+// Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
 Route::get('/supplierPic/{supplier_id}', [SupplierPIController::class, 'getSupplierPicById']);
 
-#cetak semua pdf pic
+// cetak semua pdf pic
 Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
-# cetak pdf PIC per Supplier ID
+// cetak pdf PIC per Supplier ID
 Route::get('/supplier-pic/cetak-pdf/{supplierID}', [SupplierPiController::class, 'cetakPdfBySupplier'])
     ->name('supplier.pic.pdf.bySupplier');
 
-#production
+// production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
-# Bill of Material
+// Bill of Material
 
 Route::get('/bom/list', function () {
     return view('bom/list');
 });
 
-#production
+// production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/assortment_production/detail', function () {
     return view('assortment_production.detail');
@@ -285,12 +287,12 @@ Route::put('/assortment_production/update/{id}', [AssortProductionController::cl
 Route::get('/assortment_production/detail/{po_number}', [AssortProductionController::class, 'getProductionDetail']);
 Route::delete('/assort-production/{id}', [AssortProductionController::class, 'deleteProduction']);
 
-#Cetak PDF seluruh item/material yang dipasok oleh supplier tertentu
+// Cetak PDF seluruh item/material yang dipasok oleh supplier tertentu
 Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::class, 'cetakPDF']);
 
 Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
 
-#BillOfMaterial
+// BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
 Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
 Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
@@ -299,26 +301,24 @@ Route::get('/bill-of-material/search/{keyword?}', [BillOfMaterialController::cla
 Route::get('/bom/detail/{id}', function ($id) {
     $bom = BillOfMaterial::getBomDetail($id);
 
-    if (!$bom) {
+    if (! $bom) {
         abort(404, 'Bill of Material tidak ditemukan');
     }
 
     return response()->json($bom);
 })->name('bom.detail');
 
-#Goods Receipt Notes
+// Goods Receipt Notes
 Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote']);
-
 
 Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote']);
 
-#Goods Receipt Note Controller
+// Goods Receipt Note Controller
 Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'getGoodsReceiptNote']);
 
-#Get Product By Category Controller
+// Get Product By Category Controller
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
 Route::put('/bill-of-material/{id}', [BillOfMaterialController::class, 'updateBillOfMaterial'])->name('bill-of-material.update');
-
 
 Route::post('/assort-production/add', [AssortProductionController::class, 'addProduction'])->name('assort-production.add');
 
