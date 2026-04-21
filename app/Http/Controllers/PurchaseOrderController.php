@@ -12,6 +12,47 @@ use Illuminate\Support\Facades\Mail;
 
 class PurchaseOrderController extends Controller
 {
+    public function store(\Illuminate\Http\Request $request)
+{
+    $allData = $request->all();
+
+    // Gunakan transaksi agar operasi atomik
+    try {
+        DB::beginTransaction();
+
+        // Jika ingin pakai validasi yang sama seperti addPurchaseOrder, panggil langsung logic yang ada
+        // PurchaseOrder::addPurchaseOrder($allData);
+
+        // Atau ulangi validasi dan penyimpanan di sini untuk kontrol penuh:
+        $itemDetails = array_slice($allData, 0, -1);
+        $headerData = end($allData);
+
+        foreach ($itemDetails as $item) {
+            \Illuminate\Support\Facades\Validator::make($item, [
+                'po_number' => 'required|string',
+                'sku'       => 'required|string',
+                'qty'       => 'required|numeric|min:1',
+                'amount'    => 'required|numeric|min:0',
+            ])->validate();
+        }
+
+        \Illuminate\Support\Facades\Validator::make($headerData, [
+            'po_number'   => 'required|string',
+            'branch_id'   => 'required|integer',
+            'supplier_id' => 'required|string',
+            'total'       => 'required|numeric|min:0',
+            'order_date'  => 'required|date',
+        ])->validate();
+
+        \App\Models\PurchaseOrder::addPurchaseOrder($allData);
+
+        \DB::commit();
+        return redirect()->back()->with('success', 'Purchase Order berhasil ditambahkan.');
+    } catch (\Exception $e) {
+        \DB::rollBack();
+        return redirect()->back()->with('error', 'Gagal menambahkan PO: ' . $e->getMessage());
+    }
+}
     public function getPurchaseOrder()
     {
         $purchaseOrders = PurchaseOrder::getAllPurchaseOrders();

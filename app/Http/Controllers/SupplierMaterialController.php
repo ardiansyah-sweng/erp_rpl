@@ -29,12 +29,12 @@ class SupplierMaterialController extends Controller
         return view('supplier.material.detail', ['material' => $material]);
     }
 
-     // Validasi data supplier material
-     public function addSupplierMaterial(Request $request)
-     {
+    // Validasi data supplier material
+    public function addSupplierMaterial(Request $request)
+    {
         $validated = $request->validate([
             'supplier_id'   => 'required|string|size:6',
-            'company_name'  => 'required|string|max:255', 
+            'company_name'  => 'required|string|max:255',
             'product_id'    => 'required|string|max:50',
             'product_name'  => 'required|string|max:255',
             'base_price'    => 'required|integer|min:0',
@@ -42,8 +42,8 @@ class SupplierMaterialController extends Controller
             'updated_at'    => 'nullable|date',
         ]);
         SupplierMaterial::addSupplierMaterial((object)$validated);
-         return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!'); 
-     }
+        return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
+    }
 
     public function updateSupplierMaterial(Request $request, $id)
     {
@@ -54,7 +54,7 @@ class SupplierMaterialController extends Controller
         ]);
 
         $validated['updated_at'] = now();
-        
+
         $model = new SupplierMaterial();
         $result = $model->updateSupplierMaterial($id, $validated);
 
@@ -64,7 +64,7 @@ class SupplierMaterialController extends Controller
         return redirect()->back()->with('error', 'Gagal memperbarui data supplier material!');
     }
 
-    #cetak pdf
+    // Cetak PDF
     public function cetakPDF($supplier_id)
     {
         $materials = SupplierMaterial::where('supplier_id', $supplier_id)->get();
@@ -79,7 +79,7 @@ class SupplierMaterialController extends Controller
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
 
-        public function getSupplierMaterialByProductType($supplier_id, $product_type)
+    public function getSupplierMaterialByProductType($supplier_id, $product_type)
     {
         // Validasi hanya menerima product_type tertentu
         if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
@@ -107,5 +107,14 @@ class SupplierMaterialController extends Controller
         return response()->json($results);
     }
 
+    public function getSupplierMaterialByCategory($kategori, $supplier)
+    {
+        $results = SupplierMaterial::getSupplierMaterialByCategory($kategori, $supplier);
 
+        if ($results->isEmpty()) {
+            return response()->json(['message' => 'Data tidak ditemukan'], 404);
+        }
+
+        return response()->json($results);
+    }
 }
