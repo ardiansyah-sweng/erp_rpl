@@ -65,7 +65,13 @@ class SupplierController extends Controller
 
     public function listSuppliers()
     {
-      $suppliers = Supplier::getSupplier();
+      $suppliers = Supplier::getSupplierWithPicCount();
+      return view('supplier.list', compact('suppliers'));
+    }
+
+    public function listSuppliersWithZeroPic()
+    {
+      $suppliers = Supplier::getSupplierWithZeroPic();
       return view('supplier.list', compact('suppliers'));
     }
 
