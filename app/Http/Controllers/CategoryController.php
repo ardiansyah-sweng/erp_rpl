@@ -32,7 +32,7 @@ class CategoryController extends Controller
         // ambil data kategori
         $category = Category::with('parent')->paginate(10);
 
-        // ✅ PERBAIKAN: total kategori (bukan product)
+        //  PERBAIKAN: total kategori (bukan product)
          $totalCategory = Category::count();
 
         return view('product.category.list', compact('category', 'totalCategory'));
