@@ -430,6 +430,7 @@
                 </tr>
             </thead>
 
+            
             <tbody>
                 @forelse($category as $kategori)
                 <tr>
