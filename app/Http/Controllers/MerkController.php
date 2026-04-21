@@ -42,7 +42,8 @@ class MerkController extends Controller
     public function getMerkAll()
     {
         $merks = Merk::getAllMerk();
-        return view('merk.list', compact('merks'));
+        $totalMerks = Merk::countMerek();
+        return view('merk.list', compact('merks', 'totalMerks'));
     }
 
      public function deleteMerk($id)
