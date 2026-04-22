@@ -14,13 +14,13 @@ class CategoryController extends Controller
         $request->validate([
             'category' => 'required|string|min:3|unique:category,category',
             'parent_id' => 'nullable|integer',
-            'active' => 'required|boolean'
+            'is_active' => 'required|boolean'
         ]);
         $category = new Category();
         $category->addCategory([
             'category' => $request->category,
             'parent_id' => $request->parent_id ?? 0,
-            'active' => $request->active,
+            'is_active' => $request->is_active,
         ]);
 
         return redirect()->route('category.list')->with('success', 'Kategori berhasil ditambahkan!');
@@ -77,7 +77,7 @@ class CategoryController extends Controller
         //apabila halaman detail kategori sudah ada harap untuk di uncomment return view
         //dan return response nya di hapus
     }
-    //Search Category 
+    //Search Category
     public function searchCategory(Request $request)
     {
         $keyword = $request->input('q');

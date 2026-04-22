@@ -18,7 +18,7 @@ class Category extends Model
         parent::__construct($attributes);
 
         $this->table = config('db_table.category');
-        $this->fillable = array_values(config('db_constants.column.category', ['category', 'parent_id', 'active', 'created_at', 'updated_at']));
+        $this->fillable = array_values(config('db_constants.column.category', ['category', 'parent_id', 'is_active', 'created_at', 'updated_at']));
     }
 
 
@@ -85,8 +85,8 @@ class Category extends Model
                 ];
             });
     }
-    
-    public static function updateCategory($category_id, array $data) 
+
+    public static function updateCategory($category_id, array $data)
     {
         $category = self::find($category_id);
         if (!$category) {
@@ -125,5 +125,5 @@ class Category extends Model
         return self::where('category', 'LIKE', '%' . $keyword . '%')
                     ->with('parent')
                     ->get();
-    }   
+    }
 }
