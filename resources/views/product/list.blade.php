@@ -381,6 +381,7 @@ use App\Helpers\EncryptionHelper;
             <div class="row align-items-center">
                             <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Produk</h3>
+                <span class="btn btn-primary btn-sm me-2">{{ $totalProducts }}</span>
                 <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
 
                 <div class="btn-group">

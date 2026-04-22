@@ -15,8 +15,9 @@ class ProductController extends Controller
     public function getProductList()
     {
         $products = Product::getAllProducts();
+        $totalProducts = Product::count();
         $categories = Category::orderBy('category')->get();
-        return view('product.list', compact('products', 'categories'));
+        return view('product.list', compact('products', 'categories', 'totalProducts'));
     }
 
     public function generatePDF()
@@ -109,7 +110,10 @@ class ProductController extends Controller
     public function searchProduct($keyword)
     {
         $products = Product::getProductByKeyword($keyword);
-        return view('product.list', compact('products'));
+        $totalProducts = Product::count();
+        $categories = Category::orderBy('category')->get();
+
+        return view('product.list', compact('products', 'categories', 'totalProducts'));
     }
     public function getProductByCategory($product_category)
     {
