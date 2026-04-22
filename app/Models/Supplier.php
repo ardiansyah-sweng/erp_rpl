@@ -1,17 +1,24 @@
 <?php
 namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use App\Constants\SupplierColumns;
 
 class Supplier extends Model
 {
+    use HasFactory;
     /**
      * Ambil seluruh data supplier beserta frekuensi order (jumlah purchase_orders per supplier)
      * @return \Illuminate\Support\Collection
      */
     public static function getSupplier()
     {
-        $supplierTable = config('db_constants.table.supplier');
+        // $supplierTable = config('db_constants.table.supplier');
+        $model = new self;
+        $supplierTable = $model->getTable();
         $poTable = config('db_constants.table.po');
 
         // Ambil semua kolom supplier + frekuensi order
@@ -19,21 +26,21 @@ class Supplier extends Model
             ->leftJoin($poTable, $supplierTable . '.supplier_id', '=', $poTable . '.supplier_id')
             ->select(
                 $supplierTable . '.*',
-                \DB::raw('COUNT(' . $poTable . '.supplier_id) as order_frequency')
+                DB::raw('COUNT(' . $poTable . '.supplier_id) as order_frequency')
             )
             ->groupBy(
                 $supplierTable . '.supplier_id',
                 $supplierTable . '.company_name',
                 $supplierTable . '.address',
-                $supplierTable . '.phone_number',
+                $supplierTable . '.telephone',
                 $supplierTable . '.bank_account',
                 $supplierTable . '.created_at',
                 $supplierTable . '.updated_at'
             )
             ->get();
     }
-    protected $table = 'supplier';
-    protected $fillable = ['supplier_id','company_name', 'address','phone_number','bank_account','created_at','updated_at'];
+    protected $table = null;
+    protected $fillable = [];
 
     protected $primaryKey = 'supplier_id';
     public $incrementing = false;
@@ -43,8 +50,9 @@ class Supplier extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_constants.table.supplier');
-        $this->fillable = array_values(config('db_constants.column.supplier') ?? []);
+        // set table name from config and fillable from constant definitions
+        $this->table = config('db_tables.supplier') ?? 'suppliers';
+        $this->fillable = SupplierColumns::getFillable();
     }
 
     public static function updateSupplier($supplier_id, array $data)//Sudah sesuai pada ERP RPL

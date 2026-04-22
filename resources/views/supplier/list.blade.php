@@ -348,6 +348,9 @@
     <div class="mb-4">
       <h1 class="h3 fw-bold mb-2">Suppliers</h1>
       <a href="#" class="btn btn-primary btn-sm">New Supplier</a>
+      <a href="{{ route('supplier.print-pdf') }}" class="btn btn-primary btn-sm" target="_blank">
+      <i class="fa fa-file-pdf-o"></i> Cetak PDF </a>
+
     </div>
 
     <div class="card shadow-sm">
@@ -411,10 +414,10 @@
                   </td>
                   <td class="text-center">
                       <div class="d-flex justify-content-center gap-1 flex-wrap">
-                          <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                          <a href="{{ route('supplier.detail', ['id' => $supplier->supplier_id]) }}" class="btn btn-warning btn-sm custom-btn">Edit</a>
                           <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
                           <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
-                          <a href="{{ route('Supplier.detail', ['id' => $supplier->supplier_id]) }}" class="btn btn-success btn-sm custom-btn">Detail</a>
+                          <a href="{{ route('supplier.detail', ['id' => $supplier->supplier_id]) }}" class="btn btn-success btn-sm custom-btn">Detail</a>
                           <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('{{ $supplier->supplier_id }}')">Delete</button>
                       </div>
                   </td>
