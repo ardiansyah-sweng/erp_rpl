@@ -49,16 +49,24 @@ class MerkController extends Controller
         }
 
         // Web Response with PDF export support
-        $merks = Merk::getAllMerk($search);
-        
         if ($request->has('export') && $request->input('export') === 'pdf') {
+            $merks = Merk::search($search)->orderBy(MerkColumns::CREATED_AT, 'desc')->get();
             $pdf = Pdf::loadView('merk.report', compact('merks'));
             return $pdf->stream('report-merk.pdf');
         }
 
+        $merks = Merk::getAllMerk($search);
         return view('merk.index', compact('merks', 'search'));
     }
 
+
+    public function exportPdf()
+    {
+        $merks = Merk::orderBy(MerkColumns::CREATED_AT, 'desc')->get(); 
+        $pdf = Pdf::loadView('merk.report', compact('merks'));
+        return $pdf->download('report-merk.pdf');
+    }
+    
     /**
      * Show the form for creating a new resource.
      */
