@@ -8,6 +8,10 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\EncryptionHelper;
 use App\Enums\ProductType;
 use App\Models\Category;
+<<<<<<< HEAD
+=======
+use App\Constants\Messages;
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
 
 
 class ProductController extends Controller
@@ -19,6 +23,7 @@ class ProductController extends Controller
         return view('product.list', compact('products', 'categories'));
     }
 
+<<<<<<< HEAD
     // Tambahkan parameter $type di dalam kurung
     public function generatePDF($type) 
     {
@@ -30,6 +35,18 @@ class ProductController extends Controller
 
         // 3. Beri nama file sesuai tipenya biar keren
         return $pdf->stream("daftar_produk_{$type}.pdf");
+=======
+    public function generatePDF()
+    {
+        // Ambil semua data tanpa pagination
+        $products = Product::getAllProducts(); // <= inilah bedanya
+
+        // Buat PDF dari view
+        $pdf = Pdf::loadView('product.pdf', compact('products'));
+
+        // Tampilkan PDF di browser
+        return $pdf->stream('daftar_produk.pdf');
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
     }
 
 
@@ -39,7 +56,11 @@ class ProductController extends Controller
         $product = (new Product())->getProductById($productId);
 
         if (!$product) {
+<<<<<<< HEAD
             return abort(404, 'Product tidak ditemukan');
+=======
+            return response()->view('errors.404', ['message' => Messages::PRODUCT_NOT_FOUND], 404);
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
         }
        return view('product.detail', compact('product'));
     }
@@ -110,7 +131,12 @@ class ProductController extends Controller
     public function searchProduct($keyword)
     {
         $products = Product::getProductByKeyword($keyword);
+<<<<<<< HEAD
         return view('product.list', compact('products'));
+=======
+        $categories = Category::orderBy('category')->get();
+        return view('product.list', compact('products', 'categories'));
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
     }
     public function getProductByCategory($product_category)
     {

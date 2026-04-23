@@ -9,6 +9,10 @@ use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+<<<<<<< HEAD
+=======
+use App\Constants\Messages;
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
 
 class PurchaseOrderController extends Controller
 {
@@ -64,9 +68,15 @@ class PurchaseOrderController extends Controller
 
         try {
             PurchaseOrder::addPurchaseOrder($allData);
+<<<<<<< HEAD
             return redirect()->back()->with('success', 'Purchase Order berhasil ditambahkan.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal menambahkan PO: ' . $e->getMessage());
+=======
+            return redirect()->back()->with('success', Messages::PO_CREATED);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', Messages::PO_CREATE_FAILED . $e->getMessage());
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
         }
     }
     public function getPOLength($poNumber, $orderDate) 

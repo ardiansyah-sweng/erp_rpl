@@ -107,5 +107,27 @@ class SupplierMaterialController extends Controller
         return response()->json($results);
     }
 
+<<<<<<< HEAD
 
 }
+=======
+public function searchSupplierMaterial(Request $request)
+    {
+       
+        $keyword = $request->input('keyword');
+        
+        $materials = SupplierMaterial::searchSupplierMaterial($keyword);
+
+        // Cek apakah hasil pagination kosong
+        if ($materials->isEmpty()) {
+            session()->flash('error', 'Data tidak ditemukan atau tidak ada hasil.');
+        }
+
+        // 4. Return ke View dengan membawa data materials & keyword
+        return view('supplier.material.list', [
+            'materials' => $materials,
+            'keyword'   => $keyword
+        ]);
+    }
+}
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d

@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Constants\BranchColumns;
+<<<<<<< HEAD
+=======
+use App\Constants\Messages;
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
 
 class StoreBranchRequest extends FormRequest
 {
@@ -35,6 +39,7 @@ class StoreBranchRequest extends FormRequest
     public function messages(): array
     {
         return [
+<<<<<<< HEAD
             BranchColumns::NAME . '.required' => 'Nama cabang wajib diisi.',
             BranchColumns::NAME . '.string' => 'Nama cabang harus berupa teks.',
             BranchColumns::NAME . '.min' => 'Nama cabang minimal 3 karakter.',
@@ -50,6 +55,23 @@ class StoreBranchRequest extends FormRequest
             BranchColumns::PHONE . '.string' => 'Telepon cabang harus berupa teks.',
             BranchColumns::PHONE . '.min' => 'Telepon cabang minimal 3 karakter.',
             BranchColumns::PHONE . '.max' => 'Telepon cabang maksimal 30 karakter.'
+=======
+            BranchColumns::NAME . '.required' => Messages::BRANCH_NAME_EMPTY,
+            BranchColumns::NAME . '.string' => Messages::BRANCH_NAME_NOT_TEXT,
+            BranchColumns::NAME . '.min' => Messages::BRANCH_NAME_TOO_SHORT,
+            BranchColumns::NAME . '.max' => Messages::BRANCH_NAME_TOO_LONG,
+            BranchColumns::NAME . '.unique' => Messages::BRANCH_NAME_EXISTS,
+            
+            BranchColumns::ADDRESS . '.required' => Messages::BRANCH_ADDRESS_EMPTY,
+            BranchColumns::ADDRESS . '.string' => Messages::BRANCH_ADDRESS_NOT_TEXT,
+            BranchColumns::ADDRESS . '.min' => Messages::BRANCH_ADDRESS_TOO_SHORT,
+            BranchColumns::ADDRESS . '.max' => Messages::BRANCH_ADDRESS_TOO_LONG,
+            
+            BranchColumns::PHONE . '.required' => Messages::BRANCH_PHONE_EMPTY,
+            BranchColumns::PHONE . '.string' => Messages::BRANCH_PHONE_NOT_TEXT,
+            BranchColumns::PHONE . '.min' => Messages::BRANCH_PHONE_TOO_SHORT,
+            BranchColumns::PHONE . '.max' => Messages::BRANCH_PHONE_TOO_LONG
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
         ];
     }
 

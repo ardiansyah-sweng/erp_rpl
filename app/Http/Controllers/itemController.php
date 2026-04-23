@@ -46,9 +46,15 @@ class ItemController extends Controller
         $item->addItem([
             'product_id' => $request->product_id,
             'sku' => $request->sku,
+<<<<<<< HEAD
             'item_name' => $request->item_name,
             'measurement_unit' => $request->measurement_unit, // Perbaikan di sini
             'selling_price' => $request->selling_price, // Perbaikan di sini
+=======
+            'name' => $request->item_name,
+            'measurement' => $request->measurement_unit,
+            'selling_price' => $request->selling_price,
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
         ]);
 
         return redirect()->route('item.list')->with('success', 'Item berhasil ditambahkan!');
@@ -120,12 +126,21 @@ class ItemController extends Controller
     return view('item.list', compact('items'));
     }
 
+<<<<<<< HEAD
 // Fungsi cetak pdf pada controllernya
 public function exportByProductTypeToPdf($productType)
 {
     $items = Item::getItemByType($productType);
 
     if (empty($items) || count($items) === 0) {
+=======
+    // Fungsi cetak pdf pada controllernya
+    public function exportByProductTypeToPdf($productType)
+    {
+        $items = Item::getItemByType($productType);
+
+        if (empty($items) || count($items) === 0) {
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
         return redirect()->back()->with('error', 'Tidak ada item dengan product type tersebut.');
     }
 
@@ -152,7 +167,11 @@ public function exportByProductTypeToPdf($productType)
 
     // Nama file PDF tetap bisa menggunakan singkatan asli jika diinginkan untuk identifikasi
     return $pdf->stream("Item_berdasarkan_product_type_{$productType}.pdf");
+<<<<<<< HEAD
 }
+=======
+    }
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
 
     public function exportItemByCategoryToPdf($categoryId)
     {
@@ -172,4 +191,25 @@ public function exportByProductTypeToPdf($productType)
 
         return $pdf->stream("item-kategori-{$categoryName}.pdf");
     }
+<<<<<<< HEAD
 }
+=======
+    
+    public function getItemByCategory($categoryId)
+    {
+        // Panggil fungsi static yang ada di Model Item
+        $items = Item::getItemByCategory($categoryId);
+
+        if ($items->isEmpty()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Data tidak ditemukan untuk kategori ini.'
+        ], 404);
+    }
+    return response()->json([
+        'success' => true,
+        'data' => $items
+    ]);
+    }
+}
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d

@@ -438,7 +438,11 @@
         </div>
       @endif
       @if($category)
+<<<<<<< HEAD
         <form method="POST" action="{{ route('category.update', $category->id) }}">
+=======
+        <form method="POST" action="{{ route('categories.update', $category->id) }}">
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
             @csrf
             @method('PUT')
 

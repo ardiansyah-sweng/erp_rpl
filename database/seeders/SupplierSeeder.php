@@ -17,6 +17,10 @@ use App\Models\SupplierPic;
 use App\Models\SupplierProduct;
 use App\Helpers\DBConstants;
 use App\Enums\ProductType;
+<<<<<<< HEAD
+=======
+use App\Constants\SupplierColumns;
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
 
 class SupplierSeeder extends Seeder
 {
@@ -69,7 +73,12 @@ class SupplierSeeder extends Seeder
             $supplier = Supplier::all();
             $numOfSupplier = $this->faker->numberBetween(1, $supplier->count());
             $suppliers = $supplier->pluck($this->colSupplier['supplier_id'])->shuffle()->take($numOfSupplier);
+<<<<<<< HEAD
             $itemName = Item::where($this->colItem['sku'], $sku->sku)->get()->first()->item_name;
+=======
+            $itemName = Item::where($this->colItem['sku'], $sku->sku)->get()->first();
+            $productName = $itemName ? $itemName->name : null;
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
 
             foreach ($suppliers as $supplierID)
             {
@@ -86,7 +95,11 @@ class SupplierSeeder extends Seeder
                         $this->colSupplierProduct['supplier_id'] => $supplierID,
                         $this->colSupplierProduct['company_name'] => $companyName,
                         $this->colSupplierProduct['product_id'] => $sku->sku,
+<<<<<<< HEAD
                         $this->colSupplierProduct['product_name'] => $itemName,
+=======
+                        $this->colSupplierProduct['product_name'] => $productName,
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
                         $this->colSupplierProduct['base_price'] => $basePrice,
                         $this->colSupplierProduct['created_at'] => $created_at,
                         $this->colSupplierProduct['updated_at'] => $created_at
@@ -147,11 +160,19 @@ class SupplierSeeder extends Seeder
             $bankAccount = 'Bank '.$company_name.' No. Rek '.$this->faker->bankAccountNumber;
 
             Supplier::create([
+<<<<<<< HEAD
                 $colSupplier['supplier_id'] => $supplierID,
                 $colSupplier['company_name'] => $company_name,
                 $colSupplier['address'] => $this->faker->address,
                 $colSupplier['phone_number'] => $this->faker->phoneNumber(),
                 $colSupplier['bank_account'] => $bankAccount
+=======
+                $colSupplier[SupplierColumns::SUPPLIER_ID] => $supplierID,
+                $colSupplier[SupplierColumns::COMPANY_NAME] => $company_name,
+                $colSupplier[SupplierColumns::ADDRESS] => $this->faker->address,
+                $colSupplier[SupplierColumns::PHONE] => $this->faker->phoneNumber(),
+                $colSupplier[SupplierColumns::BANK_ACCOUNT] => $bankAccount
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
             ]);
 
             $this->createDummySupplierPIC($supplierID);

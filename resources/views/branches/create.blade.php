@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
+<<<<<<< HEAD
     <meta
       name="description"
       content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS."
@@ -14,6 +15,31 @@
       name="keywords"
       content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard"
     />
+=======
+    <meta name="description" content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS." />
+    <meta name="keywords" content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $('[data-widget="pushmenu"]').on('click', function (e) {
+            e.preventDefault();
+            $('body').toggleClass('sidebar-collapse');
+        });
+        
+        // DEBUG: Form submission debugging for Dusk tests
+        $('#branchForm').on('submit', function(e) {
+            console.log('Form submit event triggered');
+            console.log('Form action:', $(this).attr('action'));
+            console.log('Form method:', $(this).attr('method'));
+            console.log('CSRF token:', $('input[name="_token"]').val());
+            console.log('Form data:', $(this).serialize());
+            
+            // Let the form submit naturally - don't prevent default
+        });
+    });
+    </script>
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
@@ -46,6 +72,10 @@
       crossorigin="anonymous"
     />
   </head>
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
   <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <div class="app-wrapper">
       <nav class="app-header navbar navbar-expand bg-body">
@@ -90,8 +120,13 @@
                       <p class="fs-7">Call me whenever you can...</p>
                       <p class="fs-7 text-secondary">
                         <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
+<<<<<<< HEAD
                       </p>
                     </div>
+=======
+                          <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" checked>
+                          <label class="custom-control-label" for="is_active">Aktif</label>
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
                   </div>
                 </a>
                 <div class="dropdown-divider"></div>
@@ -250,6 +285,7 @@
                   <div class="card-header">
                     <h3 class="card-title">Formulir Tambah Cabang</h3>
                   </div>
+<<<<<<< HEAD
                   <form action="{{ route('branches.store') }}" method="POST" id="branchForm">
                     @csrf
                     <div class="card-body">
@@ -280,6 +316,13 @@
                       <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                   </form>
+=======
+                  @include('branches.form', [
+                    'action' => route('branches.store'),
+                    'method' => 'POST',
+                    'branch' => null
+                  ])
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
                   
                   <div id="debug-output" class="mt-4" style="display: none;">
                     <div class="card">

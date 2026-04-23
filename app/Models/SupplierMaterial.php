@@ -2,12 +2,20 @@
 
 namespace App\Models;
 
+<<<<<<< HEAD
+=======
+use Illuminate\Database\Eloquent\Factories\HasFactory; 
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 
 class SupplierMaterial extends Model
 {
+<<<<<<< HEAD
+=======
+    use HasFactory;
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
     protected $table = 'supplier_product';
     protected $fillable = [
         'supplier_id',
@@ -53,7 +61,11 @@ class SupplierMaterial extends Model
             ->join('products as p', function ($join) {
                 $join->on(DB::raw('LEFT(sp.product_id, LOCATE("-", sp.product_id) - 1)'), '=', 'p.product_id');
             })
+<<<<<<< HEAD
             ->where('p.product_type', '=', 'RM')
+=======
+            ->where('p.type', '=', 'RM')
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
             ->distinct('p.product_id')
             ->count(DB::raw('DISTINCT p.product_id'));
     }

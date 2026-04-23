@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+<<<<<<< HEAD
+=======
+use Barryvdh\DomPDF\Facade\Pdf;
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
 
 class SupplierController extends Controller
 {
@@ -18,6 +22,10 @@ class SupplierController extends Controller
             'data' => $data
         ], 200, [], JSON_PRETTY_PRINT);
     }
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
     public function updateSupplier(Request $request, $supplier_id)
     {
         // Validasi input
@@ -33,11 +41,26 @@ class SupplierController extends Controller
 
         return redirect()->route('Supplier.detail', ['id' => $supplier_id]);
     }
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
     public function getSupplierById($id)
     {
         $sup = (new Supplier())->getSupplierById($id);
 
+<<<<<<< HEAD
         return view('Supplier.detail', compact('sup'));
+=======
+        return view('supplier.detail', compact('sup'));
+    }
+
+    public function printPDF()
+    {
+        $suppliers = Supplier::all();
+        $pdf = Pdf::loadView('supplier.pdf', compact('suppliers'));
+        return $pdf->stream('daftar_supplier.pdf');
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
     }
 
     public function searchSuppliers(Request $request)
@@ -55,11 +78,18 @@ class SupplierController extends Controller
 
     public function listSuppliers()
     {
+<<<<<<< HEAD
     $suppliers = Supplier::getSupplier();
     return view('supplier.list', compact('suppliers'));
     }
 
 
+=======
+      $suppliers = Supplier::getSupplier();
+      return view('supplier.list', compact('suppliers'));
+    }
+
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
     public function deleteSupplierByID($id)
     {
         $result = Supplier::deleteSupplier($id);
@@ -69,15 +99,31 @@ class SupplierController extends Controller
             'message' => $result['message']
         ], $result['success'] ? 200 : 404);
     }
+<<<<<<< HEAD
     public function AddSuplier(Request $request)
     {
         $validatedData =  $request->validate([
             'supplier_id'    => 'required|string|max:10|unique:supplier,supplier_id',
+=======
+
+    public function AddSuplier(Request $request)
+    {
+        $validatedData =  $request->validate([
+            'supplier_id'    => 'required|string|max:10|unique:suppliers,supplier_id',
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
             'company_name'   => 'required|string|max:255',
             'address'        => 'required|string|max:500',
             'phone_number'   => 'required|string|max:20',
             'bank_account'   => 'required|string|max:255',
         ]);
+<<<<<<< HEAD
+=======
+
+        // Map form input 'phone_number' to database column 'telephone'
+        $validatedData['telephone'] = $validatedData['phone_number'];
+        unset($validatedData['phone_number']);
+
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
         $supplier = Supplier::addSupplier($validatedData);
 
         return redirect()->back()->with('success', 'Supplier Berhasil Di Tambahkan');

@@ -438,14 +438,22 @@
                             <tr>
                             <td>{{ $branch->id }}</td>
                             <td>
+<<<<<<< HEAD
                                 <a href="{{ route('branch.detail', ['id' => $branch->id]) }}">
+=======
+                                <a href="{{ route('branch.detail', ['id' => $branch->id]) }}" style="color: inherit; text-decoration: none;">
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
                                     {{ $branch->branch_name }}
                                 </a>
                             </td>
                             <td>{{ $branch->branch_address }}</td>
                             <td>{{ $branch->branch_telephone }}</td>
                             <td class="text-center">
+<<<<<<< HEAD
                                  @if($branch->branch_status == 1)
+=======
+                                 @if($branch->is_active == 1)
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
                                         <i class="bi bi-check-circle-fill text-success"></i>
                                 @else
                                         <i class="bi bi-x-circle-fill text-danger"></i>
@@ -454,9 +462,19 @@
                             <td>{{ $branch->created_at }}</td>
                             <td>{{ $branch->updated_at }}</td>
                             <td>
+<<<<<<< HEAD
                               <a href="#" class="btn btn-sm btn-primary">Edit</a>
                               <a href="#" class="btn btn-sm btn-danger">Delete</a>
                               <a href="{{ url('/branch/detail/'.$branch->id) }}" class="btn btn-info">Detail</a>
+=======
+                <a href="{{ route('branches.edit', $branch->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                <form action="{{ route('branches.destroy', $branch->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Yakin ingin menghapus cabang ini?');">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-sm btn-danger" dusk="delete-branch-{{ $branch->id }}">Delete</button>
+                </form>
+                <a href="{{ url('/branch/detail/'.$branch->id) }}" class="btn btn-info">Detail</a>
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
 
                             </td>
                             </tr>

@@ -3,6 +3,10 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+<<<<<<< HEAD
+=======
+use Illuminate\Support\Facades\DB;
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
 
 return new class extends Migration
 {
@@ -11,6 +15,18 @@ return new class extends Migration
      */
     public function up(): void
     {
+<<<<<<< HEAD
+=======
+        // Skip trigger creation - trigger has cardinality violation issues
+        // Disabled due to subquery returning multiple rows error
+        return;
+        
+        // Skip trigger creation in testing environment (SQLite doesn't support MySQL trigger syntax)
+        if (app()->environment('testing', 'dusk.local')) {
+            return;
+        }
+
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
         DB::unprepared('
             CREATE TRIGGER trigger_after_update_inassorted_production
             AFTER UPDATE ON assortment_production
@@ -44,14 +60,22 @@ return new class extends Migration
                         SELECT i.stock_unit, b.quantity
                         INTO v_old_stock, v_qty
                         FROM bom_detail b
+<<<<<<< HEAD
                         JOIN item i ON i.sku = b.sku
+=======
+                        JOIN items i ON i.sku = b.sku
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
                         WHERE b.bom_id = v_bom_id
                         LIMIT 1;
 
                         SET v_new_stock = v_old_stock - (v_bom_quantity * v_qty);
                         SET v_log_desc = CONCAT("BOM Consumption for ", NEW.production_number);
 
+<<<<<<< HEAD
                         UPDATE item
+=======
+                        UPDATE items
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
                         SET stock_unit = v_new_stock
                         WHERE sku = (SELECT product_id FROM bom_detail WHERE bom_id = v_bom_id);
 

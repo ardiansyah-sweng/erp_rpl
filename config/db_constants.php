@@ -19,7 +19,11 @@ return [
         'category'                  => $master['category'],
         'cu'                        => 'conversion_unit',
         'grn'                       => 'goods_receipt_note',
+<<<<<<< HEAD
         'item'                      => 'item',
+=======
+        'item'                      => 'items',
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
         'log_avg_base_price'        => 'log_avg_base_price',
         'log_base_price_supplier'   => 'log_base_price_supplier_product',
         'master_product'            => 'master_product',
@@ -30,11 +34,19 @@ return [
         'po'                        => 'purchase_order',
         'po_detail'                 => 'purchase_order_detail',
         'products'                   => 'products',
+<<<<<<< HEAD
         'supplier'                  => 'supplier',
         'supplier_pic'              => 'supplier_pic',
         'supplier_product'          => 'supplier_product',
         'unit'                      => 'item_unit',
         'whouse'                    => 'warehouse'
+=======
+        'supplier'                  => 'suppliers',
+        'supplier_pic'              => 'supplier_pic',
+        'supplier_product'          => 'supplier_product',
+        'unit'                      => 'item_unit',
+        'whouse'                    => 'warehouses'
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
     ],
     'column' => [
         'bom' => [
@@ -124,10 +136,17 @@ return [
             'id'                    => 'id',
             'prod_id'               => 'product_id', #char[4]. Diambil dari product_id tabel products.
             'sku'                   => 'sku',
+<<<<<<< HEAD
             'name'                  => 'item_name',
             // 'category_id'           => 'category_id',
             // 'description'           => 'description',
             'measurement'           => 'measurement_unit',
+=======
+            'name'                  => 'name',
+            // 'category_id'           => 'category_id',
+            // 'description'           => 'description',
+            'measurement'           => 'measurement',
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
             //'stock'                 => 'current_stock',
             'base_price'            => 'avg_base_price', #raw material from supplier
             'selling_price'         => 'selling_price', #finished from bill of material
@@ -211,11 +230,19 @@ return [
             'updated_at'            => 'updated_at'
         ],
         'products' => [
+<<<<<<< HEAD
             'id'                    => 'product_id',            #char[6]
             'name'                  => 'product_name',          #string[35]
             'type'                  => 'product_type',          #finished, raw material
             'category'              => 'product_category',      #tinyInteger
             'desc'                  => 'product_description',   #string[255]
+=======
+            'id'                    => 'product_id',            #char[4]
+            'name'                  => 'name',                  #string[35]
+            'type'                  => 'type',                  #finished, raw material
+            'category'              => 'category',              #tinyInteger
+            'desc'                  => 'description',           #string[255]
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
             'created'               => $master['created'],
             'updated'               => $master['updated']
         ],
@@ -226,7 +253,11 @@ return [
             'supplier_id'           => $master['supplier_id'],
             'company_name'          => 'company_name',
             'address'               => 'address',
+<<<<<<< HEAD
             'phone_number'          => 'phone_number',
+=======
+            'telephone'          => 'telephone',
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
             'bank_account'          => 'bank_account',
             'created'            => 'created_at',
             'updated'            => 'updated_at'
@@ -238,7 +269,11 @@ return [
             'phone_number'          => 'phone_number',
             'email'                 => 'email',
             'assigned_date'         => 'assigned_date',
+<<<<<<< HEAD
             'active'                => 'active',
+=======
+            'active'                => 'is_active',
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
             'avatar'                => 'avatar',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'

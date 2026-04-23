@@ -459,8 +459,13 @@ use App\Helpers\EncryptionHelper;
                       </td>
                       
                       <td>{{ $product->product_name }}</td>
+<<<<<<< HEAD
                       <td>{{ $product->product_type->label() }}</td>
                       <td>{{ $product->category ? $product->category->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
+=======
+                      <td>{{ $product->type->label() }}</td>
+                      <td>{{ $product->categoryRelation ? $product->categoryRelation->category : 'Tidak Ada' }}</td> <!-- Nama kategori -->
+>>>>>>> 47f61f28a9cfd0339a553818484bca8913c8417d
                       <td>{{ $product->product_description }}</td>
                       <td>{{ $product->items_count }}</td>
                       <td>{{ $product->created_at }}</td>
