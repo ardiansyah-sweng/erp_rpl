@@ -34,11 +34,20 @@ class PurchaseOrder extends Model
         return $this->hasMany(PurchaseOrderDetail::class, 'po_number', 'po_number');
     }
 
-    public static function getAllPurchaseOrders()
+    public static function getAllPurchaseOrders($status = null)
     {
-        // Mengurutkan supplier berdasarkan tanggal pesanan(order_date) secara Descending
-        return self::with('supplier')->orderBy('order_date', 'desc')->paginate(10);
+        // 1. Mulai query dengan memuat data supplier
+        $query = self::with('supplier');
+
+        // 2. Modifikasi: Jika ada status yang dikirim, lakukan filter
+        if ($status) {
+        $query->where('status', $status);
     }
+
+        // 3. Urutkan berdasarkan tanggal pesanan terbaru dan berikan pagination
+        return $query->orderBy('order_date', 'desc')->paginate(10);
+ }
+
 
     public static function getPurchaseOrderByKeywords($keywords = null)
     {
