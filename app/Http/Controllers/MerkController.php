@@ -30,7 +30,7 @@ class MerkController extends Controller
     {
         $search = $request->input('search');
         $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
-        
+
         if ($isApiRequest) {
             // API Response with advanced filtering
             $filters = [
@@ -44,13 +44,13 @@ class MerkController extends Controller
 
             $query = Merk::searchWithFilters($filters);
             $merks = $query->paginate($request->get('per_page', 15));
-            
+
             return new MerkCollection($merks);
         }
 
         // Web Response with PDF export support
         $merks = Merk::getAllMerk($search);
-        
+
         if ($request->has('export') && $request->input('export') === 'pdf') {
             $pdf = Pdf::loadView('merk.report', compact('merks'));
             return $pdf->stream('report-merk.pdf');
@@ -90,10 +90,10 @@ class MerkController extends Controller
             }
 
             return redirect()->route('merk.index')->with('success', Messages::MERK_CREATED);
-            
+
         } catch (\Exception $e) {
             $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
-            
+
             if ($isApiRequest) {
                 return response()->json([
                     'success' => false,
@@ -113,8 +113,9 @@ class MerkController extends Controller
         $merk = Merk::find($id);
 
         if (!$merk) {
-            $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
-            
+            $routeName = $request->route() ? $request->route()->getName() : '';
+            $isApiRequest = $request->wantsJson() || str_starts_with($routeName, 'api.');
+
             if ($isApiRequest) {
                 return response()->json([
                     'success' => false,
@@ -124,8 +125,9 @@ class MerkController extends Controller
             return abort(404, Messages::MERK_NOT_FOUND);
         }
 
-        $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
-        
+        $routeName = $request->route() ? $request->route()->getName() : '';
+        $isApiRequest = $request->wantsJson() || str_starts_with($routeName, 'api.');
+
         if ($isApiRequest) {
             return response()->json([
                 'success' => true,
@@ -155,10 +157,10 @@ class MerkController extends Controller
     {
         try {
             $merk = Merk::find($id);
-            
+
             if (!$merk) {
                 $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
-                
+
                 if ($isApiRequest) {
                     return response()->json([
                         'success' => false,
@@ -174,7 +176,7 @@ class MerkController extends Controller
             ]);
 
             $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
-            
+
             if ($isApiRequest) {
                 return response()->json([
                     'success' => true,
@@ -182,12 +184,12 @@ class MerkController extends Controller
                     'data' => new MerkResource($merk->fresh())
                 ]);
             }
-            
+
             return redirect()->route('merk.index')->with('success', Messages::MERK_UPDATED);
-            
+
         } catch (\Exception $e) {
             $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
-            
+
             if ($isApiRequest) {
                 return response()->json([
                     'success' => false,
@@ -205,7 +207,7 @@ class MerkController extends Controller
     public function destroy(Request $request, $id)
     {
         $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
-        
+
         $merk = Merk::find($id);
 
         if (!$merk) {
@@ -246,8 +248,8 @@ class MerkController extends Controller
     {
         if ($request->has('per_page')) {
             $merks = Merk::active()
-                         ->orderBy(MerkColumns::CREATED_AT, 'desc')
-                         ->paginate($request->get('per_page', 15));
+                ->orderBy(MerkColumns::CREATED_AT, 'desc')
+                ->paginate($request->get('per_page', 15));
             return response()->json([
                 'success' => true,
                 'data' => new MerkCollection($merks)
