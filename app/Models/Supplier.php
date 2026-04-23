@@ -78,17 +78,24 @@ class Supplier extends Model
         return self::create($data);
     }
 
-    public static function getSupplierByKeywords($keywords = null)
-    {
-            $query = self::query();
+// Judul fungsi pakai 's' ($keywords)
+public static function getSupplierByKeywords($keywords = null)
+{
+    $query = self::query();
 
-            if (!empty($keywords)) {
-                $query->where('company_name', 'like', "%{$keywords}%");
-            }
+    if ($keywords) { // Cek variabel pakai 's'
 
-            return $query->get();
+        // NAH DISINI PERBAIKANNYA:
+        // Tambahkan huruf 's' di dalam tanda kutip persen agar sama dengan judul fungsi
+        return self::where('company_name', 'LIKE', "%$keywords%") 
+               ->orWhere('address', 'LIKE', "%$keywords%")    
+               ->orWhere('telephone', 'LIKE', "%$keywords%")
+               ->orderBy('created_at', 'desc')
+               ->paginate(10);
     }
-    
+
+    return $query->orderBy('created_at', 'desc')->paginate(10);
+}
     public static function deleteSupplier($id)
     {
         $supplier = self::find($id);
@@ -102,4 +109,4 @@ class Supplier extends Model
         return ['success' => true, 'message' => 'Supplier berhasil dihapus.'];
     }
 
-}
+    }

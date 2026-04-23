@@ -429,8 +429,35 @@ use App\Helpers\EncryptionHelper;
           <!--end::Container-->
         </div>
 
+        <div class="container-fluid mt-2">
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-1"></i> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle me-1"></i> <strong>Gagal Menyimpan!</strong>
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+</div>
+
         <div class="card mb-4">
-              <div class="card-header"><h3 class="card-title">List Table</h3></div>
+              <!-- <div class="card-header"><h3 class="card-title">List Table</h3></div> -->
+              <div class="card-header d-flex justify-content-between align-items-center">
+    <h3 class="card-title">Daftar Produk</h3>
+    <span class="badge bg-primary fs-6">
+        Total Produk: {{ $totalProducts ?? 0 }}
+    </span>
+</div>
               <!-- /.card-header -->
               <div class="card-body">
                 <table class="table table-bordered">
@@ -466,13 +493,13 @@ use App\Helpers\EncryptionHelper;
                       <td>{{ $product->created_at }}</td>
                       <td>{{ $product->updated_at }}</td>
                       <td>
-                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                          <a href="{{ route('product.index') }}" class="btn btn-sm btn-primary">Edit</a>
                               <form  method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?')">Delete</button>
                               </form>
-                          <a href="#" class="btn btn-sm btn-info">Detail</a>
+                          <a href="{{ route('product.index') }}" class="btn btn-sm btn-info">Detail</a>
                       </td>
                   </tr>
         @endforeach

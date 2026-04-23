@@ -63,8 +63,14 @@ class SupplierController extends Controller
         ]);
     }
 
-    public function listSuppliers()
+    public function listSuppliers(request $request)
     {
+
+        $keyword = $request->input('search');
+
+        $suppliers = Supplier::getSupplierByKeywords($keyword);
+        
+        return view('supplier.list', compact('suppliers'));
       $suppliers = Supplier::getSupplier();
       return view('supplier.list', compact('suppliers'));
     }
@@ -89,6 +95,7 @@ class SupplierController extends Controller
             'bank_account'   => 'required|string|max:255',
         ]);
 
+        $validatedData['telephone'] = $validatedData['phone_number'];
         // Map form input 'phone_number' to database column 'telephone'
         $validatedData['telephone'] = $validatedData['phone_number'];
         unset($validatedData['phone_number']);
@@ -97,4 +104,14 @@ class SupplierController extends Controller
 
         return redirect()->back()->with('success', 'Supplier Berhasil Di Tambahkan');
     }
+
+    public function destroy($id)
+{
+    $supplier = Supplier::find($id);
+    if ($supplier) {
+        $supplier->delete();
+        return redirect()->back()->with('success', 'Data berhasil dihapus');
+    }
+    return redirect()->back()->with('error', 'Data gagal dihapus');
+}
 }

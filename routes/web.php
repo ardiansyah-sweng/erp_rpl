@@ -324,3 +324,11 @@ Route::post('/assort-production/add', [AssortProductionController::class, 'addPr
 
 Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
 Route::post('/supplier/add', [SupplierController::class, 'AddSuplier'])->name('supplier.add');
+
+Route::get('/product', [ProductController::class, 'getProductList'])->name('product.index');
+
+Route::get('/product/add', [ProductController::class, 'create'])->name('product.create');
+
+Route::delete('/supplier/destroy/{id}', [SupplierController::class, 'destroy'])->name('supplier.destroy');
+
+Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');

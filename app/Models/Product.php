@@ -17,11 +17,11 @@ class Product extends Model
 
     protected $table = 'products';
     protected $fillable = [
-        ProductColumns::PRODUCT_ID,
-        ProductColumns::NAME,
-        ProductColumns::TYPE,
-        ProductColumns::CATEGORY,
-        ProductColumns::DESC,
+    'product_id',
+    'product_name',
+    'product_type',
+    'category', 
+    'jumlah_item'
     ];
 
     protected $casts = [
