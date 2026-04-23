@@ -231,7 +231,14 @@
         <div class="app-content-header">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Detail Order</h3></div>
+              <div class="col-sm-6 d-flex align-items-center">
+                <h3 class="mb-0 me-3">Detail Order</h3>
+                <a href="{{ route('purchase_orders.print_pdf', $purchaseOrder->first()->po_number) }}" 
+                   class="btn btn-danger btn-sm" 
+                   target="_blank">
+                  <i class="bi bi-file-pdf me-1"></i> Cetak PDF
+                </a>
+              </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
