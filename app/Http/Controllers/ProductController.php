@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\EncryptionHelper;
+use App\Models\Category;
 use App\Enums\ProductType;
 use App\Models\Category;
 use App\Constants\Messages;
-
 
 class ProductController extends Controller
 {
@@ -113,6 +113,13 @@ class ProductController extends Controller
         $categories = Category::orderBy('category')->get();
         return view('product.list', compact('products', 'categories'));
     }
+
+    public function add()
+    {
+        $categories = Category::all(); // ambil semua kategori
+        return view('product.add', compact('categories')); // kirim ke view
+    }
+
     public function getProductByCategory($product_category)
     {
         $products = Product::getProductByCategory($product_category);
@@ -179,5 +186,8 @@ class ProductController extends Controller
             'data' => $products
         ]);
     }
+  
 
 }
+
+
