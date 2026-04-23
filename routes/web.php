@@ -324,3 +324,5 @@ Route::post('/assort-production/add', [AssortProductionController::class, 'addPr
 
 Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
 Route::post('/supplier/add', [SupplierController::class, 'AddSuplier'])->name('supplier.add');
+// Route untuk tugas kedua: Bangkitkan laporan PDF kategori
+Route::get('/category/export-pdf', [CategoryController::class, 'exportPdf'])->name('category.pdf');
