@@ -2,71 +2,99 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Supplier;
-use App\Models\SupplierPic;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class SupplierPIControllerTest extends TestCase
 {
-    use RefreshDatabase; // Reset database setelah setiap test
-
     /** @test */
-    public function it_can_list_all_supplier_pics()
+    public function it_returns_existing_supplier_pic_with_lama_assigned()
     {
-        // Setup data
-        $pic = SupplierPic::factory()->create();
+        $supplierPic = DB::table('supplier_pic')->first();
 
-        $response = $this->get('/supplier/pic/all'); // Sesuaikan route-nya
+        $this->assertNotNull($supplierPic, 'Tidak ada data di tabel supplier_pic.');
+
+        dump('Data dari DB:', $supplierPic);
+
+        $assignedDate = Carbon::parse($supplierPic->assigned_date)->startOfDay();
+        $expectedLama = $assignedDate->diffInDays(Carbon::now()->startOfDay());
+
+        $response = $this->get('/supplierPic/' . $supplierPic->supplier_id);
+
+        dump('Response dari endpoint:', $response->json());
 
         $response->assertStatus(200);
-        $response->assertViewHas('pics');
+        $response->assertJson([
+            'data' => [
+                'supplier_id' => $supplierPic->supplier_id,
+            ],
+            'lama_assigned' => $expectedLama,
+        ]);
     }
 
     /** @test */
-    public function it_can_add_a_new_supplier_pic()
+    public function it_can_update_supplier_pic_via_form()
     {
-        $supplier = Supplier::factory()->create();
-
-        $data = [
-            'supplier_id' => $supplier->supplier_id,
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
-            'phone_number' => '123456789',
-            'assigned_date' => '01/01/2026',
-        ];
-
-        $response = $this->post("/supplier/pic/add/{$supplier->supplier_id}", $data);
-
-        $response->assertStatus(302); // Redirect setelah sukses
-        $this->assertDatabaseHas('supplier_pic', ['email' => 'john@example.com']);
-    }
-
-    /** @test */
-    public function it_can_update_supplier_pic_via_json()
-    {
+        // 1. Arrange: Buat data dummy
         $pic = SupplierPic::factory()->create();
-
-        $updateData = [
+        $newData = [
             'supplier_id' => $pic->supplier_id,
-            'name' => 'Updated Name',
-            'phone_number' => '987654321',
-            'email' => 'updated@example.com',
+            'name' => 'John Doe Updated',
+            'phone_number' => '08123456789',
+            'email' => 'john.updated@example.com',
             'assigned_date' => '2026-04-25',
+            'active' => true,
         ];
 
-        $response = $this->putJson("/supplier/pic/update/{$pic->id}", $updateData);
+        // 2. Act: Kirim request ke method update()
+        $response = $this->put("/supplier/pic/update/{$pic->id}", $newData);
 
+        // 3. Assert: Cek redirect dan database
+        $response->assertStatus(302);
+        $this->assertDatabaseHas('supplier_pic', [
+            'id' => $pic->id,
+            'name' => 'John Doe Updated',
+            'email' => 'john.updated@example.com'
+        ]);
+    }
+
+    /** @test */
+    public function it_can_update_supplier_pic_detail_via_json()
+    {
+        // 1. Arrange: Buat data dummy
+        $pic = SupplierPic::factory()->create();
+        $jsonPayload = [
+            'supplier_id' => $pic->supplier_id,
+            'name' => 'JSON Update Name',
+            'phone_number' => '0899999999',
+            'email' => 'json@example.com',
+            'assigned_date' => '2026-05-01',
+        ];
+
+        // 2. Act: Kirim request ke method updateSupplierPICDetail()
+        $response = $this->json('POST', "/supplier/pic/update-detail/{$pic->id}", $jsonPayload);
+
+        // 3. Assert: Cek respons JSON
         $response->assertStatus(200)
                  ->assertJson(['status' => 'success']);
         
-        $this->assertDatabaseHas('supplier_pic', ['name' => 'Updated Name']);
+        $this->assertDatabaseHas('supplier_pic', [
+            'id' => $pic->id,
+            'name' => 'JSON Update Name'
+        ]);
     }
 
     /** @test */
-    public function it_returns_404_if_pic_not_found()
+    public function it_returns_404_for_invalid_supplier_id()
     {
-        $response = $this->get('/supplier/pic/detail/99999');
-        $response->assertStatus(302); // Sesuai logika controller Anda yang redirect
+        $response = $this->get('/supplierPic/NON_EXISTENT_ID');
+
+        dump('Response untuk ID tidak ditemukan:', $response->json());
+
+        $response->assertStatus(404);
+        $response->assertJson([
+            'message' => 'Data not found',
+        ]);
     }
 }
