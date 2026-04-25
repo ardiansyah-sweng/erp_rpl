@@ -41,7 +41,10 @@ class ProductController extends Controller
         if (!$product) {
             return response()->view('errors.404', ['message' => Messages::PRODUCT_NOT_FOUND], 404);
         }
-       return view('product.detail', compact('product'));
+
+        $product->load('category');
+
+        return view('product.detail', compact('product'));
     }
 
 
@@ -101,7 +104,7 @@ class ProductController extends Controller
             'product_description' => 'nullable|string|max:255',
         ]);
 
-        $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
+        $Updateproduct = Product::updateProduct($id, $request->only(['product_name', 'product_type', 'product_category', 'product_description']));
 
         return $Updateproduct;
     }
@@ -179,5 +182,4 @@ class ProductController extends Controller
             'data' => $products
         ]);
     }
-
 }
