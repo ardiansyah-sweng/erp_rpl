@@ -46,21 +46,29 @@ class SupplierPIController extends Controller
             return redirect('/supplier/pic/list')->with('error', 'PIC tidak ditemukan.');
         }
 
-        // Validasi input
         $validatedData = $request->validate([
+            'supplier_id' => 'required|string|max:6',
+            'pic_name' => 'required|string|max:50',
             'email' => 'required|email|max:50',
             'telephone' => 'required|string|max:30',
+            'assignment_date' => 'nullable|date',
         ]);
 
-        // Mapping to model attributes
         $data = [
+            'supplier_id' => $validatedData['supplier_id'],
+            'name' => $validatedData['pic_name'],
             'email' => $validatedData['email'],
             'phone_number' => $validatedData['telephone'],
+            'assigned_date' => $validatedData['assignment_date'], // only if fillable includes assigned_date
         ];
 
-        SupplierPic::updateSupplierPIC($id, $data);
+        $result = SupplierPic::updateSupplierPIC($id, $data);
 
-        return redirect()->back()->with('success', 'PIC berhasil diperbarui!');
+        if (($result['status'] ?? 'error') !== 'success') {
+            return redirect()->back()->withErrors(['error' => $result['message'] ?? 'Gagal update PIC'])->withInput();
+        }
+
+        return redirect('/supplier/pic/list')->with('success', 'PIC berhasil diperbarui!');
     }
 
     public function searchSupplierPic(Request $request)
@@ -142,7 +150,7 @@ class SupplierPIController extends Controller
             'supplier_id' => 'required|string|exists:supplier,supplier_id',
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
-            'email' => 'required|email|unique:supplier_pic,email,'.$id,
+            'email' => 'required|email|unique:supplier_pic,email,' . $id,
             'assigned_date' => 'required|date',
         ]);
 
@@ -239,6 +247,6 @@ class SupplierPIController extends Controller
             'supplier' => $supplier,
         ]);
 
-        return $pdf->stream('PIC_Supplier_'.$supplier->supplier_id.'.pdf');
+        return $pdf->stream('PIC_Supplier_' . $supplier->supplier_id . '.pdf');
     }
 }

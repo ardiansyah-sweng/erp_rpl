@@ -22,7 +22,7 @@ class SupplierPic extends Model
         parent::__construct($attributes);
 
         $this->table = config('db_constants.table.supplier_pics');
-        $this->fillable = array_values(config('db_constants.column.supplier_pics') ?? []);
+        $this->fillable = ['supplier_id', 'name', 'email', 'phone_number'];     
     }
 
     // method untuk ambil data berdasarkan ID
