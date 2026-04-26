@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 class SupplierPic extends Model
 {
     protected $table = 'supplier_pic'; // sesuaikan nama tabel
+
     protected $fillable = ['name', 'email', 'phone_number', 'supplier_id'];
+
     protected $primaryKey = 'id';
-    public $incrementing = false;
-    protected $keyType = 'string';
+
+    public $incrementing = true;
+
+    protected $keyType = 'int';
 
     public function __construct(array $attributes = [])
     {
@@ -41,12 +45,13 @@ class SupplierPic extends Model
     public static function addSupplierPIC($supplierID, $data)
     {
         $data['supplier_id'] = $supplierID;
+
         return self::create($data);
     }
 
     public static function assignmentDuration($pic)
     {
-        if (!$pic->assigned_date) {
+        if (! $pic->assigned_date) {
             return 'Tanggal penugasan tidak tersedia';
         }
 
@@ -68,6 +73,7 @@ class SupplierPic extends Model
         if ($pic) {
             return $pic->delete();
         }
+
         return false;
     }
 
@@ -85,32 +91,33 @@ class SupplierPic extends Model
         try {
             $supplierPic = self::find($id);
 
-            if (!$supplierPic) {
+            if (! $supplierPic) {
                 return [
                     'status' => 'error',
                     'message' => 'Supplier PIC tidak ditemukan.',
-                    'code' => 404
+                    'code' => 404,
                 ];
             }
 
             $updated = $supplierPic->update($data);
+
             return $updated
                 ? [
                     'status' => 'success',
                     'message' => 'Supplier PIC berhasil diperbarui.',
                     'data' => $supplierPic,
-                    'code' => 200
+                    'code' => 200,
                 ]
                 : [
                     'status' => 'error',
                     'message' => 'Gagal memperbarui Supplier PIC.',
-                    'code' => 500
+                    'code' => 500,
                 ];
         } catch (\Exception $e) {
             return [
                 'status' => 'error',
-                'message' => 'Exception: ' . $e->getMessage(),
-                'code' => 500
+                'message' => 'Exception: '.$e->getMessage(),
+                'code' => 500,
             ];
         }
     }
@@ -122,27 +129,27 @@ class SupplierPic extends Model
 
         if ($keywords) {
             $query->where('supplier_id', 'LIKE', "%{$keywords}%")
-                  ->orWhere('name', 'LIKE', "%{$keywords}%")
-                  ->orWhere('phone_number', 'LIKE', "%{$keywords}%")
-                  ->orWhere('email', 'LIKE', "%{$keywords}%")
-                  ->orWhere('assigned_date', 'LIKE', "%{$keywords}%")
-                  ->orWhere('created_at', 'LIKE', "%{$keywords}%")
-                  ->orWhere('updated_at', 'LIKE', "%{$keywords}%");
+                ->orWhere('name', 'LIKE', "%{$keywords}%")
+                ->orWhere('phone_number', 'LIKE', "%{$keywords}%")
+                ->orWhere('email', 'LIKE', "%{$keywords}%")
+                ->orWhere('assigned_date', 'LIKE', "%{$keywords}%")
+                ->orWhere('created_at', 'LIKE', "%{$keywords}%")
+                ->orWhere('updated_at', 'LIKE', "%{$keywords}%");
         }
 
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
-    
+
     public static function getSupplierPIC($supplierID)
     {
         return self::where('supplier_id', $supplierID)->get();
     }
-    
+
     public static function countSupplierPIC($supplierID, $onlyActive = null)
     {
         $query = self::where('supplier_id', $supplierID);
 
-        if (!is_null($onlyActive)) {
+        if (! is_null($onlyActive)) {
             $query->where('active', $onlyActive ? 1 : 0);
         }
 
