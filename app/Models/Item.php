@@ -38,6 +38,12 @@ class Item extends Model
         return $this->belongsTo(MeasurementUnit::class, ItemColumns::MEASUREMENT, ItemColumns::ID);
     }
 
+    // Accessor untuk item_name (alias dari name)
+    public function getItemNameAttribute()
+    {
+        return $this->attributes['name'] ?? null;
+    }
+
     // Ambil semua item
     public function getItem()
     {
