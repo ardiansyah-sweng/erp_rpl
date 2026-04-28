@@ -35,6 +35,9 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// Cetak PDF Merk
+Route::get('/merk/export-pdf', [MerkController::class, 'exportPdf'])->name('merk.exportPdf');
+
 Route::get('/login', function () {
     return view('login'); // tampilkan view login
 })->name('login');

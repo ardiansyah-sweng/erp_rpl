@@ -53,6 +53,7 @@ class MerkController extends Controller
         $totalMerks = Merk::countMerek();
         
         if ($request->has('export') && $request->input('export') === 'pdf') {
+            $merks = Merk::search($search)->orderBy(MerkColumns::CREATED_AT, 'desc')->get();
             $pdf = Pdf::loadView('merk.report', compact('merks'));
             return $pdf->stream('report-merk.pdf');
         }
