@@ -109,6 +109,10 @@ class Merk extends Model
         });
     }
 
+    public static function getAllMerkAll()
+    {
+        return self::orderBy('created_at', 'asc')->get(); // tanpa paginate
+    }
     /**
      * STATIC METHODS - FOLLOWING BEST PRACTICES
      */

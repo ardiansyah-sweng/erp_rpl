@@ -27,6 +27,9 @@ Route::get('/merks/add', function () {
     return view('merk.add');
 });
 
+// untuk cetak merk
+Route::get('/merk/print', [MerkController::class, 'printMerk'])->name('merk.print');
+
 // Login
 Route::get('/', function () {
     return redirect()->route('login');
