@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Item;
 use App\Models\Category; 
 use App\Enums\ProductType;
+use App\Constants\ProductColumns;
 
 class Product extends Model
 {
@@ -16,35 +17,34 @@ class Product extends Model
 
     protected $table = 'products';
     protected $fillable = [
-        'product_id',
-        'product_name',
-        'product_type',
-        'product_category',
-        'product_description',
-        'created_at',
-        'updated_at',
+        ProductColumns::PRODUCT_ID,
+        ProductColumns::NAME,
+        ProductColumns::TYPE,
+        ProductColumns::CATEGORY,
+        ProductColumns::DESC,
     ];
 
     protected $casts = [
-    'product_type' => \App\Enums\ProductType::class,
+        ProductColumns::TYPE => ProductType::class,
     ];
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-
-        $this->table = config('db_constants.table.products');
-        $this->fillable = array_values(config('db_constants.column.products') ?? []);
+        // Comment out config override for now to use the correct column names
+        // $this->table = config('db_constants.table.products');
+        // $this->fillable = array_values(config('db_constants.column.products') ?? []);
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'product_category', 'id');
+        return $this->belongsTo(Category::class, 'category', 'id'); // ubah dari product_category ke category
     }
 
     public static function getAllProducts()
     {
-        return self::withCount('items')->with('category')->selectRaw('(SELECT COUNT(*) FROM item WHERE item.sku LIKE CONCAT(products.product_id, "%")) AS items_count')->orderBy('created_at', 'desc')->paginate(10);
+        $tableItem = config('db_constants.table.item');
+        return self::withCount('items')->with('category')->selectRaw("(SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, \"%\")) AS items_count")->orderBy('created_at', 'desc')->paginate(10);
     }
 
     public function getSKURawMaterialItem()
@@ -74,14 +74,13 @@ class Product extends Model
 
     public static function countProductByProductType($shortType)
     {
-        $colProduct = config('db_constants.column.products');
-
-        return self::where($colProduct['type'], $shortType)->count();
+        // Use canonical column constant to avoid relying on test env config
+        return self::where(ProductColumns::TYPE, $shortType)->count();
     }
 
     public static function getProductByType($type)
     {
-         return self::where('product_type', $type)->get();
+         return self::where('type', $type)->get();
     }
     
     public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
@@ -123,8 +122,23 @@ class Product extends Model
     public static function countProductByCategory()
     {
         return DB::table('products')
-            ->select('product_category', DB::raw('COUNT(*) as total'))
-            ->groupBy('product_category')
+            ->select('category as product_category', DB::raw('COUNT(*) as total'))
+            ->groupBy('category')
             ->get();
+    }
+
+    public static function getProductByKeyword($keywords = null)
+    {
+        $query = self::query();
+
+        if ($keywords) {
+            $query->where(ProductColumns::PRODUCT_ID, 'LIKE', "%{$keywords}%")
+                  ->orWhere(ProductColumns::NAME, 'LIKE', "%{$keywords}%")
+                  ->orWhere(ProductColumns::TYPE, 'LIKE', "%{$keywords}%")
+                  ->orWhere(ProductColumns::CATEGORY, 'LIKE', "%{$keywords}%")
+                  ->orWhere(ProductColumns::DESC, 'LIKE', "%{$keywords}%");
+        }
+
+        return $query->orderBy('created_at', 'asc')->paginate(10);
     }
 }
