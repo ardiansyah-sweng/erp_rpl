@@ -51,6 +51,13 @@ class WarehouseController extends Controller
         return view('warehouse.index', ['warehouses' => $warehouses]);
     }
 
+    public function exportPdf()
+    {
+        $warehouse = Warehouse::orderBy(WarehouseColumns::CREATED_AT, 'asc')->get();
+        $pdf = Pdf::loadView('warehouse.report', compact('warehouse'));
+        return $pdf->stream('warehouse_report.pdf');
+    }
+
     /** Show the form for creating a new resource. */
     public function create()
     {
@@ -242,16 +249,16 @@ class WarehouseController extends Controller
         return redirect()->route('warehouses.index')->with('error', Messages::WAREHOUSE_DELETE_FAILED);
     }
 
-    /**
-     * DEPRECATED: Use proper export functionality instead
-     */
-    public function exportPdf()
-    {
-        $warehouses = Warehouse::orderBy(WarehouseColumns::CREATED_AT, 'desc')->get();
+    // /**
+    //  * DEPRECATED: Use proper export functionality instead
+    //  */
+    // public function exportPdf()
+    // {
+    //     $warehouses = Warehouse::orderBy(WarehouseColumns::CREATED_AT, 'desc')->get();
         
-        $pdf = Pdf::loadView('warehouse.report', compact('warehouses'));
-        return $pdf->stream('warehouse_report.pdf');
-    }
+    //     $pdf = Pdf::loadView('warehouse.report', compact('warehouses'));
+    //     return $pdf->stream('warehouse_report.pdf');
+    // }
 
     /**
      * DEPRECATED: Keep for backward compatibility - will be removed
