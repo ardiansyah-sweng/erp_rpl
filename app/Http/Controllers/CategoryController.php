@@ -19,6 +19,8 @@ class CategoryController extends Controller
     {
         $search = $request->input('search');
         $categories = Category::getAllCategory($search);
+        $totalCategory = $categories->total();
+        view()->share('totalCategory', $totalCategory);
 
         // Check if it's an API request
         if ($request->wantsJson() || $request->route()->getName() === 'api.categories.index') {
@@ -183,6 +185,8 @@ class CategoryController extends Controller
     public function getCategoryList()
     {
         $category = Category::with('parent')->paginate(10);
+        $totalCategory = $category->total();
+        view()->share('totalCategory', $totalCategory);
         return view('product.category.list', compact('category'));
     }
     public function printCategoryPDF()
