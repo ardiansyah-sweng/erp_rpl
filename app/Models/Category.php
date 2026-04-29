@@ -18,7 +18,7 @@ class Category extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_table.category');
+        $this->table = config('db_tables.category');
         $this->fillable = CategoryColumns::getFillable();
     }
 
@@ -123,7 +123,7 @@ class Category extends Model
     
     public static function updateCategory($category_id, array $data) 
     {
-        $category = self::find($category_id);
+        $category = self::with('parent')->find($category_id);
         if (!$category) {
             return null;
         }
@@ -131,6 +131,9 @@ class Category extends Model
         $fillable = (new self)->getFillable();
         $filteredData = array_intersect_key($data, array_flip($fillable));
         $category->update($filteredData);
+
+        // Reload category dengan relasi parent setelah update
+        $category = self::with('parent:id,category')->find($category_id);
 
         return $category;
     }

@@ -49,6 +49,8 @@ Route::get('/branches/add', function () {
     return view('branches.add');
 });
 
+Route::get('/warehouse/report', [WarehouseController::class, 'exportPdf'])->name('warehouse.report');
+
 Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
@@ -83,6 +85,7 @@ Route::get('/product/add', function () {
 });
 
 Route::get('/supplier/list', [App\Http\Controllers\SupplierController::class, 'listSuppliers'])->name('supplier.list');
+Route::get('/supplier/list/pic-zero', [App\Http\Controllers\SupplierController::class, 'listSuppliersWithZeroPic'])->name('supplier.list.pic-zero');
 Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
 });

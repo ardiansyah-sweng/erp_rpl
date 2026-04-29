@@ -39,6 +39,60 @@ class Supplier extends Model
             )
             ->get();
     }
+
+    public static function getSupplierWithPicCount()
+    {
+        $model = new self;
+        $supplierTable = $model->getTable();
+        $poTable = config('db_constants.table.po');
+        $picTable = config('db_constants.table.supplier_pic');
+
+        return self::query()
+            ->leftJoin($poTable, $supplierTable . '.supplier_id', '=', $poTable . '.supplier_id')
+            ->leftJoin($picTable, $supplierTable . '.supplier_id', '=', $picTable . '.supplier_id')
+            ->select(
+                $supplierTable . '.*',
+                DB::raw('COUNT(DISTINCT ' . $poTable . '.supplier_id) as order_frequency'),
+                DB::raw('COUNT(DISTINCT ' . $picTable . '.id) as pic_count')
+            )
+            ->groupBy(
+                $supplierTable . '.supplier_id',
+                $supplierTable . '.company_name',
+                $supplierTable . '.address',
+                $supplierTable . '.telephone',
+                $supplierTable . '.bank_account',
+                $supplierTable . '.created_at',
+                $supplierTable . '.updated_at'
+            )
+            ->get();
+    }
+
+    public static function getSupplierWithZeroPic()
+    {
+        $model = new self;
+        $supplierTable = $model->getTable();
+        $picTable = config('db_constants.table.supplier_pic');
+
+        return self::query()
+            ->leftJoin($picTable, $supplierTable . '.supplier_id', '=', $picTable . '.supplier_id')
+            ->select(
+                $supplierTable . '.*',
+                DB::raw('0 as order_frequency'),
+                DB::raw('COUNT(DISTINCT ' . $picTable . '.id) as pic_count')
+            )
+            ->groupBy(
+                $supplierTable . '.supplier_id',
+                $supplierTable . '.company_name',
+                $supplierTable . '.address',
+                $supplierTable . '.telephone',
+                $supplierTable . '.bank_account',
+                $supplierTable . '.created_at',
+                $supplierTable . '.updated_at'
+            )
+            ->havingRaw('COUNT(DISTINCT ' . $picTable . '.id) = 0')
+            ->get();
+    }
+
     protected $table = null;
     protected $fillable = [];
 

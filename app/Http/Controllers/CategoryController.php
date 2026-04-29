@@ -18,33 +18,23 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        // $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
-        
-        // if ($isApiRequest) {
-        //     // API Response with advanced filtering
-        //     $filters = [
-        //         'search' => $search,
-        //         'name' => $request->get('name'),
-        //         'description' => $request->get('description'),
-        //         'is_active' => $request->has('is_active') ? $request->boolean('is_active') : null,
-        //         'sort_by' => $request->get('sort_by', CategoryColumns::CREATED_AT),
-        //         'sort_order' => $request->get('sort_order', 'desc'),
-        //     ];
-
-        //     $query = Merk::searchWithFilters($filters);
-        //     $merks = $query->paginate($request->get('per_page', 15));
-            
-        //     return new MerkCollection($merks);
-        // }
-
-        // Web Response with PDF export support
         $categories = Category::getAllCategory($search);
 
-        // if ($request->has('export') && $request->input('export') === 'pdf') {
-        //     $pdf = Pdf::loadView('category.report', compact('categories'));
-        //     return $pdf->stream('report-category.pdf');
-        // }
+        // Check if it's an API request
+        if ($request->wantsJson() || $request->route()->getName() === 'api.categories.index') {
+            return response()->json([
+                'success' => true,
+                'data' => $categories->items(),
+                'pagination' => [
+                    'total' => $categories->total(),
+                    'per_page' => $categories->perPage(),
+                    'current_page' => $categories->currentPage(),
+                    'last_page' => $categories->lastPage(),
+                ]
+            ]);
+        }
 
+        // Web Response
         return view('category.index', compact('categories', 'search'));
     }
 
@@ -80,10 +70,23 @@ class CategoryController extends Controller
         $category = Category::with('parent', 'children')->find($id);
         
         if (!$category) {
+            // API Response
+            if (request()->wantsJson() || request()->route()->getName() === 'api.categories.show') {
+                return response()->json(['error' => 'Category not found'], 404);
+            }
+            
             return redirect()->route('categories.index')->with('error', Messages::CATEGORY_NOT_FOUND);
         }
         
-        return view('categories.show', compact('categories'));
+        // API Response
+        if (request()->wantsJson() || request()->route()->getName() === 'api.categories.show') {
+            return response()->json([
+                'success' => true,
+                'data' => $category
+            ]);
+        }
+        
+        return view('category.show', compact('category'));
     }
 
     /**
@@ -103,7 +106,11 @@ class CategoryController extends Controller
         //                     ->where('id', '!=', $id)
         //                     ->orderBy('category', 'asc')
         //                     ->get();
-        $categories = Category::getParentCategories()->where('id', '!=', $id);
+        $categories = Category::whereNull('parent_id')
+                    ->where('is_active', 1)
+                    ->where('id', '!=', $id)
+                    ->orderBy('category', 'asc')
+                    ->get();
         return view('category.edit', compact('category', 'categories'));
     }
 

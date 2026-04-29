@@ -50,13 +50,14 @@ class MerkController extends Controller
 
         // Web Response with PDF export support
         $merks = Merk::getAllMerk($search);
+        $totalMerks = Merk::countMerek();
         
         if ($request->has('export') && $request->input('export') === 'pdf') {
             $pdf = Pdf::loadView('merk.report', compact('merks'));
             return $pdf->stream('report-merk.pdf');
         }
 
-        return view('merk.index', compact('merks', 'search'));
+        return view('merk.index', compact('merks', 'search', 'totalMerks'));
     }
 
     /**
