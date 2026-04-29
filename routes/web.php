@@ -21,6 +21,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
+use App\Http\Controllers\SalesReportController;
 use App\Models\BillOfMaterial;
 
 # Route GET untuk form tambah merk
@@ -40,6 +41,9 @@ Route::get('/login', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::get('/sales-report-summary', [SalesReportController::class, 'index'])->name('sales.report.summary');
+Route::get('/sales-report-summary/pdf', [SalesReportController::class, 'exportPdf'])->name('sales.report.pdf');
 
 # View Branches
 Route::get('/branches/index', function () {

@@ -380,6 +380,14 @@
                 </p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{ route('sales.report.summary') }}" class="nav-link">
+                <i class="nav-icon bi bi-bar-chart-line-fill"></i>
+                <p>
+                  Sales Report
+                </p>
+              </a>
+            </li>
             <li class="nav-item"><!--Tambah Bill Of Material-->
               <a href="#" class="nav-link">
                 <i class="nav-icon bi bi-clipboard-fill"></i>
@@ -457,6 +465,29 @@
                 </a>
               </div>
               <!--end::Small Box Widget 1-->
+            </div>
+            <!--end::Col-->
+            <div class="col-lg-3 col-6">
+              <div class="small-box text-bg-warning">
+                <div class="inner">
+                  <h3>Sales</h3>
+                  <p>Lihat ringkasan penjualan</p>
+                </div>
+                <svg
+                  class="small-box-icon"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <path
+                    d="M3 3.75A.75.75 0 013.75 3h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 3.75zm2.47 14.78a.75.75 0 001.06 0l3.22-3.22 2.47 2.47a.75.75 0 001.06 0l5.25-5.25a.75.75 0 10-1.06-1.06l-4.72 4.72-2.47-2.47a.75.75 0 00-1.06 0l-3.75 3.75a.75.75 0 000 1.06z"></path>
+                </svg>
+                <a
+                  href="{{ route('sales.report.summary') }}"
+                  class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover">
+                  Buka Sales Report <i class="bi bi-link-45deg"></i>
+                </a>
+              </div>
             </div>
             <!--end::Col-->
             <div class="col-lg-3 col-6">
