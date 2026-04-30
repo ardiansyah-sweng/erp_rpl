@@ -17,7 +17,7 @@ class BranchController extends Controller
         $branches = Branch::getAllBranch($search);
 
         if ($request->has('export') && $request->input('export') ==='pdf'){
-            $pdf = Pdf::loadView('branch.report', ['branches' => $branches]);
+            $pdf = Pdf::loadView('branches.report', ['branches' => $branches]);
             return $pdf->stream('report-branch.pdf');
         }
         
