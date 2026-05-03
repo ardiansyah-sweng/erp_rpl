@@ -67,7 +67,8 @@ class ProductController extends Controller
             $typeLabel = $productType->value;
         }
 
-        // Load the PDF view
+        // Menampilkan PDF dengan data produk dan tipe yang sesuai
+        // Kita bisa menggunakan nama file yang berbeda berdasarkan tipe produk
         $pdf = PDF::loadView('product.pdf', [
             'products' => $products,
             'type' => $typeLabel
