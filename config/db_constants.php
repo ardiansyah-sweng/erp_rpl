@@ -19,7 +19,7 @@ return [
         'category'                  => $master['category'],
         'cu'                        => 'conversion_unit',
         'grn'                       => 'goods_receipt_note',
-        'item'                      => 'items',
+        'item'                      => 'item',
         'log_avg_base_price'        => 'log_avg_base_price',
         'log_base_price_supplier'   => 'log_base_price_supplier_product',
         'master_product'            => 'master_product',
@@ -30,8 +30,8 @@ return [
         'po'                        => 'purchase_order',
         'po_detail'                 => 'purchase_order_detail',
         'products'                   => 'products',
-        'supplier'                  => 'suppliers',
-        'supplier_pic'              => 'supplier_pics',
+        'supplier'                  => 'supplier',
+        'supplier_pic'              => 'supplier_pic',
         'supplier_product'          => 'supplier_product',
         'unit'                      => 'item_unit',
         'whouse'                    => 'warehouses'
@@ -226,7 +226,7 @@ return [
             'supplier_id'           => $master['supplier_id'],
             'company_name'          => 'company_name',
             'address'               => 'address',
-            'telephone'          => 'telephone',
+            'telephone'          => 'phone_number',
             'bank_account'          => 'bank_account',
             'created'            => 'created_at',
             'updated'            => 'updated_at'

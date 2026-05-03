@@ -38,13 +38,28 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category', 'id'); // ubah dari product_category ke category
+        return $this->belongsTo(Category::class, ProductColumns::CATEGORY, 'id');
+    }
+
+    public function categoryRelation()
+    {
+        return $this->category();
+    }
+
+    public function getTypeAttribute()
+    {
+        return $this->getAttribute(ProductColumns::TYPE);
     }
 
     public static function getAllProducts()
     {
         $tableItem = config('db_constants.table.item');
-        return self::withCount('items')->with('category')->selectRaw("(SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, \"%\")) AS items_count")->orderBy('created_at', 'desc')->paginate(10);
+        return self::withCount('items')
+            ->with('category')
+            ->select('products.*')
+            ->selectRaw("(SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, \"%\")) AS items_count")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
     }
 
     public function getSKURawMaterialItem()
@@ -122,8 +137,8 @@ class Product extends Model
     public static function countProductByCategory()
     {
         return DB::table('products')
-            ->select('category as product_category', DB::raw('COUNT(*) as total'))
-            ->groupBy('category')
+            ->select(ProductColumns::CATEGORY . ' as product_category', DB::raw('COUNT(*) as total'))
+            ->groupBy(ProductColumns::CATEGORY)
             ->get();
     }
 

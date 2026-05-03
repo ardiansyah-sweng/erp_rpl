@@ -123,9 +123,11 @@ class Item extends Model
     // Ambil item berdasarkan tipe produk
     public static function getItemByType($productType)
     {
-        return self::join('products', 'items.' . ItemColumns::PROD_ID, '=', 'products.product_id')
+        $itemTable = config('db_tables.item');
+
+        return self::join('products', $itemTable . '.' . ItemColumns::PROD_ID, '=', 'products.product_id')
             ->where('products.type', $productType)
-            ->select('items.*', 'products.type as product_type', 'products.name as product_name')
+            ->select($itemTable . '.*', 'products.type as product_type', 'products.name as product_name')
             ->get();
     }
 
@@ -139,11 +141,11 @@ class Item extends Model
     public static function getItemByCategory($categoryId)
     {
         return self::query()
-        ->join('products', 'items.product_id', '=', 'products.product_id')
+        ->join('products', config('db_tables.item') . '.product_id', '=', 'products.product_id')
         ->join('categories', 'products.category', '=', 'categories.id')
         ->where('categories.id', $categoryId)
         ->select(
-            'items.*',
+            config('db_tables.item') . '.*',
             'products.name as product_name',
             'products.category',
             'categories.category as category_name' 
@@ -155,7 +157,9 @@ class Item extends Model
     // Hitung jumlah item dalam kategori tertentu
     public static function countItemByCategory($categoryId)
     {
-        return self::join('products', 'items.' . ItemColumns::PROD_ID, '=', 'products.product_id')
+        $itemTable = config('db_tables.item');
+
+        return self::join('products', $itemTable . '.' . ItemColumns::PROD_ID, '=', 'products.product_id')
             ->join('category', 'products.product_category', '=', 'category.id')
             ->where('category.id', $categoryId)
             ->count();

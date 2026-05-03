@@ -88,16 +88,12 @@ class SupplierController extends Controller
     public function AddSuplier(Request $request)
     {
         $validatedData =  $request->validate([
-            'supplier_id'    => 'required|string|max:10|unique:suppliers,supplier_id',
+            'supplier_id'    => 'required|string|max:10|unique:supplier,supplier_id',
             'company_name'   => 'required|string|max:255',
             'address'        => 'required|string|max:500',
             'phone_number'   => 'required|string|max:20',
             'bank_account'   => 'required|string|max:255',
         ]);
-
-        // Map form input 'phone_number' to database column 'telephone'
-        $validatedData['telephone'] = $validatedData['phone_number'];
-        unset($validatedData['phone_number']);
 
         $supplier = Supplier::addSupplier($validatedData);
 
