@@ -423,6 +423,7 @@ use App\Helpers\EncryptionHelper;
                             <div class="form-group">
                                 <label for="supplier_id">ID Supplier</label>
                                 <input type="text" id="supplierSearch" class="form-control" placeholder="Cari Supplier">
+                                <!-- menampilkan seluruh suplier ID -->
                                 <select class="form-control" id="supplier_id" size="5" style="display:none;">
                                         @foreach($suppliers as $supplier)
                                         <option value="{{ $supplier->supplier_id }}">
