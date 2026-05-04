@@ -134,7 +134,7 @@ class ProductController extends Controller
     {
         // Cari kategori berdasarkan ID
         $category = Category::find($id);
-
+        // Percabangan 
         if (!$category) {
             return response()->json([
                 'success' => false,
