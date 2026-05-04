@@ -13,6 +13,7 @@ use App\Constants\Messages;
 
 class PurchaseOrderController extends Controller
 {
+    //fungsi order
     public function getPurchaseOrder()
     {
         $purchaseOrders = PurchaseOrder::getAllPurchaseOrders();
