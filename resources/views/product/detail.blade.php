@@ -166,7 +166,7 @@
                                 </tr>
                                 <tr>
                                     <th>Nama Produk</th>
-                                    <td>{{ $product->product_name ?? '-' }}</td>
+                                    <td>{{ $product->name ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Tipe Produk</th>
@@ -179,7 +179,7 @@
                                 </tr>
                                 <tr>
                                     <th>Deskripsi</th>
-                                    <td>{{ $product->product_description ?? '-' }}</td>
+                                    <td>{{ $product->description ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Dibuat Pada</th>
