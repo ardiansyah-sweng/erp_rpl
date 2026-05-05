@@ -98,17 +98,19 @@ class ItemController extends Controller
 
     public function getItemById($id)
     {
-        // Logika dekripsi ID
         try {
             $itemId = \App\Helpers\EncryptionHelper::decrypt($id);
         } catch (\Exception $e) {
             $itemId = $id;
         }
 
-        $item = Item::with('unit')->find($itemId);
+        // 2. UBAH DI SINI: Panggil method yang sudah ada di Model Item
+        // Jangan pakai Item::find(), tapi pakai method getItemById milik model
+        $item = (new Item())->getItemById($itemId);
 
+        // 3. Cek kalau data tidak ada
         if (!$item) {
-            abort(404); // Ini yang bikin 404 kalau datanya emang nggak ada
+            abort(404);
         }
 
         return view('item.detail', compact('item'));
