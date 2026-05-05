@@ -32,7 +32,7 @@ class Supplier extends Model
                 $supplierTable . '.supplier_id',
                 $supplierTable . '.company_name',
                 $supplierTable . '.address',
-                $supplierTable . '.' . SupplierColumns::PHONE,
+                $supplierTable . '.telephone',
                 $supplierTable . '.bank_account',
                 $supplierTable . '.created_at',
                 $supplierTable . '.updated_at'
@@ -59,7 +59,7 @@ class Supplier extends Model
                 $supplierTable . '.supplier_id',
                 $supplierTable . '.company_name',
                 $supplierTable . '.address',
-                $supplierTable . '.' . SupplierColumns::PHONE,
+                $supplierTable . '.telephone',
                 $supplierTable . '.bank_account',
                 $supplierTable . '.created_at',
                 $supplierTable . '.updated_at'
@@ -84,7 +84,7 @@ class Supplier extends Model
                 $supplierTable . '.supplier_id',
                 $supplierTable . '.company_name',
                 $supplierTable . '.address',
-                $supplierTable . '.' . SupplierColumns::PHONE,
+                $supplierTable . '.telephone',
                 $supplierTable . '.bank_account',
                 $supplierTable . '.created_at',
                 $supplierTable . '.updated_at'

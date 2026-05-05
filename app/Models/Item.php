@@ -123,11 +123,9 @@ class Item extends Model
     // Ambil item berdasarkan tipe produk
     public static function getItemByType($productType)
     {
-        $itemTable = config('db_tables.item');
-
-        return self::join('products', $itemTable . '.' . ItemColumns::PROD_ID, '=', 'products.product_id')
-            ->where('products.product_type', $productType)
-            ->select($itemTable . '.*', 'products.product_type', 'products.product_name')
+        return self::join('products', 'items.' . ItemColumns::PROD_ID, '=', 'products.product_id')
+            ->where('products.type', $productType)
+            ->select('items.*', 'products.type as product_type', 'products.name as product_name')
             ->get();
     }
 
@@ -141,13 +139,13 @@ class Item extends Model
     public static function getItemByCategory($categoryId)
     {
         return self::query()
-        ->join('products', config('db_tables.item') . '.product_id', '=', 'products.product_id')
-        ->join('categories', 'products.product_category', '=', 'categories.id')
+        ->join('products', 'items.product_id', '=', 'products.product_id')
+        ->join('categories', 'products.category', '=', 'categories.id')
         ->where('categories.id', $categoryId)
         ->select(
-            config('db_tables.item') . '.*',
+            'items.*',
             'products.name as product_name',
-            'products.product_category',
+            'products.category',
             'categories.category as category_name' 
         )
         ->get();
@@ -157,9 +155,7 @@ class Item extends Model
     // Hitung jumlah item dalam kategori tertentu
     public static function countItemByCategory($categoryId)
     {
-        $itemTable = config('db_tables.item');
-
-        return self::join('products', $itemTable . '.' . ItemColumns::PROD_ID, '=', 'products.product_id')
+        return self::join('products', 'items.' . ItemColumns::PROD_ID, '=', 'products.product_id')
             ->join('category', 'products.product_category', '=', 'category.id')
             ->where('category.id', $categoryId)
             ->count();

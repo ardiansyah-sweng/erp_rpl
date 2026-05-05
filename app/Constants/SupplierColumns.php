@@ -8,7 +8,7 @@ class SupplierColumns
     public const SUPPLIER_ID    = 'supplier_id';
     public const COMPANY_NAME   = 'company_name';
     public const ADDRESS        = 'address';
-    public const PHONE          = 'phone_number';
+    public const PHONE          = 'telephone';
     public const BANK_ACCOUNT   = 'bank_account';
     public const CREATED_AT     = 'created_at';
     public const UPDATED_AT     = 'updated_at';

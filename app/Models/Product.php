@@ -38,28 +38,13 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class, ProductColumns::CATEGORY, 'id');
-    }
-
-    public function categoryRelation()
-    {
-        return $this->category();
-    }
-
-    public function getTypeAttribute()
-    {
-        return $this->getAttribute(ProductColumns::TYPE);
+        return $this->belongsTo(Category::class, 'category', 'id'); // ubah dari product_category ke category
     }
 
     public static function getAllProducts()
     {
         $tableItem = config('db_constants.table.item');
-        return self::withCount('items')
-            ->with('category')
-            ->select('products.*')
-            ->selectRaw("(SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, \"%\")) AS items_count")
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        return self::withCount('items')->with('category')->selectRaw("(SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, \"%\")) AS items_count")->orderBy('created_at', 'desc')->paginate(10);
     }
 
     public function getSKURawMaterialItem()
@@ -95,7 +80,7 @@ class Product extends Model
 
     public static function getProductByType($type)
     {
-         return self::where(ProductColumns::TYPE, $type)->get();
+         return self::where('type', $type)->get();
     }
     
     public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
@@ -137,8 +122,8 @@ class Product extends Model
     public static function countProductByCategory()
     {
         return DB::table('products')
-            ->select(ProductColumns::CATEGORY . ' as product_category', DB::raw('COUNT(*) as total'))
-            ->groupBy(ProductColumns::CATEGORY)
+            ->select('category as product_category', DB::raw('COUNT(*) as total'))
+            ->groupBy('category')
             ->get();
     }
 
