@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 class PurchaseOrder extends Model
 {
-    protected $table;
+    protected $table = 'purchase_order';
     protected $primaryKey = 'po_number';
     public $incrementing = false;
     protected $keyType = 'string';

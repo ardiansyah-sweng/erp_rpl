@@ -16,6 +16,7 @@ class PurchaseOrderController extends Controller
     public function getPurchaseOrder()
     {
         $purchaseOrders = PurchaseOrder::getAllPurchaseOrders();
+
         $totalOrders = PurchaseOrder::countPurchaseOrder();
         return view('purchase_orders.list', compact('purchaseOrders', 'totalOrders'));
     }

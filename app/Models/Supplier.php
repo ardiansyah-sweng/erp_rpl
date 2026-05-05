@@ -105,7 +105,7 @@ class Supplier extends Model
         parent::__construct($attributes);
 
         // set table name from config and fillable from constant definitions
-        $this->table = config('db_tables.supplier') ?? 'suppliers';
+        $this->table = config('db_constants.table.supplier') ?? 'supplier';
         $this->fillable = SupplierColumns::getFillable();
     }
 
