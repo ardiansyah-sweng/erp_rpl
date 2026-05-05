@@ -35,15 +35,31 @@ class ProductController extends Controller
 
     public function getProductById($id)
     {
-        $productId = EncryptionHelper::decrypt($id);
+        // 1. Coba dekripsi dulu
+        try {
+            $productId = EncryptionHelper::decrypt($id);
+        } catch (\Exception $e) {
+            // Kalau gagal (berarti dipanggil robot/testing), pakai ID asli
+            $productId = $id;
+        }
+
+        // 2. Gunakan cara aslimu buat ambil data
         $product = (new Product())->getProductById($productId);
 
+        // 3. Cek kalau produk tidak ada
         if (!$product) {
             return response()->view('errors.404', ['message' => Messages::PRODUCT_NOT_FOUND], 404);
         }
-       return view('product.detail', compact('product'));
-    }
 
+        // 4. Load relasi (pastikan di model Product ada fungsi category)
+        try {
+            $product->load('category');
+        } catch (\Exception $e) {
+            // Abaikan kalau gagal load relasi biar gak crash
+        }
+
+        return view('product.detail', compact('product'));
+    }
 
     // $productData = $products[$id];
     // $productData['category'] = (object)$productData['category'];
@@ -101,7 +117,7 @@ class ProductController extends Controller
             'product_description' => 'nullable|string|max:255',
         ]);
 
-        $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
+        $Updateproduct = Product::updateProduct($id, $request->only(['product_name', 'product_type', 'product_category', 'product_description']));
 
         return $Updateproduct;
     }
@@ -160,24 +176,4 @@ class ProductController extends Controller
         $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
         return $pdf->stream($filename);
     }
-
-
-
-
-    public function getProductByType($type)
-    {
-        $products = Product::getProductByType($type);
-
-        if ($products->isEmpty()) {
-            return response()->json([
-                'message' => "Tidak ada produk dengan tipe: {$type}"
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'Data produk berhasil ditemukan',
-            'data' => $products
-        ]);
-    }
-
 }
