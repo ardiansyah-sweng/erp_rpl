@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Constants\BranchColumns;
+use App\Constants\Messages;
 
 class StoreBranchRequest extends FormRequest
 {
@@ -35,21 +36,21 @@ class StoreBranchRequest extends FormRequest
     public function messages(): array
     {
         return [
-            BranchColumns::NAME . '.required' => 'Nama cabang wajib diisi.',
-            BranchColumns::NAME . '.string' => 'Nama cabang harus berupa teks.',
-            BranchColumns::NAME . '.min' => 'Nama cabang minimal 3 karakter.',
-            BranchColumns::NAME . '.max' => 'Nama cabang maksimal 50 karakter.',
-            BranchColumns::NAME . '.unique' => 'Nama cabang sudah ada, silakan gunakan nama lain.',
+            BranchColumns::NAME . '.required' => Messages::BRANCH_NAME_EMPTY,
+            BranchColumns::NAME . '.string' => Messages::BRANCH_NAME_NOT_TEXT,
+            BranchColumns::NAME . '.min' => Messages::BRANCH_NAME_TOO_SHORT,
+            BranchColumns::NAME . '.max' => Messages::BRANCH_NAME_TOO_LONG,
+            BranchColumns::NAME . '.unique' => Messages::BRANCH_NAME_EXISTS,
             
-            BranchColumns::ADDRESS . '.required' => 'Alamat cabang wajib diisi.',
-            BranchColumns::ADDRESS . '.string' => 'Alamat cabang harus berupa teks.',
-            BranchColumns::ADDRESS . '.min' => 'Alamat cabang minimal 3 karakter.',
-            BranchColumns::ADDRESS . '.max' => 'Alamat cabang maksimal 100 karakter.',
+            BranchColumns::ADDRESS . '.required' => Messages::BRANCH_ADDRESS_EMPTY,
+            BranchColumns::ADDRESS . '.string' => Messages::BRANCH_ADDRESS_NOT_TEXT,
+            BranchColumns::ADDRESS . '.min' => Messages::BRANCH_ADDRESS_TOO_SHORT,
+            BranchColumns::ADDRESS . '.max' => Messages::BRANCH_ADDRESS_TOO_LONG,
             
-            BranchColumns::PHONE . '.required' => 'Telepon cabang wajib diisi.',
-            BranchColumns::PHONE . '.string' => 'Telepon cabang harus berupa teks.',
-            BranchColumns::PHONE . '.min' => 'Telepon cabang minimal 3 karakter.',
-            BranchColumns::PHONE . '.max' => 'Telepon cabang maksimal 30 karakter.'
+            BranchColumns::PHONE . '.required' => Messages::BRANCH_PHONE_EMPTY,
+            BranchColumns::PHONE . '.string' => Messages::BRANCH_PHONE_NOT_TEXT,
+            BranchColumns::PHONE . '.min' => Messages::BRANCH_PHONE_TOO_SHORT,
+            BranchColumns::PHONE . '.max' => Messages::BRANCH_PHONE_TOO_LONG
         ];
     }
 

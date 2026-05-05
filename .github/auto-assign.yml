@@ -1,0 +1,55 @@
+# Configuration for auto-assign - https://github.com/kentaro-m/auto-assign-action
+
+# Set to true to add reviewers to pull requests
+addReviewers: true
+
+# Set to true to add assignees to pull requests  
+addAssignees: false
+
+# A list of reviewers to be added to pull requests (GitHub user name)
+reviewers:
+  - ardiansyah-sweng
+  # Add more team members here
+
+# A list of keywords to be skipped the process that add reviewers if pull requests include it
+skipKeywords:
+  - wip
+  - draft
+
+# A number of reviewers added to the pr
+# Set 0 to add all the reviewers (default: 0)
+numberOfReviewers: 1
+
+# A number of assignees added to the pr
+# Set to 0 to add all the assignees (default: 0)  
+numberOfAssignees: 0
+
+# A list of assignees to be added to pull requests (GitHub user name)
+assignees:
+  - ardiansyah-sweng
+
+# A list of keywords to be skipped the process that add assignees if pull requests include it  
+skipKeywords:
+  - wip
+  - draft
+
+# Optional property that allows to filter the assignees and reviewers to be added to the pr based on the files
+# In this example, we add reviewers only if the PR modifies files under docs/
+# If no filters are specified, the assignees and reviewers will be added to all PRs
+filters:
+  - name: backend
+    files:
+      - '**/*.php'
+      - 'composer.json'
+      - 'database/**/*'
+    reviewers:
+      - ardiansyah-sweng
+  
+  - name: frontend  
+    files:
+      - 'resources/**/*'
+      - 'package.json'
+      - '*.js'
+      - '*.css'
+    reviewers:
+      - ardiansyah-sweng
