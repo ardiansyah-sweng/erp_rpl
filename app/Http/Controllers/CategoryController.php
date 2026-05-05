@@ -18,7 +18,14 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+
+        if ($request->input('export') === 'pdf') {
+            return $this->printCategoryPDF();
+        }
+
         $categories = Category::getAllCategory($search);
+        $totalCategory = $categories->total();
+        view()->share('totalCategory', $totalCategory);
 
         // Check if it's an API request
         if ($request->wantsJson() || $request->route()->getName() === 'api.categories.index') {
@@ -183,11 +190,13 @@ class CategoryController extends Controller
     public function getCategoryList()
     {
         $category = Category::with('parent')->paginate(10);
+        $totalCategory = $category->total();
+        view()->share('totalCategory', $totalCategory);
         return view('product.category.list', compact('category'));
     }
     public function printCategoryPDF()
     {
-        $categories = Category::getCategory(); // kita tambahkan method ini di bawah
+        $categories = Category::getCategory();
         $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
         return $pdf->stream('laporan_kategori.pdf');
     }

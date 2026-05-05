@@ -386,7 +386,7 @@
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Category</h3>
                 <a href="{{ route('categories.create') }}" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="{{ route('categories.index', ['export' => 'pdf']) }}" class="btn btn-primary btn-sm ms-2">Cetak Category</a>
+                <a href="{{ route('category.print') }}" class="btn btn-primary btn-sm ms-2" target="_blank">Cetak Category</a>
               </div>
     
               <div class="col-sm-6">
@@ -402,8 +402,13 @@
         </div>
 
         <div class="card mb-4">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                      <h3 class="card-title">List Table</h3>
+              <div class="card-header d-flex justify-content-between align-items-start">
+                      <div>
+                        <h3 class="card-title">List Table</h3>
+                        <div class="pt-4">
+                          <strong>Total Kategori: {{ $totalCategory }}</strong>
+                        </div>
+                      </div>
                       <form action="{{ route('categories.index') }}" method="GET" class="d-flex ms-auto">
                         <!-- Search bar berada di ujung kanan -->
                         <div class="input-group input-group-sm ms-auto" style="width: 450px;">
@@ -478,6 +483,9 @@
                             @endforelse
                       </tbody>
                     </table>
+                  </div>
+                  <div class="px-3 pb-3 d-none">
+                    <strong>Total Kategori: {{ $totalCategory }}</strong>
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer clearfix">
