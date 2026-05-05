@@ -288,7 +288,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{ route('merk.list') }}" class="nav-link">
+              <a href="{{ route('merks.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-tag-fill"></i>
                 <p>Merk</p>
               </a>
@@ -300,7 +300,7 @@
               </a>
             </li>
              <li class="nav-item">
-              <a href="{{ route('warehouse.list') }}" class="nav-link">
+              <a href="{{ route('warehouses.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-box2"></i>
                 <p>Warehouse</p>
               </a>
@@ -373,10 +373,10 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{ route('category.list') }}" class="nav-link">
+              <a href="{{ route('categories.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-clipboard-fill"></i>
                 <p>
-                  category product
+                  Category
                 </p>
               </a>
             </li>
