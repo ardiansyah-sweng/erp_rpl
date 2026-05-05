@@ -42,9 +42,21 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'product_category', 'id');
     }
 
+    protected static function getProductListQuery()
+    {
+        $productTable = (new self())->getTable();
+        $itemTable = config('db_constants.table.item', 'item');
+
+        return self::with('category')
+            ->select("{$productTable}.*")
+            ->selectRaw("(SELECT COUNT(*) FROM {$itemTable} WHERE {$itemTable}.sku LIKE CONCAT({$productTable}.product_id, '%')) AS items_count");
+    }
+
     public static function getAllProducts()
     {
-        return self::withCount('items')->with('category')->selectRaw('(SELECT COUNT(*) FROM item WHERE item.sku LIKE CONCAT(products.product_id, "%")) AS items_count')->orderBy('created_at', 'desc')->paginate(10);
+        return self::getProductListQuery()
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
     }
 
     public function getSKURawMaterialItem()
@@ -126,5 +138,25 @@ class Product extends Model
             ->select('product_category', DB::raw('COUNT(*) as total'))
             ->groupBy('product_category')
             ->get();
+    }
+
+    public static function getProductByKeyword($keyword = null)
+    {
+        $query = self::getProductListQuery();
+
+        if ($keyword) {
+            $query->where(function ($productQuery) use ($keyword) {
+                $productQuery->where('product_id', 'like', "%{$keyword}%")
+                    ->orWhere('product_name', 'like', "%{$keyword}%")
+                    ->orWhere('product_type', 'like', "%{$keyword}%")
+                    ->orWhere('product_category', 'like', "%{$keyword}%")
+                    ->orWhere('product_description', 'like', "%{$keyword}%")
+                    ->orWhereHas('category', function ($categoryQuery) use ($keyword) {
+                        $categoryQuery->where('category', 'like', "%{$keyword}%");
+                    });
+            });
+        }
+
+        return $query->orderBy('created_at', 'desc')->paginate(10);
     }
 }

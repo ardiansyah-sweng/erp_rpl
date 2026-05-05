@@ -15,7 +15,7 @@ class ProductController extends Controller
     public function getProductList()
     {
         $products = Product::getAllProducts();
-        $totalProducts = Product::count();
+        $totalProducts = $products->total();
         $categories = Category::orderBy('category')->get();
         return view('product.list', compact('products', 'categories', 'totalProducts'));
     }
@@ -110,7 +110,7 @@ class ProductController extends Controller
     public function searchProduct($keyword)
     {
         $products = Product::getProductByKeyword($keyword);
-        $totalProducts = Product::count();
+        $totalProducts = $products->total();
         $categories = Category::orderBy('category')->get();
 
         return view('product.list', compact('products', 'categories', 'totalProducts'));
