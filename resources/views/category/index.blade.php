@@ -386,7 +386,7 @@
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Category</h3>
                 <a href="{{ route('categories.create') }}" class="btn btn-primary btn-sm">Tambah</a>
-                <a href="{{ route('categories.index', ['export' => 'pdf']) }}" class="btn btn-primary btn-sm ms-2">Cetak Category</a>
+                <a href="{{ route('category.print') }}" class="btn btn-primary btn-sm ms-2" target="_blank">Cetak Category</a>
               </div>
     
               <div class="col-sm-6">
