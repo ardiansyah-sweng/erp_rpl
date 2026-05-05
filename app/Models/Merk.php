@@ -46,11 +46,6 @@ class Merk extends Model
      */
     protected $appends = ['status_label', 'display_name'];
 
-    public static function getAllMerkAll()
-    {
-        return self::orderBy('created_at', 'asc')->get(); // tanpa paginate
-    }
-
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -126,9 +121,7 @@ class Merk extends Model
      */
     public static function getAllMerk(?string $search = null)
     {
-        return self::search($search)
-                   ->orderBy(MerkColumns::CREATED_AT, 'desc')
-                   ->paginate(config('pagination.merk_per_page', 15));
+         return self::orderBy('created_at', 'asc')->get(); 
     }
 
     /**
