@@ -19,7 +19,7 @@ return [
         'category'                  => $master['category'],
         'cu'                        => 'conversion_unit',
         'grn'                       => 'goods_receipt_note',
-        'item'                      => 'item',
+        'item'                      => 'items',
         'log_avg_base_price'        => 'log_avg_base_price',
         'log_base_price_supplier'   => 'log_base_price_supplier_product',
         'master_product'            => 'master_product',
@@ -212,10 +212,10 @@ return [
         ],
         'products' => [
             'id'                    => 'product_id',            #char[4]
-            'name'                  => 'product_name',          #string[35]
-            'type'                  => 'product_type',          #finished, raw material
-            'category'              => 'product_category',      #tinyInteger
-            'desc'                  => 'product_description',   #string[255]
+            'name'                  => 'name',                  #string[35]
+            'type'                  => 'type',                  #finished, raw material
+            'category'              => 'category',              #tinyInteger
+            'desc'                  => 'description',           #string[255]
             'created'               => $master['created'],
             'updated'               => $master['updated']
         ],

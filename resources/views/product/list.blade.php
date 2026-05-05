@@ -409,7 +409,7 @@ use App\Helpers\EncryptionHelper;
                   <ul class="dropdown-menu" aria-labelledby="printProductsDropdown">
                     <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'ALL']) }}" target="_blank">Semua Produk</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'FG']) }}" target="_blank">Finished Goods</a></li> <!--Cetak Kategori PDF-->
+                    <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'FG']) }}" target="_blank">Finished Goods</a></li>
                     <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'RM']) }}" target="_blank">Raw Material</a></li>
                     <li><a class="dropdown-item" href="{{ route('product.print.type', ['type' => 'HFG']) }}" target="_blank">Half Finished Goods</a></li>
                   </ul>
