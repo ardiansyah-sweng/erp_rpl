@@ -46,6 +46,11 @@ class Merk extends Model
      */
     protected $appends = ['status_label', 'display_name'];
 
+    public static function getAllMerkForPDF()
+    {
+        return self::orderBy('created_at', 'asc')->get(); // tanpa paginate
+    }
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

@@ -60,6 +60,13 @@ class MerkController extends Controller
         return view('merk.index', compact('merks', 'search', 'totalMerks'));
     }
 
+    public function printMerk()
+    {
+        $merks = Merk::getAllMerkForPDF();
+        $pdf = Pdf::loadView('merk.print', compact('merks'));
+        return $pdf->stream('data-merk.pdf');
+    }
+    
     /**
      * Show the form for creating a new resource.
      */
