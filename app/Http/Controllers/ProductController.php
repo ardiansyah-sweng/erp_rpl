@@ -48,35 +48,34 @@ class ProductController extends Controller
     // $productData = $products[$id];
     // $productData['category'] = (object)$productData['category'];
 
-    public function printProductsByType($type)
-    {
-        if ($type === 'ALL') {
-            // Get all products
-            $products = Product::with('category')->get();
-            $typeLabel = 'Semua Tipe';
-        } else {
-            // Get the enum case based on the type parameter
-            $productType = ProductType::tryFrom($type);
-            if (!$productType) {
-                abort(404, 'Invalid product type');
-            }
-
-            // Get products of the specified type
-            $products = Product::getProductByType($type)
-                ->load(['category']);
-            $typeLabel = $productType->value;
+public function printProductsByType($type)
+{
+    if ($type === 'ALL') {
+        $products = Product::all();
+        $typeLabel = 'Semua Tipe';
+    } else {
+        $productType = ProductType::tryFrom($type);
+        if (!$productType) {
+            abort(404, 'Invalid product type');
         }
-
-        // Load the PDF view
-        $pdf = PDF::loadView('product.pdf', [
-            'products' => $products,
-            'type' => $typeLabel
-        ]);
-
-        // Stream the PDF to the browser
-        return $pdf->stream("products_{$type}.pdf");
+        $products = Product::where('type', $type)->get();
+        $typeLabel = $productType->value;
     }
 
+    foreach ($products as $product) {
+        // Coba cari kategori pakai kolom 'product_category' atau 'category'
+        $catId = $product->product_category ?? $product->category;
+        $categoryData = Category::find($catId);
+        $product->category_name = $categoryData ? $categoryData->category : '-';
+    }
+
+    $pdf = PDF::loadView('product.pdf', [
+        'products' => $products,
+        'type' => $typeLabel
+    ]);
+
+    return $pdf->stream("products_{$type}.pdf");
+}
     public function addProduct(Request $request)
     {
         $validatedData = $request->validate([

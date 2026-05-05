@@ -42,15 +42,16 @@
                 <th>Deskripsi</th>
             </tr>
         </thead>
-        <tbody>
+<tbody>
             @foreach($products as $index => $product)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $product->product_id }}</td>
-                <td>{{ $product->product_name }}</td>
-                <td>{{ $product->product_type }}</td>
-                <td>{{ $product->category ? $product->category->category : '-' }}</td>
-                <td>{{ $product->product_description ?: '-' }}</td>
+                <!-- Kita coba beberapa nama kolom yang mungkin -->
+                <td>{{ $product->product_id ?? $product->id }}</td> 
+                <td>{{ $product->product_name ?? $product->name }}</td>
+                <td>{{ $product->product_type ?? $product->type }}</td>
+                <td>{{ $product->category_name }}</td>
+                <td>{{ $product->product_description ?? $product->description ?? '-' }}</td>
             </tr>
             @endforeach
             @if(count($products) === 0)
