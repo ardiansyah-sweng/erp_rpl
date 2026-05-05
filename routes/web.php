@@ -230,6 +230,9 @@ Route::get('/item/export/category/{id}', [ItemController::class, 'exportItemByCa
 Route::get('/item/export-by-category/{categoryId}', [ItemController::class, 'exportItemByCategoryToPdf'])
     ->name('item.export.category.pdf');
 
+// Tambahkan ini di bawah rute product yang sudah ada
+Route::get('/item/detail/{id}', [ItemController::class, 'getItemById'])->name('item.detail');
+
 // Supplier
 Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');

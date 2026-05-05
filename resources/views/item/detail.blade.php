@@ -210,44 +210,31 @@
                             <div class="card-body">
                                 <table class="table table-bordered">
                                     <tr>
-                                        <th style="width: 30%">ID</th>
+                                        <th style="width: 30%">ID Database</th>
                                         <td>{{ $item->id ?? 'Tidak ada data' }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Product ID</th>
-                                        <td>{{ $item->product_id ?? 'Tidak ada data' }}</td>
+                                        <th>SKU (Stock Keeping Unit)</th>
+                                        <td><strong>{{ $item->sku ?? 'Tidak ada data' }}</strong></td>
                                     </tr>
-                                    <tr>
-                                        <th>SKU</th>
-                                        <td>{{ $item->sku ?? 'Tidak ada data' }}</td>
-                                    </tr>
+                                    {{-- Ganti 'item_name' jadi 'name' agar data muncul --}}
                                     <tr>
                                         <th>Item Name</th>
-                                        <td>{{ $item->item_name ?? 'Tidak ada data' }}</td>
+                                        <td>{{ $item->name ?? 'Tidak ada data' }}</td>
                                     </tr>
+                                    {{-- Ganti 'measurement_unit' jadi relasi unit_name --}}
                                     <tr>
                                         <th>Measurement Unit</th>
-                                        <td>{{ $item->measurement_unit ?? 'Tidak ada data' }}</td>
+                                        <td>{{ $item->unit?->unit_name ?? 'Tidak ada data' }}</td>
                                     </tr>
+                                    {{-- Ganti 'avg_base_price' jadi 'base_price' agar data muncul --}}
                                     <tr>
                                         <th>Average Base Price</th>
-                                        <td>{{ $item->avg_base_price ?? 'Tidak ada data' }}</td>
+                                        <td>Rp {{ number_format($item->base_price ?? 0, 0, ',', '.') }}</td>
                                     </tr>
                                     <tr>
                                         <th>Selling Price</th>
-                                        <td>{{ $item->selling_price ?? 'Tidak ada data' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Purchase Unit</th>
-                                        <td>{{ $item->purchase_unit ?? 'Tidak ada data' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Sell Unit</th>
-                                        <td>{{ $item->sell_unit ?? 'Tidak ada data' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Stock Unit</th>
-                                        <td>{{ $item->stock_unit ?? 'Tidak ada data' }}</td>
+                                        <td>Rp {{ number_format($item->selling_price ?? 0, 0, ',', '.') }}</td>
                                     </tr>
                                     <tr>
                                         <th>Created At</th>
@@ -258,6 +245,11 @@
                                         <td>{{ $item->updated_at ?? 'Tidak ada data' }}</td>
                                     </tr>
                                 </table>
+                                <div class="mt-4">
+                                    <a href="{{ route('item.list') }}" class="btn btn-secondary">
+                                        <i class="bi bi-arrow-left"></i> Kembali ke Daftar Item
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -314,7 +306,7 @@
             });
         </script>
 
-        
+
 </body>
 
 </html>
