@@ -212,10 +212,10 @@ return [
         ],
         'products' => [
             'id'                    => 'product_id',            #char[4]
-            'name'                  => 'name',                  #string[35]
-            'type'                  => 'type',                  #finished, raw material
-            'category'              => 'category',              #tinyInteger
-            'desc'                  => 'description',           #string[255]
+            'name'                  => 'product_name',          #string[35]
+            'type'                  => 'product_type',          #finished, raw material
+            'category'              => 'product_category',      #tinyInteger
+            'desc'                  => 'product_description',   #string[255]
             'created'               => $master['created'],
             'updated'               => $master['updated']
         ],
