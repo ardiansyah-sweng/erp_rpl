@@ -62,7 +62,7 @@ class MerkController extends Controller
 
     public function printMerk()
     {
-        $merks = Merk::getAllMerk();
+        $merks = Merk::getAllMerkForPDF();
         $pdf = Pdf::loadView('merk.print', compact('merks'));
         return $pdf->stream('data-merk.pdf');
     }
