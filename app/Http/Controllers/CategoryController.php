@@ -267,18 +267,12 @@ class CategoryController extends Controller
     }
     public function getCategoryByParent($parentId)
     {
-        // Panggil method yang diizinkan
-        $allCategories = Category::getCategory();
-        // Filter data yang parent_id-nya sesuai
-        $filtered = $allCategories->where('parent_id', $parentId)->values();
+    // Mengambil data asli dari database berdasarkan parent_id
+    $categories = \App\Models\Category::where('parent_id', $parentId)->get();
 
-        if ($filtered->isEmpty()) {
-            return response()->json([
-                'message' => 'Tidak ada kategori dengan parent ID tersebut'
-            ], 404);
-        }
-
-        return response()->json($filtered, 200);
+    // Langsung cetak PDF, tidak perlu data dummy lagi
+    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('product.category.pdf', compact('categories'));
+    return $pdf->stream('laporan_kategori_parent_'.$parentId.'.pdf');
     }
 
 }

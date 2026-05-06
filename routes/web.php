@@ -153,6 +153,7 @@ Route::post('/merks/add', [MerkController::class, 'addMerk'])->name('merk.addMer
 // Route::delete('/merks/delete/{id}', [MerkController::class, 'deleteMerk'])->name('merks.delete.legacy');
 
 // Category
+Route::get('/categories/parent/{parentId}', [\App\Http\Controllers\CategoryController::class, 'getCategoryByParent']);
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -161,8 +162,8 @@ Route::get('/categories/search', [CategoryController::class, 'searchCategory']);
 Route::get('/categories/edit/{id}', [CategoryController::class, 'edit'])->name('categories.edit');
 Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-Route::get('/categories/parent/{parentId}', [CategoryController::class, 'getCategoryByParent']);
 Route::get('/categories/list', [CategoryController::class, 'getCategoryList'])->name('categories.list');
+Route::get('/category/print-by-parent/{parentId}', [CategoryController::class, 'getCategoryByParent'])->name('category.print.parent');
 
 // Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
