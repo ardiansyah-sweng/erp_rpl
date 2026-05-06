@@ -63,6 +63,19 @@ class SupplierController extends Controller
         ]);
     }
 
+    public function searchSuppliers(Request $request)
+    {
+        $keywords = $request->input('keywords');
+
+        // Gunakan method yang sudah didefinisikan di model
+        $results = Supplier::getSupplierByKeywords($keywords);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $results
+        ]);
+    }
+
     public function listSuppliers(Request $request)
     {
         $pageLength = (int) $request->input('pageLength', 10);

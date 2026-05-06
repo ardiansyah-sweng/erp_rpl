@@ -58,6 +58,8 @@
       integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
       crossorigin="anonymous"
     />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <!--end::Head-->
   <!--begin::Body-->
@@ -756,20 +758,96 @@
       sparkline3.render();
     </script>
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <!-- AdminLTE JS -->
     <script src={{ asset("assets/dist/js/adminlte.js") }}></script>
 
     <!-- Custom Sidebar Toggle Script -->
     <script>
-    $(document).ready(function () {
-        $('[data-widget="pushmenu"]').on('click', function (e) {
-            e.preventDefault();
-            $('body').toggleClass('sidebar-collapse');
-        });
-    });
+      function confirmDelete(id) {
+          if (confirm('Apakah Anda yakin ingin menghapus supplier ' + id + '?')) {
+              let form = document.createElement('form');
+              form.method = 'POST';
+              form.action = '/supplier/delete/' + id;
+              
+              let csrf = document.createElement('input');
+              csrf.type = 'hidden';
+              csrf.name = '_token';
+              csrf.value = '{{ csrf_token() }}';
+              
+              let method = document.createElement('input');
+              method.type = 'hidden';
+              method.name = '_method';
+              method.value = 'DELETE';
+              
+              form.appendChild(csrf);
+              form.appendChild(method);
+              document.body.appendChild(form);
+              form.submit();
+          }
+      }
+
+      // AJAX Search Logic
+      $(document).ready(function() {
+          let timeout = null;
+          $('#supplierSearch').on('keyup', function() {
+              clearTimeout(timeout);
+              let keywords = $(this).val();
+              
+              timeout = setTimeout(function() {
+                  $.ajax({
+                      url: "{{ url('/suppliers/search') }}",
+                      type: "GET",
+                      data: { keywords: keywords },
+                      success: function(response) {
+                          if (response.status === 'success') {
+                              updateTable(response.data);
+                          }
+                      }
+                  });
+              }, 300); // 300ms debounce
+          });
+
+          function updateTable(suppliers) {
+              let tbody = $('#supplierTable tbody');
+              tbody.empty();
+
+              if (suppliers.length === 0) {
+                  tbody.append('<tr><td colspan="12" class="text-center">No data found</td></tr>');
+                  return;
+              }
+
+              suppliers.forEach((supplier, index) => {
+                  let row = `
+                      <tr>
+                          <td class="text-center">${index + 1}</td>
+                          <td>${supplier.supplier_id}</td>
+                          <td>${supplier.company_name}</td>
+                          <td>${supplier.address}</td>
+                          <td>${supplier.telephone}</td>
+                          <td>${supplier.bank_account}</td>
+                          <td class="text-center"><span class="badge bg-secondary">${supplier.order_frequency || 0}</span></td>
+                          <td>${supplier.created_at || '-'}</td>
+                          <td>${supplier.updated_at || '-'}</td>
+                          <td class="text-center"><span class="badge bg-info text-dark">${supplier.pic_count || 0}</span></td>
+                          <td class="text-center">
+                              <div class="d-flex justify-content-center gap-1 flex-wrap">
+                                  <a href="/supplier/edit/${supplier.supplier_id}" class="btn btn-warning btn-sm">Edit</a>
+                                  <a href="/supplier/pic/add?supplier_id=${supplier.supplier_id}" class="btn btn-primary btn-sm">Add Pic</a>
+                                  <a href="/supplier/detail/${supplier.supplier_id}" class="btn btn-success btn-sm">Detail</a>
+                                  <button class="btn btn-danger btn-sm" onclick="confirmDelete('${supplier.supplier_id}')">Delete</button>
+                              </div>
+                          </td>
+                      </tr>
+                  `;
+                  tbody.append(row);
+              });
+          }
+
+          $('[data-widget="pushmenu"]').on('click', function (e) {
+              e.preventDefault();
+              $('body').toggleClass('sidebar-collapse');
+          });
+      });
     </script>
 
     <!--end::Script-->

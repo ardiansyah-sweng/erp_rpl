@@ -134,13 +134,37 @@ class Supplier extends Model
 
     public static function getSupplierByKeywords($keywords = null)
     {
-            $query = self::query();
+        $model = new self;
+        $supplierTable = $model->getTable();
+        $poTable = config('db_constants.table.po');
+        $picTable = config('db_constants.table.supplier_pic');
+        $colPo = config('db_constants.column.po');
+        $colPic = config('db_constants.column.supplier_pic');
 
-            if (!empty($keywords)) {
-                $query->where('company_name', 'like', "%{$keywords}%");
-            }
+        $query = self::query()
+            ->leftJoin($poTable, $supplierTable . '.supplier_id', '=', $poTable . '.' . $colPo['supplier_id'])
+            ->leftJoin($picTable, $supplierTable . '.supplier_id', '=', $picTable . '.' . $colPic['supplier_id'])
+            ->select(
+                $supplierTable . '.*',
+                DB::raw('COUNT(DISTINCT ' . $poTable . '.' . $colPo['po_number'] . ') as order_frequency'),
+                DB::raw('COUNT(DISTINCT ' . $picTable . '.' . $colPic['id'] . ') as pic_count')
+            )
+            ->groupBy(
+                $supplierTable . '.supplier_id',
+                $supplierTable . '.company_name',
+                $supplierTable . '.address',
+                $supplierTable . '.telephone',
+                $supplierTable . '.bank_account',
+                $supplierTable . '.created_at',
+                $supplierTable . '.updated_at'
+            );
 
-            return $query->get();
+        if (!empty($keywords)) {
+            $query->where($supplierTable . '.company_name', 'like', "%{$keywords}%")
+                  ->orWhere($supplierTable . '.supplier_id', 'like', "%{$keywords}%");
+        }
+
+        return $query->get();
     }
     
     public static function deleteSupplier($id)
