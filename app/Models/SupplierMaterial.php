@@ -18,9 +18,12 @@ class SupplierMaterial extends Model
         'product_name',
         'base_price',
     ];
-    public static function getSupplierMaterial()
+    public static function getSupplierMaterial($keyword = null)
     {
-        return DB::table('supplier_product')->paginate(10);
+        return self::querySupplierMaterial($keyword)
+            ->orderBy('id', 'desc')
+            ->paginate(10)
+            ->appends(['keyword' => $keyword]);
     }
 
     public static function getSupplierMaterialByKeyword($keyword)
@@ -81,14 +84,25 @@ class SupplierMaterial extends Model
     }
     public static function searchSupplierMaterial($keyword)
     {
-        return DB::table('supplier_product')
-            ->where(function ($query) use ($keyword) {
+        return self::getSupplierMaterial($keyword);
+    }
+
+    private static function querySupplierMaterial($keyword = null)
+    {
+        $query = DB::table('supplier_product');
+        $keyword = trim((string) $keyword);
+
+        if ($keyword !== '') {
+            $query->where(function ($query) use ($keyword) {
                 $query->where('supplier_id', 'like', '%' . $keyword . '%')
                     ->orWhere('company_name', 'like', '%' . $keyword . '%')
                     ->orWhere('product_id', 'like', '%' . $keyword . '%')
-                    ->orWhere('product_name', 'like', '%' . $keyword . '%');
-            })
-            ->paginate(10);
+                    ->orWhere('product_name', 'like', '%' . $keyword . '%')
+                    ->orWhere('base_price', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        return $query;
     }
 
     public static function countSupplierMaterialFoundByKeyword($keyword)

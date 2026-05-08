@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\DB;
 
 class SupplierMaterialController extends Controller
 {
-    public function getSupplierMaterial()
+    public function getSupplierMaterial(Request $request)
     {
-        $model = new SupplierMaterial();
-        $materials = $model->getSupplierMaterial();
+        $keyword = trim((string) $request->input('keyword', ''));
+        $materials = SupplierMaterial::getSupplierMaterial($keyword);
 
-        return view('supplier.material.list', ['materials' => $materials]);
+        return view('supplier.material.list', [
+            'materials' => $materials,
+            'keyword' => $keyword,
+        ]);
     }
 
     public function getSupplierMaterialById($id)
@@ -107,22 +110,10 @@ class SupplierMaterialController extends Controller
         return response()->json($results);
     }
 
-public function searchSupplierMaterial(Request $request)
+    public function searchSupplierMaterial(Request $request)
     {
-       
-        $keyword = $request->input('keyword');
-        
-        $materials = SupplierMaterial::searchSupplierMaterial($keyword);
-
-        // Cek apakah hasil pagination kosong
-        if ($materials->isEmpty()) {
-            session()->flash('error', 'Data tidak ditemukan atau tidak ada hasil.');
-        }
-
-        // 4. Return ke View dengan membawa data materials & keyword
-        return view('supplier.material.list', [
-            'materials' => $materials,
-            'keyword'   => $keyword
+        return redirect()->route('supplier.material', [
+            'keyword' => trim((string) $request->input('keyword', '')),
         ]);
     }
 }
