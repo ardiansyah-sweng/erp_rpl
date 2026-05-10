@@ -267,21 +267,22 @@ class CategoryController extends Controller
     }
     public function getCategoryByParent($id) 
     {
-        // Ambil data kategorinya saja dulu
+        // 1. Ambil data asli dari database
         $categories = Category::where('parent_id', $id)->get();
 
+        // 2. CEK: Hanya jalankan ini JIKA datanya memang benar-benar kosong
         if ($categories->isEmpty()) {
-            return redirect()->back()->with('error', 'Data Kosong!');
+            $categories = collect([(object)[
+                'id' => '-',
+                'category' => 'Data Belum Tersedia untuk Parent ID ' . $id,
+                'parent' => null, 
+                'is_active' => 0
+            ]]);
         }
 
-        // Pakai try-catch buat nangkep error kalau ada yang salah
-        try {
-            $pdf = Pdf::loadView('product.category.pdf', ['categories' => $categories]);
-            // Pakai stream biar kita lihat errornya apa kalau gagal
-            return $pdf->stream('laporan.pdf');
-        } catch (\Exception $e) {
-            // Kalau error, dia bakal balik ke halaman sebelumnya dan kasih tau errornya
-            return redirect()->back()->with('error', 'Gagal cetak: ' . $e->getMessage());
-        }
+        // 3. Render PDF-nya
+        $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
+        
+        return $pdf->stream('laporan_kategori.pdf');
     }
 }
