@@ -265,20 +265,23 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'Kategori tidak ditemukan atau gagal dihapus.');
         }
     }
-    public function getCategoryByParent($parentId)
+    public function getCategoryByParent($id) 
     {
-        // Panggil method yang diizinkan
-        $allCategories = Category::getCategory();
-        // Filter data yang parent_id-nya sesuai
-        $filtered = $allCategories->where('parent_id', $parentId)->values();
+        // Ambil data kategorinya saja dulu
+        $categories = Category::where('parent_id', $id)->get();
 
-        if ($filtered->isEmpty()) {
-            return response()->json([
-                'message' => 'Tidak ada kategori dengan parent ID tersebut'
-            ], 404);
+        if ($categories->isEmpty()) {
+            return redirect()->back()->with('error', 'Data Kosong!');
         }
 
-        return response()->json($filtered, 200);
+        // Pakai try-catch buat nangkep error kalau ada yang salah
+        try {
+            $pdf = Pdf::loadView('product.category.pdf', ['categories' => $categories]);
+            // Pakai stream biar kita lihat errornya apa kalau gagal
+            return $pdf->stream('laporan.pdf');
+        } catch (\Exception $e) {
+            // Kalau error, dia bakal balik ke halaman sebelumnya dan kasih tau errornya
+            return redirect()->back()->with('error', 'Gagal cetak: ' . $e->getMessage());
+        }
     }
-
 }
