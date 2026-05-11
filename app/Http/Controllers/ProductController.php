@@ -83,11 +83,20 @@ class ProductController extends Controller
             'product_id' => 'required|string|unique:products,product_id',
             'product_name' => 'required|string',
             'product_type' => 'required|string',
-            'product_category' => 'required|string',
+            'product_category' => 'required|integer',
             'product_description' => 'nullable|string',
         ]);
 
-        Product::addProduct($validatedData);
+        // Map form input keys to database column keys
+        $dataToInsert = [
+            'product_id'  => $validatedData['product_id'],
+            'name'        => $validatedData['product_name'],
+            'type'        => $validatedData['product_type'],
+            'category'    => $validatedData['product_category'],
+            'description' => $validatedData['product_description'] ?? null,
+        ];
+
+        Product::addProduct($dataToInsert);
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
