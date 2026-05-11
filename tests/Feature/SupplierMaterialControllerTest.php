@@ -10,11 +10,11 @@ class SupplierMaterialControllerTest extends TestCase
     // Helper: mock DB builder untuk query yang ada DB::raw() di join
     private function mockDbQuery(array $returnData): void
     {
-        // Pake Expression langsung karena sudah di-import di atas
+        // Cara paling aman: DB::raw cuma balikin string yang dikirim
         DB::shouldReceive('raw')
-            ->andReturnUsing(fn($value) => new \Illuminate\Database\Query\Expression($value));
+            ->andReturnUsing(fn($value) => $value);
 
-        // PASTIKAN BUILDER-NYA CUMA SATU (Di foto lo tadi ada dua baris dobel)
+        // Mock query builder
         $builder = \Mockery::mock(\Illuminate\Database\Query\Builder::class);
         $builder->shouldReceive('join')->andReturn($builder);
         $builder->shouldReceive('where')->andReturn($builder);
