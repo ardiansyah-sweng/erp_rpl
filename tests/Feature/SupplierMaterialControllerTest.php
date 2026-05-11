@@ -69,7 +69,8 @@ class SupplierMaterialControllerTest extends TestCase
             ]
         ]);
     }
- public function testReturnsSupplierMaterialsByCategory()
+
+    public function testReturnsSupplierMaterialsByCategory()
 {
     $supplierId = 'SUP014';
     $kategory = 18;

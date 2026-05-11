@@ -107,8 +107,7 @@ class SupplierMaterialController extends Controller
         return response()->json($results);
     }
 
-<<<<<<< HEAD
-        public function getSupplierMaterialByCategory($kategory, $supplier)
+    public function getSupplierMaterialByCategory($kategory, $supplier)
     {
         $results = DB::table('supplier_product')
             ->join('products', DB::raw("SUBSTRING_INDEX(supplier_product.product_id, '-', 1)"), '=', 'products.product_id')
@@ -134,8 +133,7 @@ class SupplierMaterialController extends Controller
 
         return response()->json($results);
     }
-}
-=======
+
 public function searchSupplierMaterial(Request $request)
     {
        
@@ -155,4 +153,3 @@ public function searchSupplierMaterial(Request $request)
         ]);
     }
 }
->>>>>>> 2ced6170b855cbca0240192e75c30c0fc1d22db9
