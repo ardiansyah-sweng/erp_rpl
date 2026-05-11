@@ -101,21 +101,10 @@ class Product extends Model
         return $this->hasMany(Item::class, 'product_id', 'product_id');
     }
 
-    public static function getProductByKeyword($keyword)
-    {
-        return self::with('category')
-            ->where('product_id', 'like', "%{$keyword}%")
-            ->orWhere('product_name', 'like', "%{$keyword}%")
-            ->orWhere('product_type', 'like', "%{$keyword}%")
-            ->orWhere('product_description', 'like', "%{$keyword}%")
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-    }
-
     public static function getProductByCategory($productCategory)
     {
         return self::with('category')
-            ->where('product_category', $productCategory)
+            ->where(ProductColumns::CATEGORY, $productCategory)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
     }
