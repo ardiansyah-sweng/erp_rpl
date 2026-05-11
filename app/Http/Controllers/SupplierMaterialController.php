@@ -108,10 +108,12 @@ class SupplierMaterialController extends Controller
     }
 
     public function getSupplierMaterialByCategory($kategory, $supplier)
-    {
+    {   
+        $tableItem = config('db_constants.table.item'); // ← pakai config
+
         $results = DB::table('supplier_product')
             ->join('products', DB::raw("SUBSTRING_INDEX(supplier_product.product_id, '-', 1)"), '=', 'products.product_id')
-            ->join('item', 'products.product_id', '=', 'item.product_id')
+            ->join($tableItem, 'products.product_id', '=', $tableItem . '.product_id') // ← dynamic
             ->where('supplier_product.supplier_id', $supplier)
             ->where('products.product_category', $kategory)
             ->select(
@@ -121,14 +123,14 @@ class SupplierMaterialController extends Controller
                 'products.product_name',
                 'products.product_category',
                 'supplier_product.base_price',
-                'item.item_name',
-                'item.measurement_unit',
-                'item.stock_unit'
+                $tableItem . '.item_name',
+                $tableItem . '.measurement_unit',
+                $tableItem . '.stock_unit'
             )
             ->get();
 
         if ($results->isEmpty()) {
-        return response()->json(['message' => 'Tidak ada data ditemukan'], 404);
+            return response()->json(['message' => 'Tidak ada data ditemukan'], 404);
         }
 
         return response()->json($results);
