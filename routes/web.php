@@ -171,6 +171,10 @@ Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'add
 Route::get('/supplier/pic/list', [SupplierPIController::class, 'getSupplierPICAll'])->name('supplier-pic.list');
 Route::post('/supplier-pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])->name('supplier.pic.update');
 
+// CUKUP TAMBAH INI SAJA, JANGAN HAPUS YANG LAIN
+Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'getPICByID'])->name('supplier.pic.edit_form');
+Route::put('/supplier/pic/update-action/{id}', [SupplierPIController::class, 'editSupplierPIC'])->name('supplier.pic.edit');
+
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan

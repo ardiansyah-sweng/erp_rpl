@@ -314,8 +314,7 @@
                 </td>
                 <td>
                   <a href="/supplier/pic/detail/{{ $pic->id }}" class="btn btn-sm btn-info">Detail</a>
-                  <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                   <form action="{{ route('supplier.pic.delete', $pic->id) }}" method="POST" class="delete-form d-inline" data-name="{{ $pic->name }}">
+                  <a href="{{ route('supplier.pic.edit_form', $pic->id) }}" class="btn btn-sm btn-primary">Edit</a>                   <form action="{{ route('supplier.pic.delete', $pic->id) }}" method="POST" class="delete-form d-inline" data-name="{{ $pic->name }}">
                       @csrf
                       @method('DELETE')
                       <button type="submit" class="btn btn-sm btn-danger btn-delete" data-name="{{ $pic->name }}">Hapus</button>
