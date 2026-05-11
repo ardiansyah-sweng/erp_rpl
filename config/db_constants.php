@@ -31,7 +31,7 @@ return [
         'po_detail'                 => 'purchase_order_detail',
         'products'                   => 'products',
         'supplier'                  => 'suppliers',
-        'supplier_pic'              => 'supplier_pic',
+        'supplier_pic'              => 'supplier_pics',
         'supplier_product'          => 'supplier_product',
         'unit'                      => 'item_unit',
         'whouse'                    => 'warehouses'

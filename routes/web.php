@@ -36,6 +36,7 @@ Route::get('/', function () {
 use Illuminate\Support\Facades\Route;
 use App\Helpers\EncryptionHelper;
 
+<<<<<<< HEAD
 // Controllers
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\BranchController;
@@ -51,6 +52,14 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
+=======
+// untuk cetak merk
+Route::get('/merk/print', [MerkController::class, 'printMerk'])->name('merk.print');
+
+Route::get('/login', function () {
+    return view('login'); // tampilkan view login
+})->name('login');
+>>>>>>> 2ced6170b855cbca0240192e75c30c0fc1d22db9
 
 // Models
 use App\Models\Warehouse;
@@ -65,6 +74,7 @@ use App\Models\BillOfMaterial;
 Route::get('/', fn() => redirect()->route('login'));
 >>>>>>> Regita_223D_CountSupplierMaterialByType
 
+<<<<<<< HEAD
 Route::get('/login', fn() => view('login'))->name('login');
 
 Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
@@ -88,6 +98,10 @@ Route::get('/assortment_production/detail', fn() => view('assortment_production.
 Route::get('/supplier/{id}/material-by-type', [SupplierController::class, 'countSupplierMaterialByType'])->name('supplier.material.bytype');
 
 <<<<<<< HEAD
+=======
+Route::get('/warehouse/report', [WarehouseController::class, 'exportPdf'])->name('warehouse.report');
+
+>>>>>>> 2ced6170b855cbca0240192e75c30c0fc1d22db9
 Route::get('/supplier/pic/add', function () {
     return view('supplier/pic/add');
 });
@@ -122,6 +136,7 @@ Route::get('/product/add', function () {
 });
 
 Route::get('/supplier/list', [App\Http\Controllers\SupplierController::class, 'listSuppliers'])->name('supplier.list');
+Route::get('/supplier/list/pic-zero', [App\Http\Controllers\SupplierController::class, 'listSuppliersWithZeroPic'])->name('supplier.list.pic-zero');
 Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
 });

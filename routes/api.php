@@ -7,6 +7,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\itemController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,4 +103,13 @@ Route::prefix('suppliers')->name('api.suppliers.')->group(function () {
     Route::get('/', [SupplierController::class, 'getSupplierWithOrderFrequency'])->name('index');
     Route::get('/{id}', [SupplierController::class, 'getSupplierById'])->name('show');
     Route::put('/{id}', [SupplierController::class, 'updateSupplier'])->name('update');
+});
+
+// Category API Routes
+Route::prefix('categories')->name('api.categories.')->group(function () {
+    Route::get('/', [CategoryController::class, 'index'])->name('index');
+    Route::post('/', [CategoryController::class, 'store'])->name('store');
+    Route::get('/{id}', [CategoryController::class, 'show'])->name('show');
+    Route::put('/{id}', [CategoryController::class, 'update'])->name('update');
+    Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('destroy');
 });
