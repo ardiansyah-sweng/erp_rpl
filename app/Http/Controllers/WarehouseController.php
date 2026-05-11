@@ -95,7 +95,12 @@ class WarehouseController extends Controller
             return response()->json(['message' => 'Tidak ada warehouse yang ditemukan'], 404);
         }
 
-        return view('warehouse.list', compact('warehouses'));
+        // TAMBAHAN BARU: Hitung jumlah RM dan FG warehouse
+        $rmWarehouseCount = Warehouse::where('is_rm_whouse', 1)->count();
+        $fgWarehouseCount = Warehouse::where('is_fg_whouse', 1)->count();
+
+        // Pass semua data ke view
+        return view('warehouse.list', compact('warehouses', 'rmWarehouseCount', 'fgWarehouseCount'));
     }
   
     public function addWarehouse(Request $request)

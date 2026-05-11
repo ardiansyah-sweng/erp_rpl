@@ -347,6 +347,55 @@
                 <!--end::Container-->
             </div>
 
+            <!--begin::App Content-->
+            <div class="app-content">
+                <!--begin::Container-->
+                <div class="container-fluid">
+                    
+<!-- Summary Cards - BAGIAN BARU -->
+<div class="row g-3 mb-4">
+    <!-- RM Warehouse Card -->
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px;">
+            <div class="card-body p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-white-50 mb-1 fw-medium" style="font-size: 0.75rem; letter-spacing: 0.5px;">RM WAREHOUSE</p>
+                        <h2 class="mb-0 fw-bold text-white" style="font-size: 2rem;">{{ $rmWarehouseCount }}</h2>
+                        <p class="text-white-50 mb-0 mt-1" style="font-size: 0.7rem;">Raw Material Storage</p>
+                    </div>
+                    <div class="text-white opacity-50" style="font-size: 2.5rem;">
+                        <i class="bi bi-box-seam-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FG Warehouse Card -->
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 12px;">
+            <div class="card-body p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-white-50 mb-1 fw-medium" style="font-size: 0.75rem; letter-spacing: 0.5px;">FG WAREHOUSE</p>
+                        <h2 class="mb-0 fw-bold text-white" style="font-size: 2rem;">{{ $fgWarehouseCount }}</h2>
+                        <p class="text-white-50 mb-0 mt-1" style="font-size: 0.7rem;">Finished Goods Storage</p>
+                    </div>
+                    <div class="text-white opacity-50" style="font-size: 2.5rem;">
+                        <i class="bi bi-archive-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Summary Cards -->
+                </div>
+                <!--end::Container-->
+            </div>
+            <!--end::App Content-->
+
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title">List Warehouse</h3>
