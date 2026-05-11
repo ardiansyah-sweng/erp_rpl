@@ -14,6 +14,7 @@ class Item extends Model
 
     protected $table;
     protected $fillable = [];
+    protected $appends = ['item_name'];
 
     public function __construct(array $attributes = [])
     {
@@ -26,6 +27,22 @@ class Item extends Model
         $this->fillable = ItemColumns::getFillable();
     }
 
+    // Accessor untuk menampilkan item_name dengan dummy data jika kosong
+    public function getItemNameAttribute()
+    {
+        // Cek jika ada data di kolom 'item_name' di database
+        $itemName = $this->attributes['item_name'] ?? null;
+        
+        // Jika kosong, tampilkan dummy data
+        if (empty($itemName)) {
+            // Generate dummy name dari SKU atau ID
+            $sku = $this->attributes['sku'] ?? 'ITEM-' . ($this->attributes['id'] ?? '0');
+            return "Dummy Item - {$sku}";
+        }
+        
+        return $itemName;
+    }
+
     // Relasi berdasarkan SKU ke PurchaseOrderDetail
     public function purchaseOrderDetails()
     {
@@ -36,12 +53,6 @@ class Item extends Model
     public function unit()
     {
         return $this->belongsTo(MeasurementUnit::class, ItemColumns::MEASUREMENT, ItemColumns::ID);
-    }
-
-    // Accessor untuk item_name (alias dari name)
-    public function getItemNameAttribute()
-    {
-        return $this->attributes['name'] ?? null;
     }
 
     // Ambil semua item
