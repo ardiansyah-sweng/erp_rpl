@@ -79,28 +79,38 @@ class SupplierMaterialController extends Controller
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
 
-        public function getSupplierMaterialByProductType($supplier_id, $product_type)
+    public function getSupplierMaterialByProductType($supplier_id, $product_type)
     {
-        // Validasi hanya menerima product_type tertentu
         if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
             return response()->json(['error' => 'Invalid product type'], 400);
         }
 
         $results = DB::table('supplier_product')
-            ->join('products', DB::raw("SUBSTRING_INDEX(supplier_product.product_id, '-', 1)"), '=', 'products.product_id')
-            ->join('item', 'products.product_id', '=', 'item.product_id')
             ->where('supplier_product.supplier_id', $supplier_id)
-            ->where('products.product_type', $product_type)
+            ->where('supplier_product.product_id', 'LIKE', $product_type . '%')
             ->select(
                 'supplier_product.supplier_id',
                 'supplier_product.company_name',
                 'supplier_product.product_id',
-                'products.product_name',
-                'products.product_type',
-                'supplier_product.base_price',
-                'item.item_name',
-                'item.measurement_unit',
-                'item.stock_unit'
+                'supplier_product.product_name',
+                'supplier_product.base_price'
+            )
+            ->get();
+
+        return response()->json($results);
+    }
+
+    public function getSupplierMaterialByCategory($category, $supplier)
+    {
+        $results = DB::table('supplier_product')
+            ->where('supplier_product.supplier_id', $supplier)
+            ->where('supplier_product.product_id', 'LIKE', $category . '%')
+            ->select(
+                'supplier_product.supplier_id',
+                'supplier_product.company_name',
+                'supplier_product.product_id',
+                'supplier_product.product_name',
+                'supplier_product.base_price'
             )
             ->get();
 
