@@ -1,0 +1,103 @@
+name: PR Automation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  pr-labeler:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Label PR based on changes
+      uses: actions/labeler@v4
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        configuration-path: .github/labeler.yml
+
+    - name: Size labeler
+      uses: pascalgn/size-label-action@v0.4.3
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      with:
+        sizes: >
+          {
+            "0": "XS",
+            "20": "S",
+            "50": "M",
+            "200": "L",
+            "800": "XL",
+            "2000": "XXL"
+          }
+
+    - name: Auto-assign reviewers
+      uses: kentaro-m/auto-assign-action@v1.2.5
+      with:
+        configuration-path: .github/auto-assign.yml
+
+  pr-quality-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: mbstring, dom, fileinfo, mysql, zip, bcmath, gd
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Check code style
+      run: |
+        if [ -f "./vendor/bin/pint" ]; then
+          ./vendor/bin/pint --test --dirty
+        else
+          echo "Laravel Pint not found, skipping code style check"
+        fi
+
+    - name: Run static analysis on changed files
+      run: |
+        if [ -f "./vendor/bin/phpstan" ]; then
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep '\.php$' | tr '\n' ' ')
+          if [ ! -z "$CHANGED_FILES" ]; then
+            ./vendor/bin/phpstan analyse $CHANGED_FILES --no-progress
+          fi
+        else
+          echo "PHPStan not found, skipping static analysis"
+        fi
+
+    - name: Comment PR
+      uses: actions/github-script@v6
+      if: failure()
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '❌ Code quality checks failed. Please review the failed jobs and fix the issues.'
+          })
+
+  auto-merge:
+    runs-on: ubuntu-latest
+    needs: [pr-labeler, pr-quality-check]
+    if: contains(github.event.pull_request.labels.*.name, 'automerge') && github.event.pull_request.draft == false
+    
+    steps:
+    - name: Enable auto-merge
+      uses: pascalgn/merge-action@v0.15.6
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        merge_method: squash

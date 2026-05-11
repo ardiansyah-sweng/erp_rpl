@@ -107,6 +107,7 @@ class SupplierMaterialController extends Controller
         return response()->json($results);
     }
 
+<<<<<<< HEAD
         public function getSupplierMaterialByCategory($kategory, $supplier)
     {
         $results = DB::table('supplier_product')
@@ -134,3 +135,24 @@ class SupplierMaterialController extends Controller
         return response()->json($results);
     }
 }
+=======
+public function searchSupplierMaterial(Request $request)
+    {
+       
+        $keyword = $request->input('keyword');
+        
+        $materials = SupplierMaterial::searchSupplierMaterial($keyword);
+
+        // Cek apakah hasil pagination kosong
+        if ($materials->isEmpty()) {
+            session()->flash('error', 'Data tidak ditemukan atau tidak ada hasil.');
+        }
+
+        // 4. Return ke View dengan membawa data materials & keyword
+        return view('supplier.material.list', [
+            'materials' => $materials,
+            'keyword'   => $keyword
+        ]);
+    }
+}
+>>>>>>> 2ced6170b855cbca0240192e75c30c0fc1d22db9

@@ -260,6 +260,28 @@
                                 <th>Telepon</th>
                                 <td>{{ $branch->branch_telephone ?? 'Tidak ada data' }}</td>
                             </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>
+                                    @if($branch->is_active)
+                                        <span class="badge bg-success">
+                                            <i class="bi bi-check-circle"></i> Aktif
+                                        </span>
+                                    @else
+                                        <span class="badge bg-danger">
+                                            <i class="bi bi-x-circle"></i> Tidak Aktif
+                                        </span>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Tanggal Dibuat</th>
+                                <td>{{ $branch->created_at ? $branch->created_at->format('d/m/Y H:i:s') : 'Tidak ada data' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Terakhir Diupdate</th>
+                                <td>{{ $branch->updated_at ? $branch->updated_at->format('d/m/Y H:i:s') : 'Tidak ada data' }}</td>
+                            </tr>
                         </table>
                     </div>
                 </div>
