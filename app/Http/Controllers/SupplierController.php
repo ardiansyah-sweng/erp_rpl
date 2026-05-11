@@ -97,4 +97,18 @@ class SupplierController extends Controller
 
         return redirect()->back()->with('success', 'Supplier Berhasil Di Tambahkan');
     }
+
+    public function countSupplierMaterialByCategory($category, $supplier)
+{
+    $data = DB::table('material') // ⚠️ sesuaikan nama tabel
+        ->where('product_type', $category) // kategori
+        ->where('supplier_id', $supplier)  // supplier
+        ->count();
+
+    return response()->json([
+        'category' => $category,
+        'supplier' => $supplier,
+        'total' => $data
+    ]);
+}
 }

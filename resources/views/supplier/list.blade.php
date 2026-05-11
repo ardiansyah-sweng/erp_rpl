@@ -418,6 +418,10 @@
                           <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
                           <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
                           <a href="{{ route('supplier.detail', ['id' => $supplier->supplier_id]) }}" class="btn btn-success btn-sm custom-btn">Detail</a>
+
+                          <a href="{{ route('supplier.material.bytype', ['id' => $supplier->supplier_id]) }}" class="btn btn-dark btn-sm custom-btn">
+    Material Type
+</a>
                           <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('{{ $supplier->supplier_id }}')">Delete</button>
                       </div>
                   </td>

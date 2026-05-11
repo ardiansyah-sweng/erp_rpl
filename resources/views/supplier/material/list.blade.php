@@ -424,7 +424,7 @@
                             <td>
                                 <a href="#" class="btn btn-sm btn-primary">Edit</a>
                                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                                <a href="/supplier/material/detail/" class="btn btn-sm btn-info">Detail</a>
+                                <a href="{{ route('supplier.material.detail', $material->id) }}" class="btn btn-sm btn-info">Detail</a>
                             </td>
 
                             <td>
@@ -729,6 +729,35 @@
     </script>
 
     <!--end::Script-->
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    fetch('/supplier-material/count-by-type')
+        .then(response => response.json())
+        .then(data => {
+            let html = '';
+
+            if (data.length === 0) {
+                html = '<tr><td colspan="2">Data kosong</td></tr>';
+            } else {
+                data.forEach(item => {
+                    html += `
+                        <tr>
+                            <td>${item.product_type}</td>
+                            <td>${item.total_supplier}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            document.getElementById('count-data').innerHTML = html;
+        })
+        .catch(error => {
+            document.getElementById('count-data').innerHTML =
+                '<tr><td colspan="2">Error load data</td></tr>';
+            console.error(error);
+        });
+      });
+    </script>
   </body>
   <!--end::Body-->
 </html>
