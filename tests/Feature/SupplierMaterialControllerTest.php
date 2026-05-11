@@ -8,15 +8,13 @@ use Illuminate\Support\Facades\DB;
 class SupplierMaterialControllerTest extends TestCase
 {
     // Helper: mock DB builder untuk query yang ada DB::raw() di join
-    private function mockDbQuery(array $returnData): void
+private function mockDbQuery(array $returnData): void
     {
-        // Ganti Expression::make($value) menjadi new \Illuminate\Database\Query\Expression($value)
+        // DB::raw harus mengembalikan instance Expression tanpa menggunakan ::make
         DB::shouldReceive('raw')
             ->andReturnUsing(fn($value) => new \Illuminate\Database\Query\Expression($value));
 
-        // ... sisa kode builder ke bawah tetap sama
-        $builder = \Mockery::mock(\Illuminate\Database\Query\Builder::class);
-        // Mock seluruh chain query builder
+        // Mock query builder
         $builder = \Mockery::mock(\Illuminate\Database\Query\Builder::class);
         $builder->shouldReceive('join')->andReturn($builder);
         $builder->shouldReceive('where')->andReturn($builder);
