@@ -107,5 +107,30 @@ class SupplierMaterialController extends Controller
         return response()->json($results);
     }
 
+        public function getSupplierMaterialByCategory($kategory, $supplier)
+    {
+        $results = DB::table('supplier_product')
+            ->join('products', DB::raw("SUBSTRING_INDEX(supplier_product.product_id, '-', 1)"), '=', 'products.product_id')
+            ->join('item', 'products.product_id', '=', 'item.product_id')
+            ->where('supplier_product.supplier_id', $supplier)
+            ->where('products.product_category', $kategory)
+            ->select(
+                'supplier_product.supplier_id',
+                'supplier_product.company_name',
+                'supplier_product.product_id',
+                'products.product_name',
+                'products.product_category',
+                'supplier_product.base_price',
+                'item.item_name',
+                'item.measurement_unit',
+                'item.stock_unit'
+            )
+            ->get();
 
+        if ($results->isEmpty()) {
+        return response()->json(['message' => 'Tidak ada data ditemukan'], 404);
+        }
+
+        return response()->json($results);
+    }
 }

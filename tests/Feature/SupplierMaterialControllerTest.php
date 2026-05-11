@@ -69,4 +69,61 @@ class SupplierMaterialControllerTest extends TestCase
             ]
         ]);
     }
+ public function testReturnsSupplierMaterialsByCategory()
+{
+    $supplierId = 'SUP014';
+    $kategory = 18;
+
+    $response = $this->get("/supplier-material/category/{$kategory}/{$supplierId}");
+
+    $response->assertStatus(200);
+
+    $response->assertJsonStructure([
+        '*' => [
+            'supplier_id',
+            'company_name',
+            'product_id',
+            'product_name',
+            'product_category',
+            'base_price',
+            'item_name',
+            'measurement_unit',
+            'stock_unit',
+        ]
+    ]);
+}
+
+public function testReturnsCategoryNotFound()
+{
+    // Gunakan kategori yang tidak ada di database
+    $supplierId = 'SUP014';
+    $kategory = 99;
+
+    $response = $this->get("/supplier-material/category/{$kategory}/{$supplierId}");
+
+    // Harusnya return 404 karena data kosong
+    $response->assertStatus(404);
+
+    // Validasi pesan error
+    $response->assertJson([
+        'message' => 'Tidak ada data ditemukan'
+    ]);
+}
+
+public function testReturnsSupplierNotFound()
+{
+    // Gunakan supplier_id yang tidak ada di database
+    $supplierId = 'SUP999';
+    $kategory = 1;
+
+    $response = $this->get("/supplier-material/category/{$kategory}/{$supplierId}");
+
+    // Harusnya return 404 karena data kosong
+    $response->assertStatus(404);
+
+    // Validasi pesan error
+    $response->assertJson([
+        'message' => 'Tidak ada data ditemukan'
+    ]);
+}
 }
