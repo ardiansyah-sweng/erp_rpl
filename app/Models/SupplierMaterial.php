@@ -178,4 +178,15 @@ class SupplierMaterial extends Model
             )
             ->get();
     }
+
+public static function countSupplierMaterialByCategory($category, $supplier)
+{
+    return DB::table('supplier_product as sp')
+        ->join('item as i', 'i.sku', '=', 'sp.product_id')
+        ->join('products as p', 'p.product_id', '=', 'i.product_id')
+        ->join('categories as c', 'p.product_category', '=', 'c.id')
+        ->where('c.id', $category) // ✅ ini kategori
+        ->where('sp.supplier_id', $supplier)
+        ->count();
+}
 }
