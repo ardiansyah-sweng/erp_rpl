@@ -12,6 +12,10 @@ use App\Models\MeasurementUnit;
 use App\DataGeneration\SkripsiDatasetProvider;
 use Faker\Factory as Faker;
 
+
+
+
+
 class ItemSeeder extends Seeder
 {
     public \Faker\Generator $faker;
