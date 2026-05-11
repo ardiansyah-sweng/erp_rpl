@@ -11,7 +11,7 @@ class Item extends Model
     protected $fillable = [
         'product_id', 'sku', 'item_name', 'measurement_unit',
         'avg_base_price', 'selling_price', 'purchase_unit',
-        'sell_unit', 'stock_unit'
+        'sell_unit', 'unit_item'
     ];
 
     public function __construct(array $attributes = [])

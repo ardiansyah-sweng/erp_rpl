@@ -285,6 +285,11 @@
       <label for="selling_price">Harga Jual Rp.</label>
       <input type="number" class="form-control" id="selling_price" name="selling_price" value="{{ old('selling_price') }}">
       </div>
+      
+      <div class="form-group">
+      <label for="unit_item">Quantity Item</label>
+      <input type="number" class="form-control" id="unit_item" name="unit_item" value="{{ old('unit_item') }}" placeholder="Masukkan jumlah item">
+      </div>
     </div>
     
     <div class="card-footer">

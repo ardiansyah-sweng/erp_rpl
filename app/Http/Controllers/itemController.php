@@ -40,6 +40,7 @@ class ItemController extends Controller
             'item_name' => 'required|string|min:3',
             'measurement_unit' => 'required|string',
             'selling_price' => 'required|numeric|min:0',
+            'unit_item' => 'nullable|numeric|min:0',
         ]);
 
         $item = new Item();
@@ -49,6 +50,7 @@ class ItemController extends Controller
             'item_name' => $request->item_name,
             'measurement_unit' => $request->measurement_unit, // Perbaikan di sini
             'selling_price' => $request->selling_price, // Perbaikan di sini
+            'unit_item' => $request->unit_item,
         ]);
 
         return redirect()->route('item.list')->with('success', 'Item berhasil ditambahkan!');
