@@ -23,11 +23,12 @@ class ProductController extends Controller
 
     public function generatePDF()
     {
-        // Ambil semua data tanpa pagination
-        $products = Product::getAllProducts(); // <= inilah bedanya
+        // Ambil semua data tanpa pagination lewat method yang sama dengan list produk
+        $products = Product::getAllProducts(null, false);
+        $type = 'Semua Produk';
 
         // Buat PDF dari view
-        $pdf = Pdf::loadView('product.pdf', compact('products'));
+        $pdf = Pdf::loadView('product.pdf', compact('products', 'type'));
 
         // Tampilkan PDF di browser
         return $pdf->stream('daftar_produk.pdf');

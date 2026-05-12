@@ -99,6 +99,23 @@ class ProductTest extends TestCase
     }
 
     /**
+     * Test getAllProducts can return all results without pagination
+     * @test
+     */
+    public function test_getAllProducts_can_return_all_results_without_pagination()
+    {
+        // Arrange
+        Product::factory()->count(15)->create();
+
+        // Act
+        $result = Product::getAllProducts(null, false);
+
+        // Assert
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $result);
+        $this->assertCount(15, $result);
+    }
+
+    /**
      * Test getAllProducts orders by created_at descending
      * @test
      */

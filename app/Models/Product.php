@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\HasDynamicColumns;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Item;
 use App\Models\Category; 
 use App\Enums\ProductType;
@@ -46,21 +47,35 @@ class Product extends Model
         return $this->belongsTo(Category::class, ProductColumns::CATEGORY, 'id');
     }
 
-    protected static function getProductListQuery()
+    public static function getAllProducts(?string $keywords = null, bool $shouldPaginate = true, int $perPage = 10)
     {
         $productTable = (new self())->getTable();
-        $itemTable = config('db_constants.table.item', 'item');
+        $itemTable = config('db_tables.item', config('db_constants.table.item', 'items'));
 
-        return self::with('categoryRelation')
+        if (!Schema::hasTable($itemTable) && Schema::hasTable('item')) {
+            $itemTable = 'item';
+        }
+
+        $query = self::with('categoryRelation')
             ->select("{$productTable}.*")
             ->selectRaw("(SELECT COUNT(*) FROM {$itemTable} WHERE {$itemTable}.sku LIKE CONCAT({$productTable}.product_id, '%')) AS items_count");
-    }
 
-    public static function getAllProducts()
-    {
-        return self::getProductListQuery()
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        if ($keywords !== null && $keywords !== '') {
+            $query->where(function ($productQuery) use ($keywords) {
+                $productQuery->where(ProductColumns::PRODUCT_ID, 'LIKE', "%{$keywords}%")
+                    ->orWhere(ProductColumns::NAME, 'LIKE', "%{$keywords}%")
+                    ->orWhere(ProductColumns::TYPE, 'LIKE', "%{$keywords}%")
+                    ->orWhere(ProductColumns::CATEGORY, 'LIKE', "%{$keywords}%")
+                    ->orWhere(ProductColumns::DESC, 'LIKE', "%{$keywords}%")
+                    ->orWhereHas('categoryRelation', function ($categoryQuery) use ($keywords) {
+                        $categoryQuery->where('category', 'LIKE', "%{$keywords}%");
+                    });
+            });
+        }
+
+        $query->orderBy('created_at', 'desc');
+
+        return $shouldPaginate ? $query->paginate($perPage) : $query->get();
     }
 
     public function getSKURawMaterialItem()
@@ -73,10 +88,6 @@ class Product extends Model
                         ->distinct()
                         ->where($this->table.'.'.$colProduct['type'], 'RM')
                         ->select($tableItem.'.'.$colItem['sku']);
-    }
-
-    public static function countProduct() {
-        return self::count();
     }
 
     public static function addProduct($data)
@@ -145,21 +156,6 @@ class Product extends Model
 
     public static function getProductByKeyword($keywords = null)
     {
-        $query = self::getProductListQuery();
-
-        if ($keywords) {
-            $query->where(function ($productQuery) use ($keywords) {
-                $productQuery->where(ProductColumns::PRODUCT_ID, 'LIKE', "%{$keywords}%")
-                    ->orWhere(ProductColumns::NAME, 'LIKE', "%{$keywords}%")
-                    ->orWhere(ProductColumns::TYPE, 'LIKE', "%{$keywords}%")
-                    ->orWhere(ProductColumns::CATEGORY, 'LIKE', "%{$keywords}%")
-                    ->orWhere(ProductColumns::DESC, 'LIKE', "%{$keywords}%")
-                    ->orWhereHas('categoryRelation', function ($categoryQuery) use ($keywords) {
-                        $categoryQuery->where('category', 'LIKE', "%{$keywords}%");
-                    });
-            });
-        }
-
-        return $query->orderBy('created_at', 'desc')->paginate(10);
+        return self::getAllProducts($keywords);
     }
 }
