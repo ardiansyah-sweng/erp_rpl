@@ -53,10 +53,12 @@ class Product extends Model
         $colItem = config('db_constants.column.item');
         $colProduct = config('db_constants.column.products');
 
-        return Item::join($this->table, $this->table.'.'.$colProduct['id'], '=', $tableItem.'.'.$colItem['prod_id'])
+        return Item::query()
+                        ->from($tableItem . ' as items')
+                        ->join($this->table, $this->table.'.'.$colProduct['id'], '=', 'items.'.$colItem['prod_id'])
                         ->distinct()
                         ->where($this->table.'.'.$colProduct['type'], 'RM')
-                        ->select($tableItem.'.'.$colItem['sku']);
+                        ->select('items.'.$colItem['sku']);
     }
 
     public static function countProduct() {

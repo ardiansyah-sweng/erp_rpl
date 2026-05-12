@@ -3,7 +3,7 @@
     return [
         'branch'        => 'branches',
         'category'      => 'categories',
-        'item'          => 'item',
+        'item'          => 'items',
         'merk'          => 'merks',
         'measurement'   => 'measurement_unit',
         'supplier'      => 'supplier',
