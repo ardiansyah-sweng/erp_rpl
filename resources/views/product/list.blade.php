@@ -467,7 +467,7 @@ use App\Helpers\EncryptionHelper;
                       <td>{{ $product->created_at }}</td>
                       <td>{{ $product->updated_at }}</td>
                       <td>
-                          <a href="{{ route('product.edit', $product->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                          <a href="{{ route('product.edit', $product->product_id) }}" class="btn btn-sm btn-primary">Edit</a>
                               <form  method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')

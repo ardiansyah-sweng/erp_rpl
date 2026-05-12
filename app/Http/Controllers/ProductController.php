@@ -101,22 +101,9 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
-
-    public function edit($id)
-    {
-        $product = (new Product())->getProductById($id);
-
-        if (!$product) {
-            return abort(404, 'Product tidak ditemukan');
-        }
-
-        $categories = Category::orderBy('category')->get();
-
-        return view('product.edit', compact('product', 'categories'));
-    }
-
     public function updateProduct(Request $request, $id)
     {
+        // Validasi input
         $request->validate([
             'product_name' => 'required|string|max:35',
             'product_type' =>  'required|string|max:12',
@@ -124,18 +111,9 @@ class ProductController extends Controller
             'product_description' => 'nullable|string|max:255',
         ]);
 
-        $updatedProduct = Product::updateProduct($id, [
-            'name'        => $request->product_name,
-            'type'        => $request->product_type,
-            'category'    => $request->product_category,
-            'description' => $request->product_description,
-        ]);
+        $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
 
-        if (!$updatedProduct) {
-            return redirect()->route('product.list')->with('error', 'Produk tidak ditemukan.');
-        }
-
-        return redirect()->route('product.list')->with('success', 'Produk berhasil diperbarui.');
+        return $Updateproduct;
     }
 
 

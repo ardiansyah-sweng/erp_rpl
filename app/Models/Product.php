@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\HasDynamicColumns;
 use Illuminate\Support\Facades\DB;
 use App\Models\Item;
-use App\Models\Category;
+use App\Models\Category; 
 use App\Enums\ProductType;
 use App\Constants\ProductColumns;
 
@@ -71,8 +71,8 @@ class Product extends Model
     }
 
     public function getProductById($id) {
-        return self::withCount('items')->with('categoryRelation')->where('product_id', $id)->first();
-    }
+        return self::with('categoryRelation')->where('product_id', $id)->first();
+    }    
 
     public static function countProductByProductType($shortType)
     {
@@ -84,10 +84,10 @@ class Product extends Model
     {
          return self::where('type', $type)->get();
     }
-
+    
     public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
     {
-        $product = self::where('product_id', $id)->first() ?? self::find($id);
+        $product = self::find($id);
         if (!$product) {
             return null;
         }
