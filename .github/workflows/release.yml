@@ -1,0 +1,137 @@
+name: Release Management
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: mbstring, dom, fileinfo, mysql, zip, bcmath, gd
+
+    - name: Install dependencies
+      run: composer install --no-dev --optimize-autoloader
+
+    - name: Generate changelog
+      id: changelog
+      run: |
+        if [ -f "CHANGELOG.md" ]; then
+          # Extract changelog for current version
+          VERSION=${GITHUB_REF#refs/tags/}
+          CHANGELOG=$(awk "/^## \[${VERSION}\]/,/^## \[/" CHANGELOG.md | head -n -1)
+        else
+          # Generate changelog from commits
+          CHANGELOG=$(git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 HEAD^)..HEAD)
+        fi
+        echo "changelog<<EOF" >> $GITHUB_OUTPUT
+        echo "$CHANGELOG" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Build assets
+      run: |
+        if [ -f "package.json" ]; then
+          npm ci
+          npm run build
+        fi
+
+    - name: Create release archive
+      run: |
+        # Cleanup dev files
+        rm -rf .git .github node_modules tests storage/logs/* storage/framework/cache/* storage/framework/sessions/* storage/framework/views/*
+        rm -f .env.example .gitignore .gitattributes
+        
+        # Create release archive
+        cd ..
+        tar -czf erp-rpl-${GITHUB_REF#refs/tags/}.tar.gz erp_rpl/
+        mv erp-rpl-${GITHUB_REF#refs/tags/}.tar.gz erp_rpl/
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        body: |
+          ## Release Notes
+          
+          ${{ steps.changelog.outputs.changelog }}
+          
+          ## Installation
+          
+          1. Download and extract the release archive
+          2. Copy `.env.example` to `.env` and configure your environment
+          3. Run `composer install --no-dev --optimize-autoloader`
+          4. Run `php artisan key:generate`
+          5. Run `php artisan migrate`
+          
+          ## Requirements
+          
+          - PHP >= 8.1
+          - MySQL >= 8.0
+          - Composer
+          - Node.js >= 16 (for asset compilation)
+          
+        files: |
+          erp-rpl-${{ github.ref_name }}.tar.gz
+        draft: false
+        prerelease: ${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'alpha') || contains(github.ref_name, 'rc') }}
+
+    - name: Build and push Docker image for release
+      run: |
+        echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        
+        # Create Dockerfile if not exists
+        if [ ! -f Dockerfile ]; then
+          cat > Dockerfile << 'EOF'
+        FROM php:8.3-fpm-alpine
+        
+        RUN apk add --no-cache \
+            git curl libpng-dev libonig-dev libxml2-dev zip unzip mysql-client nodejs npm
+        
+        RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+        
+        COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+        
+        WORKDIR /var/www
+        COPY . /var/www
+        
+        RUN composer install --no-dev --optimize-autoloader
+        RUN if [ -f "package.json" ]; then npm install && npm run build; fi
+        RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www/storage /var/www/bootstrap/cache
+        
+        EXPOSE 9000
+        CMD ["php-fpm"]
+        EOF
+        fi
+        
+        docker build -t ghcr.io/${{ github.repository }}:${{ github.ref_name }} .
+        docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+
+  notify-deployment:
+    needs: create-release
+    runs-on: ubuntu-latest
+    if: success()
+    
+    steps:
+    - name: Notify deployment
+      run: |
+        echo "Release ${{ github.ref_name }} created successfully!"
+        echo "Docker image: ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
+        # Add notification logic here (Slack, Discord, etc.)
