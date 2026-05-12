@@ -84,7 +84,8 @@ Route::get('/item/add', function () {
 });
 
 Route::get('/product/add', function () {
-    return view('product/add');
+    $categories = App\Models\Category::orderBy('category')->get();
+    return view('product/add', compact('categories'));
 });
 
 Route::get('/supplier/list', [App\Http\Controllers\SupplierController::class, 'listSuppliers'])->name('supplier.list');
