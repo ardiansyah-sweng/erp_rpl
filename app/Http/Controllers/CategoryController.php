@@ -265,35 +265,33 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'Kategori tidak ditemukan atau gagal dihapus.');
         }
     }
-    public function getCategoryByParent($parentId) 
+    public function getCategoryByParent($parentId)
     {
-        // 1. Panggil method yang diizinkan (Sesuai instruksi: No Direct Query)
         $allCategories = Category::getCategory();
+        
+        // Kita siapkan array kosong dengan nama $filtered
+        $filtered = [];
 
-        // 2. Filter secara manual (Tanpa ->where) 
-        $filteredData = [];
+        // Kita isi secara manual pakai perulangan
         foreach ($allCategories as $cat) {
-            if ($cat["parent_id"] == $parentId) { // Pastikan pakai tanda [] kalau datanya array
-                $filteredData[] = $cat;
+            if ($cat->parent_id == $parentId) {
+                $filtered[] = $cat;
             }
         }
 
-        // 3. Masukkan ke dalam Collection
-        $categories = collect($filteredData);
+        // Ubah jadi collection supaya bisa dicheck isEmpty()
+        $categories = collect($filtered);
 
-        // 4. Logika Data Kosong (Biar PDF nggak putih polos)
         if ($categories->isEmpty()) {
             $categories = collect([(object)[
                 'id' => '-',
                 'category' => 'Data Belum Tersedia untuk Parent ID ' . $parentId,
-                'parent' => null, 
+                'parent' => null,
                 'is_active' => 0
             ]]);
         }
 
-        // 5. Render ke PDF
         $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
-        
         return $pdf->stream('laporan_kategori.pdf');
     }
 }
