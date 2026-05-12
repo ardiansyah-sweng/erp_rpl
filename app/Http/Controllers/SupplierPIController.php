@@ -294,71 +294,12 @@ class SupplierPIController extends Controller
 
     }
 
-   
-
-    public function editSupplierPIC(Request $request, $id)
-
+    public function edit($id)
     {
+    $pic = SupplierPic::findOrFail($id);
 
-    // Validasi input sederhana
-
-    $validator = \Validator::make($request->all(), [
-
-        'name'          => 'required|string|max:255',
-
-        'email'         => 'required|email',
-
-        'phone_number'  => 'required|string|max:20',
-
-        'assigned_date' => 'required|date',
-
-    ]);
-
-
-
-    if ($validator->fails()) {
-
-        return response()->json([
-
-            'status'  => 'error',
-
-            'message' => 'Validasi gagal',
-
-            'errors'  => $validator->errors(),
-
-        ], 422);
-
+    return view('supplier.pic.edit', compact('pic'));
     }
-
-
-
-    // Ambil data valid
-
-    $data = $request->only(['name', 'email', 'phone_number', 'assigned_date']);
-
-
-
-    // Panggil method model editSupplierPIC
-
-    $result = \App\Models\SupplierPic::editSupplierPIC($id, $data);
-
-
-
-    return response()->json([
-
-        'status'  => $result['status'],
-
-        'message' => $result['message'],
-
-        'data'    => $result['data'] ?? null,
-
-    ], $result['code']);
-
-    }
-
-
-
-
 
     public function cetakPdf()
 

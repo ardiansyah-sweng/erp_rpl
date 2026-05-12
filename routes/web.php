@@ -212,11 +212,15 @@ Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplier
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
 Route::get('/supplier/pic/list', [SupplierPIController::class, 'getSupplierPICAll'])->name('supplier-pic.list');
 Route::post('/supplier-pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])->name('supplier.pic.update');
+<<<<<<< HEAD
 Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->name('supplier.pic.editForm');
 Route::post('/supplier-pic/update-data/{id}', [SupplierPIController::class, 'updatePIC'])->name('supplier.pic.updateData');
 
 // CUKUP TAMBAH INI SAJA, JANGAN HAPUS YANG LAIN
 Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'getPICByID'])->name('supplier.pic.edit_form');
+=======
+Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->name('supplier.pic.edit_form');
+>>>>>>> e194be0d (fix edit supplier pic method)
 Route::put('/supplier/pic/update-action/{id}', [SupplierPIController::class, 'editSupplierPIC'])->name('supplier.pic.edit');
 
 # Items

@@ -7,20 +7,12 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-
-
 class SupplierPic extends Model
-
 {
-
     protected $table = 'supplier_pic'; // sesuaikan nama tabel
-
     protected $fillable = ['name', 'email', 'phone_number', 'supplier_id'];
-
     protected $primaryKey = 'id';
-
     public $incrementing = false;
-
     protected $keyType = 'string';
 
 
@@ -34,7 +26,6 @@ class SupplierPic extends Model
 
 
         $this->table = config('db_constants.table.supplier_pic');
-
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
 
     }
@@ -249,19 +240,13 @@ class SupplierPic extends Model
     {
 
     try {
-
         $pic = self::find($id);
-
-
 
         if (!$pic) {
 
             return [
-
                 'status' => 'error',
-
                 'message' => 'Supplier PIC tidak ditemukan.',
-
                 'code' => 404
 
             ];
@@ -277,11 +262,8 @@ class SupplierPic extends Model
         return [
 
             'status' => 'success',
-
             'message' => 'Supplier PIC berhasil diubah.',
-
             'data' => $pic,
-
             'code' => 200
 
         ];
@@ -291,9 +273,7 @@ class SupplierPic extends Model
         return [
 
             'status' => 'error',
-
             'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
-
             'code' => 500
 
         ];
