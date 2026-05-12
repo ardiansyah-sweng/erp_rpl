@@ -48,8 +48,8 @@ class WarehouseController extends Controller
             return $pdf->stream('report-warehouse.pdf');
         }
 
-        $rmWarehouseCount = Warehouse::where(WarehouseColumns::IS_RM_WAREHOUSE, true)->count();
-        $fgWarehouseCount = Warehouse::where(WarehouseColumns::IS_FG_WAREHOUSE, true)->count();
+        $rmWarehouseCount = Warehouse::where('is_rm_whouse', true)->count();
+        $fgWarehouseCount = Warehouse::where('is_fg_whouse', true)->count();
 
         return view('warehouse.index', compact('warehouses', 'rmWarehouseCount', 'fgWarehouseCount'));
     }
