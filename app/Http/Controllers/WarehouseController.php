@@ -48,7 +48,10 @@ class WarehouseController extends Controller
             return $pdf->stream('report-warehouse.pdf');
         }
 
-        return view('warehouse.index', ['warehouses' => $warehouses]);
+        $rmWarehouseCount = Warehouse::where('is_rm_whouse', 1)->count();
+        $fgWarehouseCount = Warehouse::where('is_fg_whouse', 1)->count();
+
+        return view('warehouse.index', compact('warehouses', 'rmWarehouseCount', 'fgWarehouseCount'));
     }
 
     public function exportPdf()
@@ -308,14 +311,6 @@ class WarehouseController extends Controller
                 ]);
             }
 
-  
-        // TAMBAHAN BARU: Hitung jumlah RM dan FG warehouse
-        $rmWarehouseCount = Warehouse::where('is_rm_whouse', 1)->count();
-        $fgWarehouseCount = Warehouse::where('is_fg_whouse', 1)->count();
-
-        // Pass semua data ke view
-        return view('warehouse.list', compact('warehouses', 'rmWarehouseCount', 'fgWarehouseCount'));
-          
             // Handle Web Response
             return redirect()->route('warehouses.index')->with('success', Messages::WAREHOUSE_UPDATED);
             
