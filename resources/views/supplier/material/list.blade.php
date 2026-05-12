@@ -392,7 +392,27 @@
         </div>
         
         <div class="card mb-4">
-            <div class="card-header"><h3 class="card-title">List Table</h3></div>
+            <div class="card-header">
+                <div class="d-flex flex-column flex-md-row justify-content-between gap-2">
+                    <h3 class="card-title mb-0">List Table</h3>
+                    <form action="{{ route('supplier.material') }}" method="GET" class="d-flex" role="search">
+                        <input
+                            type="search"
+                            name="keyword"
+                            class="form-control form-control-sm"
+                            placeholder="Cari supplier ID, nama, produk..."
+                            value="{{ $keyword ?? request('keyword') }}"
+                            aria-label="Cari supplier material"
+                        >
+                        <button type="submit" class="btn btn-primary btn-sm ms-2">
+                            <i class="bi bi-search"></i> Cari
+                        </button>
+                        @if (!empty($keyword))
+                            <a href="{{ route('supplier.material') }}" class="btn btn-outline-secondary btn-sm ms-2">Reset</a>
+                        @endif
+                    </form>
+                </div>
+            </div>
             <!-- /.card-header -->
              <div class="card-body">
                 <table class="table table-bordered">
@@ -410,9 +430,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($materials as $index => $material)
+                        @forelse ($materials as $index => $material)
                         <tr class="align-middle">
-                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $materials->firstItem() + $index }}</td>
                             <td>{{ $material->supplier_id }}</td>
                             <td>{{ $material->company_name }}</td>
                             <td>{{ $material->product_id }}</td>
@@ -425,9 +445,6 @@
                                 <a href="{{ url('/supplier/material/' . $material->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
                                 <a href="{{ url('/supplier/material/' . $material->id) }}" class="btn btn-sm btn-info">Detail</a>
-                            </td>
-
-                            <td>
                                 <a href="{{ url('/supplier/' . $material->supplier_id . '/cetak-pdf') }}" 
                                   class="btn btn-danger btn-sm" 
                                   target="_blank">
@@ -435,7 +452,18 @@
                                 </a>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="9" class="text-center py-5">
+                                <i class="bi bi-search fs-1 d-block mb-2"></i>
+                                @if (!empty($keyword))
+                                    Tidak ada supplier material yang cocok dengan "{{ $keyword }}".
+                                @else
+                                    Belum ada data supplier material.
+                                @endif
+                            </td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
