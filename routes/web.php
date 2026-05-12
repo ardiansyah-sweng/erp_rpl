@@ -1,8 +1,7 @@
 
 <?php
 
-// Route untuk cek hasil Supplier::getSupplier() (frekuensi order)
-Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
+
 
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +21,9 @@ use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
 use App\Models\BillOfMaterial;
+
+// Route untuk cek hasil Supplier::getSupplier() (frekuensi order)
+Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
 
 # Route GET untuk form tambah merk
 Route::get('/merk/add', function () {
@@ -181,7 +183,7 @@ Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
 
 Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
 Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
-Route::get('/item/{id}', [itemController::class, 'getItemById']);
+Route::get('/item/detail/{id}', [ItemController::class, 'getItemById'])->name('item.detail');
 Route::get('/items/report', [ItemController::class, 'exportAllToPdf'])->name('item.report');
 Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']);
 Route::get('/item/search/{keyword}', [ItemController::class, 'searchItem']);
@@ -218,7 +220,7 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 #Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
 Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
-// Cetak produk berdasarkan kategori tertentu 
+// Cetak produk berdasarkan kategori tertentu
 Route::get('/category/print/{id}', [ProductController::class, 'printCategoryByIdPDF'])->name('category.print.single');
 
 
