@@ -223,7 +223,7 @@
                                     </tr>
                                     <tr>
                                         <th>Item Name</th>
-                                        <td>{{ $item->item_name ?? 'Tidak ada data' }}</td>
+                                        <td>{{ $item->name ?? 'Tidak ada data' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Measurement Unit</th>

@@ -25,7 +25,7 @@
             @foreach ($items as $item)
                 <tr>
                     <td>{{ $item->sku }}</td>
-                    <td>{{ $item->item_name }}</td>
+                    <td>{{ $item->name }}</td>
                     <td>{{ $item->measurement_unit }}</td>
                     <td>{{ number_format($item->selling_price, 0, ',', '.') }}</td>
                 </tr>

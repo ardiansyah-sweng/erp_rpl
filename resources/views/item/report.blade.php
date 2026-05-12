@@ -50,7 +50,7 @@
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->sku }}</td>
-                <td>{{ $item->item_name }}</td>
+                <td>{{ $item->name }}</td>
                 <td>{{ $item->measurement_unit }}</td>
                 <td>{{ $item->avg_base_price }}</td>
                 <td>{{ $item->selling_price }}</td>

@@ -23,7 +23,7 @@
             @foreach($items as $item)
             <tr>
                 <td>{{ $item->sku }}</td>
-                <td>{{ $item->item_name }}</td>
+                <td>{{ $item->name }}</td>
                 <td>{{ $item->measurement_unit }}</td>
                 <td>{{ $item->selling_price }}</td>
                 <td>{{ $item->stock_unit }}</td>
