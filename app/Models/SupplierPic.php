@@ -4,11 +4,8 @@
 
 namespace App\Models;
 
-
-
-use Illuminate\Database\Eloquent\Model;
-
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 
 
@@ -93,9 +90,7 @@ class SupplierPic extends Model
     public static function assignmentDuration($pic)
 
     {
-
-        if (!$pic->assigned_date) {
-
+        if (! $pic->assigned_date) {
             return 'Tanggal penugasan tidak tersedia';
 
         }
@@ -170,18 +165,13 @@ class SupplierPic extends Model
 
             $supplierPic = self::find($id);
 
-
-
-            if (!$supplierPic) {
-
+            if (! $supplierPic) {
                 return [
 
                     'status' => 'error',
 
                     'message' => 'Supplier PIC tidak ditemukan.',
-
-                    'code' => 404
-
+                    'code' => 404,
                 ];
 
             }
@@ -199,9 +189,7 @@ class SupplierPic extends Model
                     'message' => 'Supplier PIC berhasil diperbarui.',
 
                     'data' => $supplierPic,
-
-                    'code' => 200
-
+                    'code' => 200,
                 ]
 
                 : [
@@ -209,9 +197,7 @@ class SupplierPic extends Model
                     'status' => 'error',
 
                     'message' => 'Gagal memperbarui Supplier PIC.',
-
-                    'code' => 500
-
+                    'code' => 500,
                 ];
 
         } catch (\Exception $e) {
@@ -219,11 +205,8 @@ class SupplierPic extends Model
             return [
 
                 'status' => 'error',
-
-                'message' => 'Exception: ' . $e->getMessage(),
-
-                'code' => 500
-
+                'message' => 'Exception: '.$e->getMessage(),
+                'code' => 500,
             ];
 
         }
@@ -245,19 +228,12 @@ class SupplierPic extends Model
         if ($keywords) {
 
             $query->where('supplier_id', 'LIKE', "%{$keywords}%")
-
-                  ->orWhere('name', 'LIKE', "%{$keywords}%")
-
-                  ->orWhere('phone_number', 'LIKE', "%{$keywords}%")
-
-                  ->orWhere('email', 'LIKE', "%{$keywords}%")
-
-                  ->orWhere('assigned_date', 'LIKE', "%{$keywords}%")
-
-                  ->orWhere('created_at', 'LIKE', "%{$keywords}%")
-
-                  ->orWhere('updated_at', 'LIKE', "%{$keywords}%");
-
+                ->orWhere('name', 'LIKE', "%{$keywords}%")
+                ->orWhere('phone_number', 'LIKE', "%{$keywords}%")
+                ->orWhere('email', 'LIKE', "%{$keywords}%")
+                ->orWhere('assigned_date', 'LIKE', "%{$keywords}%")
+                ->orWhere('created_at', 'LIKE', "%{$keywords}%")
+                ->orWhere('updated_at', 'LIKE', "%{$keywords}%");
         }
 
 
@@ -324,12 +300,6 @@ class SupplierPic extends Model
 
     }
 
-    }
-
-
-
-   
-
     public static function getSupplierPIC($supplierID)
 
     {
@@ -338,18 +308,13 @@ class SupplierPic extends Model
 
     }
 
-   
-
     public static function countSupplierPIC($supplierID, $onlyActive = null)
 
     {
 
         $query = self::where('supplier_id', $supplierID);
 
-
-
-        if (!is_null($onlyActive)) {
-
+        if (! is_null($onlyActive)) {
             $query->where('active', $onlyActive ? 1 : 0);
 
         }

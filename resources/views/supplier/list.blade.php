@@ -348,6 +348,9 @@
     <div class="mb-4">
       <h1 class="h3 fw-bold mb-2">Suppliers</h1>
       <a href="#" class="btn btn-primary btn-sm">New Supplier</a>
+      <a href="{{ route('supplier.print-pdf') }}" class="btn btn-primary btn-sm" target="_blank">
+      <i class="fa fa-file-pdf-o"></i> Cetak PDF </a>
+
     </div>
 
     <div class="card shadow-sm">
@@ -357,10 +360,12 @@
           <div class="d-flex align-items-center">
             <span>Show</span>
             <form method="GET" id="pageLengthForm" class="d-flex align-items-center">
-    <select name="pageLength" id="pageLength" class="form-select mx-2" style="width: auto;" onchange="document.getElementById('pageLengthForm').submit()">
-        <option value="10" {{ request('pageLength') == 10 ? 'selected' : '' }}>10</option>
-        <option value="20" {{ request('pageLength') == 20 ? 'selected' : '' }}>20</option>
-        <option value="50" {{ request('pageLength') == 50 ? 'selected' : '' }}>50</option>
+    <input type="hidden" name="page" value="1"> {{-- reset ke page 1 saat ganti pageLength --}}
+    <select name="pageLength" id="pageLength" class="form-select mx-2" style="width: auto;" 
+            onchange="document.getElementById('pageLengthForm').submit()">
+        <option value="10" {{ request('pageLength', 10) == 10 ? 'selected' : '' }}>10</option>
+        <option value="20" {{ request('pageLength', 10) == 20 ? 'selected' : '' }}>20</option>
+        <option value="50" {{ request('pageLength', 10) == 50 ? 'selected' : '' }}>50</option>
     </select>
     <span>entries</span>
 </form>
@@ -372,11 +377,6 @@
         </div>
 
         <!-- Table -->
-        @php
-            $pageLength = request('pageLength', 10);
-            $suppliersToShow = $suppliers->slice(0, $pageLength);
-        @endphp
-
         <div class="table-responsive">
           <table id="supplierTable" class="table table-bordered table-hover align-middle mb-0">
             <thead class="table-light text-center">
@@ -411,10 +411,10 @@
                   </td>
                   <td class="text-center">
                       <div class="d-flex justify-content-center gap-1 flex-wrap">
-                          <a href="#" class="btn btn-warning btn-sm custom-btn">Edit</a>
+                          <a href="{{ route('supplier.detail', ['id' => $supplier->supplier_id]) }}" class="btn btn-warning btn-sm custom-btn">Edit</a>
                           <a href="#" class="btn btn-info btn-sm text-white custom-btn">Create PO</a>
                           <a href="#" class="btn btn-primary btn-sm custom-btn">Add Pic</a>
-                          <a href="{{ route('Supplier.detail', ['id' => $supplier->supplier_id]) }}" class="btn btn-success btn-sm custom-btn">Detail</a>
+                          <a href="{{ route('supplier.detail', ['id' => $supplier->supplier_id]) }}" class="btn btn-success btn-sm custom-btn">Detail</a>
                           <button class="btn btn-danger btn-sm custom-btn" onclick="confirmDelete('{{ $supplier->supplier_id }}')">Delete</button>
                       </div>
                   </td>
@@ -430,20 +430,37 @@
 
         <!-- Pagination Info -->
         <div class="d-flex justify-content-between align-items-center mt-3">
-          <div>Showing 1 to 3 of 3 entries</div>
-          <nav>
-            <ul class="pagination">
-              <li class="page-item disabled">
-                <a class="page-link" href="#">Previous</a>
-              </li>
-              <li class="page-item active">
-                <a class="page-link" href="#">1</a>
-              </li>
-              <li class="page-item disabled">
-                <a class="page-link" href="#">Next</a>
-              </li>
-            </ul>
-          </nav>
+            <div>
+                Showing {{ $total == 0 ? 0 : ($page - 1) * $pageLength + 1 }} 
+                to {{ min($page * $pageLength, $total) }} 
+                of {{ $total }} entries
+            </div>
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item {{ $page <= 1 ? 'disabled' : '' }}">
+                        <a class="page-link" 
+                          href="{{ $page <= 1 ? '#' : route('supplier.list', ['page' => $page - 1, 'pageLength' => $pageLength]) }}">
+                          Previous
+                        </a>
+                    </li>
+
+                    @for ($i = 1; $i <= $totalPages; $i++)
+                    <li class="page-item {{ $page == $i ? 'active' : '' }}">
+                        <a class="page-link" 
+                          href="{{ route('supplier.list', ['page' => $i, 'pageLength' => $pageLength]) }}">
+                          {{ $i }}
+                        </a>
+                    </li>
+                    @endfor
+
+                    <li class="page-item {{ $page >= $totalPages ? 'disabled' : '' }}">
+                        <a class="page-link" 
+                          href="{{ $page >= $totalPages ? '#' : route('supplier.list', ['page' => $page + 1, 'pageLength' => $pageLength]) }}">
+                          Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
       </div>
     </div>

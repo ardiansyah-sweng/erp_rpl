@@ -4,31 +4,19 @@
 
 namespace App\Http\Controllers;
 
-
-
 use Illuminate\Http\Request;
-
-use App\Models\SupplierPic;
-
-use App\Models\SupplierPICModel;
-
-use Illuminate\Support\Facades\Validator;
-
-use Illuminate\Support\Facades\DB;
-
 use App\Models\Supplier;
-
+use App\Models\SupplierPic;
+use App\Models\SupplierPICModel;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
-
-
-
-
-
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
-
-
-
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -46,10 +34,7 @@ class SupplierPIController extends Controller
 
         $pic = SupplierPic::getPICByID($id); // memanggil method getPICByID dari model SupplierPic
 
-
-
-        if (!$pic) {
-
+        if (! $pic) {
             return redirect('/supplier')->with('error', 'PIC tidak ditemukan.');
 
         }
@@ -59,12 +44,56 @@ class SupplierPIController extends Controller
         $supplier = $pic->supplier;
 
         $pic->supplier_name = $supplier ? $supplier->name : null;
+        $pic->supplier_name = $supplier ? $supplier->company_name : null;
 
         return view('supplier.pic.detail', ['pic' => $pic, 'supplier' => $supplier]);
 
     }
 
 
+    public function edit($id)
+    {
+        $pic = SupplierPic::getPICByID($id);
+        if (! $pic) {
+            return redirect('/supplier/pic/list')->with('error', 'PIC tidak ditemukan.');
+        }
+        $supplier = $pic->supplier;
+        $pic->supplier_name = $supplier ? $supplier->company_name : null;
+
+        return view('supplier.pic.edit', ['pic' => $pic]);
+    }
+
+    public function updatePIC(Request $request, $id)
+    {
+        $pic = SupplierPic::getPICByID($id);
+        if (! $pic) {
+            return redirect('/supplier/pic/list')->with('error', 'PIC tidak ditemukan.');
+        }
+
+        $validatedData = $request->validate([
+            'supplier_id' => 'required|string|max:6',
+            'pic_name' => 'required|string|max:50',
+            'email' => 'required|email|max:50',
+            'telephone' => 'required|string|max:30',
+            'assignment_date' => 'nullable|date',
+        ]);
+
+        $data = [
+            'supplier_id' => $validatedData['supplier_id'],
+            'name' => $validatedData['pic_name'],
+            'email' => $validatedData['email'],
+            'phone_number' => $validatedData['telephone'],
+            'assigned_date' => $validatedData['assignment_date'], // only if fillable includes assigned_date
+        ];
+
+        $result = SupplierPic::updateSupplierPIC($id, $data);
+
+        if (($result['status'] ?? 'error') !== 'success') {
+            return redirect()->back()->withErrors(['error' => $result['message'] ?? 'Gagal update PIC'])->withInput();
+        }
+
+        return redirect('/supplier/pic/list')->with('success', 'PIC berhasil diperbarui!');
+    }
 
     public function searchSupplierPic(Request $request)
 
@@ -79,10 +108,6 @@ class SupplierPIController extends Controller
         return view('supplier.pic.list', ['pics' => $supplierPics, 'supplier_id' => $keywords]);
 
     }
-
-
-
-
 
     public function addSupplierPIC(Request $request, $supplierID)
 
@@ -129,10 +154,6 @@ class SupplierPIController extends Controller
                 ->withInput();
 
         }
-
-
-
-
 
         // Handle upload foto jika ada
 
@@ -219,15 +240,10 @@ class SupplierPIController extends Controller
         // 1. Validasi input
 
         $validator = Validator::make($request->all(), [
-
-            'supplier_id'   => 'required|string|exists:supplier,supplier_id',
-
-            'name'          => 'required|string|max:255',
-
-            'phone_number'  => 'required|string|max:20',
-
-            'email'         => 'required|email|unique:supplier_pic,email,' . $id,
-
+            'supplier_id' => 'required|string|exists:supplier,supplier_id',
+            'name' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:20',
+            'email' => 'required|email|unique:supplier_pic,email,' . $id,
             'assigned_date' => 'required|date',
 
         ]);
@@ -237,13 +253,9 @@ class SupplierPIController extends Controller
         if ($validator->fails()) {
 
             return response()->json([
-
-                'status'  => 'error',
-
+                'status' => 'error',
                 'message' => 'Validasi gagal',
-
-                'errors'  => $validator->errors(),
-
+                'errors' => $validator->errors(),
             ], 422);
 
         }
@@ -261,9 +273,7 @@ class SupplierPIController extends Controller
             'phone_number',
 
             'email',
-
-            'assigned_date'
-
+            'assigned_date',
         ]);
 
 
@@ -277,13 +287,9 @@ class SupplierPIController extends Controller
         // 4. Return response JSON
 
         return response()->json([
-
-            'status'  => $result['status'],
-
+            'status' => $result['status'],
             'message' => $result['message'],
-
-            'data'    => $result['data'] ?? null,
-
+            'data' => $result['data'] ?? null,
         ], $result['code'] ?? 200);
 
     }
@@ -365,9 +371,7 @@ class SupplierPIController extends Controller
 
 
         $data = [
-
-            'pics' => $pics
-
+            'pics' => $pics,
         ];
 
 
@@ -382,20 +386,13 @@ class SupplierPIController extends Controller
 
     }
 
-
-
-
-
     public function getSupplierPicById($supplier_id)
 
     {
 
         $supplierPic = SupplierPic::where('supplier_id', $supplier_id)->first();
 
-
-
-        if (!$supplierPic) {
-
+        if (! $supplierPic) {
             return response()->json(['message' => 'Data not found'], 404);
 
         }
@@ -413,12 +410,9 @@ class SupplierPIController extends Controller
         return response()->json([
 
             'data' => $supplierPic,
-
-            'lama_assigned' => $lamaAssigned
-
+            'lama_assigned' => $lamaAssigned,
         ]);
-
-    }                            
+    }
 
 
 
@@ -451,8 +445,7 @@ class SupplierPIController extends Controller
         return response()->json([
 
             'message' => 'PIC list retrieved successfully.',
-
-            'data' => $pics
+            'data' => $pics,
 
 
 
@@ -469,25 +462,17 @@ class SupplierPIController extends Controller
         $supplier = Supplier::findOrFail($supplierID);
 
         $pics = SupplierPic::with('supplier')
-
-                ->where('supplier_id', $supplierID)
-
-                ->get();
+            ->where('supplier_id', $supplierID)
+            ->get();
 
 
 
         $pdf = PDF::loadView('supplier.pic.pdfPIC', [
 
             'pics' => $pics,
-
-            'supplier' => $supplier
-
+            'supplier' => $supplier,
         ]);
 
-        return $pdf->stream('PIC_Supplier_'.$supplier->supplier_id.'.pdf');
-
+        return $pdf->stream('PIC_Supplier_' . $supplier->supplier_id . '.pdf');
     }
-
-
-
 }
