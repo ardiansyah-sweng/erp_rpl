@@ -264,6 +264,7 @@ Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->
 Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
 // Cetak produk berdasarkan kategori tertentu
 Route::get('/category/print/{id}', [ProductController::class, 'printCategoryByIdPDF'])->name('category.print.single');
+Route::get('/category/print/{id}', [CategoryController::class, 'getCategoryByParent'])->name('category.print.single');
 
 // Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
