@@ -5,13 +5,34 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 class SearchCategoryTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        DB::beginTransaction();
+    }
+
+    protected function tearDown(): void
+    {
+        DB::rollBack();
+
+        parent::tearDown();
+    }
+
     #[Test]
     public function it_can_search_existing_category()
     {
-        $keyword = 'produk'; // Sesuaikan dengan keyword yang kamu tahu ada di tabel categories
+        $keyword = 'produk';
+
+        Category::create([
+            'category' => 'Produk Testing',
+            'parent_id' => null,
+            'is_active' => true,
+        ]);
 
         $results = Category::searchCategory($keyword);
 
