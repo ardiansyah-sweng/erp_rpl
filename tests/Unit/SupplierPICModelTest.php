@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\Models\Supplier;
 use App\Models\SupplierPICModel;
 use Illuminate\Support\Facades\DB;
 
@@ -14,12 +13,14 @@ class SupplierPICModelTest extends TestCase
         DB::beginTransaction();
 
         try {
-            $supplier = Supplier::create([
+            DB::table(config('db_tables.supplier'))->insert([
                 'supplier_id'   => 'S001',
                 'company_name'  => 'Contoh Supplier',
                 'address'       => 'Jalan Testing No. 1',
                 'phone_number'  => '0800000001',
                 'bank_account'  => '1234567890',
+                'created_at'    => now(),
+                'updated_at'    => now(),
             ]);
 
             $pic = new SupplierPICModel;
@@ -45,12 +46,14 @@ class SupplierPICModelTest extends TestCase
         DB::beginTransaction();
 
         try {
-            $supplier = Supplier::create([
+            DB::table(config('db_tables.supplier'))->insert([
                 'supplier_id'   => 'S002',
                 'company_name'  => 'Supplier Dua',
                 'address'       => 'Jalan Supplier Dua No. 2',
                 'phone_number'  => '0800000002',
                 'bank_account'  => '9876543210',
+                'created_at'    => now(),
+                'updated_at'    => now(),
             ]);
 
             $pic = new SupplierPICModel;
