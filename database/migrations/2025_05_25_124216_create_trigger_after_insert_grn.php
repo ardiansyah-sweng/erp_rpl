@@ -12,6 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Skip trigger creation in testing environment (SQLite doesn't support MySQL trigger syntax)
+        if (app()->environment('testing', 'dusk.local')) {
+            return;
+        }
+
         DB::unprepared('
             CREATE TRIGGER after_insert_grn
             AFTER INSERT ON goods_receipt_note
@@ -22,14 +27,14 @@ return new class extends Migration
                 DECLARE v_log_desc CHAR(50);
 
                 SELECT stock_unit INTO v_old_stock
-                FROM item
+                FROM items
                 WHERE sku = NEW.product_id
                 LIMIT 1;
 
                 SET v_new_stock = v_old_stock + NEW.delivered_quantity;
                 SET v_log_desc = CONCAT("GRN from PO#", NEW.po_number);
 
-                UPDATE item
+                UPDATE items
                 SET stock_unit = v_new_stock
                 WHERE sku = NEW.product_id;
 

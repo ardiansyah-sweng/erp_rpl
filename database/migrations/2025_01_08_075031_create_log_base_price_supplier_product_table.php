@@ -20,6 +20,11 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        // Skip trigger creation in testing environment (SQLite doesn't support MySQL trigger syntax)
+        if (app()->environment('testing', 'dusk.local')) {
+            return;
+        }
+
         DB::unprepared('
             CREATE TRIGGER log_base_price_supplier_product
             AFTER UPDATE ON supplier_product
