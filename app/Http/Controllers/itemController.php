@@ -67,7 +67,8 @@ class ItemController extends Controller
     {
         $search = $request->input('search');
         $items = Item::getAllItems($search);
-        return view('item.list', compact('items'));
+        $totalItems = Item::count();
+        return view('item.list', compact('items', 'totalItems'));
     }
 
     public function updateItem(Request $request, $id)

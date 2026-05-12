@@ -396,7 +396,8 @@
 
       <div class="card mb-4">
         <div class="card-header">
-          <h3 class="card-title">List Table <span class="badge badge-info ms-2">{{ count($items) }} Items</span></h3>
+          <h3 class="card-title">List Item</h3>
+          <p class="text-muted ms-3">Total: <strong>{{ $totalItems }}</strong> Items</p>
           <form action="{{ route('item.list') }}" method="GET" class="d-flex ms-auto">
             <!-- Search bar berada di ujung kanan -->
             <div class="input-group input-group-sm ms-auto" style="width: 450px;">
@@ -431,7 +432,6 @@
                 <th>unit_name</th>
                 <th>avg_base_price</th>
                 <th>selling_price</th>
-                <th>unit_item</th>
                 <th>created_at</th>
                 <th>updated_at</th>
                 <th>Action</th>
@@ -446,7 +446,6 @@
                 <td>{{ $item->unit?->unit_name ?? '-' }}</td>
                 <td>{{ $item->avg_base_price }}</td>
                 <td>{{ $item->selling_price }}</td>
-                <td>{{ $item->unit_item ?? '-' }}</td>
                 <td>{{ $item->created_at }}</td>
                 <td>{{ $item->updated_at }}</td>
                 <td>
@@ -462,7 +461,7 @@
               </tr>
               @empty
               <tr>
-                <td colspan="10" class="text-center">No data available in table</td>
+                <td colspan="9" class="text-center">No data available in table</td>
               </tr>
               @endforelse
             </tbody>
