@@ -22,4 +22,20 @@ class CategoryColumns
             self::IS_ACTIVE,
         ];
     }
+
+    /**
+     * Get all columns
+     */
+    public static function getAll(): array
+    {
+        return [
+            self::ID,
+            self::CATEGORY,
+            self::PARENT,
+            self::IS_ACTIVE,
+            self::CREATED_AT,
+            self::UPDATED_AT,
+        ];
+    }
+    
 }

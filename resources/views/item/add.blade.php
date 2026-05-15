@@ -274,9 +274,44 @@
       <label for="measurement_unit">Unit</label>
         <select class="form-select" id="measurement_unit" name="measurement_unit" required>
             <option selected disabled value="">Choose...</option>
-            @foreach($units as $unit)
-                <option value="{{ $unit->id }}">{{ $unit->unit_name }}</option>
-            @endforeach
+            <option value="1">Bal</option>
+            <option value="2">Batang</option>
+            <option value="3">Botol</option>
+            <option value="4">Bungkus</option>
+            <option value="5">Butir</option>
+            <option value="6">Box</option>
+            <option value="7">Drum</option>
+            <option value="8">Dus</option>
+            <option value="9">Galon</option>
+            <option value="10">Gram</option>
+            <option value="11">Gross</option>
+            <option value="12">Karton</option>
+            <option value="13">Karung</option>
+            <option value="14">Kontainer</option>
+            <option value="15">Ikat</option>
+            <option value="16">Kaleng</option>
+            <option value="17">Kilogram</option>
+            <option value="18">Kodi</option>
+            <option value="19">Krat</option>
+            <option value="20">Kuintal</option>
+            <option value="21">Lusin</option>
+            <option value="22">Lembar</option>
+            <option value="23">Liter</option>
+            <option value="24">Miligram</option>
+            <option value="25">Mililiter</option>
+            <option value="26">Ons</option>
+            <option value="27">Orang</option>
+            <option value="28">Pack</option>
+            <option value="29">Pallet</option>
+            <option value="30">Pieces</option>
+            <option value="31">Resep</option>
+            <option value="32">Rim</option>
+            <option value="33">Sachet</option>
+            <option value="34">Slop</option>
+            <option value="35">Strip</option>
+            <option value="36">Tim</option>
+            <option value="37">Ton</option>
+            <option value="38">Unit</option>
         </select>
         <div class="invalid-feedback">Please select a valid unit.</div>
       </div>
