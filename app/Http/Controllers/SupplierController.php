@@ -67,18 +67,18 @@ class SupplierController extends Controller
     {
         $pageLength = (int) $request->input('pageLength', 10);
         $page = (int) $request->input('page', 1);
-
+        
         $allSuppliers = Supplier::getSupplierWithPicCount();
-
+        
         $total = count($allSuppliers);
         $totalSuppliers = $total;
         $offset = ($page - 1) * $pageLength;
-
+        
         $suppliersToShow = $allSuppliers->slice($offset, $pageLength)->values();
-
+        
         $totalPages = (int) ceil($total / $pageLength);
         if ($totalPages < 1) $totalPages = 1;
-
+        
         return view('supplier.list', compact('suppliersToShow', 'total', 'totalSuppliers', 'page', 'pageLength', 'totalPages'));
     }
 

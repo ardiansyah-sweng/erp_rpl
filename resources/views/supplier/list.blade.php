@@ -347,13 +347,11 @@
   <div class="container-fluid">
     <div class="mb-4">
       <h1 class="h3 fw-bold mb-2">Suppliers</h1>
-      <div class="d-flex align-items-center gap-2">
-        <a href="#" class="btn btn-primary btn-sm">New Supplier</a>
-        <a href="{{ route('supplier.print-pdf') }}" class="btn btn-primary btn-sm" target="_blank">
-          <i class="fa fa-file-pdf-o"></i> Cetak PDF
-        </a>
-        <span class="btn btn-primary btn-sm">Total: {{ $totalSuppliers }}</span>
-      </div>
+      <a href="#" class="btn btn-primary btn-sm">New Supplier</a>
+      <a href="{{ route('supplier.print-pdf') }}" class="btn btn-primary btn-sm" target="_blank">
+      <i class="fa fa-file-pdf-o"></i> Cetak PDF </a>
+      <span class="btn btn-primary btn-sm">Total: {{ $totalSuppliers }}</span>
+
     </div>
 
     <div class="card shadow-sm">
