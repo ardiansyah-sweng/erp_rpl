@@ -347,7 +347,10 @@
   <div class="container-fluid">
     <div class="mb-4">
       <h1 class="h3 fw-bold mb-2">Suppliers</h1>
-      <a href="#" class="btn btn-primary btn-sm">New Supplier</a>
+      <div class="d-flex align-items-center gap-2">
+        <a href="#" class="btn btn-primary btn-sm">New Supplier</a>
+        <span class="btn btn-primary btn-sm">Total: {{ $totalSuppliers }}</span>
+      </div>
     </div>
 
     <div class="card shadow-sm">

@@ -56,7 +56,8 @@ class SupplierController extends Controller
     public function listSuppliers()
     {
     $suppliers = Supplier::getSupplier();
-    return view('supplier.list', compact('suppliers'));
+    $totalSuppliers = Supplier::countSupplier();
+    return view('supplier.list', compact('suppliers', 'totalSuppliers'));
     }
 
 
