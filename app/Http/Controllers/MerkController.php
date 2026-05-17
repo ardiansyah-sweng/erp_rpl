@@ -17,26 +17,25 @@ class MerkController extends Controller
         }
 
         return view('merk.detail', compact('merk'));
-  
     }
 
     public function updateMerk(Request $request, $id)
     {
-       // Validasi input
-       $request->validate([
-        'id' => 'required|integer',
-        'merk' => 'required|string|max:100',
+        // Validasi input
+        $request->validate([
+            'id'   => 'required|integer',
+            'merk' => 'required|string|max:100|unique:merks,merk,' . $id . ',id',
         ]);
-    
-           // Update data merk
-        $updatedMerk = Merk::updateMerk($request->id, $request->only(['merk']));
+
+        // Update data merk
+        $updatedMerk = Merk::updateMerk($id, $request->only(['merk']));
 
         if (!$updatedMerk) 
         { 
             return response()->json(['message' => 'Data Merk Tidak Tersedia'], 404); 
         }
         
-        return response()->json([ 'message' => 'Data Merk berhasil diperbarui','data' => $updatedMerk, ]);
+        return response()->json(['message' => 'Data Merk berhasil diperbarui', 'data' => $updatedMerk]);
     }
 
     public function getMerkAll()
@@ -45,30 +44,30 @@ class MerkController extends Controller
         return view('merk.list', compact('merks'));
     }
 
-     public function deleteMerk($id)
+    public function deleteMerk($id)
     {
         $deleted = Merk::deleteMerk($id);
 
         if ($deleted) {
-        return redirect()->back()->with('success', 'Merk berhasil dihapus.');
-        } 
-        else {
-        return redirect()->back()->with('error', 'Merk gagal dihapus.');
+            return redirect()->back()->with('success', 'Merk berhasil dihapus.');
+        } else {
+            return redirect()->back()->with('error', 'Merk gagal dihapus.');
         }
     }
+
     public function addMerk(Request $request)
     {
         // Validasi input
         $request->validate([
-            'merk' => 'required|string|max:100',
+            'merk'   => 'required|string|max:100|unique:merks,merk',
             'active' => 'nullable|boolean',
         ]);
 
-    $namaMerk = $request->input('merk');
-    $active = $request->input('active', 1); // default aktif
+        $namaMerk = $request->input('merk');
+        $active   = $request->input('active', 1); // default aktif
 
-    $newMerk = Merk::addMerk($namaMerk, $active);
+        $newMerk = Merk::addMerk($namaMerk, $active);
 
-    return redirect()->route('merk.list')->with('success', 'Merk berhasil ditambahkan');
+        return redirect()->route('merk.list')->with('success', 'Merk berhasil ditambahkan');
     }
 }
