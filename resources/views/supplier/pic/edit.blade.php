@@ -63,9 +63,9 @@
           <div class="container-fluid">
             <div class="card card-primary card-outline">
               <div class="card-body">
-                <form id="picForm" action="{{ route('supplier.pic.edit', $pic->id) }}" method="POST" enctype="multipart/form-data">
+                <form id="picForm" action="{{ route('supplier.pic.update', $pic->id) }}" method="POST" enctype="multipart/form-data">
                   @csrf
-                  @method('PUT')
+                  <!-- @method('PUT') -->
 
                   <div class="mb-3">
                     <label for="supplier_id" class="form-label">ID Supplier</label>

@@ -202,7 +202,8 @@ Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderCo
 
 // supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
-Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'update'])->name('supplier.pic.update'); // tanbahkan update
+Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])
+    ->name('supplier.pic.update'); // tanbahkan update
 Route::get('/supplier/pic/list', function () {
     $pics = App\Models\SupplierPic::getSupplierPICAll(10);
 
@@ -212,16 +213,8 @@ Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplier
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
 Route::get('/supplier/pic/list', [SupplierPIController::class, 'getSupplierPICAll'])->name('supplier-pic.list');
 Route::post('/supplier-pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])->name('supplier.pic.update');
-<<<<<<< HEAD
-Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->name('supplier.pic.editForm');
+Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->name('supplier.pic.edit');
 Route::post('/supplier-pic/update-data/{id}', [SupplierPIController::class, 'updatePIC'])->name('supplier.pic.updateData');
-
-// CUKUP TAMBAH INI SAJA, JANGAN HAPUS YANG LAIN
-Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'getPICByID'])->name('supplier.pic.edit_form');
-=======
-Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->name('supplier.pic.edit_form');
->>>>>>> e194be0d (fix edit supplier pic method)
-Route::put('/supplier/pic/update-action/{id}', [SupplierPIController::class, 'editSupplierPIC'])->name('supplier.pic.edit');
 
 # Items
 Route::get('/items', [ItemController::class, 'getItemAll']);

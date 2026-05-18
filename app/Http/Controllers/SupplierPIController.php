@@ -1,119 +1,53 @@
 <?php
 
-
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Supplier;
+use Illuminate\Http\Request;
 use App\Models\SupplierPic;
 use App\Models\SupplierPICModel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use App\Models\Supplier;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-
-
-
-
-
-
 
 class SupplierPIController extends Controller
-
 {
 
     public function getPICByID($id)
-
     {
 
-        $pic = SupplierPic::getPICByID($id); // memanggil method getPICByID dari model SupplierPic
+        $pic = SupplierPic::getPICByID($id);
 
-        if (! $pic) {
+        if (!$pic) {
             return redirect('/supplier')->with('error', 'PIC tidak ditemukan.');
-
         }
-
-
 
         $supplier = $pic->supplier;
 
-        $pic->supplier_name = $supplier ? $supplier->name : null;
         $pic->supplier_name = $supplier ? $supplier->company_name : null;
 
-        return view('supplier.pic.detail', ['pic' => $pic, 'supplier' => $supplier]);
-
-    }
-
-
-    public function edit($id)
-    {
-        $pic = SupplierPic::getPICByID($id);
-        if (! $pic) {
-            return redirect('/supplier/pic/list')->with('error', 'PIC tidak ditemukan.');
-        }
-        $supplier = $pic->supplier;
-        $pic->supplier_name = $supplier ? $supplier->company_name : null;
-
-        return view('supplier.pic.edit', ['pic' => $pic]);
-    }
-
-    public function updatePIC(Request $request, $id)
-    {
-        $pic = SupplierPic::getPICByID($id);
-        if (! $pic) {
-            return redirect('/supplier/pic/list')->with('error', 'PIC tidak ditemukan.');
-        }
-
-        $validatedData = $request->validate([
-            'supplier_id' => 'required|string|max:6',
-            'pic_name' => 'required|string|max:50',
-            'email' => 'required|email|max:50',
-            'telephone' => 'required|string|max:30',
-            'assignment_date' => 'nullable|date',
+        return view('supplier.pic.detail', [
+            'pic' => $pic,
+            'supplier' => $supplier
         ]);
-
-        $data = [
-            'supplier_id' => $validatedData['supplier_id'],
-            'name' => $validatedData['pic_name'],
-            'email' => $validatedData['email'],
-            'phone_number' => $validatedData['telephone'],
-            'assigned_date' => $validatedData['assignment_date'], // only if fillable includes assigned_date
-        ];
-
-        $result = SupplierPic::updateSupplierPIC($id, $data);
-
-        if (($result['status'] ?? 'error') !== 'success') {
-            return redirect()->back()->withErrors(['error' => $result['message'] ?? 'Gagal update PIC'])->withInput();
-        }
-
-        return redirect('/supplier/pic/list')->with('success', 'PIC berhasil diperbarui!');
     }
 
     public function searchSupplierPic(Request $request)
-
     {
 
         $keywords = $request->input('keywords');
 
         $supplierPics = SupplierPICModel::searchSupplierPic($keywords);
 
-
-
-        return view('supplier.pic.list', ['pics' => $supplierPics, 'supplier_id' => $keywords]);
-
+        return view('supplier.pic.list', [
+            'pics' => $supplierPics,
+            'supplier_id' => $keywords
+        ]);
     }
 
     public function addSupplierPIC(Request $request, $supplierID)
-
     {
-
-        // Validasi input
 
         $validatedData = $request->validate([
 
@@ -127,218 +61,155 @@ class SupplierPIController extends Controller
 
             'assigned_date' => 'required|date_format:d/m/Y',
 
-            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // max 2MB
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
 
         ]);
 
-
-
-        // Cek duplikat menggunakan method model
-
-        if (SupplierPic::isDuplicatePIC(
-
-            $supplierID,
-
-            $request->input('name'),
-
-            $request->input('email'),
-
-            $request->input('phone_number')
-
-        )) {
+        if (
+            SupplierPic::isDuplicatePIC(
+                $supplierID,
+                $request->input('name'),
+                $request->input('email'),
+                $request->input('phone_number')
+            )
+        ) {
 
             return redirect()->back()
-
-                ->withErrors(['duplicate' => 'Data PIC dengan informasi yang sama sudah ada dan tidak bisa disimpan.'])
-
+                ->withErrors([
+                    'duplicate' => 'Data PIC dengan informasi yang sama sudah ada dan tidak bisa disimpan.'
+                ])
                 ->withInput();
-
         }
-
-        // Handle upload foto jika ada
 
         if ($request->hasFile('photo')) {
 
             $file = $request->file('photo');
 
-            $path = $file->store('public/foto_pic'); // Disimpan di storage/app/public/foto_pic
+            $path = $file->store('public/foto_pic');
 
-            $validatedData['photo'] = basename($path); // hanya simpan nama file
-
+            $validatedData['photo'] = basename($path);
         }
 
-
-
-        // Format tanggal menjadi format Y-m-d (untuk MySQL)
-
-        $validatedData['assigned_date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $validatedData['assigned_date'])->format('Y-m-d');
-
-
-
-        // Tambahkan supplier_id dari parameter URL (bisa juga dari input langsung)
+        $validatedData['assigned_date'] =
+            \Carbon\Carbon::createFromFormat(
+                'd/m/Y',
+                $validatedData['assigned_date']
+            )->format('Y-m-d');
 
         $validatedData['supplier_id'] = $supplierID;
 
-
-
-        // Tambahkan supplier_name meskipun tidak divalidasi
-
         $validatedData['supplier_name'] = $request->input('supplier_name');
-
-
-
-        // Simpan ke database
 
         SupplierPic::addSupplierPIC($supplierID, $validatedData);
 
-
-
         return redirect()->back()->with('success', 'PIC berhasil ditambahkan!');
-
     }
-
-
 
     public function getSupplierPICAll()
-
     {
 
-        $supplierPICs = SupplierPic::getSupplierPICAll(); // ini method dari model kamu
+        $supplierPICs = SupplierPic::getSupplierPICAll();
 
-        return view('supplier.pic.list', ['pics' => $supplierPICs]);
-
+        return view('supplier.pic.list', [
+            'pics' => $supplierPICs
+        ]);
     }
 
-
-
     public function deleteSupplierPIC($id)
-
     {
 
         $picDelete = SupplierPic::deleteSupplierPIC($id);
 
-
-
         if ($picDelete) {
 
             return redirect()->back()->with('success', 'PIC berhasil dihapus!');
-
         } else {
 
             return redirect()->back()->with('error', 'PIC gagal dihapus.');
-
         }
-
     }
-
-
 
     public function updateSupplierPICDetail(Request $request, $id)
+{
+    $validator = Validator::make($request->all(), [
 
-    {
+        'supplier_id' => 'required|string|exists:supplier,supplier_id',
 
-        // 1. Validasi input
+        'name' => 'required|string|max:255',
 
-        $validator = Validator::make($request->all(), [
-            'supplier_id' => 'required|string|exists:supplier,supplier_id',
-            'name' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:20',
-            'email' => 'required|email|unique:supplier_pic,email,' . $id,
-            'assigned_date' => 'required|date',
+        'phone_number' => 'required|string|max:20',
 
-        ]);
+        'email' => 'required|email|unique:supplier_pic,email,' . $id,
 
+        'assigned_date' => 'required|date',
 
+    ]);
 
-        if ($validator->fails()) {
+    if ($validator->fails()) {
 
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Validasi gagal',
-                'errors' => $validator->errors(),
-            ], 422);
-
-        }
-
-
-
-        // 2. Ambil data hasil validasi
-
-        $data = $request->only([
-
-            'supplier_id',
-
-            'name',
-
-            'phone_number',
-
-            'email',
-            'assigned_date',
-        ]);
-
-
-
-        // 3. Panggil method dari MODEL: updateSupplierPIC($id)
-
-        $result = SupplierPic::updateSupplierPIC($id, $data);
-
-
-
-        // 4. Return response JSON
-
-        return response()->json([
-            'status' => $result['status'],
-            'message' => $result['message'],
-            'data' => $result['data'] ?? null,
-        ], $result['code'] ?? 200);
-
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
     }
+
+    $pic = SupplierPic::findOrFail($id);
+
+    $pic->supplier_id = $request->supplier_id;
+    $pic->name = $request->name;
+    $pic->phone_number = $request->phone_number;
+    $pic->email = $request->email;
+    $pic->assigned_date = $request->assigned_date;
+    $pic->status = $request->has('status') ? 1 : 0;
+
+    if ($request->hasFile('photo')) {
+
+        $file = $request->file('photo');
+
+        $path = $file->store('public/foto_pic');
+
+        $pic->photo = basename($path);
+    }
+
+    $pic->save();
+
+    return redirect('/supplier/pic/list')
+        ->with('success', 'Data PIC berhasil diupdate');
+}
 
     public function edit($id)
     {
-    $pic = SupplierPic::findOrFail($id);
 
-    return view('supplier.pic.edit', compact('pic'));
+        $pic = SupplierPic::findOrFail($id);
+
+        return view('supplier.pic.edit', compact('pic'));
     }
 
     public function cetakPdf()
-
     {
 
-        // ambil semua PIC beserta relasi supplier, tanpa limit
-
         $pics = SupplierPic::with('supplier')->get();
-
-
 
         $data = [
             'pics' => $pics,
         ];
 
-
-
         $pdf = Pdf::loadView('supplier.pic.pdfpic', $data)
-
             ->setPaper('a4', 'landscape');
 
-
-
         return $pdf->stream('PIC-Supplier-Semua.pdf');
-
     }
 
     public function getSupplierPicById($supplier_id)
-
     {
 
         $supplierPic = SupplierPic::where('supplier_id', $supplier_id)->first();
 
-        if (! $supplierPic) {
-            return response()->json(['message' => 'Data not found'], 404);
+        if (!$supplierPic) {
 
+            return response()->json([
+                'message' => 'Data not found'
+            ], 404);
         }
-
-
 
         $assignedDate = Carbon::parse($supplierPic->assigned_date)->startOfDay();
 
@@ -346,19 +217,16 @@ class SupplierPIController extends Controller
 
         $lamaAssigned = $assignedDate->diffInDays($now);
 
-
-
         return response()->json([
 
             'data' => $supplierPic,
+
             'lama_assigned' => $lamaAssigned,
+
         ]);
     }
 
-
-
     public function getSupplierPIC($supplierID)
-
     {
 
         $pics = DB::table('supplier_pic')
@@ -373,31 +241,26 @@ class SupplierPIController extends Controller
 
                 $now = \Carbon\Carbon::now();
 
-                $lamaAssigned = round($assignedDate->floatDiffInDays($now), 2);
+                $lamaAssigned = round(
+                    $assignedDate->floatDiffInDays($now),
+                    2
+                );
 
-
-
-                return (array) $pic + ['lama_assigned' => $lamaAssigned];
-
+                return (array) $pic + [
+                    'lama_assigned' => $lamaAssigned
+                ];
             });
-
-
 
         return response()->json([
 
             'message' => 'PIC list retrieved successfully.',
+
             'data' => $pics,
 
-
-
         ]);
-
     }
 
-
-
     public function cetakPdfBySupplier($supplierID)
-
     {
 
         $supplier = Supplier::findOrFail($supplierID);
@@ -406,14 +269,14 @@ class SupplierPIController extends Controller
             ->where('supplier_id', $supplierID)
             ->get();
 
-
-
-        $pdf = PDF::loadView('supplier.pic.pdfPIC', [
+        $pdf = Pdf::loadView('supplier.pic.pdfPIC', [
 
             'pics' => $pics,
+
             'supplier' => $supplier,
+
         ]);
 
-        return $pdf->stream('PIC_Supplier_' . $supplier->supplier_id . '.pdf');
+        return $pdf->stream('PIC-Supplier.pdf');
     }
 }

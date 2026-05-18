@@ -221,9 +221,6 @@ class SupplierPic extends Model
             $query->where('supplier_id', 'LIKE', "%{$keywords}%")
                 ->orWhere('name', 'LIKE', "%{$keywords}%")
                 ->orWhere('phone_number', 'LIKE', "%{$keywords}%")
-                ->orWhere('email', 'LIKE', "%{$keywords}%")
-                ->orWhere('assigned_date', 'LIKE', "%{$keywords}%")
-                ->orWhere('created_at', 'LIKE', "%{$keywords}%")
                 ->orWhere('updated_at', 'LIKE', "%{$keywords}%");
         }
 
@@ -236,7 +233,6 @@ class SupplierPic extends Model
    
 
     public static function editSupplierPIC($id, $data)
-
     {
 
     try {
@@ -278,6 +274,7 @@ class SupplierPic extends Model
 
         ];
 
+        }
     }
 
     public static function getSupplierPIC($supplierID)
