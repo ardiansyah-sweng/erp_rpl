@@ -83,7 +83,8 @@ Route::get('/item/add', function () {
 
 // Dikonfirmasi oleh chiqitita_C_163 - route form tambah produk sudah tersedia
 Route::get('/product/add', function () {
-    return view('product/add');
+    $categories = App\Models\Category::orderBy('category')->get();
+    return view('product/add', compact('categories'));
 });
 Route::get('/supplier/list', [App\Http\Controllers\SupplierController::class, 'listSuppliers'])->name('supplier.list');
 Route::get('/supplier/material/detail', function () {
@@ -221,6 +222,7 @@ Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->
 Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
 // Cetak produk berdasarkan kategori tertentu 
 Route::get('/category/print/{id}', [ProductController::class, 'printCategoryByIdPDF'])->name('category.print.single');
+Route::get('/category/print/{id}', [CategoryController::class, 'getCategoryByParent'])->name('category.print.single');
 
 
 #Category

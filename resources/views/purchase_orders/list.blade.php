@@ -424,8 +424,9 @@ use App\Helpers\EncryptionHelper;
                                 <label for="supplier_id">ID Supplier</label>
                                 <input type="text" id="supplierSearch" class="form-control" placeholder="Cari Supplier">
                                 <select class="form-control" id="supplier_id" size="5" style="display:none;">
-                                    <option value="SUP001">SUP001 - Penyetor Kaos</option>
-                                    <option value="SUP002">SUP002 - Penyetor Celana</option>
+                                    @foreach($suppliers as $supplier)
+                                    <option value="{{ $supplier->supplier_id }}">{{ $supplier->supplier_id }} - {{ $supplier->company_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
@@ -832,10 +833,11 @@ use App\Helpers\EncryptionHelper;
   </script>
 
   <script>
-      // Data Dummy untuk Supplier dan Item
+      // Data Supplier dari database
       const suppliers = {
-          "SUP001": "Penyetor Kaos",
-          "SUP002": "Penyetor Celana",
+          @foreach($suppliers as $supplier)
+          "{{ $supplier->supplier_id }}": "{{ $supplier->company_name }}",
+          @endforeach
       };
 
       const items = {
