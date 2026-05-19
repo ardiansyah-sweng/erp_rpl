@@ -257,8 +257,24 @@
                     <div class="card-body">
                       <div class="form-group">
                         <label for="merk">Merk</label>
-                        <input type="text" class="form-control" id="merk" name="merk" placeholder="Nama Merk">
-                      </div>
+                         <!--AINUN START-->
+                          <input 
+                            type="text" 
+                            class="form-control @error('merk') is-invalid @enderror" 
+                            id="merk" 
+                            name="merk" 
+                            value="{{ old('merk') }}"
+                            placeholder="Nama Merk"
+                          >
+
+                          @error('merk')
+                            <div class="invalid-feedback">
+                            {{ $message }}
+                            </div>
+                            @enderror
+                            <!--AINUN END-->
+                        <!-- <input type="text" class="form-control" id="merk" name="merk" placeholder="Nama Merk">
+                      </div> -->
                       <div class="form-group">
                         <label for="active">Active</label>
                         <select class="form-control" id="active" name="active">
