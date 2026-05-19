@@ -258,11 +258,11 @@
                             </tr>
                             <tr>
                                 <th>Produk Name</th>
-                                <td>{{ $product->product_name ?? 'Tidak ada data' }}</td>
+                                <td>{{ $product->name ?? 'Tidak ada data' }}</td>
                             </tr>
                             <tr>
                                 <th>Produk Type</th>
-                                <td>{{ $product->product_type->label() ?? 'Tidak ada data' }}</td>
+                                <td>{{ $product->type->label() ?? 'Tidak ada data' }}</td>
                             </tr>
                             <tr>
                                 <th>Produk Catecory</th>
@@ -271,7 +271,7 @@
                             </tr>
                             <tr>
                                 <th>Produk Description</th>
-                                <td>{{ $product->product_description ?? 'Tidak ada data' }}</td>
+                                <td>{{ $product->description ?? 'Tidak ada data' }}</td>
                             </tr>
                             <tr>
                                 <th>Created At</th>

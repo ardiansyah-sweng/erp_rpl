@@ -438,7 +438,7 @@
         </div>
       @endif
       @if($category)
-        <form method="POST" action="{{ route('category.update', $category->id) }}">
+        <form method="POST" action="{{ route('categories.update', $category->id) }}">
             @csrf
             @method('PUT')
 

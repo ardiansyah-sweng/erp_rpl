@@ -8,6 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\EncryptionHelper;
 use App\Enums\ProductType;
 use App\Models\Category;
+use App\Constants\Messages;
 
 
 class ProductController extends Controller
@@ -38,7 +39,7 @@ class ProductController extends Controller
         $product = (new Product())->getProductById($productId);
 
         if (!$product) {
-            return abort(404, 'Product tidak ditemukan');
+            return response()->view('errors.404', ['message' => Messages::PRODUCT_NOT_FOUND], 404);
         }
        return view('product.detail', compact('product'));
     }
@@ -82,11 +83,20 @@ class ProductController extends Controller
             'product_id' => 'required|string|unique:products,product_id',
             'product_name' => 'required|string',
             'product_type' => 'required|string',
-            'product_category' => 'required|string',
+            'product_category' => 'required|integer',
             'product_description' => 'nullable|string',
         ]);
 
-        Product::addProduct($validatedData);
+        // Map form input keys to database column keys
+        $dataToInsert = [
+            'product_id'  => $validatedData['product_id'],
+            'name'        => $validatedData['product_name'],
+            'type'        => $validatedData['product_type'],
+            'category'    => $validatedData['product_category'],
+            'description' => $validatedData['product_description'] ?? null,
+        ];
+
+        Product::addProduct($dataToInsert);
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
@@ -109,7 +119,8 @@ class ProductController extends Controller
     public function searchProduct($keyword)
     {
         $products = Product::getProductByKeyword($keyword);
-        return view('product.list', compact('products'));
+        $categories = Category::orderBy('category')->get();
+        return view('product.list', compact('products', 'categories'));
     }
     public function getProductByCategory($product_category)
     {
@@ -134,7 +145,7 @@ class ProductController extends Controller
     {
         // Cari kategori berdasarkan ID
         $category = Category::find($id);
-
+        // Percabangan 
         if (!$category) {
             return response()->json([
                 'success' => false,

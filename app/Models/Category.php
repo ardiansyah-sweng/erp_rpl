@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use App\Constants\CategoryColumns;
 use App\Models\Product;
 use App\Constants\CategoryColumns;
 
@@ -12,7 +14,6 @@ class Category extends Model
     use HasFactory;
 
     protected $table;
-    protected $fillable = [];
 
     public function __construct(array $attributes = [])
     {
@@ -22,6 +23,28 @@ class Category extends Model
         $this->fillable = CategoryColumns::getFillable();
     }
 
+    /**
+     * STATIC METHODS - FOLLOWING BEST PRACTICES
+     */
+
+    /**
+     * Get all category with search functionality and pagination.
+     *
+     * @param string|null $search
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public static function getAllCategory(?string $search = null)
+    {
+        $query = self::with('parent'); // Include parent relationship
+        
+        // Jika ada parameter search, tambahkan kondisi where
+        if ($search) {
+            $query->where(CategoryColumns::CATEGORY, 'LIKE', '%' . $search . '%');
+        }
+        
+        return $query->orderBy(CategoryColumns::CREATED_AT, 'desc')
+                    ->paginate(config('pagination.category_per_page', 15));
+    }
 
     public function products()
     {
@@ -52,6 +75,18 @@ class Category extends Model
     public static function getCategory()
     {
         return self::with('parent')->get();
+    }
+
+    /**
+     * Get only parent categories (categories without parent_id)
+     * for dropdown selection
+     */
+    public static function getParentCategories()
+    {
+        return self::whereNull('parent_id')
+                  ->where('is_active', 1)
+                  ->orderBy('category', 'asc')
+                  ->get();
     }
 
     public static function getCategoryById($id)
@@ -89,7 +124,7 @@ class Category extends Model
     
     public static function updateCategory($category_id, array $data) 
     {
-        $category = self::find($category_id);
+        $category = self::with('parent')->find($category_id);
         if (!$category) {
             return null;
         }
@@ -97,6 +132,9 @@ class Category extends Model
         $fillable = (new self)->getFillable();
         $filteredData = array_intersect_key($data, array_flip($fillable));
         $category->update($filteredData);
+
+        // Reload category dengan relasi parent setelah update
+        $category = self::with('parent:id,category')->find($category_id);
 
         return $category;
     }
