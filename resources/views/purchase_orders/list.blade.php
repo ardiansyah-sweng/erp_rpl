@@ -536,7 +536,7 @@ use App\Helpers\EncryptionHelper;
                         <!-- <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y H:i') }}</td> -->
                         <td>{{ $order->status }}</td>
                         <td>
-                          <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                          <a href="/purchase_orders/edit/{{ EncryptionHelper::encrypt($order->po_number) }}" class="btn btn-sm btn-primary">Edit</a>
                           <a href="#" class="btn btn-sm btn-danger">Delete</a>
                           <a href="/purchase_orders/detail/{{ EncryptionHelper::encrypt($order->po_number) }}" class="btn btn-sm btn-info">Detail</a>
                            <a href="goods_receipt_note/add" class="btn btn-sm btn-warning">GRN</a>

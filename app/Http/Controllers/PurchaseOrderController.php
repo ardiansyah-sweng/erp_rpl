@@ -147,4 +147,83 @@ class PurchaseOrderController extends Controller
             return response()->json(['error' => 'Server gagal mengirim email: ' . $e->getMessage()], 500);
         }
     }
+
+    // Menampilkan halaman edit PO
+    public function edit($id)
+    {
+        // 1. Dekripsi ID (PO Number) yang dikirim melalui URL
+        $decryptedId = \App\Helpers\EncryptionHelper::decrypt($id);
+
+        // 2. Ambil data Purchase Order berdasarkan po_number tersebut menggunakan fungsi yang sudah ada
+        $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($decryptedId);
+
+        // Jika data tidak ditemukan, tampilkan error 404
+        if (!$purchaseOrder) {
+            abort(404, 'Data Purchase Order tidak ditemukan');
+        }
+
+        // 3. Ambil data supplier untuk pilihan dropdown di form edit
+        $suppliers = Supplier::all();
+
+        // 4. Tampilkan halaman view edit dengan membawa data tersebut
+        return view('purchase_orders.edit', compact('purchaseOrder', 'suppliers'));
+    }
+// Memproses data update PO
+    public function updatePurchaseOrder(Request $request, $id)
+    {
+        // 1. Dekripsi ID (PO Number)
+        $decryptedId = \App\Helpers\EncryptionHelper::decrypt($id);
+
+        try {
+            DB::beginTransaction();
+
+            // 2. Membersihkan format titik dan koma pada Subtotal
+            $totalHarga = str_replace('.', '', $request->input('subtotal'));
+            $totalHarga = str_replace(',', '', $totalHarga); 
+
+            // 3. BYPASS FILLABLE: Ambil nama tabel asli lalu gunakan DB::table
+            $poTable = (new \App\Models\PurchaseOrder())->getTable();
+            
+            DB::table($poTable)->where('po_number', $decryptedId)->update([
+                'branch_id'   => $request->input('branch_id'),
+                'supplier_id' => $request->input('supplier_id'),
+                'total'       => (int) $totalHarga,
+            ]);
+
+            // 4. Update Data Detail (Ambil nama tabel dari config sesuai migration)
+            $detailTable = config('db_constants.table.po_detail') ?? 'purchase_order_detail';
+            
+            DB::table($detailTable)->where('po_number', $decryptedId)->delete();
+
+            $skus   = $request->input('sku');
+            $qtys   = $request->input('qty');
+            $prices = $request->input('unit_price');
+
+            if ($skus && is_array($skus)) {
+                $detailBarang = [];
+                for ($i = 0; $i < count($skus); $i++) {
+                    if (!empty($skus[$i])) {
+                        $detailBarang[] = [
+                            'po_number'     => $decryptedId,
+                            'product_id'    => $skus[$i], 
+                            'base_price'    => $prices[$i],
+                            'quantity'      => $qtys[$i],
+                            'amount'        => $qtys[$i] * $prices[$i], 
+                            'received_days' => 0,
+                            'created_at'    => now(),
+                            'updated_at'    => now(),
+                        ];
+                    }
+                }
+                DB::table($detailTable)->insert($detailBarang);
+            }
+
+            DB::commit();
+            return redirect()->route('purchase.orders')->with('success', 'Purchase Order berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+        }
+    }
 }

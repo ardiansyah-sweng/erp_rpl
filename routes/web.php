@@ -185,6 +185,8 @@ Route::get('/products', [APIProductController::class, 'getProducts'])->name('api
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('api.prices');
 
 // PurchaseOrders
+Route::get('/purchase_orders/edit/{id}', [PurchaseOrderController::class, 'edit'])->name('purchase_orders.edit');
+Route::put('/purchase_orders/update/{id}', [PurchaseOrderController::class, 'updatePurchaseOrder'])->name('purchase_orders.update');
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPurchaseOrder'])->name('purchase_orders.search');
 Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])->name('purchase_orders.add'); // tambahan
