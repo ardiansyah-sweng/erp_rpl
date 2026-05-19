@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Constants\CategoryColumns;
 
 class CategoryController extends Controller
 {
@@ -12,15 +13,15 @@ class CategoryController extends Controller
     public function addCategory(Request $request)
     {
         $request->validate([
-            'category' => 'required|string|min:3|unique:category,category',
+            'category' => 'required|string|min:3|unique:categories,category',
             'parent_id' => 'nullable|integer',
-            'active' => 'required|boolean'
+            'is_active' => 'required|boolean'
         ]);
         $category = new Category();
         $category->addCategory([
-            'category' => $request->category,
-            'parent_id' => $request->parent_id ?? 0,
-            'active' => $request->active,
+            CategoryColumns::CATEGORY => $request->category,
+            CategoryColumns::PARENT => $request->parent_id,
+            CategoryColumns::IS_ACTIVE => $request->is_active,
         ]);
 
         return redirect()->route('category.list')->with('success', 'Kategori berhasil ditambahkan!');
@@ -41,11 +42,11 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'category' => 'required|string|min:3',
-            'parent_id' => 'nullable|integer|exists:category,id',
-            'active' => 'required|boolean'
+            'parent_id' => 'nullable|integer|exists:categories,id',
+            'is_active' => 'required|boolean'
         ]);
 
-        $updatedCategory = Category::updateCategory($id, $request->only(['category', 'parent_id', 'active']));
+        $updatedCategory = Category::updateCategory($id, $request->only(['category', 'parent_id', 'is_active']));
 
         if (!$updatedCategory) {
             return response()->json(['message' => 'Kategori tidak ditemukan'], 404);

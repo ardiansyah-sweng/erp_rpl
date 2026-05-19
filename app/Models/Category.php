@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
+use App\Constants\CategoryColumns;
 
 class Category extends Model
 {
@@ -17,14 +18,14 @@ class Category extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_table.category');
-        $this->fillable = array_values(config('db_constants.column.category', ['category', 'parent_id', 'active', 'created_at', 'updated_at']));
+        $this->table = config('db_tables.category');
+        $this->fillable = CategoryColumns::getFillable();
     }
 
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'category_id');
+        return $this->hasMany(Product::class, 'product_category');
     }
 
     // Relasi ke kategori induk

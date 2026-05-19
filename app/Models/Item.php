@@ -126,13 +126,13 @@ class Item extends Model
     public static function getItemByCategory($categoryId)
     {
         return self::join('products', 'item.product_id', '=', 'products.product_id')
-            ->join('category', 'products.product_category', '=', 'category.id')
-            ->where('category.id', $categoryId)
+            ->join('categories', 'products.product_category', '=', 'categories.id')
+            ->where('categories.id', $categoryId)
             ->select(
                 'item.*',
                 'products.product_name',
                 'products.product_category',
-                'category.category as category_name'
+                'categories.category as category_name'
             )
             ->get();
     }
@@ -140,8 +140,8 @@ class Item extends Model
     public static function countItemByCategory($categoryId)
     {
         return self::join('products', 'item.product_id', '=', 'products.product_id')
-            ->join('category', 'products.product_category', '=', 'category.id')
-            ->where('category.id', $categoryId)
+            ->join('categories', 'products.product_category', '=', 'categories.id')
+            ->where('categories.id', $categoryId)
             ->count();
     }
 }

@@ -425,7 +425,7 @@
                                 <td>{{ $kategori->id }}</td>
                                 <td>{{ $kategori->category }}</td>
                                 <td class="text-center">
-                                    @if($kategori->active)
+                                    @if($kategori->is_active)
                                     <i class="bi bi-check-circle-fill text-success"></i>
                                     @else
                                     <i class="bi bi-x-circle-fill text-danger"></i>

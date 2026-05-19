@@ -460,7 +460,7 @@
 
             <div class="mb-3">
                 <label class="form-label">Active</label>
-                <input type="boolean" name="active" class="form-control" value="{{ old('active', $category->active) }}" required>
+                <input type="boolean" name="is_active" class="form-control" value="{{ old('is_active', $category->is_active) }}" required>
             </div>
 
             <button type="submit" class="btn btn-primary">Update</button>
