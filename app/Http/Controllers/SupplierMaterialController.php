@@ -29,23 +29,21 @@ class SupplierMaterialController extends Controller
         return view('supplier.material.detail', ['material' => $material]);
     }
 
-    // Validasi data supplier material
-    public function addSupplierMaterial(Request $request)
-    {
+     // Validasi data supplier material
+     public function addSupplierMaterial(Request $request)
+     {
         $validated = $request->validate([
             'supplier_id'   => 'required|string|size:6',
-            'company_name'  => 'required|string|max:255', 
+            'company_name'  => 'required|string|max:255',
             'product_id'    => 'required|string|max:50',
             'product_name'  => 'required|string|max:255',
             'base_price'    => 'required|integer|min:0',
             'created_at'    => 'nullable|date',
             'updated_at'    => 'nullable|date',
         ]);
-
         SupplierMaterial::addSupplierMaterial((object)$validated);
-
-        return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!'); 
-    }
+         return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
+     }
 
     public function updateSupplierMaterial(Request $request, $id)
     {
@@ -56,7 +54,7 @@ class SupplierMaterialController extends Controller
         ]);
 
         $validated['updated_at'] = now();
-        
+
         $model = new SupplierMaterial();
         $result = $model->updateSupplierMaterial($id, $validated);
 
@@ -66,7 +64,7 @@ class SupplierMaterialController extends Controller
         return redirect()->back()->with('error', 'Gagal memperbarui data supplier material!');
     }
 
-    # cetak pdf
+    #cetak pdf
     public function cetakPDF($supplier_id)
     {
         $materials = SupplierMaterial::where('supplier_id', $supplier_id)->get();
@@ -81,7 +79,7 @@ class SupplierMaterialController extends Controller
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
 
-    public function getSupplierMaterialByProductType($supplier_id, $product_type)
+        public function getSupplierMaterialByProductType($supplier_id, $product_type)
     {
         // Validasi hanya menerima product_type tertentu
         if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
@@ -109,24 +107,6 @@ class SupplierMaterialController extends Controller
         return response()->json($results);
     }
 
-    /**
-     * ✅ FITUR BARU (TUGAS)
-     * Menghitung jumlah supplier berdasarkan product_type
-     */
-    public function countSupplierMaterialByType()
-    {
-        $results = DB::table('supplier_product')
-            ->join('products', DB::raw("SUBSTRING_INDEX(supplier_product.product_id, '-', 1)"), '=', 'products.product_id')
-            ->select(
-                'products.product_type',
-                DB::raw('COUNT(DISTINCT supplier_product.supplier_id) as total_supplier')
-            )
-            ->groupBy('products.product_type')
-            ->get();
-
-        return response()->json($results);
-    }
-
     public function countSupplierMaterialByCategory($category, $supplier)
     {
         $total = SupplierMaterial::countSupplierMaterialByCategory($category, $supplier);
@@ -134,32 +114,7 @@ class SupplierMaterialController extends Controller
         return response()->json([
             'category' => $category,
             'supplier' => $supplier,
-            'total' => $total
+            'total'    => $total,
         ]);
-    }
-
-    public function showCategoryCountView($supplier)
-    {
-        $categories = DB::table('categories')->get();
-
-        $results = [];
-
-        foreach ($categories as $category) {
-
-            $total = SupplierMaterial::countSupplierMaterialByCategory(
-                $category->id,
-                $supplier
-            );
-
-            // hanya tampilkan yg > 0
-            if ($total > 0) {
-                $results[] = [
-                    'category_name' => $category->category,
-                    'total' => $total
-                ];
-            }
-        }
-
-        return response()->json($results);
     }
 }

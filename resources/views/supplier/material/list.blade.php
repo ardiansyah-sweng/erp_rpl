@@ -424,11 +424,7 @@
                             <td>
                                 <a href="{{ url('/supplier/material/' . $material->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
-<<<<<<< HEAD
                                 <a href="{{ route('supplier.material.detail', $material->id) }}" class="btn btn-sm btn-info">Detail</a>
-=======
-                                <a href="{{ url('/supplier/material/' . $material->id) }}" class="btn btn-sm btn-info">Detail</a>
->>>>>>> 2ced6170b855cbca0240192e75c30c0fc1d22db9
                             </td>
 
                             <td>
