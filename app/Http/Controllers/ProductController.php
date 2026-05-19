@@ -62,13 +62,14 @@ class ProductController extends Controller
             $typeLabel = $productType->value;
         }
 
-        $pdf = PDF::loadView('product.pdf', [
+        $pdf = Pdf::loadView('product.pdf', [
             'products' => $products,
             'type' => $typeLabel
         ]);
 
         return $pdf->stream("products_{$type}.pdf");
     }
+
     public function addProduct(Request $request)
     {
         $validatedData = $request->validate([

@@ -42,7 +42,7 @@
                 <th>Deskripsi</th>
             </tr>
         </thead>
-<tbody>
+        <tbody>
             @foreach($products as $index => $product)
             <tr>
                 <td>{{ $index + 1 }}</td>
