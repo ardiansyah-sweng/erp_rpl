@@ -3,23 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SupplierPICModel extends Model
 {
-    use HasFactory;
-    
-    protected $table = 'supplier_pics';
-
-    protected $fillable = [
-        'supplier_id',
-        'name',
-        'phone_number',
-        'email',
-        'is_active',
-        'avatar',
-        'assigned_date',
-    ];
+    protected $table = 'supplier_pic';
 
     // Tambahkan relasi ke model Supplier
     public function supplier()

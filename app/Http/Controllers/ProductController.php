@@ -8,7 +8,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\EncryptionHelper;
 use App\Enums\ProductType;
 use App\Models\Category;
-use App\Constants\Messages;
 
 
 class ProductController extends Controller
@@ -39,7 +38,7 @@ class ProductController extends Controller
         $product = (new Product())->getProductById($productId);
 
         if (!$product) {
-            return response()->view('errors.404', ['message' => Messages::PRODUCT_NOT_FOUND], 404);
+            return abort(404, 'Product tidak ditemukan');
         }
        return view('product.detail', compact('product'));
     }
@@ -110,8 +109,7 @@ class ProductController extends Controller
     public function searchProduct($keyword)
     {
         $products = Product::getProductByKeyword($keyword);
-        $categories = Category::orderBy('category')->get();
-        return view('product.list', compact('products', 'categories'));
+        return view('product.list', compact('products'));
     }
     public function getProductByCategory($product_category)
     {
@@ -136,7 +134,7 @@ class ProductController extends Controller
     {
         // Cari kategori berdasarkan ID
         $category = Category::find($id);
-        // Percabangan 
+
         if (!$category) {
             return response()->json([
                 'success' => false,

@@ -391,13 +391,8 @@
         </div>
 
         <div class="card mb-4">
-              <div class="card-header d-flex justify-content-between align-items-start">
-                      <div>
-                        <h3 class="card-title">List Table</h3>
-                        <div class="pt-4">
-                          <strong>Total Kategori: {{ $totalCategory }}</strong>
-                        </div>
-                      </div>
+              <div class="card-header d-flex justify-content-between align-items-center">
+                      <h3 class="card-title">List Table</h3>
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
@@ -453,9 +448,6 @@
 
                       </tbody>
                     </table>
-                  </div>
-                  <div class="px-3 pb-3 d-none">
-                    <strong>Total Kategori: {{ $totalCategory }}</strong>
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer clearfix">

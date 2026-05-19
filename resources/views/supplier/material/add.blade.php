@@ -386,45 +386,39 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="container">
-                    <form id="picForm" action="{{ route('supplier.material.add') }}" method="POST">
-                        @csrf
+                    <form id="picForm">
                         <div class="mb-3">
                             <label for="supplier_id" class="form-label">ID Supplier</label>
-                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" required maxlength="6" onblur="fetchSupplierName()">
+                            <input type="text" class="form-control" id="supplier_id" name="supplier_id" required>
                             <span id="supplierIdError" class="error"></span>
-                            <div class="invalid-feedback">ID Supplier harus diisi dan terdiri dari 6 karakter.</div>
+                            <div class="invalid-feedback">ID Supplier harus diisi.</div>
                             
                         </div>
                         <div class="mb-3">
                             <label for="supplier_name" class="form-label">Nama Supplier</label>
-                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly required maxlength="255">
+                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" readonly>
                             <div class="invalid-feedback">Nama Supplier harus diisi.</div>
+                            
                         </div>
                         <div class="mb-3">
-                            <label for="company_name" class="form-label">Company Name</label>
-                            <input type="text" class="form-control" id="company_name" name="company_name" readonly required maxlength="255">
-                            <div class="invalid-feedback">Company Name harus diisi.</div>
-
+                            <label for="SKU" class="form-label">SKU</label>
+                            <input type="text" class="form-control" id="SKU" name="SKU" required>
+                            <div class="invalid-feedback">SKU harus diisi.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="product_id" class="form-label">Product ID</label>
-                            <input type="text" class="form-control" id="product_id" name="product_id" required maxlength="50">
-                            <div class="invalid-feedback">Product ID harus diisi dan maksimal 50 karakter.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="product_name" class="form-label">Product Name</label>
-                            <input type="text" class="form-control" id="product_name" name="product_name" required maxlength="255">
-                            <div class="invalid-feedback">Product Name harus diisi dan maksimal 255 karakter.</div>
+                            <label for="nama_item" class="form-label">Nama Item</label>
+                            <input type="text" class="form-control" id="nama_item" name="name_item" required>
+                            <div class="invalid-feedback">Nama Item harus diisi.</div>
                         </div>
                         <div class="mb-3">
                             <label for="base_price" class="form-label">Base Price Rp:</label>
-                            <input type="number" class="form-control" id="base_price" name="base_price" required min="1">
+                            <input type="number" class="form-control" id="base_price" name="base_price" required>
                             <div class="invalid-feedback">Base Price harus diisi dan lebih besar dari 0.</div>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div>
                                 <div>
-                                  <button type="submit" class="btn btn-primary" onclick="return validateForm()">Add</button>
+                                  <button type="button" class="btn btn-primary" onclick="validateForm()">Add</button>
                                   <button type="reset" class="btn btn-secondary">Cancel</button>
                                 </div>
                             </div>
@@ -724,63 +718,35 @@
     </script>
     
     <script>
-      function fetchSupplierName() {
-        const supplierId = $('#supplier_id').val().trim();
-        if (supplierId.length === 6) {
-          $.ajax({
-            url: '/api/supplier/' + supplierId, // Assuming an API endpoint exists
-            method: 'GET',
-            success: function(data) {
-              $('#supplier_name').val(data.company_name);
-              $('#company_name').val(data.company_name);
-            },
-            error: function() {
-              $('#supplier_name').val('');
-              $('#company_name').val('');
-              alert('Supplier ID tidak ditemukan.');
-            }
-          });
-        } else {
-          $('#supplier_name').val('');
-          $('#company_name').val('');
-        }
-      }
-
       function validateForm() {
         let isValid = true;
 
         // Reset error states
-        $('#supplier_id, #product_id, #supplier_name, #company_name, #product_name, #base_price').removeClass('is-invalid');
+        $('#supplier_id, #SKU, #supplier_name, #nama_item, #base_price').removeClass('is-invalid');
 
         const supplierId = $('#supplier_id').val().trim();
         const supplierName = $('#supplier_name').val().trim();
-        const companyName = $('#company_name').val().trim();
-        const productId = $('#product_id').val().trim();
-        const productName = $('#product_name').val().trim();
+        const sku = $('#SKU').val().trim();
+        const itemName = $('#nama_item').val().trim();
         const basePrice = parseFloat($('#base_price').val());
 
-        if (!supplierId || supplierId.length !== 6) {
+        if (!supplierId) {
           $('#supplier_id').addClass('is-invalid');
           isValid = false;
         }
-
+        
         if (!supplierName) {
           $('#supplier_name').addClass('is-invalid');
           isValid = false;
         }
 
-        if (!companyName) {
-          $('#company_name').addClass('is-invalid');
+        if (!sku) {
+          $('#SKU').addClass('is-invalid');
           isValid = false;
         }
 
-        if (!productId) {
-          $('#product_id').addClass('is-invalid');
-          isValid = false;
-        }
-
-        if (!productName) {
-          $('#product_name').addClass('is-invalid');
+        if (!itemName) {
+          $('#nama_item').addClass('is-invalid');
           isValid = false;
         }
 
@@ -789,11 +755,9 @@
           isValid = false;
         }
 
-        if (!isValid) {
-          alert('Harap perbaiki semua error pada form sebelum melanjutkan.');
-        }
         return isValid;
       }
+
     </script>
 
     <!--end::Script-->

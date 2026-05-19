@@ -17,7 +17,6 @@ use App\Models\SupplierPic;
 use App\Models\SupplierProduct;
 use App\Helpers\DBConstants;
 use App\Enums\ProductType;
-use App\Constants\SupplierColumns;
 
 class SupplierSeeder extends Seeder
 {
@@ -70,8 +69,7 @@ class SupplierSeeder extends Seeder
             $supplier = Supplier::all();
             $numOfSupplier = $this->faker->numberBetween(1, $supplier->count());
             $suppliers = $supplier->pluck($this->colSupplier['supplier_id'])->shuffle()->take($numOfSupplier);
-            $itemName = Item::where($this->colItem['sku'], $sku->sku)->get()->first();
-            $productName = $itemName ? $itemName->name : null;
+            $itemName = Item::where($this->colItem['sku'], $sku->sku)->get()->first()->item_name;
 
             foreach ($suppliers as $supplierID)
             {
@@ -88,7 +86,7 @@ class SupplierSeeder extends Seeder
                         $this->colSupplierProduct['supplier_id'] => $supplierID,
                         $this->colSupplierProduct['company_name'] => $companyName,
                         $this->colSupplierProduct['product_id'] => $sku->sku,
-                        $this->colSupplierProduct['product_name'] => $productName,
+                        $this->colSupplierProduct['product_name'] => $itemName,
                         $this->colSupplierProduct['base_price'] => $basePrice,
                         $this->colSupplierProduct['created_at'] => $created_at,
                         $this->colSupplierProduct['updated_at'] => $created_at
@@ -149,11 +147,11 @@ class SupplierSeeder extends Seeder
             $bankAccount = 'Bank '.$company_name.' No. Rek '.$this->faker->bankAccountNumber;
 
             Supplier::create([
-                $colSupplier[SupplierColumns::SUPPLIER_ID] => $supplierID,
-                $colSupplier[SupplierColumns::COMPANY_NAME] => $company_name,
-                $colSupplier[SupplierColumns::ADDRESS] => $this->faker->address,
-                $colSupplier[SupplierColumns::PHONE] => $this->faker->phoneNumber(),
-                $colSupplier[SupplierColumns::BANK_ACCOUNT] => $bankAccount
+                $colSupplier['supplier_id'] => $supplierID,
+                $colSupplier['company_name'] => $company_name,
+                $colSupplier['address'] => $this->faker->address,
+                $colSupplier['phone_number'] => $this->faker->phoneNumber(),
+                $colSupplier['bank_account'] => $bankAccount
             ]);
 
             $this->createDummySupplierPIC($supplierID);

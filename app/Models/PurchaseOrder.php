@@ -10,9 +10,6 @@ use Carbon\Carbon;
 class PurchaseOrder extends Model
 {
     protected $table;
-    protected $primaryKey = 'po_number';
-    public $incrementing = false;
-    protected $keyType = 'string';
     protected $fillable = [];
 
     public function __construct(array $attributes = [])
@@ -58,14 +55,9 @@ class PurchaseOrder extends Model
             ->paginate(10);
     }
 
-    public static function getPurchaseOrderByPo_Number($po_number)
+    public static function getPurchaseOrderByID($po_number)
     {
         return self::with('supplier', 'details')->orderBy('po_number')->where('po_number', $po_number)->paginate(10);
-    }
-
-    public static function getPurchaseOrderByID($id)
-    {
-        return self::find($id);
     }
 
     // Fungsi tambahan untuk menghitung jumlah item pada 1 PO

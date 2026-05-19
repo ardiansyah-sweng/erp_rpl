@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 
 class SupplierMaterial extends Model
 {
-    use HasFactory;
     protected $table = 'supplier_product';
     protected $fillable = [
         'supplier_id',
@@ -180,7 +178,6 @@ class SupplierMaterial extends Model
             )
             ->get();
     }
-
 
     public static function countSupplierMaterialByCategory($kategory, $supplier)
     {

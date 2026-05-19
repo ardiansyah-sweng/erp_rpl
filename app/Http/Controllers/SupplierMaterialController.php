@@ -34,7 +34,7 @@ class SupplierMaterialController extends Controller
      {
         $validated = $request->validate([
             'supplier_id'   => 'required|string|size:6',
-            'company_name'  => 'required|string|max:255',
+            'company_name'  => 'required|string|max:255', 
             'product_id'    => 'required|string|max:50',
             'product_name'  => 'required|string|max:255',
             'base_price'    => 'required|integer|min:0',
@@ -42,7 +42,7 @@ class SupplierMaterialController extends Controller
             'updated_at'    => 'nullable|date',
         ]);
         SupplierMaterial::addSupplierMaterial((object)$validated);
-         return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
+         return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!'); 
      }
 
     public function updateSupplierMaterial(Request $request, $id)
@@ -54,7 +54,7 @@ class SupplierMaterialController extends Controller
         ]);
 
         $validated['updated_at'] = now();
-
+        
         $model = new SupplierMaterial();
         $result = $model->updateSupplierMaterial($id, $validated);
 
