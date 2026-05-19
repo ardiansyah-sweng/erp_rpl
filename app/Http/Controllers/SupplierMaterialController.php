@@ -120,9 +120,9 @@ class SupplierMaterialController extends Controller
 
 public function searchSupplierMaterial(Request $request)
     {
-
+       
         $keyword = $request->input('keyword');
-
+        
         $materials = SupplierMaterial::searchSupplierMaterial($keyword);
 
         // Cek apakah hasil pagination kosong

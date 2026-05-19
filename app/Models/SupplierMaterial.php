@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory; 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
@@ -55,7 +55,7 @@ class SupplierMaterial extends Model
             ->join('products as p', function ($join) {
                 $join->on(DB::raw('LEFT(sp.product_id, LOCATE("-", sp.product_id) - 1)'), '=', 'p.product_id');
             })
-            ->where('p.product_type', '=', 'RM')
+            ->where('p.type', '=', 'RM')
             ->distinct('p.product_id')
             ->count(DB::raw('DISTINCT p.product_id'));
     }
