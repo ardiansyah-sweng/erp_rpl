@@ -160,10 +160,6 @@ class SupplierMaterialControllerTest extends TestCase
         $response->assertSessionHas('error', 'Data tidak ditemukan atau tidak ada hasil.');
     }
 
-    // ==========================================
-    // TESTS (COUNT BY CATEGORY)
-    // ==========================================
-
     public function test_countSupplierMaterialByCategory_returns_correct_total()
     {
         DB::table('categories')->insert(['id' => 1, 'category' => 'Bahan Baku', 'created_at' => now(), 'updated_at' => now()]);
