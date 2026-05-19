@@ -1,8 +1,4 @@
-
 <?php
-
-// Route untuk cek hasil Supplier::getSupplier() (frekuensi order)
-Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
 
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +18,9 @@ use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\GoodsReceiptNoteController;
 use App\Models\BillOfMaterial;
+
+// Route untuk cek hasil Supplier::getSupplier() (frekuensi order)
+Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
 
 # Route GET untuk form tambah merk
 Route::get('/merk/add', function () {
