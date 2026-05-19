@@ -51,22 +51,29 @@ class ProductController extends Controller
     public function printProductsByType($type)
     {
         if ($type === 'ALL') {
-            $products = Product::with('category')->get();
+            // Get all products
+            $products = Product::with('categoryRelation')->get();
             $typeLabel = 'Semua Tipe';
         } else {
+            // Get the enum case based on the type parameter
             $productType = ProductType::tryFrom($type);
             if (!$productType) {
                 abort(404, 'Invalid product type');
             }
-            $products = Product::getProductByType($type)->load(['category']);
+
+            // Get products of the specified type
+            $products = Product::getProductByType($type)
+                ->load(['categoryRelation']);
             $typeLabel = $productType->value;
         }
 
+        // Load the PDF view
         $pdf = Pdf::loadView('product.pdf', [
             'products' => $products,
             'type' => $typeLabel
         ]);
 
+        // Stream the PDF to the browser
         return $pdf->stream("products_{$type}.pdf");
     }
 

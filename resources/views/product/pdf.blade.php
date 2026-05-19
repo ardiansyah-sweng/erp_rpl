@@ -49,7 +49,7 @@
                 <td>{{ $product->product_id }}</td>
                 <td>{{ $product->name }}</td>
                 <td>{{ $product->type }}</td>
-                <td>{{ $product->category ? $product->category->category : '-' }}</td>
+                <td>{{ $product->categoryRelation ? $product->categoryRelation->category : '-' }}</td>
                 <td>{{ $product->description ?: '-' }}</td>
             </tr>
             @endforeach
