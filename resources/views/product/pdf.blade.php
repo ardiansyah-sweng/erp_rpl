@@ -46,12 +46,11 @@
             @foreach($products as $index => $product)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <!-- Kita coba beberapa nama kolom yang mungkin -->
-                <td>{{ $product->product_id ?? $product->id }}</td> 
-                <td>{{ $product->product_name ?? $product->name }}</td>
-                <td>{{ $product->product_type ?? $product->type }}</td>
-                <td>{{ $product->category_name }}</td>
-                <td>{{ $product->product_description ?? $product->description ?? '-' }}</td>
+                <td>{{ $product->product_id }}</td>
+                <td>{{ $product->name }}</td>
+                <td>{{ $product->type }}</td>
+                <td>{{ $product->category ? $product->category->category : '-' }}</td>
+                <td>{{ $product->description ?: '-' }}</td>
             </tr>
             @endforeach
             @if(count($products) === 0)
