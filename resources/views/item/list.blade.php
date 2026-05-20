@@ -411,6 +411,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
+          <p class="text-muted">Jumlah Item: <strong>{{ $items->total() }}</strong></p>
           @if(session('success'))
           <div class="alert alert-success">
             {{ session('success') }}
