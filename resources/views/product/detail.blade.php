@@ -266,7 +266,7 @@
                             </tr>
                             <tr>
                                 <th>Produk Catecory</th>
-                                <td>{{ $product->category->category ?? 'Tidak ada data' }}</td>
+                                <td>{{ $product->categoryRelation->category ?? 'Tidak ada data' }}</td>
 
                             </tr>
                             <tr>

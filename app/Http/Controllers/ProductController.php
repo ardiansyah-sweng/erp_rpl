@@ -53,7 +53,7 @@ class ProductController extends Controller
     {
         if ($type === 'ALL') {
             // Get all products
-            $products = Product::with('category')->get();
+            $products = Product::with('categoryRelation')->get();
             $typeLabel = 'Semua Tipe';
         } else {
             // Get the enum case based on the type parameter
@@ -64,12 +64,12 @@ class ProductController extends Controller
 
             // Get products of the specified type
             $products = Product::getProductByType($type)
-                ->load(['category']);
+                ->load(['categoryRelation']);
             $typeLabel = $productType->value;
         }
 
         // Load the PDF view
-        $pdf = PDF::loadView('product.pdf', [
+        $pdf = Pdf::loadView('product.pdf', [
             'products' => $products,
             'type' => $typeLabel
         ]);
