@@ -441,7 +441,7 @@
               <tr id="row-{{ $item->id }}">
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->sku }}</td>
-                <td>{{ $item->item_name }}</td>
+                <td>{{ $item->name }}</td>
                 <td>{{ $item->unit?->unit_name ?? '-' }}</td>
                 <td>{{ $item->avg_base_price }}</td>
                 <td>{{ $item->selling_price }}</td>
