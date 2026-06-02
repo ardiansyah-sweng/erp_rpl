@@ -264,7 +264,7 @@
                             id="merk" 
                             name="merk" 
                             value="{{ old('merk') }}"
-                            placeholder="Nama Merk"
+                           php artisan key:generate placeholder="Nama Merk"
                           >
 
                           @error('merk')
