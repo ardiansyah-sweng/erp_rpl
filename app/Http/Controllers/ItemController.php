@@ -19,14 +19,13 @@ class ItemController extends Controller
         try {
             // Panggil fungsi deleteItemById dari model Item
             $deleted = Item::deleteItemById($id);
-    
+
             if ($deleted) {
                 return redirect()->back()->with('success', 'Item berhasil dihapus!');
             } else {
                 return redirect()->back()->with('error', 'Item tidak ditemukan atau gagal dihapus.');
             }
-        } 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             // Tangkap pesan exception dari model
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -76,7 +75,7 @@ class ItemController extends Controller
             'item_name' => 'required|string|max:100',
         ]);
 
-         $item = Item::updateItem($id, $validated);
+        $item = Item::updateItem($id, $validated);
 
         if (!$item) {
             return redirect()->back()->with('error', 'Item tidak ditemukan.');
@@ -84,7 +83,7 @@ class ItemController extends Controller
 
         return redirect()->back()->with('success', 'Item berhasil diperbarui.');
     }
-  
+
     public function exportAllToPdf()
     {
         $items = (new Item)->getItem();
@@ -96,9 +95,25 @@ class ItemController extends Controller
         $pdf = Pdf::loadView('item.report', compact('items'));
         return $pdf->stream('laporan-item.pdf');
     }
-    
-    public function getItemById($id){
-        $item = (new item())->getItemById($id);
+
+    public function getItemById($id)
+    {
+        try {
+            // 1. Ubah dulu ID acak dari URL jadi ID angka asli
+            $itemId = \App\Helpers\EncryptionHelper::decrypt($id);
+        } catch (\Exception $e) {
+            // Jika gagal dekripsi, pakai ID apa adanya (untuk jaga-jaga)
+            $itemId = $id;
+        }
+
+        // 2. Cari data di model pakai $itemId yang sudah didekripsi
+        $item = (new Item())->getItemById($itemId);
+
+        // 3. Kalau data gak ada, kasih error 404 (biar profesional)
+        if (!$item) {
+            abort(404);
+        }
+
         return view('item.detail', compact('item'));
     }
 
@@ -107,17 +122,17 @@ class ItemController extends Controller
         $items = Item::getItemByType($productType);
         return response()->json($items);
     }
-    
+
     //search
     public function searchItem($keyword)
     {
-    $items = Item::where('item_name', 'like', '%' . $keyword . '%')->paginate(10);
+        $items = Item::where('item_name', 'like', '%' . $keyword . '%')->paginate(10);
 
-    if ($items->isEmpty()) {
-        return redirect()->back()->with('error', 'Tidak ada item yang ditemukan untuk kata kunci: ' . $keyword);
-    }
+        if ($items->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada item yang ditemukan untuk kata kunci: ' . $keyword);
+        }
 
-    return view('item.list', compact('items'));
+        return view('item.list', compact('items'));
     }
 
     // Fungsi cetak pdf pada controllernya
@@ -126,32 +141,32 @@ class ItemController extends Controller
         $items = Item::getItemByType($productType);
 
         if (empty($items) || count($items) === 0) {
-        return redirect()->back()->with('error', 'Tidak ada item dengan product type tersebut.');
-    }
+            return redirect()->back()->with('error', 'Tidak ada item dengan product type tersebut.');
+        }
 
-    // --- Perubahan dimulai di sini ---
-    $displayProductType = $productType; // Inisialisasi dengan nilai asli
-    switch (strtoupper($productType)) {
-        case 'RM':
-            $displayProductType = 'Raw Material';
-            break;
-        case 'FG':
-            $displayProductType = 'Finished Goods';
-            break;
-        case 'HFG':
-            $displayProductType = 'Half-Finished Goods'; // Atau 'Semi-Finished Goods'
-            break;
-        // Anda bisa menambahkan case lain jika ada singkatan product type lain
-    }
-    // --- Perubahan berakhir di sini ---
+        // --- Perubahan dimulai di sini ---
+        $displayProductType = $productType; // Inisialisasi dengan nilai asli
+        switch (strtoupper($productType)) {
+            case 'RM':
+                $displayProductType = 'Raw Material';
+                break;
+            case 'FG':
+                $displayProductType = 'Finished Goods';
+                break;
+            case 'HFG':
+                $displayProductType = 'Half-Finished Goods'; // Atau 'Semi-Finished Goods'
+                break;
+                // Anda bisa menambahkan case lain jika ada singkatan product type lain
+        }
+        // --- Perubahan berakhir di sini ---
 
-    $pdf = Pdf::loadView('item.pdf_by_product', [
-        'items' => $items,
-        'productType' => $displayProductType, // Menggunakan variabel baru untuk tampilan
-    ])->setPaper('A4', 'portrait');
+        $pdf = Pdf::loadView('item.pdf_by_product', [
+            'items' => $items,
+            'productType' => $displayProductType, // Menggunakan variabel baru untuk tampilan
+        ])->setPaper('A4', 'portrait');
 
-    // Nama file PDF tetap bisa menggunakan singkatan asli jika diinginkan untuk identifikasi
-    return $pdf->stream("Item_berdasarkan_product_type_{$productType}.pdf");
+        // Nama file PDF tetap bisa menggunakan singkatan asli jika diinginkan untuk identifikasi
+        return $pdf->stream("Item_berdasarkan_product_type_{$productType}.pdf");
     }
 
     public function exportItemByCategoryToPdf($categoryId)
@@ -172,21 +187,21 @@ class ItemController extends Controller
 
         return $pdf->stream("item-kategori-{$categoryName}.pdf");
     }
-    
+
     public function getItemByCategory($categoryId)
     {
         // Panggil fungsi static yang ada di Model Item
         $items = Item::getItemByCategory($categoryId);
 
         if ($items->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data tidak ditemukan untuk kategori ini.'
+            ], 404);
+        }
         return response()->json([
-            'success' => false,
-            'message' => 'Data tidak ditemukan untuk kategori ini.'
-        ], 404);
-    }
-    return response()->json([
-        'success' => true,
-        'data' => $items
-    ]);
+            'success' => true,
+            'data' => $items
+        ]);
     }
 }
