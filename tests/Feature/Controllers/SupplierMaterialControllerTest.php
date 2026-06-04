@@ -161,22 +161,4 @@ class SupplierMaterialControllerTest extends TestCase
         $response->assertSessionHas('error', 'Data tidak ditemukan atau tidak ada hasil.');
     }
 
-    public function test_countSupplierMaterialByCategory_returns_correct_total()
-    {
-        DB::table('products')->insert(['product_id' => 'P001', 'name' => 'Tepung', 'type' => 'RM', 'category' => 1, 'created_at' => now(), 'updated_at' => now()]);
-        DB::table('supplier_product')->insert(['supplier_id' => 'SUP001', 'company_name' => 'PT A', 'product_id' => 'P001-01', 'product_name' => 'Tepung Terigu', 'base_price' => 10000, 'created_at' => now(), 'updated_at' => now()]);
-
-        $response = $this->get('/supplier-material/category/1/SUP001');
-
-        $response->assertStatus(200);
-        $response->assertJson(['category' => '1', 'supplier' => 'SUP001', 'total' => 1]);
-    }
-
-    public function test_countSupplierMaterialByCategory_returns_zero_when_not_found()
-    {
-        $response = $this->get('/supplier-material/category/99/SUP999');
-
-        $response->assertStatus(200);
-        $response->assertJson(['total' => 0]);
-    }
 }

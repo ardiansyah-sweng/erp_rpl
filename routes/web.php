@@ -254,7 +254,6 @@ Route::get('/supplier/material/{id}', [SupplierMaterialController::class, 'getSu
 Route::get('/supplier/print-pdf', [SupplierController::class, 'printPDF'])->name('supplier.print-pdf');
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
 Route::get('/supplier-material/{supplier_id}/{product_type}', [SupplierMaterialController::class, 'getSupplierMaterialByProductType']);
-Route::get('/supplier-material/category/{category}/{supplier}', [SupplierMaterialController::class, 'countSupplierMaterialByCategory']);
 
 // Suppplier Update
 Route::put('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'])->name('supplier.updateSupplier'); // Sudah sesuai pada ERP RPL

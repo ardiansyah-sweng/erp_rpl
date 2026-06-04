@@ -107,17 +107,6 @@ class SupplierMaterialController extends Controller
         return response()->json($results);
     }
 
-    public function countSupplierMaterialByCategory($category, $supplier)
-    {
-        $total = SupplierMaterial::countSupplierMaterialByCategory($category, $supplier);
-
-        return response()->json([
-            'category' => $category,
-            'supplier' => $supplier,
-            'total'    => $total,
-        ]);
-    }
-
 public function searchSupplierMaterial(Request $request)
     {
        
