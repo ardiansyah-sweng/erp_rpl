@@ -133,19 +133,19 @@ class SupplierMaterial extends Model
         }
 
         return DB::table('supplier_product as sp')
-            ->join('item as i', 'i.sku', '=', 'sp.product_id')
+            ->join('items as i', 'i.sku', '=', 'sp.product_id')
             ->join('products as p', 'p.product_id', '=', 'i.product_id')
             ->where('sp.supplier_id', $supplier_id)
-            ->where('p.product_type', $product_type)
+            ->where('p.type', $product_type)
             ->select(
                 'sp.supplier_id',
                 'sp.company_name',
                 'sp.product_id',
-                'p.product_name',
-                'p.product_type',
+                'p.name as product_name',
+                'p.type as product_type',
                 'sp.base_price',
-                'i.item_name',
-                'i.measurement_unit',
+                'i.name as item_name',
+                'i.measurement as measurement_unit',
                 'i.stock_unit'
             )
             ->get();
@@ -155,27 +155,27 @@ class SupplierMaterial extends Model
     {
         return DB::table('supplier_product as sp')
             // Join item berdasarkan SKU dengan supplier_product
-            ->join('item as i', 'i.sku', '=', 'sp.product_id')
+            ->join('items as i', 'i.sku', '=', 'sp.product_id')
             // Join products
             ->join('products as p', 'p.product_id', '=', 'i.product_id')
             // Join categories
-            ->join('categories as c', 'p.product_category', '=', 'c.id')
+            ->join('categories as c', 'p.category', '=', 'c.id')
             ->where('c.id', $kategori)
             ->where('sp.supplier_id', $supplier)
             ->select(
                 'i.id as item_id',
                 'i.sku',
-                'i.item_name',
+                'i.name as item_name',
                 'i.product_id',
-                'sp.product_id',
-                'p.product_name',
+                'sp.product_id as sp_product_id',
+                'p.name as product_name',
                 'c.id as category_id',
                 'c.category as category_name',
-                'p.product_type',
+                'p.type as product_type',
                 'sp.supplier_id',
                 'sp.company_name',
                 'sp.base_price',
-                'i.measurement_unit',
+                'i.measurement as measurement_unit',
                 'i.stock_unit'
             )
             ->get();
