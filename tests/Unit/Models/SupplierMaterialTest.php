@@ -844,9 +844,7 @@ class SupplierMaterialTest extends TestCase
     /** @test */
     public function it_counts_material_by_category_and_supplier_correctly()
     {
-        DB::table('categories')->insert(['id' => 1, 'category' => 'Bahan Baku', 'created_at' => now(), 'updated_at' => now()]);
         DB::table('products')->insert(['product_id' => 'P001', 'name' => 'Tepung', 'type' => 'RM', 'category' => 1, 'created_at' => now(), 'updated_at' => now()]);
-        DB::table('items')->insert(['sku' => 'P001-01', 'name' => 'Tepung Terigu', 'product_id' => 'P001', 'measurement' => 'kg', 'created_at' => now(), 'updated_at' => now()]);
         DB::table('supplier_product')->insert(['supplier_id' => 'SUP001', 'company_name' => 'PT A', 'product_id' => 'P001-01', 'product_name' => 'Tepung Terigu', 'base_price' => 10000, 'created_at' => now(), 'updated_at' => now()]);
 
         $count = SupplierMaterial::countSupplierMaterialByCategory(1, 'SUP001');
@@ -857,8 +855,6 @@ class SupplierMaterialTest extends TestCase
     /** @test */
     public function it_returns_zero_when_supplier_has_no_material_in_category()
     {
-        DB::table('categories')->insert(['id' => 1, 'category' => 'Bahan Baku', 'created_at' => now(), 'updated_at' => now()]);
-
         $count = SupplierMaterial::countSupplierMaterialByCategory(1, 'SUP999');
 
         $this->assertEquals(0, $count);
