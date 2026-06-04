@@ -5,7 +5,6 @@ namespace Tests\Feature\Controllers;
 use Tests\TestCase;
 use App\Models\SupplierMaterial;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 
 class SupplierMaterialControllerTest extends TestCase
 {
@@ -160,5 +159,4 @@ class SupplierMaterialControllerTest extends TestCase
         // 2. Pastikan Session Flash Error muncul (PENTING: Ini yang diminta dosen)
         $response->assertSessionHas('error', 'Data tidak ditemukan atau tidak ada hasil.');
     }
-
 }
