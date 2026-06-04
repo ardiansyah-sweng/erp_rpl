@@ -839,5 +839,4 @@ class SupplierMaterialTest extends TestCase
 
         // Assert
         $this->assertEquals(0, $count);
-    }
-}
+    }}
