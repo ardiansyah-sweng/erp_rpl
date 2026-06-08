@@ -597,7 +597,7 @@
                   <!-- /.card-body -->
                   <div class="card-footer clearfix">
                       <div class="float-end">
-                          {{ $boms->appends(['search' => request('search')])->links() }}
+                          {{ $boms->appends(['search' => request('search')])->links('pagination::bootstrap-4') }}
                       </div>
                   </div>
 

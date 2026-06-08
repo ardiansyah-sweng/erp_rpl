@@ -153,11 +153,8 @@
           <div class="container-fluid">
             <!-- Edit Form Card -->
             <div class="card mb-4 shadow-sm">
-              <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+              <div class="card-header bg-warning text-dark">
                 <h5 class="card-title mb-0 fw-semibold">Formulir Edit BOM ({{ $bom->bom_id }})</h5>
-                <a href="{{ route('bom.print-single', $bom->id) }}" class="btn btn-dark btn-sm">
-                  <i class="bi bi-file-pdf-fill me-1"></i> Cetak PDF Resep
-                </a>
               </div>
               <div class="card-body">
                 @if(session('success'))
@@ -227,39 +224,6 @@
                     </a>
                   </div>
                 </form>
-              </div>
-            </div>
-
-            <!-- Components/Details Card -->
-            <div class="card shadow-sm mb-4">
-              <div class="card-header bg-light">
-                <h5 class="card-title mb-0 fw-semibold text-secondary">Komponen Resep (BOM Details)</h5>
-              </div>
-              <div class="card-body p-0">
-                <table class="table table-striped table-hover mb-0">
-                  <thead>
-                    <tr class="table-light">
-                      <th class="ps-3" style="width: 80px;">No</th>
-                      <th>SKU Item</th>
-                      <th>Quantity</th>
-                      <th class="pe-3" style="text-align: right;">Cost Per Unit</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @forelse($details as $index => $detail)
-                      <tr>
-                        <td class="ps-3">{{ $index + 1 }}</td>
-                        <td><span class="badge bg-light text-dark border">{{ $detail->sku }}</span></td>
-                        <td>{{ number_format($detail->quantity, 2, ',', '.') }}</td>
-                        <td class="pe-3" style="text-align: right;">Rp. {{ number_format($detail->cost, 0, ',', '.') }}</td>
-                      </tr>
-                    @empty
-                      <tr>
-                        <td colspan="4" class="text-center py-3 text-muted">Tidak ada komponen detail untuk BOM ini.</td>
-                      </tr>
-                    @endforelse
-                  </tbody>
-                </table>
               </div>
             </div>
 
