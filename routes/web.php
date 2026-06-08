@@ -280,6 +280,8 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 // Bill of Material - Web Routes
 Route::get('/bom/list', [BillOfMaterialController::class, 'listBOMs'])->name('bom.list');
 Route::get('/bill-of-material/{id}/edit', [BillOfMaterialController::class, 'edit'])->name('bom.edit');
+Route::get('/bill-of-material/print', [BillOfMaterialController::class, 'printPDF'])->name('bom.print');
+Route::get('/bill-of-material/{id}/print-single', [BillOfMaterialController::class, 'printSinglePDF'])->name('bom.print-single');
 
 // production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);

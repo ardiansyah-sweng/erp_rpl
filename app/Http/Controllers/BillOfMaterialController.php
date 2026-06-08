@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BillOfMaterial;
 use Illuminate\Support\Facades\DB;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BillOfMaterialController extends Controller
 {
@@ -161,4 +161,47 @@ class BillOfMaterialController extends Controller
         ], 200);
     }
 
+    /**
+     * Cetak PDF daftar semua Bill of Material.
+     */
+    public function printPDF(Request $request)
+    {
+        $search = $request->input('search');
+        $query  = BillOfMaterial::query();
+
+        if ($search) {
+            $query->where('bom_id', 'LIKE', "%{$search}%")
+                ->orWhere('bom_name', 'LIKE', "%{$search}%")
+                ->orWhere('measurement_unit', 'LIKE', "%{$search}%")
+                ->orWhere('total_cost', 'LIKE', "%{$search}%")
+                ->orWhere('active', 'LIKE', "%{$search}%")
+                ->orWhere('created_at', 'LIKE', "%{$search}%")
+                ->orWhere('updated_at', 'LIKE', "%{$search}%");
+        }
+
+        $boms = $query->orderBy('created_at', 'asc')->get();
+
+        $pdf = Pdf::loadView('bom.pdf', compact('boms'));
+        return $pdf->stream('laporan_bill_of_material.pdf');
+    }
+
+    /**
+     * Cetak PDF detail satu Bill of Material beserta komponennya.
+     */
+    public function printSinglePDF($id)
+    {
+        $bom = BillOfMaterial::getBomForEdit($id);
+
+        if (!$bom) {
+            abort(404, 'Bill of Material tidak ditemukan.');
+        }
+
+        $details = DB::table('bom_detail')
+            ->where('bom_id', $bom->bom_id)
+            ->select('id', 'bom_id', 'sku', 'quantity', 'cost')
+            ->get();
+
+        $pdf = Pdf::loadView('bom.pdf_single', compact('bom', 'details'));
+        return $pdf->stream("bom_{$bom->bom_id}.pdf");
+    }
 }

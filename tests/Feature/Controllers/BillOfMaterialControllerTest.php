@@ -205,4 +205,42 @@ class BillOfMaterialControllerTest extends TestCase
         $response->assertStatus(404);
     }
 
+    // =========================================================================
+    // CETAK PDF
+    // =========================================================================
+
+    /**
+     * Route cetak PDF daftar BOM harus mengembalikan content-type PDF.
+     */
+    public function test_bom_print_pdf_returns_pdf_response()
+    {
+        $this->createBOM(['bom_id' => 'BOM-P01', 'bom_name' => 'BOM PDF Test']);
+
+        $response = $this->get('/bill-of-material/print');
+
+        $response->assertStatus(200);
+        $this->assertStringContainsString('pdf', strtolower($response->headers->get('Content-Type')));
+    }
+
+    /**
+     * Route cetak PDF single BOM harus mengembalikan content-type PDF untuk ID yang valid.
+     */
+    public function test_bom_print_single_pdf_returns_pdf_response()
+    {
+        $bom = $this->createBOM(['bom_id' => 'BOM-P02', 'bom_name' => 'BOM PDF Single Test']);
+
+        $response = $this->get("/bill-of-material/{$bom->id}/print-single");
+
+        $response->assertStatus(200);
+        $this->assertStringContainsString('pdf', strtolower($response->headers->get('Content-Type')));
+    }
+
+    /**
+     * Route cetak PDF single BOM harus mengembalikan 404 untuk ID yang tidak ada.
+     */
+    public function test_bom_print_single_pdf_returns_404_for_invalid_id()
+    {
+        $response = $this->get('/bill-of-material/9999/print-single');
+        $response->assertStatus(404);
+    }
 }
