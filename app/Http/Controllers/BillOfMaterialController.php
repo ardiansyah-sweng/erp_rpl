@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BillOfMaterial;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BillOfMaterialController extends Controller
 {
@@ -95,5 +96,11 @@ class BillOfMaterialController extends Controller
             'message' => 'Bill of Material updated successfully.',
             'data' => $bom
         ]);
+    }
+    public function printPDF()
+    {
+        $boms = BillOfMaterial::all();
+        $pdf = Pdf::loadView('bom.pdf', compact('boms'));
+        return $pdf->stream('laporan_bill_of_material.pdf');
     }
 }

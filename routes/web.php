@@ -280,10 +280,10 @@ Route::get('/supplier-pic/cetak-pdf/{supplierID}', [SupplierPiController::class,
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
 // Bill of Material
-
 Route::get('/bom/list', function () {
     return view('bom/list');
 });
+Route::get('/bom/print-pdf', [BillOfMaterialController::class, 'printPDF'])->name('bom.print-pdf');
 
 // production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
@@ -318,11 +318,12 @@ Route::get('/bom/detail/{id}', function ($id) {
 
 // Goods Receipt Notes
 Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote']);
-
 Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote']);
 
-// Goods Receipt Note Controller
+Route::get('/goods-receipt-note/count', [GoodsReceiptNoteController::class, 'countGoodsReceiptNote']);
+Route::get('/goods-receipt-note/search', [GoodsReceiptNoteController::class, 'search']);
 Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'getGoodsReceiptNote']);
+Route::get('/goods-receipt-note/{po_number}/pdf', [GoodsReceiptNoteController::class, 'printPDF']);
 
 // Get Product By Category Controller
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
