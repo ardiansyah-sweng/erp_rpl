@@ -62,6 +62,14 @@ class BillOfMaterial extends Model
         return $query->orderBy('created_at', 'asc')->paginate(10);
     }
 
+    /**
+     * Ambil data BOM berdasarkan primary key (id) untuk keperluan form edit.
+     */
+    public static function findForEdit(int $id): ?self
+    {
+        return self::find($id);
+    }
+
     public static function updateBillOfMaterial($bom_id, array $data) //Sudah sesuai pada ERP RPL
     {
         $bom = self::find($bom_id);
