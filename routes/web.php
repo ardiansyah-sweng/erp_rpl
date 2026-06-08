@@ -284,7 +284,9 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 // Bill of Material
 Route::get('/bom/list', function () {
     $boms = \App\Models\BillOfMaterial::getBillOfMaterial();
-    return view('bom/list', compact('boms'));
+    $measurementUnits = \Illuminate\Support\Facades\DB::table('measurement_unit')
+        ->pluck('unit_name', 'id');
+    return view('bom/list', compact('boms', 'measurementUnits'));
 })->name('bom.list');
 
 Route::get('/bom/{id}/edit', [BillOfMaterialController::class, 'editBom'])->name('bom.edit');

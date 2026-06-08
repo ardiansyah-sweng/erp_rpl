@@ -508,7 +508,7 @@
                                   <td>{{ $boms->firstItem() + $index }}</td>
                                   <td>{{ $bom->bom_id }}</td>
                                   <td>{{ $bom->bom_name }}</td>
-                                  <td>{{ $bom->measurement_unit }}</td>
+                                  <td>{{ $measurementUnits[$bom->measurement_unit] ?? $bom->measurement_unit }}</td>
                                   <td>Rp. {{ number_format($bom->total_cost, 0, ',', '.') }}</td>
                                   <td>
                                       @if($bom->active)
