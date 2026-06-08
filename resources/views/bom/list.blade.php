@@ -383,7 +383,6 @@
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Bill Of Material</h3>
                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahBOM">Tambah Bill of Material</button>
-                <a href="#" class="btn btn-primary btn-sm ms-2">Cetak Bill Of Material</a>
                 <!-- Modal Tambah Bill of Material -->
                 <div class="modal fade" id="modalTambahBOM" tabindex="-1" aria-labelledby="modalTambahBOMLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -393,41 +392,40 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                        <form id="billOfMaterialForm">
+                        <form action="{{ route('billofmaterial.add') }}" method="POST">
+                          @csrf
                           <div class="row g-3 mb-3">
                             <div class="col-md-6">
-                              <label class="form-label fw-semibold">BOM ID</label>
-                              <input type="text" class="form-control" id="bomID" placeholder="BOM001">
+                              <label class="form-label fw-semibold">BOM ID (Otomatis)</label>
+                              <input type="text" class="form-control" placeholder="Akan dibuat otomatis" disabled>
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Nama BOM</label>
-                              <input type="text" class="form-control" id="bomNama" placeholder="Nama BOM">
+                              <input type="text" class="form-control" name="bom_name" placeholder="Nama BOM" required>
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Measurement Unit</label>
-                              <select class="form-select" id="bomMeasurement" name="measurement_unit_id">
+                              <select class="form-select" name="measurement_unit" required>
                                 @if(isset($measurement_units) && count($measurement_units) > 0)
                                   @foreach($measurement_units as $unit)
-                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                    <option value="{{ $unit->id }}">{{ $unit->unit_name }}</option>
                                   @endforeach
+                                @else
+                                  <option value="30">PCS</option>
+                                  <option value="17">KG</option>
+                                  <option value="23">L</option>
                                 @endif
-                                <option value="PCS">PCS</option>
-                                <option value="KG">KG</option>
-                                <option value="L">L</option>
-                                <option value="Meter">Meter</option>
-                                <option value="Set">Set</option>
-                                <option value="Pack">Pack</option>
                               </select>
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Total Cost</label>
-                              <input type="text" class="form-control" id="bomTotalCost" placeholder="Total Cost">
+                              <input type="number" step="0.01" class="form-control" name="total_cost" placeholder="Total Cost" required>
                             </div>
                             <div class="col-md-6">
                               <label class="form-label fw-semibold">Status</label>
-                              <select class="form-select" id="bomStatus">
-                                <option value="Aktif">Aktif</option>
-                                <option value="Nonaktif">Nonaktif</option>
+                              <select class="form-select" name="active" required>
+                                <option value="1">Aktif</option>
+                                <option value="0">Nonaktif</option>
                               </select>
                             </div>
                           </div>
@@ -457,10 +455,10 @@
         <div class="card mb-4">
               <div class="card-header d-flex justify-content-between align-items-center">
                       <h3 class="card-title">List Table</h3>
-                      <form action="#" method="GET" class="d-flex ms-auto">
+                      <form action="{{ route('bom.list') }}" method="GET" class="d-flex ms-auto">
                         <!-- Search bar berada di ujung kanan -->
                         <div class="input-group input-group-sm ms-auto" style="width: 450px;">
-                          <input type="text" name="search" class="form-control" placeholder="Search BOM">
+                          <input type="text" name="search" class="form-control" placeholder="Search BOM" value="{{ request('search') }}">
                           <div class="input-group-append">
                             <button type="submit" class="btn btn-default">
                               <i class="bi bi-search"></i>
@@ -503,157 +501,34 @@
                               </tr>
                           </thead>
                           <tbody>
+                              @forelse($boms as $index => $bom)
                               <tr>
-                                  <td>1</td>
-                                  <td>BOM001</td>
-                                  <td>Produk A</td>
-                                  <td>100 pcs</td>
-                                  <td>Rp. 200.000</td>
+                                  <td>{{ $boms->firstItem() + $index }}</td>
+                                  <td>{{ $bom->bom_id }}</td>
+                                  <td>{{ $bom->bom_name }}</td>
                                   <td>
-                                      <span class="badge bg-success">A K T I F</span>
+                                      @php
+                                          $matchedUnit = $measurement_units->firstWhere('id', $bom->measurement_unit);
+                                      @endphp
+                                      {{ $matchedUnit ? $matchedUnit->unit_name : $bom->measurement_unit }}
                                   </td>
-                                  <td>08-06-2024</td>
+                                  <td>Rp. {{ number_format($bom->total_cost, 0, ',', '.') }}</td>
                                   <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                      <span class="badge {{ $bom->active ? 'bg-success' : 'bg-secondary' }}">
+                                          {{ $bom->active ? 'AKTIF' : 'TIDAK AKTIF' }}
+                                      </span>
+                                  </td>
+                                  <td>{{ \Carbon\Carbon::parse($bom->created_at)->format('d-m-Y') }}</td>
+                                  <td>
+                                      <button class="btn btn-info btn-sm" onclick="getDetail({{ $bom->id }})">Lihat</button>
+                                      <a href="{{ route('bom.edit', $bom->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
+                              @empty
                               <tr>
-                                  <td>2</td>
-                                  <td>BOM002</td>
-                                  <td>Produk B</td>
-                                  <td>50 Kg</td>
-                                  <td>Rp. 245.000</td>
-                                  <td>
-                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
-                                  </td>
-                                  <td>05-06-2024</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
+                                  <td colspan="8" class="text-center">Belum ada data Bill of Material.</td>
                               </tr>
-                              <tr>
-                                  <td>3</td>
-                                  <td>BOM003</td>
-                                  <td>Produk C</td>
-                                  <td>30 Kg</td>
-                                  <td>Rp. 115.000</td>
-                                  <td>
-                                      <span class="badge bg-secondary">T I D A K  -  A K T I F</span>
-                                  </td>
-                                  <td>11-06-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>4</td>
-                                  <td>BOM004</td>
-                                  <td>Produk D</td>
-                                  <td>1 TON</td>
-                                  <td>Rp. 985.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>01-01-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>5</td>
-                                  <td>BOM005</td>
-                                  <td>Produk E</td>
-                                  <td>1.2 TON</td>
-                                  <td>Rp. 1.225.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>01-04-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>6</td>
-                                  <td>BOM006</td>
-                                  <td>Produk F</td>
-                                  <td>3 Kwintal</td>
-                                  <td>Rp. 950.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-05-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>7</td>
-                                  <td>BOM007</td>
-                                  <td>Produk G</td>
-                                  <td>1 Kwintal</td>
-                                  <td>Rp. 350.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-11-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>8</td>
-                                  <td>BOM008</td>
-                                  <td>Produk H</td>
-                                  <td>1 Kwintal</td>
-                                  <td>Rp. 150.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-05-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>9</td>
-                                  <td>BOM009</td>
-                                  <td>Produk I</td>
-                                  <td>70 Liter</td>
-                                  <td>Rp. 850.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>31-05-2025</td>
-                                  <td>
-                                     <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>10</td>
-                                  <td>BOM010</td>
-                                  <td>Produk J</td>
-                                  <td>3.5 Kwintal</td>
-                                  <td>Rp. 550.000</td>
-                                  <td>
-                                      <span class="badge bg-success">A K T I F</span>
-                                  </td>
-                                  <td>30-03-2025</td>
-                                  <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                  </td>
-                              </tr>
-                              <!--Tambah data dummy-->
+                              @endforelse
                           </tbody>
                       </table>
             </div>
@@ -720,7 +595,9 @@
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer clearfix">
-                  
+                      <div class="float-end">
+                          {{ $boms->appends(['search' => request('search')])->links('pagination::bootstrap-4') }}
+                      </div>
                   </div>
 
         </div>
