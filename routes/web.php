@@ -281,7 +281,9 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
 // Bill of Material
 Route::get('/bom/list', function () {
-    return view('bom/list');
+    $boms = App\Models\BillOfMaterial::all();
+    $measurement_units = App\Models\MeasurementUnit::all();
+    return view('bom/list', compact('boms', 'measurement_units'));
 });
 Route::get('/bom/print-pdf', [BillOfMaterialController::class, 'printPDF'])->name('bom.print-pdf');
 
