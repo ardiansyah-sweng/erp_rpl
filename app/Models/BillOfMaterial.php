@@ -40,6 +40,14 @@ class BillOfMaterial extends Model
         return self::where('bom_id', $id)->get();
     }
 
+    /**
+     * Ambil satu record BOM berdasarkan primary key (id) untuk halaman edit.
+     */
+    public static function getBomForEdit($id)
+    {
+        return self::find($id);
+    }
+
     public static function getBillOfMaterial()
     {
         return self::orderBy('created_at', 'asc')->paginate(10);

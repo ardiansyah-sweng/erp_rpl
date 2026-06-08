@@ -19,8 +19,6 @@ use App\Models\BillOfMaterial;
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\Route;
 
-// Route untuk cek hasil Supplier::getSupplier() (frekuensi order)
-Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
 
 // Route GET untuk form tambah merk
 Route::get('/merks/add', function () {
@@ -88,7 +86,7 @@ Route::get('/product/add', function () {
     return view('product/add', compact('categories'));
 });
 
-Route::get('/supplier/list', [App\Http\Controllers\SupplierController::class, 'listSuppliers'])->name('supplier.list');
+
 Route::get('/supplier/list/pic-zero', [App\Http\Controllers\SupplierController::class, 'listSuppliersWithZeroPic'])->name('supplier.list.pic-zero');
 Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
@@ -225,7 +223,6 @@ Route::get('/items/category/{categoryId}', [ItemController::class, 'getItemByCat
 Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
 
-Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
 Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
 Route::get('/item/{id}', [itemController::class, 'getItemById']);
 Route::get('/items/report', [ItemController::class, 'exportAllToPdf'])->name('item.report');
@@ -258,8 +255,10 @@ Route::get('/supplier/update/{id}', [SupplierController::class, 'updateSupplier'
 
 // Cetak pdf
 Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->name('category.print');
+Route::get('/category/print-by-parent/{parentId}', [CategoryController::class, 'printCategoriesByParentPDF'])->name('category.print.parent');
 Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
 // Cetak produk berdasarkan kategori tertentu
+Route::get('/category/print/all-with-products', [ProductController::class, 'printAllCategoriesWithProductsPDF'])->name('category.print.all_with_products');
 Route::get('/category/print/{id}', [ProductController::class, 'printCategoryByIdPDF'])->name('category.print.single');
 Route::get('/category/print/{id}', [CategoryController::class, 'getCategoryByParent'])->name('category.print.single');
 
@@ -278,9 +277,11 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
 // Bill of Material
 
-Route::get('/bom/list', function () {
-    return view('bom/list');
-});
+// Bill of Material - Web Routes
+Route::get('/bom/list', [BillOfMaterialController::class, 'listBOMs'])->name('bom.list');
+Route::get('/bill-of-material/{id}/edit', [BillOfMaterialController::class, 'edit'])->name('bom.edit');
+Route::get('/bill-of-material/print', [BillOfMaterialController::class, 'printPDF'])->name('bom.print');
+Route::get('/bill-of-material/{id}/print-single', [BillOfMaterialController::class, 'printSinglePDF'])->name('bom.print-single');
 
 // production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
@@ -297,12 +298,13 @@ Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::cla
 
 Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
 
-// BillOfMaterial
+// BillOfMaterial - API & Form Routes
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
 Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
 Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
 Route::get('/bill-of-material/{id}', [BillOfMaterialController::class, 'getBomDetail']);
 Route::get('/bill-of-material/search/{keyword?}', [BillOfMaterialController::class, 'searchBillOfMaterial']);
+Route::put('/bill-of-material/{id}', [BillOfMaterialController::class, 'updateBillOfMaterial'])->name('bill-of-material.update');
 Route::get('/bom/detail/{id}', function ($id) {
     $bom = BillOfMaterial::getBomDetail($id);
 
