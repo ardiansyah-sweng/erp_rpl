@@ -195,9 +195,10 @@
                           class="form-select @error('measurement_unit') is-invalid @enderror"
                           required
                         >
-                          @foreach(['PCS', 'KG', 'L', 'Meter', 'Set', 'Pack', 'TON', 'Kwintal', 'Liter'] as $unit)
-                            <option value="{{ $unit }}" {{ old('measurement_unit', $bom->measurement_unit) === $unit ? 'selected' : '' }}>
-                              {{ $unit }}
+                          <option value="">-- Pilih Satuan --</option>
+                          @foreach($measurementUnits as $unit)
+                            <option value="{{ $unit->id }}" {{ (int) old('measurement_unit', $bom->measurement_unit) === (int) $unit->id ? 'selected' : '' }}>
+                              {{ $unit->unit_name }} ({{ $unit->abbreviation }})
                             </option>
                           @endforeach
                         </select>

@@ -108,7 +108,9 @@ class BillOfMaterialController extends Controller
             return redirect()->route('bom.list')->with('error', 'Bill of Material tidak ditemukan.');
         }
 
-        return view('bom.edit', compact('bom'));
+        $measurementUnits = DB::table('measurement_unit')->orderBy('unit_name')->get();
+
+        return view('bom.edit', compact('bom', 'measurementUnits'));
     }
 
     /**
@@ -118,7 +120,7 @@ class BillOfMaterialController extends Controller
     {
         $request->validate([
             'bom_name'         => 'required|string|min:3|unique:bill_of_material,bom_name,' . $id,
-            'measurement_unit' => 'required|string|max:20',
+            'measurement_unit' => 'required|integer|exists:measurement_unit,id',
             'total_cost'       => 'required|numeric|min:0',
             'active'           => 'required|boolean',
         ]);
@@ -131,7 +133,7 @@ class BillOfMaterialController extends Controller
 
         $bom->update([
             'bom_name'         => $request->bom_name,
-            'measurement_unit' => $request->measurement_unit,
+            'measurement_unit' => (int) $request->measurement_unit,
             'total_cost'       => $request->total_cost,
             'active'           => $request->active,
         ]);
