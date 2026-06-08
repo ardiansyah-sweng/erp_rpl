@@ -167,8 +167,19 @@ class BillOfMaterialController extends Controller
     public function printPDF(Request $request)
     {
         $search = $request->input('search');
-        // Ambil semua tanpa pagination untuk PDF
-        $boms = BillOfMaterial::SearchOfBillMaterial($search)->getCollection();
+        $query  = BillOfMaterial::query();
+
+        if ($search) {
+            $query->where('bom_id', 'LIKE', "%{$search}%")
+                ->orWhere('bom_name', 'LIKE', "%{$search}%")
+                ->orWhere('measurement_unit', 'LIKE', "%{$search}%")
+                ->orWhere('total_cost', 'LIKE', "%{$search}%")
+                ->orWhere('active', 'LIKE', "%{$search}%")
+                ->orWhere('created_at', 'LIKE', "%{$search}%")
+                ->orWhere('updated_at', 'LIKE', "%{$search}%");
+        }
+
+        $boms = $query->orderBy('created_at', 'asc')->get();
 
         $pdf = Pdf::loadView('bom.pdf', compact('boms'));
         return $pdf->stream('laporan_bill_of_material.pdf');
