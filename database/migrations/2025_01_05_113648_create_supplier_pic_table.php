@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use App\Constants\SupplierPicColumns;
 
@@ -11,7 +12,7 @@ return new class extends Migration
 
     public function __construct()
     {
-        $this->table = config('db_tables.supplier_pic');
+        $this->table = config('db_constants.table.supplier_pic');
     }
 
     /**
@@ -19,6 +20,9 @@ return new class extends Migration
      */
     public function up(): void
     {
+        DB::statement('DROP VIEW IF EXISTS `' . $this->table . '`');
+        Schema::dropIfExists($this->table);
+
         Schema::create($this->table, function (Blueprint $table) {
             $table->id();
             $table->char(SupplierPicColumns::SUPPLIER_ID, 6);
