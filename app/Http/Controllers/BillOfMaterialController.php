@@ -14,7 +14,7 @@ class BillOfMaterialController extends Controller
     {
         $validatedData = $request->validate([
             'bom_name'          => 'required|string|min:3|unique:bill_of_material,bom_name',
-            'measurement_unit'  => 'required|string|max:20',
+            'measurement_unit'  => 'required|integer',
             'total_cost'        => 'required|numeric|min:0',
             'active'            => 'required|boolean',
         ]);

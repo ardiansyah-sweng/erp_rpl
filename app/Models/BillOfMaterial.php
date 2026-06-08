@@ -40,6 +40,16 @@ class BillOfMaterial extends Model
         return self::where('bom_id', $id)->get();
     }
 
+    public static function deleteBom($id)
+    {
+        $bom = self::find($id);
+        if (!$bom) {
+            return false;
+        }
+        $bom->delete();
+        return true;
+    }
+
     public static function getBillOfMaterial()
     {
         return self::orderBy('created_at', 'asc')->paginate(10);
