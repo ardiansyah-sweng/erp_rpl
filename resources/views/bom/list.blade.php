@@ -45,6 +45,16 @@
     <!--begin::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href={{ asset("assets/dist/css/adminlte.css") }} />
     <!--end::Required Plugin(AdminLTE)-->
+    <style>
+      /* Pagination kecil di card footer */
+      .card-footer .pagination {
+        margin-bottom: 0;
+        font-size: 0.8rem;
+      }
+      .card-footer .pagination .page-link {
+        padding: 0.25rem 0.5rem;
+      }
+    </style>
     <!-- apexcharts -->
     <link
       rel="stylesheet"
@@ -595,7 +605,12 @@
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer clearfix">
-                    {{ $boms->links() }}
+                    <div class="d-flex justify-content-between align-items-center">
+                      <small class="text-muted">
+                        Menampilkan {{ $boms->firstItem() }}–{{ $boms->lastItem() }} dari {{ $boms->total() }} data
+                      </small>
+                      {{ $boms->links('pagination::bootstrap-5') }}
+                    </div>
                   </div>
 
         </div>
