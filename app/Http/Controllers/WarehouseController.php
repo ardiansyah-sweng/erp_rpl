@@ -41,6 +41,7 @@ class WarehouseController extends Controller
 
         // Web functionality - use existing logic
         $warehouses = Warehouse::getWarehouseAll($search);
+        $warehouseCount = Warehouse::count();
 
         // Handle PDF Export (existing functionality)
         if ($request->has('export') && $request->input('export') === 'pdf'){
@@ -48,7 +49,7 @@ class WarehouseController extends Controller
             return $pdf->stream('report-warehouse.pdf');
         }
 
-        return view('warehouse.index', ['warehouses' => $warehouses]);
+        return view('warehouse.index', compact('warehouses', 'warehouseCount'));
     }
 
     public function exportPdf()

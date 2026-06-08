@@ -396,7 +396,7 @@
 
       <div class="card mb-4">
         <div class="card-header">
-          <h3 class="card-title">List Table</h3>
+          <h3 class="card-title">List Table <span class="badge bg-secondary ms-2">Total Item: {{ $itemCount }}</span></h3>
           <form action="{{ route('item.list') }}" method="GET" class="d-flex ms-auto">
             <!-- Search bar berada di ujung kanan -->
             <div class="input-group input-group-sm ms-auto" style="width: 450px;">
