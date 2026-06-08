@@ -4,6 +4,7 @@ namespace Tests\Feature\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Models\BillOfMaterial;
 
@@ -36,8 +37,8 @@ class BillOfMaterialEditTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_can_show_edit_form()
+    #[Test]
+    public function it_can_show_edit_form(): void
     {
         $unitId = $this->insertMeasurementUnit();
         $id     = $this->insertBom($unitId);
@@ -49,16 +50,16 @@ class BillOfMaterialEditTest extends TestCase
         $response->assertSee('BOM001');
     }
 
-    /** @test */
-    public function it_returns_404_when_bom_not_found()
+    #[Test]
+    public function it_returns_404_when_bom_not_found(): void
     {
         $response = $this->get('/bom/9999/edit');
 
         $response->assertRedirect('/bom/list');
     }
 
-    /** @test */
-    public function it_can_update_bom_successfully()
+    #[Test]
+    public function it_can_update_bom_successfully(): void
     {
         $unitId = $this->insertMeasurementUnit();
         $id     = $this->insertBom($unitId);
@@ -74,14 +75,14 @@ class BillOfMaterialEditTest extends TestCase
         $response->assertSessionHas('success');
 
         $this->assertDatabaseHas((new BillOfMaterial())->getTable(), [
-            'id'       => $id,
-            'bom_name' => 'Resep Test Updated',
+            'id'         => $id,
+            'bom_name'   => 'Resep Test Updated',
             'total_cost' => 750000,
         ]);
     }
 
-    /** @test */
-    public function it_fails_update_when_bom_name_is_empty()
+    #[Test]
+    public function it_fails_update_when_bom_name_is_empty(): void
     {
         $unitId = $this->insertMeasurementUnit();
         $id     = $this->insertBom($unitId);
@@ -96,8 +97,8 @@ class BillOfMaterialEditTest extends TestCase
         $response->assertSessionHasErrors('bom_name');
     }
 
-    /** @test */
-    public function it_fails_update_when_total_cost_is_negative()
+    #[Test]
+    public function it_fails_update_when_total_cost_is_negative(): void
     {
         $unitId = $this->insertMeasurementUnit();
         $id     = $this->insertBom($unitId);
@@ -112,8 +113,8 @@ class BillOfMaterialEditTest extends TestCase
         $response->assertSessionHasErrors('total_cost');
     }
 
-    /** @test */
-    public function it_fails_update_when_bom_name_duplicate_on_different_id()
+    #[Test]
+    public function it_fails_update_when_bom_name_duplicate_on_different_id(): void
     {
         $unitId = $this->insertMeasurementUnit();
         $id     = $this->insertBom($unitId);
@@ -139,8 +140,8 @@ class BillOfMaterialEditTest extends TestCase
         $response->assertSessionHasErrors('bom_name');
     }
 
-    /** @test */
-    public function it_allows_update_with_same_bom_name_on_same_id()
+    #[Test]
+    public function it_allows_update_with_same_bom_name_on_same_id(): void
     {
         $unitId = $this->insertMeasurementUnit();
         $id     = $this->insertBom($unitId);
@@ -156,8 +157,8 @@ class BillOfMaterialEditTest extends TestCase
         $response->assertSessionHas('success');
     }
 
-    /** @test */
-    public function it_can_deactivate_bom()
+    #[Test]
+    public function it_can_deactivate_bom(): void
     {
         $unitId = $this->insertMeasurementUnit();
         $id     = $this->insertBom($unitId);
