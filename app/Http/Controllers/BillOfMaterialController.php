@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BillOfMaterial;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 
 class BillOfMaterialController extends Controller
@@ -95,5 +96,40 @@ class BillOfMaterialController extends Controller
             'message' => 'Bill of Material updated successfully.',
             'data' => $bom
         ]);
+    }
+
+    /**
+     * Cetak PDF untuk satu Bill of Material beserta detail materialnya.
+     */
+    public function cetakPDF($id)
+    {
+        $bom = DB::table('bill_of_material')->where('id', $id)->first();
+
+        if (!$bom) {
+            return redirect()->back()->with('error', 'Bill of Material tidak ditemukan.');
+        }
+
+        $details = DB::table('bom_detail')
+            ->where('bom_id', $bom->bom_id)
+            ->select('id', 'bom_id', 'sku', 'quantity', 'cost', 'created_at', 'updated_at')
+            ->get();
+
+        $pdf = Pdf::loadView('bom.pdf', compact('bom', 'details'))
+                  ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('bill_of_material_' . $bom->bom_id . '.pdf');
+    }
+
+    /**
+     * Cetak PDF untuk seluruh daftar Bill of Material.
+     */
+    public function cetakSemuaPDF()
+    {
+        $boms = DB::table('bill_of_material')->orderBy('created_at', 'asc')->get();
+
+        $pdf = Pdf::loadView('bom.pdf_semua', compact('boms'))
+                  ->setPaper('a4', 'landscape');
+
+        return $pdf->stream('daftar_bill_of_material_' . now()->format('Ymd') . '.pdf');
     }
 }

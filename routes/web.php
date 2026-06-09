@@ -328,6 +328,10 @@ Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
 Route::put('/bill-of-material/{id}', [BillOfMaterialController::class, 'updateBillOfMaterial'])->name('bill-of-material.update');
 
+// Cetak PDF BOM
+Route::get('/bom/{id}/cetak-pdf', [BillOfMaterialController::class, 'cetakPDF'])->name('bom.cetak-pdf');
+Route::get('/bom/cetak-semua-pdf', [BillOfMaterialController::class, 'cetakSemuaPDF'])->name('bom.cetak-semua-pdf');
+
 Route::post('/assort-production/add', [AssortProductionController::class, 'addProduction'])->name('assort-production.add');
 
 Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
