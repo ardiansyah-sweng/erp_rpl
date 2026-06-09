@@ -383,7 +383,9 @@
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Bill Of Material</h3>
                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahBOM">Tambah Bill of Material</button>
-                <a href="#" class="btn btn-primary btn-sm ms-2">Cetak Bill Of Material</a>
+                <a href="{{ route('bom.cetak-semua-pdf') }}" class="btn btn-danger btn-sm ms-2" target="_blank">
+                  <i class="bi bi-file-earmark-pdf-fill me-1"></i>Cetak Bill Of Material
+                </a>
                 <!-- Modal Tambah Bill of Material -->
                 <div class="modal fade" id="modalTambahBOM" tabindex="-1" aria-labelledby="modalTambahBOMLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -514,7 +516,8 @@
                                   </td>
                                   <td>08-06-2024</td>
                                   <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <button class="btn btn-info btn-sm" onclick="getDetail(1)">Lihat</button>
+                                      <a href="{{ route('bom.cetak-pdf', 1) }}" class="btn btn-sm btn-danger" target="_blank" title="Cetak PDF"><i class="bi bi-file-earmark-pdf-fill"></i></a>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -529,7 +532,8 @@
                                   </td>
                                   <td>05-06-2024</td>
                                   <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <button class="btn btn-info btn-sm" onclick="getDetail(1)">Lihat</button>
+                                      <a href="{{ route('bom.cetak-pdf', 2) }}" class="btn btn-sm btn-danger" target="_blank" title="Cetak PDF"><i class="bi bi-file-earmark-pdf-fill"></i></a>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -544,7 +548,8 @@
                                   </td>
                                   <td>11-06-2025</td>
                                   <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <button class="btn btn-info btn-sm" onclick="getDetail(1)">Lihat</button>
+                                      <a href="{{ route('bom.cetak-pdf', 3) }}" class="btn btn-sm btn-danger" target="_blank" title="Cetak PDF"><i class="bi bi-file-earmark-pdf-fill"></i></a>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -559,7 +564,8 @@
                                   </td>
                                   <td>01-01-2025</td>
                                   <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <button class="btn btn-info btn-sm" onclick="getDetail(1)">Lihat</button>
+                                      <a href="{{ route('bom.cetak-pdf', 4) }}" class="btn btn-sm btn-danger" target="_blank" title="Cetak PDF"><i class="bi bi-file-earmark-pdf-fill"></i></a>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -574,7 +580,8 @@
                                   </td>
                                   <td>01-04-2025</td>
                                   <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <button class="btn btn-info btn-sm" onclick="getDetail(1)">Lihat</button>
+                                      <a href="{{ route('bom.cetak-pdf', 5) }}" class="btn btn-sm btn-danger" target="_blank" title="Cetak PDF"><i class="bi bi-file-earmark-pdf-fill"></i></a>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -589,7 +596,8 @@
                                   </td>
                                   <td>30-05-2025</td>
                                   <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <button class="btn btn-info btn-sm" onclick="getDetail(1)">Lihat</button>
+                                      <a href="{{ route('bom.cetak-pdf', 6) }}" class="btn btn-sm btn-danger" target="_blank" title="Cetak PDF"><i class="bi bi-file-earmark-pdf-fill"></i></a>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -604,7 +612,8 @@
                                   </td>
                                   <td>30-11-2025</td>
                                   <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <button class="btn btn-info btn-sm" onclick="getDetail(1)">Lihat</button>
+                                      <a href="{{ route('bom.cetak-pdf', 7) }}" class="btn btn-sm btn-danger" target="_blank" title="Cetak PDF"><i class="bi bi-file-earmark-pdf-fill"></i></a>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -619,7 +628,8 @@
                                   </td>
                                   <td>30-05-2025</td>
                                   <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <button class="btn btn-info btn-sm" onclick="getDetail(1)">Lihat</button>
+                                      <a href="{{ route('bom.cetak-pdf', 8) }}" class="btn btn-sm btn-danger" target="_blank" title="Cetak PDF"><i class="bi bi-file-earmark-pdf-fill"></i></a>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -634,7 +644,8 @@
                                   </td>
                                   <td>31-05-2025</td>
                                   <td>
-                                     <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                     <button class="btn btn-info btn-sm" onclick="getDetail(1)">Lihat</button>
+                                      <a href="{{ route('bom.cetak-pdf', 9) }}" class="btn btn-sm btn-danger" target="_blank" title="Cetak PDF"><i class="bi bi-file-earmark-pdf-fill"></i></a>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
@@ -649,7 +660,8 @@
                                   </td>
                                   <td>30-03-2025</td>
                                   <td>
-                                      <button class="btn btn-info" onclick="getDetail(1)">Lihat</button>
+                                      <button class="btn btn-info btn-sm" onclick="getDetail(1)">Lihat</button>
+                                      <a href="{{ route('bom.cetak-pdf', 10) }}" class="btn btn-sm btn-danger" target="_blank" title="Cetak PDF"><i class="bi bi-file-earmark-pdf-fill"></i></a>
                                       <a href="#" class="btn btn-sm btn-warning">Edit</a>
                                   </td>
                               </tr>
