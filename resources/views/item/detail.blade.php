@@ -223,19 +223,19 @@
                                     </tr>
                                     <tr>
                                         <th>Item Name</th>
-                                        <td>{{ $item->item_name ?? 'Tidak ada data' }}</td>
+                                        <td>{{ $item->name ?? 'Tidak ada data' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Measurement Unit</th>
-                                        <td>{{ $item->measurement_unit ?? 'Tidak ada data' }}</td>
+                                        <td>{{ $item->measurement ?? 'Tidak ada data' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Average Base Price</th>
-                                        <td>{{ $item->avg_base_price ?? 'Tidak ada data' }}</td>
+                                        <td>{{ $item->base_price ?? '0' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Selling Price</th>
-                                        <td>{{ $item->selling_price ?? 'Tidak ada data' }}</td>
+                                        <td>{{ $item->selling_price ?? '0' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Purchase Unit</th>
@@ -259,62 +259,58 @@
                                     </tr>
                                 </table>
                             </div>
+
+                            <!-- Footer -->
+                            <footer class="app-footer">
+                                <div class="float-end d-none d-sm-inline">Anything you want</div>
+                                <div class="text-left ms-3">
+                                    <strong>
+                                        Copyright &copy; 2014-2024&nbsp;
+                                        <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+                                    </strong>
+                                    All rights reserved.
+                                </div>
+                            </footer>
                         </div>
-                    </div>
-                </section>
-            </div>
+                        <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
+                            integrity="sha256-JLMUQfrMvhB/C+XTyqfc/TUlC6gGQE0H2hZFX5FJ1cM=" crossorigin="anonymous"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+                            integrity="sha256-whL0tQWoY1Ku1iskqPFvmZ+CHsvmRWx/PIoEvIeWh4I=" crossorigin="anonymous"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+                            integrity="sha256-3gQJhtmj7YnV1fmtbVcnAV6TiKH9jKLO9IZ1UCEUkKQ=" crossorigin="anonymous"></script>
+                        <script src={{ asset('assets/dist/js/adminlte.js') }}></script>
 
-            <!-- Footer -->
-            <footer class="app-footer">
-                <div class="float-end d-none d-sm-inline">Anything you want</div>
-                <div class="text-left ms-3">
-                    <strong>
-                        Copyright &copy; 2014-2024&nbsp;
-                        <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
-                    </strong>
-                    All rights reserved.
-                </div>
-            </footer>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
-            integrity="sha256-JLMUQfrMvhB/C+XTyqfc/TUlC6gGQE0H2hZFX5FJ1cM=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha256-whL0tQWoY1Ku1iskqPFvmZ+CHsvmRWx/PIoEvIeWh4I=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-            integrity="sha256-3gQJhtmj7YnV1fmtbVcnAV6TiKH9jKLO9IZ1UCEUkKQ=" crossorigin="anonymous"></script>
-        <script src={{ asset('assets/dist/js/adminlte.js') }}></script>
+                        <script>
+                            const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+                            const Default = {
+                                scrollbarTheme: 'os-theme-light',
+                                scrollbarAutoHide: 'leave',
+                                scrollbarClickScroll: true,
+                            };
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+                                if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
+                                    OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+                                        scrollbars: {
+                                            theme: Default.scrollbarTheme,
+                                            autoHide: Default.scrollbarAutoHide,
+                                            clickScroll: Default.scrollbarClickScroll,
+                                        },
+                                    });
+                                }
+                            });
+                        </script>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                            $(document).ready(function() {
+                                $('[data-widget="pushmenu"]').on('click', function(e) {
+                                    e.preventDefault();
+                                    $('body').toggleClass('sidebar-collapse');
+                                });
+                            });
+                        </script>
 
-        <script>
-            const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
-            const Default = {
-                scrollbarTheme: 'os-theme-light',
-                scrollbarAutoHide: 'leave',
-                scrollbarClickScroll: true,
-            };
-            document.addEventListener('DOMContentLoaded', function() {
-                const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
-                if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
-                    OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-                        scrollbars: {
-                            theme: Default.scrollbarTheme,
-                            autoHide: Default.scrollbarAutoHide,
-                            clickScroll: Default.scrollbarClickScroll,
-                        },
-                    });
-                }
-            });
-        </script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('[data-widget="pushmenu"]').on('click', function(e) {
-                    e.preventDefault();
-                    $('body').toggleClass('sidebar-collapse');
-                });
-            });
-        </script>
 
-        
 </body>
 
 </html>

@@ -420,9 +420,9 @@
                                 <tr id="row-{{ $item->id }}">
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->sku }}</td>
-                                    <td>{{ $item->item_name }}</td>
-                                    <td>{{ $item->unit?->unit_name ?? '-' }}</td>
-                                    <td>{{ $item->avg_base_price }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->unit?->unit_name ?? ($item->measurement ?? '-') }}</td>
+                                    <td>{{ $item->base_price ?? '0' }}</td>
                                     <td>{{ $item->selling_price }}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
@@ -435,7 +435,6 @@
                                             <button type="submit" class="btn btn-sm btn-danger"
                                                 onclick="return confirm('Apakah Anda yakin ingin menghapus item ini?')">Delete</button>
                                         </form>
-
                                         <a href="{{ route('item.detail', \App\Helpers\EncryptionHelper::encrypt($item->id)) }}"
                                             class="btn btn-sm btn-info text-white">
                                             Detail
