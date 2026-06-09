@@ -33,7 +33,7 @@ class GetSupplierPICAllTest extends TestCase
             'supplier_id' => 'SPT001',
             'company_name' => 'Supplier PIC Test',
             'address' => 'Jalan Test PIC',
-            'phone_number' => '0800000003',
+            'telephone' => '0800000003',
             'bank_account' => '111222333',
             'created_at' => now(),
             'updated_at' => now(),
