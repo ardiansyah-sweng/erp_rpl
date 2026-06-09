@@ -443,7 +443,7 @@
                 <td>{{ $item->sku }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->unit?->unit_name ?? '-' }}</td>
-                <td>{{ $item->avg_base_price }}</td>
+                <td>{{ $item->avg_base_price ?? '0' }}</td>
                 <td>{{ $item->selling_price }}</td>
                 <td>{{ $item->created_at }}</td>
                 <td>{{ $item->updated_at }}</td>
