@@ -39,7 +39,8 @@ class BranchController extends Controller
         $branches = Branch::getAllBranch($search);
 
         // 2. Logika Ekspor PDF (Ambil SEMUA data secara real-time)
-        if ($request->has('export') && $request->input('export') === 'pdf') {
+        if ($request->has('export') && $request->input('export') === 'pdf') { 
+            // agar mengambil data lengkap (Collection), bukan Paginator.
             $branches = Branch::getAllBranch($search, true); 
             
             $pdf = Pdf::loadView('branches.report', ['branches' => $branches]);
