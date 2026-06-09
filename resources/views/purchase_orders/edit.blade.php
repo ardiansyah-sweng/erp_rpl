@@ -34,12 +34,16 @@
             <input type="text" name="branch_id" class="form-control" id="branch" value="{{ $purchaseOrder->branch_id ?? $purchaseOrder->branch ?? '' }}" placeholder="Masukkan nama cabang">
         </div>
         <div class="form-group">
-            <label for="supplier_id">ID Supplier</label>
-            <input type="text" name="supplier_id" class="form-control" id="supplier_id" value="{{ $purchaseOrder->supplier_id }}" placeholder="Masukkan ID Supplier">
-        </div>
-        <div class="form-group">
-            <label for="supplier_name">Nama Supplier</label>
-            <input type="text" class="form-control" id="supplier_name" value="{{ $purchaseOrder->supplier->company_name ?? '' }}" placeholder="Masukkan Nama Supplier" readonly>
+            <label for="supplier_id">Supplier</label>
+            <select name="supplier_id" class="form-control" id="supplier_id" required>
+                <option value="">-- Pilih Supplier --</option>
+                @foreach($suppliers as $sup)
+                    <option value="{{ $sup->supplier_id ?? $sup->id }}" 
+                        {{ $purchaseOrder->supplier_id == ($sup->supplier_id ?? $sup->id) ? 'selected' : '' }}>
+                        {{ $sup->supplier_id ?? $sup->id }} - {{ $sup->company_name ?? $sup->name ?? 'Tanpa Nama' }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <table class="table" id="itemsTable">
