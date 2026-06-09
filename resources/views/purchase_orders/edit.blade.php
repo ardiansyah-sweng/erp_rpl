@@ -46,12 +46,25 @@
             @if(isset($purchaseOrder->items) && count($purchaseOrder->items) > 0)
                 @foreach($purchaseOrder->items as $item)
             <tr>
-                    <input type="hidden" name="detail_id[]" value="{{ $item->id ?? '' }}"> <td><input type="text" name="sku[]" class="form-control sku" value="{{ $item->product_id ?? $item->sku ?? '' }}"></td>
-                    <td><input type="text" name="nama_item[]" class="form-control nama-item" value="{{ $item->item_name ?? $item->name ?? '' }}"></td>
-                    <td><input type="number" name="qty[]" class="form-control qty" value="{{ $item->quantity ?? $item->qty ?? 1 }}"></td>
-                    <td><input type="number" name="unit_price[]" class="form-control unit-price" value="{{ $item->base_price ?? $item->unit_price ?? 0 }}"></td>
-                    <td><input type="number" class="form-control amount" value="0" readonly></td>
-                    <td><button type="button" class="btn btn-danger remove">Hapus</button></td>
+                    <td>
+                        <input type="hidden" name="detail_id[]" value="{{ $item->id ?? '' }}"> 
+                        <input type="text" name="sku[]" class="form-control sku" value="{{ $item->product_id ?? '' }}" readonly>
+                    </td>
+                    <td>
+                        <input type="text" name="nama_item[]" class="form-control nama-item" value="{{ $item->item_name ?? '' }}" readonly>
+                    </td>
+                    <td>
+                        <input type="number" name="qty[]" class="form-control qty" value="{{ $item->quantity ?? 1 }}">
+                    </td>
+                    <td>
+                        <input type="number" name="unit_price[]" class="form-control unit-price" value="{{ $item->base_price ?? 0 }}">
+                    </td>
+                    <td>
+                        <input type="number" class="form-control amount" value="0" readonly>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger remove">Hapus</button>
+                    </td>
             </tr>
                 @endforeach
             @else

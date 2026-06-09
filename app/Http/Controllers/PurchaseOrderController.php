@@ -148,24 +148,33 @@ class PurchaseOrderController extends Controller
         }
     }
 
-    // Menampilkan halaman edit PO
-    public function edit($id)
+// Menampilkan halaman edit PO
+public function edit($id)
     {
         // 1. Dekripsi ID (PO Number) yang dikirim melalui URL
         $decryptedId = \App\Helpers\EncryptionHelper::decrypt($id);
 
-        // 2. Ambil data Purchase Order berdasarkan po_number tersebut menggunakan fungsi yang sudah ada
+        // 2. Ambil data Purchase Order induk
         $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($decryptedId);
 
-        // Jika data tidak ditemukan, tampilkan error 404
         if (!$purchaseOrder) {
             abort(404, 'Data Purchase Order tidak ditemukan');
         }
 
-        // 3. Ambil data supplier untuk pilihan dropdown di form edit
+        // 3. Ambil data detail barang dengan LEFT JOIN ke tabel items untuk mengambil nama barang
+        $detailTable = config('db_constants.table.po_detail') ?? 'purchase_order_detail';
+        $items = \Illuminate\Support\Facades\DB::table($detailTable)
+                    ->leftJoin('items', 'purchase_order_detail.product_id', '=', 'items.id') // Ubah 'items.id' menjadi 'items.sku' jika product_id Anda berisi string SKU
+                    ->where('purchase_order_detail.po_number', $decryptedId)
+                    ->select('purchase_order_detail.*', 'items.name as item_name') // Mengambil semua kolom detail + nama dari tabel master barang
+                    ->get();
+
+        // Menyuntikkan hasil query ke properti objek
+        $purchaseOrder->items = $items;
+
+        // 4. Ambil data supplier untuk pilihan dropdown
         $suppliers = Supplier::all();
 
-        // 4. Tampilkan halaman view edit dengan membawa data tersebut
         return view('purchase_orders.edit', compact('purchaseOrder', 'suppliers'));
     }
 // Memproses data update PO
