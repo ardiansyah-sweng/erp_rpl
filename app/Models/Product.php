@@ -36,6 +36,11 @@ class Product extends Model
         // $this->fillable = array_values(config('db_constants.column.products') ?? []);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category', 'id');
+    }
+
     public function categoryRelation()
     {
         return $this->belongsTo(Category::class, 'category', 'id');
