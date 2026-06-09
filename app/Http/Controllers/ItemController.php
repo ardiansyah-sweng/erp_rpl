@@ -35,20 +35,22 @@ class ItemController extends Controller
     public function addItem(Request $request)
     {
         $request->validate([
-            'product_id' => 'required|string|size:4', // ID Produk 4 karakter
-            'sku' => 'required|string',
-            'item_name' => 'required|string|min:3',
+            'product_id'    => 'required|string|size:4',
+            'sku'           => 'required|string',
+            'item_name'     => 'required|string|min:3',
             'measurement_unit' => 'required|string',
             'selling_price' => 'required|numeric|min:0',
+            'minimum_stock' => 'nullable|integer|min:0',
         ]);
 
         $item = new Item();
         $item->addItem([
-            'product_id' => $request->product_id,
-            'sku' => $request->sku,
-            'name' => $request->item_name,
-            'measurement' => $request->measurement_unit,
+            'product_id'    => $request->product_id,
+            'sku'           => $request->sku,
+            'name'          => $request->item_name,
+            'measurement'   => $request->measurement_unit,
             'selling_price' => $request->selling_price,
+            'minimum_stock' => $request->input('minimum_stock', 0),
         ]);
 
         return redirect()->route('item.list')->with('success', 'Item berhasil ditambahkan!');
@@ -72,12 +74,20 @@ class ItemController extends Controller
     public function updateItem(Request $request, $id)
     {
         $validated = $request->validate([
-            'id' => 'required|integer',
-            'sku' => 'required|string|max:50',
-            'item_name' => 'required|string|max:100',
+            'id'            => 'required|integer',
+            'sku'           => 'required|string|max:50',
+            'item_name'     => 'required|string|max:100',
+            'minimum_stock' => 'nullable|integer|min:0',
         ]);
 
-         $item = Item::updateItem($id, $validated);
+        $updateData = [
+            'id'            => $validated['id'],
+            'sku'           => $validated['sku'],
+            'name'          => $validated['item_name'],
+            'minimum_stock' => $request->input('minimum_stock', 0),
+        ];
+
+        $item = Item::updateItem($id, $updateData);
 
         if (!$item) {
             return redirect()->back()->with('error', 'Item tidak ditemukan.');
@@ -174,6 +184,13 @@ class ItemController extends Controller
         return $pdf->stream("item-kategori-{$categoryName}.pdf");
     }
     
+    public function getLowStockAlert()
+    {
+        $items = Item::getLowStockItems();
+        $lowStockCount = $items->count();
+        return view('item.low_stock', compact('items', 'lowStockCount'));
+    }
+
     public function getItemByCategory($categoryId)
     {
         // Panggil fungsi static yang ada di Model Item

@@ -373,6 +373,17 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="{{ route('item.low-stock') }}" class="nav-link">
+                <i class="nav-icon bi bi-exclamation-triangle-fill"></i>
+                <p>
+                  Low Stock Alert
+                  @if(($lowStockCount ?? 0) > 0)
+                    <span class="badge bg-danger ms-1">{{ $lowStockCount }}</span>
+                  @endif
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="{{ route('categories.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-clipboard-fill"></i>
                 <p>
@@ -538,6 +549,33 @@
                 </a>
               </div>
               <!--end::Small Box Widget 4-->
+            </div>
+            <!--end::Col-->
+            <div class="col-lg-3 col-6">
+              <!--begin::Small Box Widget Low Stock-->
+              <div class="small-box {{ ($lowStockCount ?? 0) > 0 ? 'text-bg-warning' : 'text-bg-success' }}">
+                <div class="inner">
+                  <h3>{{ $lowStockCount ?? 0 }}</h3>
+                  <p>Low Stock Alert</p>
+                </div>
+                <svg
+                  class="small-box-icon"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <path
+                    clip-rule="evenodd"
+                    fill-rule="evenodd"
+                    d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 1.999-.29 4.499-2.599 4.499H4.645c-2.309 0-3.752-2.5-2.598-4.499L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"></path>
+                </svg>
+                <a
+                  href="{{ route('item.low-stock') }}"
+                  class="small-box-footer {{ ($lowStockCount ?? 0) > 0 ? 'link-dark' : 'link-light' }} link-underline-opacity-0 link-underline-opacity-50-hover">
+                  Lihat Detail <i class="bi bi-link-45deg"></i>
+                </a>
+              </div>
+              <!--end::Small Box Widget Low Stock-->
             </div>
             <!--end::Col-->
           </div>

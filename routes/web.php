@@ -40,7 +40,8 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $lowStockCount = \App\Models\Item::countLowStockItems();
+    return view('dashboard', compact('lowStockCount'));
 })->name('dashboard');
 
 // View Branches
@@ -217,6 +218,7 @@ Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->na
 Route::post('/supplier-pic/update-data/{id}', [SupplierPIController::class, 'updatePIC'])->name('supplier.pic.updateData');
 
 // Items
+Route::get('/item/low-stock', [ItemController::class, 'getLowStockAlert'])->name('item.low-stock');
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
