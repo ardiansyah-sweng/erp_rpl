@@ -220,7 +220,7 @@ public function edit($id)
 
             if ($skus && is_array($skus)) {
                 $detailBarang = [];
-                $cekDuplikatId = []; // TAMBAHAN: Array untuk melacak ID barang agar tidak dobel
+                $cekDuplikatId = [];
 
                 for ($i = 0; $i < count($skus); $i++) {
                     if (!empty($skus[$i])) {
@@ -233,13 +233,10 @@ public function edit($id)
 
                         $realProductId = $itemData ? $itemData->id : $inputValue;
 
-                        // --- FILTER ANTI DUPLIKAT ---
-                        // Jika ID barang sudah pernah dimasukkan sebelumnya, lewati agar tidak error 1062
                         if (in_array($realProductId, $cekDuplikatId)) {
                             continue; 
                         }
-                        $cekDuplikatId[] = $realProductId; // Catat ID bahwa barang ini sudah aman
-                        // ----------------------------
+                        $cekDuplikatId[] = $realProductId;
 
                         $detailBarang[] = [
                             'po_number'     => $realPoNumber, 
@@ -253,14 +250,10 @@ public function edit($id)
                         ];
                     }
                 }
-
-                // Matikan pengecekan FK sementara
                 DB::statement('SET FOREIGN_KEY_CHECKS=0;');
                 
-                // Simpan Data yang sudah bersih dari duplikat
                 DB::table($detailTable)->insert($detailBarang);
                 
-                // Nyalakan kembali
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');
             }
 
@@ -270,7 +263,6 @@ public function edit($id)
         } catch (\Exception $e) {
             DB::rollBack();
             
-            // Pengaman: Pastikan aturan DB kembali normal meskipun terjadi error
             DB::statement('SET FOREIGN_KEY_CHECKS=1;'); 
             
             return redirect()->back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());

@@ -122,9 +122,9 @@
             total += parseFloat($(this).val()) || 0;
         });
         $("#subtotal").val(total.toLocaleString("id-ID"));
-        $("#tax").val(total.toLocaleString("id-ID")); // untuk sementara sama
+        $("#tax").val(total.toLocaleString("id-ID"));
         
-        $("#raw_subtotal").val(total); // TAMBAHKAN BARIS INI
+        $("#raw_subtotal").val(total);
     }
 
     $(document).on("input", ".qty, .unit-price", function () {
@@ -149,7 +149,6 @@
         updateTotal();
     });
 
-    // Menghitung ulang total secara otomatis saat halaman pertama kali dibuka
     $(document).ready(function() {
         $("#itemsTable tbody tr").each(function() {
             updateAmount($(this));
