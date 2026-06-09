@@ -227,7 +227,7 @@ Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
 
 Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
 Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
-Route::get('/item/{id}', [itemController::class, 'getItemById']);
+Route::get('/item/{id}', [ItemController::class, 'getItemById'])->name('item.detail');
 Route::get('/items/report', [ItemController::class, 'exportAllToPdf'])->name('item.report');
 Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']);
 Route::get('/item/search/{keyword}', [ItemController::class, 'searchItem']);
