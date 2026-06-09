@@ -81,7 +81,7 @@
 						<div class="col-sm-6 d-flex align-items-center">
 							<h3 class="mb-0 me-2">Merk</h3>
 							<a href="{{ route('merks.create') }}" class="btn btn-primary btn-sm">Tambah</a>
-							<a href="{{ route('merks.index', ['export' => 'pdf']) }}" class="btn btn-primary btn-sm ms-2">Cetak Merk</a>
+							<a href="{{ route('merk.print') }}" class="btn btn-primary btn-sm ms-2" target="_blank">Cetak</a>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-end">
@@ -94,7 +94,12 @@
 			</div>
 			<div class="card mb-4">
 				<div class="card-header d-flex justify-content-between align-items-center">
-					<h3 class="card-title">List Merk</h3>
+					<div>
+						<h3 class="card-title">List Merk</h3>
+						<div class="mt-1">
+							<span class="card-title">Jumlah Merk: {{ $totalMerks ?? 0 }}</span>
+						</div>
+					</div>
 					<form action="{{ route('merk.index') }}" method="GET" class="d-flex ms-auto">
 						<!-- Search bar berada di ujung kanan -->
 						<div class="input-group input-group-sm ms-auto" style="width: 450px;">
