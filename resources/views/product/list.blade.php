@@ -431,7 +431,33 @@ use App\Helpers\EncryptionHelper;
         </div>
 
         <div class="card mb-4">
-              <div class="card-header"><h3 class="card-title">List Table</h3></div>
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="card-title">List Table</h3>
+                <form action="{{ route('product.search', ['keyword' => '__keyword__']) }}" method="GET" class="d-flex ms-auto"
+                      id="searchForm" onsubmit="handleSearch(event)">
+                  <div class="input-group input-group-sm" style="width: 350px;">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Cari berdasarkan ID Produk..."
+                           value="{{ request()->route('keyword') ?? '' }}">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="bi bi-search"></i>
+                    </button>
+                    @if(request()->route('keyword'))
+                    <a href="{{ route('product.list') }}" class="btn btn-secondary">Reset</a>
+                    @endif
+                  </div>
+                </form>
+                <script>
+                  function handleSearch(e) {
+                    e.preventDefault();
+                    const keyword = document.getElementById('searchInput').value.trim();
+                    if (keyword === '') {
+                      window.location.href = '{{ route('product.list') }}';
+                    } else {
+                      window.location.href = '{{ url('product/search') }}/' + encodeURIComponent(keyword);
+                    }
+                  }
+                </script>
+              </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <table class="table table-bordered">
