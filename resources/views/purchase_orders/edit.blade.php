@@ -9,6 +9,18 @@
 <div class="container mt-5">
     <h2>Edit Purchase Order</h2>
     
+    @if(session('error'))
+        <div class="alert alert-danger">
+            <strong>Gagal:</strong> {{ session('error') }}
+        </div>
+    @endif
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            <strong>Berhasil:</strong> {{ session('success') }}
+        </div>
+    @endif
+
     <div class="form-group">
         <label for="po_number">PO Number</label>
         <input type="text" class="form-control" id="po_number" value="{{ $purchaseOrder->po_number }}" readonly>
@@ -51,7 +63,7 @@
                         <input type="text" name="sku[]" class="form-control sku" value="{{ $item->product_id ?? '' }}" readonly>
                     </td>
                     <td>
-                        <input type="text" name="nama_item[]" class="form-control nama-item" value="{{ $item->item_name ?? '' }}" readonly>
+                        <input type="text" name="nama_item[]" class="form-control nama-item" value="{{ $item->item_name ?? 'Barang Tidak Terdaftar' }}" readonly>
                     </td>
                     <td>
                         <input type="number" name="qty[]" class="form-control qty" value="{{ $item->quantity ?? 1 }}">

@@ -151,28 +151,26 @@ class PurchaseOrderController extends Controller
 // Menampilkan halaman edit PO
 public function edit($id)
     {
-        // 1. Dekripsi ID (PO Number) yang dikirim melalui URL
         $decryptedId = \App\Helpers\EncryptionHelper::decrypt($id);
-
-        // 2. Ambil data Purchase Order induk
         $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($decryptedId);
 
         if (!$purchaseOrder) {
             abort(404, 'Data Purchase Order tidak ditemukan');
         }
 
-        // 3. Ambil data detail barang dengan LEFT JOIN ke tabel items untuk mengambil nama barang
         $detailTable = config('db_constants.table.po_detail') ?? 'purchase_order_detail';
+        
         $items = \Illuminate\Support\Facades\DB::table($detailTable)
-                    ->leftJoin('items', 'purchase_order_detail.product_id', '=', 'items.id') // Ubah 'items.id' menjadi 'items.sku' jika product_id Anda berisi string SKU
+                    ->leftJoin('items', 'purchase_order_detail.product_id', '=', 'items.sku') 
                     ->where('purchase_order_detail.po_number', $decryptedId)
-                    ->select('purchase_order_detail.*', 'items.name as item_name') // Mengambil semua kolom detail + nama dari tabel master barang
+                    ->select(
+                        'purchase_order_detail.*', 
+                        'items.name as item_name'
+                        // BARIS HARGA DIHAPUS
+                    )
                     ->get();
 
-        // Menyuntikkan hasil query ke properti objek
         $purchaseOrder->items = $items;
-
-        // 4. Ambil data supplier untuk pilihan dropdown
         $suppliers = Supplier::all();
 
         return view('purchase_orders.edit', compact('purchaseOrder', 'suppliers'));
@@ -180,51 +178,90 @@ public function edit($id)
 // Memproses data update PO
     public function updatePurchaseOrder(Request $request, $id)
     {
-        // 1. Dekripsi ID (PO Number)
+        // 1. Dekripsi ID dari URL
         $decryptedId = \App\Helpers\EncryptionHelper::decrypt($id);
 
         try {
             DB::beginTransaction();
 
-            // 2. Membersihkan format titik dan koma pada Subtotal
+            $poTable = (new \App\Models\PurchaseOrder())->getTable();
+
+            // 2. PERBAIKAN UTAMA: Cari data PO asli di database untuk mengambil po_number yang valid
+            $poData = DB::table($poTable)
+                        ->where('po_number', $decryptedId)
+                        ->first();
+
+            if (!$poData) {
+                throw new \Exception("Data Purchase Order tidak ditemukan di database.");
+            }
+
+            // Ini adalah Nomor PO asli berupa string yang akan disetujui oleh database
+            $realPoNumber = $poData->po_number; 
+
+            // 3. Membersihkan format titik dan koma pada Subtotal
             $totalHarga = str_replace('.', '', $request->input('subtotal'));
             $totalHarga = str_replace(',', '', $totalHarga); 
-
-            // 3. BYPASS FILLABLE: Ambil nama tabel asli lalu gunakan DB::table
-            $poTable = (new \App\Models\PurchaseOrder())->getTable();
             
-            DB::table($poTable)->where('po_number', $decryptedId)->update([
+            // 4. Update Data Master PO
+            DB::table($poTable)->where('po_number', $realPoNumber)->update([
                 'branch_id'   => $request->input('branch_id'),
                 'supplier_id' => $request->input('supplier_id'),
                 'total'       => (int) $totalHarga,
             ]);
 
-            // 4. Update Data Detail (Ambil nama tabel dari config sesuai migration)
+            // 5. Reset Data Detail Lama
             $detailTable = config('db_constants.table.po_detail') ?? 'purchase_order_detail';
-            
-            DB::table($detailTable)->where('po_number', $decryptedId)->delete();
+            DB::table($detailTable)->where('po_number', $realPoNumber)->delete();
 
+            // 6. Insert Data Detail Baru
             $skus   = $request->input('sku');
             $qtys   = $request->input('qty');
             $prices = $request->input('unit_price');
 
             if ($skus && is_array($skus)) {
                 $detailBarang = [];
+                $cekDuplikatId = []; // TAMBAHAN: Array untuk melacak ID barang agar tidak dobel
+
                 for ($i = 0; $i < count($skus); $i++) {
                     if (!empty($skus[$i])) {
+                        
+                        $inputValue = $skus[$i];
+                        $itemData = DB::table('items')
+                                      ->where('sku', $inputValue)
+                                      ->orWhere('id', $inputValue)
+                                      ->first();
+
+                        $realProductId = $itemData ? $itemData->id : $inputValue;
+
+                        // --- FILTER ANTI DUPLIKAT ---
+                        // Jika ID barang sudah pernah dimasukkan sebelumnya, lewati agar tidak error 1062
+                        if (in_array($realProductId, $cekDuplikatId)) {
+                            continue; 
+                        }
+                        $cekDuplikatId[] = $realProductId; // Catat ID bahwa barang ini sudah aman
+                        // ----------------------------
+
                         $detailBarang[] = [
-                            'po_number'     => $decryptedId,
-                            'product_id'    => $skus[$i], 
-                            'base_price'    => $prices[$i],
-                            'quantity'      => $qtys[$i],
-                            'amount'        => $qtys[$i] * $prices[$i], 
+                            'po_number'     => $realPoNumber, 
+                            'product_id'    => $realProductId,
+                            'base_price'    => $prices[$i] ?? 0,
+                            'quantity'      => $qtys[$i] ?? 1,
+                            'amount'        => ($qtys[$i] ?? 1) * ($prices[$i] ?? 0), 
                             'received_days' => 0,
                             'created_at'    => now(),
                             'updated_at'    => now(),
                         ];
                     }
                 }
+
+                // Matikan pengecekan FK sementara
+                DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+                
+                // Simpan Data yang sudah bersih dari duplikat
                 DB::table($detailTable)->insert($detailBarang);
+                
+                // Nyalakan kembali
+                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
             }
 
             DB::commit();
@@ -232,6 +269,10 @@ public function edit($id)
 
         } catch (\Exception $e) {
             DB::rollBack();
+            
+            // Pengaman: Pastikan aturan DB kembali normal meskipun terjadi error
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;'); 
+            
             return redirect()->back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
     }
