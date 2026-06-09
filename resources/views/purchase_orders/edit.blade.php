@@ -15,9 +15,8 @@
     </div>
     
     <form action="/purchase_orders/update/{{ \App\Helpers\EncryptionHelper::encrypt($purchaseOrder->po_number) }}" method="POST" id="editForm">
-    @csrf
-    @method('PUT')
         @csrf
+        @method('PUT')
         <div class="form-group">
             <label for="branch">Cabang</label>
             <input type="text" name="branch_id" class="form-control" id="branch" value="{{ $purchaseOrder->branch_id ?? $purchaseOrder->branch ?? '' }}" placeholder="Masukkan nama cabang">
@@ -47,7 +46,7 @@
             @if(isset($purchaseOrder->items) && count($purchaseOrder->items) > 0)
                 @foreach($purchaseOrder->items as $item)
             <tr>
-                    <td><input type="text" name="sku[]" class="form-control sku" value="{{ $item->product_id ?? $item->sku ?? '' }}"></td>
+                    <input type="hidden" name="detail_id[]" value="{{ $item->id ?? '' }}"> <td><input type="text" name="sku[]" class="form-control sku" value="{{ $item->product_id ?? $item->sku ?? '' }}"></td>
                     <td><input type="text" name="nama_item[]" class="form-control nama-item" value="{{ $item->item_name ?? $item->name ?? '' }}"></td>
                     <td><input type="number" name="qty[]" class="form-control qty" value="{{ $item->quantity ?? $item->qty ?? 1 }}"></td>
                     <td><input type="number" name="unit_price[]" class="form-control unit-price" value="{{ $item->base_price ?? $item->unit_price ?? 0 }}"></td>
@@ -57,7 +56,7 @@
                 @endforeach
             @else
                 <tr>
-                    <td><input type="text" name="sku[]" class="form-control sku"></td>
+                    <input type="hidden" name="detail_id[]" value=""> <td><input type="text" name="sku[]" class="form-control sku"></td>
                     <td><input type="text" name="nama_item[]" class="form-control nama-item"></td>
                     <td><input type="number" name="qty[]" class="form-control qty" value="1"></td>
                     <td><input type="number" name="unit_price[]" class="form-control unit-price" value="0"></td>
@@ -71,7 +70,8 @@
 
         <div class="form-group">
             <label>Sub Total Rp.</label>
-            <input type="text" name="subtotal" class="form-control" id="subtotal" value="0" readonly>
+            <input type="text" class="form-control" id="subtotal" value="0" readonly>
+            <input type="hidden" name="subtotal" id="raw_subtotal" value="0"> 
         </div>
         <div class="form-group">
             <label>Tax Rp.</label>
@@ -98,6 +98,8 @@
         });
         $("#subtotal").val(total.toLocaleString("id-ID"));
         $("#tax").val(total.toLocaleString("id-ID")); // untuk sementara sama
+        
+        $("#raw_subtotal").val(total); // TAMBAHKAN BARIS INI
     }
 
     $(document).on("input", ".qty, .unit-price", function () {
@@ -107,7 +109,7 @@
 
     $("#addRow").click(function () {
         let newRow = `<tr>
-            <td><input type="text" name="sku[]" class="form-control sku"></td>
+            <input type="hidden" name="detail_id[]" value=""> <td><input type="text" name="sku[]" class="form-control sku"></td>
             <td><input type="text" name="nama_item[]" class="form-control nama-item"></td>
             <td><input type="number" name="qty[]" class="form-control qty" value="1"></td>
             <td><input type="number" name="unit_price[]" class="form-control unit-price" value="0"></td>
