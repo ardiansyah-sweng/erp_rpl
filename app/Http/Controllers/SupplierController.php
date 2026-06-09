@@ -18,6 +18,7 @@ class SupplierController extends Controller
             'data' => $data
         ], 200, [], JSON_PRETTY_PRINT);
     }
+
     public function updateSupplier(Request $request, $supplier_id)
     {
         // Validasi input
@@ -33,9 +34,10 @@ class SupplierController extends Controller
 
         return redirect()->route('Supplier.detail', ['id' => $supplier_id]);
     }
+
     public function getSupplierById($id)
     {
-        $sup = Supplier::getSupplierDetailByID($id);
+        $sup = Supplier::getSupplierByID($id);
 
         if (request()->ajax()) {
             return response()->json($sup);
@@ -63,7 +65,6 @@ class SupplierController extends Controller
     return view('supplier.list', compact('suppliers'));
     }
 
-
     public function deleteSupplierByID($id)
     {
         $result = Supplier::deleteSupplier($id);
@@ -73,6 +74,7 @@ class SupplierController extends Controller
             'message' => $result['message']
         ], $result['success'] ? 200 : 404);
     }
+
     public function AddSuplier(Request $request)
     {
         $validatedData =  $request->validate([
