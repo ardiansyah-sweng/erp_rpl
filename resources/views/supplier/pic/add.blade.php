@@ -753,6 +753,14 @@
     </script>
     <!--validate form -->
     <script>
+        $('#supplier_id').on('blur', function () {
+            let id = $(this).val().trim();
+            if (!id) { $('#supplier_name').val(''); return; }
+            $.get('/supplier/detail/' + id, function (data) {
+                $('#supplier_name').val(data ? data.company_name : '');
+            });
+        });
+
         function validateForm() {
           let isValid = true;
           $('#supplierIdError').html("");
