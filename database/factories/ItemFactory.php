@@ -30,6 +30,7 @@ class ItemFactory extends Factory
             ItemColumns::PURCHASE_UNIT => 30, // Default unit ID for pieces
             ItemColumns::SELL_UNIT => 30, // Default unit ID for pieces  
             ItemColumns::STOCK_UNIT => $this->faker->numberBetween(0, 1000),
+            ItemColumns::MINIMUM_STOCK => 0,
         ];
     }
 
