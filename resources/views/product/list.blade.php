@@ -430,7 +430,19 @@ use App\Helpers\EncryptionHelper;
         </div>
 
         <div class="card mb-4">
-              <div class="card-header"><h3 class="card-title">List Table</h3></div>
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="card-title">List Table</h3>
+                <form action="{{ route('product.list') }}" method="GET" class="d-flex ms-auto">
+                    <div class="input-group input-group-sm ms-auto" style="width: 450px;">
+                        <input type="text" name="search" class="form-control" placeholder="Search ID Produk" value="{{ $search ?? '' }}">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+              </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <table class="table table-bordered">
@@ -449,9 +461,9 @@ use App\Helpers\EncryptionHelper;
                     </tr>
                   </thead>
                  <tbody>
-                  @foreach ($products as $index => $product)
+                  @forelse ($products as $index => $product)
                   <tr class="align-middle">
-                      <td>{{ $index + 1 }}</td>
+                      <td>{{ $products->firstItem() + $index }}</td>
                       <td>
                         <a href="/products/detail/{{ EncryptionHelper::encrypt($product->product_id) }}" class="text-dark"> 
                          {{ $product->product_id }}
@@ -475,13 +487,25 @@ use App\Helpers\EncryptionHelper;
                           <a href="#" class="btn btn-sm btn-info">Detail</a>
                       </td>
                   </tr>
-        @endforeach
+                  @empty
+                  <tr>
+                    <td colspan="10" class="text-center">
+                      @if($search ?? false)
+                        Tidak ada produk yang ditemukan dengan kata kunci "{{ $search }}"
+                      @else
+                        No data available in table
+                      @endif
+                    </td>
+                  </tr>
+                  @endforelse
     </tbody>
 </table>
               </div>
               <!-- /.card-body -->
               <div class="card-footer clearfix">
-                {{ $products->links('pagination::bootstrap-4') }}
+                @if(isset($products) && method_exists($products, 'links'))
+                    {{ $products->appends(request()->query())->links('pagination::bootstrap-4') }}
+                @endif
               </div>
             </div>
     
