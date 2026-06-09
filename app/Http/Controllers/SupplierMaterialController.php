@@ -125,4 +125,21 @@ public function searchSupplierMaterial(Request $request)
             'keyword'   => $keyword
         ]);
     }
+
+    public function getSupplierMaterialByCategory($category, $supplier)
+    {
+        $results = DB::table('supplier_product')
+            ->where('supplier_id', $supplier)
+            ->where('product_id', 'LIKE', $category . '%')
+            ->select(
+                'supplier_id',
+                'company_name',
+                'product_id',
+                'product_name',
+                'base_price'
+            )
+            ->get();
+
+        return response()->json($results);
+    }
 }

@@ -36,15 +36,15 @@ class Product extends Model
         // $this->fillable = array_values(config('db_constants.column.products') ?? []);
     }
 
-    public function category()
+    public function categoryRelation()
     {
-        return $this->belongsTo(Category::class, 'category', 'id'); // ubah dari product_category ke category
+        return $this->belongsTo(Category::class, 'category', 'id');
     }
 
     public static function getAllProducts()
     {
         $tableItem = config('db_constants.table.item');
-        return self::withCount('items')->with('category')->selectRaw("(SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, \"%\")) AS items_count")->orderBy('created_at', 'desc')->paginate(10);
+        return self::withCount('items')->with('categoryRelation')->selectRaw("(SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, \"%\")) AS items_count")->orderBy('created_at', 'desc')->paginate(10);
     }
 
     public function getSKURawMaterialItem()
@@ -71,7 +71,7 @@ class Product extends Model
     }
 
     public function getProductById($id) {
-        return self::where('product_id', $id)->first();
+        return self::with('categoryRelation')->where('product_id', $id)->first();
     }    
 
     public static function countProductByProductType($shortType)
@@ -98,11 +98,15 @@ class Product extends Model
 
     public function items()
     {
-        $tableItem = config('db_constants.table.item');
-        $colItem = config('db_constants.column.item');
-        $colProduct = config('db_constants.column.products');
+        return $this->hasMany(Item::class, 'product_id', 'product_id');
+    }
 
-        return $this->hasMany(Item::class, 'sku', 'product_id');
+    public static function getProductByCategory($productCategory)
+    {
+        return self::with('category')
+            ->where(ProductColumns::CATEGORY, $productCategory)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
     }
 
     public static function deleteProductById($id)
