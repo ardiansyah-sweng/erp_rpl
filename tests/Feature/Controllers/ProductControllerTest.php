@@ -529,4 +529,39 @@ public function test_it_can_add_new_product_successfully()
             return true;
         });
     }
+
+    /**
+     * Test getProductList method with search query filters by product_id
+     */
+    public function test_get_product_list_with_search_query_filters_by_product_id()
+    {
+        $category = Category::factory()->create(['is_active' => 1]);
+
+        Product::factory()->create([
+            'product_id'  => 'PR01',
+            'name'        => 'Product A',
+            'type'        => 'FG',
+            'category'    => $category->id,
+            'description' => 'Test A'
+        ]);
+
+        Product::factory()->create([
+            'product_id'  => 'PR02',
+            'name'        => 'Product B',
+            'type'        => 'FG',
+            'category'    => $category->id,
+            'description' => 'Test B'
+        ]);
+
+        // Access listing page with search query matching PR01
+        $response = $this->get(route('product.list', ['search' => 'PR01']));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('product.list');
+        $response->assertViewHas('products', function($products) {
+            $hasPR01 = $products->contains(fn($p) => $p->product_id === 'PR01');
+            $hasPR02 = $products->contains(fn($p) => $p->product_id === 'PR02');
+            return $hasPR01 && !$hasPR02;
+        });
+    }
 }

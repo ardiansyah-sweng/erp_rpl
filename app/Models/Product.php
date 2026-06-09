@@ -41,10 +41,15 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category', 'id'); // ubah dari product_category ke category
     }
 
+    public function categoryRelation()
+    {
+        return $this->belongsTo(Category::class, 'category', 'id');
+    }
+
     public static function getAllProducts()
     {
         $tableItem = config('db_constants.table.item');
-        return self::withCount('items')->with('category')->selectRaw("(SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, \"%\")) AS items_count")->orderBy('created_at', 'desc')->paginate(10);
+        return self::withCount('items')->with(['category', 'categoryRelation'])->selectRaw("(SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, \"%\")) AS items_count")->orderBy('created_at', 'desc')->paginate(10);
     }
 
     public function getSKURawMaterialItem()
