@@ -520,7 +520,7 @@
                                   <td>{{ \Carbon\Carbon::parse($bom->created_at)->format('d-m-Y') }}</td>
                                   <td>
                                       <button class="btn btn-info btn-sm" onclick="getDetail({{ $bom->id }})">Lihat</button>
-                                      <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                      <button class="btn btn-warning btn-sm" onclick="openEditModal({{ $bom->id }})">Edit</button>
                                   </td>
                               </tr>
                               @empty
@@ -562,6 +562,54 @@
                       </div>
                     </div>
                   </div>
+
+                  <!-- Modal Edit BOM -->
+                  <div class="modal fade" id="bomEditModal" tabindex="-1" aria-labelledby="bomEditModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="bomEditModalLabel">Edit Bill of Material</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div id="editAlertSuccess" class="alert alert-success d-none"></div>
+                          <div id="editAlertError" class="alert alert-danger d-none"></div>
+                          <form id="editBomForm">
+                            <input type="hidden" id="editBomId">
+                            <div class="row g-3">
+                              <div class="col-md-6">
+                                <label class="form-label fw-semibold">BOM ID</label>
+                                <input type="text" class="form-control" id="editBomCode" disabled>
+                              </div>
+                              <div class="col-md-6">
+                                <label class="form-label fw-semibold">Nama BOM</label>
+                                <input type="text" class="form-control" id="editBomName" placeholder="Nama BOM" required>
+                              </div>
+                              <div class="col-md-6">
+                                <label class="form-label fw-semibold">Measurement Unit</label>
+                                <input type="text" class="form-control" id="editBomUnit" placeholder="Satuan" required>
+                              </div>
+                              <div class="col-md-6">
+                                <label class="form-label fw-semibold">Total Cost</label>
+                                <input type="number" class="form-control" id="editBomCost" placeholder="Total Cost" min="0" required>
+                              </div>
+                              <div class="col-md-6">
+                                <label class="form-label fw-semibold">Status</label>
+                                <select class="form-select" id="editBomActive">
+                                  <option value="1">Aktif</option>
+                                  <option value="0">Tidak Aktif</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-3">
+                              <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
+                              <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
             
                   <script>
                   function getDetail(id) {
@@ -589,6 +637,68 @@
                       })
                       .catch(err => alert('Gagal mengambil data'));
                   }
+
+                  function openEditModal(id) {
+                    fetch(`/bill-of-material/${id}`)
+                      .then(res => res.json())
+                      .then(data => {
+                        document.getElementById('editBomId').value   = data.id;
+                        document.getElementById('editBomCode').value  = data.bom_id;
+                        document.getElementById('editBomName').value  = data.bom_name;
+                        document.getElementById('editBomUnit').value  = data.measurement_unit;
+                        document.getElementById('editBomCost').value  = data.total_cost;
+                        document.getElementById('editBomActive').value = data.active ? '1' : '0';
+
+                        document.getElementById('editAlertSuccess').classList.add('d-none');
+                        document.getElementById('editAlertError').classList.add('d-none');
+
+                        var modal = new bootstrap.Modal(document.getElementById('bomEditModal'));
+                        modal.show();
+                      })
+                      .catch(err => alert('Gagal memuat data BOM'));
+                  }
+
+                  document.getElementById('editBomForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const id     = document.getElementById('editBomId').value;
+                    const payload = {
+                      bom_name:         document.getElementById('editBomName').value,
+                      measurement_unit: document.getElementById('editBomUnit').value,
+                      total_cost:       document.getElementById('editBomCost').value,
+                      active:           document.getElementById('editBomActive').value,
+                    };
+
+                    fetch(`/bill-of-material/${id}`, {
+                      method: 'PUT',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                      },
+                      body: JSON.stringify(payload)
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                      const alertSuccess = document.getElementById('editAlertSuccess');
+                      const alertError   = document.getElementById('editAlertError');
+
+                      if (data.message && data.message.includes('successfully')) {
+                        alertSuccess.textContent = 'Bill of Material berhasil diperbarui!';
+                        alertSuccess.classList.remove('d-none');
+                        alertError.classList.add('d-none');
+                        setTimeout(() => { window.location.reload(); }, 1000);
+                      } else {
+                        alertError.textContent = data.message ?? 'Gagal memperbarui data.';
+                        alertError.classList.remove('d-none');
+                        alertSuccess.classList.add('d-none');
+                      }
+                    })
+                    .catch(err => {
+                      const alertError = document.getElementById('editAlertError');
+                      alertError.textContent = 'Terjadi kesalahan. Silakan coba lagi.';
+                      alertError.classList.remove('d-none');
+                    });
+                  });
                   </script>
 
                   </div>
