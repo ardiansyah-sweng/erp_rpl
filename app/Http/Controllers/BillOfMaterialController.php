@@ -101,7 +101,8 @@ class BillOfMaterialController extends Controller
     public function getBomList()
     {
         $boms = BillOfMaterial::getBillOfMaterial();
-        return view('bom.list', compact('boms'));
+        $totalBoms = BillOfMaterial::count();
+        return view('bom.list', compact('boms', 'totalBoms'));
     }
 
     public function printBOM()
