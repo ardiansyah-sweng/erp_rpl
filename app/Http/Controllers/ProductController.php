@@ -13,12 +13,23 @@ use App\Constants\Messages;
 
 class ProductController extends Controller
 {
-    public function getProductList()
+    public function getProductList(Request $request)
     {
-        $products = Product::getAllProducts();
+        $search = $request->input('search');
+        $tableItem = config('db_constants.table.item');
+
+        $query = Product::with(['categoryRelation'])
+            ->selectRaw("products.*, (SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, '%')) AS items_count")
+            ->orderBy('created_at', 'desc');
+
+        if ($search) {
+            $query->where('product_id', 'LIKE', '%' . $search . '%');
+        }
+
+        $products = $query->paginate(10)->withQueryString();
         $totalProducts = Product::countProduct();
         $categories = Category::orderBy('category')->get();
-        return view('product.list', compact('products', 'categories', 'totalProducts'));
+        return view('product.list', compact('products', 'categories', 'totalProducts', 'search'));
     }
 
     public function generatePDF()
