@@ -382,6 +382,7 @@
             <div class="row align-items-center">
               <div class="col-sm-6 d-flex align-items-center">
                 <h3 class="mb-0 me-2">Bill Of Material</h3>
+                <span class="btn btn-primary btn-sm me-2">Total BOM: {{ $bomCount ?? 0 }}</span>
                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahBOM">Tambah Bill of Material</button>
                 <a href="{{ route('bom.print') }}" class="btn btn-primary btn-sm ms-2">Cetak Bill Of Material</a>
                 <!-- Modal Tambah Bill of Material -->
@@ -594,7 +595,7 @@
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer clearfix">
-                  
+                      {{ $boms->links('pagination::bootstrap-4') }}
                   </div>
 
         </div>
