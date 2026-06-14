@@ -84,7 +84,8 @@ Route::get('/item/add', function () {
 });
 
 Route::get('/product/add', function () {
-    return view('product/add');
+    $categories = App\Models\Category::orderBy('category')->get();
+    return view('product/add', compact('categories'));
 });
 
 Route::get('/supplier/list', [App\Http\Controllers\SupplierController::class, 'listSuppliers'])->name('supplier.list');
@@ -120,8 +121,8 @@ Route::get('/branches/{id}/edit', [BranchController::class, 'edit'])->name('bran
 Route::put('/branches/{id}', [BranchController::class, 'update'])->name('branches.update');
 Route::get('/branch', [BranchController::class, 'getBranchAll'])->name('branch.list');
 Route::delete('/branches/{id}', [BranchController::class, 'destroy'])->name('branches.destroy');
-Route::get('/branch/{id}', [BranchController::class, 'getBranchByID'])->name('branch.detail');
-Route::get('/branch/detail/{id}', [BranchController::class, 'getBranchByID']);
+Route::get('/branch/{id}', [BranchController::class, 'getBranchById'])->name('branch.detail');
+Route::get('/branch/detail/{id}', [BranchController::class, 'getBranchById']);
 
 // Warehouse
 Route::get('/warehouses', [WarehouseController::class, 'index'])->name('warehouses.index');
@@ -184,7 +185,6 @@ Route::get('/products', [APIProductController::class, 'getProducts'])->name('api
 Route::get('/prices', [APIProductController::class, 'getAvgBasePrice'])->name('api.prices');
 
 // PurchaseOrders
-Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-orders/search', [PurchaseOrderController::class, 'searchPurchaseOrder'])->name('purchase_orders.search');
 Route::post('/purchase_orders/add', [PurchaseOrderController::class, 'addPurchaseOrder'])->name('purchase_orders.add'); // tambahan
 Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
@@ -197,6 +197,7 @@ Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::clas
 Route::get('/purchase-orders/report', [PurchaseOrderController::class, 'showReportForm'])->name('purchase_orders.report_form');
 Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePurchaseOrderPDF'])->name('purchase_orders.pdf');
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
+Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
 Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderController::class, 'sendMailPurchaseOrder'])->name('purchase_orders.send_email');
 
@@ -222,12 +223,11 @@ Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); 
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
 Route::get('/items/category/{categoryId}', [ItemController::class, 'getItemByCategory']);
 
-Route::post('/item/add', [ItemController::class, 'store'])->name('item.add');
 Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
 
 Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
 Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
-Route::get('/item/{id}', [itemController::class, 'getItemById']);
+Route::get('/item/{id}', [ItemController::class, 'getItemById']);
 Route::get('/items/report', [ItemController::class, 'exportAllToPdf'])->name('item.report');
 Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']);
 Route::get('/item/search/{keyword}', [ItemController::class, 'searchItem']);
@@ -245,7 +245,7 @@ Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSu
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('supplier.detail');
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
-Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'delete'])->name('supplier.pic.delete');
+Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
 Route::get('/supplier/list', [SupplierController::class, 'listSuppliers'])->name('supplier.list');
 Route::delete('/supplier/delete/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete');
 Route::get('/supplier-material/search', [SupplierMaterialController::class, 'searchSupplierMaterial'])->name('supplier.material.search');
@@ -264,6 +264,7 @@ Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->
 Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
 // Cetak produk berdasarkan kategori tertentu
 Route::get('/category/print/{id}', [ProductController::class, 'printCategoryByIdPDF'])->name('category.print.single');
+Route::get('/category/print/{id}', [CategoryController::class, 'getCategoryByParent'])->name('category.print.single');
 
 // Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
@@ -272,7 +273,7 @@ Route::get('/supplierPic/{supplier_id}', [SupplierPIController::class, 'getSuppl
 // cetak semua pdf pic
 Route::get('/supplier-pic/cetak-pdf', [SupplierPIController::class, 'cetakPdf']);
 // cetak pdf PIC per Supplier ID
-Route::get('/supplier-pic/cetak-pdf/{supplierID}', [SupplierPiController::class, 'cetakPdfBySupplier'])
+Route::get('/supplier-pic/cetak-pdf/{supplierID}', [SupplierPIController::class, 'cetakPdfBySupplier'])
     ->name('supplier.pic.pdf.bySupplier');
 
 // production
@@ -280,9 +281,8 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
 // Bill of Material
 
-Route::get('/bom/list', function () {
-    return view('bom/list');
-});
+Route::get('/bom/list', [BillOfMaterialController::class, 'getBomList'])->name('bom.list');
+Route::get('/bom/print', [BillOfMaterialController::class, 'printBOM'])->name('bom.print');
 
 // production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);
@@ -331,3 +331,7 @@ Route::post('/assort-production/add', [AssortProductionController::class, 'addPr
 
 Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
 Route::post('/supplier/add', [SupplierController::class, 'AddSuplier'])->name('supplier.add');
+Route::get(
+    '/supplier-material/category/{category}/{supplier}',
+    [SupplierMaterialController::class, 'getSupplierMaterialByCategory']
+);

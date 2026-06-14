@@ -23,11 +23,8 @@ class SupplierPic extends Model
 
         parent::__construct($attributes);
 
-
-
-        $this->table = config('db_constants.table.supplier_pic');
-        $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
-
+        $this->table = config('db_tables.supplier_pic', 'supplier_pic');
+        $this->fillable = ['name', 'email', 'phone_number', 'supplier_id']; 
     }
 
 
