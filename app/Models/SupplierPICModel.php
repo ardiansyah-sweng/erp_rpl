@@ -9,7 +9,14 @@ class SupplierPICModel extends Model
 {
     use HasFactory;
     
-    protected $table = 'supplier_pics';
+    protected $table = 'supplier_pic';
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->table = config('db_tables.supplier_pic', 'supplier_pic');
+    }
 
     protected $fillable = [
         'supplier_id',

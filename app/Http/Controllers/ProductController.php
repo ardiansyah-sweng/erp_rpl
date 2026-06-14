@@ -160,15 +160,16 @@ class ProductController extends Controller
 
         // Untuk setiap kategori, ambil produknya
         foreach ($categories as $cat) {
-            $products = Product::where('product_category', $cat->id)->get();
+            $products = Product::where('category', $cat->id)->get();
             $cat->products = $products;
         }
 
         // Nama file sesuai kategori
         $filename = "Laporan_Kategori_" . $category->category . ".pdf";
 
-        // Kirim semua kategori dengan produk ke view
-        $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
+        // Kirim semua kategori dengan produk ke view (gunakan $categoryList agar masuk branch produk)
+        $categoryList = $categories;
+        $pdf = Pdf::loadView('product.category.pdf', compact('categoryList'));
         return $pdf->stream($filename);
     }
 

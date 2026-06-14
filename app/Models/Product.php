@@ -43,8 +43,8 @@ class Product extends Model
 
     public static function getAllProducts()
     {
-        $tableItem = config('db_constants.table.item');
-        return self::withCount('items')->with('categoryRelation')->selectRaw("(SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, \"%\")) AS items_count")->orderBy('created_at', 'desc')->paginate(10);
+        $tableItem = (new Item)->getTable();
+        return self::with('categoryRelation')->selectRaw("products.*, (SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, '%')) AS items_count")->orderBy('created_at', 'desc')->paginate(10);
     }
 
     public function getSKURawMaterialItem()
@@ -98,11 +98,15 @@ class Product extends Model
 
     public function items()
     {
-        $tableItem = config('db_constants.table.item');
-        $colItem = config('db_constants.column.item');
-        $colProduct = config('db_constants.column.products');
+        return $this->hasMany(Item::class, 'product_id', 'product_id');
+    }
 
-        return $this->hasMany(Item::class, 'sku', 'product_id');
+    public static function getProductByCategory($productCategory)
+    {
+        return self::with('category')
+            ->where(ProductColumns::CATEGORY, $productCategory)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
     }
 
     public static function deleteProductById($id)

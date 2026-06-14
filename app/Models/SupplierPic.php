@@ -9,7 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class SupplierPic extends Model
 {
+<<<<<<< HEAD
     protected $table = 'supplier_pic'; // sesuaikan nama tabel
+=======
+    protected $table = 'supplier_pic';
+
+>>>>>>> origin/development
     protected $fillable = ['name', 'email', 'phone_number', 'supplier_id'];
     protected $primaryKey = 'id';
     public $incrementing = false;
@@ -23,11 +28,16 @@ class SupplierPic extends Model
 
         parent::__construct($attributes);
 
+<<<<<<< HEAD
 
 
         $this->table = config('db_constants.table.supplier_pic');
         $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
 
+=======
+        $this->table = config('db_tables.supplier_pic', 'supplier_pic');
+        $this->fillable = ['name', 'email', 'phone_number', 'supplier_id']; 
+>>>>>>> origin/development
     }
 
 
