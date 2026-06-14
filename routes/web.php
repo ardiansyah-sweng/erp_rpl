@@ -84,8 +84,7 @@ Route::get('/item/add', function () {
 });
 
 Route::get('/product/add', function () {
-    $categories = App\Models\Category::orderBy('category')->get();
-    return view('product/add', compact('categories'));
+    return view('product/add');
 });
 
 Route::get('/supplier/list', [App\Http\Controllers\SupplierController::class, 'listSuppliers'])->name('supplier.list');
@@ -268,7 +267,6 @@ Route::get('/category/print', [CategoryController::class, 'printCategoryPDF'])->
 Route::get('/product/print/{type}', [ProductController::class, 'printProductsByType'])->name('product.print.type');
 // Cetak produk berdasarkan kategori tertentu
 Route::get('/category/print/{id}', [ProductController::class, 'printCategoryByIdPDF'])->name('category.print.single');
-Route::get('/category/print/{id}', [CategoryController::class, 'getCategoryByParent'])->name('category.print.single');
 
 // Supplier Pic
 Route::delete('/supplier/pic/delete/{id}', [SupplierPIController::class, 'deleteSupplierPIC'])->name('supplier.pic.delete');
@@ -335,7 +333,12 @@ Route::post('/assort-production/add', [AssortProductionController::class, 'addPr
 
 Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
 Route::post('/supplier/add', [SupplierController::class, 'AddSuplier'])->name('supplier.add');
+<<<<<<< Updated upstream
 Route::get(
     '/supplier-material/category/{category}/{supplier}',
     [SupplierMaterialController::class, 'getSupplierMaterialByCategory']
 );
+=======
+Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
+Route::post('/supplier/add', [SupplierController::class, 'AddSuplier'])->name('supplier.add');
+>>>>>>> Stashed changes
