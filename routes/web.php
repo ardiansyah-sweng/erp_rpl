@@ -40,8 +40,7 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::get('/dashboard', function () {
-    $lowStockCount = \App\Models\Item::countLowStockItems();
-    return view('dashboard', compact('lowStockCount'));
+    return view('dashboard');
 })->name('dashboard');
 
 // View Branches
@@ -218,7 +217,6 @@ Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->na
 Route::post('/supplier-pic/update-data/{id}', [SupplierPIController::class, 'updatePIC'])->name('supplier.pic.updateData');
 
 // Items
-Route::get('/item/low-stock', [ItemController::class, 'getLowStockAlert'])->name('item.low-stock');
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
@@ -228,8 +226,8 @@ Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
 
 Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
 Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
+Route::get('/item/low-stock', [ItemController::class, 'getLowStockAlert'])->name('item.low-stock');
 Route::get('/item/{id}', [ItemController::class, 'getItemById'])->name('item.detail');
-Route::get('/item/{id}', [ItemController::class, 'getItemById']);
 Route::get('/items/report', [ItemController::class, 'exportAllToPdf'])->name('item.report');
 Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']);
 Route::get('/item/search/{keyword}', [ItemController::class, 'searchItem']);

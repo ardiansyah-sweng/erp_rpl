@@ -161,12 +161,6 @@ class Item extends Model
             ->get();
     }
 
-    // Hitung item yang stoknya <= minimum_stock
-    public static function countLowStockItems()
-    {
-        return self::whereColumn(ItemColumns::STOCK_UNIT, '<=', ItemColumns::MINIMUM_STOCK)->count();
-    }
-
     // Hitung jumlah item dalam kategori tertentu
     public static function countItemByCategory($categoryId)
     {

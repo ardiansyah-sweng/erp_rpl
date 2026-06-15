@@ -77,14 +77,12 @@ class ItemController extends Controller
             'id'            => 'required|integer',
             'sku'           => 'required|string|max:50',
             'item_name'     => 'required|string|max:100',
-            'minimum_stock' => 'nullable|integer|min:0',
         ]);
 
         $updateData = [
             'id'            => $validated['id'],
             'sku'           => $validated['sku'],
             'name'          => $validated['item_name'],
-            'minimum_stock' => $request->input('minimum_stock', 0),
         ];
 
         $item = Item::updateItem($id, $updateData);
