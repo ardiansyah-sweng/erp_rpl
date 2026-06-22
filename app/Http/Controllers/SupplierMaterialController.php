@@ -9,12 +9,17 @@ use Illuminate\Support\Facades\DB;
 
 class SupplierMaterialController extends Controller
 {
-    public function getSupplierMaterial()
+    public function getSupplierMaterial(Request $request)
     {
-        $model = new SupplierMaterial();
-        $materials = $model->getSupplierMaterial();
+        $search = trim($request->input('search', $request->input('keyword', '')));
+        $materials = $search !== ''
+            ? SupplierMaterial::searchSupplierMaterial($search)
+            : SupplierMaterial::getSupplierMaterial();
 
-        return view('supplier.material.list', ['materials' => $materials]);
+        return view('supplier.material.list', [
+            'materials' => $materials,
+            'search' => $search,
+        ]);
     }
 
     public function getSupplierMaterialById($id)
