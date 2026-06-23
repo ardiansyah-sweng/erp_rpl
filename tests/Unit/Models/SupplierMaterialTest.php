@@ -435,7 +435,7 @@ class SupplierMaterialTest extends TestCase
     }
 
     /**
-     * Test: Pencarian berdasarkan company_name
+     * Test: Pencarian ber dasarkan company_name
      * @test
      */
     public function getSupplierMaterialByKeyword_can_search_by_company_name()
@@ -839,4 +839,48 @@ class SupplierMaterialTest extends TestCase
 
         // Assert
         $this->assertEquals(0, $count);
-    }}
+    }
+
+    // ========================================================================
+    // TEST UNTUK FUNGSI countSupplierMaterialByCategory()
+    // ========================================================================
+
+    /** @test */
+    public function it_counts_material_by_category_and_supplier_correctly()
+    {
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            $this->markTestSkipped('Test dilewati: Fungsi Raw SQL LOCATE() hanya tersedia di MySQL.');
+        }
+
+        DB::table('products')->insert(['product_id' => 'P001', 'name' => 'Tepung', 'type' => 'RM', 'category' => 1, 'created_at' => now(), 'updated_at' => now()]);
+        DB::table('supplier_product')->insert(['supplier_id' => 'SUP001', 'company_name' => 'PT A', 'product_id' => 'P001-01', 'product_name' => 'Tepung Terigu', 'base_price' => 10000, 'created_at' => now(), 'updated_at' => now()]);
+
+        $count = SupplierMaterial::countSupplierMaterialByCategory(1, 'SUP001');
+
+        $this->assertEquals(1, $count);
+    }
+
+    /** @test */
+    public function it_returns_zero_when_supplier_has_no_material_in_category()
+    {
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            $this->markTestSkipped('Test dilewati: Fungsi Raw SQL LOCATE() hanya tersedia di MySQL.');
+        }
+
+        $count = SupplierMaterial::countSupplierMaterialByCategory(1, 'SUP999');
+
+        $this->assertEquals(0, $count);
+    }
+
+    /** @test */
+    public function it_returns_zero_for_nonexistent_category_in_count_by_category()
+    {
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            $this->markTestSkipped('Test dilewati: Fungsi Raw SQL LOCATE() hanya tersedia di MySQL.');
+        }
+
+        $count = SupplierMaterial::countSupplierMaterialByCategory(99, 'SUP001');
+
+        $this->assertEquals(0, $count);
+    }
+}
