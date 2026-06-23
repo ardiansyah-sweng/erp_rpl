@@ -124,6 +124,32 @@ class PurchaseOrderController extends Controller
         $suppliers = Supplier::all();
         return view('purchase_orders.list', compact('purchaseOrders', 'status', 'totalOrders', 'suppliers'));
     }
+    public function deletePurchaseOrder($po_number)
+    {
+        $purchaseOrder = PurchaseOrder::where('po_number', $po_number)->first();
+
+        if (!$purchaseOrder) {
+            return redirect()->route('purchase.orders')
+                ->with('error', 'Purchase Order tidak ditemukan.');
+        }
+
+        try {
+            // Hapus baris detail lebih dulu agar tidak constraint error
+            DB::table(config('db_constants.table.po_detail'))
+                ->where('po_number', $po_number)
+                ->delete();
+
+            // Hapus header PO
+            $purchaseOrder->delete();
+
+            return redirect()->route('purchase.orders')
+                ->with('success', 'Purchase Order ' . $po_number . ' berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->route('purchase.orders')
+                ->with('error', 'Gagal menghapus Purchase Order: ' . $e->getMessage());
+        }
+    }
+
     public function sendMailPurchaseOrder(Request $request)
     {
         $data = $request->all();
