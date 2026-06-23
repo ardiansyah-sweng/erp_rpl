@@ -132,6 +132,7 @@ class PurchaseOrderController extends Controller
         $suppliers = Supplier::all();
         return view('purchase_orders.list', compact('purchaseOrders', 'status', 'totalOrders', 'suppliers'));
     }
+    
     public function deletePurchaseOrder($po_number)
     {
         $purchaseOrder = PurchaseOrder::where('po_number', $po_number)->first();
