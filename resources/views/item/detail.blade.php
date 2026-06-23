@@ -7,6 +7,7 @@
 @endsection
 
 @section('breadcrumb')
+<li class="breadcrumb-item"><a href="{{ route('item.list') }}">Item</a></li>
 <li class="breadcrumb-item active" aria-current="page">Detail Produk</li>
 @endsection
 
@@ -33,19 +34,19 @@
                     </tr>
                     <tr>
                         <th>Item Name</th>
-                        <td>{{ $item->item_name ?? 'Tidak ada data' }}</td>
+                        <td>{{ $item->name ?? $item->item_name ?? 'Tidak ada data' }}</td>
                     </tr>
                     <tr>
                         <th>Measurement Unit</th>
-                        <td>{{ $item->measurement_unit ?? 'Tidak ada data' }}</td>
+                        <td>{{ $item->measurement ?? $item->measurement_unit ?? 'Tidak ada data' }}</td>
                     </tr>
                     <tr>
                         <th>Average Base Price</th>
-                        <td>{{ $item->avg_base_price ?? 'Tidak ada data' }}</td>
+                        <td>{{ $item->avg_base_price ?? $item->base_price ?? '0' }}</td>
                     </tr>
                     <tr>
                         <th>Selling Price</th>
-                        <td>{{ $item->selling_price ?? 'Tidak ada data' }}</td>
+                        <td>{{ $item->selling_price ?? '0' }}</td>
                     </tr>
                     <tr>
                         <th>Purchase Unit</th>

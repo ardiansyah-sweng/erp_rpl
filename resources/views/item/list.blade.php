@@ -28,12 +28,21 @@
 @section('content')
 <div class="row">
     <div class="col-12">
+        @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
+
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">List Table <span class="badge bg-secondary ms-2">Total Item: {{ $itemCount }}</span></h3>
+                <h3 class="card-title">
+                    List Table
+                    <span class="badge bg-secondary ms-2">Total Item: {{ $itemCount ?? 0 }}</span>
+                </h3>
                 <form action="{{ route('item.list') }}" method="GET" class="d-flex ms-auto">
                     <div class="input-group input-group-sm ms-auto" style="width: 450px;">
-                        <input type="text" name="search" class="form-control" placeholder="Search Item">
+                        <input type="text" name="search" class="form-control" placeholder="Search Item" value="{{ request('search') }}">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-default">
                                 <i class="bi bi-search"></i>
@@ -54,6 +63,7 @@
                     {{ session('error') }}
                 </div>
                 @endif
+
                 <table class="table table-bordered">
                     <thead class="text-center">
                         <tr>
@@ -74,7 +84,7 @@
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->sku }}</td>
                             <td>{{ $item->name }}</td>
-                            <td>{{ $item->unit?->unit_name ?? '-' }}</td>
+                            <td>{{ $item->unit?->unit_name ?? ($item->measurement ?? '-') }}</td>
                             <td>{{ $item->avg_base_price ?? '0' }}</td>
                             <td>{{ $item->selling_price }}</td>
                             <td>{{ $item->created_at }}</td>
@@ -86,13 +96,12 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus item ini?')">Delete</button>
                                 </form>
-
-                                <a href="#" class="btn btn-sm btn-info">Detail</a>
+                                <a href="{{ url('/item/' . $item->id) }}" class="btn btn-sm btn-info text-white">Detail</a>
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="text-center">No data available in table</td>
+                            <td colspan="9" class="text-center">No data available in table</td>
                         </tr>
                         @endforelse
                     </tbody>
