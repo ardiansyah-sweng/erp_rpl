@@ -392,7 +392,28 @@
         </div>
         
         <div class="card mb-4">
-            <div class="card-header"><h3 class="card-title">List Table</h3></div>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="card-title">List Table</h3>
+                <form action="{{ route('supplier.material') }}" method="GET" class="d-flex ms-auto">
+                    <div class="input-group input-group-sm" style="width: 450px;">
+                        <input
+                            type="text"
+                            name="search"
+                            class="form-control"
+                            value="{{ $search ?? request('search') }}"
+                            placeholder="Cari supplier ID, perusahaan, product ID, atau product name"
+                        >
+                        @if (!empty($search))
+                            <a href="{{ route('supplier.material') }}" class="btn btn-outline-secondary">
+                                Reset
+                            </a>
+                        @endif
+                        <button type="submit" class="btn btn-default">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
             <!-- /.card-header -->
              <div class="card-body">
                 <table class="table table-bordered">
@@ -407,12 +428,13 @@
                             <th>Created_at</th>
                             <th>Updated_at </th>
                             <th>Action</th>
+                            <th>Cetak PDF</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($materials as $index => $material)
+                        @forelse ($materials as $index => $material)
                         <tr class="align-middle">
-                            <td>{{ $index + 1 }}</td>
+                            <td>{{ ($materials->firstItem() ?? 0) + $index }}</td>
                             <td>{{ $material->supplier_id }}</td>
                             <td>{{ $material->company_name }}</td>
                             <td>{{ $material->product_id }}</td>
@@ -435,13 +457,23 @@
                                 </a>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="10" class="text-center">
+                                @if (!empty($search))
+                                    Data supplier material dengan kata kunci "{{ $search }}" tidak ditemukan.
+                                @else
+                                    Tidak ada data supplier material.
+                                @endif
+                            </td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
             <!-- /.card-body -->
              <div class="card-footer clearfix">
-                {{ $materials->links('pagination::bootstrap-4') }}
+                {{ $materials->appends(request()->query())->links('pagination::bootstrap-4') }}
             </div>
         </div> 
     </main>
