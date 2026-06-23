@@ -16,8 +16,9 @@ class ProductController extends Controller
     public function getProductList()
     {
         $products = Product::getAllProducts();
+        $totalProducts = Product::countProduct();
         $categories = Category::orderBy('category')->get();
-        return view('product.list', compact('products', 'categories'));
+        return view('product.list', compact('products', 'categories', 'totalProducts'));
     }
 
     public function generatePDF()
@@ -52,7 +53,7 @@ class ProductController extends Controller
     {
         if ($type === 'ALL') {
             // Get all products
-            $products = Product::with('category')->get();
+            $products = Product::with('categoryRelation')->get();
             $typeLabel = 'Semua Tipe';
         } else {
             // Get the enum case based on the type parameter
@@ -63,12 +64,12 @@ class ProductController extends Controller
 
             // Get products of the specified type
             $products = Product::getProductByType($type)
-                ->load(['category']);
+                ->load(['categoryRelation']);
             $typeLabel = $productType->value;
         }
 
         // Load the PDF view
-        $pdf = PDF::loadView('product.pdf', [
+        $pdf = Pdf::loadView('product.pdf', [
             'products' => $products,
             'type' => $typeLabel
         ]);
@@ -119,8 +120,9 @@ class ProductController extends Controller
     public function searchProduct($keyword)
     {
         $products = Product::getProductByKeyword($keyword);
+        $totalProducts = Product::countProduct();
         $categories = Category::orderBy('category')->get();
-        return view('product.list', compact('products', 'categories'));
+        return view('product.list', compact('products', 'categories', 'totalProducts'));
     }
     public function getProductByCategory($product_category)
     {
@@ -158,15 +160,16 @@ class ProductController extends Controller
 
         // Untuk setiap kategori, ambil produknya
         foreach ($categories as $cat) {
-            $products = Product::where('product_category', $cat->id)->get();
+            $products = Product::where('category', $cat->id)->get();
             $cat->products = $products;
         }
 
         // Nama file sesuai kategori
         $filename = "Laporan_Kategori_" . $category->category . ".pdf";
 
-        // Kirim semua kategori dengan produk ke view
-        $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
+        // Kirim semua kategori dengan produk ke view (gunakan $categoryList agar masuk branch produk)
+        $categoryList = $categories;
+        $pdf = Pdf::loadView('product.category.pdf', compact('categoryList'));
         return $pdf->stream($filename);
     }
 
