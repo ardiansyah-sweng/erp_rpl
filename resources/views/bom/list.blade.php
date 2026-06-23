@@ -594,7 +594,7 @@
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer clearfix">
-                  
+                    {{ $boms->links('pagination::bootstrap-4') }}
                   </div>
 
         </div>
