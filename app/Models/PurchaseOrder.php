@@ -135,17 +135,14 @@ class PurchaseOrder extends Model
 
     public static function getPOLength($poNumber, $orderDate)
     {
-        $po = PurchaseOrder::getPurchaseOrderByID($poNumber);
+        $po = self::where('po_number', $poNumber)->first();
         
-        if (!$po || $po->count() === 0) {
+        if (!$po) {
             return null;
         }
     
-        // Ambil data PO pertama dari hasil paginate
-        $poData = $po->first();
-        
         $orderDate = Carbon::parse($orderDate);
-        $statusUpdateDate = Carbon::parse($poData->updated_at);
+        $statusUpdateDate = Carbon::parse($po->updated_at);
     
         return intval($orderDate->diffInDays($statusUpdateDate));
     }

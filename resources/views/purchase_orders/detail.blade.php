@@ -22,21 +22,21 @@
       <div class="card-body">
         <div id="purchase-order-details">
           <h6>ID Purchase Order</h6>
-          <h4>{{ $purchaseOrder->first()->po_number }}</h4>
+          <h4>{{ $purchaseOrder->po_number }}</h4>
           <h6>Supplier</h6>
-          <h4>{{ $purchaseOrder->first()->supplier->company_name }}</h4>
+          <h4>{{ $purchaseOrder->supplier->company_name ?? 'Supplier tidak ditemukan' }}</h4>
           <h6>Status</h6>
-          <h4>{{ $purchaseOrder->first()->status }}</h4>
+          <h4>{{ $purchaseOrder->status }}</h4>
           <h6>Last Updated Status</h6>
           @php
             $poLength = app()->make('App\Http\Controllers\PurchaseOrderController')
-                             ->getPOLength($purchaseOrder[0]->po_number, $purchaseOrder[0]->order_date);
+                             ->getPOLength($purchaseOrder->po_number, $purchaseOrder->order_date);
           @endphp
           <h4>{{ $poLength }} Days</h4>
           <h6>Order Date</h6>
-          <h4>{{ $purchaseOrder->first()->order_date }}</h4>
+          <h4>{{ $purchaseOrder->order_date }}</h4>
           <h6>Updated At</h6>
-          <h4>{{ Carbon\Carbon::parse($purchaseOrder->first()->updated_at)->format('Y-m-d') }}</h4>
+          <h4>{{ Carbon\Carbon::parse($purchaseOrder->updated_at)->format('Y-m-d') }}</h4>
 
           <h6 class="mt-4">Purchase Order Details</h6>
           <div class="table-responsive">
@@ -51,7 +51,7 @@
               </thead>
               <tbody>
                 @php $grandTotal = 0; @endphp
-                @foreach($purchaseOrder->first()->details as $detail)
+                @foreach($purchaseOrder->details as $detail)
                   @php
                     $subtotal = $detail->quantity * $detail->amount;
                     $grandTotal += $subtotal;
