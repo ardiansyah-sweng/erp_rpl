@@ -156,4 +156,7 @@ class Supplier extends Model
         return ['success' => true, 'message' => 'Supplier berhasil dihapus.'];
     }
 
+    public function purchaseOrders() {
+        return $this->hasMany(PurchaseOrder::class, 'supplier_id', 'supplier_id');
+    }
 }
