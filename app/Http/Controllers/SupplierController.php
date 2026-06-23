@@ -71,6 +71,7 @@ class SupplierController extends Controller
         $allSuppliers = Supplier::getSupplierWithPicCount();
         
         $total = count($allSuppliers);
+        $totalSuppliers = $total;
         $offset = ($page - 1) * $pageLength;
         
         $suppliersToShow = $allSuppliers->slice($offset, $pageLength)->values();
@@ -78,7 +79,7 @@ class SupplierController extends Controller
         $totalPages = (int) ceil($total / $pageLength);
         if ($totalPages < 1) $totalPages = 1;
         
-        return view('supplier.list', compact('suppliersToShow', 'total', 'page', 'pageLength', 'totalPages'));
+        return view('supplier.list', compact('suppliersToShow', 'total', 'totalSuppliers', 'page', 'pageLength', 'totalPages'));
     }
 
     public function listSuppliersWithZeroPic()
