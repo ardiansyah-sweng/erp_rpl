@@ -10,6 +10,10 @@ use App\Constants\SupplierColumns;
 class Supplier extends Model
 {
     use HasFactory;
+    protected $table = 'suppliers';
+    protected $primaryKey = 'supplier_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
     /**
      * Ambil seluruh data supplier beserta frekuensi order (jumlah purchase_orders per supplier)
      * @return \Illuminate\Support\Collection
@@ -93,21 +97,7 @@ class Supplier extends Model
             ->get();
     }
 
-    protected $table = null;
     protected $fillable = [];
-
-    protected $primaryKey = 'supplier_id';
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        // set table name from config and fillable from constant definitions
-        $this->table = config('db_tables.supplier') ?? 'suppliers';
-        $this->fillable = SupplierColumns::getFillable();
-    }
 
     public static function updateSupplier($supplier_id, array $data)//Sudah sesuai pada ERP RPL
     {
