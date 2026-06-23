@@ -374,9 +374,12 @@
             <div class="container-fluid">
                 <!--begin::Row-->
                 <div class="row align-items-center">
-                    <div class="col-sm-6 d-flex align-items-center">
-                        <h3 class="mb-0 me-2">Supplier Material</h3>
+                    <div class="col-sm-6 d-flex align-items-center gap-2">
+                        <h3 class="mb-0">Supplier Material</h3>
                         <a href="/supplier/material/add" class="btn btn-primary btn-sm">Tambah</a>
+                        <a href="{{ route('supplier.material.cetak-all-pdf') }}" class="btn btn-danger btn-sm" target="_blank">
+                            <i class="bi bi-file-pdf"></i> Cetak Seluruh Material
+                        </a>
                     </div>
 
                     <div class="col-sm-6">

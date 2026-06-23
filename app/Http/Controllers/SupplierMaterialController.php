@@ -126,20 +126,32 @@ public function searchSupplierMaterial(Request $request)
         ]);
     }
 
-    public function getSupplierMaterialByCategory($category, $supplier)
-    {
-        $results = DB::table('supplier_product')
-            ->where('supplier_id', $supplier)
-            ->where('product_id', 'LIKE', $category . '%')
-            ->select(
-                'supplier_id',
-                'company_name',
-                'product_id',
-                'product_name',
-                'base_price'
-            )
-            ->get();
+public function getSupplierMaterialByCategory($category, $supplier)
+     {
+         $results = DB::table('supplier_product')
+             ->where('supplier_id', $supplier)
+             ->where('product_id', 'LIKE', $category . '%')
+             ->select(
+                 'supplier_id',
+                 'company_name',
+                 'product_id',
+                 'product_name',
+                 'base_price'
+             )
+             ->get();
 
-        return response()->json($results);
-    }
+         return response()->json($results);
+     }
+
+     public function cetakPDFSeluruhMaterial()
+     {
+         $materials = SupplierMaterial::all();
+
+         if ($materials->isEmpty()) {
+             return redirect()->back()->with('error', 'Data supplier material tidak ditemukan.');
+         }
+
+         $pdf = Pdf::loadView('supplier.material.pdf-all', compact('materials'));
+         return $pdf->stream('data_seluruh_supplier_material_' . date('Y-m-d') . '.pdf');
+     }
 }

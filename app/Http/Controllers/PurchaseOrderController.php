@@ -124,6 +124,25 @@ class PurchaseOrderController extends Controller
         $suppliers = Supplier::all();
         return view('purchase_orders.list', compact('purchaseOrders', 'status', 'totalOrders', 'suppliers'));
     }
+    public function printPurchaseOrderToPDF($id)
+    {
+        $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($id);
+
+        if (!$purchaseOrder) {
+            return redirect()->back()->with('error', 'Purchase Order tidak ditemukan.');
+        }
+
+        return response()->json([
+            'po_number' => $purchaseOrder->po_number,
+            'supplier_id' => $purchaseOrder->supplier_id,
+            'total' => $purchaseOrder->total,
+            'branch_id' => $purchaseOrder->branch_id,
+            'order_date' => $purchaseOrder->order_date,
+            'status' => $purchaseOrder->status,
+            'message' => 'Purchase Order PDF ready'
+        ]);
+    }
+
     public function sendMailPurchaseOrder(Request $request)
     {
         $data = $request->all();

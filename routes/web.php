@@ -196,6 +196,7 @@ Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::clas
     ->name('purchase_orders.length');
 Route::get('/purchase-orders/report', [PurchaseOrderController::class, 'showReportForm'])->name('purchase_orders.report_form');
 Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePurchaseOrderPDF'])->name('purchase_orders.pdf');
+Route::get('/purchase-orders/print-pdf/{id}', [PurchaseOrderController::class, 'printPurchaseOrderToPDF'])->name('purchase_orders.print_pdf');
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
@@ -295,6 +296,9 @@ Route::delete('/assort-production/{id}', [AssortProductionController::class, 'de
 
 // Cetak PDF seluruh item/material yang dipasok oleh supplier tertentu
 Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::class, 'cetakPDF']);
+
+// Cetak PDF seluruh supplier material
+Route::get('/supplier-material/cetak-pdf', [SupplierMaterialController::class, 'cetakPDFSeluruhMaterial'])->name('supplier.material.cetak-all-pdf');
 
 Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
 
