@@ -223,19 +223,19 @@
                                     </tr>
                                     <tr>
                                         <th>Item Name</th>
-                                        <td>{{ $item->item_name ?? 'Tidak ada data' }}</td>
+                                        <td>{{ $item->name ?? 'Tidak ada data' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Measurement Unit</th>
-                                        <td>{{ $item->measurement_unit ?? 'Tidak ada data' }}</td>
+                                        <td>{{ $item->measurement ?? 'Tidak ada data' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Average Base Price</th>
-                                        <td>{{ $item->avg_base_price ?? 'Tidak ada data' }}</td>
+                                        <td>{{ $item->base_price ?? '0' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Selling Price</th>
-                                        <td>{{ $item->selling_price ?? 'Tidak ada data' }}</td>
+                                        <td>{{ $item->selling_price ?? '0' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Purchase Unit</th>
@@ -314,7 +314,7 @@
             });
         </script>
 
-        
+
 </body>
 
 </html>
