@@ -392,8 +392,38 @@
         </div>
         
         <div class="card mb-4">
-            <div class="card-header"><h3 class="card-title">List Table</h3></div>
-            <!-- /.card-header -->
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="card-title mb-0">List Table</h3>
+            </div>
+            <!-- Search Form -->
+            <div class="card-body pb-0">
+                <form action="{{ route('supplier.material') }}" method="GET" class="d-flex gap-2 mb-3">
+                    <div class="input-group" style="max-width: 420px;">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input
+                            type="text"
+                            id="search-supplier-material"
+                            name="search"
+                            class="form-control"
+                            placeholder="Cari supplier ID, nama perusahaan, product ID, nama produk..."
+                            value="{{ $keyword ?? '' }}"
+                            autocomplete="off"
+                        />
+                        @if(!empty($keyword))
+                        <a href="{{ route('supplier.material') }}" class="btn btn-outline-secondary" title="Reset pencarian">
+                            <i class="bi bi-x-circle"></i>
+                        </a>
+                        @endif
+                        <button type="submit" class="btn btn-primary">Cari</button>
+                    </div>
+                </form>
+                @if(!empty($keyword))
+                <div class="mb-2">
+                    <small class="text-muted">Menampilkan hasil pencarian untuk: <strong>"{{ $keyword }}"</strong> &mdash; {{ $materials->total() }} data ditemukan.</small>
+                </div>
+                @endif
+            </div>
+            <!-- /.Search Form -->
              <div class="card-body">
                 <table class="table table-bordered">
                     <thead>
