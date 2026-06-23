@@ -23,7 +23,15 @@ class PurchaseOrderController extends Controller
 
     public function getPurchaseOrderByID($po_number)
     {
-        $purchaseOrder = PurchaseOrder::getPurchaseOrderByID($po_number);
+        $purchaseOrder = PurchaseOrder::with(['supplier', 'details'])
+            ->where('po_number', $po_number)
+            ->first();
+
+        if (!$purchaseOrder) {
+            return redirect()->route('purchase.orders')
+                ->with('error', 'Purchase Order ' . $po_number . ' tidak ditemukan.');
+        }
+
         return view('purchase_orders.detail', compact('purchaseOrder'));
     }
     public function searchPurchaseOrder()
@@ -124,6 +132,7 @@ class PurchaseOrderController extends Controller
         $suppliers = Supplier::all();
         return view('purchase_orders.list', compact('purchaseOrders', 'status', 'totalOrders', 'suppliers'));
     }
+    
     public function deletePurchaseOrder($po_number)
     {
         $purchaseOrder = PurchaseOrder::where('po_number', $po_number)->first();
