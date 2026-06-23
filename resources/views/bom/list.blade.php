@@ -4,9 +4,10 @@
 
 @section('page-title')
 <h3 class="mb-0 me-2">Bill Of Material</h3>
+<span class="btn btn-primary btn-sm me-2">Total BOM: {{ $bomCount ?? 0 }}</span>
 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahBOM">Tambah Bill of Material</button>
 <a href="{{ route('bom.print') }}" class="btn btn-primary btn-sm ms-2">Cetak Bill Of Material</a>
-<!-- Modal Tambah Bill of Material -->
+
 <div class="modal fade" id="modalTambahBOM" tabindex="-1" aria-labelledby="modalTambahBOMLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
@@ -88,13 +89,13 @@
       <div class="card-body">
         @if(session('success'))
         <div class="alert alert-success">
-            {{ session('success') }}
+          {{ session('success') }}
         </div>
         @endif
 
         @if(session('error'))
         <div class="alert alert-danger">
-            {{ session('error') }}
+          {{ session('error') }}
         </div>
         @endif
 
@@ -146,7 +147,6 @@
             </table>
           </div>
 
-          <!-- Modal Detail BOM -->
           <div class="modal fade" id="bomModal" tabindex="-1" aria-labelledby="bomModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
