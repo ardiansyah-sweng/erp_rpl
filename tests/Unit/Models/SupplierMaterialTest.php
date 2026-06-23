@@ -841,10 +841,6 @@ class SupplierMaterialTest extends TestCase
         $this->assertEquals(0, $count);
     }
 
-    // ========================================================================
-    // TEST UNTUK FUNGSI countSupplierMaterialByCategory()
-    // ========================================================================
-
     /** @test */
     public function it_counts_material_by_category_and_supplier_correctly()
     {
