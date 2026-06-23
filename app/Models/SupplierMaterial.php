@@ -19,13 +19,11 @@ class SupplierMaterial extends Model
         'base_price',
     ];
 
-    // Mengambil semua data supplier material dengan pagination
     public static function getSupplierMaterial()
     {
         return DB::table('supplier_product')->paginate(10);
     }
 
-    // Mengambil data supplier material berdasarkan keyword pencarian
     public static function getSupplierMaterialByKeyword($keyword)
     {
         return DB::table('supplier_product')
@@ -36,13 +34,11 @@ class SupplierMaterial extends Model
             ->get();
     }
 
-    // Mengambil satu data supplier material berdasarkan ID
     public static function getSupplierMaterialById($id)
     {
         return DB::table('supplier_product')->where('id', $id)->first();
     }
 
-    // Memperbarui data supplier material berdasarkan ID
     public static function updateSupplierMaterial($id, array $data)
     {
         try {
@@ -54,7 +50,6 @@ class SupplierMaterial extends Model
         }
     }
 
-    // Menghitung jumlah supplier material dengan produk bertipe RM (distinct)
     public static function countSupplierMaterial()
     {
         return DB::table('supplier_product as sp')
@@ -67,7 +62,6 @@ class SupplierMaterial extends Model
     }
 
 
-    // Menambahkan data supplier material baru
     public static function addSupplierMaterial($data)
     {
         if (empty($data)) {
@@ -87,7 +81,6 @@ class SupplierMaterial extends Model
         ]);
     }
 
-    // Mencari supplier material berdasarkan keyword dengan pagination
     public static function searchSupplierMaterial($keyword)
     {
         return DB::table('supplier_product')
@@ -100,7 +93,6 @@ class SupplierMaterial extends Model
             ->paginate(10);
     }
 
-    // Menghitung jumlah supplier material yang cocok dengan keyword pencarian
     public static function countSupplierMaterialFoundByKeyword($keyword)
     {
         return DB::table('supplier_product')
@@ -111,7 +103,6 @@ class SupplierMaterial extends Model
             ->count();
     }
 
-    // Menghitung jumlah supplier material berdasarkan tipe produk dan supplier (distinct)
     public static function countSupplierMaterialByType($type, $supplierId)
     {
         return DB::table('supplier_product as sp')
@@ -124,7 +115,6 @@ class SupplierMaterial extends Model
             ->count(DB::raw('DISTINCT p.product_id'));
     }
 
-    // Menghitung jumlah supplier material bertipe RM milik supplier tertentu (distinct)
     public static function countSupplierMaterialByID($supplierID)
     {
         return DB::table('supplier_product as sp')
