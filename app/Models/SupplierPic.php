@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SupplierPic extends Model
 {
-    protected $table = 'supplier_pics'; // sesuaikan nama tabel
+    protected $table = 'supplier_pic';
 
     protected $fillable = ['name', 'email', 'phone_number', 'supplier_id'];
 
@@ -21,7 +21,7 @@ class SupplierPic extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_constants.table.supplier_pics');
+        $this->table = config('db_tables.supplier_pic', 'supplier_pic');
         $this->fillable = ['name', 'email', 'phone_number', 'supplier_id']; 
     }
 
