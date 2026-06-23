@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
@@ -18,6 +18,7 @@ class SupplierMaterial extends Model
         'product_name',
         'base_price',
     ];
+
     public static function getSupplierMaterial()
     {
         return DB::table('supplier_product')->paginate(10);
@@ -79,6 +80,7 @@ class SupplierMaterial extends Model
             'base_price' => $data['base_price'],
         ]);
     }
+
     public static function searchSupplierMaterial($keyword)
     {
         return DB::table('supplier_product')
@@ -124,7 +126,8 @@ class SupplierMaterial extends Model
             ->distinct('p.product_id')
             ->count(DB::raw('DISTINCT p.product_id'));
     }
-    
+
+    // Mengambil data supplier material berdasarkan tipe produk dan supplier
    public static function getSupplierMaterialByProductType($supplier_id, $product_type)
     {
         $allowedTypes = ['HFG', 'FG', 'RM'];
@@ -133,51 +136,65 @@ class SupplierMaterial extends Model
         }
 
         return DB::table('supplier_product as sp')
-            ->join('item as i', 'i.sku', '=', 'sp.product_id')
+            ->join('items as i', 'i.sku', '=', 'sp.product_id')
             ->join('products as p', 'p.product_id', '=', 'i.product_id')
             ->where('sp.supplier_id', $supplier_id)
-            ->where('p.product_type', $product_type)
+            ->where('p.type', $product_type)
             ->select(
                 'sp.supplier_id',
                 'sp.company_name',
                 'sp.product_id',
-                'p.product_name',
-                'p.product_type',
+                'p.name as product_name',
+                'p.type as product_type',
                 'sp.base_price',
-                'i.item_name',
-                'i.measurement_unit',
+                'i.name as item_name',
+                'i.measurement as measurement_unit',
                 'i.stock_unit'
             )
             ->get();
         }
 
+    // Mengambil data supplier material berdasarkan kategori dan supplier
     public static function getSupplierMaterialByCategory($kategori, $supplier)
     {
         return DB::table('supplier_product as sp')
             // Join item berdasarkan SKU dengan supplier_product
-            ->join('item as i', 'i.sku', '=', 'sp.product_id')
+            ->join('items as i', 'i.sku', '=', 'sp.product_id')
             // Join products
             ->join('products as p', 'p.product_id', '=', 'i.product_id')
             // Join categories
-            ->join('categories as c', 'p.product_category', '=', 'c.id')
+            ->join('categories as c', 'p.category', '=', 'c.id')
             ->where('c.id', $kategori)
             ->where('sp.supplier_id', $supplier)
             ->select(
                 'i.id as item_id',
                 'i.sku',
-                'i.item_name',
+                'i.name as item_name',
                 'i.product_id',
-                'sp.product_id',
-                'p.product_name',
+                'sp.product_id as sp_product_id',
+                'p.name as product_name',
                 'c.id as category_id',
                 'c.category as category_name',
-                'p.product_type',
+                'p.type as product_type',
                 'sp.supplier_id',
                 'sp.company_name',
                 'sp.base_price',
-                'i.measurement_unit',
+                'i.measurement as measurement_unit',
                 'i.stock_unit'
             )
             ->get();
+    }
+
+    // Menghitung jumlah supplier material berdasarkan kategori dan supplier (distinct)
+    public static function countSupplierMaterialByCategory($kategory, $supplier)
+    {
+        return DB::table('supplier_product as sp')
+            ->join('products as p', function ($join) {
+                $join->on(DB::raw('LEFT(sp.product_id, LOCATE("-", sp.product_id) - 1)'), '=', 'p.product_id');
+            })
+            ->where('p.category', $kategory)
+            ->where('sp.supplier_id', $supplier)
+            ->distinct('p.product_id')
+            ->count(DB::raw('DISTINCT p.product_id'));
     }
 }

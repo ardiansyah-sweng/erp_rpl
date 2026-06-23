@@ -396,7 +396,7 @@
 
       <div class="card mb-4">
         <div class="card-header">
-          <h3 class="card-title">List Table</h3>
+          <h3 class="card-title">List Table <span class="badge bg-secondary ms-2">Total Item: {{ $itemCount }}</span></h3>
           <form action="{{ route('item.list') }}" method="GET" class="d-flex ms-auto">
             <!-- Search bar berada di ujung kanan -->
             <div class="input-group input-group-sm ms-auto" style="width: 450px;">
@@ -441,9 +441,9 @@
               <tr id="row-{{ $item->id }}">
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->sku }}</td>
-                <td>{{ $item->item_name }}</td>
+                <td>{{ $item->name }}</td>
                 <td>{{ $item->unit?->unit_name ?? '-' }}</td>
-                <td>{{ $item->avg_base_price }}</td>
+                <td>{{ $item->avg_base_price ?? '0' }}</td>
                 <td>{{ $item->selling_price }}</td>
                 <td>{{ $item->created_at }}</td>
                 <td>{{ $item->updated_at }}</td>
