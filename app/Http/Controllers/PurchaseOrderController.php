@@ -13,6 +13,19 @@ use App\Constants\Messages;
 
 class PurchaseOrderController extends Controller
 {
+    public function deletePurchaseOrder($po_number)
+    {
+        $po = PurchaseOrder::where('po_number', $po_number)->first();
+
+        if (!$po) {
+            return redirect()->route('purchase.orders')->with('error', 'Purchase Order tidak ditemukan.');
+        }
+
+        $po->delete();
+
+        return redirect()->route('purchase.orders')->with('success', 'Purchase Order ' . $po_number . ' berhasil dihapus.');
+    }
+
     public function getPurchaseOrder()
     {
         $purchaseOrders = PurchaseOrder::getAllPurchaseOrders();
