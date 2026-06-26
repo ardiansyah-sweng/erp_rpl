@@ -1,3 +1,5 @@
+<?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Supplier;
@@ -182,10 +184,17 @@ class SupplierPIController extends Controller
 
     public function cetakPdf()
     {
-        // ambil semua PIC beserta relasi supplier, tanpa limit
         $pics = SupplierPic::with('supplier')->get();
 
         $data = [
+            'pics' => $pics,
+        ];
+
+        $pdf = Pdf::loadView('supplier.pic.pdfpic', $data)
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->stream('PIC-Supplier-Semua.pdf');
+    }
 
     public function getSupplierPicById($supplier_id)
     {
