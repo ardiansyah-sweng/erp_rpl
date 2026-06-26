@@ -7,17 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SupplierPic extends Model
 {
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    protected $table = 'supplier_pic'; // sesuaikan nama tabel
-=======
-    protected $table = 'supplier_pic';
-
->>>>>>> origin/development
-=======
-    protected $table = 'supplier_pics'; // sesuaikan nama tabel
-
->>>>>>> Stashed changes
+    protected $table = 'supplier_pics';
     protected $fillable = ['name', 'email', 'phone_number', 'supplier_id'];
 
     protected $primaryKey = 'id';
@@ -32,16 +22,8 @@ class SupplierPic extends Model
 
         parent::__construct($attributes);
 
-<<<<<<< HEAD
-
-
-        $this->table = config('db_constants.table.supplier_pics');
-        $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? []);
-
-=======
-        $this->table = config('db_tables.supplier_pic', 'supplier_pic');
-        $this->fillable = ['name', 'email', 'phone_number', 'supplier_id']; 
->>>>>>> origin/development
+        $this->table = config('db_tables.supplier_pic', 'supplier_pics');
+        $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? ['name', 'email', 'phone_number', 'supplier_id']);
     }
 
 

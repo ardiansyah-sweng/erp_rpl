@@ -202,12 +202,7 @@ Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderCo
 
 // supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
-<<<<<<< HEAD
-Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])
-    ->name('supplier.pic.update'); // tanbahkan update
-=======
 Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])->name('supplier.pic.update');
->>>>>>> origin/development
 Route::get('/supplier/pic/list', function () {
     $pics = App\Models\SupplierPic::getSupplierPICAll(10);
 
@@ -230,6 +225,7 @@ Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
 
 Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
 Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
+Route::get('/item/{id}', [ItemController::class, 'getItemById'])->name('item.detail');
 Route::get('/item/{id}', [ItemController::class, 'getItemById']);
 Route::get('/items/report', [ItemController::class, 'exportAllToPdf'])->name('item.report');
 Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']);
@@ -333,12 +329,7 @@ Route::post('/assort-production/add', [AssortProductionController::class, 'addPr
 
 Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
 Route::post('/supplier/add', [SupplierController::class, 'AddSuplier'])->name('supplier.add');
-<<<<<<< Updated upstream
 Route::get(
     '/supplier-material/category/{category}/{supplier}',
     [SupplierMaterialController::class, 'getSupplierMaterialByCategory']
 );
-=======
-Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
-Route::post('/supplier/add', [SupplierController::class, 'AddSuplier'])->name('supplier.add');
->>>>>>> Stashed changes

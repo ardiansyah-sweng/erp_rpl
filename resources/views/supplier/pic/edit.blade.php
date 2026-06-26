@@ -1,121 +1,133 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ERP RPL UAD | Edit PIC Supplier</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="title" content="ERP RPL UAD | Edit PIC Supplier" />
-    <meta name="author" content="ColorlibHQ" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" crossorigin="anonymous" />
-    <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.css') }}" />
-    </head>
-  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
-    <div class="app-wrapper">
-      <nav class="app-header navbar navbar-expand bg-body">
-        <div class="container-fluid">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"><i class="bi bi-list"></i></a>
-            </li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
-          </ul>
-        </div>
-      </nav>
-      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
-        <div class="sidebar-brand">
-          <a href="/dashboard" class="brand-link">
-            <img src="{{ asset('assets/dist/assets/img/LogoRPL.png') }}" alt="RPL" class="brand-image opacity-75 shadow" />
-            <span class="brand-text fw-light">ERP RPL UAD</span>
-          </a>
-        </div>
-        <div class="sidebar-wrapper">
-          <nav class="mt-2">
-            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu">
-              <li class="nav-item"><a href="/dashboard" class="nav-link"><i class="nav-icon bi bi-speedometer"></i><p>Dashboard</p></a></li>
-              <li class="nav-item menu-open">
-                <a href="#" class="nav-link active"><i class="nav-icon bi bi-person-circle"></i><p>Supplier<i class="nav-arrow bi bi-chevron-right"></i></p></a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item"><a href="/supplier/pic/list" class="nav-link active"><i class="nav-icon bi bi-circle"></i><p>List PIC supplier</p></a></li>
+@extends('layouts.app')
+
+@section('title', 'Edit PIC Supplier')
+
+@section('page-title')
+<h3 class="mb-0">Edit PIC Supplier</h3>
+@endsection
+
+@section('breadcrumb')
+<li class="breadcrumb-item active" aria-current="page">Edit PIC Supplier</li>
+@endsection
+
+@section('content')
+<div class="row">
+    <div class="col-12">
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
                 </ul>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </aside>
-      <main class="app-main">
-        <div class="app-content-header">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Edit PIC Supplier</h3></div>
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active">Edit PIC Supplier</li>
-                </ol>
-              </div>
             </div>
-          </div>
-        </div>
+        @endif
 
-        <div class="app-content">
-          <div class="container-fluid">
-            <div class="card card-primary card-outline">
-              <div class="card-body">
-                <form id="picForm" action="{{ route('supplier.pic.update', $pic->id) }}" method="POST" enctype="multipart/form-data">
-                  @csrf
-                  <!-- @method('PUT') -->
-
-                  <div class="mb-3">
-                    <label for="supplier_id" class="form-label">ID Supplier</label>
-                    <input type="text" class="form-control bg-light" id="supplier_id" name="supplier_id" value="{{ $pic->supplier_id }}" readonly>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="pic_name" class="form-label">Nama PIC</label>
-                    <input type="text" class="form-control" id="pic_name" name="name" value="{{ old('name', $pic->name) }}" required>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $pic->email) }}" required>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="telephone" class="form-label">Telephone</label>
-                    <input type="text" class="form-control" id="telephone" name="phone_number" value="{{ old('phone_number', $pic->phone_number) }}" required>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="assignment_date" class="form-label">Assignment Date</label>
-                    <input type="date" class="form-control" id="assignment_date" name="assigned_date" value="{{ \Carbon\Carbon::parse($pic->assigned_date)->format('Y-m-d') }}" required>
-                  </div>
-
-                  <div class="mb-3">
-                    <label class="form-label d-block">Foto PIC</label>
-                    <img src="{{ $pic->photo ? asset('storage/foto_pic/'.$pic->photo) : asset('assets/dist/assets/img/avatar_default.png') }}" class="img-thumbnail mb-2" style="width: 100px;">
-                    <input type="file" class="form-control" id="pic_photo" name="photo">
-                  </div>
-
-                  <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="status" name="status" value="1" {{ $pic->status ? 'checked' : '' }}>
-                    <label class="form-check-label" for="status">Status Aktif</label>
-                  </div>
-
-                  <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Update Data</button>
-                    <a href="/supplier/pic/list" class="btn btn-secondary">Back to List</a>
-                  </div>
-                </form>
-              </div>
+        <form id="picForm" action="{{ route('supplier.pic.updateData', $pic->id) }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+            @csrf
+            <div class="mb-3">
+                <label for="supplier_id" class="form-label">ID Supplier</label>
+                <input type="text" class="form-control" id="supplier_id" name="supplier_id" value="{{ $pic->supplier_id }}" readonly>
+                <span id="supplierIdError" class="error"></span>
             </div>
-          </div>
-        </div>
-      </main>
-      </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
-    <script src="{{ asset('assets/dist/js/adminlte.js') }}"></script>
-  </body>
-</html>
+            <div class="mb-3">
+                <label for="supplier_name" class="form-label">Nama Supplier</label>
+                <input type="text" class="form-control" id="supplier_name" name="supplier_name" value="{{ $pic->supplier_name }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="pic_name" class="form-label">Nama PIC (Person In Charge)</label>
+                <input type="text" class="form-control" id="pic_name" name="pic_name" value="{{ $pic->name }}" readonly>
+                <span id="picNameError" class="error"></span>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ $pic->email }}" required>
+                <span id="emailError" class="error"></span>
+            </div>
+            <div class="mb-3">
+                <label for="telephone" class="form-label">Nomor Telepon</label>
+                <input type="text" class="form-control" id="telephone" name="telephone" value="{{ $pic->phone_number }}" required>
+                <span id="telephoneError" class="error"></span>
+            </div>
+            <div class="mb-3">
+                <label for="assignment_date" class="form-label">Assignment Date</label>
+                <input type="date" class="form-control" id="assignment_date" name="assignment_date" value="{{ \Carbon\Carbon::parse($pic->assigned_date)->format('Y-m-d') }}" readonly>
+                <span id="assignmentDateError" class="error"></span>
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <a href="{{ route('supplier.pic.list') }}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('#supplier_id').on('input', function() {
+            let sid = $(this).val();
+            if (sid) {
+                $.get('/api/supplier/' + sid, function(response) {
+                    if (response.status === 'success') {
+                        $('#supplier_name').val(response.name);
+                        $('#supplierIdError').html("");
+                    }
+                }).fail(function() {
+                    $('#supplier_name').val("");
+                });
+            } else {
+                $('#supplier_name').val("");
+            }
+        });
+    });
+
+    function validateForm() {
+        let isValid = true;
+        $('#supplierIdError').html("");
+        $('#picNameError').html("");
+        $('#emailError').html("");
+        $('#telephoneError').html("");
+        $('#assignmentDateError').html("");
+
+        let supplierId = $('#supplier_id').val();
+        let picName = $('#pic_name').val();
+        let email = $('#email').val();
+        let telephone = $('#telephone').val();
+        let assignmentDate = $('#assignment_date').val();
+
+        if (supplierId === null || supplierId.trim() === "") {
+            $('#supplierIdError').html("<span style=\"color: red;\">ID Supplier harus diisi.</span>");
+            isValid = false;
+        }
+        if (picName === null || picName.trim() === "") {
+            $('#picNameError').html("<span style=\"color: red;\">Nama PIC harus diisi.</span>");
+            isValid = false;
+        }
+        if (email === null || email.trim() === "") {
+            $('#emailError').html("<span style=\"color: red;\">Email harus diisi.</span>");
+            isValid = false;
+        }
+        if (telephone === null || telephone.trim() === "") {
+            $('#telephoneError').html("<span style=\"color: red;\">Nomor Telephone harus diisi.</span>");
+            isValid = false;
+        }
+        if (assignmentDate === null || assignmentDate.trim() === "") {
+            $('#assignmentDateError').html("<span style=\"color: red;\">Tanggal penugasan harus diisi.</span>");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+</script>
+@endpush
