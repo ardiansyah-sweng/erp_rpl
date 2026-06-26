@@ -5,9 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\GoodsReceiptNote;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class GoodsReceiptNoteController extends Controller
 {
+    public function listGoodsReceiptNotes()
+    {
+        $tableName = (new GoodsReceiptNote())->getTable();
+
+        $grns = DB::table($tableName)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('goods_receipt_note.list', compact('grns'));
+    }
+
     public function addGoodsReceiptNote(Request $request)
     {
         // Validasi input sesuai kolom pada tabel

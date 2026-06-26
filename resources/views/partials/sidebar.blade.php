@@ -88,6 +88,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('grn.list') }}" class="nav-link @if(request()->routeIs('grn.*')) active @endif">
+                        <i class="nav-icon bi bi-receipt"></i>
+                        <p>Goods Receipt Note</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('branches.index') }}" class="nav-link @if(request()->routeIs('branches.*') || request()->routeIs('branch.*')) active @endif">
                         <i class="nav-icon bi bi-clipboard-fill"></i>
                         <p>Branch</p>

@@ -316,6 +316,7 @@ Route::get('/bom/detail/{id}', function ($id) {
 })->name('bom.detail');
 
 // Goods Receipt Notes
+Route::get('/goods-receipt-note', [GoodsReceiptNoteController::class, 'listGoodsReceiptNotes'])->name('grn.list');
 Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote']);
 
 Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote']);
