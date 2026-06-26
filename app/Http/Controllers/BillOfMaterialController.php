@@ -98,11 +98,18 @@ class BillOfMaterialController extends Controller
         ]);
     }
 
-    public function getBomList()
+    public function getBomList(Request $request)
     {
-        $boms = BillOfMaterial::getBillOfMaterial();
+        $keyword = $request->input('search');
+
+        if ($keyword) {
+            $boms = BillOfMaterial::SearchOfBillMaterial($keyword);
+        } else {
+            $boms = BillOfMaterial::getBillOfMaterial();
+        }
+
         $bomCount = BillOfMaterial::count();
-        return view('bom.list', compact('boms', 'bomCount'));
+        return view('bom.list', compact('boms', 'bomCount', 'keyword'));
     }
 
     public function printBOM()
