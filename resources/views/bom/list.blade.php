@@ -136,6 +136,7 @@
                   <td>
                     <button class="btn btn-info btn-sm" onclick="getDetail({{ $bom->id }})">Lihat</button>
                     <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                    <button class="btn btn-danger btn-sm" onclick="deleteBom({{ $bom->id }}, '{{ $bom->bom_name }}')">Delete</button>
                   </td>
                 </tr>
                 @empty
@@ -212,6 +213,24 @@ function getDetail(id) {
       modal.show();
     })
     .catch(err => alert('Gagal mengambil data'));
+}
+
+function deleteBom(id, name) {
+  if (!confirm('Apakah Anda yakin ingin menghapus BOM "' + name + '"?')) return;
+
+  fetch(`/bill-of-material/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'X-CSRF-TOKEN': '{{ csrf_token() }}',
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message);
+    window.location.reload();
+  })
+  .catch(err => alert('Gagal menghapus data'));
 }
 </script>
 @endpush
