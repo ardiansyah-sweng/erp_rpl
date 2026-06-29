@@ -23,7 +23,8 @@
           <label for="po_number">PO Number</label>
           <input type="text" class="form-control" id="po_number" value="POO0002" readonly>
         </div>
-        <form>
+        <form action="{{ route('goods_receipt_note.store') }}" method="POST">
+          @csrf
           <div class="form-group mb-3">
             <label for="branch">Branch</label>
             <input type="text" class="form-control" id="branch" value="Yogyakarta" readonly>

@@ -79,4 +79,28 @@ class GoodsReceiptNoteController extends Controller
             'data' => $grn
         ], 200);
     }
+
+    public function storeFromForm(Request $request)
+    {
+        $validated = $request->validate([
+            'po_number' => 'required|string|exists:purchase_order,po_number',
+            'items' => 'required|array|min:1',
+            'items.*.product_id' => 'required|string',
+            'items.*.delivery_date' => 'required|date',
+            'items.*.delivered_quantity' => 'required|integer|min:0',
+            'items.*.comments' => 'nullable|string',
+        ]);
+
+        foreach ($validated['items'] as $item) {
+            GoodsReceiptNote::addGoodsReceiptNote([
+                'po_number' => $validated['po_number'],
+                'product_id' => $item['product_id'],
+                'delivery_date' => $item['delivery_date'],
+                'delivered_quantity' => $item['delivered_quantity'],
+                'comments' => $item['comments'] ?? null,
+            ]);
+        }
+
+        return redirect()->route('purchase.orders')->with('success', 'Goods Receipt Note berhasil disimpan.');
+    }
 }

@@ -317,6 +317,7 @@ Route::get('/bom/detail/{id}', function ($id) {
 
 // Goods Receipt Notes
 Route::post('/goods-receipt-note', [GoodsReceiptNoteController::class, 'addGoodsReceiptNote']);
+Route::post('/goods_receipt_note/store', [GoodsReceiptNoteController::class, 'storeFromForm'])->name('goods_receipt_note.store');
 
 Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'updateGoodsReceiptNote']);
 
