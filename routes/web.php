@@ -158,6 +158,14 @@ Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePu
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
 Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderController::class, 'sendMailPurchaseOrder'])->name('purchase_orders.send_email');
+// Route untuk menampilkan halaman edit
+Route::get('/purchase_orders/edit/{encrypted_id}', function ($encrypted_id) {
+    $id = \App\Helpers\EncryptionHelper::decrypt($encrypted_id);
+    return app()->make(PurchaseOrderController::class)->edit($id);
+})->name('purchase.orders.edit');
+
+// Route untuk memproses update data
+Route::put('/purchase_orders/update/{po_number}', [PurchaseOrderController::class, 'update'])->name('purchase.orders.update');
 
 # supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
