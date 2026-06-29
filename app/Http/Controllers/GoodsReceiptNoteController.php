@@ -19,6 +19,22 @@ class GoodsReceiptNoteController extends Controller
             'comments'           => 'nullable|string',
         ]);
 
+        $po = DB::table('purchase_orders')->where('po_number', $request->po_number)->first();
+
+        if (!$po) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Purchase Order tidak ditemukan!'
+            ], 422);
+        }
+
+        if ($request->delivery_date < $po->po_date) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tanggal penerimaan tidak boleh sebelum tanggal PO dibuat (' . $po->po_date . ')!'
+            ], 422);
+        }
+
         $poItem = DB::table('purchase_order_details')
                     ->where('po_number', $request->po_number)
                     ->where('product_id', $request->product_id)
