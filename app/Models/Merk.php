@@ -122,21 +122,13 @@ class Merk extends Model
      * Get all merk with search functionality and pagination.
      * 
      * @param string|null $search
-     * @param string|null $status
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public static function getAllMerk(?string $search = null, ?string $status = null)
+    public static function getAllMerk(?string $search = null)
     {
-        $query = self::search($search);
-
-        if ($status === 'active') {
-            $query->active();
-        } elseif ($status === 'inactive') {
-            $query->inactive();
-        }
-
-        return $query->orderBy(MerkColumns::CREATED_AT, 'desc')
-                     ->paginate(config('pagination.merk_per_page', 15));
+        return self::search($search)
+                   ->orderBy(MerkColumns::CREATED_AT, 'desc')
+                   ->paginate(config('pagination.merk_per_page', 15));
     }
 
     /**
