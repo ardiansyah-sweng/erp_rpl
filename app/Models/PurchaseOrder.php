@@ -236,4 +236,51 @@ class PurchaseOrder extends Model
         return self::where('status', $status)->count();
     }
 
+    /**
+     * Delete purchase order and its details in a transaction
+     */
+    public static function deletePurchaseOrder($poNumber)
+    {
+        DB::beginTransaction();
+        try {
+            PurchaseOrderDetail::where('po_number', $poNumber)->delete();
+            $deleted = self::where('po_number', $poNumber)->delete();
+            DB::commit();
+            return $deleted;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+    /**
+     * Update the status of a purchase order
+     */
+    public static function updateStatus($poNumber, $newStatus)
+    {
+        $po = self::where('po_number', $poNumber)->first();
+        if ($po) {
+            $po->status = $newStatus;
+            $po->save();
+            return $po;
+        }
+        return null;
+    }
+
+    /**
+     * Accessor to trim trailing spaces from status (handles CHAR columns)
+     */
+    public function getStatusAttribute($value)
+    {
+        return is_string($value) ? trim($value) : $value;
+    }
+
+    /**
+     * Mutator to trim trailing spaces from status when saving
+     */
+    public function setStatusAttribute($value)
+    {
+        $this->attributes['status'] = is_string($value) ? trim($value) : $value;
+    }
+
 }

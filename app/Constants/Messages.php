@@ -82,6 +82,8 @@ class Messages
     public const PO_NOT_FOUND = 'Purchase Order tidak ditemukan.';
     public const PO_DELETED = 'Purchase Order berhasil dihapus.';
     public const PO_DELETE_FAILED = 'Gagal menghapus Purchase Order: ';
+    public const PO_STATUS_UPDATED = 'Status Purchase Order berhasil diperbarui.';
+    public const PO_STATUS_UPDATE_FAILED = 'Gagal memperbarui status Purchase Order: ';
 
     // General
     public const ACTION_FAILED = 'Aksi gagal dilakukan!';

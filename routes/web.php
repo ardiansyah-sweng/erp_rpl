@@ -198,6 +198,8 @@ Route::get('/purchase-orders/report', [PurchaseOrderController::class, 'showRepo
 Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePurchaseOrderPDF'])->name('purchase_orders.pdf');
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
+Route::delete('/purchase_orders/delete/{encrypted_id}', [PurchaseOrderController::class, 'deletePurchaseOrder'])->name('purchase_orders.delete');
+Route::post('/purchase_orders/status/{encrypted_id}', [PurchaseOrderController::class, 'updateStatus'])->name('purchase_orders.update_status');
 Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
 Route::delete('/purchase_orders/{po_number}', [PurchaseOrderController::class, 'destroy'])->name('purchase_orders.destroy');
 Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderController::class, 'sendMailPurchaseOrder'])->name('purchase_orders.send_email');
@@ -284,6 +286,7 @@ Route::get('/production', [AssortProductionController::class, 'getProduction']);
 
 Route::get('/bom/list', [BillOfMaterialController::class, 'getBomList'])->name('bom.list');
 Route::get('/bom/print', [BillOfMaterialController::class, 'printBOM'])->name('bom.print');
+Route::get('/bom/status/{status}', [BillOfMaterialController::class, 'getBomByStatus'])->name('bom.by.status');
 
 // production
 Route::get('/production', [AssortProductionController::class, 'getProduction']);

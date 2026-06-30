@@ -111,10 +111,10 @@ use App\Helpers\EncryptionHelper;
               <option value="">Pilih Status...</option>
               <option value="all">Tampilkan Semua</option>
               @php
-                $statuses = ['Submitted', 'Approved', 'In Review', 'Revised', 'Closed', 'Cancelled', 'Draft', 'Fully Delivered'];
+                $statuses = ['Submitted', 'Approved', 'In Review', 'Revised', 'Closed', 'Cancelled', 'Draft', 'Fully Delivered', 'Partially Delivered', 'Rejected'];
               @endphp
               @foreach ($statuses as $stat)
-                <option value="{{ $stat }}" {{ (isset($status) && $status == $stat) ? 'selected' : '' }}>
+                <option value="{{ $stat }}" {{ (isset($status) && trim($status) == $stat) ? 'selected' : '' }}>
                   {{ $stat }}
                 </option>
               @endforeach
@@ -151,20 +151,19 @@ use App\Helpers\EncryptionHelper;
             @forelse($purchaseOrders as $index => $order)
             <tr class="align-middle">
               <td>{{ $index + 1 }}</td>
-              <td><a href="/purchase_orders/detail/{{ EncryptionHelper::encrypt($order->po_number) }}">{{ $order->po_number }}</a></td>
+              <td><a href="{{ route('purchase.orders.detail', EncryptionHelper::encrypt($order->po_number)) }}">{{ $order->po_number }}</a></td>
               <td><a href="#">{{ $order->supplier ? $order->supplier->company_name : 'Supplier not found' }}</a></td>
               <td>Rp{{ number_format($order->total, 0, ',', '.') }}</td>
               <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d M Y') }}</td>
               <td>{{ $order->status }}</td>
               <td>
                 <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                <form action="{{ route('purchase_orders.destroy', $order->po_number) }}" method="POST" class="d-inline"
-                      onsubmit="return confirm('Yakin ingin menghapus PO {{ $order->po_number }}?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                <form action="{{ route('purchase_orders.delete', EncryptionHelper::encrypt($order->po_number)) }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus Purchase Order ini?');">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                 </form>
-                <a href="/purchase_orders/detail/{{ EncryptionHelper::encrypt($order->po_number) }}" class="btn btn-sm btn-info">Detail</a>
+                <a href="{{ route('purchase.orders.detail', EncryptionHelper::encrypt($order->po_number)) }}" class="btn btn-sm btn-info">Detail</a>
                 <a href="goods_receipt_note/add" class="btn btn-sm btn-warning">GRN</a>
                 <a href="goods_receipt_note/detail" class="btn btn-sm btn-success">Detail GRN</a>
               </td>
@@ -243,39 +242,7 @@ use App\Helpers\EncryptionHelper;
     });
   }
 
-  document.getElementById('skuSearch').addEventListener('input', function() {
-    var filter = this.value.toLowerCase();
-    var supplierId = document.getElementById('supplier_id').value;
-    var itemsList = items[supplierId] || {};
-    var skuOptions = document.getElementById('sku_id');
-    skuOptions.innerHTML = '';
-    if (filter.length > 0 && itemsList) {
-      for (var sku in itemsList) {
-        var item = itemsList[sku];
-        if (item.name.toLowerCase().includes(filter)) {
-          skuOptions.innerHTML += '<option value="' + sku + '">' + sku + ' - ' + item.name + '</option>';
-        }
-      }
-      skuOptions.style.display = filter.length > 0 ? 'block' : 'none';
-    } else {
-      skuOptions.style.display = 'none';
-    }
-  });
 
-  document.getElementById('sku_id').addEventListener('change', function() {
-    var selectedOption = this.options[this.selectedIndex];
-    var sku = selectedOption.value;
-    var supplierId = document.getElementById('supplier_id').value;
-    var item = items[supplierId] ? items[supplierId][sku] : null;
-    if (item) {
-      document.getElementById('item_name').value = item.name;
-      document.getElementById('unit_price').value = item.price;
-    } else {
-      document.getElementById('item_name').value = '';
-      document.getElementById('unit_price').value = '';
-    }
-    document.getElementById('sku_id').style.display = 'none';
-  });
 
   $('#supplier_id').on('change', function() {
     var supplierId = $(this).val();
@@ -480,7 +447,7 @@ use App\Helpers\EncryptionHelper;
         if (selectedStatus === 'all') {
           window.location.href = "{{ route('purchase.orders') }}";
         } else {
-          window.location.href = "/purchase-order/status/" + selectedStatus;
+          window.location.href = "{{ url('/purchase-order/status') }}/" + selectedStatus;
         }
       });
     }

@@ -116,7 +116,9 @@ class PurchaseOrderController extends Controller
     }
     public function getPurchaseOrderByStatus($status)
     {
-        $purchaseOrders = \App\Models\PurchaseOrder::where('status', $status)
+        $status = trim($status);
+        $purchaseOrders = \App\Models\PurchaseOrder::with('supplier')
+                                      ->where('status', $status)
                                       ->latest('order_date')
                                       ->paginate(10);
 
@@ -169,6 +171,34 @@ class PurchaseOrderController extends Controller
 
         } catch (\Exception $e) {
             return response()->json(['error' => 'Server gagal mengirim email: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function deletePurchaseOrder($encrypted_id)
+    {
+        $id = \App\Helpers\EncryptionHelper::decrypt($encrypted_id);
+
+        try {
+            PurchaseOrder::deletePurchaseOrder($id);
+            return redirect()->route('purchase.orders')->with('success', Messages::PO_DELETED);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', Messages::PO_DELETE_FAILED . $e->getMessage());
+        }
+    }
+
+    public function updateStatus(Request $request, $encrypted_id)
+    {
+        $id = \App\Helpers\EncryptionHelper::decrypt($encrypted_id);
+
+        $request->validate([
+            'status' => 'required|string',
+        ]);
+
+        try {
+            PurchaseOrder::updateStatus($id, $request->status);
+            return redirect()->back()->with('success', Messages::PO_STATUS_UPDATED);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', Messages::PO_STATUS_UPDATE_FAILED . $e->getMessage());
         }
     }
 }

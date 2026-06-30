@@ -13,6 +13,20 @@
 @endsection
 
 @section('content')
+@if (session('success'))
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif
+
+@if (session('error'))
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ session('error') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif
+
 <div class="row">
   <div class="col-md-12">
     <div class="card card-primary">
@@ -71,6 +85,66 @@
                 </tr>
               </tfoot>
             </table>
+          </div>
+
+          <div class="mt-4 border-top pt-3 d-flex gap-2">
+            @php
+              $currentStatus = $purchaseOrder->first()->status;
+              $encryptedId = \App\Helpers\EncryptionHelper::encrypt($purchaseOrder->first()->po_number);
+            @endphp
+
+            @if ($currentStatus == 'Draft')
+              <form action="{{ route('purchase_orders.update_status', $encryptedId) }}" method="POST" class="d-inline">
+                @csrf
+                <input type="hidden" name="status" value="Submitted">
+                <button type="submit" class="btn btn-primary">Submit PO</button>
+              </form>
+              <form action="{{ route('purchase_orders.update_status', $encryptedId) }}" method="POST" class="d-inline">
+                @csrf
+                <input type="hidden" name="status" value="Cancelled">
+                <button type="submit" class="btn btn-secondary">Cancel PO</button>
+              </form>
+            @endif
+
+            @if (in_array($currentStatus, ['Submitted', 'In Review', 'Revised']))
+              <form action="{{ route('purchase_orders.update_status', $encryptedId) }}" method="POST" class="d-inline">
+                @csrf
+                <input type="hidden" name="status" value="Approved">
+                <button type="submit" class="btn btn-success">Approve PO</button>
+              </form>
+              <form action="{{ route('purchase_orders.update_status', $encryptedId) }}" method="POST" class="d-inline">
+                @csrf
+                <input type="hidden" name="status" value="Rejected">
+                <button type="submit" class="btn btn-danger">Reject PO</button>
+              </form>
+              @if ($currentStatus != 'In Review')
+                <form action="{{ route('purchase_orders.update_status', $encryptedId) }}" method="POST" class="d-inline">
+                  @csrf
+                  <input type="hidden" name="status" value="In Review">
+                  <button type="submit" class="btn btn-warning text-white">Review PO</button>
+                </form>
+              @endif
+              @if ($currentStatus != 'Revised')
+                <form action="{{ route('purchase_orders.update_status', $encryptedId) }}" method="POST" class="d-inline">
+                  @csrf
+                  <input type="hidden" name="status" value="Revised">
+                  <button type="submit" class="btn btn-info text-white">Request Revision</button>
+                </form>
+              @endif
+            @endif
+
+            @if ($currentStatus == 'Approved')
+              <form action="{{ route('purchase_orders.update_status', $encryptedId) }}" method="POST" class="d-inline">
+                @csrf
+                <input type="hidden" name="status" value="Closed">
+                <button type="submit" class="btn btn-dark">Close PO</button>
+              </form>
+              <form action="{{ route('purchase_orders.update_status', $encryptedId) }}" method="POST" class="d-inline">
+                @csrf
+                <input type="hidden" name="status" value="Cancelled">
+                <button type="submit" class="btn btn-secondary">Cancel PO</button>
+              </form>
+            @endif
           </div>
         </div>
       </div>
