@@ -213,10 +213,10 @@ Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplier
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
 Route::get('/supplier/pic/list', [SupplierPIController::class, 'getSupplierPICAll'])->name('supplier-pic.list');
 Route::post('/supplier-pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])->name('supplier.pic.update');
-Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->name('supplier.pic.editForm');
+Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->name('supplier.pic.edit');
 Route::post('/supplier-pic/update-data/{id}', [SupplierPIController::class, 'updatePIC'])->name('supplier.pic.updateData');
 
-// Items
+# Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
