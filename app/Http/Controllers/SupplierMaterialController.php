@@ -142,4 +142,14 @@ public function searchSupplierMaterial(Request $request)
 
         return response()->json($results);
     }
+
+    public function deleteSupplierMaterial($id)
+    {
+        $deleted = SupplierMaterial::deleteSupplierMaterial($id);
+
+        if ($deleted) {
+            return redirect()->route('supplier.material.list')->with('success', 'Data supplier material berhasil dihapus.');
+        }
+        return redirect()->route('supplier.material.list')->with('error', 'Data supplier material tidak ditemukan.');
+    }
 }

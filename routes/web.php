@@ -251,6 +251,8 @@ Route::get('/supplier/list', [SupplierController::class, 'listSuppliers'])->name
 Route::delete('/supplier/delete/{id}', [SupplierController::class, 'deleteSupplierByID'])->name('supplier.delete');
 Route::get('/supplier-material/search', [SupplierMaterialController::class, 'searchSupplierMaterial'])->name('supplier.material.search');
 
+Route::delete('/supplier/material/delete/{id}', [SupplierMaterialController::class, 'deleteSupplierMaterial'])->name('supplier.material.delete');
+
 Route::get('/supplier/material/{id}', [SupplierMaterialController::class, 'getSupplierMaterialById'])->name('supplier.material.detail');
 Route::get('/supplier/print-pdf', [SupplierController::class, 'printPDF'])->name('supplier.print-pdf');
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);

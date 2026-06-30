@@ -197,4 +197,13 @@ class SupplierMaterial extends Model
             ->distinct('p.product_id')
             ->count(DB::raw('DISTINCT p.product_id'));
     }
+
+    public static function deleteSupplierMaterial($id)
+    {
+        $material = DB::table('supplier_product')->where('id', $id)->first();
+        if (!$material) {
+            return false;
+        }
+        return DB::table('supplier_product')->where('id', $id)->delete();
+    }
 }

@@ -17,6 +17,17 @@
         <div class="card mb-4">
             <div class="card-header"><h3 class="card-title">List Table</h3></div>
             <div class="card-body">
+                @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+                @endif
+
+                @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+                @endif
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -45,7 +56,11 @@
 
                             <td>
                                 <a href="{{ url('/supplier/material/' . $material->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                <form action="{{ route('supplier.material.delete', $material->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data supplier material ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
                                 <a href="{{ url('/supplier/material/' . $material->id) }}" class="btn btn-sm btn-info">Detail</a>
                             </td>
 
