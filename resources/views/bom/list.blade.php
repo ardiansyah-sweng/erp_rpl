@@ -136,6 +136,11 @@
                   <td>
                     <button class="btn btn-info btn-sm" onclick="getDetail({{ $bom->id }})">Lihat</button>
                     <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                    <form action="/bill-of-material/{{ $bom->id }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus BOM {{ $bom->bom_name }}?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
                   </td>
                 </tr>
                 @empty
