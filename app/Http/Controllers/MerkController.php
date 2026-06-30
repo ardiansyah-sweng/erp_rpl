@@ -29,7 +29,6 @@ class MerkController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $status = $request->input('status');
         $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
         
         if ($isApiRequest) {
@@ -50,7 +49,7 @@ class MerkController extends Controller
         }
 
         // Web Response with PDF export support
-        $merks = Merk::getAllMerk($search, $status);
+        $merks = Merk::getAllMerk($search);
         $totalMerks = Merk::countMerek();
         
         if ($request->has('export') && $request->input('export') === 'pdf') {
@@ -58,7 +57,7 @@ class MerkController extends Controller
             return $pdf->stream('report-merk.pdf');
         }
 
-        return view('merk.index', compact('merks', 'search', 'status', 'totalMerks'));
+        return view('merk.index', compact('merks', 'search', 'totalMerks'));
     }
 
     public function printMerk()
