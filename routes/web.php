@@ -199,6 +199,7 @@ Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePu
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
+Route::delete('/purchase_orders/{po_number}', [PurchaseOrderController::class, 'destroy'])->name('purchase_orders.destroy');
 Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderController::class, 'sendMailPurchaseOrder'])->name('purchase_orders.send_email');
 
 // supplier pic route nya
