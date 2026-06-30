@@ -170,10 +170,7 @@
               <td>{{ $produksi->updated_at }}</td>
               <td>
                 <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                <form action="#" method="POST" style="display: inline;">
-                  @csrf
-                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                </form>
+                <button type="button" class="btn btn-sm btn-danger" onclick="deleteProduction({{ $produksi->id }}, '{{ $produksi->production_number }}')">Delete</button>
                 <a href="#" class="btn btn-sm btn-info">Detail</a>
               </td>
             </tr>
@@ -195,6 +192,34 @@
 
 @push('scripts')
 <script>
+function deleteProduction(id, productionNumber) {
+  if (confirm('Apakah Anda yakin ingin menghapus produksi ' + productionNumber + '?')) {
+    fetch('/assort-production/' + id, {
+      method: 'DELETE',
+      headers: {
+        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        'Accept': 'application/json'
+      }
+    })
+    .then(res => {
+      return res.json().then(data => {
+        if (res.ok) {
+          return data;
+        } else {
+          throw new Error(data.message || 'Gagal menghapus data');
+        }
+      });
+    })
+    .then(data => {
+      alert(data.message || 'Data berhasil dihapus');
+      location.reload();
+    })
+    .catch(err => {
+      alert(err.message);
+    });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('addMaterialForm');
   const tableBody = document.querySelector('#materialTable tbody');
