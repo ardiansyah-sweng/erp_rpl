@@ -23,14 +23,9 @@
 					</div>
 					<form action="{{ route('merk.index') }}" method="GET" class="d-flex ms-auto">
 						<!-- Search bar berada di ujung kanan -->
-						<div class="input-group input-group-sm ms-auto" style="width: 560px;">
+						<div class="input-group input-group-sm ms-auto" style="width: 450px;">
 							<input type="text" name="search" class="form-control" 
 								   placeholder="Search Merk" value="{{ $search ?? '' }}">
-							<select name="status" class="form-select">
-								<option value="">Semua Status</option>
-								<option value="active" {{ ($status ?? '') === 'active' ? 'selected' : '' }}>Aktif</option>
-								<option value="inactive" {{ ($status ?? '') === 'inactive' ? 'selected' : '' }}>Tidak Aktif</option>
-							</select>
 							<div class="input-group-append">
 								<button type="submit" class="btn btn-default">
 									<i class="bi bi-search"></i>
@@ -97,8 +92,8 @@
 							@empty
 								<tr>
 									<td colspan="6" class="text-center">
-										@if(($search ?? false) || ($status ?? false))
-											Tidak ada merk yang sesuai dengan filter
+										@if($search ?? false)
+											Tidak ada merk yang ditemukan dengan kata kunci "{{ $search }}"
 										@else
 											No data available in table
 										@endif
