@@ -63,7 +63,7 @@
                                 <td>{{ $supplier->supplier_id }}</td>
                                 <td>{{ $supplier->company_name }}</td>
                                 <td>{{ $supplier->address }}</td>
-                                <td>{{ $supplier->phone_number }}</td>
+                                <td>{{ $supplier->telephone }}</td>
                                 <td>{{ $supplier->bank_account }}</td>
                                 <td class="text-center"><span class="badge bg-secondary">{{ $supplier->order_frequency ?? 0 }}</span></td>
                                 <td>{{ $supplier->created_at }}</td>
