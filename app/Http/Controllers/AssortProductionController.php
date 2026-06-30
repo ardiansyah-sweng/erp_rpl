@@ -81,16 +81,8 @@ class AssortProductionController extends Controller
             return response()->json(['message' => 'Data dengan ID tersebut tidak ditemukan'], 404);
         }
 
-        // Panggil method deleteProduction yang sudah ada di Model
-        // Method ini menggunakan production_number sebagai parameter
-        $result = AssortmentProduction::deleteProduction($production->production_number);
-
-        // Return response dari Model (pastikan method di model return boolean)
-        if ($result) {
-            return response()->json(['message' => 'Data berhasil dihapus'], 200);
-        } else {
-            return response()->json(['message' => 'Gagal menghapus data'], 500);
-        }
+        // Kembalikan response dari Model secara langsung
+        return AssortmentProduction::deleteProduction($production->production_number);
     }
 
     public function addProduction(Request $request)
