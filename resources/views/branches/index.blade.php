@@ -15,7 +15,9 @@
 @section('content')
 <div class="card mb-4">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h3 class="card-title">List Table</h3>
+        <h3 class="card-title">List Table <br>
+            Total Branch : <strong>{{ $branches->total() }}</strong>
+        </h3>
         <form action="{{ route('branches.index') }}" method="GET" class="d-flex ms-auto">
             <div class="input-group input-group-sm ms-auto" style="width: 450px;">
                 <input type="text" name="search" class="form-control" placeholder="Search Branch">
