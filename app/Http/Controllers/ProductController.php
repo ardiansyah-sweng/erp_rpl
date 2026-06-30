@@ -111,18 +111,9 @@ class ProductController extends Controller
             'product_description' => 'nullable|string|max:255',
         ]);
 
-        $Updateproduct = Product::updateProduct($id, [
-            'name'        => $request->product_name,
-            'type'        => $request->product_type,
-            'category'    => $request->product_category,
-            'description' => $request->product_description,
-        ]);
+        $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
 
-        if (!$Updateproduct) {
-            return redirect()->route('product.list')->with('error', 'Produk tidak ditemukan.');
-        }
-
-        return redirect()->route('product.list')->with('success', 'Produk berhasil diperbarui.');
+        return $Updateproduct;
     }
 
 

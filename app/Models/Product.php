@@ -87,7 +87,7 @@ class Product extends Model
     
     public static function updateProduct($id, array $data)//Sudah sesuai pada ERP RPL
     {
-        $product = self::where('product_id', $id)->first();
+        $product = self::find($id);
         if (!$product) {
             return null;
         }
