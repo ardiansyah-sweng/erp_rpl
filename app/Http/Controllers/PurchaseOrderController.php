@@ -124,6 +124,30 @@ class PurchaseOrderController extends Controller
         $suppliers = Supplier::all();
         return view('purchase_orders.list', compact('purchaseOrders', 'status', 'totalOrders', 'suppliers'));
     }
+
+    public function destroy($po_number)
+    {
+        $purchaseOrder = PurchaseOrder::find($po_number);
+
+        if (!$purchaseOrder) {
+            return redirect()->route('purchase.orders')->with('error', Messages::PO_NOT_FOUND);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $purchaseOrder->details()->delete();
+            $purchaseOrder->delete();
+
+            DB::commit();
+
+            return redirect()->route('purchase.orders')->with('success', Messages::PO_DELETED);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', Messages::PO_DELETE_FAILED . $e->getMessage());
+        }
+    }
+
     public function sendMailPurchaseOrder(Request $request)
     {
         $data = $request->all();
