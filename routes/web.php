@@ -278,21 +278,18 @@ Route::get('/supplier-pic/cetak-pdf/{supplierID}', [SupplierPIController::class,
     ->name('supplier.pic.pdf.bySupplier');
 
 // production
-Route::get('/production', [AssortProductionController::class, 'getProduction']);
+Route::get('/production', [AssortProductionController::class, 'getProduction'])->name('assortment_production.list');
 
 // Bill of Material
-
 Route::get('/bom/list', [BillOfMaterialController::class, 'getBomList'])->name('bom.list');
 Route::get('/bom/print', [BillOfMaterialController::class, 'printBOM'])->name('bom.print');
 
-// production
-Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/assortment_production/detail', function () {
     return view('assortment_production.detail');
 });
 Route::put('/assortment_production/update/{id}', [AssortProductionController::class, 'updateProduction'])->name('assortment_production.update');
 
-Route::get('/assortment_production/detail/{po_number}', [AssortProductionController::class, 'getProductionDetail']);
+Route::get('/assortment_production/detail/{po_number}', [AssortProductionController::class, 'getProductionDetail'])->name('assortment_production.detail');
 Route::delete('/assort-production/{id}', [AssortProductionController::class, 'deleteProduction']);
 
 // Cetak PDF seluruh item/material yang dipasok oleh supplier tertentu

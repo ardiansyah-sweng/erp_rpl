@@ -13,8 +13,9 @@ class AssortProductionController extends Controller
     {
         $model = new AssortmentProduction();
         $production = AssortmentProduction::paginate();
+        $productionCount = AssortmentProduction::count();
 
-        return view('assortment_production.list', compact('production'));
+        return view('assortment_production.list', compact('production', 'productionCount'));
     }
 
     public function updateProduction(Request $request, $id)

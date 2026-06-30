@@ -4,6 +4,7 @@
 
 @section('page-title')
 <h3 class="mb-0 me-2">Productions</h3>
+<span class="btn btn-primary btn-sm me-2">Total Production: {{ $productionCount ?? 0 }}</span>
 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahProduksi">Tambah</button>
 <!-- Modal Tambah Produksi & Material -->
 <div class="modal fade" id="modalTambahProduksi" tabindex="-1" aria-labelledby="modalTambahProduksiLabel" aria-hidden="true">
