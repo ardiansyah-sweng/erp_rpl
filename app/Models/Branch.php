@@ -22,7 +22,7 @@ class Branch extends Model
         $this->fillable = BranchColumns::getFillable();
     }
 
-    public static function getAllBranch($search = null)
+    public static function getAllBranch($search = null, $all = false)
     {
         $query = self::query();
 
@@ -32,7 +32,14 @@ class Branch extends Model
                   ->orWhere(BranchColumns::PHONE, 'LIKE', "%{$search}%");
         }
 
-        return $query->orderBy(BranchColumns::CREATED_AT, 'asc')->paginate(config('pagination.branch_per_page'));
+        $query->orderBy(BranchColumns::CREATED_AT, 'desc');
+
+    // LOGIKA BARU: Jika $all bernilai true, ambil semua data tanpa paginasi
+    if ($all) {
+        return $query->get();
+    }
+
+    return $query->paginate(config('pagination.branch_per_page'));
     }
 
     public static function addBranch($data)
