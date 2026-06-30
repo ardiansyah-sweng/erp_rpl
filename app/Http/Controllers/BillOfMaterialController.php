@@ -36,9 +36,9 @@ class BillOfMaterialController extends Controller
         $deleted = BillOfMaterial::deleteBom($id);
 
         if ($deleted) {
-            return response()->json(['message' => 'Bill of Material deleted successfully.'], 200);
+            return redirect()->route('bom.list')->with('success', 'Bill of Material berhasil dihapus.');
         } else {
-            return response()->json(['message' => 'Bill of Material not found.'], 404);
+            return redirect()->route('bom.list')->with('error', 'Bill of Material tidak ditemukan.');
         }
     }
     public function getBillOfMaterial()
@@ -101,7 +101,8 @@ class BillOfMaterialController extends Controller
     public function getBomList()
     {
         $boms = BillOfMaterial::getBillOfMaterial();
-        return view('bom.list', compact('boms'));
+        $bomCount = BillOfMaterial::count();
+        return view('bom.list', compact('boms', 'bomCount'));
     }
 
     public function printBOM()
