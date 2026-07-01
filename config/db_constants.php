@@ -29,8 +29,9 @@ return [
         'mu'                        => 'measurement_unit',
         'po'                        => 'purchase_order',
         'po_detail'                 => 'purchase_order_detail',
+        'purchase_return'           => 'purchase_returns',
         'products'                   => 'products',
-        'supplier'                  => 'suppliers',
+        'supplier'                  => 'supplier',
         'supplier_pic'              => 'supplier_pics',
         'supplier_product'          => 'supplier_product',
         'unit'                      => 'item_unit',
@@ -209,6 +210,18 @@ return [
             'received_days'         => 'received_days',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
+        ],
+        'purchase_return' => [
+            'id'                    => 'id',
+            'return_number'         => 'return_number',
+            'po_number'             => $master['po_number'],
+            'product_id'            => 'product_id',
+            'return_date'           => 'return_date',
+            'quantity'              => 'quantity',
+            'reason'                => 'reason',
+            'notes'                 => 'notes',
+            'created_at'            => $master['created'],
+            'updated_at'            => $master['updated'],
         ],
         'products' => [
             'id'                    => 'product_id',            #char[4]

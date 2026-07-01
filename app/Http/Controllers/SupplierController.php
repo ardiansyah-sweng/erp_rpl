@@ -100,7 +100,7 @@ class SupplierController extends Controller
     public function AddSuplier(Request $request)
     {
         $validatedData =  $request->validate([
-            'supplier_id'    => 'required|string|max:10|unique:suppliers,supplier_id',
+            'supplier_id'    => 'required|string|max:10|unique:' . config('db_tables.supplier', 'supplier') . ',supplier_id',
             'company_name'   => 'required|string|max:255',
             'address'        => 'required|string|max:500',
             'phone_number'   => 'required|string|max:20',
