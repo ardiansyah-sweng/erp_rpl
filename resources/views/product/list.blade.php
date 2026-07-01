@@ -46,9 +46,7 @@ use App\Helpers\EncryptionHelper;
 
 @section('content')
     <div class="card mb-4">
-        <div class="card-header"><h3 class="card-title">List Table <br>
-            Total Product : <strong>{{ $totalProducts }}</strong></h3>
-        </div>
+        <div class="card-header"><h3 class="card-title">List Table</h3></div>
         <div class="card-body">
             <!--begin::Filter & Search Bar-->
             <form action="{{ route('product.list') }}" method="GET" class="d-flex flex-wrap align-items-center gap-2 mb-3">
