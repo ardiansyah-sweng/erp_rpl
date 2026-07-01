@@ -268,8 +268,8 @@ return [
             'name'                  => 'warehouse_name',
             'address'               => 'warehouse_address',
             'phone'                 => 'warehouse_telephone',
-            'is_rm_whouse'          => 'is_rm_warehouse', #boolean
-            'is_fg_whouse'          => 'is_fg_warehouse', #boolean
+            'is_rm_whouse'          => 'is_rm_whouse', #boolean
+            'is_fg_whouse'          => 'is_fg_whouse', #boolean
             'is_active'             => 'is_active',
             'created'               => 'created_at',
             'updated'               => 'updated_at'
