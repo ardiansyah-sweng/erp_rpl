@@ -47,6 +47,43 @@ class Product extends Model
         return self::with('categoryRelation')->selectRaw("products.*, (SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, '%')) AS items_count")->orderBy('created_at', 'desc')->paginate(10);
     }
 
+    /**
+     * Mengambil daftar produk dengan filter Type, Category, dan Search (Name/ID)
+     * yang dapat digunakan sendiri-sendiri maupun digabung (AND).
+     *
+     * @param string|null $type     Product type (FG/RM/HFG)
+     * @param string|null $category Product category id
+     * @param string|null $search   Keyword pencarian (product_name / product_id)
+     */
+
+    public static function getFilteredProducts($type = null, $category = null, $search = null)
+    {
+        $tableItem = (new Item)->getTable();
+        return self::with('categoryRelation')
+            ->selectRaw("products.*, (SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, '%')) AS items_count")
+            ->when($type, function ($query, $type) {
+                $query->where('type', $type);
+            })
+            ->when($category, function ($query, $category) {
+                $categoryName = \App\Models\Category::where('id', $category)->value('category');
+                $categoryIds  = \App\Models\Category::where('category', $categoryName)->pluck('id');
+                $query->whereIn('category', $categoryIds);
+            })
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('product_id', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->appends([
+                'type' => $type,
+                'category' => $category,
+                'search' => $search,
+            ]);
+    }
+
     public function getSKURawMaterialItem()
     {
         $tableItem = config('db_constants.table.item');

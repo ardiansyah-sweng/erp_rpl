@@ -13,12 +13,16 @@ use App\Constants\Messages;
 
 class ProductController extends Controller
 {
-    public function getProductList()
+    public function getProductList(Request $request)
     {
-        $products = Product::getAllProducts();
+        $type = $request->input('type');
+        $category = $request->input('category');
+        $search = $request->input('search');
+
+        $products = Product::getFilteredProducts($type, $category, $search);
         $totalProducts = Product::countProduct();
         $categories = Category::orderBy('category')->get();
-        return view('product.list', compact('products', 'categories', 'totalProducts'));
+        return view('product.list', compact('products', 'categories', 'totalProducts', 'type', 'category', 'search'));
     }
 
     public function generatePDF()
