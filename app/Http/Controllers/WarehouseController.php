@@ -49,7 +49,10 @@ class WarehouseController extends Controller
             return $pdf->stream('report-warehouse.pdf');
         }
 
-        return view('warehouse.index', compact('warehouses', 'warehouseCount'));
+        $rmWarehouseCount = Warehouse::countRmWarehouse();
+        $fgWarehouseCount = Warehouse::countFgWarehouse();
+
+        return view('warehouse.index', compact('warehouses', 'rmWarehouseCount', 'fgWarehouseCount'));
     }
 
     public function exportPdf()

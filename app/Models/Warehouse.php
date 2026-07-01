@@ -69,6 +69,16 @@ class Warehouse extends Model
         return self::where(WarehouseColumns::IS_ACTIVE, 0)->count();
     }
 
+    public static function countRmWarehouse()
+    {
+        return self::where('is_rm_warehouse', true)->count();
+    }
+
+    public static function countFgWarehouse()
+    {
+        return self::where('is_fg_warehouse', true)->count();
+    }
+
     public function updateWarehouse($id, $data)
     {
         $warehouse = self::getWarehouseById($id);
