@@ -147,10 +147,10 @@ class SupplierPIController extends Controller
     {
         // 1. Validasi input
         $validator = Validator::make($request->all(), [
-            'supplier_id' => 'required|string|exists:supplier,supplier_id',
+            'supplier_id' => 'required|string|exists:suppliers,supplier_id',
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
-            'email' => 'required|email|unique:supplier_pic,email,' . $id,
+            'email' => 'required|email|unique:supplier_pics,email,' . $id,
             'assigned_date' => 'required|date',
         ]);
 
@@ -184,7 +184,6 @@ class SupplierPIController extends Controller
 
     public function cetakPdf()
     {
-        // ambil semua PIC beserta relasi supplier, tanpa limit
         $pics = SupplierPic::with('supplier')->get();
 
         $data = [
@@ -217,7 +216,7 @@ class SupplierPIController extends Controller
 
     public function getSupplierPIC($supplierID)
     {
-        $pics = DB::table('supplier_pic')
+        $pics = DB::table('supplier_pics')
             ->where('supplier_id', $supplierID)
             ->get()
             ->map(function ($pic) {

@@ -79,6 +79,9 @@ class Messages
     // Purchase Order messages
     public const PO_CREATED = 'Purchase Order berhasil ditambahkan.';
     public const PO_CREATE_FAILED = 'Gagal menambahkan PO: ';
+    public const PO_NOT_FOUND = 'Purchase Order tidak ditemukan.';
+    public const PO_DELETED = 'Purchase Order berhasil dihapus.';
+    public const PO_DELETE_FAILED = 'Gagal menghapus Purchase Order: ';
 
     // General
     public const ACTION_FAILED = 'Aksi gagal dilakukan!';
