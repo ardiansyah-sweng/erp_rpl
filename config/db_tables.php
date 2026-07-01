@@ -10,5 +10,4 @@
         'supplier_pic'  => 'supplier_pics',
         'product'       => 'products',
         'warehouse'     => 'warehouse',
-        'user'          => 'users',
     ];
