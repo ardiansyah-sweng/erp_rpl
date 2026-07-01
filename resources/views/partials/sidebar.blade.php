@@ -105,12 +105,6 @@
                         <p>Category</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('users.index') }}" class="nav-link @if(request()->routeIs('users.*')) active @endif">
-                        <i class="nav-icon bi bi-person-lock"></i>
-                        <p>Manajemen Akun</p>
-                    </a>
-                </li>
                 <li class="nav-item @if($isProduction) menu-open @endif">
                     <a href="#" class="nav-link @if($isProduction) active @endif">
                         <i class="nav-icon bi bi-clipboard-fill"></i>

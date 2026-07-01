@@ -14,8 +14,6 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Http\Controllers\SupplierPIController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\WarehouseController;
 use App\Models\BillOfMaterial;
 use App\Models\Warehouse;
@@ -37,19 +35,13 @@ Route::get('/', function () {
 // untuk cetak merk
 Route::get('/merk/print', [MerkController::class, 'printMerk'])->name('merk.print');
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/login', function () {
+    return view('login'); // tampilkan view login
+})->name('login');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
-
-// Manajemen Akun
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
-Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-Route::post('/users', [UserController::class, 'store'])->name('users.store');
-Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
 // View Branches
 // Route::get('/branches', function () {
