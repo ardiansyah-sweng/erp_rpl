@@ -17,12 +17,11 @@ class ProductController extends Controller
     {   
         $type = $request->input('type');
         $category = $request->input('category');
-        $search = $request->input('search');
 
-        $products = Product::getFilteredProducts($type, $category, $search);
+        $products = Product::getFilteredProducts($type, $category);
         $totalProducts = Product::countProduct();
         $categories = Category::orderBy('category')->get();
-        return view('product.list', compact('products', 'categories', 'totalProducts'));
+        return view('product.list', compact('products', 'categories', 'totalProducts', 'type', 'category'));
     }
 
     public function generatePDF()

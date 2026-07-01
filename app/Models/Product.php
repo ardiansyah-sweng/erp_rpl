@@ -60,12 +60,6 @@ class Product extends Model
                 $categoryIds  = \App\Models\Category::where('category', $categoryName)->pluck('id');
                 $query->whereIn('category', $categoryIds);
             })
-            ->when($search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('product_id', 'like', "%{$search}%");
-                });
-            })
             ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->appends([
