@@ -13,9 +13,13 @@ use App\Constants\Messages;
 
 class ProductController extends Controller
 {
-    public function getProductList()
-    {
-        $products = Product::getAllProducts();
+    public function getProductList(Request $request)
+    {   
+        $type = $request->input('type');
+        $category = $request->input('category');
+        $search = $request->input('search');
+
+        $products = Product::getFilteredProducts($type, $category, $search);
         $totalProducts = Product::countProduct();
         $categories = Category::orderBy('category')->get();
         return view('product.list', compact('products', 'categories', 'totalProducts'));

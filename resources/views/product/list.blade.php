@@ -48,6 +48,38 @@ use App\Helpers\EncryptionHelper;
     <div class="card mb-4">
         <div class="card-header"><h3 class="card-title">List Table</h3></div>
         <div class="card-body">
+            <!--begin::Filter & Search Bar-->
+            <form action="{{ route('product.list') }}" method="GET" class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                <div style="width: 220px;">
+                    <select name="type" class="form-select form-select-sm" onchange="this.form.submit()">
+                        <option value="">Pilih Jenis</option>
+                        @foreach (\App\Enums\ProductType::cases() as $productType)
+                            <option value="{{ $productType->value }}" {{ (isset($type) && $type == $productType->value) ? 'selected' : '' }}>
+                                {{ $productType->label() }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div style="width: 220px;">
+                    <select name="category" class="form-select form-select-sm" onchange="this.form.submit()">
+                        <option value="">Pilih Kategori</option>
+                        @foreach ($categories->unique('category')->sortBy('category') as $cat)
+                            <option value="{{ $cat->id }}" {{ (isset($category) && $category == $cat->id) ? 'selected' : '' }}>
+                                {{ $cat->category }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="input-group input-group-sm ms-auto" style="width: 320px;">
+                    <input type="text" name="search" class="form-control" placeholder="Search Produk" value="{{ $search ?? '' }}">
+                    <button type="submit" class="btn btn-default">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </form>
+            <!--end::Filter & Search Bar-->
             <table class="table table-bordered">
                 <thead>
                     <tr>
