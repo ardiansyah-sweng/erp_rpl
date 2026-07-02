@@ -23,14 +23,22 @@ class Warehouse extends Model
         $this->fillable = WarehouseColumns::getFillable();
     }
 
-    public static function getWarehouseAll($search = null)
+    public static function getWarehouseAll($search = null, $status = null)
     {
         $query = self::query();
         //perubahan pemanggilan
          if ($search) {
-            $query->where(WarehouseColumns::NAME, 'LIKE', "%{$search}%")
+            $query->where(function ($q) use ($search) {
+                $q->where(WarehouseColumns::NAME, 'LIKE', "%{$search}%")
                   ->orWhere(WarehouseColumns::ADDRESS, 'LIKE', "%{$search}%")
                   ->orWhere(WarehouseColumns::PHONE, 'LIKE', "%{$search}%");
+            });
+        }
+
+        if ($status === 'active') {
+            $query->where(WarehouseColumns::IS_ACTIVE, true);
+        } elseif ($status === 'inactive') {
+            $query->where(WarehouseColumns::IS_ACTIVE, false);
         }
 
         return $query->orderBy(WarehouseColumns::CREATED_AT, 'asc')->paginate(config('pagination.branch_per_page'));

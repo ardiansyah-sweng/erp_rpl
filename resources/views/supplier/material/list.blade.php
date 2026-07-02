@@ -15,7 +15,14 @@
 <div class="row">
     <div class="col-12">
         <div class="card mb-4">
-            <div class="card-header"><h3 class="card-title">List Table</h3></div>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="card-title">List Supplier Material</h3>
+                    <div class="mt-1">
+                        <span class="card-title">Jumlah Supplier Material: {{ $materials->total() }}</span>
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
                 <table class="table table-bordered">
                     <thead>

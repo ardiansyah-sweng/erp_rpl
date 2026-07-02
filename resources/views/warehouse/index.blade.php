@@ -31,9 +31,14 @@
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title">List Warehouse</h3>
-            <form action="#" method="GET" class="d-flex ms-auto">
-                <div class="input-group input-group-sm ms-auto" style="width: 450px;">
-                    <input type="text" name="search" class="form-control" placeholder="Search Warehouse">
+            <form action="{{ route('warehouses.index') }}" method="GET" class="d-flex ms-auto">
+                <div class="input-group input-group-sm ms-auto" style="width: 560px;">
+                    <input type="text" name="search" class="form-control" placeholder="Search Warehouse" value="{{ $search ?? '' }}">
+                    <select name="status" class="form-select">
+                        <option value="">Semua Status</option>
+                        <option value="active" {{ ($status ?? '') === 'active' ? 'selected' : '' }}>Aktif</option>
+                        <option value="inactive" {{ ($status ?? '') === 'inactive' ? 'selected' : '' }}>Tidak Aktif</option>
+                    </select>
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-default">
                             <i class="bi bi-search"></i>
@@ -97,14 +102,20 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="10" class="text-center">No data available in table</td>
+                            <td colspan="10" class="text-center">
+                                @if(($search ?? false) || ($status ?? false))
+                                    Tidak ada warehouse yang sesuai dengan filter
+                                @else
+                                    No data available in table
+                                @endif
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
         <div class="card-footer clearfix">
-            {{ $warehouses->links('pagination::bootstrap-4') }}
+            {{ $warehouses->appends(request()->query())->links('pagination::bootstrap-4') }}
         </div>
     </div>
 @endsection

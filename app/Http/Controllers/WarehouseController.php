@@ -20,6 +20,7 @@ class WarehouseController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $status = $request->input('status');
         
         // Force JSON response for API routes (check if route starts with 'api.')
         $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
@@ -40,7 +41,7 @@ class WarehouseController extends Controller
         }
 
         // Web functionality - use existing logic
-        $warehouses = Warehouse::getWarehouseAll($search);
+        $warehouses = Warehouse::getWarehouseAll($search, $status);
         $warehouseCount = Warehouse::count();
 
         // Handle PDF Export (existing functionality)
@@ -49,7 +50,7 @@ class WarehouseController extends Controller
             return $pdf->stream('report-warehouse.pdf');
         }
 
-        return view('warehouse.index', compact('warehouses', 'warehouseCount'));
+        return view('warehouse.index', compact('warehouses', 'warehouseCount', 'search', 'status'));
     }
 
     public function exportPdf()
