@@ -11,7 +11,6 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseOrderController;
-use App\Http\Controllers\PurchaseReturnController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Http\Controllers\SupplierPIController;
@@ -202,12 +201,6 @@ Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchas
 Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
 Route::delete('/purchase_orders/{po_number}', [PurchaseOrderController::class, 'destroy'])->name('purchase_orders.destroy');
 Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderController::class, 'sendMailPurchaseOrder'])->name('purchase_orders.send_email');
-
-// Purchase Returns
-Route::get('/purchase-returns', [PurchaseReturnController::class, 'index'])->name('purchase-returns.index');
-Route::get('/purchase-returns/create', [PurchaseReturnController::class, 'create'])->name('purchase-returns.create');
-Route::post('/purchase-returns', [PurchaseReturnController::class, 'store'])->name('purchase-returns.store');
-Route::get('/purchase-returns/{purchaseReturn}', [PurchaseReturnController::class, 'show'])->name('purchase-returns.show');
 
 // supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);

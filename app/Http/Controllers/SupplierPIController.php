@@ -147,7 +147,7 @@ class SupplierPIController extends Controller
     {
         // 1. Validasi input
         $validator = Validator::make($request->all(), [
-            'supplier_id' => 'required|string|exists:' . config('db_tables.supplier', 'supplier') . ',supplier_id',
+            'supplier_id' => 'required|string|exists:suppliers,supplier_id',
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
             'email' => 'required|email|unique:supplier_pics,email,' . $id,
