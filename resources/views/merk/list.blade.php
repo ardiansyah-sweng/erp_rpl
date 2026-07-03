@@ -78,14 +78,17 @@
 			<div class="card mb-4">
 				<div class="card-header d-flex justify-content-between align-items-center">
 					<h3 class="card-title">List Merk</h3>
-					<form action="#" method="GET" class="d-flex ms-auto">
+					<form action="{{ route('merk.search') }}" method="GET" class="d-flex ms-auto">
 						<div class="input-group input-group-sm ms-auto" style="width: 450px;">
-							<input type="text" name="search" class="form-control" placeholder="Search Merk">
-							<div class="input-group-append">
-								<button type="submit" class="btn btn-default">
-									<i class="bi bi-search"></i>
-								</button>
-							</div>
+							<input type="text" name="search" class="form-control" placeholder="Search Merk" maxlength="100" value="{{ request('search') }}">
+						<button type="submit" class="btn btn-default">
+							<i class="bi bi-search"></i>
+						</button>
+						@if(request('search'))
+							<a href="{{ route('merk.list') }}" class="btn btn-outline-secondary">
+								Reset
+							</a>
+						@endif
 						</div>
 					</form>
 				</div>

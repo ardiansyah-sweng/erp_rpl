@@ -190,6 +190,7 @@ Route::get('/item/pdf/product/{productType}', [ItemController::class, 'exportByP
 Route::get('/item/export/category/{id}', [ItemController::class, 'exportItemByCategoryToPdf'])->name('item.export.category');
 
 # Merk
+Route::get('/merk/search', [MerkController::class, 'searchMerk'])->name('merk.search');
 Route::get('/merk/{id}', [MerkController::class, 'getMerkById'])->name('merk.detail');
 Route::post('/merk/add', [MerkController::class, 'addMerk'])->name('merk.add');
 Route::post('/merk/update/{id}', [MerkController::class, 'updateMerk'])->name('merk.add');

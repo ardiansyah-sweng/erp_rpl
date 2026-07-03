@@ -45,6 +45,19 @@ class MerkController extends Controller
         return view('merk.list', compact('merks'));
     }
 
+    public function searchMerk(Request $request)
+    {
+    $request->validate([
+        'search' => 'nullable|string|max:100',
+    ]);
+
+    $keyword = trim($request->search);
+
+    $merks = Merk::searchMerk($keyword);
+
+    return view('merk.list', compact('merks'));
+    }
+
      public function deleteMerk($id)
     {
         $deleted = Merk::deleteMerk($id);
