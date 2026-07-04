@@ -17,6 +17,10 @@ class BillOfMaterialController extends Controller
             'measurement_unit'  => 'required|string|max:20',
             'total_cost'        => 'required|numeric|min:0',
             'active'            => 'required|boolean',
+        ], [
+            'bom_name.required' => 'Nama BOM wajib diisi!',
+            'bom_name.unique'   => 'Nama BOM sudah ada di database!',
+            'total_cost.required' => 'Total biaya wajib diisi!',
         ]);
 
         // Generate bom_id dengan format BOM001, BOM002, dst.
