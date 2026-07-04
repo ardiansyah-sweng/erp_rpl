@@ -72,7 +72,7 @@ use App\Helpers\EncryptionHelper;
                                 {{ $product->product_id }}
                             </a>
                         </td>
-                        <td>{{ $product->product_name }}</td>
+                        <td>{{ $product->name }}</td>
                         <td>{{ $product->type->label() }}</td>
                         <td>{{ $product->categoryRelation ? $product->categoryRelation->category : 'Tidak Ada' }}</td>
                         <td>{{ $product->product_description }}</td>
