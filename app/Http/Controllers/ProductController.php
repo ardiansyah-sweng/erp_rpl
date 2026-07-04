@@ -192,4 +192,29 @@ class ProductController extends Controller
         ]);
     }
 
+    public function destroy($id)
+    {
+        try {
+            $product = Product::find($id);
+            
+            if (!$product) {
+                return redirect()->back()->with('error', 'Produk tidak ditemukan.');
+            }
+            
+            // Cek apakah produk sudah dipakai di Item
+            $used = \App\Models\Item::where('product_id', $product->product_id)->exists();
+            
+            if ($used) {
+                return redirect()->back()->with('error', 'Produk tidak bisa dihapus karena sudah dipakai di Item.');
+            }
+            
+            $product->delete();
+            
+            return redirect()->route('product.list')->with('success', 'Produk berhasil dihapus.');
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
+        }
+    }
+
 }
