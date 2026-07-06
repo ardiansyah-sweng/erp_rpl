@@ -271,13 +271,15 @@
       </div>
       
       <div class="form-group">
-      <label for="measurement_unit">Unit</label>
-        <select class="form-select" id="measurement_unit" name="measurement_unit" required>
-            <option selected disabled value="">Choose...</option>
-            @foreach($units as $unit)
-                <option value="{{ $unit->id }}">{{ $unit->unit_name }}</option>
-            @endforeach
-        </select>
+      <div class="form-group">
+    <label for="measurement_unit">Unit</label>
+    <select class="form-select" id="measurement_unit" name="measurement_unit" required>
+        <option selected disabled value="">Choose...</option>
+        <option value="Pcs">Pcs</option>
+        <option value="Box">Box</option>
+        <option value="Kg">Kg</option>
+    </select>
+</div>
         <div class="invalid-feedback">Please select a valid unit.</div>
       </div>
       
