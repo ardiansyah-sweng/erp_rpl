@@ -32,7 +32,7 @@
                 </div>
             @endif
 
-            <form id="productForm" action="{{ route('product.add') }}" method="POST" onsubmit="return validateForm()">
+            <form id="productForm" action="{{ route('product.add') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
                 @csrf
                 <div class="mb-3">
                     <label for="product_id" class="form-label">ID Produk</label>
@@ -75,6 +75,14 @@
                 <div class="mb-3">
                     <label for="product_description" class="form-label">Deskripsi Produk</label>
                     <textarea class="form-control" id="product_description" name="product_description" rows="3">{{ old('product_description') }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Foto Produk (Opsional)</label>
+                    <input type="file" class="form-control" id="image" name="image" accept="image/jpeg, image/png, image/jpg">
+                    <small class="text-muted">Format yang diizinkan: JPG, JPEG, PNG. Maksimal ukuran: 2MB.</small>
+                    @error('image')
+                        <div class="text-danger mt-1" style="font-size: 0.875em;">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="d-flex justify-content-start mt-4">
                     <div>

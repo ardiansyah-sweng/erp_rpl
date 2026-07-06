@@ -54,7 +54,7 @@ use App\Helpers\EncryptionHelper;
                         <th style="width: 10px">id</th>
                         <th>product_id</th>
                         <th>product_name</th>
-                        <th>product_type</th>
+                        <th>Foto</th> <th>product_type</th>
                         <th>product_category</th>
                         <th>product_description</th>
                         <th>jumlah_item</th>
@@ -72,10 +72,17 @@ use App\Helpers\EncryptionHelper;
                                 {{ $product->product_id }}
                             </a>
                         </td>
-                        <td>{{ $product->product_name }}</td>
+                        <td>{{ $product->name }}</td>
+                        <td class="text-center">
+                            @if($product->image)
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="Foto Produk" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;">
+                            @else
+                                <span class="badge bg-secondary">No Image</span>
+                            @endif
+                        </td>
                         <td>{{ $product->type->label() }}</td>
                         <td>{{ $product->categoryRelation ? $product->categoryRelation->category : 'Tidak Ada' }}</td>
-                        <td>{{ $product->product_description }}</td>
+                        <td>{{ $product->description }}</td>
                         <td>{{ $product->items_count }}</td>
                         <td>{{ $product->created_at }}</td>
                         <td>{{ $product->updated_at }}</td>

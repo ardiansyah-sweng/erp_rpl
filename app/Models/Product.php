@@ -22,6 +22,7 @@ class Product extends Model
         ProductColumns::TYPE,
         ProductColumns::CATEGORY,
         ProductColumns::DESC,
+        'image',
     ];
 
     protected $casts = [
