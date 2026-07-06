@@ -84,10 +84,12 @@ class Product extends Model
         $colItem = config('db_constants.column.item');
         $colProduct = config('db_constants.column.products');
 
-        return Item::join($this->table, $this->table.'.'.$colProduct['id'], '=', $tableItem.'.'.$colItem['prod_id'])
+        return Item::query()
+                        ->from($tableItem . ' as items')
+                        ->join($this->table, $this->table.'.'.$colProduct['id'], '=', 'items.'.$colItem['prod_id'])
                         ->distinct()
                         ->where($this->table.'.'.$colProduct['type'], 'RM')
-                        ->select($tableItem.'.'.$colItem['sku']);
+                        ->select('items.'.$colItem['sku']);
     }
 
     public static function addProduct($data)
@@ -96,7 +98,7 @@ class Product extends Model
     }
 
     public function getProductById($id) {
-        return self::where('product_id', $id)->first();
+        return self::with('categoryRelation')->where('product_id', $id)->first();
     }    
 
     public static function countProductByProductType($shortType)
@@ -123,11 +125,15 @@ class Product extends Model
 
     public function items()
     {
-        $tableItem = config('db_constants.table.item');
-        $colItem = config('db_constants.column.item');
-        $colProduct = config('db_constants.column.products');
+        return $this->hasMany(Item::class, 'product_id', 'product_id');
+    }
 
-        return $this->hasMany(Item::class, 'sku', 'product_id');
+    public static function getProductByCategory($productCategory)
+    {
+        return self::with('category')
+            ->where(ProductColumns::CATEGORY, $productCategory)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
     }
 
     public static function deleteProductById($id)

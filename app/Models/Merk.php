@@ -46,6 +46,11 @@ class Merk extends Model
      */
     protected $appends = ['status_label', 'display_name'];
 
+    public static function getAllMerkForPDF()
+    {
+        return self::orderBy('created_at', 'asc')->get(); // tanpa paginate
+    }
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -117,13 +122,21 @@ class Merk extends Model
      * Get all merk with search functionality and pagination.
      * 
      * @param string|null $search
+     * @param string|null $status
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public static function getAllMerk(?string $search = null)
+    public static function getAllMerk(?string $search = null, ?string $status = null)
     {
-        return self::search($search)
-                   ->orderBy(MerkColumns::CREATED_AT, 'desc')
-                   ->paginate(config('pagination.merk_per_page', 15));
+        $query = self::search($search);
+
+        if ($status === 'active') {
+            $query->active();
+        } elseif ($status === 'inactive') {
+            $query->inactive();
+        }
+
+        return $query->orderBy(MerkColumns::CREATED_AT, 'desc')
+                     ->paginate(config('pagination.merk_per_page', 15));
     }
 
     /**
@@ -220,13 +233,7 @@ class Merk extends Model
      * These will be removed in future versions
      */
 
-    // /**
-    //  * @deprecated Use getAllMerk() instead
-    //  */
-    // public static function searchMerk($keyword)
-    // {
-    //     return self::getAllMerk($keyword);
-    // }
+
 
     // /**
     //  * @deprecated Use direct Eloquent operations instead

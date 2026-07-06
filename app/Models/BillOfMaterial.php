@@ -112,7 +112,16 @@ class BillOfMaterial extends Model
 
     public function items()
     {
-        return $this->hasMany(BillOfMaterialDetail::class, 'bom_id', 'bom_id');
+        return $this->hasMany(BOMDetail::class, 'bom_id', 'bom_id');
+    }
+
+    public static function deleteBom($id)
+    {
+        $bom = self::find($id);
+        if (!$bom) {
+            return false;
+        }
+        return $bom->delete();
     }
 
 }

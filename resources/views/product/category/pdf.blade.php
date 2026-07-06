@@ -48,8 +48,8 @@
                 <tbody>
                     @foreach ($category->products as $product)
                         <tr>
-                            <td>{{ $product->id }}</td>
-                            <td>{{ $product->product_name }}</td>
+                            <td>{{ $product->product_id }}</td>
+                            <td>{{ $product->name }}</td>
                         </tr>
                     @endforeach
                 </tbody> 

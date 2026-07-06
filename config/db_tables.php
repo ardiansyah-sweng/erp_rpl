@@ -9,5 +9,5 @@
         'supplier'      => 'suppliers',
         'supplier_pic'  => 'supplier_pics',
         'product'       => 'products',
-        'warehouse'     => 'warehouses',
+        'warehouse'     => 'warehouse',
     ];

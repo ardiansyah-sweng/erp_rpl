@@ -18,7 +18,14 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+
+        if ($request->input('export') === 'pdf') {
+            return $this->printCategoryPDF();
+        }
+
         $categories = Category::getAllCategory($search);
+        $totalCategory = $categories->total();
+        view()->share('totalCategory', $totalCategory);
 
         // Check if it's an API request
         if ($request->wantsJson() || $request->route()->getName() === 'api.categories.index') {
@@ -183,11 +190,13 @@ class CategoryController extends Controller
     public function getCategoryList()
     {
         $category = Category::with('parent')->paginate(10);
+        $totalCategory = $category->total();
+        view()->share('totalCategory', $totalCategory);
         return view('product.category.list', compact('category'));
     }
     public function printCategoryPDF()
     {
-        $categories = Category::getCategory(); // kita tambahkan method ini di bawah
+        $categories = Category::getCategory();
         $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
         return $pdf->stream('laporan_kategori.pdf');
     }
@@ -258,18 +267,31 @@ class CategoryController extends Controller
     }
     public function getCategoryByParent($parentId)
     {
-        // Panggil method yang diizinkan
         $allCategories = Category::getCategory();
-        // Filter data yang parent_id-nya sesuai
-        $filtered = $allCategories->where('parent_id', $parentId)->values();
+        
+        // Kita siapkan array kosong dengan nama $filtered
+        $filtered = [];
 
-        if ($filtered->isEmpty()) {
-            return response()->json([
-                'message' => 'Tidak ada kategori dengan parent ID tersebut'
-            ], 404);
+        // Kita isi secara manual pakai perulangan
+        foreach ($allCategories as $cat) {
+            if ($cat->parent_id == $parentId) {
+                $filtered[] = $cat;
+            }
         }
 
-        return response()->json($filtered, 200);
-    }
+        // Ubah jadi collection supaya bisa dicheck isEmpty()
+        $categories = collect($filtered);
 
+        if ($categories->isEmpty()) {
+            $categories = collect([(object)[
+                'id' => '-',
+                'category' => 'Data Belum Tersedia untuk Parent ID ' . $parentId,
+                'parent' => null,
+                'is_active' => 0
+            ]]);
+        }
+
+        $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
+        return $pdf->stream('laporan_kategori.pdf');
+    }
 }

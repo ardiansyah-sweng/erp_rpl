@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SupplierPic extends Model
 {
-    protected $table = 'supplier_pics'; // sesuaikan nama tabel
-
+    protected $table = 'supplier_pics';
     protected $fillable = ['name', 'email', 'phone_number', 'supplier_id'];
 
     protected $primaryKey = 'id';
@@ -21,8 +20,8 @@ class SupplierPic extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_constants.table.supplier_pics');
-        $this->fillable = ['name', 'email', 'phone_number', 'supplier_id']; 
+        $this->table = config('db_tables.supplier_pic', 'supplier_pics');
+        $this->fillable = array_values(config('db_constants.column.supplier_pic') ?? ['name', 'email', 'phone_number', 'supplier_id']);
     }
 
     // method untuk ambil data berdasarkan ID
