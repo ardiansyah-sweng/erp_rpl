@@ -158,6 +158,9 @@ use App\Helpers\EncryptionHelper;
               <td>{{ $order->status }}</td>
               <td>
                 <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                <a href="{{ route('purchase_orders.duplicate', \App\Helpers\EncryptionHelper::encrypt($order->po_number)) }}" class="btn btn-secondary btn-sm mr-1" title="Duplicate PO">
+                    <i class="fas fa-copy"></i> Duplicate
+                </a>
                 <form action="{{ route('purchase_orders.destroy', $order->po_number) }}" method="POST" class="d-inline"
                       onsubmit="return confirm('Yakin ingin menghapus PO {{ $order->po_number }}?')">
                     @csrf

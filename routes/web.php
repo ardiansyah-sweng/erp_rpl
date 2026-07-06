@@ -201,6 +201,7 @@ Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchas
 Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
 Route::delete('/purchase_orders/{po_number}', [PurchaseOrderController::class, 'destroy'])->name('purchase_orders.destroy');
 Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderController::class, 'sendMailPurchaseOrder'])->name('purchase_orders.send_email');
+Route::get('/purchase_orders/duplicate/{id}', [\App\Http\Controllers\PurchaseOrderController::class, 'duplicatePurchaseOrder'])->name('purchase_orders.duplicate');
 
 // supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);

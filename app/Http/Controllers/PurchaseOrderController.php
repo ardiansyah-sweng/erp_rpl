@@ -10,6 +10,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Constants\Messages;
+use App\Mail\PurchaseOrderMail;
 
 class PurchaseOrderController extends Controller
 {
@@ -171,4 +172,59 @@ class PurchaseOrderController extends Controller
             return response()->json(['error' => 'Server gagal mengirim email: ' . $e->getMessage()], 500);
         }
     }
+    public function duplicatePurchaseOrder($id)
+    {
+        try {
+            // 1. Dekripsi nomor PO
+            $poNumber = \App\Helpers\EncryptionHelper::decrypt($id);
+
+            // 2. Ambil data asli langsung dari MySQL (Bypass Eloquent Model)
+            $originalPo = \Illuminate\Support\Facades\DB::table('purchase_order')->where('po_number', $poNumber)->first();
+
+            if (!$originalPo) {
+                return redirect()->back()->with('error', 'Data tidak ditemukan di database.');
+            }
+
+            // 3. Buat Nomor PO Baru
+            $newPoNumber = 'PO' . rand(1000, 9999);
+
+            // 4. Insert data PO baru secara EKSPLISIT ke database
+            \Illuminate\Support\Facades\DB::table('purchase_order')->insert([
+                'po_number'   => $newPoNumber,
+                'supplier_id' => $originalPo->supplier_id,
+                'branch_id'   => $originalPo->branch_id,
+                'total'       => $originalPo->total,
+                'order_date'  => now()->format('Y-m-d'),
+                'status'      => 'Draft',
+                'created_at'  => now(),
+                'updated_at'  => now()
+            ]);
+
+            // 5. Tarik dan duplikat isi keranjang barang (Jika ada)
+            $originalDetails = \Illuminate\Support\Facades\DB::table('purchase_order_detail')->where('po_number', $poNumber)->get();
+
+            if ($originalDetails->isNotEmpty()) {
+                $newDetails = [];
+                foreach ($originalDetails as $detail) {
+                    $arr = (array) $detail;
+                    unset($arr['id']); // Hapus ID lama agar database membuat urutan baru otomatis
+                    $arr['po_number'] = $newPoNumber; // Tempelkan barang ke PO yang baru
+                    
+                    if (isset($arr['created_at'])) $arr['created_at'] = now();
+                    if (isset($arr['updated_at'])) $arr['updated_at'] = now();
+                    
+                    $newDetails[] = $arr;
+                }
+                // Simpan barang-barang duplikat
+                \Illuminate\Support\Facades\DB::table('purchase_order_detail')->insert($newDetails);
+            }
+
+            return redirect()->route('purchase.orders')->with('success', 'Purchase Order ' . $poNumber . ' berhasil diduplikasi menjadi ' . $newPoNumber);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menduplikasi Purchase Order: ' . $e->getMessage());
+        }
+    }
+    
 }
+
