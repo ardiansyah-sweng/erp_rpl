@@ -1,5 +1,6 @@
 @php
     $isSupplier = request()->routeIs('supplier.*');
+    $isPurchaseOrder = request()->routeIs('purchase.orders*') || request()->routeIs('purchase_orders.*') || request()->routeIs('goods-returns.*');
     $isProduction = request()->routeIs('bom.*') || request()->routeIs('billofmaterial.*') || request()->routeIs('assort*');
 @endphp
 
@@ -81,11 +82,28 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('purchase.orders') }}" class="nav-link @if(request()->routeIs('purchase.orders*') || request()->routeIs('purchase_orders.*')) active @endif">
+                <li class="nav-item @if($isPurchaseOrder) menu-open @endif">
+                    <a href="#" class="nav-link @if($isPurchaseOrder) active @endif">
                         <i class="nav-icon bi bi-clipboard-fill"></i>
-                        <p>Purchase Orders</p>
+                        <p>
+                            Purchase Orders
+                            <i class="nav-arrow bi bi-chevron-right"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('purchase.orders') }}" class="nav-link @if(request()->routeIs('purchase.orders*') || request()->routeIs('purchase_orders.*')) active @endif">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Daftar Purchase Orders</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('goods-returns.index') }}" class="nav-link @if(request()->routeIs('goods-returns.*')) active @endif">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Return Barang</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('branches.index') }}" class="nav-link @if(request()->routeIs('branches.*') || request()->routeIs('branch.*')) active @endif">
