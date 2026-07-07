@@ -6,6 +6,9 @@
 <h3 class="mb-0 me-2">Productions</h3>
 <span class="btn btn-primary btn-sm me-2">Total Production: {{ $productionCount ?? 0 }}</span>
 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahProduksi">Tambah</button>
+<a href="{{ route('production.pdf') }}" target="_blank" class="btn btn-primary btn-sm ms-2">
+        <i class="fas fa-file-pdf"></i> Cetak PDF
+    </a>
 <!-- Modal Tambah Produksi & Material -->
 <div class="modal fade" id="modalTambahProduksi" tabindex="-1" aria-labelledby="modalTambahProduksiLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">

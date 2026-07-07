@@ -6,6 +6,7 @@ use App\Models\AssortmentProduction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AssortProductionController extends Controller
 {
@@ -16,6 +17,14 @@ class AssortProductionController extends Controller
         $productionCount = AssortmentProduction::count();
 
         return view('assortment_production.list', compact('production', 'productionCount'));
+    }
+    public function exportProductionPdf()
+    {
+        $production = AssortmentProduction::all(); // atau ->get() sesuai kebutuhan, tanpa paginate
+
+        $pdf = Pdf::loadView('assortment_production.pdf', compact('production'));
+
+        return $pdf->stream('laporan_production.pdf');
     }
 
     public function updateProduction(Request $request, $id)
