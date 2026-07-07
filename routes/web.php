@@ -280,6 +280,7 @@ Route::get('/supplier-pic/cetak-pdf/{supplierID}', [SupplierPIController::class,
 
 // production
 Route::get('/production', [AssortProductionController::class, 'getProduction'])->name('assortment_production.list');
+Route::get('/production/pdf', [AssortProductionController::class, 'exportProductionPdf'])->name('production.pdf');
 
 // Bill of Material
 Route::get('/bom/list', [BillOfMaterialController::class, 'getBomList'])->name('bom.list');
