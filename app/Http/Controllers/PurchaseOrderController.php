@@ -171,4 +171,22 @@ class PurchaseOrderController extends Controller
             return response()->json(['error' => 'Server gagal mengirim email: ' . $e->getMessage()], 500);
         }
     }
+    public function printPurchaseOrderToPDF($po_number)
+    {
+        $purchaseOrder = PurchaseOrder::with('supplier', 'details')
+            ->where('po_number', $po_number)
+            ->first();
+
+        if (!$purchaseOrder) {
+            abort(404, 'Purchase Order tidak ditemukan.');
+        }
+
+        $data = [
+            'purchaseOrder' => $purchaseOrder,
+            'generatedAt'   => Carbon::now()->format('d-m-Y H:i:s'),
+        ];
+
+        $pdf = Pdf::loadView('purchase_orders.pdf_single', $data);
+        return $pdf->stream('PO_' . $po_number . '.pdf');
+    }
 }
