@@ -82,6 +82,47 @@ class AssortProductionController extends Controller
         return response()->json($productions); // hasilnya array of object
     }
 
+    /**
+     * Pencarian produksi via web — menampilkan hasil di halaman list.
+     * Route: GET /production/search
+     */
+    public function searchProductionWeb(Request $request)
+    {
+        $keyword = $request->input('search', '');
+
+        $production = DB::table('assortment_production')
+            ->where(function ($query) use ($keyword) {
+                $query->where('production_number', 'like', "%{$keyword}%")
+                      ->orWhere('sku', 'like', "%{$keyword}%")
+                      ->orWhere('description', 'like', "%{$keyword}%");
+            })
+            ->paginate(10);
+
+        $productionCount = AssortmentProduction::count();
+
+        return view('assortment_production.list', compact('production', 'productionCount', 'keyword'));
+    }
+
+    /**
+     * Pencarian produksi via URL path — menampilkan hasil di halaman list.
+     * Route: GET /productions/search-web/{keyword}
+     * Contoh: /productions/search-web/XS
+     */
+    public function searchProductionByKeyword($keyword)
+    {
+        $production = DB::table('assortment_production')
+            ->where(function ($query) use ($keyword) {
+                $query->where('production_number', 'like', "%{$keyword}%")
+                      ->orWhere('sku', 'like', "%{$keyword}%")
+                      ->orWhere('description', 'like', "%{$keyword}%");
+            })
+            ->paginate(10);
+
+        $productionCount = AssortmentProduction::count();
+
+        return view('assortment_production.list', compact('production', 'productionCount', 'keyword'));
+    }
+
     public function deleteProduction($id)
     {
         // Cari production berdasarkan ID untuk mendapatkan production_number

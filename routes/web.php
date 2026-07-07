@@ -298,6 +298,8 @@ Route::delete('/assort-production/{id}', [AssortProductionController::class, 'de
 Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::class, 'cetakPDF']);
 
 Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
+Route::get('/production/search', [AssortProductionController::class, 'searchProductionWeb'])->name('production.search');
+Route::get('/productions/search-web/{keyword}', [AssortProductionController::class, 'searchProductionByKeyword'])->name('production.search.keyword');
 
 // BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
