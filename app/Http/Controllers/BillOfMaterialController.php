@@ -33,7 +33,7 @@ class BillOfMaterialController extends Controller
     // Fungsi untuk menghapus Bill of Material berdasarkan id
     public function deleteBillOfMaterial($id)
     {
-        $deleted = BillOfMaterial::deleteBom($id);
+        $deleted = BillOfMaterial::deleteBillOfMaterial($id);
 
         if ($deleted) {
             return response()->json(['message' => 'Bill of Material deleted successfully.'], 200);
