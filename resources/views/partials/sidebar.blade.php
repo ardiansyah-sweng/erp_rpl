@@ -125,6 +125,12 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('users.index') }}" class="nav-link @if(request()->routeIs('users.*')) active @endif">
+                        <i class="nav-icon bi bi-people-fill"></i>
+                        <p>Kelola User</p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
