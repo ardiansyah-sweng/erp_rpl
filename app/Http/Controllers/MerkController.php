@@ -79,7 +79,7 @@ class MerkController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMerkRequest $request)
     {
         try {
             $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
