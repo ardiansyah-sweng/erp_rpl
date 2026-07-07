@@ -2,14 +2,11 @@
 use App\Helpers\EncryptionHelper;
 @endphp
 @extends('layouts.app')
-
 @section('title', 'Produk')
-
 @section('page-title')
     <h3 class="mb-0 me-2">Produk</h3>
     <span class="btn btn-primary btn-sm me-2">{{ $totalProducts }}</span>
     <a href="{{ route('product.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-
     <div class="btn-group">
         <a href="{{ route('category.print') }}" target="_blank" class="btn btn-primary btn-sm">Cetak Kategori</a>
         <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" 
@@ -25,7 +22,6 @@ use App\Helpers\EncryptionHelper;
             @endforeach
         </ul>
     </div>
-
     <div class="dropdown d-inline-block ms-2">
         <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="printProductsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             Cetak PDF Produk
@@ -39,15 +35,27 @@ use App\Helpers\EncryptionHelper;
         </ul>
     </div>
 @endsection
-
 @section('breadcrumb')
     <li class="breadcrumb-item active" aria-current="page">Produk</li>
 @endsection
-
 @section('content')
     <div class="card mb-4">
         <div class="card-header"><h3 class="card-title">List Table</h3></div>
         <div class="card-body">
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Berhasil!</strong> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -81,10 +89,10 @@ use App\Helpers\EncryptionHelper;
                         <td>{{ $product->updated_at }}</td>
                         <td>
                             <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                            <form method="POST" style="display: inline;">
+                            <form action="{{ route('product.destroy', $product->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?')">Delete</button>
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">Delete</button>
                             </form>
                             <a href="#" class="btn btn-sm btn-info">Detail</a>
                         </td>

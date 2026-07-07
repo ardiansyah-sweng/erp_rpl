@@ -167,6 +167,7 @@ Route::get('/categories/list', [CategoryController::class, 'getCategoryList'])->
 
 // Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
 Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']);
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
