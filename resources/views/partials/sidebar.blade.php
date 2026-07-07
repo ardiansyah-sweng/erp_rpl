@@ -112,6 +112,12 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="{{ route('assortment_production.list') }}" class="nav-link @if(request()->routeIs('assortment_production.*')) active @endif">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Production List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('bom.list') }}" class="nav-link @if(request()->routeIs('bom.*') || request()->routeIs('billofmaterial.*')) active @endif">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Bill Of Material</p>
