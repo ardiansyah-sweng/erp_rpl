@@ -40,6 +40,10 @@ class SupplierController extends Controller
     {
         $sup = (new Supplier())->getSupplierById($id);
 
+        if (request()->ajax()) {
+            return response()->json($sup);
+        }
+
         return view('supplier.detail', compact('sup'));
     }
 
