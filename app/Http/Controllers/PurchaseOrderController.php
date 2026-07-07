@@ -10,6 +10,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Constants\Messages;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PurchaseOrderController extends Controller
 {
@@ -83,36 +84,56 @@ class PurchaseOrderController extends Controller
         return view('purchase_orders.report_form', compact('suppliers'));
     }
 
-    public function generatePurchaseOrderPDF(Request $request)
+    public function exportPurchaseOrderReport(Request $request)
     {
-        // Validasi input
+        // 1. Validasi input: supplier_id sekarang 'nullable', export_type wajib
         $request->validate([
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'supplier_id' => 'required|string',
+            'start_date'  => 'required|date',
+            'end_date'    => 'required|date|after_or_equal:start_date',
+            'supplier_id' => 'nullable|string',
+            'export_type' => 'required|string|in:pdf,excel,csv',
         ]);
 
-        $startDate = Carbon::parse($request->start_date)->startOfDay();
-        $endDate = Carbon::parse($request->end_date)->endOfDay();
+        $startDate  = Carbon::parse($request->start_date)->startOfDay();
+        $endDate    = Carbon::parse($request->end_date)->endOfDay();
         $supplierId = $request->supplier_id;
+        $exportType = $request->export_type;
 
-        // Buat instance Supplier dan panggil getSupplierById
-        $supplierModel = new Supplier();
-        $supplier = $supplierModel->getSupplierById($supplierId);
+        // 2. Logika Query Data
+        if ($supplierId) {
+            // Jika spesifik 1 supplier
+            $supplierModel = new Supplier();
+            $supplier      = $supplierModel->getSupplierById($supplierId);
+            $supplierName  = $supplier ? $supplier->company_name : 'Supplier';
+            $purchaseOrders = PurchaseOrder::getReportBySupplierAndDate($supplierId, $startDate, $endDate);
+        } else {
+            // Jika "Semua Supplier" dipilih
+            $supplier      = null;
+            $supplierName  = 'Semua_Supplier';
+            // Menggunakan query builder standar Laravel untuk mengambil semua PO di rentang tanggal
+            $purchaseOrders = PurchaseOrder::whereBetween('order_date', [$startDate, $endDate])->get();
+        }
 
-        // Ambil data purchase order
-        $purchaseOrders = PurchaseOrder::getReportBySupplierAndDate($supplierId, $startDate, $endDate);
-
-        $data = [
-            'purchaseOrders' => $purchaseOrders,
-            'supplier' => $supplier,
-            'startDate' => $startDate->format('d-m-Y'),
-            'endDate' => $endDate->format('d-m-Y'),
-            'generatedAt' => Carbon::now()->format('d-m-Y H:i:s')
-        ];
-
-        $pdf = Pdf::loadView('purchase_orders.pdf_report', $data);
-        return $pdf->stream('laporan_purchase_order_' . $supplier->company_name . '.pdf');
+        // 3. Routing ke Format Ekspor
+        if ($exportType === 'pdf') {
+            $data = [
+                'purchaseOrders' => $purchaseOrders,
+                'supplier'       => $supplier,
+                'startDate'      => $startDate->format('d-m-Y'),
+                'endDate'        => $endDate->format('d-m-Y'),
+                'generatedAt'    => Carbon::now()->format('d-m-Y H:i:s')
+            ];
+            
+            $pdf = Pdf::loadView('purchase_orders.pdf_report', $data);
+            return $pdf->stream('laporan_PO_' . str_replace(' ', '_', $supplierName) . '.pdf');
+        } 
+        // MURNI HANYA TERSISA DUA BLOK INI UNTUK EXCEL DAN CSV
+        elseif ($exportType === 'excel') {
+            return Excel::download(new PurchaseOrderExport($purchaseOrders), 'laporan_PO_' . str_replace(' ', '_', $supplierName) . '.xlsx');
+        } 
+        elseif ($exportType === 'csv') {
+            return Excel::download(new PurchaseOrderExport($purchaseOrders), 'laporan_PO_' . str_replace(' ', '_', $supplierName) . '.csv', \Maatwebsite\Excel\Excel::CSV);
+        }
     }
     public function getPurchaseOrderByStatus($status)
     {
