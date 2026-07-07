@@ -7,9 +7,11 @@
     <div class="card-body">
         <div class="form-group">
             <label for="merk">Nama Merk</label>
-            <input type="text" class="form-control" id="merk" name="merk" placeholder="Masukkan nama merk" value="{{ old('merk', $merk->merk ?? '') }}">
+            <input type="text" class="form-control @error('merk') is-invalid @enderror" id="merk" name="merk" placeholder="Masukkan nama Merk" value="{{old('merk', $merk->merk ?? '')}}" required>
             @error('merk')
-                <div class="text-danger small mt-1">{{ $message }}</div>
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
             @enderror
         </div>
         <div class="form-group">
