@@ -398,6 +398,21 @@ use App\Helpers\EncryptionHelper;
                           <input type="text" class="form-control" value="{{ $purchaseOrder->po_number }}" disabled>
                       </div>
 
+                      <div class="form-group mb-3">
+                          <label class="form-label">Supplier</label>
+                          <input type="text" class="form-control" value="{{ $purchaseOrder->supplier->name ?? 'Supplier not found' }}" disabled>
+                      </div>
+
+                      <div class="form-group mb-3">
+                          <label class="form-label">Total</label>
+                          <input type="text" class="form-control" value="{{ 'Rp ' . number_format($purchaseOrder->total ?? 0, 0, ',', '.') }}" disabled>
+                      </div>
+
+                      <div class="form-group mb-3">
+                          <label class="form-label">Order Date</label>
+                          <input type="text" class="form-control" value="{{ \Carbon\Carbon::parse($purchaseOrder->order_date)->format('d M Y') }}" disabled>
+                      </div>
+                      
                       <div class="form-group mb-4">
                           <label class="form-label">Status</label>
                           <select name="status" class="form-select" required>
