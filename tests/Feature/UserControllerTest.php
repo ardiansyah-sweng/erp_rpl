@@ -11,9 +11,44 @@ class UserControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_user_list_page_can_be_rendered()
+    protected User $admin;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->admin = User::addUser([
+            'name' => 'Admin Tester',
+            'email' => 'admin.tester@erp.test',
+            'password' => 'password123',
+            'role' => UserRole::ADMIN->value,
+        ]);
+    }
+
+    public function test_guest_is_redirected_to_login()
     {
         $response = $this->get('/users');
+
+        $response->assertRedirect(route('login'));
+    }
+
+    public function test_staff_cannot_access_user_management()
+    {
+        $staff = User::addUser([
+            'name' => 'Staff Tester',
+            'email' => 'staff.tester@erp.test',
+            'password' => 'password123',
+            'role' => UserRole::STAFF->value,
+        ]);
+
+        $response = $this->actingAs($staff)->get('/users');
+
+        $response->assertStatus(403);
+    }
+
+    public function test_user_list_page_can_be_rendered()
+    {
+        $response = $this->actingAs($this->admin)->get('/users');
 
         $response->assertStatus(200);
         $response->assertSee('Kelola User');
@@ -21,7 +56,7 @@ class UserControllerTest extends TestCase
 
     public function test_user_create_page_can_be_rendered()
     {
-        $response = $this->get('/users/add');
+        $response = $this->actingAs($this->admin)->get('/users/add');
 
         $response->assertStatus(200);
         $response->assertSee('Form Tambah User');
@@ -29,7 +64,7 @@ class UserControllerTest extends TestCase
 
     public function test_can_add_user_successfully_to_database()
     {
-        $response = $this->post('/users/add', [
+        $response = $this->actingAs($this->admin)->post('/users/add', [
             'name' => 'Feature Test User',
             'email' => 'feature.test.user@erp.test',
             'password' => 'password123',
@@ -48,7 +83,7 @@ class UserControllerTest extends TestCase
 
     public function test_add_user_validation_fails_if_fields_are_empty()
     {
-        $response = $this->post('/users/add', []);
+        $response = $this->actingAs($this->admin)->post('/users/add', []);
 
         $response->assertSessionHasErrors(['name', 'email', 'password', 'role']);
     }
@@ -62,7 +97,7 @@ class UserControllerTest extends TestCase
             'role' => UserRole::STAFF->value,
         ]);
 
-        $response = $this->post('/users/add', [
+        $response = $this->actingAs($this->admin)->post('/users/add', [
             'name' => 'Another User',
             'email' => 'duplicate.user@erp.test',
             'password' => 'password123',
@@ -81,7 +116,7 @@ class UserControllerTest extends TestCase
             'role' => UserRole::STAFF->value,
         ]);
 
-        $response = $this->put("/users/{$user->id}", [
+        $response = $this->actingAs($this->admin)->put("/users/{$user->id}", [
             'name' => 'Role Change User',
             'email' => 'role.change.user@erp.test',
             'password' => '',
@@ -101,7 +136,7 @@ class UserControllerTest extends TestCase
             'role' => UserRole::STAFF->value,
         ]);
 
-        $response = $this->delete("/users/{$user->id}");
+        $response = $this->actingAs($this->admin)->delete("/users/{$user->id}");
 
         $response->assertRedirect(route('users.index'));
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
