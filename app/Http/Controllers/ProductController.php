@@ -88,7 +88,17 @@ class ProductController extends Controller
             'product_type' => 'required|string',
             'product_category' => 'required|integer',
             'product_description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Tambahan validasi file foto
         ]);
+
+        // Siapkan variabel untuk menyimpan path foto
+        $imagePath = null;
+
+        // Cek apakah ada file foto yang diunggah
+        if ($request->hasFile('image')) {
+            // Simpan foto ke folder public/storage/products
+            $imagePath = $request->file('image')->store('products', 'public');
+        }
 
         // Map form input keys to database column keys
         $dataToInsert = [
@@ -97,6 +107,7 @@ class ProductController extends Controller
             'type'        => $validatedData['product_type'],
             'category'    => $validatedData['product_category'],
             'description' => $validatedData['product_description'] ?? null,
+            'image'       => $imagePath, // Masukkan path foto ke array data
         ];
 
         Product::addProduct($dataToInsert);

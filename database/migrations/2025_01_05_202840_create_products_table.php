@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string(ProductColumns::TYPE, 12);
             $table->integer(ProductColumns::CATEGORY);
             $table->string(ProductColumns::DESC, 225)->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
