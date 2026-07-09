@@ -179,6 +179,7 @@ Route::get('/products/print/{type}', [ProductController::class, 'printProductsBy
 Route::get('/products/type/{type}', [ProductController::class, 'getProductByType']);
 
 // Product Update
+Route::get('/product/edit/{id}', [ItemController::class, 'edit'])->name('product.edit');
 Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct'); // Sudah sesuai pada ERP RPL
 Route::get('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct');
 
