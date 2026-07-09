@@ -3,6 +3,7 @@
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\AssortProductionController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Http\Controllers\SupplierPIController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WarehouseController;
 use App\Models\BillOfMaterial;
 use App\Models\Warehouse;
@@ -40,9 +42,12 @@ Route::get('/login', function () {
     return view('login'); // tampilkan view login
 })->name('login');
 
+Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->name('dashboard');
+})->middleware('auth')->name('dashboard');
 
 // View Branches
 // Route::get('/branches', function () {
@@ -353,3 +358,13 @@ Route::get(
     '/supplier-material/category/{category}/{supplier}',
     [SupplierMaterialController::class, 'getSupplierMaterialByCategory']
 );
+
+// User Management (RBAC) - hanya admin yang login yang boleh mengelola user
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/add', [UserController::class, 'create'])->name('users.create');
+    Route::post('/users/add', [UserController::class, 'store'])->name('users.store');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+});

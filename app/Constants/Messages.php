@@ -83,6 +83,14 @@ class Messages
     public const PO_DELETED = 'Purchase Order berhasil dihapus.';
     public const PO_DELETE_FAILED = 'Gagal menghapus Purchase Order: ';
 
+    // User messages
+    public const USER_NOT_FOUND = 'User tidak ditemukan';
+    public const USER_CREATED = 'User berhasil ditambahkan!';
+    public const USER_UPDATED = 'User berhasil diupdate!';
+    public const USER_DELETED = 'User berhasil dihapus!';
+    public const USER_DELETE_FAILED = 'Gagal menghapus user!';
+    public const USER_EMAIL_EXISTS = 'Email sudah digunakan, silakan gunakan email lain.';
+
     // General
     public const ACTION_FAILED = 'Aksi gagal dilakukan!';
 }
