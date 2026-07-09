@@ -23,10 +23,11 @@ class SupplierMaterialController extends Controller
         }
 
         $query = SupplierMaterial::query();
-
         $query->when($request->search, function ($q, $search) {
-            return $q->where('company_name', 'LIKE', '%' . $search . '%')
-                ->orWhere('product_name', 'LIKE', '%' . $search . '%');
+            return $q->where(function ($subQuery) use ($search) {
+                $subQuery->where('company_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('product_name', 'LIKE', '%' . $search . '%');
+            });
         });
 
         $query->when($request->start_date, function ($q, $startDate) {
@@ -48,8 +49,10 @@ class SupplierMaterialController extends Controller
         $query = SupplierMaterial::query();
 
         $query->when($request->search, function ($q, $search) {
-            return $q->where('company_name', 'LIKE', '%' . $search . '%')
-                ->orWhere('product_name', 'LIKE', '%' . $search . '%');
+            return $q->where(function ($subQuery) use ($search) {
+                $subQuery->where('company_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('product_name', 'LIKE', '%' . $search . '%');
+            });
         });
 
         $query->when($request->start_date, function ($q, $startDate) {
