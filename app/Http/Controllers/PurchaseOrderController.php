@@ -171,4 +171,36 @@ class PurchaseOrderController extends Controller
             return response()->json(['error' => 'Server gagal mengirim email: ' . $e->getMessage()], 500);
         }
     }
+// Method untuk menampilkan form Edit
+    public function edit($po_number)
+    {
+
+        $purchaseOrder = \App\Models\PurchaseOrder::where('po_number', $po_number)->first();
+        
+        if (!$purchaseOrder) {
+            abort(404, 'Data Purchase Order tidak ditemukan');
+        }
+
+        return view('purchase_orders.edit', compact('purchaseOrder'));
+    }
+
+    // Method untuk menyimpan perubahan
+    public function update(Request $request, $po_number)
+    {
+        // Validasi data yang boleh diubah (sesuaikan dengan kebutuhanmu)
+        $request->validate([
+            'status' => 'required|string',
+        ]);
+
+        try {
+            // Lakukan update status menggunakan Eloquent/Query Builder
+            \App\Models\PurchaseOrder::where('po_number', $po_number)->update([
+                'status' => $request->status,
+            ]);
+            
+            return redirect()->route('purchase.orders')->with('success', 'Purchase Order berhasil diupdate.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal update PO: ' . $e->getMessage());
+        }
+    }
 }
