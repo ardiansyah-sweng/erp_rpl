@@ -65,7 +65,7 @@
             <tr>
                 <td width="150">Nama Supplier</td>
                 <td width="10">:</td>
-                <td>{{ $supplier->company_name }}</td>
+                <td>{{ $supplier ? $supplier->company_name : 'Semua Supplier' }}</td>
             </tr>
             <tr>
                 <td>Periode</td>
