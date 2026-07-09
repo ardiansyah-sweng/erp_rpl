@@ -72,6 +72,14 @@
 
 @push('scripts')
 <script>
+    document.getElementById('supplier_id').addEventListener('blur', function () {
+        let id = this.value.trim();
+        if (!id) { document.getElementById('supplier_name').value = ''; return; }
+        fetch('/supplier/detail/' + id, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(res => res.json())
+            .then(data => { document.getElementById('supplier_name').value = data ? data.company_name : ''; });
+    });
+
     function validateForm() {
         let isValid = true;
         $('#supplierIdError').html("");
