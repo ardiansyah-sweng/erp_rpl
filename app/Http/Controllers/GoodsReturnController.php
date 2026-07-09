@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreGoodsReturnRequest;
+use App\Models\GoodsReceiptNote;
+use App\Models\GoodsReturn;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
+
+class GoodsReturnController extends Controller
+{
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+        $goodsReturns = GoodsReturn::getGoodsReturns($search);
+
+        return view('goods_return.index', compact('goodsReturns', 'search'));
+    }
+
+    public function create()
+    {
+        $receiptNotes = GoodsReceiptNote::with('item')
+            ->withSum('goodsReturns as returned_quantity', 'return_quantity')
+            ->orderBy('delivery_date', 'desc')
+            ->get()
+            ->map(function ($receiptNote) {
+                $remainingQuantity = $receiptNote->delivered_quantity - ($receiptNote->returned_quantity ?? 0);
+                $currentStock = $receiptNote->item?->stock_unit ?? 0;
+                $receiptNote->available_return_quantity = min($remainingQuantity, $currentStock);
+
+                return $receiptNote;
+            })
+            ->filter(function ($receiptNote) {
+                return $receiptNote->available_return_quantity > 0;
+            });
+
+        return view('goods_return.create', compact('receiptNotes'));
+    }
+
+    public function store(StoreGoodsReturnRequest $request)
+    {
+        $goodsReturn = GoodsReturn::addGoodsReturn($request->validated());
+
+        return redirect()->route('goods-returns.show', $goodsReturn->id)
+            ->with('success', 'Return barang berhasil disimpan dan stok telah diperbarui.');
+    }
+
+    public function show($id)
+    {
+        $goodsReturn = GoodsReturn::with([
+            'goodsReceiptNote',
+            'item',
+            'purchaseOrder.supplier',
+        ])->findOrFail($id);
+
+        return view('goods_return.show', compact('goodsReturn'));
+    }
+
+    public function printPdf($id)
+    {
+        $goodsReturn = GoodsReturn::with([
+            'goodsReceiptNote',
+            'item',
+            'purchaseOrder.supplier',
+        ])->findOrFail($id);
+
+        $pdf = Pdf::loadView('goods_return.pdf', [
+            'goodsReturn' => $goodsReturn,
+            'generatedAt' => now()->format('d/m/Y H:i:s'),
+        ]);
+
+        return $pdf->stream('return-barang-'.$goodsReturn->return_number.'.pdf');
+    }
+}

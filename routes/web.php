@@ -7,6 +7,7 @@ use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GoodsReceiptNoteController; // perubahan
+use App\Http\Controllers\GoodsReturnController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\ProductController;
@@ -323,6 +324,13 @@ Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 
 // Goods Receipt Note Controller
 Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'getGoodsReceiptNote']);
+
+// Goods Return
+Route::get('/goods-returns', [GoodsReturnController::class, 'index'])->name('goods-returns.index');
+Route::get('/goods-returns/create', [GoodsReturnController::class, 'create'])->name('goods-returns.create');
+Route::post('/goods-returns', [GoodsReturnController::class, 'store'])->name('goods-returns.store');
+Route::get('/goods-returns/{id}/pdf', [GoodsReturnController::class, 'printPdf'])->name('goods-returns.pdf');
+Route::get('/goods-returns/{id}', [GoodsReturnController::class, 'show'])->name('goods-returns.show');
 
 // Get Product By Category Controller
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
