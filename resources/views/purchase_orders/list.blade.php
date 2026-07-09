@@ -9,7 +9,7 @@ use App\Helpers\EncryptionHelper;
 @section('page-title')
 <h3 class="mb-0 me-2">Purchase Orders <span class="badge bg-primary ms-2">{{ $totalOrders }}</span></h3>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPurchaseOrderModal">Add</button>
-<a href="{{ route('purchase_orders.report_form') }}" class="btn btn-primary ms-2">Cetak PDF</a>
+<a href="{{ route('purchase_orders.report_form') }}" class="btn btn-primary ms-2">Cetak Laporan</a>
 <!-- Modal -->
 <div class="modal fade" id="addPurchaseOrderModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
