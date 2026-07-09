@@ -10,12 +10,20 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class AssortProductionController extends Controller
 {
-    public function getProduction()
+    public function getProduction(Request $request)
     {
-        $model = new AssortmentProduction();
-        $production = AssortmentProduction::paginate();
+        $search = $request->input('search');
+        
+        $query = AssortmentProduction::query();
+        
+        if ($search) {
+            $query->where('sku', 'like', "%{$search}%")
+                ->orWhere('production_number', 'like', "%{$search}%");
+        }
+        
+        $production = $query->paginate();
         $productionCount = AssortmentProduction::count();
-
+        
         return view('assortment_production.list', compact('production', 'productionCount'));
     }
     public function exportProductionPdf()
@@ -75,11 +83,14 @@ class AssortProductionController extends Controller
 
     public function searchProduction($keyword)
     {
-        $productions = DB::table('assortment_production')
-            ->where('sku', 'like', "%{$keyword}%")
-            ->get(['id', 'sku']); // ambil hanya kolom yang diperlukan
-
-        return response()->json($productions); // hasilnya array of object
+        $productions = AssortmentProduction::where('sku', 'like', "%{$keyword}%")->paginate(10);
+    
+        if ($productions->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada production yang ditemukan untuk SKU: ' . $keyword);
+        }
+        
+        $productionCount = AssortmentProduction::count();
+        return view('assortment_production.list', compact('productions', 'productionCount'));
     }
 
     public function deleteProduction($id)

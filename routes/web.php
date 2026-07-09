@@ -297,7 +297,6 @@ Route::delete('/assort-production/{id}', [AssortProductionController::class, 'de
 // Cetak PDF seluruh item/material yang dipasok oleh supplier tertentu
 Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::class, 'cetakPDF']);
 
-Route::get('/productions/search/{keyword}', [AssortProductionController::class, 'searchProduction']);
 
 // BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
