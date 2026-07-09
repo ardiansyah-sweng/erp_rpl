@@ -16,7 +16,96 @@ class SupplierMaterialController extends Controller
 
         return view('supplier.material.list', ['materials' => $materials]);
     }
+    public function getSupplierMaterialFiltered(Request $request)
+    {
+        if ($request->export == 'pdf') {
+            return $this->cetakPDFByFilter($request);
+        }
 
+        $query = SupplierMaterial::query();
+
+        $query->when($request->search, function ($q, $search) {
+            return $q->where('company_name', 'LIKE', '%' . $search . '%')
+                ->orWhere('product_name', 'LIKE', '%' . $search . '%');
+        });
+
+        $query->when($request->start_date, function ($q, $startDate) {
+            return $q->whereDate('created_at', '>=', $startDate);
+        });
+
+        $query->when($request->end_date, function ($q, $endDate) {
+            return $q->whereDate('created_at', '<=', $endDate);
+        });
+
+        $materials = $query->orderBy('created_at', 'asc')->paginate(10)->withQueryString();
+
+        return view('supplier.material.list', ['materials' => $materials]);
+    }
+
+    // 2. Cetak PDF massal berdasarkan filter aktif
+    public function cetakPDFByFilter(Request $request)
+    {
+        $query = SupplierMaterial::query();
+
+        $query->when($request->search, function ($q, $search) {
+            return $q->where('company_name', 'LIKE', '%' . $search . '%')
+                ->orWhere('product_name', 'LIKE', '%' . $search . '%');
+        });
+
+        $query->when($request->start_date, function ($q, $startDate) {
+            return $q->whereDate('created_at', '>=', $startDate);
+        });
+
+        $query->when($request->end_date, function ($q, $endDate) {
+            return $q->whereDate('created_at', '<=', $endDate);
+        });
+
+        $materials = $query->orderBy('created_at', 'asc')->get();
+
+        if ($materials->isEmpty()) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan untuk dicetak.');
+        }
+
+        $uniqueSuppliers = $materials->pluck('supplier_id')->unique();
+
+        if ($uniqueSuppliers->count() === 1) {
+            $final_supplier_id = $uniqueSuppliers->first();
+            $supplierName = $materials->first()->company_name;
+        } else {
+            $final_supplier_id = 'LAP-FILTER';
+            $keteranganFilter = [];
+
+            if ($request->search) {
+                $keteranganFilter[] = "Pencarian: '" . $request->search . "'";
+            }
+
+            if ($request->start_date && $request->end_date) {
+                $tglMulai = date('d/m/Y', strtotime($request->start_date));
+                $tglAkhir = date('d/m/Y', strtotime($request->end_date));
+                $keteranganFilter[] = "Periode: $tglMulai s/d $tglAkhir";
+            } elseif ($request->start_date) {
+                $tglMulai = date('d/m/Y', strtotime($request->start_date));
+                $keteranganFilter[] = "Sejak: $tglMulai";
+            } elseif ($request->end_date) {
+                $tglAkhir = date('d/m/Y', strtotime($request->end_date));
+                $keteranganFilter[] = "Hingga: $tglAkhir";
+            }
+
+            if (!empty($keteranganFilter)) {
+                $supplierName = "Laporan Material Kolektif (" . implode(' | ', $keteranganFilter) . ")";
+            } else {
+                $supplierName = "Laporan Keseluruhan Material Supplier";
+            }
+        }
+
+        $pdf = Pdf::loadView('supplier.material.pdf', [
+            'materials' => $materials,
+            'supplierName' => $supplierName,
+            'supplier_id' => $final_supplier_id
+        ]);
+
+        return $pdf->stream('data_material_' . $final_supplier_id . '.pdf');
+    }
     public function getSupplierMaterialById($id)
     {
         $model = new SupplierMaterial();
@@ -29,12 +118,12 @@ class SupplierMaterialController extends Controller
         return view('supplier.material.detail', ['material' => $material]);
     }
 
-     // Validasi data supplier material
-     public function addSupplierMaterial(Request $request)
-     {
+    // Validasi data supplier material
+    public function addSupplierMaterial(Request $request)
+    {
         $validated = $request->validate([
             'supplier_id'   => 'required|string|size:6',
-            'company_name'  => 'required|string|max:255', 
+            'company_name'  => 'required|string|max:255',
             'product_id'    => 'required|string|max:50',
             'product_name'  => 'required|string|max:255',
             'base_price'    => 'required|integer|min:0',
@@ -42,8 +131,8 @@ class SupplierMaterialController extends Controller
             'updated_at'    => 'nullable|date',
         ]);
         SupplierMaterial::addSupplierMaterial((object)$validated);
-         return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!'); 
-     }
+        return redirect()->back()->with('success', 'Data supplier product berhasil divalidasi!');
+    }
 
     public function updateSupplierMaterial(Request $request, $id)
     {
@@ -54,7 +143,7 @@ class SupplierMaterialController extends Controller
         ]);
 
         $validated['updated_at'] = now();
-        
+
         $model = new SupplierMaterial();
         $result = $model->updateSupplierMaterial($id, $validated);
 
@@ -79,7 +168,7 @@ class SupplierMaterialController extends Controller
         return $pdf->stream('data_material_' . $supplier_id . '.pdf');
     }
 
-        public function getSupplierMaterialByProductType($supplier_id, $product_type)
+    public function getSupplierMaterialByProductType($supplier_id, $product_type)
     {
         // Validasi hanya menerima product_type tertentu
         if (!in_array($product_type, ['HFG', 'FG', 'RM'])) {
@@ -107,11 +196,11 @@ class SupplierMaterialController extends Controller
         return response()->json($results);
     }
 
-public function searchSupplierMaterial(Request $request)
+    public function searchSupplierMaterial(Request $request)
     {
-       
+
         $keyword = $request->input('keyword');
-        
+
         $materials = SupplierMaterial::searchSupplierMaterial($keyword);
 
         // Cek apakah hasil pagination kosong

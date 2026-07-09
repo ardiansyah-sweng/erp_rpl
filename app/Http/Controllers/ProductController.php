@@ -13,12 +13,14 @@ use App\Constants\Messages;
 
 class ProductController extends Controller
 {
-    public function getProductList()
+    public function getProductList(Request $request)
     {
-        $products = Product::getAllProducts();
+        $type = $request->input('type');
+        $category = $request->input('category');
+        $products = Product::getFilteredProducts($type, $category);
         $totalProducts = Product::countProduct();
         $categories = Category::orderBy('category')->get();
-        return view('product.list', compact('products', 'categories', 'totalProducts'));
+        return view('product.list', compact('products', 'categories', 'totalProducts', 'type', 'category'));
     }
 
     public function generatePDF()
@@ -190,6 +192,31 @@ class ProductController extends Controller
             'message' => 'Data produk berhasil ditemukan',
             'data' => $products
         ]);
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $product = Product::find($id);
+            
+            if (!$product) {
+                return redirect()->back()->with('error', 'Produk tidak ditemukan.');
+            }
+            
+            // Cek apakah produk sudah dipakai di Item
+            $used = \App\Models\Item::where('product_id', $product->product_id)->exists();
+            
+            if ($used) {
+                return redirect()->back()->with('error', 'Produk tidak bisa dihapus karena sudah dipakai di Item.');
+            }
+            
+            $product->delete();
+            
+            return redirect()->route('product.list')->with('success', 'Produk berhasil dihapus.');
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
+        }
     }
 
 }

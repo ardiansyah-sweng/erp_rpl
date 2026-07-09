@@ -19,6 +19,7 @@ return [
         'category'                  => $master['category'],
         'cu'                        => 'conversion_unit',
         'grn'                       => 'goods_receipt_note',
+        'goods_return'              => 'goods_returns',
         'item'                      => 'items',
         'log_avg_base_price'        => 'log_avg_base_price',
         'log_base_price_supplier'   => 'log_base_price_supplier_product',
@@ -118,6 +119,18 @@ return [
             'comments'              => 'comments',
             'created_at'            => $master['created'],
             'updated_at'            => 'updated_at'
+        ],
+
+        'goods_return' => [
+            'id'                    => $master['id'],
+            'grn_id'                => 'grn_id',
+            'po_number'             => $master['po_number'],
+            'product_id'            => 'product_id',
+            'date'                  => 'return_date',
+            'qty'                   => 'return_quantity',
+            'reason'                => 'reason',
+            'created_at'            => $master['created'],
+            'updated_at'            => $master['updated']
         ],
 
         'item' => [

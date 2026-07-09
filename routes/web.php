@@ -7,6 +7,7 @@ use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GoodsReceiptNoteController; // perubahan
+use App\Http\Controllers\GoodsReturnController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\ProductController;
@@ -167,6 +168,7 @@ Route::get('/categories/list', [CategoryController::class, 'getCategoryList'])->
 
 // Product
 Route::get('/product/list', [ProductController::class, 'getProductList'])->name('product.list');
+Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
 Route::get('/products/detail/{id}', [ProductController::class, 'getProductById']);
 Route::get('/product/detail/{id}', [ProductController::class, 'getProductById'])->name('product.detail');
 Route::post('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
@@ -200,6 +202,7 @@ Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePu
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
+Route::delete('/purchase_orders/{po_number}', [PurchaseOrderController::class, 'destroy'])->name('purchase_orders.destroy');
 Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderController::class, 'sendMailPurchaseOrder'])->name('purchase_orders.send_email');
 
 // supplier pic route nya
@@ -214,10 +217,10 @@ Route::get('/supplier/pic/search', [SupplierPIController::class, 'searchSupplier
 Route::post('/supplier/{supplierID}/add-pic', [SupplierPIController::class, 'addSupplierPIC'])->name('supplier.pic.add');
 Route::get('/supplier/pic/list', [SupplierPIController::class, 'getSupplierPICAll'])->name('supplier-pic.list');
 Route::post('/supplier-pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])->name('supplier.pic.update');
-Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->name('supplier.pic.editForm');
+Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->name('supplier.pic.edit');
 Route::post('/supplier-pic/update-data/{id}', [SupplierPIController::class, 'updatePIC'])->name('supplier.pic.updateData');
 
-// Items
+# Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
@@ -242,7 +245,8 @@ Route::get('/item/export-by-category/{categoryId}', [ItemController::class, 'exp
 Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
-Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
+Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterialFiltered'])->name('supplier.material.list');
+Route::get('/supplier/material/cetak-filter', [SupplierMaterialController::class, 'cetakPDFByFilter'])->name('supplier.material.cetak-filter');
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('supplier.detail');
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
@@ -278,22 +282,20 @@ Route::get('/supplier-pic/cetak-pdf/{supplierID}', [SupplierPIController::class,
     ->name('supplier.pic.pdf.bySupplier');
 
 // production
-Route::get('/production', [AssortProductionController::class, 'getProduction']);
+Route::get('/production', [AssortProductionController::class, 'getProduction'])->name('assortment_production.list');
+Route::get('/production/pdf', [AssortProductionController::class, 'exportProductionPdf'])->name('production.pdf');
 
 // Bill of Material
-
 Route::get('/bom/list', [BillOfMaterialController::class, 'getBomList'])->name('bom.list');
 Route::get('/bom/print', [BillOfMaterialController::class, 'printBOM'])->name('bom.print');
 
-// production
-Route::get('/production', [AssortProductionController::class, 'getProduction']);
 Route::get('/assortment_production/detail', function () {
     return view('assortment_production.detail');
 });
 Route::put('/assortment_production/update/{id}', [AssortProductionController::class, 'updateProduction'])->name('assortment_production.update');
 
-Route::get('/assortment_production/detail/{po_number}', [AssortProductionController::class, 'getProductionDetail']);
-Route::delete('/assort-production/{id}', [AssortProductionController::class, 'deleteProduction']);
+Route::get('/assortment_production/detail/{po_number}', [AssortProductionController::class, 'getProductionDetail'])->name('assortment_production.detail');
+Route::delete('/assort-production/{id}', [AssortProductionController::class, 'deleteProduction'])->name('assortment_production.delete');
 
 // Cetak PDF seluruh item/material yang dipasok oleh supplier tertentu
 Route::get('/supplier/{supplier_id}/cetak-pdf', [SupplierMaterialController::class, 'cetakPDF']);
@@ -323,6 +325,13 @@ Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 
 // Goods Receipt Note Controller
 Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'getGoodsReceiptNote']);
+
+// Goods Return
+Route::get('/goods-returns', [GoodsReturnController::class, 'index'])->name('goods-returns.index');
+Route::get('/goods-returns/create', [GoodsReturnController::class, 'create'])->name('goods-returns.create');
+Route::post('/goods-returns', [GoodsReturnController::class, 'store'])->name('goods-returns.store');
+Route::get('/goods-returns/{id}/pdf', [GoodsReturnController::class, 'printPdf'])->name('goods-returns.pdf');
+Route::get('/goods-returns/{id}', [GoodsReturnController::class, 'show'])->name('goods-returns.show');
 
 // Get Product By Category Controller
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);

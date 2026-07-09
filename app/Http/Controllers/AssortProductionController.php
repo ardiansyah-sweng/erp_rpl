@@ -6,6 +6,7 @@ use App\Models\AssortmentProduction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AssortProductionController extends Controller
 {
@@ -13,8 +14,17 @@ class AssortProductionController extends Controller
     {
         $model = new AssortmentProduction();
         $production = AssortmentProduction::paginate();
+        $productionCount = AssortmentProduction::count();
 
-        return view('assortment_production.list', compact('production'));
+        return view('assortment_production.list', compact('production', 'productionCount'));
+    }
+    public function exportProductionPdf()
+    {
+        $production = AssortmentProduction::all(); // atau ->get() sesuai kebutuhan, tanpa paginate
+
+        $pdf = Pdf::loadView('assortment_production.pdf', compact('production'));
+
+        return $pdf->stream('laporan_production.pdf');
     }
 
     public function updateProduction(Request $request, $id)
@@ -80,16 +90,8 @@ class AssortProductionController extends Controller
             return response()->json(['message' => 'Data dengan ID tersebut tidak ditemukan'], 404);
         }
 
-        // Panggil method deleteProduction yang sudah ada di Model
-        // Method ini menggunakan production_number sebagai parameter
-        $result = AssortmentProduction::deleteProduction($production->production_number);
-
-        // Return response dari Model (pastikan method di model return boolean)
-        if ($result) {
-            return response()->json(['message' => 'Data berhasil dihapus'], 200);
-        } else {
-            return response()->json(['message' => 'Gagal menghapus data'], 500);
-        }
+        // Kembalikan response dari Model secara langsung
+        return AssortmentProduction::deleteProduction($production->production_number);
     }
 
     public function addProduction(Request $request)

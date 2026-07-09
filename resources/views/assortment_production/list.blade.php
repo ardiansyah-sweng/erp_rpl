@@ -4,7 +4,11 @@
 
 @section('page-title')
 <h3 class="mb-0 me-2">Productions</h3>
+<span class="btn btn-primary btn-sm me-2">Total Production: {{ $productionCount ?? 0 }}</span>
 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahProduksi">Tambah</button>
+<a href="{{ route('production.pdf') }}" target="_blank" class="btn btn-primary btn-sm ms-2">
+        <i class="fas fa-file-pdf"></i> Cetak PDF
+    </a>
 <!-- Modal Tambah Produksi & Material -->
 <div class="modal fade" id="modalTambahProduksi" tabindex="-1" aria-labelledby="modalTambahProduksiLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -169,10 +173,7 @@
               <td>{{ $produksi->updated_at }}</td>
               <td>
                 <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                <form action="#" method="POST" style="display: inline;">
-                  @csrf
-                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                </form>
+                <button type="button" class="btn btn-sm btn-danger" onclick="deleteProduction({{ $produksi->id }}, '{{ $produksi->production_number }}')">Delete</button>
                 <a href="#" class="btn btn-sm btn-info">Detail</a>
               </td>
             </tr>
@@ -194,6 +195,34 @@
 
 @push('scripts')
 <script>
+function deleteProduction(id, productionNumber) {
+  if (confirm('Apakah Anda yakin ingin menghapus produksi ' + productionNumber + '?')) {
+    fetch('/assort-production/' + id, {
+      method: 'DELETE',
+      headers: {
+        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        'Accept': 'application/json'
+      }
+    })
+    .then(res => {
+      return res.json().then(data => {
+        if (res.ok) {
+          return data;
+        } else {
+          throw new Error(data.message || 'Gagal menghapus data');
+        }
+      });
+    })
+    .then(data => {
+      alert(data.message || 'Data berhasil dihapus');
+      location.reload();
+    })
+    .catch(err => {
+      alert(err.message);
+    });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('addMaterialForm');
   const tableBody = document.querySelector('#materialTable tbody');
