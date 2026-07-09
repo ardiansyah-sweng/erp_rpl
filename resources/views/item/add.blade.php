@@ -271,13 +271,15 @@
       </div>
       
       <div class="form-group">
-      <label for="measurement_unit">Unit</label>
-        <select class="form-select" id="measurement_unit" name="measurement_unit" required>
-            <option selected disabled value="">Choose...</option>
-            @foreach($units as $unit)
-                <option value="{{ $unit->id }}">{{ $unit->unit_name }}</option>
-            @endforeach
-        </select>
+      <div class="form-group">
+    <label for="measurement_unit">Unit</label>
+    <select class="form-select" id="measurement_unit" name="measurement_unit" required>
+        <option selected disabled value="">Choose...</option>
+        <option value="Pcs">Pcs</option>
+        <option value="Box">Box</option>
+        <option value="Kg">Kg</option>
+    </select>
+</div>
         <div class="invalid-feedback">Please select a valid unit.</div>
       </div>
       
@@ -285,6 +287,16 @@
       <label for="selling_price">Harga Jual Rp.</label>
       <input type="number" class="form-control" id="selling_price" name="selling_price" value="{{ old('selling_price') }}">
       </div>
+    </div>
+    <!-- INPUT HARGA MODAL (KITA TAMBAHKAN) -->
+    <div class="form-group mt-3">
+    <label for="avg_base_price">Harga Modal Rp.</label>
+    <input type="number" class="form-control" id="avg_base_price" name="avg_base_price" placeholder="Masukkan harga modal..." required>
+    </div>
+
+    <!-- TEMPAT TEKS PERINGATAN OTOMATIS -->
+    <div class="mt-1">
+    <small id="warning-harga" class="font-weight-bold d-block"></small>
     </div>
     
     <div class="card-footer">
@@ -413,6 +425,53 @@ function validateForm() {
   
   return isValid;
 }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const inputModal = document.getElementById('avg_base_price');
+    const inputJual = document.getElementById('selling_price');
+    const textWarning = document.getElementById('warning-harga');
+    const tombolSubmit = document.querySelector('button[type="submit"]') || document.querySelector('.btn-primary') || document.querySelector('button[onclick*="validateForm"]');
+
+    function cekKeuntungan() {
+        let hargaModal = parseFloat(inputModal.value) || 0;
+        let hargaJual = parseFloat(inputJual.value) || 0;
+
+        // Jika kedua kolom sudah diisi, baru kita hitung
+        if (inputModal.value && inputJual.value) {
+            let selisih = hargaJual - hargaModal;
+
+            if (selisih < 0) {
+                // KONDISI RUGI
+                textWarning.style.setProperty('color', 'red', 'important');
+                textWarning.textContent = '⚠️ Peringatan: Anda Jual Rugi! Harga jual di bawah harga modal.';
+                if(tombolSubmit) {
+                    tombolSubmit.disabled = true; // Kunci tombol biar gak bisa di-submit
+                    tombolSubmit.style.opacity = '0.5'; // Biar tombolnya kelihatan buram/mati
+                }
+            } else {
+                // KONDISI UNTUNG
+                let persentase = ((selisih / hargaModal) * 100).toFixed(1);
+                textWarning.style.setProperty('color', 'green', 'important');
+                textWarning.textContent = '✅ Nice! Estimasi keuntungan: Rp ' + selisih.toLocaleString('id-ID') + ' (' + persentase + '%)';
+                if(tombolSubmit) {
+                    tombolSubmit.disabled = false; // Aktifkan tombol kembali
+                    tombolSubmit.style.opacity = '1';
+                }
+            }
+        } else {
+            textWarning.textContent = ''; // Kosongkan jika belum diisi
+        }
+    }
+
+    // Jalankan fungsi setiap kali user mengetik di kedua kolom tersebut
+    if (inputModal && inputJual) {
+        inputModal.addEventListener('keyup', cekKeuntungan);
+        inputJual.addEventListener('keyup', cekKeuntungan);
+        inputModal.addEventListener('change', cekKeuntungan);
+        inputJual.addEventListener('change', cekKeuntungan);
+    }
+});
 </script>
   </body>
 </html>

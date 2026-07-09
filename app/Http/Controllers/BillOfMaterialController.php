@@ -96,4 +96,24 @@ class BillOfMaterialController extends Controller
             'data' => $bom
         ]);
     }
+    public function calculateTotalCost($id)
+{
+    $totalCost = \DB::table('bill_of_material_details')
+        ->join('supplier_products', 'bill_of_material_details.item_id', '=', 'supplier_products.item_id')
+        ->where('bill_of_material_details.bom_id', $id)
+        ->select(\DB::raw('SUM(bill_of_material_details.quantity * supplier_products.base_price) as total'))
+        ->first();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Berhasil menghitung estimasi biaya produksi',
+        'author' => 'Ikhya ul umam (2300018214)',
+        'data' => [
+            'bom_id' => (int)$id,
+            'total_production_cost' => $totalCost->total ?? 0,
+            'currency' => 'IDR',
+            'status' => 'Calculated Successfully'
+        ]
+    ]);
+}
 }

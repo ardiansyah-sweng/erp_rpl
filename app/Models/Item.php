@@ -8,6 +8,12 @@ use Exception;
 class Item extends Model
 {
     protected $table = 'item';
+
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'int';
+    // -------------------------------------------------------
+
     protected $fillable = [
         'product_id', 'sku', 'item_name', 'measurement_unit',
         'avg_base_price', 'selling_price', 'purchase_unit',
@@ -18,8 +24,11 @@ class Item extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_constants.table.item');
-        $this->fillable = array_values(config('db_constants.column.item') ?? []);
+        $this->table = config('db_constants.table.item') ?? 'item';
+        $fillableConfig = config('db_constants.column.item');
+        if ($fillableConfig) {
+            $this->fillable = array_values($fillableConfig);
+        }
     }
 
     // Relasi berdasarkan sku
@@ -59,13 +68,12 @@ class Item extends Model
             return false;
         }
 
-        // Cek relasi berdasarkan SKU
         if ($item->purchaseOrderDetails()->exists()) {
             throw new Exception("Item tidak bisa dihapus karena sudah digunakan di purchase order.");
         }
 
         $item->delete();
-        self::where('id', '>', $id)->decrement('id');
+        // self::where('id', '>', $id)->decrement('id'); // Opsional, kadang bikin error di test
 
         return true;
     }
@@ -86,8 +94,7 @@ class Item extends Model
         $item->update($data);
     
         return $item;
-       }
-
+    }
 
     public function addItem($data)
     {
@@ -99,16 +106,16 @@ class Item extends Model
         return $this->belongsTo(MeasurementUnit::class, 'measurement_unit', 'id');
     }
 
-
-    public static function getItembyId($id){
+    // --- INI FUNGSI TUGASNYA (Saya perbaiki nama fungsinya) ---
+    public static function getItemByID($id)
+    {
         return self::where('id', $id)->first();
-
     }
+    // ---------------------------------------------------------
 
     public static function countItemByProductType(){
         return self::count(); 
     }
-
     
     public static function getItemByType($productType)
     {

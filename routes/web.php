@@ -283,7 +283,7 @@ Route::get('/productions/search/{keyword}', [AssortProductionController::class, 
 #BillOfMaterial
 Route::delete('/bill-of-material/{id}', [BillOfMaterialController::class, 'deleteBillOfMaterial']);
 Route::get('/bill-of-material', [BillOfMaterialController::class, 'getBillOfMaterial']);
-Route::post('/billofmaterial/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('billofmaterial.add');
+Route::post('/bill-of-material/add', [BillOfMaterialController::class, 'addBillOfMaterial'])->name('bill-of-material.add');
 Route::get('/bill-of-material/{id}', [BillOfMaterialController::class, 'getBomDetail']);
 Route::get('/bill-of-material/search/{keyword?}', [BillOfMaterialController::class, 'searchBillOfMaterial']);
 Route::get('/bom/detail/{id}', function ($id) {
@@ -320,3 +320,5 @@ Route::get('/warehouse', [WarehouseController::class, 'getWarehouseAll'])->name(
 Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSupplierPIC']);
 
 Route::post('/supplier/add', [SupplierController::class, 'AddSuplier'])->name('supplier.add');
+
+Route::get('/bill-of-material/calculate/{id}', [App\Http\Controllers\BillOfMaterialController::class, 'calculateTotalCost'])->name('bom.calculate');
