@@ -243,7 +243,8 @@ Route::get('/item/export-by-category/{categoryId}', [ItemController::class, 'exp
 Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
-Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
+Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterialFiltered'])->name('supplier.material.list');
+Route::get('/supplier/material/cetak-filter', [SupplierMaterialController::class, 'cetakPDFByFilter'])->name('supplier.material.cetak-filter');
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('supplier.detail');
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
