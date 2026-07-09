@@ -60,6 +60,18 @@ class ItemController extends Controller
         return view('item.add', compact('units'));
     }
 
+    public function edit($id)
+    {
+        $product = (new Item())->getProductById($id);
+
+        if (!$product) {
+            return abort(404, 'Product tidak ditemukan');
+        }
+
+        $categories = \App\Models\Category::orderBy('category')->get();
+
+        return view('product.edit', compact('product', 'categories'));
+    }
 
     public function getItemList(Request $request)
     {
