@@ -393,11 +393,17 @@
                     <i class="nav-icon bi bi-circle"></i>
                     <p>Bill Of Material</p>
                   </a>
+        
                 </li>
-              </ul>
-
-            </li>
-          </ul>
+           </ul>
+      </a>
+</li>
+<li class="nav-item">
+    <a href="/kalkulator-untung" class="nav-link">
+        <i class="nav-icon bi bi-calculator text-success"></i>
+        <p>Kalkulator Untung</p>
+    </a>
+</li>
           <!--end::Sidebar Menu-->
         </nav>
       </div>

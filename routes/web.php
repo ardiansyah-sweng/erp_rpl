@@ -322,3 +322,5 @@ Route::get('/supplier-pic/{supplierID}', [SupplierPIController::class, 'getSuppl
 Route::post('/supplier/add', [SupplierController::class, 'AddSuplier'])->name('supplier.add');
 
 Route::get('/bill-of-material/calculate/{id}', [App\Http\Controllers\BillOfMaterialController::class, 'calculateTotalCost'])->name('bom.calculate');
+
+Route::view('/kalkulator-untung', 'kalkulator_untung');
