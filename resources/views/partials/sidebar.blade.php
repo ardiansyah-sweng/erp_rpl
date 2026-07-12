@@ -143,6 +143,12 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('activity-logs.index') }}" class="nav-link @if(request()->routeIs('activity-logs.*')) active @endif">
+                        <i class="nav-icon bi bi-journal-text"></i>
+                        <p>Log Aktivitas</p>
+                    </a>
+                </li>
                 @if(auth()->user()?->isAdmin())
                 <li class="nav-item">
                     <a href="{{ route('users.index') }}" class="nav-link @if(request()->routeIs('users.*')) active @endif">

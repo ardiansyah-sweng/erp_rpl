@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\GoodsReceiptNoteController; // perubahan
 use App\Http\Controllers\GoodsReturnController;
 use App\Http\Controllers\ItemController;
@@ -369,3 +370,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 });
+
+// Activity Log
+Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
+Route::get('/activity-logs/export-pdf', [ActivityLogController::class, 'exportPdf'])->name('activity-logs.export-pdf');
+
