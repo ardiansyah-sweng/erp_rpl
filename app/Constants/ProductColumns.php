@@ -10,6 +10,7 @@ class ProductColumns
     public const TYPE           = 'type';
     public const CATEGORY       = 'category';
     public const DESC           = 'description';
+    public const IS_ACTIVE      = 'is_active';
     public const CREATED_AT     = 'created_at';
     public const UPDATED_AT     = 'updated_at';
 
@@ -24,6 +25,7 @@ class ProductColumns
             self::TYPE,
             self::CATEGORY,
             self::DESC,
+            self::IS_ACTIVE,
         ];
     }
 
@@ -39,6 +41,7 @@ class ProductColumns
             self::TYPE,
             self::CATEGORY,
             self::DESC,
+            self::IS_ACTIVE,
             self::CREATED_AT,
             self::UPDATED_AT,
         ];

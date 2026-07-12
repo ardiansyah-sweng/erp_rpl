@@ -182,6 +182,7 @@ Route::get('/product/pdf', [ProductController::class, 'generatePDF'])->name('pro
 Route::get('/product/search/{keyword}', [ProductController::class, 'searchProduct'])->name('product.search');
 Route::get('/products/print/{type}', [ProductController::class, 'printProductsByType'])->name('products.print.by-type');
 Route::get('/products/type/{type}', [ProductController::class, 'getProductByType']);
+Route::patch('/product/{id}/status', [ProductController::class, 'updateStatus'])->name('product.status.update');
 
 // Product Update
 Route::get('/product/edit/{id}', [ItemController::class, 'edit'])->name('product.edit');

@@ -17,7 +17,13 @@ class ProductController extends Controller
     {
         $type = $request->input('type');
         $category = $request->input('category');
-        $products = Product::getFilteredProducts($type, $category);
+        $status = match ($request->input('status')) {
+            'active' => true,
+            'inactive' => false,
+            default => null,
+        };
+
+        $products = Product::getFilteredProducts($type, $category, $status);
         $totalProducts = Product::countProduct();
         $categories = Category::orderBy('category')->get();
         return view('product.list', compact('products', 'categories', 'totalProducts', 'type', 'category'));
@@ -217,6 +223,33 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Archive or reactivate a product without deleting its historical data.
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'is_active' => ['required', 'boolean'],
+        ]);
+
+        $product = Product::find($id);
+
+        if (!$product) {
+            return redirect()->back()->with('error', Messages::PRODUCT_NOT_FOUND);
+        }
+
+        $isActive = (bool) $validated['is_active'];
+        $product->update([
+            'is_active' => $isActive,
+        ]);
+
+        $message = $isActive
+            ? 'Produk berhasil diaktifkan.'
+            : 'Produk berhasil dinonaktifkan.';
+
+        return redirect()->back()->with('success', $message);
     }
 
 }

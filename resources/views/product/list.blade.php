@@ -65,6 +65,14 @@ use App\Helpers\EncryptionHelper;
                         @endforeach
                     </select>
                 </div>
+
+                <div style="width: 180px;">
+                    <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                        <option value="">Semua Status</option>
+                        <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Aktif</option>
+                        <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Nonaktif</option>
+                    </select>
+                </div>
             </form>
             <!--end::Filter & Search Bar-->
             @if(session('success'))
@@ -91,6 +99,7 @@ use App\Helpers\EncryptionHelper;
                         <th>product_category</th>
                         <th>product_description</th>
                         <th>jumlah_item</th>
+                        <th>Status</th>
                         <th>Created At</th>
                         <th>Updated At </th>
                         <th>Action </th>
@@ -110,6 +119,13 @@ use App\Helpers\EncryptionHelper;
                         <td>{{ $product->categoryRelation ? $product->categoryRelation->category : 'Tidak Ada' }}</td>
                         <td>{{ $product->product_description }}</td>
                         <td>{{ $product->items_count }}</td>
+                        <td>
+                            @if($product->is_active)
+                                <span class="badge bg-success">Aktif</span>
+                            @else
+                                <span class="badge bg-secondary">Nonaktif</span>
+                            @endif
+                        </td>
                         <td>{{ $product->created_at }}</td>
                         <td>{{ $product->updated_at }}</td>
                         <td>
@@ -118,6 +134,16 @@ use App\Helpers\EncryptionHelper;
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">Delete</button>
+                            </form>
+                            <form action="{{ route('product.status.update', $product->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="is_active" value="{{ $product->is_active ? 0 : 1 }}">
+                                @if($product->is_active)
+                                    <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('Nonaktifkan produk ini?')">Nonaktifkan</button>
+                                @else
+                                    <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Aktifkan produk ini?')">Aktifkan</button>
+                                @endif
                             </form>
                             <a href="#" class="btn btn-sm btn-info">Detail</a>
                         </td>

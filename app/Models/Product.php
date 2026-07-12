@@ -22,10 +22,12 @@ class Product extends Model
         ProductColumns::TYPE,
         ProductColumns::CATEGORY,
         ProductColumns::DESC,
+        ProductColumns::IS_ACTIVE,
     ];
 
     protected $casts = [
         ProductColumns::TYPE => ProductType::class,
+        ProductColumns::IS_ACTIVE => 'boolean',
     ];
 
     public function __construct(array $attributes = [])
@@ -47,7 +49,7 @@ class Product extends Model
         return self::with('categoryRelation')->selectRaw("products.*, (SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, '%')) AS items_count")->orderBy('created_at', 'desc')->paginate(10);
     }
 
-    public static function getFilteredProducts($type = null, $category = null, $search = null)
+    public static function getFilteredProducts($type = null, $category = null, $status = null)
     {
         $tableItem = (new Item)->getTable();
         return self::with('categoryRelation')
@@ -60,12 +62,15 @@ class Product extends Model
                 $categoryIds  = \App\Models\Category::where('category', $categoryName)->pluck('id');
                 $query->whereIn('category', $categoryIds);
             })
+            ->when($status !== null, function ($query) use ($status) {
+                $query->where(ProductColumns::IS_ACTIVE, $status);
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->appends([
                 'type' => $type,
                 'category' => $category,
-                'search' => $search,
+                'status' => $status === null ? null : ($status ? 'active' : 'inactive'),
             ]);
     }
 
