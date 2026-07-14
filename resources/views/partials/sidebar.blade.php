@@ -151,6 +151,15 @@
                     </a>
                 </li>
                 @endif
+                <li class="nav-item mt-2 border-top border-secondary pt-2">
+                    <form id="logout-form-sidebar" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <a href="#" class="nav-link text-danger" onclick="event.preventDefault(); document.getElementById('logout-form-sidebar').submit();">
+                        <i class="nav-icon bi bi-box-arrow-right"></i>
+                        <p>Logout</p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
