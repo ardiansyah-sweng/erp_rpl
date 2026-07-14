@@ -345,6 +345,7 @@ Route::get('/goods-returns/create', [GoodsReturnController::class, 'create'])->n
 Route::post('/goods-returns', [GoodsReturnController::class, 'store'])->name('goods-returns.store');
 Route::get('/goods-returns/{id}/pdf', [GoodsReturnController::class, 'printPdf'])->name('goods-returns.pdf');
 Route::get('/goods-returns/{id}', [GoodsReturnController::class, 'show'])->name('goods-returns.show');
+Route::get('/return-image/{filename}', [GoodsReturnController::class, 'showImage'])->name('return.image');
 
 // Get Product By Category Controller
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);

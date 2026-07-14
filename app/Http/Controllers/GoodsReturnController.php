@@ -7,6 +7,7 @@ use App\Models\GoodsReceiptNote;
 use App\Models\GoodsReturn;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class GoodsReturnController extends Controller
 {
@@ -38,12 +39,40 @@ class GoodsReturnController extends Controller
         return view('goods_return.create', compact('receiptNotes'));
     }
 
-    public function store(StoreGoodsReturnRequest $request)
+    public function store(Request $request) // atau StoreGoodsReturnRequest $request
     {
-        $goodsReturn = GoodsReturn::addGoodsReturn($request->validated());
+        // 1. Validasi input
+        $request->validate([
+            'grn_id' => 'required',
+            'return_date' => 'required|date',
+            'return_quantity' => 'required|integer',
+            'reason' => 'required|string',
+            'bukti_lampiran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        // 2. Siapkan data
+        $data = $request->except('bukti_lampiran');
+
+        if ($request->hasFile('bukti_lampiran')) {
+            $path = $request->file('bukti_lampiran')->store('bukti_returns', 'public');
+            $data['bukti_lampiran'] = $path;
+        }
+
+        // 3. PANGGIL METHOD DI MODEL (Bukan self::create biasa!)
+        // Pastikan memanggil method addGoodsReturn agar po_number dan stok terproses
+        $goodsReturn = GoodsReturn::addGoodsReturn($data);
 
         return redirect()->route('goods-returns.show', $goodsReturn->id)
             ->with('success', 'Return barang berhasil disimpan dan stok telah diperbarui.');
+    }
+
+    public function showImage($filename)
+    {
+        $path = 'bukti_returns/' . $filename;
+        if (!Storage::disk('public')->exists($path)) {
+            abort(404);
+        }
+        return response()->file(storage_path('app/public/' . $path));
     }
 
     public function show($id)
@@ -70,6 +99,6 @@ class GoodsReturnController extends Controller
             'generatedAt' => now()->format('d/m/Y H:i:s'),
         ]);
 
-        return $pdf->stream('return-barang-'.$goodsReturn->return_number.'.pdf');
+        return $pdf->stream('return-barang-' . $goodsReturn->return_number . '.pdf');
     }
 }

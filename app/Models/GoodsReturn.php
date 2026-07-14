@@ -24,14 +24,19 @@ class GoodsReturn extends Model
         parent::__construct($attributes);
 
         $this->table = config('db_constants.table.goods_return', 'goods_returns');
-        $this->fillable = array_values(config('db_constants.column.goods_return', [
+
+        // Ambil dulu konfigurasi kolom ke dalam variabel
+        $columns = config('db_constants.column.goods_return', [
             'grn_id',
             'po_number',
             'product_id',
             'return_date',
             'return_quantity',
             'reason',
-        ]));
+        ]);
+
+        // Gunakan variabel $columns tersebut untuk di-merge
+        $this->fillable = array_values(array_unique(array_merge($columns, ['bukti_lampiran'])));
     }
 
     public function goodsReceiptNote()
@@ -118,6 +123,7 @@ class GoodsReturn extends Model
                 'return_date' => $data['return_date'],
                 'return_quantity' => $data['return_quantity'],
                 'reason' => $data['reason'],
+                'bukti_lampiran'  => $data['bukti_lampiran'] ?? null,
             ]);
 
             $oldStock = $item->{ItemColumns::STOCK_UNIT};
@@ -126,7 +132,7 @@ class GoodsReturn extends Model
             $item->save();
 
             DB::table(config('db_constants.table.log_matory'))->insert([
-                'log_id' => 'RETURN#'.$goodsReturn->id,
+                'log_id' => 'RETURN#' . $goodsReturn->id,
                 'sku' => $grn->product_id,
                 'old_stock' => $oldStock,
                 'new_stock' => $newStock,
@@ -140,6 +146,6 @@ class GoodsReturn extends Model
 
     public function getReturnNumberAttribute(): string
     {
-        return 'RTN-'.str_pad((string) $this->id, 6, '0', STR_PAD_LEFT);
+        return 'RTN-' . str_pad((string) $this->id, 6, '0', STR_PAD_LEFT);
     }
 }
