@@ -203,7 +203,7 @@ jobs:
     - name: Run Laravel Pint (Code Style)
       run: |
         if [ -f "./vendor/bin/pint" ]; then
-          ./vendor/bin/pint --test
+          ./vendor/bin/pint --test --dirty
         else
           echo "Laravel Pint not found, skipping code style check"
         fi
