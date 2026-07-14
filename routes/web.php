@@ -3,10 +3,12 @@
 use App\Helpers\EncryptionHelper;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\AssortProductionController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillOfMaterialController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GoodsReceiptNoteController; // perubahan
+use App\Http\Controllers\GoodsReturnController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\ProductController;
@@ -14,6 +16,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Http\Controllers\SupplierPIController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WarehouseController;
 use App\Models\BillOfMaterial;
 use App\Models\Warehouse;
@@ -39,9 +42,12 @@ Route::get('/login', function () {
     return view('login'); // tampilkan view login
 })->name('login');
 
+Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->name('dashboard');
+})->middleware('auth')->name('dashboard');
 
 // View Branches
 // Route::get('/branches', function () {
@@ -178,6 +184,7 @@ Route::get('/products/print/{type}', [ProductController::class, 'printProductsBy
 Route::get('/products/type/{type}', [ProductController::class, 'getProductByType']);
 
 // Product Update
+Route::get('/product/edit/{id}', [ItemController::class, 'edit'])->name('product.edit');
 Route::put('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct'); // Sudah sesuai pada ERP RPL
 Route::get('/product/update/{id}', [ProductController::class, 'updateProduct'])->name('product.updateProduct');
 
@@ -196,12 +203,20 @@ Route::get('/purchase_orders/detail/{encrypted_id}', function ($encrypted_id) {
 Route::get('/po-length/{po_number}/{order_date}', [PurchaseOrderController::class, 'getPOLength'])
     ->name('purchase_orders.length');
 Route::get('/purchase-orders/report', [PurchaseOrderController::class, 'showReportForm'])->name('purchase_orders.report_form');
-Route::post('/purchase-orders/pdf', [PurchaseOrderController::class, 'generatePurchaseOrderPDF'])->name('purchase_orders.pdf');
+Route::post('/purchase-orders/export', [PurchaseOrderController::class, 'exportPurchaseOrderReport'])->name('purchase_orders.export');
 Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrder'])->name('purchase.orders');
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
 Route::delete('/purchase_orders/{po_number}', [PurchaseOrderController::class, 'destroy'])->name('purchase_orders.destroy');
 Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderController::class, 'sendMailPurchaseOrder'])->name('purchase_orders.send_email');
+// Route untuk menampilkan halaman edit
+Route::get('/purchase_orders/edit/{encrypted_id}', function ($encrypted_id) {
+    $id = \App\Helpers\EncryptionHelper::decrypt($encrypted_id);
+    return app()->make(PurchaseOrderController::class)->edit($id);
+})->name('purchase.orders.edit');
+
+// Route untuk memproses update data
+Route::put('/purchase_orders/update/{po_number}', [PurchaseOrderController::class, 'update'])->name('purchase.orders.update');
 
 // supplier pic route nya
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
@@ -243,7 +258,8 @@ Route::get('/item/export-by-category/{categoryId}', [ItemController::class, 'exp
 Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
-Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material.list');
+Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterialFiltered'])->name('supplier.material.list');
+Route::get('/supplier/material/cetak-filter', [SupplierMaterialController::class, 'cetakPDFByFilter'])->name('supplier.material.cetak-filter');
 Route::post('/supplier/material/update/{id}', [SupplierMaterialController::class, 'updateSupplierMaterial'])->name('supplier.material.update');
 Route::get('/supplier/detail/{id}', [SupplierController::class, 'getSupplierById'])->name('supplier.detail');
 Route::get('/suppliers/search', [SupplierController::class, 'searchSuppliers']);
@@ -323,6 +339,13 @@ Route::put('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class
 // Goods Receipt Note Controller
 Route::get('/goods-receipt-note/{po_number}', [GoodsReceiptNoteController::class, 'getGoodsReceiptNote']);
 
+// Goods Return
+Route::get('/goods-returns', [GoodsReturnController::class, 'index'])->name('goods-returns.index');
+Route::get('/goods-returns/create', [GoodsReturnController::class, 'create'])->name('goods-returns.create');
+Route::post('/goods-returns', [GoodsReturnController::class, 'store'])->name('goods-returns.store');
+Route::get('/goods-returns/{id}/pdf', [GoodsReturnController::class, 'printPdf'])->name('goods-returns.pdf');
+Route::get('/goods-returns/{id}', [GoodsReturnController::class, 'show'])->name('goods-returns.show');
+
 // Get Product By Category Controller
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
 Route::put('/bill-of-material/{id}', [BillOfMaterialController::class, 'updateBillOfMaterial'])->name('bill-of-material.update');
@@ -335,3 +358,13 @@ Route::get(
     '/supplier-material/category/{category}/{supplier}',
     [SupplierMaterialController::class, 'getSupplierMaterialByCategory']
 );
+
+// User Management (RBAC) - hanya admin yang login yang boleh mengelola user
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/add', [UserController::class, 'create'])->name('users.create');
+    Route::post('/users/add', [UserController::class, 'store'])->name('users.store');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+});

@@ -44,6 +44,16 @@ class Item extends Model
         return self::all();
     }
 
+    // Ambil produk beserta jumlah item berdasarkan product_id
+    public function getProductById($id)
+    {
+        $tableItem = config('db_constants.table.item');
+        return \App\Models\Product::with('categoryRelation')
+            ->selectRaw("products.*, (SELECT COUNT(*) FROM {$tableItem} WHERE {$tableItem}.sku LIKE CONCAT(products.product_id, '%')) AS items_count")
+            ->where('product_id', $id)
+            ->first();
+    }
+
     // Ambil semua item dengan pencarian opsional
     public static function getAllItems($search = null)
     {

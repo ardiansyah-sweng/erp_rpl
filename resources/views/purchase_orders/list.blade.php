@@ -9,7 +9,7 @@ use App\Helpers\EncryptionHelper;
 @section('page-title')
 <h3 class="mb-0 me-2">Purchase Orders <span class="badge bg-primary ms-2">{{ $totalOrders }}</span></h3>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPurchaseOrderModal">Add</button>
-<a href="{{ route('purchase_orders.report_form') }}" class="btn btn-primary ms-2">Cetak PDF</a>
+<a href="{{ route('purchase_orders.report_form') }}" class="btn btn-primary ms-2">Cetak Laporan</a>
 <!-- Modal -->
 <div class="modal fade" id="addPurchaseOrderModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
@@ -120,7 +120,7 @@ use App\Helpers\EncryptionHelper;
               @endforeach
             </select>
           </div>
-        </div>
+       </div>
 
         <form action="{{ route('purchase_orders.search') }}" method="GET" class="d-flex ms-auto">
           <div class="input-group input-group-sm ms-auto" style="width: 450px;">
@@ -157,13 +157,13 @@ use App\Helpers\EncryptionHelper;
               <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d M Y') }}</td>
               <td>{{ $order->status }}</td>
               <td>
-                <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                <form action="{{ route('purchase_orders.destroy', $order->po_number) }}" method="POST" class="d-inline"
-                      onsubmit="return confirm('Yakin ingin menghapus PO {{ $order->po_number }}?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                </form>
+              <a href="{{ route('purchase.orders.edit', ['encrypted_id' => \App\Helpers\EncryptionHelper::encrypt($order->po_number)]) }}" class="btn btn-sm btn-primary">Edit</a>
+                          
+                          <form action="{{ route('purchase_orders.destroy', $order->po_number) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus PO {{ $order->po_number }}?')">
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                          </form>
                 <a href="/purchase_orders/detail/{{ EncryptionHelper::encrypt($order->po_number) }}" class="btn btn-sm btn-info">Detail</a>
                 <a href="goods_receipt_note/add" class="btn btn-sm btn-warning">GRN</a>
                 <a href="goods_receipt_note/detail" class="btn btn-sm btn-success">Detail GRN</a>

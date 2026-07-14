@@ -101,7 +101,7 @@ use App\Helpers\EncryptionHelper;
                     <tr class="align-middle">
                         <td>{{ $index + 1 }}</td>
                         <td>
-                            <a href="/products/detail/{{ EncryptionHelper::encrypt($product->product_id) }}" class="text-dark"> 
+                            <a href="/products/detail/{{ EncryptionHelper::encrypt($product->product_id) }}" class="text-dark">
                                 {{ $product->product_id }}
                             </a>
                         </td>
@@ -113,7 +113,7 @@ use App\Helpers\EncryptionHelper;
                         <td>{{ $product->created_at }}</td>
                         <td>{{ $product->updated_at }}</td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                            <a href="{{ route('product.edit', $product->product_id) }}" class="btn btn-sm btn-primary">Edit</a>
                             <form action="{{ route('product.destroy', $product->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
