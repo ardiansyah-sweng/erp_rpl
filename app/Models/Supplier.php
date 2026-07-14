@@ -156,4 +156,26 @@ class Supplier extends Model
         return ['success' => true, 'message' => 'Supplier berhasil dihapus.'];
     }
 
+    public static function getTopSuppliersByPoCount(int $limit = 5)
+    {
+        $model = new self;
+        $supplierTable = $model->getTable();
+        $poTable = config('db_constants.table.po');
+
+        return self::query()
+            ->leftJoin($poTable, $supplierTable . '.supplier_id', '=', $poTable . '.supplier_id')
+            ->select(
+                $supplierTable . '.supplier_id',
+                $supplierTable . '.company_name',
+                DB::raw('COUNT(' . $poTable . '.po_number) as po_count')
+            )
+            ->groupBy(
+                $supplierTable . '.supplier_id',
+                $supplierTable . '.company_name'
+            )
+            ->orderByDesc('po_count')
+            ->limit($limit)
+            ->get();
+    }
+
 }

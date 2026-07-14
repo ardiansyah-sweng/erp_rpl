@@ -236,4 +236,13 @@ class PurchaseOrder extends Model
         return self::where('status', $status)->count();
     }
 
+    public static function getMonthlyTrend(int $months = 6)
+    {
+        return self::selectRaw("DATE_FORMAT(order_date, '%Y-%m') as month, COUNT(*) as total")
+            ->where('order_date', '>=', Carbon::now()->subMonths($months)->startOfMonth())
+            ->groupBy('month')
+            ->orderBy('month', 'asc')
+            ->get();
+    }
+
 }
