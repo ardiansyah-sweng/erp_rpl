@@ -28,11 +28,6 @@ numberOfAssignees: 0
 assignees:
   - ardiansyah-sweng
 
-# A list of keywords to be skipped the process that add assignees if pull requests include it  
-skipKeywords:
-  - wip
-  - draft
-
 # Optional property that allows to filter the assignees and reviewers to be added to the pr based on the files
 # In this example, we add reviewers only if the PR modifies files under docs/
 # If no filters are specified, the assignees and reviewers will be added to all PRs

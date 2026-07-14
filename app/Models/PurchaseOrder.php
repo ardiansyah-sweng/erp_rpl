@@ -2,17 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use App\Enums\POStatus;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseOrder extends Model
 {
     protected $table;
+
     protected $primaryKey = 'po_number';
+
     public $incrementing = false;
+
     protected $keyType = 'string';
+
     protected $fillable = [];
 
     public function __construct(array $attributes = [])
@@ -79,25 +83,25 @@ class PurchaseOrder extends Model
         return self::count();
     }
 
-    //Menghitung jumlah purchase order by supplier
+    // Menghitung jumlah purchase order by supplier
     public static function countPurchaseOrderBySupplier($supplier_id)
     {
         return self::where('supplier_id', $supplier_id)->count();
     }
-    
+
     /**
      * Fungsi untuk menambahkan Purchase Order baru
      */
     public static function addPurchaseOrder($data)
     {
         DB::beginTransaction();
-        
+
         // Ambil item detail (0–n-1)
         $itemDetails = array_slice($data, 0, -1);
 
         // Ambil header data (elemen terakhir)
         $headerData = end($data);
-        
+
         try {
 
             $purchaseOrder = self::create([
@@ -118,6 +122,7 @@ class PurchaseOrder extends Model
             }
 
             DB::commit();
+
             return $purchaseOrder;
 
         } catch (\Exception $e) {
@@ -136,36 +141,36 @@ class PurchaseOrder extends Model
     public static function getPOLength($poNumber, $orderDate)
     {
         $po = PurchaseOrder::getPurchaseOrderByID($poNumber);
-        
-        if (!$po || $po->count() === 0) {
+
+        if (! $po || $po->count() === 0) {
             return null;
         }
-    
+
         // Ambil data PO pertama dari hasil paginate
         $poData = $po->first();
-        
+
         $orderDate = Carbon::parse($orderDate);
         $statusUpdateDate = Carbon::parse($poData->updated_at);
-    
+
         return intval($orderDate->diffInDays($statusUpdateDate));
     }
 
-     //hitung jumlah order dari supplier tertentu untuk rentang waktu tertentu
+    // hitung jumlah order dari supplier tertentu untuk rentang waktu tertentu
     public static function countOrdersByDateSupplier(
         string $startDate,
         string $endDate,
         string $supplierID,
         ?POStatus $status = null
-     ): int {
-         $query = self::query()
+    ): int {
+        $query = self::query()
             ->where('supplier_id', $supplierID)
             ->whereBetween('order_date', [$startDate, $endDate]);
 
-        if (!is_null($status)) {
-                $query->where('status', $status->value);
+        if (! is_null($status)) {
+            $query->where('status', $status->value);
         }
 
-         return $query->count();
+        return $query->count();
     }
 
     public static function getReportBySupplierAndDate($supplierId, $startDate, $endDate)
@@ -188,31 +193,32 @@ class PurchaseOrder extends Model
     public static function getPendingDeliveryQuantity($poNumber)
     {
         $poDetails = PurchaseOrderDetail::where('po_number', $poNumber)->get();
-        
+
         $pendingDeliveries = [];
-        
+
         if ($poDetails->isEmpty()) {
-            return $pendingDeliveries; 
+            return $pendingDeliveries;
         }
 
         foreach ($poDetails as $detail) {
             $orderedQty = $detail->quantity;
-            
+
             $receivedQty = GoodsReceiptNote::where('po_number', $poNumber)
                 ->where('product_id', $detail->product_id)
-                ->sum('delivered_quantity'); 
-            
+                ->sum('delivered_quantity');
+
             $pendingQty = $orderedQty - $receivedQty;
-            
+
             if ($pendingQty > 0) {
                 $pendingDeliveries[] = [
                     'product_id' => $detail->product_id,
                     'ordered_qty' => $orderedQty,
                     'received_qty' => $receivedQty,
-                    'pending_qty' => $pendingQty
+                    'pending_qty' => $pendingQty,
                 ];
             }
         }
+
         return $pendingDeliveries;
     }
 
@@ -220,12 +226,13 @@ class PurchaseOrder extends Model
     {
         return self::where('status', $status)->get();
     }
+
     public static function getPurchaseOrderBySupplierId($supplierId = null)
     {
         $query = self::with('supplier');
 
         if ($supplierId) {
-        $query->where('supplier_id', $supplierId);
+            $query->where('supplier_id', $supplierId);
         }
 
         return $query->get();
@@ -236,4 +243,12 @@ class PurchaseOrder extends Model
         return self::where('status', $status)->count();
     }
 
+    public static function getMonthlyTrend(int $months = 6)
+    {
+        return self::selectRaw("DATE_FORMAT(order_date, '%Y-%m') as month, COUNT(*) as total")
+            ->where('order_date', '>=', Carbon::now()->subMonths($months)->startOfMonth())
+            ->groupBy('month')
+            ->orderBy('month', 'asc')
+            ->get();
+    }
 }
