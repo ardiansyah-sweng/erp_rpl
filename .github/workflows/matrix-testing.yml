@@ -80,11 +80,11 @@ jobs:
     - name: Execute tests
       run: |
         if [ -d "tests" ]; then
-          vendor/bin/phpunit --verbose
+          vendor/bin/phpunit
         else
           echo "No tests directory found, creating basic test structure"
           mkdir -p tests/Feature tests/Unit
           echo "<?php test('example', function () { expect(true)->toBeTrue(); });" > tests/Feature/ExampleTest.php
           echo "<?php test('example', function () { expect(true)->toBeTrue(); });" > tests/Unit/ExampleTest.php
-          vendor/bin/phpunit --verbose
+          vendor/bin/phpunit
         fi
