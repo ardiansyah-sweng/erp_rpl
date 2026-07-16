@@ -40,7 +40,6 @@
                 <th>Jenis</th>
                 <th>Kategori</th>
                 <th>Deskripsi</th>
-                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -52,12 +51,11 @@
                 <td>{{ $product->type }}</td>
                 <td>{{ $product->categoryRelation ? $product->categoryRelation->category : '-' }}</td>
                 <td>{{ $product->description ?: '-' }}</td>
-                <td>{{ $product->is_active ? 'Aktif' : 'Nonaktif' }}</td>
             </tr>
             @endforeach
             @if(count($products) === 0)
                 <tr>
-                    <td colspan="7" style="text-align: center;">Tidak ada produk untuk tipe ini</td>
+                    <td colspan="6" style="text-align: center;">Tidak ada produk untuk tipe ini</td>
                 </tr>
             @endif
         </tbody>

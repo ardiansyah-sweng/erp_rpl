@@ -43,16 +43,6 @@
                     <td>{{ $product->description ?? 'Tidak ada data' }}</td>
                 </tr>
                 <tr>
-                    <th>Status</th>
-                    <td>
-                        @if($product->is_active)
-                            <span class="badge bg-success">Aktif</span>
-                        @else
-                            <span class="badge bg-secondary">Nonaktif</span>
-                        @endif
-                    </td>
-                </tr>
-                <tr>
                     <th>Created At</th>
                     <td>{{ $product->created_at ?? 'Tidak ada data' }}</td>
                 </tr>
