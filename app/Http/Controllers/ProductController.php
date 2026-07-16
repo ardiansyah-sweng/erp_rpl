@@ -9,6 +9,8 @@ use App\Helpers\EncryptionHelper;
 use App\Enums\ProductType;
 use App\Models\Category;
 use App\Constants\Messages;
+use App\Models\ActivityLog;
+use App\Constants\ActivityLogColumns;
 
 
 class ProductController extends Controller
@@ -101,6 +103,14 @@ class ProductController extends Controller
 
         Product::addProduct($dataToInsert);
 
+        // Catat log aktivitas
+        ActivityLog::logActivity(
+            ActivityLogColumns::ACTION_CREATE,
+            ActivityLogColumns::MODULE_PRODUCT,
+            "Menambahkan Produk '{$validatedData['product_name']}'",
+            $validatedData['product_id']
+        );
+
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
     public function updateProduct(Request $request, $id)
@@ -114,6 +124,14 @@ class ProductController extends Controller
         ]);
 
         $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
+
+        // Catat log aktivitas
+        ActivityLog::logActivity(
+            ActivityLogColumns::ACTION_UPDATE,
+            ActivityLogColumns::MODULE_PRODUCT,
+            "Memperbarui Produk '{$request->product_name}'",
+            $id
+        );
 
         return $Updateproduct;
     }
@@ -212,11 +230,20 @@ class ProductController extends Controller
             
             $product->delete();
             
+            // Catat log aktivitas
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_DELETE,
+                ActivityLogColumns::MODULE_PRODUCT,
+                "Menghapus Produk '{$product->name}'",
+                $id
+            );
+
             return redirect()->route('product.list')->with('success', 'Produk berhasil dihapus.');
             
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
         }
     }
+
 
 }

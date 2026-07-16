@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Constants\BranchColumns;
 use App\Constants\Messages;
+use App\Models\ActivityLog;
+use App\Constants\ActivityLogColumns;
 
 class BranchController extends Controller
 {
@@ -78,6 +80,14 @@ class BranchController extends Controller
                 BranchColumns::PHONE => $request->input('branch_telephone'),
                 BranchColumns::IS_ACTIVE => $request->boolean('is_active'),
             ]);
+
+            // Catat log aktivitas
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_CREATE,
+                ActivityLogColumns::MODULE_BRANCH,
+                "Menambahkan Branch '{$branch->branch_name}'",
+                $branch->id
+            );
 
             // Handle API Response
             $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
@@ -161,6 +171,14 @@ class BranchController extends Controller
                 BranchColumns::IS_ACTIVE => $request->boolean('is_active'),
             ]);
 
+            // Catat log aktivitas
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_UPDATE,
+                ActivityLogColumns::MODULE_BRANCH,
+                "Memperbarui Branch '{$branch->branch_name}'",
+                $branch->id
+            );
+
             // Handle API Response
             $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
             
@@ -231,6 +249,14 @@ class BranchController extends Controller
         $deleted = $branch->delete();
 
         if ($deleted) {
+            // Catat log aktivitas
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_DELETE,
+                ActivityLogColumns::MODULE_BRANCH,
+                "Menghapus Branch '{$branch->branch_name}'",
+                $branch->id
+            );
+
             if ($isApiRequest) {
                 return response()->json([
                     'success' => true,

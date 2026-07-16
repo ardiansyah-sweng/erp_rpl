@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Constants\Messages;
 use App\Constants\WarehouseColumns;
+use App\Models\ActivityLog;
+use App\Constants\ActivityLogColumns;
 
 class WarehouseController extends Controller
 {
@@ -80,6 +82,14 @@ class WarehouseController extends Controller
                 WarehouseColumns::IS_RM_WAREHOUSE => $request->boolean('is_rm_warehouse'),
                 WarehouseColumns::IS_FG_WAREHOUSE => $request->boolean('is_fg_warehouse'),
             ]);
+
+            // Catat log aktivitas
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_CREATE,
+                ActivityLogColumns::MODULE_WAREHOUSE,
+                "Menambahkan Warehouse '{$warehouse->warehouse_name}'",
+                $warehouse->id
+            );
 
             if ($isApiRequest) {
                 return response()->json([
@@ -232,6 +242,14 @@ class WarehouseController extends Controller
         $deleted = $warehouse->delete();
 
         if ($deleted) {
+            // Catat log aktivitas
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_DELETE,
+                ActivityLogColumns::MODULE_WAREHOUSE,
+                "Menghapus Warehouse '{$warehouse->warehouse_name}'",
+                $warehouse->id
+            );
+
             if ($isApiRequest) {
                 return response()->json([
                     'success' => true,
@@ -298,6 +316,14 @@ class WarehouseController extends Controller
                 'is_fg_warehouse' => $request->boolean('is_fg_warehouse'),
                 'is_active' => $request->boolean('is_active'),
             ]);
+
+            // Catat log aktivitas
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_UPDATE,
+                ActivityLogColumns::MODULE_WAREHOUSE,
+                "Memperbarui Warehouse '{$warehouse->warehouse_name}'",
+                $warehouse->id
+            );
 
             // Handle API Response
             $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');

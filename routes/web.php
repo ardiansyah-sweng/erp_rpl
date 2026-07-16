@@ -1,6 +1,7 @@
 <?php
 
 use App\Helpers\EncryptionHelper;
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\APIProductController;
 use App\Http\Controllers\AssortProductionController;
 use App\Http\Controllers\AuthController;
@@ -20,11 +21,13 @@ use App\Http\Controllers\SupplierPIController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WarehouseController;
 use App\Models\BillOfMaterial;
+use App\Models\Category;
+use App\Models\SupplierPic;
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\Route;
 
 // Route untuk cek hasil Supplier::getSupplier() (frekuensi order)
-Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
+Route::get('/cek-supplier-frekuensi', [SupplierController::class, 'getSupplierWithOrderFrequency']);
 
 // Route GET untuk form tambah merk
 Route::get('/merks/add', function () {
@@ -90,12 +93,13 @@ Route::get('/item/add', function () {
 });
 
 Route::get('/product/add', function () {
-    $categories = App\Models\Category::orderBy('category')->get();
+    $categories = Category::orderBy('category')->get();
+
     return view('product/add', compact('categories'));
 });
 
-Route::get('/supplier/list', [App\Http\Controllers\SupplierController::class, 'listSuppliers'])->name('supplier.list');
-Route::get('/supplier/list/pic-zero', [App\Http\Controllers\SupplierController::class, 'listSuppliersWithZeroPic'])->name('supplier.list.pic-zero');
+Route::get('/supplier/list', [SupplierController::class, 'listSuppliers'])->name('supplier.list');
+Route::get('/supplier/list/pic-zero', [SupplierController::class, 'listSuppliersWithZeroPic'])->name('supplier.list.pic-zero');
 Route::get('/supplier/material/detail', function () {
     return view('supplier/material/detail');
 });
@@ -208,10 +212,11 @@ Route::get('/purchase_orders', [PurchaseOrderController::class, 'getPurchaseOrde
 Route::get('/purchase_orders/{id}', [PurchaseOrderController::class, 'getPurchaseOrderByID']);
 Route::get('/purchase-order/status/{status}', [PurchaseOrderController::class, 'getPurchaseOrderByStatus']);
 Route::delete('/purchase_orders/{po_number}', [PurchaseOrderController::class, 'destroy'])->name('purchase_orders.destroy');
-Route::post('/purchase-orders/send-email', [App\Http\Controllers\PurchaseOrderController::class, 'sendMailPurchaseOrder'])->name('purchase_orders.send_email');
+Route::post('/purchase-orders/send-email', [PurchaseOrderController::class, 'sendMailPurchaseOrder'])->name('purchase_orders.send_email');
 // Route untuk menampilkan halaman edit
 Route::get('/purchase_orders/edit/{encrypted_id}', function ($encrypted_id) {
-    $id = \App\Helpers\EncryptionHelper::decrypt($encrypted_id);
+    $id = EncryptionHelper::decrypt($encrypted_id);
+
     return app()->make(PurchaseOrderController::class)->edit($id);
 })->name('purchase.orders.edit');
 
@@ -222,7 +227,7 @@ Route::put('/purchase_orders/update/{po_number}', [PurchaseOrderController::clas
 Route::get('/supplier/pic/detail/{id}', [SupplierPIController::class, 'getPICByID']);
 Route::put('/supplier/pic/update/{id}', [SupplierPIController::class, 'updateSupplierPICDetail'])->name('supplier.pic.update');
 Route::get('/supplier/pic/list', function () {
-    $pics = App\Models\SupplierPic::getSupplierPICAll(10);
+    $pics = SupplierPic::getSupplierPICAll(10);
 
     return view('supplier.pic.list', compact('pics')); // implementasi sementara(menunggu controller dari faiz el fayyed)
 })->name('supplier.pic.list');
@@ -233,7 +238,7 @@ Route::post('/supplier-pic/update/{id}', [SupplierPIController::class, 'updateSu
 Route::get('/supplier/pic/edit/{id}', [SupplierPIController::class, 'edit'])->name('supplier.pic.edit');
 Route::post('/supplier-pic/update-data/{id}', [SupplierPIController::class, 'updatePIC'])->name('supplier.pic.updateData');
 
-# Items
+// Items
 Route::get('/items', [ItemController::class, 'getItemAll']);
 Route::get('/item', [ItemController::class, 'getItemList'])->name('item.list'); // untuk tampilan
 Route::delete('/item/{id}', [ItemController::class, 'deleteItem'])->name('item.delete');
@@ -255,7 +260,7 @@ Route::get('/item/export-by-category/{categoryId}', [ItemController::class, 'exp
     ->name('item.export.category.pdf');
 
 // Supplier
-Route::get('/cek-supplier-frekuensi', [App\Http\Controllers\SupplierController::class, 'getSupplierWithOrderFrequency']);
+Route::get('/cek-supplier-frekuensi', [SupplierController::class, 'getSupplierWithOrderFrequency']);
 Route::get('/supplier/material', [SupplierMaterialController::class, 'getSupplierMaterial'])->name('supplier.material');
 Route::post('/supplier/material/add', [SupplierMaterialController::class, 'addSupplierMaterial'])->name('supplier.material.add');
 Route::get('/supplier/material/list', [SupplierMaterialController::class, 'getSupplierMaterialFiltered'])->name('supplier.material.list');
@@ -368,3 +373,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 });
+
+// Activity Log
+Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
+Route::get('/activity-logs/export-pdf', [ActivityLogController::class, 'exportPdf'])->name('activity-logs.export-pdf');

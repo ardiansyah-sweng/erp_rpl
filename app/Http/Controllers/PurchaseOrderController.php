@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Constants\Messages;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\ActivityLog;
+use App\Constants\ActivityLogColumns;
 
 class PurchaseOrderController extends Controller
 {
@@ -68,6 +70,14 @@ class PurchaseOrderController extends Controller
 
         try {
             PurchaseOrder::addPurchaseOrder($allData);
+
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_CREATE,
+                ActivityLogColumns::MODULE_PURCHASE_ORDER,
+                "Menambahkan Purchase Order '{$headerData['po_number']}'",
+                $headerData['po_number']
+            );
+
             return redirect()->back()->with('success', Messages::PO_CREATED);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', Messages::PO_CREATE_FAILED . $e->getMessage());
@@ -160,6 +170,13 @@ class PurchaseOrderController extends Controller
             $purchaseOrder->details()->delete();
             $purchaseOrder->delete();
 
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_DELETE,
+                ActivityLogColumns::MODULE_PURCHASE_ORDER,
+                "Menghapus Purchase Order '{$po_number}'",
+                $po_number
+            );
+
             DB::commit();
 
             return redirect()->route('purchase.orders')->with('success', Messages::PO_DELETED);
@@ -218,6 +235,13 @@ class PurchaseOrderController extends Controller
             \App\Models\PurchaseOrder::where('po_number', $po_number)->update([
                 'status' => $request->status,
             ]);
+
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_UPDATE,
+                ActivityLogColumns::MODULE_PURCHASE_ORDER,
+                "Memperbarui status Purchase Order '{$po_number}' menjadi '{$request->status}'",
+                $po_number
+            );
             
             return redirect()->route('purchase.orders')->with('success', 'Purchase Order berhasil diupdate.');
         } catch (\Exception $e) {
