@@ -39,27 +39,18 @@ class GoodsReturnController extends Controller
         return view('goods_return.create', compact('receiptNotes'));
     }
 
-    public function store(Request $request) // atau StoreGoodsReturnRequest $request
+    public function store(StoreGoodsReturnRequest $request)
     {
-        // 1. Validasi input
-        $request->validate([
-            'grn_id' => 'required',
-            'return_date' => 'required|date',
-            'return_quantity' => 'required|integer',
-            'reason' => 'required|string',
-            'bukti_lampiran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+        // 1. Ambil data yang sudah divalidasi oleh StoreGoodsReturnRequest
+        $data = $request->validated();
 
-        // 2. Siapkan data
-        $data = $request->except('bukti_lampiran');
-
+        // 2. Proses upload foto
         if ($request->hasFile('bukti_lampiran')) {
             $path = $request->file('bukti_lampiran')->store('bukti_returns', 'public');
             $data['bukti_lampiran'] = $path;
         }
 
-        // 3. PANGGIL METHOD DI MODEL (Bukan self::create biasa!)
-        // Pastikan memanggil method addGoodsReturn agar po_number dan stok terproses
+        // 3. Panggil method model
         $goodsReturn = GoodsReturn::addGoodsReturn($data);
 
         return redirect()->route('goods-returns.show', $goodsReturn->id)
