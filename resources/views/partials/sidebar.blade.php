@@ -1,6 +1,7 @@
 @php
     $isSupplier = request()->routeIs('supplier.*');
     $isProduction = request()->routeIs('bom.*') || request()->routeIs('billofmaterial.*') || request()->routeIs('assort*');
+    $isItem = request()->routeIs('item.*') || request()->routeIs('items.*');
 @endphp
 
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
@@ -93,11 +94,25 @@
                         <p>Branch</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('item.list') }}" class="nav-link @if(request()->routeIs('item.*') || request()->routeIs('items.*')) active @endif">
+                <li class="nav-item @if($isItem) menu-open @endif">
+                    <a href="#" class="nav-link @if($isItem) active @endif">
                         <i class="nav-icon bi bi-clipboard-fill"></i>
                         <p>Item</p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('item.list') }}" class="nav-link @if(request()->routeIs('item.list')) active @endif">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Daftar Item</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('item.low-stock') }}" class="nav-link @if(request()->routeIs('item.low-stock')) active @endif">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Low Stock Alert</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('categories.index') }}" class="nav-link @if(request()->routeIs('categories.*') || request()->routeIs('category.*')) active @endif">

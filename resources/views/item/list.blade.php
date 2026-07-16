@@ -5,6 +5,9 @@
 @section('page-title')
 <h3 class="mb-0 me-2">Item</h3>
 <a href="{{ route('item.add') }}" class="btn btn-primary btn-sm">Tambah</a>
+<a href="{{ route('item.low-stock') }}" class="btn btn-warning btn-sm ms-2">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i> Low Stock Alert
+</a>
 
 <div class="dropdown ms-2">
     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="printOptionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">

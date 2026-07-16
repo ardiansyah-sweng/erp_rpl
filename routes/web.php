@@ -16,6 +16,7 @@ use App\Http\Controllers\SupplierMaterialController;
 use App\Http\Controllers\SupplierPIController;
 use App\Http\Controllers\WarehouseController;
 use App\Models\BillOfMaterial;
+use App\Models\Item;
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\Route;
 
@@ -40,7 +41,11 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $lowStockItems = Item::getLowStockItems();
+    $lowStockCount = $lowStockItems->count();
+    $lowStockRemainingStock = $lowStockItems->sum('stock_unit');
+
+    return view('dashboard', compact('lowStockCount', 'lowStockRemainingStock'));
 })->name('dashboard');
 
 // View Branches

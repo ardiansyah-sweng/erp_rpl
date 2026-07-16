@@ -120,6 +120,32 @@
               <!--end::Small Box Widget 4-->
             </div>
             <!--end::Col-->
+            <div class="col-lg-3 col-6">
+              <!--begin::Small Box Widget 5-->
+              <div class="small-box text-bg-warning">
+                <div class="inner">
+                  <h3>{{ $lowStockCount ?? 0 }}</h3>
+                  <p>Low Stock Alert</p>
+                  <small>Sisa stok: {{ $lowStockRemainingStock ?? 0 }}</small>
+                </div>
+                <svg
+                  class="small-box-icon"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <path
+                    d="M9.401 3.003c1.155-2 4.043-2 5.198 0l7.355 12.738C23.109 17.741 21.665 20.25 19.355 20.25H4.645c-2.31 0-3.754-2.509-2.599-4.509L9.401 3.003zM12 8.25a.75.75 0 00-.75.75v4.5a.75.75 0 001.5 0V9a.75.75 0 00-.75-.75zm0 8.25a.9.9 0 100-1.8.9.9 0 000 1.8z"></path>
+                </svg>
+                <a
+                  href="{{ route('item.low-stock') }}"
+                  class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover">
+                  More info <i class="bi bi-link-45deg"></i>
+                </a>
+              </div>
+              <!--end::Small Box Widget 5-->
+            </div>
+            <!--end::Col-->
           </div>
           <!--end::Row-->
           <!--begin::Row-->
