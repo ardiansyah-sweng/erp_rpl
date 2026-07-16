@@ -95,11 +95,11 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="bukti_lampiran" class="form-label">Bukti Lampiran (Foto/Gambar)</label>
-                        <input type="file" name="bukti_lampiran" id="bukti_lampiran"
-                            class="form-control @error('bukti_lampiran') is-invalid @enderror" accept="image/*">
+                        <label for="attachment" class="form-label">Bukti Lampiran (Foto/Gambar)</label>
+                        <input type="file" name="attachment" id="attachment"
+                            class="form-control @error('attachment') is-invalid @enderror" accept="image/*">
                         <small class="text-muted">Format: jpeg, png, jpg. Maksimal 2MB.</small>
-                        @error('bukti_lampiran')
+                        @error('attachment')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>

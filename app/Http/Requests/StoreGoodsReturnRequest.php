@@ -18,7 +18,7 @@ class StoreGoodsReturnRequest extends FormRequest
             'return_date' => 'required|date|before_or_equal:today',
             'return_quantity' => 'required|integer|min:1',
             'reason' => 'required|string|max:255',
-            'bukti_lampiran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'attachment' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 
@@ -33,9 +33,9 @@ class StoreGoodsReturnRequest extends FormRequest
             'return_quantity.min' => 'Jumlah return minimal 1 unit.',
             'reason.required' => 'Alasan return wajib diisi.',
             'reason.max' => 'Alasan return maksimal 255 karakter.',
-            'bukti_lampiran.image' => 'File harus berupa gambar.',
-            'bukti_lampiran.mimes' => 'Format gambar harus jpeg, png, atau jpg.',
-            'bukti_lampiran.max' => 'Ukuran gambar maksimal 2MB.',
+            'attachment.image' => 'File harus berupa gambar.',
+            'attachment.mimes' => 'Format gambar harus jpeg, png, atau jpg.',
+            'attachment.max' => 'Ukuran gambar maksimal 2MB.',
         ];
     }
 }

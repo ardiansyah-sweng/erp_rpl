@@ -35,8 +35,7 @@ class GoodsReturn extends Model
             'reason',
         ]);
 
-        // Gunakan variabel $columns tersebut untuk di-merge
-        $this->fillable = array_values(array_unique(array_merge($columns, ['bukti_lampiran'])));
+        $this->fillable = array_values(array_unique(array_merge($columns, ['attachment_path'])));
     }
 
     public function goodsReceiptNote()
@@ -123,7 +122,7 @@ class GoodsReturn extends Model
                 'return_date' => $data['return_date'],
                 'return_quantity' => $data['return_quantity'],
                 'reason' => $data['reason'],
-                'bukti_lampiran'  => $data['bukti_lampiran'] ?? null,
+                'attachment_path'  => $data['attachment_path'] ?? null,
             ]);
 
             $oldStock = $item->{ItemColumns::STOCK_UNIT};

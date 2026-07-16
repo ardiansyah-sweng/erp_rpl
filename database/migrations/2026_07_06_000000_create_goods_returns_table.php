@@ -26,7 +26,7 @@ return new class extends Migration
             $table->date($col['date']);
             $table->unsignedInteger($col['qty']);
             $table->string($col['reason'], 255);
-            $table->string('bukti_lampiran', 255)->nullable();
+            $table->string('attachment_path', 255)->nullable();
             $table->timestamps();
 
             $table->index([$col['po_number'], $col['product_id']]);

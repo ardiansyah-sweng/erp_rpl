@@ -45,9 +45,9 @@ class GoodsReturnController extends Controller
         $data = $request->validated();
 
         // 2. Proses upload foto
-        if ($request->hasFile('bukti_lampiran')) {
-            $path = $request->file('bukti_lampiran')->store('bukti_returns', 'public');
-            $data['bukti_lampiran'] = $path;
+        if ($request->hasFile('attachment')) { // 'attachment' adalah name dari input di view
+            $path = $request->file('attachment')->store('bukti_returns', 'public');
+            $data['attachment_path'] = $path; // Harus sesuai nama kolom di database
         }
 
         // 3. Panggil method model
