@@ -14,6 +14,8 @@ use Illuminate\View\View;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Constants\Messages;
 use App\Constants\MerkColumns;
+use App\Models\ActivityLog;
+use App\Constants\ActivityLogColumns;
 
 /**
  * MerkController
@@ -89,6 +91,13 @@ class MerkController extends Controller
                 MerkColumns::MERK => $request->input('merk'),
                 MerkColumns::IS_ACTIVE => $request->boolean('is_active', true),
             ]);
+
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_CREATE,
+                ActivityLogColumns::MODULE_MERK,
+                "Menambahkan Merk '{$merk->merk}'",
+                $merk->id
+            );
 
             if ($isApiRequest) {
                 return response()->json([
@@ -182,6 +191,13 @@ class MerkController extends Controller
                 MerkColumns::IS_ACTIVE => $request->boolean('is_active'),
             ]);
 
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_UPDATE,
+                ActivityLogColumns::MODULE_MERK,
+                "Memperbarui Merk '{$merk->merk}'",
+                $merk->id
+            );
+
             $isApiRequest = $request->wantsJson() || str_starts_with($request->route()->getName() ?? '', 'api.');
             
             if ($isApiRequest) {
@@ -230,6 +246,12 @@ class MerkController extends Controller
         $deleted = $merk->delete();
 
         if ($deleted) {
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_DELETE,
+                ActivityLogColumns::MODULE_MERK,
+                "Menghapus Merk '{$merk->merk}'",
+                $id
+            );
             if ($isApiRequest) {
                 return response()->json([
                     'success' => true,

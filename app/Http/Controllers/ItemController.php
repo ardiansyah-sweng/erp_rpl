@@ -6,6 +6,8 @@ use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\MeasurementUnit;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\ActivityLog;
+use App\Constants\ActivityLogColumns;
 
 class ItemController extends Controller
 {
@@ -17,10 +19,18 @@ class ItemController extends Controller
     public function deleteItem($id)
     {
         try {
+            $item = Item::find($id);
             // Panggil fungsi deleteItemById dari model Item
             $deleted = Item::deleteItemById($id);
     
             if ($deleted) {
+                $itemName = $item ? $item->item_name : $id;
+                ActivityLog::logActivity(
+                    ActivityLogColumns::ACTION_DELETE,
+                    ActivityLogColumns::MODULE_ITEM,
+                    "Menghapus Item '{$itemName}'",
+                    $id
+                );
                 return redirect()->back()->with('success', 'Item berhasil dihapus!');
             } else {
                 return redirect()->back()->with('error', 'Item tidak ditemukan atau gagal dihapus.');
@@ -50,6 +60,13 @@ class ItemController extends Controller
             'measurement_unit' => $request->measurement_unit, // Perbaikan di sini
             'selling_price' => $request->selling_price, // Perbaikan di sini
         ]);
+
+        ActivityLog::logActivity(
+            ActivityLogColumns::ACTION_CREATE,
+            ActivityLogColumns::MODULE_ITEM,
+            "Menambahkan Item '{$request->item_name}' (SKU: {$request->sku})",
+            $request->sku
+        );
 
         return redirect()->route('item.list')->with('success', 'Item berhasil ditambahkan!');
     }
@@ -94,6 +111,13 @@ class ItemController extends Controller
         if (!$item) {
             return redirect()->back()->with('error', 'Item tidak ditemukan.');
         }
+
+        ActivityLog::logActivity(
+            ActivityLogColumns::ACTION_UPDATE,
+            ActivityLogColumns::MODULE_ITEM,
+            "Memperbarui Item '{$validated['item_name']}'",
+            $id
+        );
 
         return redirect()->back()->with('success', 'Item berhasil diperbarui.');
     }
