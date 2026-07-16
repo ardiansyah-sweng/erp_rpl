@@ -74,6 +74,7 @@
                             <th>sku</th>
                             <th>item_name</th>
                             <th>unit_name</th>
+                            <th>stock_unit</th>
                             <th>avg_base_price</th>
                             <th>selling_price</th>
                             <th>created_at</th>
@@ -88,6 +89,7 @@
                             <td>{{ $item->sku }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->unit?->unit_name ?? ($item->measurement ?? '-') }}</td>
+                            <td>{{ $item->stock_unit }}</td>
                             <td>{{ $item->avg_base_price ?? '0' }}</td>
                             <td>{{ $item->selling_price }}</td>
                             <td>{{ $item->created_at }}</td>
@@ -104,7 +106,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="9" class="text-center">No data available in table</td>
+                            <td colspan="10" class="text-center">No data available in table</td>
                         </tr>
                         @endforelse
                     </tbody>
