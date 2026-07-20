@@ -54,7 +54,7 @@ class DashboardController extends Controller
 
         $lowStockCount = Item::where(ItemColumns::STOCK_UNIT, '<', 10)->count();
 
-        $totalStockValue = Item::sum(DB::raw('stock_unit * ' . ItemColumns::BASE_PRICE));
+        $totalStockValue = Item::sum(DB::raw('stock_unit * '.ItemColumns::BASE_PRICE));
 
         $logTable = config('db_constants.table.log_matory', 'log_material_inventory');
         $logCol = config('db_constants.column.log_matory', []);

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\ActivityLog;
+use App\Constants\ActivityLogColumns;
 
 class SupplierController extends Controller
 {
@@ -32,6 +34,13 @@ class SupplierController extends Controller
 
         // Update data supplier nama perusahaan, alamat, nomor telepon dan akun bank
         $updatedSupplier = Supplier::updateSupplier($supplier_id, $request->only(['company_name', 'address', 'phone_number', 'bank_account'])); //Sudah sesuai pada ERP RPL
+
+        ActivityLog::logActivity(
+            ActivityLogColumns::ACTION_UPDATE,
+            ActivityLogColumns::MODULE_SUPPLIER,
+            "Memperbarui Supplier '{$request->company_name}'",
+            $supplier_id
+        );
 
         return redirect()->route('Supplier.detail', ['id' => $supplier_id]);
     }
@@ -89,7 +98,19 @@ class SupplierController extends Controller
 
     public function deleteSupplierByID($id)
     {
+        $supplier = Supplier::where('supplier_id', $id)->first();
+        $companyName = $supplier ? $supplier->company_name : $id;
+        
         $result = Supplier::deleteSupplier($id);
+
+        if ($result['success']) {
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_DELETE,
+                ActivityLogColumns::MODULE_SUPPLIER,
+                "Menghapus Supplier '{$companyName}'",
+                $id
+            );
+        }
 
         return response()->json([
             'status' => $result['success'] ? 'success' : 'error',
@@ -112,6 +133,13 @@ class SupplierController extends Controller
         unset($validatedData['phone_number']);
 
         $supplier = Supplier::addSupplier($validatedData);
+
+        ActivityLog::logActivity(
+            ActivityLogColumns::ACTION_CREATE,
+            ActivityLogColumns::MODULE_SUPPLIER,
+            "Menambahkan Supplier '{$validatedData['company_name']}'",
+            $validatedData['supplier_id']
+        );
 
         return redirect()->back()->with('success', 'Supplier Berhasil Di Tambahkan');
     }

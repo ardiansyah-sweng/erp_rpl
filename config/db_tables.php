@@ -10,4 +10,5 @@
         'supplier_pic'  => 'supplier_pics',
         'product'       => 'products',
         'warehouse'     => 'warehouse',
+        'activity_log'  => 'activity_logs',
     ];
