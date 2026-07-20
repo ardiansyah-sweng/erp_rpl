@@ -30,6 +30,7 @@ return new class extends Migration
             $table->integer(ItemColumns::PURCHASE_UNIT)->default(30); #30 kode unit Pieces di tabel measurement_unit
             $table->integer(ItemColumns::SELL_UNIT)->default(30);
             $table->integer(ItemColumns::STOCK_UNIT)->default(0);
+            $table->integer(ItemColumns::MINIMUM_STOCK)->default(0);
             $table->timestamps();
             $table->primary([ItemColumns::ID, ItemColumns::SKU]);
         });
