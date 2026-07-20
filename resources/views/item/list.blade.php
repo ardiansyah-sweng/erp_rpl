@@ -5,9 +5,6 @@
 @section('page-title')
 <h3 class="mb-0 me-2">Item</h3>
 <a href="{{ route('item.add') }}" class="btn btn-primary btn-sm">Tambah</a>
-<a href="{{ route('item.low-stock') }}" class="btn btn-warning btn-sm ms-2">
-    <i class="bi bi-exclamation-triangle-fill me-1"></i> Low Stock Alert
-</a>
 
 <div class="dropdown ms-2">
     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="printOptionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -75,6 +72,7 @@
                             <th>item_name</th>
                             <th>unit_name</th>
                             <th>stock_unit</th>
+                            <th>status_item</th>
                             <th>avg_base_price</th>
                             <th>selling_price</th>
                             <th>created_at</th>
@@ -90,6 +88,15 @@
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->unit?->unit_name ?? ($item->measurement ?? '-') }}</td>
                             <td>{{ $item->stock_unit }}</td>
+                            <td>
+                                @if($item->stock_unit == 0)
+                                    <span class="badge bg-danger">Habis</span>
+                                @elseif(($item->minimum_stock ?? 0) > 0 && $item->stock_unit <= $item->minimum_stock)
+                                    <span class="badge bg-warning text-dark">Stok Rendah</span>
+                                @else
+                                    <span class="badge bg-success">Aman</span>
+                                @endif
+                            </td>
                             <td>{{ $item->avg_base_price ?? '0' }}</td>
                             <td>{{ $item->selling_price }}</td>
                             <td>{{ $item->created_at }}</td>
@@ -106,7 +113,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="10" class="text-center">No data available in table</td>
+                            <td colspan="11" class="text-center">No data available in table</td>
                         </tr>
                         @endforelse
                     </tbody>

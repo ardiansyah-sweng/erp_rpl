@@ -152,16 +152,6 @@ class Item extends Model
 
     }
 
-    // Ambil item yang stoknya <= minimum_stock (hanya jika minimum_stock > 0)
-    public static function getLowStockItems()
-    {
-        return self::with('unit')
-            ->where(ItemColumns::MINIMUM_STOCK, '>', 0)
-            ->whereColumn(ItemColumns::STOCK_UNIT, '<=', ItemColumns::MINIMUM_STOCK)
-            ->orderBy(ItemColumns::STOCK_UNIT, 'asc')
-            ->get();
-    }
-
     // Hitung jumlah item dalam kategori tertentu
     public static function countItemByCategory($categoryId)
     {

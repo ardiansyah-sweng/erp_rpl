@@ -16,7 +16,6 @@ use App\Http\Controllers\SupplierMaterialController;
 use App\Http\Controllers\SupplierPIController;
 use App\Http\Controllers\WarehouseController;
 use App\Models\BillOfMaterial;
-use App\Models\Item;
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\Route;
 
@@ -41,11 +40,7 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::get('/dashboard', function () {
-    $lowStockItems = Item::getLowStockItems();
-    $lowStockCount = $lowStockItems->count();
-    $lowStockRemainingStock = $lowStockItems->sum('stock_unit');
-
-    return view('dashboard', compact('lowStockCount', 'lowStockRemainingStock'));
+    return view('dashboard');
 })->name('dashboard');
 
 // View Branches
@@ -231,7 +226,6 @@ Route::put('/item/update/{id}', [ItemController::class, 'updateItem']);
 
 Route::post('/item/add', [ItemController::class, 'addItem'])->name('item.add');
 Route::get('/item/add', [ItemController::class, 'showAddForm'])->name('item.add');
-Route::get('/item/low-stock', [ItemController::class, 'getLowStockAlert'])->name('item.low-stock');
 Route::get('/item/{id}', [ItemController::class, 'getItemById'])->name('item.detail');
 Route::get('/items/report', [ItemController::class, 'exportAllToPdf'])->name('item.report');
 Route::get('/items/type/{productType}', [ItemController::class, 'getItemByType']);

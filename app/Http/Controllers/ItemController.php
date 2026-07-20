@@ -182,13 +182,6 @@ public function exportByProductTypeToPdf($productType)
         return $pdf->stream("item-kategori-{$categoryName}.pdf");
     }
 
-    public function getLowStockAlert()
-    {
-        $items = Item::getLowStockItems();
-        $lowStockCount = $items->count();
-        return view('item.low_stock', compact('items', 'lowStockCount'));
-    }
-
     public function getItemByCategory($categoryId)
     {
         $items = Item::getItemByCategory($categoryId);
