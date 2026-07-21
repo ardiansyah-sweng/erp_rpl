@@ -83,6 +83,10 @@ class Messages
     public const PO_DELETED = 'Purchase Order berhasil dihapus.';
     public const PO_DELETE_FAILED = 'Gagal menghapus Purchase Order: ';
 
+    // Purchase Order Payment messages
+    public const PO_PAYMENT_CREATED = 'Pembayaran berhasil dicatat!';
+    public const PO_PAYMENT_NOT_FOUND = 'Data pembayaran tidak ditemukan';
+
     // User messages
     public const USER_NOT_FOUND = 'User tidak ditemukan';
     public const USER_CREATED = 'User berhasil ditambahkan!';

@@ -15,6 +15,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\PurchaseOrderPaymentController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierMaterialController;
 use App\Http\Controllers\SupplierPIController;
@@ -349,6 +350,12 @@ Route::get('/goods-returns/create', [GoodsReturnController::class, 'create'])->n
 Route::post('/goods-returns', [GoodsReturnController::class, 'store'])->name('goods-returns.store');
 Route::get('/goods-returns/{id}/pdf', [GoodsReturnController::class, 'printPdf'])->name('goods-returns.pdf');
 Route::get('/goods-returns/{id}', [GoodsReturnController::class, 'show'])->name('goods-returns.show');
+
+// Purchase Order Payment
+Route::get('/po-payments', [PurchaseOrderPaymentController::class, 'index'])->name('po-payments.index');
+Route::get('/po-payments/create', [PurchaseOrderPaymentController::class, 'create'])->name('po-payments.create');
+Route::post('/po-payments', [PurchaseOrderPaymentController::class, 'store'])->name('po-payments.store');
+Route::get('/po-payments/{id}', [PurchaseOrderPaymentController::class, 'show'])->name('po-payments.show');
 
 // Get Product By Category Controller
 Route::get('/products/category/{product_category}', [ProductController::class, 'getProductByCategory']);
