@@ -9,6 +9,7 @@
         'supplier'      => 'suppliers',
         'supplier_pic'  => 'supplier_pics',
         'product'       => 'products',
-        'warehouse'     => 'warehouse',
+        'warehouse'     => 'warehouses',
         'activity_log'  => 'activity_logs',
+        'customer'      => 'customers',
     ];

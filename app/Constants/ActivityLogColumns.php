@@ -40,6 +40,7 @@ class ActivityLogColumns
     const MODULE_GRN = 'goods_receipt_note';
     const MODULE_GOODS_RETURN = 'goods_return';
     const MODULE_USER = 'user';
+    const MODULE_CUSTOMER = 'customer';
 
     /**
      * Mendapatkan daftar kolom yang bisa diisi (fillable).
@@ -90,6 +91,7 @@ class ActivityLogColumns
             self::MODULE_GRN => 'Goods Receipt Note',
             self::MODULE_GOODS_RETURN => 'Goods Return',
             self::MODULE_USER => 'User',
+            self::MODULE_CUSTOMER => 'Customer',
         ];
     }
 }

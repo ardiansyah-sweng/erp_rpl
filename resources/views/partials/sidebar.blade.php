@@ -39,6 +39,12 @@
                         <p>Warehouse</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('customers.index') }}" class="nav-link @if(request()->routeIs('customers.*')) active @endif">
+                        <i class="nav-icon bi bi-people"></i>
+                        <p>Customer</p>
+                    </a>
+                </li>
                 <li class="nav-item @if($isSupplier) menu-open @endif">
                     <a href="#" class="nav-link @if($isSupplier) active @endif">
                         <i class="nav-icon bi bi-person-circle"></i>

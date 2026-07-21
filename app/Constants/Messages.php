@@ -91,6 +91,13 @@ class Messages
     public const USER_DELETE_FAILED = 'Gagal menghapus user!';
     public const USER_EMAIL_EXISTS = 'Email sudah digunakan, silakan gunakan email lain.';
 
+    // Customer messages
+    public const CUSTOMER_NOT_FOUND = 'Pelanggan tidak ditemukan';
+    public const CUSTOMER_CREATED = 'Pelanggan berhasil ditambahkan!';
+    public const CUSTOMER_UPDATED = 'Pelanggan berhasil diupdate!';
+    public const CUSTOMER_DELETED = 'Pelanggan berhasil dihapus!';
+    public const CUSTOMER_DELETE_FAILED = 'Gagal menghapus pelanggan!';
+
     // General
     public const ACTION_FAILED = 'Aksi gagal dilakukan!';
 }
