@@ -14,6 +14,7 @@ class ItemColumns
     public const PURCHASE_UNIT  = 'purchase_unit';
     public const SELL_UNIT      = 'sell_unit';
     public const STOCK_UNIT     = 'stock_unit';
+    public const MINIMUM_STOCK  = 'minimum_stock';
     public const CREATED_AT     = 'created_at';
     public const UPDATED_AT     = 'updated_at';
 
@@ -32,6 +33,7 @@ class ItemColumns
             self::PURCHASE_UNIT,
             self::SELL_UNIT,
             self::STOCK_UNIT,
+            self::MINIMUM_STOCK,
         ];
     }
 
@@ -51,6 +53,7 @@ class ItemColumns
             self::PURCHASE_UNIT,
             self::SELL_UNIT,
             self::STOCK_UNIT,
+            self::MINIMUM_STOCK,
             self::CREATED_AT,
             self::UPDATED_AT,
         ];
