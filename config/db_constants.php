@@ -30,6 +30,7 @@ return [
         'mu'                        => 'measurement_unit',
         'po'                        => 'purchase_order',
         'po_detail'                 => 'purchase_order_detail',
+        'po_payment'                => 'purchase_order_payments',
         'products'                   => 'products',
         'supplier'                  => 'suppliers',
         'supplier_pic'              => 'supplier_pics',
@@ -220,6 +221,16 @@ return [
             'quantity'              => 'quantity',
             'amount'                => 'amount',
             'received_days'         => 'received_days',
+            'created_at'            => 'created_at',
+            'updated_at'            => 'updated_at'
+        ],
+        'po_payment' => [
+            'id'                    => 'id',
+            'po_number'             => $master['po_number'],
+            'payment_date'          => 'payment_date',
+            'amount'                => 'amount',
+            'method'                => 'method',
+            'note'                  => 'note',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],

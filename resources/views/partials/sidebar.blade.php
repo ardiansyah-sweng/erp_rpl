@@ -1,6 +1,6 @@
 @php
     $isSupplier = request()->routeIs('supplier.*');
-    $isPurchaseOrder = request()->routeIs('purchase.orders*') || request()->routeIs('purchase_orders.*') || request()->routeIs('goods-returns.*');
+    $isPurchaseOrder = request()->routeIs('purchase.orders*') || request()->routeIs('purchase_orders.*') || request()->routeIs('goods-returns.*') || request()->routeIs('po-payments.*');
     $isProduction = request()->routeIs('bom.*') || request()->routeIs('billofmaterial.*') || request()->routeIs('assort*');
     $isItem = request()->routeIs('item.*') || request()->routeIs('items.*');
 @endphp
@@ -102,6 +102,12 @@
                             <a href="{{ route('goods-returns.index') }}" class="nav-link @if(request()->routeIs('goods-returns.*')) active @endif">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Return Barang</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('po-payments.index') }}" class="nav-link @if(request()->routeIs('po-payments.*')) active @endif">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Pembayaran PO</p>
                             </a>
                         </li>
                     </ul>
