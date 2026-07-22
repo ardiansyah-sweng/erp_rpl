@@ -6,6 +6,8 @@ use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\MeasurementUnit;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\ActivityLog;
+use App\Constants\ActivityLogColumns;
 
 class ItemController extends Controller
 {
@@ -17,10 +19,18 @@ class ItemController extends Controller
     public function deleteItem($id)
     {
         try {
+            $item = Item::find($id);
             // Panggil fungsi deleteItemById dari model Item
             $deleted = Item::deleteItemById($id);
     
             if ($deleted) {
+                $itemName = $item ? $item->item_name : $id;
+                ActivityLog::logActivity(
+                    ActivityLogColumns::ACTION_DELETE,
+                    ActivityLogColumns::MODULE_ITEM,
+                    "Menghapus Item '{$itemName}'",
+                    $id
+                );
                 return redirect()->back()->with('success', 'Item berhasil dihapus!');
             } else {
                 return redirect()->back()->with('error', 'Item tidak ditemukan atau gagal dihapus.');
@@ -35,21 +45,30 @@ class ItemController extends Controller
     public function addItem(Request $request)
     {
         $request->validate([
-            'product_id' => 'required|string|size:4', // ID Produk 4 karakter
-            'sku' => 'required|string',
-            'item_name' => 'required|string|min:3',
+            'product_id'    => 'required|string|size:4',
+            'sku'           => 'required|string',
+            'item_name'     => 'required|string|min:3',
             'measurement_unit' => 'required|string',
             'selling_price' => 'required|numeric|min:0',
+            'minimum_stock' => 'nullable|integer|min:0',
         ]);
 
         $item = new Item();
         $item->addItem([
-            'product_id' => $request->product_id,
-            'sku' => $request->sku,
-            'item_name' => $request->item_name,
-            'measurement_unit' => $request->measurement_unit, // Perbaikan di sini
-            'selling_price' => $request->selling_price, // Perbaikan di sini
+            'product_id'    => $request->product_id,
+            'sku'           => $request->sku,
+            'name'          => $request->item_name,
+            'measurement'   => $request->measurement_unit,
+            'selling_price' => $request->selling_price,
+            'minimum_stock' => $request->input('minimum_stock', 0),
         ]);
+
+        ActivityLog::logActivity(
+            ActivityLogColumns::ACTION_CREATE,
+            ActivityLogColumns::MODULE_ITEM,
+            "Menambahkan Item '{$request->item_name}' (SKU: {$request->sku})",
+            $request->sku
+        );
 
         return redirect()->route('item.list')->with('success', 'Item berhasil ditambahkan!');
     }
@@ -84,16 +103,29 @@ class ItemController extends Controller
     public function updateItem(Request $request, $id)
     {
         $validated = $request->validate([
-            'id' => 'required|integer',
-            'sku' => 'required|string|max:50',
-            'item_name' => 'required|string|max:100',
+            'id'            => 'required|integer',
+            'sku'           => 'required|string|max:50',
+            'item_name'     => 'required|string|max:100',
         ]);
 
-         $item = Item::updateItem($id, $validated);
+        $updateData = [
+            'id'            => $validated['id'],
+            'sku'           => $validated['sku'],
+            'name'          => $validated['item_name'],
+        ];
+
+        $item = Item::updateItem($id, $updateData);
 
         if (!$item) {
             return redirect()->back()->with('error', 'Item tidak ditemukan.');
         }
+
+        ActivityLog::logActivity(
+            ActivityLogColumns::ACTION_UPDATE,
+            ActivityLogColumns::MODULE_ITEM,
+            "Memperbarui Item '{$validated['item_name']}'",
+            $id
+        );
 
         return redirect()->back()->with('success', 'Item berhasil diperbarui.');
     }

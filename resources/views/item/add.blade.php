@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Tambah Produk')
 
@@ -85,6 +85,12 @@
                     <div class="form-group">
                         <label for="selling_price">Harga Jual Rp.</label>
                         <input type="number" class="form-control" id="selling_price" name="selling_price" value="{{ old('selling_price') }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="minimum_stock">Stok Minimum</label>
+                        <input type="number" class="form-control" id="minimum_stock" name="minimum_stock" value="{{ old('minimum_stock', 0) }}" min="0">
+                        <small class="form-text text-muted">Batas minimum stok. Sistem akan memberi peringatan jika stok berada di bawah atau sama dengan nilai ini.</small>
                     </div>
                 </div>
 

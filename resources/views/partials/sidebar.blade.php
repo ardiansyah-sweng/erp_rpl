@@ -2,6 +2,7 @@
     $isSupplier = request()->routeIs('supplier.*');
     $isPurchaseOrder = request()->routeIs('purchase.orders*') || request()->routeIs('purchase_orders.*') || request()->routeIs('goods-returns.*');
     $isProduction = request()->routeIs('bom.*') || request()->routeIs('billofmaterial.*') || request()->routeIs('assort*');
+    $isItem = request()->routeIs('item.*') || request()->routeIs('items.*');
 @endphp
 
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
@@ -112,7 +113,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('item.list') }}" class="nav-link @if(request()->routeIs('item.*') || request()->routeIs('items.*')) active @endif">
+                    <a href="{{ route('item.list') }}" class="nav-link @if($isItem) active @endif">
                         <i class="nav-icon bi bi-clipboard-fill"></i>
                         <p>Item</p>
                     </a>
@@ -142,6 +143,12 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('activity-logs.index') }}" class="nav-link @if(request()->routeIs('activity-logs.*')) active @endif">
+                        <i class="nav-icon bi bi-journal-text"></i>
+                        <p>Log Aktivitas</p>
+                    </a>
                 </li>
                 @if(auth()->user()?->isAdmin())
                 <li class="nav-item">
