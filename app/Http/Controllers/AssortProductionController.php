@@ -13,10 +13,10 @@ class AssortProductionController extends Controller
     public function getProduction()
     {
         $model = new AssortmentProduction();
-        $production = AssortmentProduction::paginate();
+        $productions = AssortmentProduction::paginate();
         $productionCount = AssortmentProduction::count();
 
-        return view('assortment_production.list', compact('production', 'productionCount'));
+        return view('assortment_production.list', compact('productions', 'productionCount'));
     }
     public function exportProductionPdf()
     {
@@ -73,13 +73,20 @@ class AssortProductionController extends Controller
         return view('assortment_production.detail', compact('data'));
     }
 
-    public function searchProduction($keyword)
+    public function searchProduction(Request $request)
     {
-        $productions = DB::table('assortment_production')
-            ->where('sku', 'like', "%{$keyword}%")
-            ->get(['id', 'sku']); // ambil hanya kolom yang diperlukan
-
-        return response()->json($productions); // hasilnya array of object
+        $keyword = $request->get('keyword');
+        
+        $productions = AssortmentProduction::where('sku', 'like', "%{$keyword}%")
+                                        ->orWhere('production_number', 'like', "%{$keyword}%")
+                                        ->paginate(10);
+        
+        if ($productions->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada production yang ditemukan untuk: ' . $keyword);
+        }
+        
+        $productionCount = AssortmentProduction::count();
+        return view('assortment_production.list', compact('productions', 'productionCount'));
     }
 
     public function deleteProduction($id)
