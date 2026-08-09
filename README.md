@@ -42,13 +42,13 @@ Proyek ini menggunakan arsitektur **Database-as-Code**. Semua perubahan struktur
 
 Jika Anda mendapatkan tugas untuk memodifikasi atau menambah tabel baru:
 - Jangan edit database via GUI (DBeaver/phpMyAdmin).
-- Buka file `database\schema.dbml` di VS Code, lakukan modifikasi skema.
-- Jalankan perintah ini di terminal untuk melihat pratinjau visualnya langsung di browser:
-  ```bash
-  dbdiagram push
-  ```
-- Setelah desain disetujui oleh Lead Architect, buat file Laravel Migration baru yang sesuai dengan kode DBML tersebut.
-
+- Buat file migration baru. Contoh: `php artisan make:migration add_foreign_key_to_mata_kuliah_table --table=mata_kuliah`
+- Tulis sintaks modifikasi di file migration baru tersebut
+- Jalankan migrasi dengan perintah `php artisan migrate`
+- Regenerasi ke `database\schema.dbml` dengan perintah:
+  - `mysqldump -u root -proot --result-file=skema_utf8.sql --no-data --default-character-set=utf8mb4 erp_rpl`
+  - `sql2dbml .\skema_utf8.sql --mysql -o schema.dbml`
+  - `dbdiagram push`
 
 ## ⏱️TIMELINE
 ⬆️ 2026

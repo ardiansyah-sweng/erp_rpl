@@ -130,7 +130,7 @@ Table "goods_receipt_note" {
 
 Table "goods_returns" {
   "id" bigint [pk, not null, increment]
-  "grn_id" bigint [not null, note: 'ID dari goods receipt note yang terkait']
+  "grn_id" bigint [not null]
   "po_number" char(6) [not null]
   "product_id" varchar(50) [not null]
   "return_date" date [not null]
@@ -143,8 +143,6 @@ Table "goods_returns" {
     (po_number, product_id) [name: "goods_returns_po_number_product_id_index"]
     grn_id [name: "goods_returns_grn_id_foreign"]
   }
-
-  Note: 'Tabel ini menyimpan data retur barang'
 }
 
 Table "item_unit" {
@@ -241,7 +239,7 @@ Table "products" {
 Table "purchase_order" {
   "po_number" char(6) [not null]
   "supplier_id" char(6) [not null]
-  "total" bigint [not null, note: 'dinamis dari po detail']
+  "total" bigint [not null]
   "branch_id" int [not null]
   "order_date" date [not null]
   "status" char(20) [not null, default: 'Draft']
@@ -308,6 +306,10 @@ Table "supplier_pics" {
   "assigned_date" date
   "created_at" timestamp
   "updated_at" timestamp
+
+  Indexes {
+    supplier_id [name: "supplier_pics_supplier_id_foreign"]
+  }
 }
 
 Table "supplier_product" {
@@ -367,4 +369,6 @@ Table "warehouse" {
   }
 }
 
-Ref "goods_returns_grn_id_foreign" : "goods_receipt_note"."id" < "goods_returns"."grn_id" [delete: restrict]
+Ref "goods_returns_grn_id_foreign":"goods_receipt_note"."id" <? "goods_returns"."grn_id" [delete: restrict]
+
+Ref "supplier_pics_supplier_id_foreign":"suppliers"."supplier_id" <? "supplier_pics"."supplier_id" [delete: cascade]

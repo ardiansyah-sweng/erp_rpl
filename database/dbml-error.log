@@ -1,0 +1,5 @@
+2026-08-09T13:43:34.126Z
+
+    You have a syntax error at "skema.sql" line 1 column 0. extraneous input '��' expecting {<EOF>, ';', STATEMENT_TERMINATOR, 'ALTER', 'ANALYZE', 'CALL', 'CHANGE', 'CHECK', 'CREATE', 'DELETE', 'DESC', 'DESCRIBE', 'DROP', 'EXPLAIN', 'GET', 'GRANT', 'INSERT', 'KILL', 'LOAD', 'LOCK', 'OPTIMIZE', 'PURGE', 'RELEASE', 'RENAME', 'REPLACE', 'RESIGNAL', 'REVOKE', 'SELECT', 'SET', 'SHOW', 'SIGNAL', 'TABLE', 'UNLOCK', 'UPDATE', 'USE', 'VALUES', 'WITH', 'BEGIN', 'BINLOG', 'CACHE', 'CHECKSUM', 'COMMIT', 'DEALLOCATE', 'DO', 'FLUSH', 'HANDLER', 'HELP', 'INSTALL', 'PREPARE', 'REPAIR', 'RESET', 'ROLLBACK', 'SAVEPOINT', 'START', 'STOP', 'TRUNCATE', 'UNINSTALL', 'XA', 'EXECUTE', 'SHUTDOWN', '-', '('}
+    You have a syntax error at "skema.sql" line 1 column 8. mismatched input 'M' expecting <EOF>
+
