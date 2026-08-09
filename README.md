@@ -1,4 +1,4 @@
-# ERP RPL - Sistem ERP untuk Program Studi RPL UAD
+# ERP RPL - Sistem ERP untuk Program Studi S1 Informatika UAD
 
 <p align="center">
 <a href="https://github.com/ardiansyah-sweng/erp_rpl/actions/workflows/laravel.yml"><img src="https://github.com/ardiansyah-sweng/erp_rpl/actions/workflows/laravel.yml/badge.svg" alt="Laravel CI/CD"></a>
@@ -10,7 +10,7 @@
 
 ## 🏛️ Tentang ERP RPL
 
-ERP RPL adalah proyek mata kuliah Rekayasa Perangkat Lunak (RPL) di Prodi S1 Informatika Universitas Ahmad Dahlan (UAD). ERP merupakan singkatan dari Enterprise Resources Planning. Dari sudut pandang software, ERP adalah sistem perangkat lunak yang dirancang untuk mengintegrasikan berbagai aspek operasional bisnis, seperti:
+ERP RPL adalah proyek mata kuliah Rekayasa Perangkat Lunak (RPL) dan Basis Data di Prodi S1 Informatika Universitas Ahmad Dahlan (UAD). ERP merupakan singkatan dari Enterprise Resources Planning. Dari sudut pandang software, ERP adalah sistem perangkat lunak yang dirancang untuk mengintegrasikan berbagai aspek operasional bisnis, seperti:
 
 - Keuangan (Akuntansi, pengelolaan kas, dll).
 - Sumber daya manusia (pengelolaan karyawan, gaji, dll).
