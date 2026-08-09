@@ -1,0 +1,370 @@
+Table "activity_logs" {
+  "id" bigint [pk, not null, increment]
+  "user_id" bigint
+  "user_name" varchar(255)
+  "action" varchar(50) [not null]
+  "module" varchar(100) [not null]
+  "description" text [not null]
+  "target_id" varchar(100)
+  "ip_address" varchar(45)
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    user_id [name: "activity_logs_user_id_index"]
+    action [name: "activity_logs_action_index"]
+    module [name: "activity_logs_module_index"]
+    created_at [name: "activity_logs_created_at_index"]
+  }
+}
+
+Table "assortment_production" {
+  "id" bigint [pk, not null, increment]
+  "in_production" tinyint(1)
+  "production_number" char(9) [not null]
+  "sku" char(50) [not null]
+  "branch_id" int [not null]
+  "rm_whouse_id" int [not null]
+  "fg_whouse_id" int [not null]
+  "production_date" varchar(45) [not null]
+  "finished_date" date
+  "description" varchar(100) [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    production_number [unique, name: "assortment_production_production_number_unique"]
+  }
+}
+
+Table "assortment_production_detail" {
+  "id" bigint [pk, not null, increment]
+  "production_number" char(9) [not null]
+  "bom_id" char(7) [not null]
+  "bom_quantity" int [not null]
+  "description" varchar(100) [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "bill_of_material" {
+  "id" bigint [pk, not null, increment]
+  "bom_id" char(7) [not null]
+  "bom_name" varchar(100) [not null]
+  "measurement_unit" tinyint [not null, default: '31']
+  "total_cost" int [not null, default: '0']
+  "active" tinyint(1) [not null, default: '1']
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    bom_id [unique, name: "bill_of_material_bom_id_unique"]
+  }
+}
+
+Table "bom_detail" {
+  "id" bigint [pk, not null, increment]
+  "bom_id" char(7) [not null]
+  "sku" varchar(50) [not null]
+  "quantity" int [not null]
+  "cost" int [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "branches" {
+  "id" bigint [pk, not null, increment]
+  "branch_name" varchar(50) [not null]
+  "branch_address" varchar(100)
+  "branch_telephone" varchar(30)
+  "is_active" tinyint(1) [not null, default: '1']
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    branch_name [unique, name: "branches_branch_name_unique"]
+  }
+}
+
+Table "cache" {
+  "key" varchar(255) [pk, not null]
+  "value" mediumtext [not null]
+  "expiration" int [not null]
+}
+
+Table "cache_locks" {
+  "key" varchar(255) [pk, not null]
+  "owner" varchar(255) [not null]
+  "expiration" int [not null]
+}
+
+Table "categories" {
+  "id" bigint [pk, not null, increment]
+  "category" varchar(50) [not null]
+  "parent_id" int
+  "is_active" tinyint(1) [not null, default: '1']
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "conversion_unit" {
+  "id" bigint [pk, not null, increment]
+  "sku" varchar(50) [not null]
+  "measurement_unit" int [not null]
+  "value" int [not null]
+  "is_base_unit" tinyint(1) [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "goods_receipt_note" {
+  "id" bigint [pk, not null, increment]
+  "po_number" char(6) [not null]
+  "product_id" varchar(50)
+  "delivery_date" date [not null]
+  "delivered_quantity" int [not null]
+  "comments" varchar(255)
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "goods_returns" {
+  "id" bigint [pk, not null, increment]
+  "grn_id" bigint [not null, note: 'ID dari goods receipt note yang terkait']
+  "po_number" char(6) [not null]
+  "product_id" varchar(50) [not null]
+  "return_date" date [not null]
+  "return_quantity" int [not null]
+  "reason" varchar(255) [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    (po_number, product_id) [name: "goods_returns_po_number_product_id_index"]
+    grn_id [name: "goods_returns_grn_id_foreign"]
+  }
+
+  Note: 'Tabel ini menyimpan data retur barang'
+}
+
+Table "item_unit" {
+  "id" bigint [pk, not null, increment]
+  "sku" varchar(50) [not null]
+  "unit_id" varchar(15) [not null]
+  "conversion_factor" tinyint [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "items" {
+  "id" bigint [not null, increment]
+  "product_id" char(4) [not null]
+  "sku" varchar(50) [not null]
+  "name" varchar(50) [not null]
+  "measurement" varchar(6) [not null]
+  "base_price" int [not null, default: '0']
+  "selling_price" int [not null, default: '0']
+  "purchase_unit" int [not null, default: '30']
+  "sell_unit" int [not null, default: '30']
+  "stock_unit" int [not null, default: '0']
+  "minimum_stock" int [not null, default: '0']
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    (id, sku) [pk]
+  }
+}
+
+Table "log_base_price_supplier_product" {
+  "id" bigint [pk, not null, increment]
+  "supplier_id" char(6) [not null]
+  "product_id" char(50) [not null]
+  "old_base_price" int [not null]
+  "new_base_price" int [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "log_material_inventory" {
+  "id" bigint [pk, not null, increment]
+  "log_id" varchar(50) [not null]
+  "sku" varchar(50) [not null]
+  "old_stock" int [not null, default: '0']
+  "new_stock" int [not null, default: '0']
+  "created_at" timestamp
+  "updated_at" timestamp
+  Note: 'Tabel ini menyimpan riwayat perubahan stok bahan baku (RM) untuk keperluan audit dan pelacakan perubahan stok bahan baku (RM). Tabel ini akan diupdate secara otomatis oleh sistem ketika ada transaksi Goods Receipt Note (GRN) yang terkait dengan Purchase Order (PO) untuk bahan baku dan Juga ketika ada transaksi produksi yang mengurangi stok bahan baku. Tabel ini bergantung dengan tabel material_inventory yang menyimpan stok bahan baku (RM) saat ini.'
+}
+
+Table "measurement_unit" {
+  "id" bigint [pk, not null, increment]
+  "unit_name" varchar(15) [not null]
+  "abbreviation" varchar(6) [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "merks" {
+  "id" bigint [pk, not null, increment]
+  "merk" varchar(100) [not null]
+  "is_active" tinyint(1) [not null, default: '1']
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    merk [unique, name: "merks_merk_unique"]
+  }
+}
+
+Table "migrations" {
+  "id" int [pk, not null, increment]
+  "migration" varchar(255) [not null]
+  "batch" int [not null]
+}
+
+Table "products" {
+  "id" bigint [pk, not null, increment]
+  "product_id" char(4) [not null]
+  "name" varchar(35) [not null]
+  "type" varchar(12) [not null]
+  "category" int [not null]
+  "description" varchar(225)
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    product_id [unique, name: "products_product_id_unique"]
+  }
+}
+
+Table "purchase_order" {
+  "po_number" char(6) [not null]
+  "supplier_id" char(6) [not null]
+  "total" bigint [not null]
+  "branch_id" int [not null]
+  "order_date" date [not null]
+  "status" char(20) [not null, default: 'Draft']
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    (po_number, supplier_id) [pk]
+  }
+}
+
+Table "purchase_order_detail" {
+  "po_number" char(6) [not null]
+  "product_id" varchar(50) [not null]
+  "base_price" int [not null, default: '0']
+  "quantity" int [not null]
+  "amount" bigint [not null]
+  "received_days" int [not null, default: '0']
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    (po_number, product_id) [pk]
+  }
+}
+
+Table "purchase_order_payments" {
+  "id" bigint [pk, not null, increment]
+  "po_number" char(6) [not null]
+  "payment_date" date [not null]
+  "amount" bigint [not null]
+  "method" varchar(50)
+  "note" varchar(255)
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    po_number [name: "purchase_order_payments_po_number_index"]
+  }
+}
+
+Table "sessions" {
+  "id" varchar(255) [pk, not null]
+  "user_id" bigint
+  "ip_address" varchar(45)
+  "user_agent" text
+  "payload" longtext [not null]
+  "last_activity" int [not null]
+
+  Indexes {
+    user_id [name: "sessions_user_id_index"]
+    last_activity [name: "sessions_last_activity_index"]
+  }
+}
+
+Table "supplier_pics" {
+  "id" bigint [pk, not null, increment]
+  "supplier_id" char(6) [not null]
+  "name" varchar(50)
+  "phone_number" varchar(30)
+  "email" varchar(50)
+  "is_active" tinyint(1) [not null, default: '1']
+  "avatar" varchar(100) [not null, default: 'http://placehold.it/100x100']
+  "assigned_date" date
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "supplier_product" {
+  "id" bigint [pk, not null, increment]
+  "supplier_id" char(6) [not null]
+  "company_name" varchar(100) [not null]
+  "product_id" char(50) [not null]
+  "product_name" varchar(50) [not null]
+  "base_price" int [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "suppliers" {
+  "supplier_id" char(6) [not null]
+  "company_name" varchar(100) [not null]
+  "address" varchar(100) [not null]
+  "telephone" varchar(30) [not null]
+  "bank_account" varchar(100) [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    supplier_id [unique, name: "suppliers_supplier_id_unique"]
+  }
+}
+
+Table "users" {
+  "id" bigint [pk, not null, increment]
+  "name" varchar(255) [not null]
+  "email" varchar(255) [not null]
+  "email_verified_at" timestamp
+  "password" varchar(255) [not null]
+  "role" varchar(255) [not null, default: 'staff']
+  "remember_token" varchar(100)
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    email [unique, name: "users_email_unique"]
+  }
+}
+
+Table "warehouse" {
+  "id" bigint [pk, not null, increment]
+  "warehouse_name" varchar(50) [not null]
+  "warehouse_address" varchar(100)
+  "warehouse_phone" varchar(30)
+  "is_rm_warehouse" tinyint(1) [not null, default: '0']
+  "is_fg_warehouse" tinyint(1) [not null, default: '0']
+  "is_active" tinyint(1) [not null, default: '1']
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    warehouse_name [unique, name: "warehouse_warehouse_name_unique"]
+  }
+}
+
+Ref "goods_returns_grn_id_foreign" : "goods_receipt_note"."id" < "goods_returns"."grn_id" [delete: restrict]
