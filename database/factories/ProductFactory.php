@@ -4,11 +4,9 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Product;
-use Illuminate\Support\Str;
-
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<Product>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
  */
 class ProductFactory extends Factory
 {
@@ -17,13 +15,13 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => strtoupper(Str::random(4)),
-            'product_name' => $this->faker->word,
-            'product_type' => $this->faker->randomElement(['FG', 'RM', 'HFG']),
-            'product_category' => 1,
-            'product_description' => $this->faker->sentence,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'product_id'  => strtoupper($this->faker->unique()->lexify('????')),
+            'name'        => $this->faker->word,
+            'type'        => 'RM', // default type RM
+            'category'    => 1,
+            'description' => $this->faker->sentence,
+            'created_at'  => now(),
+            'updated_at'  => now(),
         ];
     }
 }

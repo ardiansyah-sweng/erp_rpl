@@ -9,6 +9,10 @@ use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Constants\Messages;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\ActivityLog;
+use App\Constants\ActivityLogColumns;
 
 class PurchaseOrderController extends Controller
 {
@@ -16,7 +20,8 @@ class PurchaseOrderController extends Controller
     {
         $purchaseOrders = PurchaseOrder::getAllPurchaseOrders();
         $totalOrders = PurchaseOrder::countPurchaseOrder();
-        return view('purchase_orders.list', compact('purchaseOrders', 'totalOrders'));
+        $suppliers = Supplier::all();
+        return view('purchase_orders.list', compact('purchaseOrders', 'totalOrders', 'suppliers'));
     }
 
     public function getPurchaseOrderByID($po_number)
@@ -29,7 +34,8 @@ class PurchaseOrderController extends Controller
         $keyword = request()->input('keyword');
         $purchaseOrders = PurchaseOrder::getPurchaseOrderByKeywords($keyword);
         $totalOrders = PurchaseOrder::countPurchaseOrder();
-        return view('purchase_orders.list', compact('purchaseOrders', 'keyword', 'totalOrders'));
+        $suppliers = Supplier::all();
+        return view('purchase_orders.list', compact('purchaseOrders', 'keyword', 'totalOrders', 'suppliers'));
     }
 
     // Menambahkan PO baru
@@ -64,9 +70,17 @@ class PurchaseOrderController extends Controller
 
         try {
             PurchaseOrder::addPurchaseOrder($allData);
-            return redirect()->back()->with('success', 'Purchase Order berhasil ditambahkan.');
+
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_CREATE,
+                ActivityLogColumns::MODULE_PURCHASE_ORDER,
+                "Menambahkan Purchase Order '{$headerData['po_number']}'",
+                $headerData['po_number']
+            );
+
+            return redirect()->back()->with('success', Messages::PO_CREATED);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal menambahkan PO: ' . $e->getMessage());
+            return redirect()->back()->with('error', Messages::PO_CREATE_FAILED . $e->getMessage());
         }
     }
     public function getPOLength($poNumber, $orderDate) 
@@ -80,36 +94,56 @@ class PurchaseOrderController extends Controller
         return view('purchase_orders.report_form', compact('suppliers'));
     }
 
-    public function generatePurchaseOrderPDF(Request $request)
+    public function exportPurchaseOrderReport(Request $request)
     {
-        // Validasi input
+        // 1. Validasi input: supplier_id sekarang 'nullable', export_type wajib
         $request->validate([
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'supplier_id' => 'required|string',
+            'start_date'  => 'required|date',
+            'end_date'    => 'required|date|after_or_equal:start_date',
+            'supplier_id' => 'nullable|string',
+            'export_type' => 'required|string|in:pdf,excel,csv',
         ]);
 
-        $startDate = Carbon::parse($request->start_date)->startOfDay();
-        $endDate = Carbon::parse($request->end_date)->endOfDay();
+        $startDate  = Carbon::parse($request->start_date)->startOfDay();
+        $endDate    = Carbon::parse($request->end_date)->endOfDay();
         $supplierId = $request->supplier_id;
+        $exportType = $request->export_type;
 
-        // Buat instance Supplier dan panggil getSupplierById
-        $supplierModel = new Supplier();
-        $supplier = $supplierModel->getSupplierById($supplierId);
+        // 2. Logika Query Data
+        if ($supplierId) {
+            // Jika spesifik 1 supplier
+            $supplierModel = new Supplier();
+            $supplier      = $supplierModel->getSupplierById($supplierId);
+            $supplierName  = $supplier ? $supplier->company_name : 'Supplier';
+            $purchaseOrders = PurchaseOrder::getReportBySupplierAndDate($supplierId, $startDate, $endDate);
+        } else {
+            // Jika "Semua Supplier" dipilih
+            $supplier      = null;
+            $supplierName  = 'Semua_Supplier';
+            // Menggunakan query builder standar Laravel untuk mengambil semua PO di rentang tanggal
+            $purchaseOrders = PurchaseOrder::whereBetween('order_date', [$startDate, $endDate])->get();
+        }
 
-        // Ambil data purchase order
-        $purchaseOrders = PurchaseOrder::getReportBySupplierAndDate($supplierId, $startDate, $endDate);
-
-        $data = [
-            'purchaseOrders' => $purchaseOrders,
-            'supplier' => $supplier,
-            'startDate' => $startDate->format('d-m-Y'),
-            'endDate' => $endDate->format('d-m-Y'),
-            'generatedAt' => Carbon::now()->format('d-m-Y H:i:s')
-        ];
-
-        $pdf = Pdf::loadView('purchase_orders.pdf_report', $data);
-        return $pdf->stream('laporan_purchase_order_' . $supplier->company_name . '.pdf');
+        // 3. Routing ke Format Ekspor
+        if ($exportType === 'pdf') {
+            $data = [
+                'purchaseOrders' => $purchaseOrders,
+                'supplier'       => $supplier,
+                'startDate'      => $startDate->format('d-m-Y'),
+                'endDate'        => $endDate->format('d-m-Y'),
+                'generatedAt'    => Carbon::now()->format('d-m-Y H:i:s')
+            ];
+            
+            $pdf = Pdf::loadView('purchase_orders.pdf_report', $data);
+            return $pdf->stream('laporan_PO_' . str_replace(' ', '_', $supplierName) . '.pdf');
+        } 
+        // MURNI HANYA TERSISA DUA BLOK INI UNTUK EXCEL DAN CSV
+        elseif ($exportType === 'excel') {
+            return Excel::download(new PurchaseOrderExport($purchaseOrders), 'laporan_PO_' . str_replace(' ', '_', $supplierName) . '.xlsx');
+        } 
+        elseif ($exportType === 'csv') {
+            return Excel::download(new PurchaseOrderExport($purchaseOrders), 'laporan_PO_' . str_replace(' ', '_', $supplierName) . '.csv', \Maatwebsite\Excel\Excel::CSV);
+        }
     }
     public function getPurchaseOrderByStatus($status)
     {
@@ -118,8 +152,40 @@ class PurchaseOrderController extends Controller
                                       ->paginate(10);
 
         $totalOrders = PurchaseOrder::where('status', $status)->count();
-        return view('purchase_orders.list', compact('purchaseOrders', 'status', 'totalOrders'));
+        $suppliers = Supplier::all();
+        return view('purchase_orders.list', compact('purchaseOrders', 'status', 'totalOrders', 'suppliers'));
     }
+
+    public function destroy($po_number)
+    {
+        $purchaseOrder = PurchaseOrder::find($po_number);
+
+        if (!$purchaseOrder) {
+            return redirect()->route('purchase.orders')->with('error', Messages::PO_NOT_FOUND);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $purchaseOrder->details()->delete();
+            $purchaseOrder->delete();
+
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_DELETE,
+                ActivityLogColumns::MODULE_PURCHASE_ORDER,
+                "Menghapus Purchase Order '{$po_number}'",
+                $po_number
+            );
+
+            DB::commit();
+
+            return redirect()->route('purchase.orders')->with('success', Messages::PO_DELETED);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', Messages::PO_DELETE_FAILED . $e->getMessage());
+        }
+    }
+
     public function sendMailPurchaseOrder(Request $request)
     {
         $data = $request->all();
@@ -141,6 +207,45 @@ class PurchaseOrderController extends Controller
 
         } catch (\Exception $e) {
             return response()->json(['error' => 'Server gagal mengirim email: ' . $e->getMessage()], 500);
+        }
+    }
+// Method untuk menampilkan form Edit
+    public function edit($po_number)
+    {
+
+        $purchaseOrder = \App\Models\PurchaseOrder::where('po_number', $po_number)->first();
+        
+        if (!$purchaseOrder) {
+            abort(404, 'Data Purchase Order tidak ditemukan');
+        }
+
+        return view('purchase_orders.edit', compact('purchaseOrder'));
+    }
+
+    // Method untuk menyimpan perubahan
+    public function update(Request $request, $po_number)
+    {
+        // Validasi data yang boleh diubah (sesuaikan dengan kebutuhanmu)
+        $request->validate([
+            'status' => 'required|string',
+        ]);
+
+        try {
+            // Lakukan update status menggunakan Eloquent/Query Builder
+            \App\Models\PurchaseOrder::where('po_number', $po_number)->update([
+                'status' => $request->status,
+            ]);
+
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_UPDATE,
+                ActivityLogColumns::MODULE_PURCHASE_ORDER,
+                "Memperbarui status Purchase Order '{$po_number}' menjadi '{$request->status}'",
+                $po_number
+            );
+            
+            return redirect()->route('purchase.orders')->with('success', 'Purchase Order berhasil diupdate.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal update PO: ' . $e->getMessage());
         }
     }
 }

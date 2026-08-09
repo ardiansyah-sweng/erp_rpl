@@ -45,19 +45,44 @@ class SupplierMaterialControllerTest extends TestCase
         ]);
     }
 
-  public function testReturnsSupplierMaterialsByProductType()
+//   public function testReturnsSupplierMaterialsByProductType()
+//     {
+//         // Gunakan data nyata dari database
+//         $supplierId = 'SUP001';
+//         $productType = 'FG';
+
+//         // Kirim request ke endpoint
+//         $response = $this->get("/supplier-material/{$supplierId}/{$productType}");
+
+//         // Pastikan status sukses
+//         $response->assertStatus(200);
+
+//         // Validasi struktur JSON (walau kosong, struktur tetap valid)
+//         $response->assertJsonStructure([
+//             '*' => [
+//                 'supplier_id',
+//                 'company_name',
+//                 'product_id',
+//                 'product_name',
+//                 'base_price',
+//                 'product_type',
+//             ]
+//         ]);
+//     }
+
+    public function testReturnsSupplierMaterialsByCategory()
     {
         // Gunakan data nyata dari database
-        $supplierId = 'SUP001';
-        $productType = 'FG';
+        $category = 'FG';
+        $supplier = 'SUP001';
 
         // Kirim request ke endpoint
-        $response = $this->get("/supplier-material/{$supplierId}/{$productType}");
+        $response = $this->get("/supplier-material/category/{$category}/{$supplier}");
 
         // Pastikan status sukses
         $response->assertStatus(200);
 
-        // Validasi struktur JSON (walau kosong, struktur tetap valid)
+        // Validasi struktur JSON
         $response->assertJsonStructure([
             '*' => [
                 'supplier_id',

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constants\ItemColumns;
 use Illuminate\Database\Eloquent\Model;
 
 class GoodsReceiptNote extends Model
@@ -26,6 +27,7 @@ class GoodsReceiptNote extends Model
     {
         return self::where('po_number', $po_number)->first();
     }
+
     public static function updateGoodsReceiptNote($po_number, array $data)
     {
         $grn = self::getGoodsReceiptNote($po_number);
@@ -46,4 +48,13 @@ class GoodsReceiptNote extends Model
         return self::where('po_number', $po_number)->get();
     }
 
+    public function goodsReturns()
+    {
+        return $this->hasMany(GoodsReturn::class, 'grn_id');
+    }
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class, 'product_id', ItemColumns::SKU);
+    }
 }

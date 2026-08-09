@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BillOfMaterial;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BillOfMaterialController extends Controller
 {
@@ -35,9 +36,9 @@ class BillOfMaterialController extends Controller
         $deleted = BillOfMaterial::deleteBom($id);
 
         if ($deleted) {
-            return response()->json(['message' => 'Bill of Material deleted successfully.'], 200);
+            return redirect()->route('bom.list')->with('success', 'Bill of Material berhasil dihapus.');
         } else {
-            return response()->json(['message' => 'Bill of Material not found.'], 404);
+            return redirect()->route('bom.list')->with('error', 'Bill of Material tidak ditemukan.');
         }
     }
     public function getBillOfMaterial()
@@ -95,5 +96,28 @@ class BillOfMaterialController extends Controller
             'message' => 'Bill of Material updated successfully.',
             'data' => $bom
         ]);
+    }
+
+    public function getBomList()
+    {
+        $boms = BillOfMaterial::getBillOfMaterial();
+        $bomCount = BillOfMaterial::count();
+        return view('bom.list', compact('boms', 'bomCount'));
+    }
+
+    public function printBOM()
+    {
+        $bomList = DB::table('bill_of_material')->orderBy('created_at', 'asc')->get();
+
+        foreach ($bomList as $bom) {
+            $bom->details = DB::table('bom_detail')
+                ->where('bom_id', $bom->bom_id)
+                ->select('sku', 'quantity', 'cost')
+                ->get();
+        }
+
+        $pdf = Pdf::loadView('bom.pdf', ['boms' => $bomList]);
+
+        return $pdf->stream('laporan_bill_of_material.pdf');
     }
 }

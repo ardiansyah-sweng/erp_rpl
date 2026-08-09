@@ -8,15 +8,21 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\EncryptionHelper;
 use App\Enums\ProductType;
 use App\Models\Category;
+use App\Constants\Messages;
+use App\Models\ActivityLog;
+use App\Constants\ActivityLogColumns;
 
 
 class ProductController extends Controller
 {
-    public function getProductList()
+    public function getProductList(Request $request)
     {
-        $products = Product::getAllProducts();
+        $type = $request->input('type');
+        $category = $request->input('category');
+        $products = Product::getFilteredProducts($type, $category);
+        $totalProducts = Product::countProduct();
         $categories = Category::orderBy('category')->get();
-        return view('product.list', compact('products', 'categories'));
+        return view('product.list', compact('products', 'categories', 'totalProducts', 'type', 'category'));
     }
 
     public function generatePDF()
@@ -38,7 +44,7 @@ class ProductController extends Controller
         $product = (new Product())->getProductById($productId);
 
         if (!$product) {
-            return abort(404, 'Product tidak ditemukan');
+            return response()->view('errors.404', ['message' => Messages::PRODUCT_NOT_FOUND], 404);
         }
        return view('product.detail', compact('product'));
     }
@@ -51,7 +57,7 @@ class ProductController extends Controller
     {
         if ($type === 'ALL') {
             // Get all products
-            $products = Product::with('category')->get();
+            $products = Product::with('categoryRelation')->get();
             $typeLabel = 'Semua Tipe';
         } else {
             // Get the enum case based on the type parameter
@@ -62,12 +68,12 @@ class ProductController extends Controller
 
             // Get products of the specified type
             $products = Product::getProductByType($type)
-                ->load(['category']);
+                ->load(['categoryRelation']);
             $typeLabel = $productType->value;
         }
 
         // Load the PDF view
-        $pdf = PDF::loadView('product.pdf', [
+        $pdf = Pdf::loadView('product.pdf', [
             'products' => $products,
             'type' => $typeLabel
         ]);
@@ -82,11 +88,28 @@ class ProductController extends Controller
             'product_id' => 'required|string|unique:products,product_id',
             'product_name' => 'required|string',
             'product_type' => 'required|string',
-            'product_category' => 'required|string',
+            'product_category' => 'required|integer',
             'product_description' => 'nullable|string',
         ]);
 
-        Product::addProduct($validatedData);
+        // Map form input keys to database column keys
+        $dataToInsert = [
+            'product_id'  => $validatedData['product_id'],
+            'name'        => $validatedData['product_name'],
+            'type'        => $validatedData['product_type'],
+            'category'    => $validatedData['product_category'],
+            'description' => $validatedData['product_description'] ?? null,
+        ];
+
+        Product::addProduct($dataToInsert);
+
+        // Catat log aktivitas
+        ActivityLog::logActivity(
+            ActivityLogColumns::ACTION_CREATE,
+            ActivityLogColumns::MODULE_PRODUCT,
+            "Menambahkan Produk '{$validatedData['product_name']}'",
+            $validatedData['product_id']
+        );
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan.');
     }
@@ -102,6 +125,14 @@ class ProductController extends Controller
 
         $Updateproduct = Product::updateProduct($id, $request->only(['product_name','product_type','product_category','product_description']));
 
+        // Catat log aktivitas
+        ActivityLog::logActivity(
+            ActivityLogColumns::ACTION_UPDATE,
+            ActivityLogColumns::MODULE_PRODUCT,
+            "Memperbarui Produk '{$request->product_name}'",
+            $id
+        );
+
         return $Updateproduct;
     }
 
@@ -109,7 +140,9 @@ class ProductController extends Controller
     public function searchProduct($keyword)
     {
         $products = Product::getProductByKeyword($keyword);
-        return view('product.list', compact('products'));
+        $totalProducts = Product::countProduct();
+        $categories = Category::orderBy('category')->get();
+        return view('product.list', compact('products', 'categories', 'totalProducts'));
     }
     public function getProductByCategory($product_category)
     {
@@ -134,7 +167,7 @@ class ProductController extends Controller
     {
         // Cari kategori berdasarkan ID
         $category = Category::find($id);
-
+        // Percabangan 
         if (!$category) {
             return response()->json([
                 'success' => false,
@@ -147,15 +180,16 @@ class ProductController extends Controller
 
         // Untuk setiap kategori, ambil produknya
         foreach ($categories as $cat) {
-            $products = Product::where('product_category', $cat->id)->get();
+            $products = Product::where('category', $cat->id)->get();
             $cat->products = $products;
         }
 
         // Nama file sesuai kategori
         $filename = "Laporan_Kategori_" . $category->category . ".pdf";
 
-        // Kirim semua kategori dengan produk ke view
-        $pdf = Pdf::loadView('product.category.pdf', compact('categories'));
+        // Kirim semua kategori dengan produk ke view (gunakan $categoryList agar masuk branch produk)
+        $categoryList = $categories;
+        $pdf = Pdf::loadView('product.category.pdf', compact('categoryList'));
         return $pdf->stream($filename);
     }
 
@@ -177,5 +211,39 @@ class ProductController extends Controller
             'data' => $products
         ]);
     }
+
+    public function destroy($id)
+    {
+        try {
+            $product = Product::find($id);
+            
+            if (!$product) {
+                return redirect()->back()->with('error', 'Produk tidak ditemukan.');
+            }
+            
+            // Cek apakah produk sudah dipakai di Item
+            $used = \App\Models\Item::where('product_id', $product->product_id)->exists();
+            
+            if ($used) {
+                return redirect()->back()->with('error', 'Produk tidak bisa dihapus karena sudah dipakai di Item.');
+            }
+            
+            $product->delete();
+            
+            // Catat log aktivitas
+            ActivityLog::logActivity(
+                ActivityLogColumns::ACTION_DELETE,
+                ActivityLogColumns::MODULE_PRODUCT,
+                "Menghapus Produk '{$product->name}'",
+                $id
+            );
+
+            return redirect()->route('product.list')->with('success', 'Produk berhasil dihapus.');
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
+        }
+    }
+
 
 }

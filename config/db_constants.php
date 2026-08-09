@@ -19,7 +19,8 @@ return [
         'category'                  => $master['category'],
         'cu'                        => 'conversion_unit',
         'grn'                       => 'goods_receipt_note',
-        'item'                      => 'item',
+        'goods_return'              => 'goods_returns',
+        'item'                      => 'items',
         'log_avg_base_price'        => 'log_avg_base_price',
         'log_base_price_supplier'   => 'log_base_price_supplier_product',
         'master_product'            => 'master_product',
@@ -29,12 +30,13 @@ return [
         'mu'                        => 'measurement_unit',
         'po'                        => 'purchase_order',
         'po_detail'                 => 'purchase_order_detail',
+        'po_payment'                => 'purchase_order_payments',
         'products'                   => 'products',
-        'supplier'                  => 'supplier',
-        'supplier_pic'              => 'supplier_pic',
+        'supplier'                  => 'suppliers',
+        'supplier_pic'              => 'supplier_pics',
         'supplier_product'          => 'supplier_product',
         'unit'                      => 'item_unit',
-        'whouse'                    => 'warehouse'
+        'whouse'                    => 'warehouses'
     ],
     'column' => [
         'bom' => [
@@ -120,14 +122,26 @@ return [
             'updated_at'            => 'updated_at'
         ],
 
+        'goods_return' => [
+            'id'                    => $master['id'],
+            'grn_id'                => 'grn_id',
+            'po_number'             => $master['po_number'],
+            'product_id'            => 'product_id',
+            'date'                  => 'return_date',
+            'qty'                   => 'return_quantity',
+            'reason'                => 'reason',
+            'created_at'            => $master['created'],
+            'updated_at'            => $master['updated']
+        ],
+
         'item' => [
             'id'                    => 'id',
             'prod_id'               => 'product_id', #char[4]. Diambil dari product_id tabel products.
             'sku'                   => 'sku',
-            'name'                  => 'item_name',
+            'name'                  => 'name',
             // 'category_id'           => 'category_id',
             // 'description'           => 'description',
-            'measurement'           => 'measurement_unit',
+            'measurement'           => 'measurement',
             //'stock'                 => 'current_stock',
             'base_price'            => 'avg_base_price', #raw material from supplier
             'selling_price'         => 'selling_price', #finished from bill of material
@@ -210,12 +224,22 @@ return [
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'
         ],
+        'po_payment' => [
+            'id'                    => 'id',
+            'po_number'             => $master['po_number'],
+            'payment_date'          => 'payment_date',
+            'amount'                => 'amount',
+            'method'                => 'method',
+            'note'                  => 'note',
+            'created_at'            => 'created_at',
+            'updated_at'            => 'updated_at'
+        ],
         'products' => [
-            'id'                    => 'product_id',            #char[6]
-            'name'                  => 'product_name',          #string[35]
-            'type'                  => 'product_type',          #finished, raw material
-            'category'              => 'product_category',      #tinyInteger
-            'desc'                  => 'product_description',   #string[255]
+            'id'                    => 'product_id',            #char[4]
+            'name'                  => 'name',                  #string[35]
+            'type'                  => 'type',                  #finished, raw material
+            'category'              => 'category',              #tinyInteger
+            'desc'                  => 'description',           #string[255]
             'created'               => $master['created'],
             'updated'               => $master['updated']
         ],
@@ -226,7 +250,7 @@ return [
             'supplier_id'           => $master['supplier_id'],
             'company_name'          => 'company_name',
             'address'               => 'address',
-            'phone_number'          => 'phone_number',
+            'telephone'          => 'telephone',
             'bank_account'          => 'bank_account',
             'created'            => 'created_at',
             'updated'            => 'updated_at'
@@ -238,7 +262,7 @@ return [
             'phone_number'          => 'phone_number',
             'email'                 => 'email',
             'assigned_date'         => 'assigned_date',
-            'active'                => 'active',
+            'active'                => 'is_active',
             'avatar'                => 'avatar',
             'created_at'            => 'created_at',
             'updated_at'            => 'updated_at'

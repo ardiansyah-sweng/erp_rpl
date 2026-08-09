@@ -1,68 +1,139 @@
 <?php
+
 namespace App\Models;
 
+use App\Constants\SupplierColumns;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class Supplier extends Model
 {
+    use HasFactory;
+
     /**
      * Ambil seluruh data supplier beserta frekuensi order (jumlah purchase_orders per supplier)
-     * @return \Illuminate\Support\Collection
+     *
+     * @return Collection
      */
     public static function getSupplier()
     {
-        $supplierTable = config('db_constants.table.supplier');
+        // $supplierTable = config('db_constants.table.supplier');
+        $model = new self;
+        $supplierTable = $model->getTable();
         $poTable = config('db_constants.table.po');
 
         // Ambil semua kolom supplier + frekuensi order
         return self::query()
-            ->leftJoin($poTable, $supplierTable . '.supplier_id', '=', $poTable . '.supplier_id')
+            ->leftJoin($poTable, $supplierTable.'.supplier_id', '=', $poTable.'.supplier_id')
             ->select(
-                $supplierTable . '.*',
-                \DB::raw('COUNT(' . $poTable . '.supplier_id) as order_frequency')
+                $supplierTable.'.*',
+                DB::raw('COUNT('.$poTable.'.supplier_id) as order_frequency')
             )
             ->groupBy(
-                $supplierTable . '.supplier_id',
-                $supplierTable . '.company_name',
-                $supplierTable . '.address',
-                $supplierTable . '.phone_number',
-                $supplierTable . '.bank_account',
-                $supplierTable . '.created_at',
-                $supplierTable . '.updated_at'
+                $supplierTable.'.supplier_id',
+                $supplierTable.'.company_name',
+                $supplierTable.'.address',
+                $supplierTable.'.telephone',
+                $supplierTable.'.bank_account',
+                $supplierTable.'.created_at',
+                $supplierTable.'.updated_at'
             )
             ->get();
     }
-    protected $table = 'supplier';
-    protected $fillable = ['supplier_id','company_name', 'address','phone_number','bank_account','created_at','updated_at'];
+
+    public static function getSupplierWithPicCount()
+    {
+        $model = new self;
+        $supplierTable = $model->getTable();
+        $poTable = config('db_constants.table.po');
+        $picTable = config('db_constants.table.supplier_pic');
+
+        return self::query()
+            ->leftJoin($poTable, $supplierTable.'.supplier_id', '=', $poTable.'.supplier_id')
+            ->leftJoin($picTable, $supplierTable.'.supplier_id', '=', $picTable.'.supplier_id')
+            ->select(
+                $supplierTable.'.*',
+                DB::raw('COUNT(DISTINCT '.$poTable.'.supplier_id) as order_frequency'),
+                DB::raw('COUNT(DISTINCT '.$picTable.'.id) as pic_count')
+            )
+            ->groupBy(
+                $supplierTable.'.supplier_id',
+                $supplierTable.'.company_name',
+                $supplierTable.'.address',
+                $supplierTable.'.telephone',
+                $supplierTable.'.bank_account',
+                $supplierTable.'.created_at',
+                $supplierTable.'.updated_at'
+            )
+            ->get();
+    }
+
+    public static function getSupplierWithZeroPic()
+    {
+        $model = new self;
+        $supplierTable = $model->getTable();
+        $picTable = config('db_constants.table.supplier_pic');
+
+        return self::query()
+            ->leftJoin($picTable, $supplierTable.'.supplier_id', '=', $picTable.'.supplier_id')
+            ->select(
+                $supplierTable.'.*',
+                DB::raw('0 as order_frequency'),
+                DB::raw('COUNT(DISTINCT '.$picTable.'.id) as pic_count')
+            )
+            ->groupBy(
+                $supplierTable.'.supplier_id',
+                $supplierTable.'.company_name',
+                $supplierTable.'.address',
+                $supplierTable.'.telephone',
+                $supplierTable.'.bank_account',
+                $supplierTable.'.created_at',
+                $supplierTable.'.updated_at'
+            )
+            ->havingRaw('COUNT(DISTINCT '.$picTable.'.id) = 0')
+            ->get();
+    }
+
+    protected $table = null;
+
+    protected $fillable = [];
 
     protected $primaryKey = 'supplier_id';
+
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table = config('db_constants.table.supplier');
-        $this->fillable = array_values(config('db_constants.column.supplier') ?? []);
+        // set table name from config and fillable from constant definitions
+        $this->table = config('db_tables.supplier') ?? 'suppliers';
+        $this->fillable = SupplierColumns::getFillable();
     }
 
-    public static function updateSupplier($supplier_id, array $data)//Sudah sesuai pada ERP RPL
+    public static function updateSupplier($supplier_id, array $data)// Sudah sesuai pada ERP RPL
     {
         $supplier = self::find($supplier_id);
-        if (!$supplier) {
+        if (! $supplier) {
             return null;
         }
         $supplier->update($data);
 
         return $supplier;
     }
+
     public function getSupplierById($id)
     {
         return self::where($this->getKeyName(), $id)->first();
     }
-    public static function countSupplier(){
-        return self::count();   
+
+    public static function countSupplier()
+    {
+        return self::count();
     }
 
     public static function addSupplier($data)
@@ -72,20 +143,20 @@ class Supplier extends Model
 
     public static function getSupplierByKeywords($keywords = null)
     {
-            $query = self::query();
+        $query = self::query();
 
-            if (!empty($keywords)) {
-                $query->where('company_name', 'like', "%{$keywords}%");
-            }
+        if (! empty($keywords)) {
+            $query->where('company_name', 'like', "%{$keywords}%");
+        }
 
-            return $query->get();
+        return $query->get();
     }
-    
+
     public static function deleteSupplier($id)
     {
         $supplier = self::find($id);
 
-        if (!$supplier) {
+        if (! $supplier) {
             return ['success' => false, 'message' => 'Supplier tidak ditemukan.'];
         }
 
@@ -94,4 +165,25 @@ class Supplier extends Model
         return ['success' => true, 'message' => 'Supplier berhasil dihapus.'];
     }
 
+    public static function getTopSuppliersByPoCount(int $limit = 5)
+    {
+        $model = new self;
+        $supplierTable = $model->getTable();
+        $poTable = config('db_constants.table.po');
+
+        return self::query()
+            ->leftJoin($poTable, $supplierTable.'.supplier_id', '=', $poTable.'.supplier_id')
+            ->select(
+                $supplierTable.'.supplier_id',
+                $supplierTable.'.company_name',
+                DB::raw('COUNT('.$poTable.'.po_number) as po_count')
+            )
+            ->groupBy(
+                $supplierTable.'.supplier_id',
+                $supplierTable.'.company_name'
+            )
+            ->orderByDesc('po_count')
+            ->limit($limit)
+            ->get();
+    }
 }
