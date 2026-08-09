@@ -241,7 +241,7 @@ Table "products" {
 Table "purchase_order" {
   "po_number" char(6) [not null]
   "supplier_id" char(6) [not null]
-  "total" bigint [not null]
+  "total" bigint [not null, note: 'dinamis dari po detail']
   "branch_id" int [not null]
   "order_date" date [not null]
   "status" char(20) [not null, default: 'Draft']
