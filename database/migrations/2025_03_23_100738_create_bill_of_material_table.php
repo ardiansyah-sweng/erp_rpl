@@ -22,7 +22,7 @@ return new class extends Migration
             $table->id();
             $table->char($col['bom_id'], 7)->unique();
             $table->string($col['name'], 100);
-            $table->tinyinteger($col['unit'])->default(31);
+            $table->string($col['unit'], 20); // Changed from tinyinteger to string to match controller validation
             $table->integer($col['total'])->default(0);
             $table->boolean($col['active'])->default(true);
             $table->timestamps();
