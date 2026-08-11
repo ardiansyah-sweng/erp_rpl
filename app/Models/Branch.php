@@ -9,6 +9,7 @@ use App\Constants\BranchColumns;
 class Branch extends Model
 {
     use HasFactory;
+
     protected $table;
     protected $casts = [
         'is_active' => 'boolean',
@@ -84,6 +85,7 @@ class Branch extends Model
         return [
             'aktif' => self::where(BranchColumns::IS_ACTIVE, 1)->count(),
             'nonaktif' => self::where(BranchColumns::IS_ACTIVE, 0)->count(),
+
         ];
     }
 

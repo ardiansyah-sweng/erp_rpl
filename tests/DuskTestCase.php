@@ -8,7 +8,9 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Illuminate\Support\Collection;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use PHPUnit\Framework\Attributes\BeforeClass;
+
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -24,6 +26,8 @@ abstract class DuskTestCase extends BaseTestCase
     }
 
     /**
+
+
      * Setup the test environment.
      */
     protected function setUp(): void
@@ -40,6 +44,7 @@ abstract class DuskTestCase extends BaseTestCase
     }
 
     /**
+
      * Create the RemoteWebDriver instance.
      */
     protected function driver(): RemoteWebDriver
