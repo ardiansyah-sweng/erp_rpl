@@ -143,4 +143,5 @@ public function searchWarehouse($keyword)
 
         return $query;
     }
+
 }
