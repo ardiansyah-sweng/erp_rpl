@@ -144,6 +144,13 @@ class Item extends Model
     {
         return self::where(ItemColumns::NAME, 'like', '%' . $keyword . '%')->paginate(10);
     }
+    
+    public static function countItemByCategory($categoryId)
+    {
+        return self::join('products', 'item.product_id', '=', 'products.product_id')
+            ->where('products.product_category', $categoryId)
+            ->count();
+}
 
     // Ambil item berdasarkan kategori produk
     public static function getItemByCategory($categoryId)
