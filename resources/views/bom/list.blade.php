@@ -16,44 +16,57 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="billOfMaterialForm">
+        <form id="billOfMaterialForm" action="{{ route('billofmaterial.add') }}" method="POST">
+          @csrf
           <div class="row g-3 mb-3">
             <div class="col-md-6">
               <label class="form-label fw-semibold">BOM ID</label>
-              <input type="text" class="form-control" id="bomID" placeholder="BOM001">
+              <!-- Dibuat readonly agar user tidak usah isi, di-generate otomatis oleh Controller -->
+              <input type="text" class="form-control" placeholder="Otomatis dari Sistem" readonly>
             </div>
+            
             <div class="col-md-6">
               <label class="form-label fw-semibold">Nama BOM</label>
-              <input type="text" class="form-control" id="bomNama" placeholder="Nama BOM">
+              <input type="text" class="form-control" id="bomNama" name="bom_name" placeholder="Nama BOM" required>
+              @error('bom_name')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+              @enderror
             </div>
+            
             <div class="col-md-6">
               <label class="form-label fw-semibold">Measurement Unit</label>
-              <select class="form-select" id="bomMeasurement" name="measurement_unit_id">
+              <select class="form-select" id="bomMeasurement" name="measurement_unit" required>
                 @if(isset($measurement_units) && count($measurement_units) > 0)
                   @foreach($measurement_units as $unit)
                     <option value="{{ $unit->id }}">{{ $unit->name }}</option>
                   @endforeach
                 @endif
-                <option value="PCS">PCS</option>
-                <option value="KG">KG</option>
-                <option value="L">L</option>
-                <option value="Meter">Meter</option>
-                <option value="Set">Set</option>
-                <option value="Pack">Pack</option>
+                <option value="1">PCS</option>
+                <option value="2">KG</option>
+                <option value="3">L</option>
+                <option value="4">Meter</option>
+                <option value="5">Set</option>
+                <option value="6">Pack</option>
               </select>
             </div>
+            
             <div class="col-md-6">
               <label class="form-label fw-semibold">Total Cost</label>
-              <input type="text" class="form-control" id="bomTotalCost" placeholder="Total Cost">
+              <input type="number" class="form-control" id="bomTotalCost" name="total_cost" placeholder="Total Cost" required>
+              @error('total_cost')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+              @enderror
             </div>
+            
             <div class="col-md-6">
               <label class="form-label fw-semibold">Status</label>
-              <select class="form-select" id="bomStatus">
-                <option value="Aktif">Aktif</option>
-                <option value="Nonaktif">Nonaktif</option>
+              <select class="form-select" id="bomStatus" name="active" required>
+                <option value="1">Aktif</option>
+                <option value="0">Nonaktif</option>
               </select>
             </div>
           </div>
+          
           <div class="d-flex justify-content-end">
             <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
             <button type="submit" class="btn btn-success">Simpan</button>
