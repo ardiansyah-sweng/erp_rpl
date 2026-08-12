@@ -149,7 +149,6 @@ Route::get('/warehouse/count', [WarehouseController::class, 'countWarehouse']);
 Route::get('/warehouse/report', [WarehouseController::class, 'exportPdf'])->name('warehouse.report');
 
 // Merk - Resource Routes
-Route::resource('merk', MerkController::class);
 
 // Merk - Legacy API Routes (for backward compatibility)
 Route::get('/merks', [MerkController::class, 'index'])->name('merks.index');
