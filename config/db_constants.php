@@ -24,7 +24,7 @@ return [
         'log_avg_base_price'        => 'log_avg_base_price',
         'log_base_price_supplier'   => 'log_base_price_supplier_product',
         'master_product'            => 'master_product',
-        'log_matory'                => 'log_material_inventory', 
+        'log_matory'                => 'log_material_inventory',
         'matory'                    => 'material_inventory',
         'merk'                      => 'merks',
         'mu'                        => 'measurement_unit',
@@ -131,7 +131,8 @@ return [
             'qty'                   => 'return_quantity',
             'reason'                => 'reason',
             'created_at'            => $master['created'],
-            'updated_at'            => $master['updated']
+            'updated_at'            => $master['updated'],
+            'attachment'            => 'attachment_path',
         ],
 
         'item' => [

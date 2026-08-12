@@ -7,6 +7,7 @@ use App\Models\GoodsReceiptNote;
 use App\Models\GoodsReturn;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class GoodsReturnController extends Controller
 {
@@ -40,10 +41,29 @@ class GoodsReturnController extends Controller
 
     public function store(StoreGoodsReturnRequest $request)
     {
-        $goodsReturn = GoodsReturn::addGoodsReturn($request->validated());
+        // 1. Ambil data yang sudah divalidasi oleh StoreGoodsReturnRequest
+        $data = $request->validated();
+
+        // 2. Proses upload foto
+        if ($request->hasFile('attachment')) { // 'attachment' adalah name dari input di view
+            $path = $request->file('attachment')->store('bukti_returns', 'public');
+            $data['attachment_path'] = $path; // Harus sesuai nama kolom di database
+        }
+
+        // 3. Panggil method model
+        $goodsReturn = GoodsReturn::addGoodsReturn($data);
 
         return redirect()->route('goods-returns.show', $goodsReturn->id)
             ->with('success', 'Return barang berhasil disimpan dan stok telah diperbarui.');
+    }
+
+    public function showImage($filename)
+    {
+        $path = 'bukti_returns/' . $filename;
+        if (!Storage::disk('public')->exists($path)) {
+            abort(404);
+        }
+        return response()->file(storage_path('app/public/' . $path));
     }
 
     public function show($id)
@@ -70,6 +90,6 @@ class GoodsReturnController extends Controller
             'generatedAt' => now()->format('d/m/Y H:i:s'),
         ]);
 
-        return $pdf->stream('return-barang-'.$goodsReturn->return_number.'.pdf');
+        return $pdf->stream('return-barang-' . $goodsReturn->return_number . '.pdf');
     }
 }

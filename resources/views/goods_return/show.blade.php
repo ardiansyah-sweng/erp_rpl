@@ -45,7 +45,8 @@
                         </tr>
                         <tr>
                             <th>Item</th>
-                            <td>{{ $goodsReturn->product_id }} - {{ $goodsReturn->item?->name ?? 'Nama item tidak ditemukan' }}</td>
+                            <td>{{ $goodsReturn->product_id }} -
+                                {{ $goodsReturn->item?->name ?? 'Nama item tidak ditemukan' }}</td>
                         </tr>
                         <tr>
                             <th>Tanggal Return</th>
@@ -58,6 +59,23 @@
                         <tr>
                             <th>Alasan</th>
                             <td>{{ $goodsReturn->reason }}</td>
+                        </tr>
+                        <tr>
+                            <th>Bukti Lampiran</th>
+                            <td>
+                                @if ($goodsReturn->attachment_path)
+                                    <a href="{{ route('return.image', basename($goodsReturn->attachment_path)) }}"
+                                        target="_blank">
+                                        <img src="{{ route('return.image', basename($goodsReturn->attachment_path)) }}"
+                                            alt="Bukti Lampiran"
+                                            style="max-width: 200px; border: 1px solid #ddd; padding: 5px;">
+                                    </a>
+                                    <br>
+                                    <small class="text-muted">Klik gambar untuk memperbesar</small>
+                                @else
+                                    <span class="text-muted">Tidak ada lampiran</span>
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <th>Stok Item Saat Ini</th>

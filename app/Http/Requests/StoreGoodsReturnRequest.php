@@ -18,6 +18,7 @@ class StoreGoodsReturnRequest extends FormRequest
             'return_date' => 'required|date|before_or_equal:today',
             'return_quantity' => 'required|integer|min:1',
             'reason' => 'required|string|max:255',
+            'attachment' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 
@@ -32,6 +33,9 @@ class StoreGoodsReturnRequest extends FormRequest
             'return_quantity.min' => 'Jumlah return minimal 1 unit.',
             'reason.required' => 'Alasan return wajib diisi.',
             'reason.max' => 'Alasan return maksimal 255 karakter.',
+            'attachment.image' => 'File harus berupa gambar.',
+            'attachment.mimes' => 'Format gambar harus jpeg, png, atau jpg.',
+            'attachment.max' => 'Ukuran gambar maksimal 2MB.',
         ];
     }
 }
