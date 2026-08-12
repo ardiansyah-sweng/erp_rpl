@@ -4,6 +4,7 @@
 
 @section('page-title')
     <h3 class="mb-0 me-2">Supplier Material</h3>
+    <span class="btn btn-primary btn-sm me-2">Total Supplier Material: {{ $materials->total() }}</span>
     <a href="/supplier/material/add" class="btn btn-primary btn-sm">Tambah</a>
 @endsection
 
@@ -16,12 +17,7 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <div>
-                        <h3 class="card-title">List Supplier Material</h3>
-                        <div class="mt-1">
-                            <span class="card-title">Jumlah Supplier Material: {{ $materials->total() }}</span>
-                        </div>
-                    </div>
+                    <h3 class="card-title">List Supplier Material</h3>
                 </div>
                 <div class="card-body">
 
@@ -89,7 +85,6 @@
                                         <td>
                                             <a href="{{ url('/supplier/material/' . $material->id) }}"
                                                 class="btn btn-sm btn-primary">Edit</a>
-                                            <a href="#" class="btn btn-sm btn-danger">Delete</a>
                                             <a href="{{ url('/supplier/material/' . $material->id) }}"
                                                 class="btn btn-sm btn-info">Detail</a>
                                         </td>
