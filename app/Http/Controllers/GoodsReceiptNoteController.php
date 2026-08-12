@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\GoodsReceiptNote;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class GoodsReceiptNoteController extends Controller
 {
     public function addGoodsReceiptNote(Request $request)
     {
-        // Validasi input sesuai kolom pada tabel
         $validated = $request->validate([
             'po_number'          => 'required|string',
             'product_id'         => 'required|string',
@@ -19,10 +19,34 @@ class GoodsReceiptNoteController extends Controller
             'comments'           => 'nullable|string',
         ]);
 
-        // Panggil method insert dari model
+        $poItem = DB::table('purchase_order_details')
+                    ->where('po_number', $request->po_number)
+                    ->where('product_id', $request->product_id)
+                    ->first();
+
+        if (!$poItem) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Produk tidak ditemukan dalam Purchase Order ini!'
+            ], 422);
+        }
+
+        $alreadyReceived = DB::table('goods_receipt_note_details')
+                            ->where('po_number', $request->po_number)
+                            ->where('product_id', $request->product_id)
+                            ->sum('delivered_quantity');
+
+        $remainingQty = $poItem->quantity - $alreadyReceived; 
+
+        if ($request->delivered_quantity > $remainingQty) {
+            return response()->json([
+                'success' => false,
+                'message' => "Jumlah ditolak! Kuantitas melebihi sisa PO. Sisa yang boleh diterima hanya: " . $remainingQty . " item."
+            ], 422);
+        }
+
         $result = GoodsReceiptNote::addGoodsReceiptNote($validated);
 
-        // Return response
         if ($result) {
             return response()->json([
                 'success' => true,
@@ -36,6 +60,7 @@ class GoodsReceiptNoteController extends Controller
             ], 500);
         }
     }
+
     public function updateGoodsReceiptNote(Request $request, $po_number)
     {
         $validated = $request->validate([
@@ -59,7 +84,6 @@ class GoodsReceiptNoteController extends Controller
             ]
         ]);
     }
-
 
     public function getGoodsReceiptNote($po_number): JsonResponse
     {
