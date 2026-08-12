@@ -34,7 +34,16 @@ class BillOfMaterial extends Model
         }
         return self::create($data);
     }
+    public static function deleteBillOfMaterial($id)
+    {
+        $bom = self::find($id);
 
+        if (!$bom) {
+            return false;
+        }
+
+        return $bom->delete();
+    }
     public static function getBillOfMaterialById($id)
     {
         return self::where('bom_id', $id)->get();
